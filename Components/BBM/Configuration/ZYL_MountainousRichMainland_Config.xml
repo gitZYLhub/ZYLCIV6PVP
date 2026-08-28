@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GameInfo>
+	<Maps>
+		<Row Domain="Maps:Expansion2Maps" File="zyl_mountainous_rich_mainland.lua" Name="LOC_ZYLMRM_MAP_NAME" Description="LOC_ZYLMRM_MAP_DESCRIPTION" Image="Map_Pangea" SortIndex="41"/>
+	</Maps>
+
+	<!-- These six ordinary map-size identifiers keep BBM's size-index assumptions
+	     intact.  Their grid dimensions are adjusted only in the selected map's
+	     criteria-scoped in-game database action. -->
+	<MapSizes>
+		<Row Domain="zyl_mountainous_rich_mainland.lua" MapSizeType="MAPSIZE_DUEL" Name="LOC_ZYLMRM_MAPSIZE_2_NAME" Description="LOC_ZYLMRM_MAPSIZE_2_DESCRIPTION" MinPlayers="2" MaxPlayers="8" DefaultPlayers="2" MinCityStates="0" MaxCityStates="6" DefaultCityStates="3" SortIndex="10"/>
+		<Row Domain="zyl_mountainous_rich_mainland.lua" MapSizeType="MAPSIZE_TINY" Name="LOC_ZYLMRM_MAPSIZE_4_NAME" Description="LOC_ZYLMRM_MAPSIZE_4_DESCRIPTION" MinPlayers="2" MaxPlayers="12" DefaultPlayers="4" MinCityStates="0" MaxCityStates="10" DefaultCityStates="6" SortIndex="20"/>
+		<Row Domain="zyl_mountainous_rich_mainland.lua" MapSizeType="MAPSIZE_SMALL" Name="LOC_ZYLMRM_MAPSIZE_6_NAME" Description="LOC_ZYLMRM_MAPSIZE_6_DESCRIPTION" MinPlayers="2" MaxPlayers="16" DefaultPlayers="6" MinCityStates="0" MaxCityStates="12" DefaultCityStates="8" SortIndex="30"/>
+		<Row Domain="zyl_mountainous_rich_mainland.lua" MapSizeType="MAPSIZE_STANDARD" Name="LOC_ZYLMRM_MAPSIZE_8_NAME" Description="LOC_ZYLMRM_MAPSIZE_8_DESCRIPTION" MinPlayers="2" MaxPlayers="20" DefaultPlayers="8" MinCityStates="0" MaxCityStates="16" DefaultCityStates="10" SortIndex="40"/>
+		<Row Domain="zyl_mountainous_rich_mainland.lua" MapSizeType="MAPSIZE_LARGE" Name="LOC_ZYLMRM_MAPSIZE_10_NAME" Description="LOC_ZYLMRM_MAPSIZE_10_DESCRIPTION" MinPlayers="2" MaxPlayers="24" DefaultPlayers="10" MinCityStates="0" MaxCityStates="20" DefaultCityStates="12" SortIndex="50"/>
+		<Row Domain="zyl_mountainous_rich_mainland.lua" MapSizeType="MAPSIZE_HUGE" Name="LOC_ZYLMRM_MAPSIZE_12_NAME" Description="LOC_ZYLMRM_MAPSIZE_12_DESCRIPTION" MinPlayers="2" MaxPlayers="32" DefaultPlayers="12" MinCityStates="0" MaxCityStates="24" DefaultCityStates="15" SortIndex="60"/>
+	</MapSizes>
+
+	<MapDomainOverrides>
+		<Row Map="zyl_mountainous_rich_mainland.lua" ParameterId="MapSize" Domain="zyl_mountainous_rich_mainland.lua"/>
+	</MapDomainOverrides>
+
+	<Parameters>
+		<Row Key1="Map" Key2="zyl_mountainous_rich_mainland.lua" ParameterId="ZYLMRM_MapName" Name="MapName" Description="" Domain="text" DefaultValue="ZYLMRM_Mountainous_Rich_Mainland" ConfigurationGroup="Map" ConfigurationId="MapName" GroupId="MapOptions" Visible="0" SortIndex="2010"/>
+		<Row Key1="Map" Key2="zyl_mountainous_rich_mainland.lua" ParameterId="ZYLMRM_Richness" Name="LOC_ZYLMRM_RICHNESS_NAME" Description="LOC_ZYLMRM_RICHNESS_DESCRIPTION" Domain="ZYLMRM_RichnessRange" DefaultValue="4" ConfigurationGroup="Map" ConfigurationId="RichNum" GroupId="MapOptions" SortIndex="210"/>
+		<Row Key1="Map" Key2="zyl_mountainous_rich_mainland.lua" ParameterId="ZYLMRM_RouteLevel" Name="LOC_ZYLMRM_ROUTE_LEVEL_NAME" Description="LOC_ZYLMRM_ROUTE_LEVEL_DESCRIPTION" Domain="ZYLMRM_RouteLevel" DefaultValue="0" ConfigurationGroup="Map" ConfigurationId="RouteLevel" GroupId="MapOptions" SortIndex="212"/>
+		<Row Key1="Map" Key2="zyl_mountainous_rich_mainland.lua" ParameterId="ZYLMRM_Competition" Name="LOC_ZYLMRM_COMPETITION_NAME" Description="LOC_ZYLMRM_COMPETITION_DESCRIPTION" Domain="bool" DefaultValue="0" ConfigurationGroup="Map" ConfigurationId="MapTrait" GroupId="MapOptions" SortIndex="214"/>
+		<Row Key1="Map" Key2="zyl_mountainous_rich_mainland.lua" ParameterId="ZYLMRM_Strategics" Name="LOC_ZYLMRM_STRATEGIC_NAME" Description="LOC_ZYLMRM_STRATEGIC_DESCRIPTION" Domain="ZYLMRM_StrategicResources" DefaultValue="0" ConfigurationGroup="Map" ConfigurationId="BBSStratRes" GroupId="MapOptions" SortIndex="215"/>
+		<Row Key1="Map" Key2="zyl_mountainous_rich_mainland.lua" ParameterId="ZYLMRM_TeamSpawn" Name="LOC_ZYLMRM_TEAM_SPAWN_NAME" Description="LOC_ZYLMRM_TEAM_SPAWN_DESCRIPTION" Domain="ZYLMRM_TeamSpawn" DefaultValue="1" ConfigurationGroup="Map" ConfigurationId="BBS_Team_Spawn" GroupId="MapOptions" SortIndex="216"/>
+		<Row Key1="Map" Key2="zyl_mountainous_rich_mainland.lua" ParameterId="ZYLMRM_CityStatePlacement" Name="LOC_ZYLMRM_CITY_STATE_PLACEMENT_NAME" Description="LOC_ZYLMRM_CITY_STATE_PLACEMENT_DESCRIPTION" Domain="ZYLMRM_CityStatePlacement" DefaultValue="1" ConfigurationGroup="Map" ConfigurationId="ZYL_RVC_CityStatePlacement" GroupId="MapOptions" SortIndex="217"/>
+		<Row Key1="Map" Key2="zyl_mountainous_rich_mainland.lua" ParameterId="SpawnRecalculation" Name="LOC_GAME_SPAWN_RECALCULATION" Description="LOC_GAME_SPAWN_RECALCULATION_DESC" Domain="bool" DefaultValue="1" ConfigurationGroup="Game" ConfigurationId="SpawnRecalculation" GroupId="BBSOptions" SortIndex="2050"/>
+		<Row Key1="Map" Key2="zyl_mountainous_rich_mainland.lua" ParameterId="AutoRemap" Name="LOC_GAME_SPAWN_REMAP" Description="LOC_GAME_SPAWN_REMAP_DESC" Domain="bool" DefaultValue="0" ConfigurationGroup="Game" ConfigurationId="AutoRemap" GroupId="AdvancedOptions" Visible="0" SortIndex="2051"/>
+		<Row Key1="Map" Key2="zyl_mountainous_rich_mainland.lua" ParameterId="WorldAge" Name="LOC_MAP_WORLD_AGE_NAME" Description="LOC_MAP_WORLD_AGE_DESCRIPTION" Domain="WorldAge" DefaultValue="2" ConfigurationGroup="Map" ConfigurationId="world_age" GroupId="MapOptions" SortIndex="230"/>
+		<Row Key1="Map" Key2="zyl_mountainous_rich_mainland.lua" ParameterId="Temperature" Name="LOC_MAP_TEMPERATURE_NAME" Description="LOC_MAP_TEMPERATURE_DESCRIPTION" Domain="Temperature" DefaultValue="2" ConfigurationGroup="Map" ConfigurationId="temperature" GroupId="MapOptions" SortIndex="240"/>
+		<Row Key1="Map" Key2="zyl_mountainous_rich_mainland.lua" ParameterId="Rainfall" Name="LOC_MAP_RAINFALL_NAME" Description="LOC_MAP_RAINFALL_DESCRIPTION" Domain="Rainfall" DefaultValue="2" ConfigurationGroup="Map" ConfigurationId="rainfall" GroupId="MapOptions" SortIndex="250"/>
+		<Row Key1="Map" Key2="zyl_mountainous_rich_mainland.lua" ParameterId="SeaLevel" Name="LOC_MAP_SEA_LEVEL_NAME" Description="LOC_MAP_SEA_LEVEL_LOW_DESCRIPTION" Domain="SeaLevel" DefaultValue="2" ConfigurationGroup="Map" ConfigurationId="sea_level" GroupId="MapOptions" SortIndex="260"/>
+		<Row Key1="Map" Key2="zyl_mountainous_rich_mainland.lua" ParameterId="Resources" Name="LOC_MAP_RESOURCES_NAME" Description="LOC_MAP_RESOURCES_DESCRIPTION" Domain="Resources" DefaultValue="2" ConfigurationGroup="Map" ConfigurationId="resources" GroupId="MapOptions" SortIndex="270"/>
+		<Row Key1="Map" Key2="zyl_mountainous_rich_mainland.lua" ParameterId="StartPosition" Name="LOC_MAP_START_POSITION_NAME" Description="LOC_MAP_START_POSITION_DESCRIPTION" Domain="StartPosition" DefaultValue="2" ConfigurationGroup="Map" ConfigurationId="start" GroupId="MapOptions" SortIndex="280"/>
+	</Parameters>
+
+	<DomainValues>
+		<Row Domain="ZYLMRM_RouteLevel" Value="-1" Name="LOC_ZYLMRM_ROUTE_NONE" Description="LOC_ZYLMRM_ROUTE_NONE" SortIndex="0"/>
+		<Row Domain="ZYLMRM_RouteLevel" Value="0" Name="LOC_ZYLMRM_ROUTE_ANCIENT" Description="LOC_ZYLMRM_ROUTE_ANCIENT" SortIndex="10"/>
+		<Row Domain="ZYLMRM_RouteLevel" Value="1" Name="LOC_ZYLMRM_ROUTE_CLASSICAL" Description="LOC_ZYLMRM_ROUTE_CLASSICAL" SortIndex="20"/>
+		<Row Domain="ZYLMRM_RouteLevel" Value="2" Name="LOC_ZYLMRM_ROUTE_INDUSTRIAL" Description="LOC_ZYLMRM_ROUTE_INDUSTRIAL" SortIndex="30"/>
+		<Row Domain="ZYLMRM_RouteLevel" Value="3" Name="LOC_ZYLMRM_ROUTE_MODERN" Description="LOC_ZYLMRM_ROUTE_MODERN" SortIndex="40"/>
+		<Row Domain="ZYLMRM_RouteLevel" Value="4" Name="LOC_ZYLMRM_ROUTE_RAILROAD" Description="LOC_ZYLMRM_ROUTE_RAILROAD" SortIndex="50"/>
+		<Row Domain="ZYLMRM_StrategicResources" Value="0" Name="LOC_ZYLMRM_STRATEGIC_STANDARD" Description="LOC_ZYLMRM_STRATEGIC_STANDARD_DESCRIPTION" SortIndex="10"/>
+		<Row Domain="ZYLMRM_StrategicResources" Value="1" Name="LOC_ZYLMRM_STRATEGIC_MORE" Description="LOC_ZYLMRM_STRATEGIC_MORE_DESCRIPTION" SortIndex="20"/>
+		<Row Domain="ZYLMRM_StrategicResources" Value="2" Name="LOC_ZYLMRM_STRATEGIC_MUCH_MORE" Description="LOC_ZYLMRM_STRATEGIC_MUCH_MORE_DESCRIPTION" SortIndex="30"/>
+		<Row Domain="ZYLMRM_TeamSpawn" Value="0" Name="LOC_ZYLMRM_TEAM_RANDOM" Description="LOC_ZYLMRM_TEAM_RANDOM_DESCRIPTION" SortIndex="10"/>
+		<Row Domain="ZYLMRM_TeamSpawn" Value="1" Name="LOC_ZYLMRM_TEAM_EW" Description="LOC_ZYLMRM_TEAM_EW_DESCRIPTION" SortIndex="20"/>
+		<Row Domain="ZYLMRM_TeamSpawn" Value="2" Name="LOC_ZYLMRM_TEAM_NS" Description="LOC_ZYLMRM_TEAM_NS_DESCRIPTION" SortIndex="30"/>
+		<Row Domain="ZYLMRM_CityStatePlacement" Value="0" Name="LOC_ZYLMRM_CITY_STATE_PLACEMENT_SINGLE" Description="LOC_ZYLMRM_CITY_STATE_PLACEMENT_SINGLE_DESCRIPTION" SortIndex="10"/>
+		<Row Domain="ZYLMRM_CityStatePlacement" Value="1" Name="LOC_ZYLMRM_CITY_STATE_PLACEMENT_MULTI" Description="LOC_ZYLMRM_CITY_STATE_PLACEMENT_MULTI_DESCRIPTION" SortIndex="20"/>
+	</DomainValues>
+
+	<DomainRanges>
+		<Row Domain="ZYLMRM_RichnessRange" MinimumValue="1" MaximumValue="10"/>
+	</DomainRanges>
+</GameInfo>

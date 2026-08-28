@@ -1,0 +1,2991 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Mod id="4dd01931-9d44-4a8a-8e74-712cba0f0072" version="100">
+	<Properties>
+		<Name>LOC_ZYLPVPMOD_TITLE</Name>
+		<Description>LOC_ZYLPVPMOD_DESCRIPTION</Description>
+		<Created>1</Created>
+		<Version>100</Version>
+		<Teaser>LOC_ZYLPVPMOD_TEASER</Teaser>
+		<Authors>BBG Team, BBM Team, Cisco, D. / Jack The Narrator, Team PVP Tools contributors; integrated by ZYL</Authors>
+		<SpecialThanks>Civilization VI BBG, BBM, CPL, MPH and Team PVP communities</SpecialThanks>
+		<AffectsSavedGames>1</AffectsSavedGames>
+		<CompatibleVersions>1.2,2.0</CompatibleVersions>
+		<BBGVersion>7.4.6</BBGVersion>
+		<BBMVersion>1.39.1</BBMVersion>
+		<ToolboxVersion>1.0.0</ToolboxVersion>
+	</Properties>
+	<Dependencies>
+		<Mod id="1B28771A-C749-434B-9053-D1380C553DE9" title="Expansion: Rise and Fall" />
+		<Mod id="4873eb62-8ccc-4574-b784-dda455e74e68" title="Expansion: Gathering Storm" />
+	</Dependencies>
+	<Blocks>
+		<Mod id="619ac86e-d99d-4bf3-b8f0-8c5b8c402567" title="Multiplayer Helper 1.7.9" />
+		<Mod id="00000000-0165-224C-A3AA-154BB4B9C1C5" title="Team PVP Tools 1.65" />
+		<Mod id="3cd7857e-b720-4a1b-a61d-930f58d5237e" title="ZYL Multiplayer Suite 1.0.0" />
+		<Mod id="cb84075d-5007-4207-b662-c35a5f7be260" title="Better Balanced Game release" />
+		<Mod id="cb84075d-5007-4207-b662-c35a5f7be250" title="Better Balanced Game beta" />
+		<Mod id="cb84075d-5007-4207-b662-c35a5f7be254" title="Better Balanced Game WIP" />
+		<Mod id="c88cba8b-8311-4d35-90c3-51a4a5d66542" title="Better Balanced Map" />
+		<Mod id="c88cba8b-8311-4d35-90c3-51a4a5d66550" title="Better Balanced Starts" />
+		<Mod id="8af4fe8e-5406-7d72-d9d6-a8f5d1b66e10" title="CCB Maps (BBM replacement)" />
+		<Mod id="6f2888d4-79dc-415f-a8ff-f9d81d7afb53" title="Better Report Screen (included)" />
+		<Mod id="13E8BCDF-98EC-4C03-3641-72D519B0047C" title="Better City States (included)" />
+		<Mod id="8446e6e9-7703-434d-ba10-0bd70a291d28" title="Tech Civic Progress Plus (included)" />
+		<Mod id="c6477d9f-6bad-4d24-9e76-49cda4f0a966" title="Better Builder Charges Tracking (included)" />
+		<Mod id="6a18ae19-df93-4322-a3d5-33c5a5087b36" title="Real Great People (conflicting UI)" />
+		<Mod id="aa42d206-0aa1-4bbf-9ac0-27d338e2d91e" title="Real Stylish Great People (conflicting UI)" />
+		<Mod id="4ecfcc62-5471-4435-b295-590df213e8d8" title="Detailed Map Tacks (conflicting map-pin UI)" />
+	</Blocks>
+	<LocalizedText>
+		<Text id="LOC_ZYLPVPMOD_TITLE">
+			<en_US>ZYLPVPMOD 1.0.0</en_US>
+			<zh_Hans_CN>ZYLPVPMOD 1.0.0</zh_Hans_CN>
+		</Text>
+		<Text id="LOC_ZYLPVPMOD_TEASER">
+			<en_US>BBG 7.4.6 + BBM 1.39.1 + ZYL multiplayer tournament and quality-of-life suite.</en_US>
+			<zh_Hans_CN>BBG 7.4.6 + BBM 1.39.1 + ZYL 联机比赛控制与 UI 工具箱。</zh_Hans_CN>
+		</Text>
+		<Text id="LOC_ZYLPVPMOD_DESCRIPTION">
+			<en_US>One self-contained multiplayer package: Better Balanced Game 7.4.6, Better Balanced Map 1.39.1, MPH tournament controls and selected Team PVP UI/QoL. Component Mod IDs are blocked to prevent double loading. Science and culture stacking remain enabled.</en_US>
+			<zh_Hans_CN>一体化联机包：Better Balanced Game 7.4.6、Better Balanced Map 1.39.1、MPH 比赛控制和经冲突处理的 Team PVP UI/QoL。阻止原组件重复加载，并保留可卡科技与市政的原版行为。</zh_Hans_CN>
+		</Text>
+		<Text id="LOC_MPH_TITLE">
+			<en_US>Multiplayer Helper 1.7.9</en_US>
+			<fr_FR>Assistant multijoueur 1.7.9</fr_FR>
+			<zh_Hans_CN>MPH 多人游戏助手 1.7.9</zh_Hans_CN>
+			<ru_RU>Мультиплеерный помощник 1.7.9</ru_RU>
+			<pt_BR>Auxiliar Multiplayer 1.7.9</pt_BR>
+			<ko_KR>멀티플레이어 도우미 1.7.9</ko_KR>
+			<ja_JP>マルチプレイヤー ヘルパー 1.7.9</ja_JP>
+			<de_DE>Multiplayer Helper 1.7.9</de_DE>
+		</Text>
+		<Text id="LOC_MPH_TEASER">
+			<en_US>Esport oriented mod to help tournament and game statibility.</en_US>
+			<fr_FR>Mod pour l'organisation de tournois Esports sur Civilization.</fr_FR>
+			<zh_Hans_CN>面向于电子竞技的模组，提升比赛和游戏的稳定性。</zh_Hans_CN>
+			<ru_RU>Мод, созданный для улучшения игровой стабильности сетевых игр и удобного проведения киберспортивных соревнований.</ru_RU>
+			<pt_BR>Mod para ajudar na estabilidade de torneios e jogos.</pt_BR>
+			<ko_KR>대회 및 게임 안정성을 위한 e스포츠 중심 모드입니다.</ko_KR>
+			<ja_JP>大会やゲームの安定性を向上させるためのeスポーツ志向のModです。</ja_JP>
+			<de_DE>E-Sportorientierter Mod zur Unterstützung von Turnieren und der Spielstabilität.</de_DE>
+		</Text>
+		<Text id="LOC_MPH_DESCRIPTION">
+			<en_US>Esport oriented mod to help tournament, game statibility, and improving overall multiplayer experience.[NEWLINE][NEWLINE][COLOR_RED]You need to restart the game when you activate or deactivate the mod[ENDCOLOR][NEWLINE][NEWLINE]Some functionalities would be missing if you don't (e.g. Drafting)</en_US>
+			<fr_FR>Mod pour l'organisation de tournois Esports sur Civilization. Ameliore la statiblite et ajoute de nouvelles options en Multijoueurs[NEWLINE][NEWLINE][COLOR_RED]Vous devez redemarrer le jeu la premiere fois que vous activez ou desactivez ce mod[ENDCOLOR][NEWLINE][NEWLINE]Certaines fonctionnalites seront indisponibles si vous ne le faites pas (e.g. Drafting)</fr_FR>
+			<zh_Hans_CN>面向于电子竞技的模组，提升比赛、游戏的稳定性，并全面改善多人游戏的体验。[NEWLINE][NEWLINE][COLOR_RED]每次开启和关闭该模组时需要重启游戏以生效。[ENDCOLOR][NEWLINE][NEWLINE]否则模组中的一些功能会失效（例如征召功能）</zh_Hans_CN>
+			<ru_RU>Мод, созданный для улучшения игровой стабильности сетевых игр и расширения их функционала, также для удобного проведения киберспортивных соревнований.[NEWLINE][NEWLINE][COLOR_RED]Вы должны перезаходить в игру каждый раз, когда вы активируете или деактивируете данный мод[ENDCOLOR][NEWLINE][NEWLINE]Если вы не сделаете это, часть функционала не будет работать (Напр., режим драфта)</ru_RU>
+			<pt_BR>Mod para ajudar na estabilidade de torneios, jogos e melhorar a experiência geral de multijogador.[NEWLINE][NEWLINE][COLOR_RED]Você precisa reiniciar o jogo ao ativar ou desativar o mod[ENDCOLOR][NEWLINE][NEWLINE]Algumas funcionalidades estarão ausentes se você não o fizer (por exemplo, Drafting).</pt_BR>
+			<ko_KR>대회, 게임 안정성 및 전체적인 멀티플레이어 경험 향상을 위한 e스포츠 중심 모드입니다.[NEWLINE][NEWLINE][COLOR_RED]모드를 활성화 또는 비활성화할 때 게임을 다시 시작해야 합니다[ENDCOLOR][NEWLINE][NEWLINE]그렇지 않으면 일부 기능이 누락될 수 있습니다(예: 드래프팅)</ko_KR>
+			<ja_JP>大会、ゲームの安定性、全体的なマルチプレイヤー体験を向上させるためのeスポーツ志向のModです。[NEWLINE][NEWLINE][COLOR_RED]モッドを有効または無効にするときは、ゲームを再起動する必要があります[ENDCOLOR][NEWLINE][NEWLINE]そうしないと、一部の機能が欠落する可能性があります（例：ドラフティング）</ja_JP>
+			<de_DE>Ein E-Sportorientierter Mod zur Unterstützung von Turnieren, der Spielstabilität und zur Verbesserung des gesamten Multiplayer-Erlebnisses.[NEWLINE][NEWLINE][COLOR_RED]Sie müssen das Spiel neu starten, wenn Sie den Mod aktivieren oder deaktivieren[ENDCOLOR][NEWLINE][NEWLINE]Einige Funktionen würden sonst fehlen (z.B. Drafting)</de_DE>
+		</Text>
+		<Text id="LOC_BBM_TITLE">
+			<en_US>Better Balanced Map 1.39.1</en_US>
+			<fr_FR>Better Balanced Map 1.39.1</fr_FR>
+			<de_DE>Better Balanced Map 1.39.1</de_DE>
+		</Text>
+		<Text id="LOC_BBM_TEASER">
+			<en_US>Balanced spawn placement location and yields.</en_US>
+			<fr_FR>Mod d'équilibrage de placement et des rendements des emplacements de départ.</fr_FR>
+			<de_DE>Ausgeglichene Platzierung der Startpositionen von Civilisationen, Erträgen und Ressourcen. Neue Karteneinstellungen und Naturwunder.</de_DE>
+		</Text>
+		<Text id="LOC_BBM_DESCRIPTION">
+			<en_US>Balanced spawn placement location and yields.[NEWLINE][NEWLINE]Taking account for civilization biases.[NEWLINE][NEWLINE]Ensure minimum yields around start location.[NEWLINE][NEWLINE]Ensure having enough space to settle around starting location.</en_US>
+			<fr_FR>Mod d'équilibrage de placement et des rendements des emplacements de départ.[NEWLINE][NEWLINE]Prise en compte des préférences des civilisations.[NEWLINE][NEWLINE]Assure un minimum de rendements sur les cases proches du départ.[NEWLINE][NEWLINE]Assure suffisamment d'espace pour poser d'autres villes autour.</fr_FR>
+			<de_DE>Ausgeglichene Platzierung der Startpositionen von Civilisationen, Erträgen und Ressourcen.[NEWLINE][NEWLINE]Berücksichtigung der Präferenzen der Zivilisationen.[NEWLINE][NEWLINE]Gewährleistet minimale Erträge auf Feldern in der Nähe des Startpunkts.[NEWLINE][NEWLINE]Gewährleistet ausreichend Platz für weitere Städte in der Umgebung.[NEWLINE][NEWLINE]Einstellung der Gebirgsketten-Modifikation.[NEWLINE][NEWLINE] Einstellung der Menge an Schwemmlandfeldern pro Fluss.[NEWLINE][NEWLINE]Einstellung der Team-Startposition.[NEWLINE][NEWLINE]Neue Naturwunder.</de_DE>
+		</Text>
+	</LocalizedText>
+	<ActionCriteria>
+		<Criteria id="Expansion2">
+			<GameCoreInUse>Expansion2</GameCoreInUse>
+		</Criteria>
+		<Criteria id="Expansion1">
+			<GameCoreInUse>Expansion1</GameCoreInUse>
+		</Criteria>
+		<Criteria id="Anonymous_Mode_Expansion2">
+			<ConfigurationValueMatches>
+				<Group>Game</Group>
+				<ConfigurationId>GAMEMODE_ANONYMOUS</ConfigurationId>
+				<Value>1</Value>
+			</ConfigurationValueMatches>
+		</Criteria>
+		<Criteria id="Sudden_Death_Mode_Expansion2">
+			<ConfigurationValueMatches>
+				<Group>Game</Group>
+				<ConfigurationId>GAMEMODE_SUDDEN_DEATH</ConfigurationId>
+				<Value>1</Value>
+			</ConfigurationValueMatches>
+		</Criteria>
+		<Criteria id="Alliance_Military_Off">
+			<ConfigurationValueMatches>
+				<Group>Game</Group>
+				<ConfigurationId>ALLIANCE_MILITARY</ConfigurationId>
+				<Value>0</Value>
+			</ConfigurationValueMatches>
+		</Criteria>
+		<Criteria id="Alliance_Cultural_Off">
+			<ConfigurationValueMatches>
+				<Group>Game</Group>
+				<ConfigurationId>ALLIANCE_CULTURAL</ConfigurationId>
+				<Value>0</Value>
+			</ConfigurationValueMatches>
+		</Criteria>
+		<Criteria id="Alliance_Religious_Off">
+			<ConfigurationValueMatches>
+				<Group>Game</Group>
+				<ConfigurationId>ALLIANCE_RELIGIOUS</ConfigurationId>
+				<Value>0</Value>
+			</ConfigurationValueMatches>
+		</Criteria>
+		<Criteria id="Alliance_Research_Off">
+			<ConfigurationValueMatches>
+				<Group>Game</Group>
+				<ConfigurationId>ALLIANCE_RESEARCH</ConfigurationId>
+				<Value>0</Value>
+			</ConfigurationValueMatches>
+		</Criteria>
+		<Criteria id="Alliance_Economic_Off">
+			<ConfigurationValueMatches>
+				<Group>Game</Group>
+				<ConfigurationId>ALLIANCE_ECONOMIC</ConfigurationId>
+				<Value>0</Value>
+			</ConfigurationValueMatches>
+		</Criteria>
+		<Criteria id="Diplomatic_Deals_Off">
+			<ConfigurationValueMatches>
+				<Group>Game</Group>
+				<ConfigurationId>DIPLOMATIC_DEAL</ConfigurationId>
+				<Value>1</Value>
+			</ConfigurationValueMatches>
+		</Criteria>
+		<Criteria id="Diplomatic_FS_Off">
+			<ConfigurationValueMatches>
+				<Group>Game</Group>
+				<ConfigurationId>NO_FRIENDSHIP</ConfigurationId>
+				<Value>1</Value>
+			</ConfigurationValueMatches>
+		</Criteria>
+		<Criteria id="Diplomatic_SW_Off">
+			<ConfigurationValueMatches>
+				<Group>Game</Group>
+				<ConfigurationId>NO_SURPRISE_WAR</ConfigurationId>
+				<Value>1</Value>
+			</ConfigurationValueMatches>
+		</Criteria>
+		<Criteria id="TPT_NEW_HOTKEYS">
+			<ConfigurationValueMatches>
+				<Group>Game</Group>
+				<ConfigurationId>NEW_HOTKEYS</ConfigurationId>
+				<Value>1</Value>
+			</ConfigurationValueMatches>
+		</Criteria>
+		<Criteria id="SETTINGS_UI_GreatPeoplePopup" any="1">
+			<ConfigurationValueMatches>
+				<Group>Game</Group>
+				<ConfigurationId>SETTINGS_UI_BGP</ConfigurationId>
+				<Value>1</Value>
+			</ConfigurationValueMatches>
+			<ConfigurationValueMatches>
+				<Group>Game</Group>
+				<ConfigurationId>SETTINGS_UI</ConfigurationId>
+				<Value>SETTINGS_UI_ENABLE_ALL</Value>
+			</ConfigurationValueMatches>
+		</Criteria>
+		<Criteria id="SETTINGS_UI_TopPanelExtension" any="1">
+			<ConfigurationValueMatches>
+				<Group>Game</Group>
+				<ConfigurationId>SETTINGS_UI_TPE</ConfigurationId>
+				<Value>1</Value>
+			</ConfigurationValueMatches>
+			<ConfigurationValueMatches>
+				<Group>Game</Group>
+				<ConfigurationId>SETTINGS_UI</ConfigurationId>
+				<Value>SETTINGS_UI_ENABLE_ALL</Value>
+			</ConfigurationValueMatches>
+		</Criteria>
+		<Criteria id="SETTINGS_UI_CityStates" any="1">
+			<ConfigurationValueMatches>
+				<Group>Game</Group>
+				<ConfigurationId>SETTINGS_UI_BCS</ConfigurationId>
+				<Value>1</Value>
+			</ConfigurationValueMatches>
+			<ConfigurationValueMatches>
+				<Group>Game</Group>
+				<ConfigurationId>SETTINGS_UI</ConfigurationId>
+				<Value>SETTINGS_UI_ENABLE_ALL</Value>
+			</ConfigurationValueMatches>
+		</Criteria>
+		<Criteria id="SETTINGS_UI_TechCivicProgressPro" any="1">
+			<ConfigurationValueMatches>
+				<Group>Game</Group>
+				<ConfigurationId>SETTINGS_UI_TCP</ConfigurationId>
+				<Value>1</Value>
+			</ConfigurationValueMatches>
+			<ConfigurationValueMatches>
+				<Group>Game</Group>
+				<ConfigurationId>SETTINGS_UI</ConfigurationId>
+				<Value>SETTINGS_UI_ENABLE_ALL</Value>
+			</ConfigurationValueMatches>
+		</Criteria>
+		<Criteria id="ZYLPVP_BBG_XP1" any="1">
+			<GameCoreInUse>Expansion1</GameCoreInUse>
+			<RuleSetInUse>RULESET_EXPANSION_1,RULESET_EXPANSION_2</RuleSetInUse>
+			<LeaderPlayable>Players:Expansion1_Players::LEADER_CHANDRAGUPTA,Players:Expansion1_Players::LEADER_GENGHIS_KHAN,Players:Expansion1_Players::LEADER_LAUTARO,Players:Expansion1_Players::LEADER_POUNDMAKER,Players:Expansion1_Players::LEADER_ROBERT_THE_BRUCE,Players:Expansion1_Players::LEADER_SEONDEOK,Players:Expansion1_Players::LEADER_SHAKA,Players:Expansion1_Players::LEADER_TAMAR,Players:Expansion1_Players::LEADER_WILHELMINA</LeaderPlayable>
+			<LeaderPlayable>Players:Expansion2_Players::LEADER_CHANDRAGUPTA,Players:Expansion2_Players::LEADER_GENGHIS_KHAN,Players:Expansion2_Players::LEADER_LAUTARO,Players:Expansion2_Players::LEADER_POUNDMAKER,Players:Expansion2_Players::LEADER_ROBERT_THE_BRUCE,Players:Expansion2_Players::LEADER_SEONDEOK,Players:Expansion2_Players::LEADER_SHAKA,Players:Expansion2_Players::LEADER_TAMAR,Players:Expansion2_Players::LEADER_WILHELMINA</LeaderPlayable>
+		</Criteria>
+		<Criteria id="ZYLPVP_BBG_XP2" any="1">
+			<GameCoreInUse>Expansion2</GameCoreInUse>
+			<LeaderPlayable>Players:Expansion2_Players::LEADER_DIDO,Players:Expansion2_Players::LEADER_ELEANOR_ENGLAND,Players:Expansion2_Players::LEADER_ELEANOR_FRANCE,Players:Expansion2_Players::LEADER_KRISTINA,Players:Expansion2_Players::LEADER_KUPE,Players:Expansion2_Players::LEADER_LAURIER,Players:Expansion2_Players::LEADER_MANSA_MUSA,Players:Expansion2_Players::LEADER_MATTHIAS_CORVINUS,Players:Expansion2_Players::LEADER_PACHACUTI,Players:Expansion2_Players::LEADER_SULEIMAN</LeaderPlayable>
+		</Criteria>
+		<Criteria id="ZYLPVP_BBG_XP1_AND_XP2" any="1">
+			<RuleSetInUse>RULESET_EXPANSION_2</RuleSetInUse>
+			<LeaderPlayable>Players:Expansion2_Players::LEADER_CHANDRAGUPTA,Players:Expansion2_Players::LEADER_GENGHIS_KHAN,Players:Expansion2_Players::LEADER_LAUTARO,Players:Expansion2_Players::LEADER_POUNDMAKER,Players:Expansion2_Players::LEADER_ROBERT_THE_BRUCE,Players:Expansion2_Players::LEADER_SEONDEOK,Players:Expansion2_Players::LEADER_SHAKA,Players:Expansion2_Players::LEADER_TAMAR,Players:Expansion2_Players::LEADER_WILHELMINA</LeaderPlayable>
+		</Criteria>
+		<Criteria id="ZYLPVP_BBG_XP1_OR_XP2" any="1">
+			<GameCoreInUse>Expansion1</GameCoreInUse>
+			<GameCoreInUse>Expansion2</GameCoreInUse>
+		</Criteria>
+		<Criteria id="ZYLPVP_BBG_DLC_Aztec" any="1">
+			<LeaderPlayable>Players:StandardPlayers::LEADER_MONTEZUMA,StandardPlayers::LEADER_MONTEZUMA,Players:Expansion1_Players::LEADER_MONTEZUMA,Players:Expansion2_Players::LEADER_MONTEZUMA</LeaderPlayable>
+		</Criteria>
+		<Criteria id="ZYLPVP_BBG_DLC_Vikings">
+			<ModInUse>2F6E858A-28EF-46B3-BEAC-B985E52E9BC1</ModInUse>
+		</Criteria>
+		<Criteria id="ZYLPVP_BBG_DLC_Poland" any="1">
+			<LeaderPlayable>Players:StandardPlayers::LEADER_JADWIGA,StandardPlayers::LEADER_JADWIGA,Players:Expansion1_Players::LEADER_JADWIGA,Players:Expansion2_Players::LEADER_JADWIGA</LeaderPlayable>
+		</Criteria>
+		<Criteria id="ZYLPVP_BBG_DLC_Australia" any="1">
+			<LeaderPlayable>Players:StandardPlayers::LEADER_JOHN_CURTIN,StandardPlayers::LEADER_JOHN_CURTIN,Players:Expansion1_Players::LEADER_JOHN_CURTIN,Players:Expansion2_Players::LEADER_JOHN_CURTIN</LeaderPlayable>
+		</Criteria>
+		<Criteria id="ZYLPVP_BBG_DLC_Macedon_Persia" any="1">
+			<LeaderPlayable>Players:StandardPlayers::LEADER_ALEXANDER,Players:StandardPlayers::LEADER_CYRUS,StandardPlayers::LEADER_ALEXANDER,StandardPlayers::LEADER_CYRUS,Players:Expansion1_Players::LEADER_ALEXANDER,Players:Expansion1_Players::LEADER_CYRUS,Players:Expansion2_Players::LEADER_ALEXANDER,Players:Expansion2_Players::LEADER_CYRUS</LeaderPlayable>
+		</Criteria>
+		<Criteria id="ZYLPVP_BBG_DLC_Nubia" any="1">
+			<LeaderPlayable>Players:StandardPlayers::LEADER_AMANITORE,StandardPlayers::LEADER_AMANITORE,Players:Expansion1_Players::LEADER_AMANITORE,Players:Expansion2_Players::LEADER_AMANITORE</LeaderPlayable>
+		</Criteria>
+		<Criteria id="ZYLPVP_BBG_DLC_Indonesia_Khmer" any="1">
+			<LeaderPlayable>Players:StandardPlayers::LEADER_GITARJA,Players:StandardPlayers::LEADER_JAYAVARMAN,StandardPlayers::LEADER_GITARJA,StandardPlayers::LEADER_JAYAVARMAN,Players:Expansion1_Players::LEADER_GITARJA,Players:Expansion1_Players::LEADER_JAYAVARMAN,Players:Expansion2_Players::LEADER_GITARJA,Players:Expansion2_Players::LEADER_JAYAVARMAN</LeaderPlayable>
+		</Criteria>
+		<Criteria id="ZYLPVP_BBG_GranColombia_Maya" any="1">
+			<LeaderPlayable>Players:StandardPlayers::LEADER_SIMON_BOLIVAR,Players:StandardPlayers::LEADER_LADY_SIX_SKY,StandardPlayers::LEADER_SIMON_BOLIVAR,StandardPlayers::LEADER_LADY_SIX_SKY,Players:Expansion1_Players::LEADER_SIMON_BOLIVAR,Players:Expansion1_Players::LEADER_LADY_SIX_SKY,Players:Expansion2_Players::LEADER_SIMON_BOLIVAR,Players:Expansion2_Players::LEADER_LADY_SIX_SKY</LeaderPlayable>
+		</Criteria>
+		<Criteria id="ZYLPVP_BBG_Ethiopia" any="1">
+			<LeaderPlayable>Players:StandardPlayers::LEADER_MENELIK,StandardPlayers::LEADER_MENELIK,Players:Expansion1_Players::LEADER_MENELIK,Players:Expansion2_Players::LEADER_MENELIK</LeaderPlayable>
+		</Criteria>
+		<Criteria id="ZYLPVP_BBG_CatherinePersona" any="1">
+			<LeaderPlayable>Players:StandardPlayers::LEADER_CATHERINE_DE_MEDICI_ALT,StandardPlayers::LEADER_CATHERINE_DE_MEDICI_ALT,Players:Expansion1_Players::LEADER_CATHERINE_DE_MEDICI_ALT,Players:Expansion2_Players::LEADER_CATHERINE_DE_MEDICI_ALT</LeaderPlayable>
+		</Criteria>
+		<Criteria id="ZYLPVP_BBG_TeddyPersona" any="1">
+			<LeaderPlayable>Players:StandardPlayers::LEADER_T_ROOSEVELT_ROUGHRIDER,StandardPlayers::LEADER_T_ROOSEVELT_ROUGHRIDER,Players:Expansion1_Players::LEADER_T_ROOSEVELT_ROUGHRIDER,Players:Expansion2_Players::LEADER_T_ROOSEVELT_ROUGHRIDER</LeaderPlayable>
+		</Criteria>
+		<Criteria id="ZYLPVP_BBG_Byzantium_Gaul" any="1">
+			<LeaderPlayable>Players:StandardPlayers::LEADER_BASIL,Players:StandardPlayers::LEADER_AMBIORIX,StandardPlayers::LEADER_BASIL,StandardPlayers::LEADER_AMBIORIX,Players:Expansion1_Players::LEADER_BASIL,Players:Expansion1_Players::LEADER_AMBIORIX,Players:Expansion2_Players::LEADER_BASIL,Players:Expansion2_Players::LEADER_AMBIORIX</LeaderPlayable>
+		</Criteria>
+		<Criteria id="ZYLPVP_BBG_Babylon" any="1">
+			<LeaderPlayable>Players:StandardPlayers::LEADER_HAMMURABI,Players:Expansion1_Players::LEADER_HAMMURABI,Players:Expansion2_Players::LEADER_HAMMURABI</LeaderPlayable>
+		</Criteria>
+		<Criteria id="ZYLPVP_BBG_KublaiKhan_Vietnam" any="1">
+			<LeaderPlayable>Players:StandardPlayers::LEADER_LADY_TRIEU,Players:Expansion1_Players::LEADER_LADY_TRIEU,Players:Expansion2_Players::LEADER_LADY_TRIEU</LeaderPlayable>
+			<LeaderPlayable>Players:StandardPlayers::LEADER_KUBLAI_KHAN_CHINA,Players:Expansion1_Players::LEADER_KUBLAI_KHAN_CHINA,Players:Expansion2_Players::LEADER_KUBLAI_KHAN_CHINA</LeaderPlayable>
+			<LeaderPlayable>Players:Expansion1_Players::LEADER_KUBLAI_KHAN_MONGOLIA,Players:Expansion2_Players::LEADER_KUBLAI_KHAN_MONGOLIA</LeaderPlayable>
+		</Criteria>
+		<Criteria id="ZYLPVP_BBG_Portugal" any="1">
+			<LeaderPlayable>Players:StandardPlayers::LEADER_JOAO_III,StandardPlayers::LEADER_JOAO_III,Players:Expansion1_Players::LEADER_JOAO_III,Players:Expansion2_Players::LEADER_JOAO_III</LeaderPlayable>
+		</Criteria>
+		<Criteria id="ZYLPVP_BBG_Caesar" any="1">
+			<LeaderPlayable>Players:StandardPlayers::LEADER_JULIUS_CAESAR,StandardPlayers::LEADER_JULIUS_CAESAR,Players:Expansion1_Players::LEADER_JULIUS_CAESAR,Players:Expansion2_Players::LEADER_JULIUS_CAESAR</LeaderPlayable>
+		</Criteria>
+		<Criteria id="ZYLPVP_BBG_Negotiators" any="1">
+			<LeaderPlayable>Players:StandardPlayers::LEADER_ABRAHAM_LINCOLN,StandardPlayers::LEADER_ABRAHAM_LINCOLN,Players:Expansion1_Players::LEADER_ABRAHAM_LINCOLN,Players:Expansion2_Players::LEADER_ABRAHAM_LINCOLN</LeaderPlayable>
+			<LeaderPlayable>Players:StandardPlayers::LEADER_NZINGA_MBANDE,StandardPlayers::LEADER_NZINGA_MBANDE,Players:Expansion1_Players::LEADER_NZINGA_MBANDE,Players:Expansion2_Players::LEADER_NZINGA_MBANDE</LeaderPlayable>
+			<LeaderPlayable>Players:StandardPlayers::LEADER_SALADIN_ALT,StandardPlayers::LEADER_SALADIN_ALT,Players:Expansion1_Players::LEADER_SALADIN_ALT,Players:Expansion2_Players::LEADER_SALADIN_ALT</LeaderPlayable>
+		</Criteria>
+		<Criteria id="ZYLPVP_BBG_Warlords" any="1">
+			<LeaderPlayable>Players:StandardPlayers::LEADER_TOKUGAWA,Players:Expansion1_Players::LEADER_TOKUGAWA,Players:Expansion2_Players::LEADER_TOKUGAWA</LeaderPlayable>
+			<LeaderPlayable>Players:StandardPlayers::LEADER_NADER_SHAH,Players:Expansion1_Players::LEADER_NADER_SHAH,Players:Expansion2_Players::LEADER_NADER_SHAH</LeaderPlayable>
+			<LeaderPlayable>Players:Expansion2_Players::LEADER_SULEIMAN_ALT</LeaderPlayable>
+		</Criteria>
+		<Criteria id="ZYLPVP_BBG_RulersChina" any="1">
+			<LeaderPlayable>Players:StandardPlayers::LEADER_YONGLE,Players:Expansion1_Players::LEADER_YONGLE,Players:Expansion2_Players::LEADER_YONGLE</LeaderPlayable>
+			<LeaderPlayable>Players:StandardPlayers::LEADER_WU_ZETIAN,Players:Expansion1_Players::LEADER_WU_ZETIAN,Players:Expansion2_Players::LEADER_WU_ZETIAN</LeaderPlayable>
+			<LeaderPlayable>Players:StandardPlayers::LEADER_QIN_ALT,Players:Expansion1_Players::LEADER_QIN_ALT,Players:Expansion2_Players::LEADER_QIN_ALT</LeaderPlayable>
+			<LeaderPlayable>Players:Expansion2_Players::LEADER_SUNDIATA_KEITA</LeaderPlayable>
+		</Criteria>
+		<Criteria id="ZYLPVP_BBG_Builders" any="1">
+			<LeaderPlayable>Players:StandardPlayers::LEADER_THEODORA,Players:Expansion1_Players::LEADER_THEODORA,Players:Expansion2_Players::LEADER_THEODORA</LeaderPlayable>
+			<LeaderPlayable>Players:StandardPlayers::LEADER_LUDWIG,Players:Expansion1_Players::LEADER_LUDWIG,Players:Expansion2_Players::LEADER_LUDWIG</LeaderPlayable>
+			<LeaderPlayable>Players:Expansion1_Players::LEADER_SEJONG,Players:Expansion2_Players::LEADER_SEJONG</LeaderPlayable>
+		</Criteria>
+		<Criteria id="ZYLPVP_BBG_RulersSahara" any="1">
+			<LeaderPlayable>Players:StandardPlayers::LEADER_RAMSES,Players:Expansion1_Players::LEADER_RAMSES,Players:Expansion2_Players::LEADER_RAMSES</LeaderPlayable>
+			<LeaderPlayable>Players:StandardPlayers::LEADER_CLEOPATRA_ALT,Players:Expansion1_Players::LEADER_CLEOPATRA_ALT,Players:Expansion2_Players::LEADER_CLEOPATRA_ALT</LeaderPlayable>
+			<LeaderPlayable>Players:Expansion2_Players::LEADER_SUNDIATA_KEITA</LeaderPlayable>
+		</Criteria>
+		<Criteria id="ZYLPVP_BBG_RulersEngland" any="1">
+			<LeaderPlayable>Players:StandardPlayers::LEADER_ELIZABETH,Players:Expansion1_Players::LEADER_ELIZABETH,Players:Expansion2_Players::LEADER_ELIZABETH</LeaderPlayable>
+			<LeaderPlayable>Players:StandardPlayers::LEADER_HARALD_ALT,Players:Expansion1_Players::LEADER_HARALD_ALT,Players:Expansion2_Players::LEADER_HARALD_ALT</LeaderPlayable>
+			<LeaderPlayable>Players:StandardPlayers::LEADER_VICTORIA_ALT,Players:Expansion1_Players::LEADER_VICTORIA_ALT,Players:Expansion2_Players::LEADER_VICTORIA_ALT</LeaderPlayable>
+		</Criteria>
+		<Criteria id="ZYLPVP_BBG_NoConflictingUIMod">
+			<ModInUse inverse="1">1d44b5e7-753e-405b-af24-5ee634ec8a01</ModInUse>
+			<ModInUse inverse="1">8d4fa23a-ef43-440c-8422-2bec11f8f5d7</ModInUse>
+		</Criteria>
+		<Criteria id="ZYLPVP_BBG_NO_BBGTS">
+			<!--new beta environment-->
+			<ModInUse inverse="1">d6b111c4-be33-4878-b1fc-8741b1cd6af7</ModInUse>
+		</Criteria>
+		<Criteria id="ZYLPVP_BBG_core_bbcc">
+			<ConfigurationValueMatches inverse="1">
+				<Group>Game</Group>
+				<ConfigurationId>BBCC_SETTING</ConfigurationId>
+				<Value>-1</Value>
+			</ConfigurationValueMatches>
+		</Criteria>
+		<Criteria id="ZYLPVP_BBG_bbcc_cap">
+			<ConfigurationValueMatches>
+				<Group>Game</Group>
+				<ConfigurationId>BBCC_SETTING</ConfigurationId>
+				<Value>1</Value>
+			</ConfigurationValueMatches>
+		</Criteria>
+		<Criteria id="ZYLPVP_BBG_standard_bbcc">
+			<ConfigurationValueMatches>
+				<Group>Game</Group>
+				<ConfigurationId>BBCC_SETTING_YIELD</ConfigurationId>
+				<Value>0</Value>
+			</ConfigurationValueMatches>
+		</Criteria>
+		<Criteria id="ZYLPVP_BBG_no_rng_bbcc">
+			<ConfigurationValueMatches>
+				<Group>Game</Group>
+				<ConfigurationId>BBCC_SETTING_YIELD</ConfigurationId>
+				<Value>1</Value>
+			</ConfigurationValueMatches>
+		</Criteria>
+		<Criteria id="ZYLPVP_BBG_legacy_bbcc">
+			<ConfigurationValueMatches>
+				<Group>Game</Group>
+				<ConfigurationId>BBCC_SETTING_YIELD</ConfigurationId>
+				<Value>2</Value>
+			</ConfigurationValueMatches>
+		</Criteria>
+		<Criteria id="ZYLPVP_BBG_CVSetting_2">
+			<ConfigurationValueMatches>
+				<ConfigurationId>VictoryCulturalSetting</ConfigurationId>
+				<Group>Game</Group>
+				<Value>2</Value>
+			</ConfigurationValueMatches>
+		</Criteria>
+		<Criteria id="ZYLPVP_BBG_CVSetting_1">
+			<ConfigurationValueMatches>
+				<ConfigurationId>VictoryCulturalSetting</ConfigurationId>
+				<Group>Game</Group>
+				<Value>1</Value>
+			</ConfigurationValueMatches>
+		</Criteria>
+		<Criteria id="ZYLPVP_BBG_SVSetting_2">
+			<ConfigurationValueMatches>
+				<ConfigurationId>VictoryScienceSetting</ConfigurationId>
+				<Group>Game</Group>
+				<Value>2</Value>
+			</ConfigurationValueMatches>
+		</Criteria>
+		<Criteria id="ZYLPVP_BBG_SVSetting_1">
+			<ConfigurationValueMatches>
+				<ConfigurationId>VictoryScienceSetting</ConfigurationId>
+				<Group>Game</Group>
+				<Value>1</Value>
+			</ConfigurationValueMatches>
+		</Criteria>
+		<Criteria id="ZYLPVP_BBG_DVSetting_2">
+			<ConfigurationValueMatches>
+				<ConfigurationId>VictoryDiploSetting</ConfigurationId>
+				<Group>Game</Group>
+				<Value>2</Value>
+			</ConfigurationValueMatches>
+		</Criteria>
+		<Criteria id="ZYLPVP_BBG_DVSetting_1">
+			<ConfigurationValueMatches>
+				<ConfigurationId>VictoryDiploSetting</ConfigurationId>
+				<Group>Game</Group>
+				<Value>1</Value>
+			</ConfigurationValueMatches>
+		</Criteria>
+		<Criteria id="ZYLPVP_BBG_RVSetting_2">
+			<ConfigurationValueMatches>
+				<ConfigurationId>VictoryReligiousSetting</ConfigurationId>
+				<Group>Game</Group>
+				<Value>2</Value>
+			</ConfigurationValueMatches>
+		</Criteria>
+		<Criteria id="ZYLPVP_BBG_RVSetting_1">
+			<ConfigurationValueMatches>
+				<ConfigurationId>VictoryReligiousSetting</ConfigurationId>
+				<Group>Game</Group>
+				<Value>1</Value>
+			</ConfigurationValueMatches>
+		</Criteria>
+		<Criteria id="ZYLPVP_BBG_TerritorialSetting_1">
+			<ConfigurationValueMatches>
+				<ConfigurationId>VICTORY_TRADITIONAL_DOMINATION</ConfigurationId>
+				<Group>Game</Group>
+				<Value>1</Value>
+			</ConfigurationValueMatches>
+		</Criteria>
+		<Criteria id="ZYLPVP_BBG_GlobalSetting_1">
+			<ConfigurationValueMatches>
+				<ConfigurationId>VictoryMasterSlider</ConfigurationId>
+				<Group>Game</Group>
+				<Value>1</Value>
+			</ConfigurationValueMatches>
+		</Criteria>
+		<Criteria id="ZYLPVP_BBG_GlobalSetting_2">
+			<ConfigurationValueMatches>
+				<ConfigurationId>VictoryMasterSlider</ConfigurationId>
+				<Group>Game</Group>
+				<Value>2</Value>
+			</ConfigurationValueMatches>
+		</Criteria>
+		<Criteria id="ZYLPVP_BBG_GlobalSetting_BBG_Legacy">
+			<ConfigurationValueMatches>
+				<ConfigurationId>VictoryMasterSlider</ConfigurationId>
+				<Group>Game</Group>
+				<Value>5</Value>
+			</ConfigurationValueMatches>
+		</Criteria>
+		<Criteria id="ZYLPVP_BBG_Settlers_Sent_Back">
+			<ConfigurationValueMatches>
+				<ConfigurationId>SettlersConfig</ConfigurationId>
+				<Group>Game</Group>
+				<Value>0</Value>
+			</ConfigurationValueMatches>
+		</Criteria>
+		<Criteria id="ZYLPVP_BBG_BBGExpanded_WIP">
+			<!-- WIP -->
+			<ModInUse>2a0aa96a-a31c-4ce2-87ec-09144f6f3e00</ModInUse>
+		</Criteria>
+		<Criteria id="ZYLPVP_BBG_BBGExpanded_WIP_Published">
+			<!-- WIP -->
+			<ModInUse>2a0aa96a-a31c-4ce2-87ec-09152f6f3888</ModInUse>
+		</Criteria>
+		<Criteria id="ZYLPVP_BBG_BBGExpanded_Release">
+			<!-- Release -->
+			<ModInUse>2a0aa96a-a31c-4ce2-87ec-09152f6f3e00</ModInUse>
+		</Criteria>
+		<Criteria id="ZYLPVP_BBG_ModManager">
+			<!-- Release -->
+			<ModInUse>47dccacd-f1d0-4f25-bb02-deb2b528c833</ModInUse>
+		</Criteria>
+		<Criteria id="ZYLPVP_BBG_BBGExpanded" any="1">
+			<ModInUse>2a0aa96a-a31c-4ce2-87ec-09144f6f3e00</ModInUse>
+			<ModInUse>2a0aa96a-a31c-4ce2-87ec-09152f6f3888</ModInUse>
+			<ModInUse>2a0aa96a-a31c-4ce2-87ec-09152f6f3e00</ModInUse>
+		</Criteria>
+		<Criteria id="ZYLPVP_BBM_DLC: Vikings Content">
+			<ModInUse>2F6E858A-28EF-46B3-BEAC-B985E52E9BC1</ModInUse>
+		</Criteria>
+		<Criteria id="ZYLPVP_BBM_xp1">
+			<ModInUse>1B28771A-C749-434B-9053-D1380C553DE9</ModInUse>
+		</Criteria>
+		<Criteria id="ZYLPVP_BBM_xp2">
+			<ModInUse>4873eb62-8ccc-4574-b784-dda455e74e68</ModInUse>
+		</Criteria>
+		<Criteria id="ZYLPVP_BBM_dlc_australia">
+			<ModInUse>E3F53C61-371C-440B-96CE-077D318B36C0</ModInUse>
+		</Criteria>
+		<Criteria id="ZYLPVP_BBM_xp2_australia">
+			<LeaderPlayable>Players:Expansion2_Players::LEADER_JOHN_CURTIN</LeaderPlayable>
+		</Criteria>
+		<Criteria id="ZYLPVP_BBM_dlc_aztec">
+			<ModInUse>02A8BDDE-67EA-4D38-9540-26E685E3156E</ModInUse>
+		</Criteria>
+		<Criteria id="ZYLPVP_BBM_xp2_aztec">
+			<LeaderPlayable>Players:Expansion2_Players::LEADER_MONTEZUMA</LeaderPlayable>
+		</Criteria>
+		<Criteria id="ZYLPVP_BBM_dlc_indo_khmer">
+			<ModInUse>1F367231-A040-4793-BDBB-088816853683</ModInUse>
+		</Criteria>
+		<Criteria id="ZYLPVP_BBM_xp2_indo_khmer">
+			<LeaderPlayable>Players:Expansion2_Players::LEADER_GITARJA,Players:Expansion2_Players::LEADER_JAYAVARMAN</LeaderPlayable>
+		</Criteria>
+		<Criteria id="ZYLPVP_BBM_dlc_macedon_persia">
+			<ModInUse>E2749E9A-8056-45CD-901B-C368C8E83DEB</ModInUse>
+		</Criteria>
+		<Criteria id="ZYLPVP_BBM_xp2_macedon_persia">
+			<LeaderPlayable>Players:Expansion2_Players::LEADER_ALEXANDER,Players:Expansion2_Players::LEADER_CYRUS</LeaderPlayable>
+		</Criteria>
+		<Criteria id="ZYLPVP_BBM_dlc_nubia">
+			<ModInUse>643EA320-8E1A-4CF1-A01C-00D88DDD131A</ModInUse>
+		</Criteria>
+		<Criteria id="ZYLPVP_BBM_xp2_nubia">
+			<ModInUse>643EA320-8E1A-4CF1-A01C-00D88DDD131A</ModInUse>
+			<ModInUse>4873eb62-8ccc-4574-b784-dda455e74e68</ModInUse>
+		</Criteria>
+		<Criteria id="ZYLPVP_BBM_dlc_poland">
+			<ModInUse>3809975F-263F-40A2-A747-8BFB171D821A</ModInUse>
+		</Criteria>
+		<Criteria id="ZYLPVP_BBM_xp2_poland">
+			<LeaderPlayable>Players:Expansion2_Players::LEADER_JADWIGA</LeaderPlayable>
+		</Criteria>
+		<Criteria id="ZYLPVP_BBM_dlc_maya_colombia">
+			<ModInUse>9DE86512-DE1A-400D-8C0A-AB46EBBF76B9</ModInUse>
+		</Criteria>
+		<Criteria id="ZYLPVP_BBM_nfp_macedon_persia_maya_colombia">
+			<!-- for some reason, requires xp1 as well -->
+			<ModInUse>1B28771A-C749-434B-9053-D1380C553DE9</ModInUse>
+			<ModInUse>E2749E9A-8056-45CD-901B-C368C8E83DEB</ModInUse>
+			<ModInUse>9DE86512-DE1A-400D-8C0A-AB46EBBF76B9</ModInUse>
+		</Criteria>
+		<Criteria id="ZYLPVP_BBM_nfp_xp1_maya_colombia">
+			<ModInUse>1B28771A-C749-434B-9053-D1380C553DE9</ModInUse>
+			<ModInUse>9DE86512-DE1A-400D-8C0A-AB46EBBF76B9</ModInUse>
+		</Criteria>
+		<Criteria id="ZYLPVP_BBM_nfp_ethiopia">
+			<ModInUse>1B394FE9-23DC-4868-8F0A-5220CB8FB427</ModInUse>
+		</Criteria>
+		<Criteria id="ZYLPVP_BBM_nfp_xp2_ethiopia">
+			<ModInUse>1B394FE9-23DC-4868-8F0A-5220CB8FB427</ModInUse>
+			<ModInUse>4873eb62-8ccc-4574-b784-dda455e74e68</ModInUse>
+		</Criteria>
+		<Criteria id="ZYLPVP_BBM_nfp_teddy_persona">
+			<ModInUse>113D9459-0A3B-4FCB-A49C-483F40303575</ModInUse>
+		</Criteria>
+		<Criteria id="ZYLPVP_BBM_nfp_catherine_persona">
+			<ModInUse>CE5876CD-6900-46D1-9C9C-8DBA1F28872E</ModInUse>
+		</Criteria>
+		<Criteria id="ZYLPVP_BBM_nfp_byzantium_gaul">
+			<ModInUse>A1100FC4-70F2-4129-AC27-2A65A685ED08</ModInUse>
+		</Criteria>
+		<Criteria id="ZYLPVP_BBM_nfp_babylon">
+			<ModInUse>8424840C-92EF-4426-A9B4-B4E0CB818049</ModInUse>
+		</Criteria>
+		<Criteria id="ZYLPVP_BBM_NATURALSetting_2">
+			<ConfigurationValueMatches>
+				<ConfigurationId>BBSNatural</ConfigurationId>
+				<Group>Map</Group>
+				<Value>2</Value>
+			</ConfigurationValueMatches>
+		</Criteria>
+		<Criteria id="ZYLPVP_BBM_NATURALSetting_1">
+			<ConfigurationValueMatches>
+				<ConfigurationId>BBSNatural</ConfigurationId>
+				<Group>Map</Group>
+				<Value>0</Value>
+			</ConfigurationValueMatches>
+		</Criteria>
+		<Criteria id="ZYLMRM_Map">
+			<ConfigurationValueMatches>
+				<Group>Map</Group>
+				<ConfigurationId>MAP_SCRIPT</ConfigurationId>
+				<Value>zyl_mountainous_rich_mainland.lua</Value>
+			</ConfigurationValueMatches>
+		</Criteria>
+	</ActionCriteria>
+	<FrontEndActions>
+		<ImportFiles id="FrontEnd">
+			<Properties>
+				<LoadOrder>9999</LoadOrder>
+			</Properties>
+			<File>ui/gamesetuplogic.lua</File>
+			<File>ui/hostgame.lua</File>
+			<File>ui/hostgame.xml</File>
+			<File>ui/mainmenu.lua</File>
+			<File>ui/mainmenu.xml</File>
+			<File>ui/playertargetlogic.lua</File>
+			<File>ui/setupparameters.lua</File>
+			<File>ui/stagingroom.lua</File>
+			<File>ui/stagingroom.xml</File>
+		</ImportFiles>
+		<UpdateDatabase id="CPL_SETTINGS">
+			<Properties>
+				<LoadOrder>30000</LoadOrder>
+			</Properties>
+			<File>configuration/config.sql</File>
+			<File>configuration/Config.xml</File>
+			<File>configuration/Config_BBG.xml</File>
+			<File>configuration/Config_BBS.xml</File>
+		</UpdateDatabase>
+		<UpdateText id="MPH_TEXTS">
+			<File>lang/Text_EN.xml</File>
+			<File>lang/Text_FR.xml</File>
+			<File>lang/Text_CN.xml</File>
+			<File>lang/Text_RU.xml</File>
+			<File>lang/Text_BR.xml</File>
+			<File>lang/Text_KO.xml</File>
+			<File>lang/Text_JP.xml</File>
+			<File>lang/Text_DE.xml</File>
+		</UpdateText>
+		<UpdateDatabase id="ZYL_QoL_Config">
+			<Properties>
+				<LoadOrder>10010</LoadOrder>
+			</Properties>
+			<File>configuration/Config_ZYL.xml</File>
+			<File>Config/Config_UI.xml</File>
+			<File>BPC/BetterPantheonChooser_Config.xml</File>
+			<File>BRS/Config/BRS_Config.xml</File>
+			<File>NHK/GameCfg.xml</File>
+			<File>NHK/SQL/QueriesConfiguration.sql</File>
+			<File>NHK/Config_TurnTime.xml</File>
+			<File>NHK/Config_Mappin.xml</File>
+			<File>NHK/Config_GreatPeople_Recruit.xml</File>
+		</UpdateDatabase>
+		<UpdateText id="ZYL_QoL_Config_Text">
+			<File>lang/ZYL_Text.xml</File>
+			<File>Config/Config_UI_Text.xml</File>
+			<File>BPC/BetterPantheonChooser_Config_Text.xml</File>
+			<File>BRS/Config/BRS_Config_Text.xml</File>
+			<File>NHK/GameCfg_Text.xml</File>
+			<File>NHK/Config_TurnTime_Text.xml</File>
+			<File>NHK/Config_Mappin_Text.xml</File>
+			<File>NHK/Config_GreatPeople_Recruit_Text.xml</File>
+		</UpdateText>
+		<ImportFiles id="ZYL_FrontEnd_NetworkStatus">
+			<Properties>
+				<LoadOrder>10020</LoadOrder>
+			</Properties>
+			<File>BNL/NetConnectionIconLogic.lua</File>
+		</ImportFiles>
+		<UpdateIcons id="MPHIcons FrontEnd">
+			<File>icons/Anonymous_Icons.xml</File>
+			<File>icons/Sudden_Death_Icons.xml</File>
+		</UpdateIcons>
+		<ImportFiles id="FrontEnd_Arts_Icons_Import">
+			<Items>
+				<File>icons/Sudden_Death_44.dds</File>
+				<File>mode/sudden_death/Sudden_Death_Portrait.dds</File>
+				<File>mode/sudden_death/Sudden_Death_Background.dds</File>
+				<File>icons/Anonymous_44.dds</File>
+				<File>mode/anonymous/Anonymous_Portrait.dds</File>
+				<File>mode/anonymous/Anonymous_Background.dds</File>
+			</Items>
+		</ImportFiles>
+		<UpdateText id="ZYLPVP_BBG_FE_001_bbg_pregame_text_updates">
+			<Properties>
+				<LoadOrder>100000000</LoadOrder>
+			</Properties>
+			<File>Components/BBG/lang/english.xml</File>
+			<File>Components/BBG/lang/korean.xml</File>
+			<File>Components/BBG/lang/russian.xml</File>
+			<File>Components/BBG/lang/french.xml</File>
+			<File>Components/BBG/lang/polish.xml</File>
+			<File>Components/BBG/lang/japanese.xml</File>
+			<File>Components/BBG/lang/portuguese.xml</File>
+			<File>Components/BBG/lang/german.xml</File>
+			<File>Components/BBG/lang/chinese.xml</File>
+			<File>Components/BBG/lang/italian.xml</File>
+			<File>Components/BBG/lang/spanish.xml</File>
+		</UpdateText>
+		<UpdateDatabase id="ZYLPVP_BBG_FE_002_bbg_frontend_custom_victory">
+			<Properties>
+				<LoadOrder>19998</LoadOrder>
+			</Properties>
+			<File>Components/BBG/config/config.xml</File>
+			<File>Components/BBG/config/config.sql</File>
+		</UpdateDatabase>
+		<UpdateText id="ZYLPVP_BBG_FE_003_UpdateText">
+			<Criteria>ZYLPVP_BBG_ModManager</Criteria>
+			<File>Components/BBG/mod_filter.sql</File>
+		</UpdateText>
+		<UpdateColors id="ZYLPVP_BBG_FE_004_Colors">
+			<Properties>
+				<LoadOrder>10001</LoadOrder>
+			</Properties>
+			<File>Components/BBG/sql/colors.sql</File>
+		</UpdateColors>
+		<UpdateDatabase id="ZYLPVP_BBG_FE_005_BBG_Expanded_Disable_new_front">
+			<Properties>
+				<LoadOrder>100000000</LoadOrder>
+			</Properties>
+			<File>Components/BBG/sql/BBG_Expanded/Disable_new_config.sql</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="ZYLPVP_BBG_FE_006_BBG_Expanded_MOAR_Units_WIP_front">
+			<Properties>
+				<LoadOrder>4</LoadOrder>
+			</Properties>
+			<Criteria>ZYLPVP_BBG_BBGExpanded_WIP</Criteria>
+			<File>Components/BBG/sql/BBG_Expanded/MOARUnits_enabledconfig.sql</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="ZYLPVP_BBG_FE_007_BBG_Expanded_MOAR_Units_WIP_front">
+			<Properties>
+				<LoadOrder>4</LoadOrder>
+			</Properties>
+			<Criteria>ZYLPVP_BBG_BBGExpanded_WIP_Published</Criteria>
+			<File>Components/BBG/sql/BBG_Expanded/MOARUnits_enabledconfig.sql</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="ZYLPVP_BBG_FE_008_BBG_Expanded_MOAR_Units_Release_front">
+			<Properties>
+				<LoadOrder>4</LoadOrder>
+			</Properties>
+			<Criteria>ZYLPVP_BBG_BBGExpanded_Release</Criteria>
+			<File>Components/BBG/sql/BBG_Expanded/MOARUnits_enabledconfig.sql</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="ZYLPVP_BBM_FE_001_BBS_SETTINGS">
+			<File>Components/BBM/Configuration/Config.xml</File>
+			<File>Components/BBM/Configuration/ZYL_MountainousRichMainland_Config.xml</File>
+		</UpdateDatabase>
+		<UpdateText id="ZYLPVP_BBM_FE_002_BBS_SETTINGS_TEXTS">
+			<File>Components/BBM/Lang/english.xml</File>
+			<File>Components/BBM/Lang/french.xml</File>
+			<File>Components/BBM/Lang/russian.xml</File>
+			<File>Components/BBM/Lang/chinese.xml</File>
+			<File>Components/BBM/Lang/german.xml</File>
+			<File>Components/BBM/Lang/japanese.xml</File>
+			<File>Components/BBM/Lang/korean.xml</File>
+			<File>Components/BBM/Lang/portuguese.xml</File>
+			<File>Components/BBM/Lang/ZYL_MountainousRichMainland_Text.xml</File>
+		</UpdateText>
+		<UpdateIcons id="ZYLPVP_BBM_FE_003_BBS_ICONS">
+			<File>Components/BBM/sql/bbs_icons_wonders.sql</File>
+		</UpdateIcons>
+	</FrontEndActions>
+	<InGameActions>
+		<AddGameplayScripts id="CPL_Helper">
+			<File>data/MP_helper.lua</File>
+		</AddGameplayScripts>
+		<UpdateDatabase id="CPL_XML">
+			<File>data/Victories.xml</File>
+		</UpdateDatabase>
+		<!-- Database adjustment FrontEnd dependent -->
+		<UpdateDatabase id="MPH_Control_Military_Alliance_Off">
+			<Properties>
+				<LoadOrder>20000</LoadOrder>
+			</Properties>
+			<Criteria>Alliance_Military_Off</Criteria>
+			<File>sql/mph_alliance_no_military.sql</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="MPH_Control_Military_Alliance_Off_XP1">
+			<Properties>
+				<LoadOrder>20000</LoadOrder>
+			</Properties>
+			<Criteria>Alliance_Military_Off</Criteria>
+			<Criteria>Expansion1</Criteria>
+			<File>sql/mph_alliance_no_military_xp1.sql</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="MPH_Control_Military_Alliance_Off_XP2">
+			<Properties>
+				<LoadOrder>20000</LoadOrder>
+			</Properties>
+			<Criteria>Alliance_Military_Off</Criteria>
+			<Criteria>Expansion2</Criteria>
+			<File>sql/mph_alliance_no_military_xp1.sql</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="MPH_Control_Cultural_Alliance_Off">
+			<Properties>
+				<LoadOrder>20000</LoadOrder>
+			</Properties>
+			<Criteria>Alliance_Cultural_Off</Criteria>
+			<File>sql/mph_alliance_no_cultural.sql</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="MPH_Control_Cultural_Alliance_Off_XP1">
+			<Properties>
+				<LoadOrder>20000</LoadOrder>
+			</Properties>
+			<Criteria>Alliance_Cultural_Off</Criteria>
+			<Criteria>Expansion1</Criteria>
+			<File>sql/mph_alliance_no_cultural_xp1.sql</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="MPH_Control_Cultural_Alliance_Off_XP2">
+			<Properties>
+				<LoadOrder>20000</LoadOrder>
+			</Properties>
+			<Criteria>Alliance_Cultural_Off</Criteria>
+			<Criteria>Expansion2</Criteria>
+			<File>sql/mph_alliance_no_cultural_xp1.sql</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="MPH_Control_Economic_Alliance_Off">
+			<Properties>
+				<LoadOrder>20000</LoadOrder>
+			</Properties>
+			<Criteria>Alliance_Economic_Off</Criteria>
+			<File>sql/mph_alliance_no_economic.sql</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="MPH_Control_Economic_Alliance_Off_XP1">
+			<Properties>
+				<LoadOrder>20000</LoadOrder>
+			</Properties>
+			<Criteria>Alliance_Economic_Off</Criteria>
+			<Criteria>Expansion1</Criteria>
+			<File>sql/mph_alliance_no_economic_xp1.sql</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="MPH_Control_Economic_Alliance_Off_XP2">
+			<Properties>
+				<LoadOrder>20000</LoadOrder>
+			</Properties>
+			<Criteria>Alliance_Economic_Off</Criteria>
+			<Criteria>Expansion2</Criteria>
+			<File>sql/mph_alliance_no_economic_xp1.sql</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="MPH_Control_Religious_Alliance_Off">
+			<Properties>
+				<LoadOrder>20000</LoadOrder>
+			</Properties>
+			<Criteria>Alliance_Religious_Off</Criteria>
+			<File>sql/mph_alliance_no_religious.sql</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="MPH_Control_Religious_Alliance_Off_XP1">
+			<Properties>
+				<LoadOrder>20000</LoadOrder>
+			</Properties>
+			<Criteria>Alliance_Religious_Off</Criteria>
+			<Criteria>Expansion1</Criteria>
+			<File>sql/mph_alliance_no_religious_xp1.sql</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="MPH_Control_Religious_Alliance_Off_XP2">
+			<Properties>
+				<LoadOrder>20000</LoadOrder>
+			</Properties>
+			<Criteria>Alliance_Religious_Off</Criteria>
+			<Criteria>Expansion2</Criteria>
+			<File>sql/mph_alliance_no_religious_xp1.sql</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="MPH_Control_Research_Alliance_Off">
+			<Properties>
+				<LoadOrder>20000</LoadOrder>
+			</Properties>
+			<Criteria>Alliance_Research_Off</Criteria>
+			<File>sql/mph_alliance_no_research.sql</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="MPH_Control_Research_Alliance_Off_XP1">
+			<Properties>
+				<LoadOrder>20000</LoadOrder>
+			</Properties>
+			<Criteria>Alliance_Research_Off</Criteria>
+			<Criteria>Expansion1</Criteria>
+			<File>sql/mph_alliance_no_research_xp1.sql</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="MPH_Control_Research_Alliance_Off_XP2">
+			<Properties>
+				<LoadOrder>20000</LoadOrder>
+			</Properties>
+			<Criteria>Alliance_Research_Off</Criteria>
+			<Criteria>Expansion2</Criteria>
+			<File>sql/mph_alliance_no_research_xp1.sql</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="MPH_Control_Diplomatic_Deals_Off">
+			<Properties>
+				<LoadOrder>20000</LoadOrder>
+			</Properties>
+			<Criteria>Diplomatic_Deals_Off</Criteria>
+			<File>sql/mph_diplomacy_no_deals.sql</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="MPH_Control_Diplomatic_Frienship_Off">
+			<Properties>
+				<LoadOrder>20000</LoadOrder>
+			</Properties>
+			<Criteria>Diplomatic_FS_Off</Criteria>
+			<File>sql/mph_diplomacy_no_fs.sql</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="MPH_Control_Diplomatic_Surprise_War_Off">
+			<Properties>
+				<LoadOrder>20000</LoadOrder>
+			</Properties>
+			<Criteria>Diplomatic_SW_Off</Criteria>
+			<File>sql/mph_diplomacy_no_sw.sql</File>
+		</UpdateDatabase>
+		<!-- General MPH Ingame Files -->
+		<UpdateText id="MPH_INGAME_TEXTS">
+			<File>lang/Text_EN.xml</File>
+			<File>lang/Text_FR.xml</File>
+			<File>lang/Text_CN.xml</File>
+			<File>lang/Text_RU.xml</File>
+			<File>lang/Text_BR.xml</File>
+			<File>lang/Text_KO.xml</File>
+			<File>lang/Text_JP.xml</File>
+			<File>lang/Text_DE.xml</File>
+		</UpdateText>
+		<!-- Master UI -->
+		<ImportFiles id="MPH_Ingame">
+			<Properties>
+				<LoadOrder>9</LoadOrder>
+			</Properties>
+			<File>ui/ingame.xml</File>
+			<File>ui/ingame.lua</File>
+		</ImportFiles>
+		<!-- Replacement UI -->
+		<ReplaceUIScript id="MPH_ChatPanel" criteria="Expansion2">
+			<Properties>
+				<LoadOrder>9</LoadOrder>
+				<LuaContext>ChatPanel</LuaContext>
+				<LuaReplace>ui/Replacements/chatpanel_MPH.lua</LuaReplace>
+			</Properties>
+		</ReplaceUIScript>
+		<ReplaceUIScript id="MPH_DiplomacyActionView" criteria="Expansion2">
+			<Properties>
+				<LoadOrder>9</LoadOrder>
+				<LuaContext>DiplomacyActionView</LuaContext>
+				<LuaReplace>ui/Replacements/diplomacyactionview_MPH.lua</LuaReplace>
+			</Properties>
+		</ReplaceUIScript>
+		<ReplaceUIScript id="MPH_InGameTopOptionsMenu">
+			<Properties>
+				<LoadOrder>9</LoadOrder>
+				<LuaContext>InGameTopOptionsMenu</LuaContext>
+				<LuaReplace>ui/Replacements/ingametopoptionsmenu_MPH.lua</LuaReplace>
+			</Properties>
+		</ReplaceUIScript>
+		<ImportFiles id="MPH_UI_Replacements">
+			<Properties>
+				<LoadOrder>9</LoadOrder>
+			</Properties>
+			<File>ui/Replacements/chatpanel_MPH.lua</File>
+			<File>ui/Replacements/diplomacyactionview_MPH.lua</File>
+			<File>ui/Replacements/diplomacydealview_MPH.lua</File>
+			<File>ui/Replacements/endgamemenu.lua</File>
+			<File>ui/Replacements/endgamemenu.xml</File>
+			<File>ui/Replacements/ingametopoptionsmenu.xml</File>
+			<File>ui/Replacements/ingametopoptionsmenu_MPH.lua</File>
+			<File>ui/Replacements/mappinlistpanel.lua</File>
+			<File>ui/Replacements/mappinlistpanel.xml</File>
+			<File>ui/Replacements/pausepanel.lua</File>
+			<File>ui/Replacements/pausepanel.xml</File>
+			<File>ui/Replacements/statusmessagepanel.lua</File>
+			<File>ui/Replacements/statusmessagepanel.xml</File>
+		</ImportFiles>
+		<!-- UI Additions -->
+		<AddUserInterfaces id="MPH_DropControl">
+			<Properties>
+				<LoadOrder>99</LoadOrder>
+				<Context>InGame</Context>
+			</Properties>
+			<File>ui/Additions/DropControl.xml</File>
+		</AddUserInterfaces>
+		<AddUserInterfaces id="MPH_Options">
+			<Properties>
+				<LoadOrder>99</LoadOrder>
+				<Context>InGame</Context>
+			</Properties>
+			<File>ui/Additions/MPHOptions.xml</File>
+		</AddUserInterfaces>
+		<AddUserInterfaces id="MPH_VotePanel">
+			<Properties>
+				<LoadOrder>99</LoadOrder>
+				<Context>InGame</Context>
+			</Properties>
+			<File>ui/Additions/VotePanel.xml</File>
+		</AddUserInterfaces>
+		<ImportFiles id="MPH_UI_Additions">
+			<Properties>
+				<LoadOrder>9</LoadOrder>
+			</Properties>
+			<File>ui/Additions/DropControl.xml</File>
+			<File>ui/Additions/DropControl.lua</File>
+			<File>ui/Additions/MPHOptions.xml</File>
+			<File>ui/Additions/MPHOptions.lua</File>
+			<File>ui/Additions/TurnProcessing.xml</File>
+			<File>ui/Additions/TurnProcessing.lua</File>
+			<File>ui/Additions/VotePanel.xml</File>
+			<File>ui/Additions/VotePanel.lua</File>
+		</ImportFiles>
+		<!-- Extra Icons For Modes -->
+		<ImportFiles id="AN_Import">
+			<Items>
+				<File>icons/Anonymous_44.dds</File>
+			</Items>
+		</ImportFiles>
+		<UpdateIcons id="Anonymous_Icon">
+			<File>icons/Anonymous_Icons.xml</File>
+		</UpdateIcons>
+		<ImportFiles id="SF_Import">
+			<Items>
+				<File>icons/Sudden_Death_44.dds</File>
+			</Items>
+		</ImportFiles>
+		<UpdateIcons id="Sudden_Death_Icon">
+			<File>icons/Sudden_Death_Icons.xml</File>
+		</UpdateIcons>
+		<!-- Sudden Death Only -->
+		<AddUserInterfaces id="SD_InGameUI" criteria="Sudden_Death_Mode_Expansion2">
+			<Properties>
+				<Context>InGame</Context>
+			</Properties>
+			<File>ui/Additions/SuddenDeathPanel.xml</File>
+		</AddUserInterfaces>
+		<ImportFiles id="SD_Import" criteria="Sudden_Death_Mode_Expansion2">
+			<Properties>
+				<LoadOrder>9</LoadOrder>
+			</Properties>
+			<File>ui/Additions/SuddenDeathPanel.lua</File>
+			<File>ui/Additions/SuddenDeathPanel.xml</File>
+		</ImportFiles>
+		<!-- Anonymous Only -->
+		<UpdateText id="AnonText" criteria="Anonymous_Mode_Expansion2">
+			<Properties>
+				<LoadOrder>9999</LoadOrder>
+			</Properties>
+			<File>mode/anonymous/text_anon.xml</File>
+		</UpdateText>
+		<ImportFiles id="ZYL_UnitFlag_Import">
+			<Properties>
+				<LoadOrder>90</LoadOrder>
+			</Properties>
+			<File>ui/Replacements/unitflagmanager.lua</File>
+		</ImportFiles>
+		<!-- Selected TPT UI/QoL modules. Tournament/network state remains MPH-owned. -->
+		<AddGameplayScripts id="ZYL_GoodyHutReminder">
+			<File>GBR/Goodyhuts_Boost_GP.lua</File>
+		</AddGameplayScripts>
+		<UpdateDatabase id="ZYL_SettingsData">
+			<File>Settings/TPT_Settings.sql</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="ZYL_BRS_Database">
+			<Properties>
+				<LoadOrder>1</LoadOrder>
+			</Properties>
+			<File>BRS/BetterReportScreen_Database.sql</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="ZYL_BRS_ReportsList_Database">
+			<File>BRS/RLL/ReportsListLoader.sql</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="ZYL_ExtraHotkeys_Gameplay" criteria="TPT_NEW_HOTKEYS">
+			<File>NHK/SQL/QueriesGameplay.sql</File>
+		</UpdateDatabase>
+		<UpdateText id="ZYL_QoL_Text">
+			<File>lang/ZYL_Text.xml</File>
+			<File>lang/Blacklist_Text.xml</File>
+			<File>Settings/TPT_Settings_Text.xml</File>
+			<File>FEB/ForcedEndButton_Text.xml</File>
+			<File>BPC/BetterPantheonChooser_Config_Text.xml</File>
+			<File>BRS/Config/BRS_Config_Text.xml</File>
+			<File>BRS/Text/BetterReportScreen_Text.xml</File>
+			<File>BRS/Text/BetterReportScreen_Text_zh_Hans_CN.xml</File>
+			<File>BRS/Text/BetterReportScreen_Text_zh_Hant_HK.xml</File>
+			<File>TPE/TopPanel_Text.xml</File>
+			<File>TCP/Text_TCP.xml</File>
+			<File>NHK/GameCfg_Text.xml</File>
+			<File>NHK/Config_TurnTime_Text.xml</File>
+			<File>NHK/Config_Mappin_Text.xml</File>
+			<File>NHK/Config_GreatPeople_Recruit_Text.xml</File>
+		</UpdateText>
+		<AddUserInterfaces id="ZYL_Blacklist">
+			<Properties>
+				<LoadOrder>100</LoadOrder>
+				<Context>InGame</Context>
+			</Properties>
+			<File>ui/Additions/BlacklistPanel.xml</File>
+		</AddUserInterfaces>
+		<AddUserInterfaces id="ZYL_Settings">
+			<Properties>
+				<Context>InGame</Context>
+			</Properties>
+			<File>Settings/UI/TPT_SettingsPanel.xml</File>
+		</AddUserInterfaces>
+		<AddUserInterfaces id="ZYL_QuickControls">
+			<Properties>
+				<LoadOrder>110</LoadOrder>
+				<Context>InGame</Context>
+			</Properties>
+			<File>ui/Additions/QuickControls.xml</File>
+		</AddUserInterfaces>
+		<AddUserInterfaces id="ZYL_ForcedEndButton">
+			<Properties>
+				<LoadOrder>115</LoadOrder>
+				<Context>InGame</Context>
+			</Properties>
+			<File>FEB/UI/ForcedEndButton.xml</File>
+		</AddUserInterfaces>
+		<AddUserInterfaces id="ZYL_RevealMapCorners">
+			<Properties>
+				<LoadOrder>100</LoadOrder>
+				<Context>InGame</Context>
+			</Properties>
+			<File>RMC/UI/RevealMapCorners.xml</File>
+		</AddUserInterfaces>
+		<AddUserInterfaces id="ZYL_MapPinHotkeys">
+			<Properties>
+				<Context>InGame</Context>
+			</Properties>
+			<File>NHK/UI/MapPin_HotKey.xml</File>
+		</AddUserInterfaces>
+		<AddUserInterfaces id="ZYL_GreatPersonHotkey">
+			<Properties>
+				<Context>InGame</Context>
+			</Properties>
+			<File>NHK/UI/AutoRecruit_GreatPerson_HotKey.xml</File>
+		</AddUserInterfaces>
+		<ImportFiles id="ZYL_UI_Extensions">
+			<Properties>
+				<LoadOrder>120</LoadOrder>
+			</Properties>
+			<File>BNL/NetConnectionIconLogic.lua</File>
+			<File>NDR/NotificationPanel_DealRemind.lua</File>
+			<File>NOC/NotificationPanel_QuickClear.lua</File>
+			<File>PCF/UI/CityBannerManager_PCF.lua</File>
+			<File>CSB/UI/CityBannerManager_TPT.lua</File>
+			<File>NHK/UI/CityBannerManager_CSA.lua</File>
+		</ImportFiles>
+		<ReplaceUIScript id="ZYL_TeamResourceVisibility">
+			<Properties>
+				<LoadOrder>20000</LoadOrder>
+				<LuaContext>WorldViewIconsManager</LuaContext>
+				<LuaReplace>STR/UI/WorldViewIconsManager_STR.lua</LuaReplace>
+			</Properties>
+		</ReplaceUIScript>
+		<ImportFiles id="ZYL_TeamResourceVisibility_Import">
+			<Properties>
+				<LoadOrder>20010</LoadOrder>
+			</Properties>
+			<File>STR/UI/WorldViewIconsManager_STR.lua</File>
+		</ImportFiles>
+		<ReplaceUIScript id="ZYL_PantheonChooser">
+			<Properties>
+				<LoadOrder>10000</LoadOrder>
+				<LuaContext>PantheonChooser</LuaContext>
+				<LuaReplace>BPC/UI/PantheonChooser_TPT.lua</LuaReplace>
+			</Properties>
+		</ReplaceUIScript>
+		<ImportFiles id="ZYL_PantheonChooser_Import">
+			<Properties>
+				<LoadOrder>10000</LoadOrder>
+			</Properties>
+			<File>BPC/UI/PantheonChooser.xml</File>
+			<File>BPC/UI/PantheonChooser_TPT.lua</File>
+		</ImportFiles>
+		<AddUserInterfaces id="ZYL_BRS_Analysis">
+			<Properties>
+				<Context>InGame</Context>
+			</Properties>
+			<File>BRS/RealModifierAnalysis.xml</File>
+		</AddUserInterfaces>
+		<ImportFiles id="ZYL_BRS_Import">
+			<Properties>
+				<LoadOrder>1001</LoadOrder>
+			</Properties>
+			<Items>
+				<File>BRS/reportscreen.lua</File>
+				<File>BRS/reportscreen.xml</File>
+				<File>BRS/BRSPage_Yields.lua</File>
+				<File>BRS/BRSPage_Resources.lua</File>
+				<File>BRS/BRSPage_CityStatus.lua</File>
+				<File>BRS/BRSPage_Gossip.lua</File>
+				<File>BRS/BRSPage_Deals.lua</File>
+				<File>BRS/BRSPage_Units.lua</File>
+				<File>BRS/BRSPage_Policy.lua</File>
+				<File>BRS/BRSPage_Minor.lua</File>
+				<File>BRS/BRSPage_Cities2.lua</File>
+			</Items>
+		</ImportFiles>
+		<ImportFiles id="ZYL_BRS_Font">
+			<File>BRS/Icons/FontIconsRMI.dds</File>
+		</ImportFiles>
+		<UpdateIcons id="ZYL_BRS_Icons">
+			<Properties>
+				<LoadOrder>2</LoadOrder>
+			</Properties>
+			<File>BRS/Icons/FontIconsRMI.xml</File>
+		</UpdateIcons>
+		<ImportFiles id="ZYL_BRS_ReportsList_Import">
+			<File>BRS/RLL/ReportsListLoader.lua</File>
+		</ImportFiles>
+		<ReplaceUIScript id="ZYL_BRS_ReportScreen_XP1" criteria="Expansion1">
+			<Properties>
+				<LoadOrder>1011</LoadOrder>
+				<LuaContext>ReportScreen</LuaContext>
+				<LuaReplace>BRS/reportscreen.lua</LuaReplace>
+			</Properties>
+		</ReplaceUIScript>
+		<ReplaceUIScript id="ZYL_BRS_ReportScreen_XP2" criteria="Expansion2">
+			<Properties>
+				<LoadOrder>1021</LoadOrder>
+				<LuaContext>ReportScreen</LuaContext>
+				<LuaReplace>BRS/reportscreen.lua</LuaReplace>
+			</Properties>
+		</ReplaceUIScript>
+		<ReplaceUIScript id="ZYL_BRS_ReportsList">
+			<Properties>
+				<LoadOrder>100000</LoadOrder>
+				<LuaContext>ReportsList</LuaContext>
+				<LuaReplace>BRS/RLL/ReportsListLoader.lua</LuaReplace>
+			</Properties>
+		</ReplaceUIScript>
+		<ImportFiles id="ZYL_BRS_Government">
+			<Properties>
+				<LoadOrder>12001</LoadOrder>
+			</Properties>
+			<Items>
+				<File>BRS/UI/GovernmentScreen.lua</File>
+				<File>BRS/UI/GovernmentScreen.xml</File>
+			</Items>
+		</ImportFiles>
+		<ReplaceUIScript id="ZYL_CityStates" criteria="SETTINGS_UI_CityStates">
+			<Properties>
+				<LoadOrder>1000</LoadOrder>
+				<LuaContext>CityStates</LuaContext>
+				<LuaReplace>BCS/UI/CityStates_TPT.lua</LuaReplace>
+			</Properties>
+		</ReplaceUIScript>
+		<ImportFiles id="ZYL_CityStates_Import" criteria="SETTINGS_UI_CityStates">
+			<Properties>
+				<LoadOrder>1010</LoadOrder>
+			</Properties>
+			<File>BCS/UI/CityStates.xml</File>
+			<File>BCS/UI/CityStates_TPT.lua</File>
+		</ImportFiles>
+		<ReplaceUIScript id="ZYL_GreatPeoplePopup" criteria="SETTINGS_UI_GreatPeoplePopup">
+			<Properties>
+				<LoadOrder>1000</LoadOrder>
+				<LuaContext>GreatPeoplePopup</LuaContext>
+				<LuaReplace>BGP/UI/GreatPeoplePopup.lua</LuaReplace>
+			</Properties>
+		</ReplaceUIScript>
+		<ImportFiles id="ZYL_GreatPeoplePopup_Import" criteria="SETTINGS_UI_GreatPeoplePopup">
+			<Properties>
+				<LoadOrder>1010</LoadOrder>
+			</Properties>
+			<File>BGP/UI/GreatPeoplePopup.xml</File>
+			<File>BGP/UI/GreatPeoplePopup.lua</File>
+		</ImportFiles>
+		<ReplaceUIScript id="ZYL_TopPanel" criteria="SETTINGS_UI_TopPanelExtension">
+			<Properties>
+				<LoadOrder>20010</LoadOrder>
+				<LuaContext>TopPanel</LuaContext>
+				<LuaReplace>TPE/UI/TopPanelExtension.lua</LuaReplace>
+			</Properties>
+		</ReplaceUIScript>
+		<ImportFiles id="ZYL_TopPanel_Import" criteria="SETTINGS_UI_TopPanelExtension">
+			<Properties>
+				<LoadOrder>20020</LoadOrder>
+			</Properties>
+			<File>TPE/UI/TopPanelExtension.lua</File>
+		</ImportFiles>
+		<AddUserInterfaces id="ZYL_TopPanel_Tooltips" criteria="SETTINGS_UI_TopPanelExtension">
+			<Properties>
+				<LoadOrder>20030</LoadOrder>
+				<Context>InGame</Context>
+			</Properties>
+			<File>TPE/UI/TopPanel_TT.xml</File>
+		</AddUserInterfaces>
+		<ImportFiles id="ZYL_TechCivicSupport" criteria="SETTINGS_UI_TechCivicProgressPro">
+			<Properties>
+				<LoadOrder>2001</LoadOrder>
+			</Properties>
+			<File>TCP/TechAndCivicSupport.lua</File>
+		</ImportFiles>
+		<ReplaceUIScript id="ZYL_TechTree" criteria="SETTINGS_UI_TechCivicProgressPro">
+			<Properties>
+				<LoadOrder>100</LoadOrder>
+				<LuaContext>TechTree</LuaContext>
+				<LuaReplace>TCP/UI/TechTree_TPT.lua</LuaReplace>
+			</Properties>
+		</ReplaceUIScript>
+		<ReplaceUIScript id="ZYL_CivicsTree" criteria="SETTINGS_UI_TechCivicProgressPro">
+			<Properties>
+				<LoadOrder>100</LoadOrder>
+				<LuaContext>CivicsTree</LuaContext>
+				<LuaReplace>TCP/UI/CivicsTree_TPT.lua</LuaReplace>
+			</Properties>
+		</ReplaceUIScript>
+		<ReplaceUIScript id="ZYL_ResearchChooser" criteria="SETTINGS_UI_TechCivicProgressPro">
+			<Properties>
+				<LoadOrder>100</LoadOrder>
+				<LuaContext>ResearchChooser</LuaContext>
+				<LuaReplace>TCP/UI/ResearchChooser_TPT.lua</LuaReplace>
+			</Properties>
+		</ReplaceUIScript>
+		<ReplaceUIScript id="ZYL_CivicsChooser" criteria="SETTINGS_UI_TechCivicProgressPro">
+			<Properties>
+				<LoadOrder>100</LoadOrder>
+				<LuaContext>CivicsChooser</LuaContext>
+				<LuaReplace>TCP/UI/CivicsChooser_TPT.lua</LuaReplace>
+			</Properties>
+		</ReplaceUIScript>
+		<ImportFiles id="ZYL_TechCivicScreens" criteria="SETTINGS_UI_TechCivicProgressPro">
+			<Properties>
+				<LoadOrder>110</LoadOrder>
+			</Properties>
+			<File>TCP/UI/TechTree_TPT.lua</File>
+			<File>TCP/UI/CivicsTree_TPT.lua</File>
+			<File>TCP/UI/ResearchChooser_TPT.lua</File>
+			<File>TCP/UI/CivicsChooser_TPT.lua</File>
+		</ImportFiles>
+		<AddGameplayScripts id="ZYLPVP_BBG_IG_001_BBG_CoreScript">
+			<Criteria>ZYLPVP_BBG_NO_BBGTS</Criteria>
+			<File>Components/BBG/scripts/bbg_script.lua</File>
+		</AddGameplayScripts>
+		<AddUserInterfaces id="ZYLPVP_BBG_IG_002_bbg_uitogameplay_dummy_xml">
+			<Properties>
+				<Context>InGame</Context>
+			</Properties>
+			<Criteria>ZYLPVP_BBG_NO_BBGTS</Criteria>
+			<File>Components/BBG/scripts/bbg_uitogameplay.xml</File>
+		</AddUserInterfaces>
+		<ImportFiles id="ZYLPVP_BBG_IG_003_bbg_uitogameplay_lua">
+			<Criteria>ZYLPVP_BBG_NO_BBGTS</Criteria>
+			<File>Components/BBG/scripts/bbg_uitogameplay.lua</File>
+		</ImportFiles>
+		<UpdateText id="ZYLPVP_BBG_IG_004_BBG_TextUpdate">
+			<Properties>
+				<LoadOrder>100000000</LoadOrder>
+			</Properties>
+			<File>Components/BBG/lang/english.xml</File>
+			<File>Components/BBG/lang/korean.xml</File>
+			<File>Components/BBG/lang/russian.xml</File>
+			<File>Components/BBG/lang/french.xml</File>
+			<File>Components/BBG/lang/polish.xml</File>
+			<File>Components/BBG/lang/japanese.xml</File>
+			<File>Components/BBG/lang/portuguese.xml</File>
+			<File>Components/BBG/lang/german.xml</File>
+			<File>Components/BBG/lang/chinese.xml</File>
+			<File>Components/BBG/lang/italian.xml</File>
+			<File>Components/BBG/lang/spanish.xml</File>
+		</UpdateText>
+		<UpdateColors id="ZYLPVP_BBG_IG_005_Colors">
+			<Properties>
+				<LoadOrder>10000</LoadOrder>
+			</Properties>
+			<File>Components/BBG/sql/colors.sql</File>
+		</UpdateColors>
+		<UpdateDatabase id="ZYLPVP_BBG_IG_006_bbg_preload_db_updated">
+			<Properties>
+				<LoadOrder>11600</LoadOrder>
+			</Properties>
+			<File>Components/BBG/sql/_utils.sql</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="ZYLPVP_BBG_IG_007_bbg_preload_db_base_updated">
+			<Properties>
+				<LoadOrder>11601</LoadOrder>
+			</Properties>
+			<File>Components/BBG/sql/Base/_base_utils.sql</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="ZYLPVP_BBG_IG_008_bbg_preload_db_vikings_updated">
+			<Properties>
+				<LoadOrder>11602</LoadOrder>
+			</Properties>
+			<Criteria>ZYLPVP_BBG_DLC_Vikings</Criteria>
+			<File>Components/BBG/sql/DLC_Vikings/_dlc_vikings_utils.sql</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="ZYLPVP_BBG_IG_009_BBG_Vikings_Vietnam">
+			<Properties>
+				<LoadOrder>11603</LoadOrder>
+			</Properties>
+			<Criteria>ZYLPVP_BBG_DLC_Vikings</Criteria>
+			<Criteria>ZYLPVP_BBG_XP1</Criteria>
+			<File>Components/BBG/sql/DLC_Vikings/dlc_vikings_xp1.sql</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="ZYLPVP_BBG_IG_010_BBG_Vikings_xp1">
+			<Properties>
+				<LoadOrder>11603</LoadOrder>
+			</Properties>
+			<Criteria>ZYLPVP_BBG_DLC_Vikings</Criteria>
+			<Criteria>ZYLPVP_BBG_KublaiKhan_Vietnam</Criteria>
+			<File>Components/BBG/sql/DLC_Vikings/dlc_vikings_nfp.sql</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="ZYLPVP_BBG_IG_011_bbg_preload_db_aust_updated">
+			<Properties>
+				<LoadOrder>11604</LoadOrder>
+			</Properties>
+			<Criteria>ZYLPVP_BBG_DLC_Australia</Criteria>
+			<File>Components/BBG/sql/DLC_Australia/_dlc_australia_utils.sql</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="ZYLPVP_BBG_IG_012_bbg_preload_db_indokhmer_updated">
+			<Properties>
+				<LoadOrder>11605</LoadOrder>
+			</Properties>
+			<Criteria>ZYLPVP_BBG_DLC_Indonesia_Khmer</Criteria>
+			<File>Components/BBG/sql/DLC_Indonesia_Khmer/Base.sql</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="ZYLPVP_BBG_IG_013_bbg_preload_db_xp1_updated">
+			<Properties>
+				<LoadOrder>11606</LoadOrder>
+			</Properties>
+			<Criteria>ZYLPVP_BBG_XP1</Criteria>
+			<File>Components/BBG/sql/XP1/_xp1_utils.sql</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="ZYLPVP_BBG_IG_014_bbg_preload_db_xp2_updated">
+			<Properties>
+				<LoadOrder>11607</LoadOrder>
+			</Properties>
+			<Criteria>ZYLPVP_BBG_XP2</Criteria>
+			<File>Components/BBG/sql/XP2/_xp2_utils.sql</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="ZYLPVP_BBG_IG_015_bbg_preload_db_mayacolombia_updated">
+			<Properties>
+				<LoadOrder>11608</LoadOrder>
+			</Properties>
+			<Criteria>ZYLPVP_BBG_GranColombia_Maya</Criteria>
+			<File>Components/BBG/sql/NFP/_nfp_maya_colombia_utils.sql</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="ZYLPVP_BBG_IG_016_bbg_preload_db_bbs_updated">
+			<Properties>
+				<LoadOrder>11609</LoadOrder>
+			</Properties>
+			<File>Components/BBG/sql/mod_associations/bbs/_bbs_utils.sql</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="ZYLPVP_BBG_IG_017_BBG_Base">
+			<Properties>
+				<LoadOrder>11611</LoadOrder>
+			</Properties>
+			<File>Components/BBG/sql/Base/base.sql</File>
+			<File>Components/BBG/sql/Base/Beliefs.sql</File>
+			<File>Components/BBG/sql/Base/Features.sql</File>
+			<File>Components/BBG/sql/Base/Buildings.sql</File>
+			<File>Components/BBG/sql/Base/CityStates.sql</File>
+			<File>Components/BBG/sql/Base/Districts.sql</File>
+			<File>Components/BBG/sql/Base/Government.sql</File>
+			<File>Components/BBG/sql/Base/GreatPeoples.sql</File>
+			<File>Components/BBG/sql/Base/GreatWorks.sql</File>
+			<File>Components/BBG/sql/Base/Policies.sql</File>
+			<File>Components/BBG/sql/Base/Spy.sql</File>
+			<File>Components/BBG/sql/Base/Units.sql</File>
+			<File>Components/BBG/sql/Base/Wonders.sql</File>
+			<File>Components/BBG/sql/Base/America.sql</File>
+			<File>Components/BBG/sql/Base/Arabia.sql</File>
+			<File>Components/BBG/sql/Base/Brazil.sql</File>
+			<File>Components/BBG/sql/Base/China.sql</File>
+			<File>Components/BBG/sql/Base/Egypt.sql</File>
+			<File>Components/BBG/sql/Base/England.sql</File>
+			<File>Components/BBG/sql/Base/France.sql</File>
+			<File>Components/BBG/sql/Base/Germany.sql</File>
+			<File>Components/BBG/sql/Base/Greece.sql</File>
+			<File>Components/BBG/sql/Base/India.sql</File>
+			<File>Components/BBG/sql/Base/Japan.sql</File>
+			<File>Components/BBG/sql/Base/Kongo.sql</File>
+			<File>Components/BBG/sql/Base/Norway.sql</File>
+			<File>Components/BBG/sql/Base/Rome.sql</File>
+			<File>Components/BBG/sql/Base/Russia.sql</File>
+			<File>Components/BBG/sql/Base/Scythia.sql</File>
+			<File>Components/BBG/sql/Base/Spain.sql</File>
+			<File>Components/BBG/sql/Base/Sumer.sql</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="ZYLPVP_BBG_IG_018_BBG_XP1">
+			<Properties>
+				<LoadOrder>11612</LoadOrder>
+			</Properties>
+			<Criteria>ZYLPVP_BBG_XP1</Criteria>
+			<File>Components/BBG/sql/XP1/xp1__rise_and_fall.sql</File>
+			<File>Components/BBG/sql/XP1/Features.sql</File>
+			<File>Components/BBG/sql/XP1/Buildings.sql</File>
+			<File>Components/BBG/sql/XP1/Dutch.sql</File>
+			<File>Components/BBG/sql/XP1/Cree.sql</File>
+			<File>Components/BBG/sql/XP1/Scotland.sql</File>
+			<File>Components/BBG/sql/XP1/Zulu.sql</File>
+			<File>Components/BBG/sql/XP1/Georgia.sql</File>
+			<File>Components/BBG/sql/XP1/Korea.sql</File>
+			<File>Components/BBG/sql/XP1/Mapuche.sql</File>
+			<File>Components/BBG/sql/XP1/Mongolia.sql</File>
+			<File>Components/BBG/sql/XP1/Netherlands.sql</File>
+			<File>Components/BBG/sql/XP1/Chandragupta.sql</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="ZYLPVP_BBG_IG_019_BBG_XP1_OR_XP2">
+			<Properties>
+				<LoadOrder>11613</LoadOrder>
+			</Properties>
+			<Criteria>ZYLPVP_BBG_XP1_OR_XP2</Criteria>
+			<File>Components/BBG/sql/XP1/Government_XP1_or_XP2.sql</File>
+			<File>Components/BBG/sql/XP1/Policies_XP1_or_XP2.sql</File>
+			<File>Components/BBG/sql/XP1/Buildings_XP1_or_XP2.sql</File>
+			<File>Components/BBG/sql/XP1/Governors_XP1_or_XP2.sql</File>
+			<File>Components/BBG/sql/Base/Sumer_XP1_or_XP2.sql</File>
+			<File>Components/BBG/sql/XP1/Other_XP1_or_XP2.sql</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="ZYLPVP_BBG_IG_020_BBG_XP2">
+			<Properties>
+				<LoadOrder>11614</LoadOrder>
+			</Properties>
+			<Criteria>ZYLPVP_BBG_XP2</Criteria>
+			<File>Components/BBG/sql/XP2/xp2__gathering_storm.sql</File>
+			<File>Components/BBG/sql/XP2/Districts.sql</File>
+			<File>Components/BBG/sql/XP2/Buildings.sql</File>
+			<File>Components/BBG/sql/XP2/Features.sql</File>
+			<File>Components/BBG/sql/XP2/Government.sql</File>
+			<File>Components/BBG/sql/XP2/Governors.sql</File>
+			<File>Components/BBG/sql/XP2/new_bbg_citystates_xp2.sql</File>
+			<File>Components/BBG/sql/XP2/new_bbg_improvement.sql</File>
+			<File>Components/BBG/sql/XP2/new_bbg_xp2_world_congress.sql</File>
+			<File>Components/BBG/sql/XP2/Policies.sql</File>
+			<File>Components/BBG/sql/XP2/Units.sql</File>
+			<File>Components/BBG/sql/XP2/Maori.sql</File>
+			<File>Components/BBG/sql/XP2/Phoenicie.sql</File>
+			<File>Components/BBG/sql/XP2/Canada.sql</File>
+			<File>Components/BBG/sql/XP2/Eleanor.sql</File>
+			<File>Components/BBG/sql/XP2/Sweden.sql</File>
+			<File>Components/BBG/sql/XP2/Mali.sql</File>
+			<File>Components/BBG/sql/XP2/new_bbg_hungary.sql</File>
+			<File>Components/BBG/sql/XP2/new_bbg_ottoman.sql</File>
+			<File>Components/BBG/sql/XP2/new_bbg_inca.sql</File>
+			<!-- -->
+			<File>Components/BBG/sql/Base/Sumer_XP2.sql</File>
+			<File>Components/BBG/sql/Base/America_XP2.sql</File>
+			<File>Components/BBG/sql/Base/Egypt_XP2.sql</File>
+			<File>Components/BBG/sql/Base/France_XP2.sql</File>
+			<File>Components/BBG/sql/Base/Kongo_XP2.sql</File>
+			<File>Components/BBG/sql/Base/Rome_XP2.sql</File>
+			<File>Components/BBG/sql/Base/Scythia_XP2.sql</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="ZYLPVP_BBG_IG_021_BBG_XP1_AND_XP2">
+			<Properties>
+				<LoadOrder>11615</LoadOrder>
+			</Properties>
+			<Criteria>ZYLPVP_BBG_XP1_AND_XP2</Criteria>
+			<File>Components/BBG/sql/XP1/Buildings_XP1_and_XP2.sql</File>
+			<File>Components/BBG/sql/XP1/Cree_XP2.sql</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="ZYLPVP_BBG_IG_022_BBG_Aztec">
+			<Properties>
+				<LoadOrder>11616</LoadOrder>
+			</Properties>
+			<Criteria>ZYLPVP_BBG_DLC_Aztec</Criteria>
+			<File>Components/BBG/sql/DLC_Aztec/Aztec.sql</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="ZYLPVP_BBG_IG_023_BBG_Vikings">
+			<Properties>
+				<LoadOrder>11617</LoadOrder>
+			</Properties>
+			<Criteria>ZYLPVP_BBG_DLC_Vikings</Criteria>
+			<File>Components/BBG/sql/DLC_Vikings/dlc_vikings.sql</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="ZYLPVP_BBG_IG_024_BBG_Poland">
+			<Properties>
+				<LoadOrder>11618</LoadOrder>
+			</Properties>
+			<Criteria>ZYLPVP_BBG_DLC_Poland</Criteria>
+			<File>Components/BBG/sql/DLC_Poland/dlc_poland.sql</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="ZYLPVP_BBG_IG_025_BBG_XP2_Poland">
+			<Properties>
+				<LoadOrder>11619</LoadOrder>
+			</Properties>
+			<Criteria>ZYLPVP_BBG_DLC_Poland</Criteria>
+			<Criteria>ZYLPVP_BBG_XP2</Criteria>
+			<File>Components/BBG/sql/DLC_Poland/xp2_poland.sql</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="ZYLPVP_BBG_IG_026_BBG_Austrlia">
+			<Properties>
+				<LoadOrder>11620</LoadOrder>
+			</Properties>
+			<Criteria>ZYLPVP_BBG_DLC_Australia</Criteria>
+			<File>Components/BBG/sql/DLC_Australia/dlc_australia.sql</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="ZYLPVP_BBG_IG_027_BBG_XP2_Australia">
+			<Properties>
+				<LoadOrder>11621</LoadOrder>
+			</Properties>
+			<Criteria>ZYLPVP_BBG_DLC_Australia</Criteria>
+			<Criteria>ZYLPVP_BBG_XP2</Criteria>
+			<File>Components/BBG/sql/DLC_Australia/xp2_australia.sql</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="ZYLPVP_BBG_IG_028_BBG_Macedon_Persia">
+			<Properties>
+				<LoadOrder>11622</LoadOrder>
+			</Properties>
+			<Criteria>ZYLPVP_BBG_DLC_Macedon_Persia</Criteria>
+			<File>Components/BBG/sql/DLC_Macedon_Persia/Macedon.sql</File>
+			<File>Components/BBG/sql/DLC_Macedon_Persia/Persia.sql</File>
+			<File>Components/BBG/sql/DLC_Macedon_Persia/Wonders.sql</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="ZYLPVP_BBG_IG_029_BBG_XP1_Macedon_Persia">
+			<Properties>
+				<LoadOrder>11623</LoadOrder>
+			</Properties>
+			<Criteria>ZYLPVP_BBG_DLC_Macedon_Persia</Criteria>
+			<Criteria>ZYLPVP_BBG_XP1</Criteria>
+			<File>Components/BBG/sql/DLC_Macedon_Persia/Macedon_XP1.sql</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="ZYLPVP_BBG_IG_030_BBG_XP2_Macedon_Persia">
+			<Properties>
+				<LoadOrder>11624</LoadOrder>
+			</Properties>
+			<Criteria>ZYLPVP_BBG_DLC_Macedon_Persia</Criteria>
+			<Criteria>ZYLPVP_BBG_XP2</Criteria>
+			<File>Components/BBG/sql/DLC_Macedon_Persia/Macedon_XP2.sql</File>
+			<File>Components/BBG/sql/DLC_Macedon_Persia/Persia_XP2.sql</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="ZYLPVP_BBG_IG_031_BBG_Nubia">
+			<Properties>
+				<LoadOrder>11625</LoadOrder>
+			</Properties>
+			<Criteria>ZYLPVP_BBG_DLC_Nubia</Criteria>
+			<File>Components/BBG/sql/DLC_Nubia/dlc_nubia.sql</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="ZYLPVP_BBG_IG_032_BBG_XP2_Nubia">
+			<Properties>
+				<LoadOrder>11626</LoadOrder>
+			</Properties>
+			<Criteria>ZYLPVP_BBG_DLC_Nubia</Criteria>
+			<Criteria>ZYLPVP_BBG_XP2</Criteria>
+			<File>Components/BBG/sql/DLC_Nubia/xp2_nubia.sql</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="ZYLPVP_BBG_IG_033_BBG_NFP_Nubia">
+			<Properties>
+				<LoadOrder>11626</LoadOrder>
+			</Properties>
+			<Criteria>ZYLPVP_BBG_DLC_Nubia</Criteria>
+			<Criteria>ZYLPVP_BBG_Ethiopia</Criteria>
+			<File>Components/BBG/sql/DLC_Nubia/Nubia_nfp.sql</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="ZYLPVP_BBG_IG_034_BBG_Indonesia_Khmer">
+			<Properties>
+				<LoadOrder>11627</LoadOrder>
+			</Properties>
+			<Criteria>ZYLPVP_BBG_DLC_Indonesia_Khmer</Criteria>
+			<File>Components/BBG/sql/DLC_Indonesia_Khmer/Khmer.sql</File>
+			<File>Components/BBG/sql/DLC_Indonesia_Khmer/Indonesia.sql</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="ZYLPVP_BBG_IG_035_BBG_NFP_GranColombia_Maya">
+			<Properties>
+				<LoadOrder>11640</LoadOrder>
+			</Properties>
+			<Criteria>ZYLPVP_BBG_GranColombia_Maya</Criteria>
+			<File>Components/BBG/sql/NFP/dlc_maya_colombia.sql</File>
+			<File>Components/BBG/sql/NFP/GranColombia.sql</File>
+			<File>Components/BBG/sql/NFP/Maya.sql</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="ZYLPVP_BBG_IG_036_BBG_NFP_XP1_GranColombia_Maya">
+			<Properties>
+				<LoadOrder>11641</LoadOrder>
+			</Properties>
+			<Criteria>ZYLPVP_BBG_GranColombia_Maya</Criteria>
+			<Criteria>ZYLPVP_BBG_XP1</Criteria>
+			<File>Components/BBG/sql/NFP/nfp_xp1_maya_colombia.sql</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="ZYLPVP_BBG_IG_037_BBG_NFP_XP2_GranColombia_Maya">
+			<Properties>
+				<LoadOrder>11642</LoadOrder>
+			</Properties>
+			<Criteria>ZYLPVP_BBG_GranColombia_Maya</Criteria>
+			<Criteria>ZYLPVP_BBG_XP2</Criteria>
+			<File>Components/BBG/sql/NFP/new_bbg_disasters.sql</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="ZYLPVP_BBG_IG_038_BBG_Ethiopia">
+			<Properties>
+				<LoadOrder>11643</LoadOrder>
+			</Properties>
+			<Criteria>ZYLPVP_BBG_Ethiopia</Criteria>
+			<File>Components/BBG/sql/NFP/nfp_ethiopia.sql</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="ZYLPVP_BBG_IG_039_BBG_TeddyPersona">
+			<Properties>
+				<LoadOrder>11645</LoadOrder>
+			</Properties>
+			<Criteria>ZYLPVP_BBG_TeddyPersona</Criteria>
+			<File>Components/BBG/sql/NFP/Teddy_Persona.sql</File>
+			<!-- Must split files for teddy persona -->
+		</UpdateDatabase>
+		<UpdateDatabase id="ZYLPVP_BBG_IG_040_BBG_CatherinePersona">
+			<Properties>
+				<LoadOrder>11646</LoadOrder>
+			</Properties>
+			<Criteria>ZYLPVP_BBG_CatherinePersona</Criteria>
+			<File>Components/BBG/sql/NFP/Catherine_Persona.sql</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="ZYLPVP_BBG_IG_041_BBG_Byzantium_Gaul">
+			<Properties>
+				<LoadOrder>11647</LoadOrder>
+			</Properties>
+			<Criteria>ZYLPVP_BBG_Byzantium_Gaul</Criteria>
+			<File>Components/BBG/sql/NFP/nfp_byzantium_gaul.sql</File>
+			<File>Components/BBG/sql/NFP/Gaul.sql</File>
+			<File>Components/BBG/sql/NFP/Byzantium.sql</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="ZYLPVP_BBG_IG_042_BBG_Babylon">
+			<Properties>
+				<LoadOrder>11648</LoadOrder>
+			</Properties>
+			<Criteria>ZYLPVP_BBG_Babylon</Criteria>
+			<File>Components/BBG/sql/NFP/new_bbg_nfp_babylon.sql</File>
+			<File>Components/BBG/sql/NFP/Babylon.sql</File>
+			<File>Components/BBG/sql/NFP/GreatPeoples.sql</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="ZYLPVP_BBG_IG_043_BBG_Babylon_XP2">
+			<Properties>
+				<LoadOrder>11649</LoadOrder>
+			</Properties>
+			<Criteria>ZYLPVP_BBG_Babylon</Criteria>
+			<Criteria>ZYLPVP_BBG_XP2</Criteria>
+			<File>Components/BBG/sql/NFP/mali_dlc_babylon.sql</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="ZYLPVP_BBG_IG_044_BBG_KublaiKhan_Vietnam">
+			<Properties>
+				<LoadOrder>11650</LoadOrder>
+			</Properties>
+			<Criteria>ZYLPVP_BBG_KublaiKhan_Vietnam</Criteria>
+			<File>Components/BBG/sql/NFP/Vietnam.sql</File>
+			<File>Components/BBG/sql/NFP/new_bbg_kublai.sql</File>
+			<File>Components/BBG/sql/NFP/new_bbg_buildings_preserve.sql</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="ZYLPVP_BBG_IG_045_BBG_Portugal">
+			<Properties>
+				<LoadOrder>11651</LoadOrder>
+			</Properties>
+			<Criteria>ZYLPVP_BBG_Portugal</Criteria>
+			<File>Components/BBG/sql/NFP/new_bbg_nfp_portugal.sql</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="ZYLPVP_BBG_IG_046_BBG_Caesar">
+			<Properties>
+				<LoadOrder>11652</LoadOrder>
+			</Properties>
+			<Criteria>ZYLPVP_BBG_Caesar</Criteria>
+			<File>Components/BBG/sql/LP/lp_rome_caesar.sql</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="ZYLPVP_BBG_IG_047_BBG_Negotiators">
+			<Properties>
+				<LoadOrder>11653</LoadOrder>
+			</Properties>
+			<Criteria>ZYLPVP_BBG_Negotiators</Criteria>
+			<File>Components/BBG/sql/LP/lp_america_lincoln.sql</File>
+			<File>Components/BBG/sql/LP/lp_kongo_mbande.sql</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="ZYLPVP_BBG_IG_048_BBG_Negotiators_XP2">
+			<Properties>
+				<LoadOrder>11654</LoadOrder>
+			</Properties>
+			<Criteria>ZYLPVP_BBG_Negotiators</Criteria>
+			<Criteria>ZYLPVP_BBG_XP2</Criteria>
+			<File>Components/BBG/sql/LP/Sultan.sql</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="ZYLPVP_BBG_IG_049_BBG_Warlords">
+			<Properties>
+				<LoadOrder>11655</LoadOrder>
+			</Properties>
+			<Criteria>ZYLPVP_BBG_Warlords</Criteria>
+			<File>Components/BBG/sql/LP/Tokugawa.sql</File>
+			<File>Components/BBG/sql/LP/lp_ottoman_suleiman_magnificent.sql</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="ZYLPVP_BBG_IG_050_BBG_Warlords_Persia">
+			<Properties>
+				<LoadOrder>11655</LoadOrder>
+			</Properties>
+			<Criteria>ZYLPVP_BBG_Warlords</Criteria>
+			<Criteria>ZYLPVP_BBG_DLC_Macedon_Persia</Criteria>
+			<File>Components/BBG/sql/LP/NaderShah.sql</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="ZYLPVP_BBG_IG_051_BBG_RulesChina">
+			<Properties>
+				<LoadOrder>11656</LoadOrder>
+			</Properties>
+			<Criteria>ZYLPVP_BBG_RulersChina</Criteria>
+			<File>Components/BBG/sql/LP/QinUnifier.sql</File>
+			<File>Components/BBG/sql/LP/Yongle.sql</File>
+			<File>Components/BBG/sql/LP/WuZetian.sql</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="ZYLPVP_BBG_IG_052_BBG_RulesChina_XP1">
+			<Properties>
+				<LoadOrder>11657</LoadOrder>
+			</Properties>
+			<Criteria>ZYLPVP_BBG_RulersChina</Criteria>
+			<Criteria>ZYLPVP_BBG_XP1</Criteria>
+			<File>Components/BBG/sql/LP/lp_qin_unifier_xp1.sql</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="ZYLPVP_BBG_IG_053_BBG_RulesChina_NFPEthiopia">
+			<Properties>
+				<LoadOrder>11658</LoadOrder>
+			</Properties>
+			<Criteria>ZYLPVP_BBG_RulersChina</Criteria>
+			<Criteria>ZYLPVP_BBG_Ethiopia</Criteria>
+			<File>Components/BBG/sql/LP/WuZetian_nfp.sql</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="ZYLPVP_BBG_IG_054_BBG_RulesChina_XP2">
+			<Properties>
+				<LoadOrder>11659</LoadOrder>
+			</Properties>
+			<Criteria>ZYLPVP_BBG_RulersChina</Criteria>
+			<Criteria>ZYLPVP_BBG_XP2</Criteria>
+			<File>Components/BBG/sql/LP/lp_qin_unifier_xp2.sql</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="ZYLPVP_BBG_IG_055_BBG_Builders">
+			<Properties>
+				<LoadOrder>11660</LoadOrder>
+			</Properties>
+			<Criteria>ZYLPVP_BBG_Builders</Criteria>
+			<File>Components/BBG/sql/LP/lp_ludwig.sql</File>
+			<File>Components/BBG/sql/LP/Sejong.sql</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="ZYLPVP_BBG_IG_056_BBG_Builders_Byzantium">
+			<Properties>
+				<LoadOrder>11661</LoadOrder>
+			</Properties>
+			<Criteria>ZYLPVP_BBG_Builders</Criteria>
+			<Criteria>ZYLPVP_BBG_Byzantium_Gaul</Criteria>
+			<File>Components/BBG/sql/LP/Theodora.sql</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="ZYLPVP_BBG_IG_057_BBG_RulersSahara">
+			<Properties>
+				<LoadOrder>11662</LoadOrder>
+			</Properties>
+			<Criteria>ZYLPVP_BBG_RulersSahara</Criteria>
+			<File>Components/BBG/sql/LP/Ptolemaic.sql</File>
+			<File>Components/BBG/sql/LP/Ramses.sql</File>
+			<File>Components/BBG/sql/LP/Sundiata.sql</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="ZYLPVP_BBG_IG_058_BBG_RulersEngland">
+			<Properties>
+				<LoadOrder>11663</LoadOrder>
+			</Properties>
+			<Criteria>ZYLPVP_BBG_RulersEngland</Criteria>
+			<File>Components/BBG/sql/LP/VictoriaSteam.sql</File>
+			<File>Components/BBG/sql/LP/Elizabeth.sql</File>
+			<File>Components/BBG/sql/LP/Varangian.sql</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="ZYLPVP_BBG_IG_059_BBG_Expanded_MOAR_Units_WIP">
+			<Properties>
+				<LoadOrder>4</LoadOrder>
+			</Properties>
+			<Criteria>ZYLPVP_BBG_BBGExpanded_WIP</Criteria>
+			<Criteria>ZYLPVP_BBG_XP1_AND_XP2</Criteria>
+			<Criteria>ZYLPVP_BBG_DLC_Aztec</Criteria>
+			<Criteria>ZYLPVP_BBG_DLC_Macedon_Persia</Criteria>
+			<Criteria>ZYLPVP_BBG_Byzantium_Gaul</Criteria>
+			<Criteria>ZYLPVP_BBG_GranColombia_Maya</Criteria>
+			<File>Components/BBG/sql/BBG_Expanded/MOARUnits_enabled.sql</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="ZYLPVP_BBG_IG_060_BBG_Expanded_MOAR_Units_WIP">
+			<Properties>
+				<LoadOrder>4</LoadOrder>
+			</Properties>
+			<Criteria>ZYLPVP_BBG_BBGExpanded_WIP_Published</Criteria>
+			<Criteria>ZYLPVP_BBG_XP1_AND_XP2</Criteria>
+			<Criteria>ZYLPVP_BBG_DLC_Aztec</Criteria>
+			<Criteria>ZYLPVP_BBG_DLC_Macedon_Persia</Criteria>
+			<Criteria>ZYLPVP_BBG_Byzantium_Gaul</Criteria>
+			<Criteria>ZYLPVP_BBG_GranColombia_Maya</Criteria>
+			<File>Components/BBG/sql/BBG_Expanded/MOARUnits_enabled.sql</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="ZYLPVP_BBG_IG_061_BBG_Expanded_MOAR_Units_Release">
+			<Properties>
+				<LoadOrder>4</LoadOrder>
+			</Properties>
+			<Criteria>ZYLPVP_BBG_BBGExpanded_Release</Criteria>
+			<Criteria>ZYLPVP_BBG_XP1_AND_XP2</Criteria>
+			<Criteria>ZYLPVP_BBG_DLC_Aztec</Criteria>
+			<Criteria>ZYLPVP_BBG_DLC_Macedon_Persia</Criteria>
+			<Criteria>ZYLPVP_BBG_Byzantium_Gaul</Criteria>
+			<Criteria>ZYLPVP_BBG_GranColombia_Maya</Criteria>
+			<File>Components/BBG/sql/BBG_Expanded/MOARUnits_enabled.sql</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="ZYLPVP_BBG_IG_062_BBG_Expanded_WIP">
+			<Properties>
+				<LoadOrder>100000000</LoadOrder>
+			</Properties>
+			<Criteria>ZYLPVP_BBG_BBGExpanded_WIP</Criteria>
+			<Criteria>ZYLPVP_BBG_XP1_AND_XP2</Criteria>
+			<Criteria>ZYLPVP_BBG_DLC_Aztec</Criteria>
+			<Criteria>ZYLPVP_BBG_DLC_Macedon_Persia</Criteria>
+			<Criteria>ZYLPVP_BBG_Byzantium_Gaul</Criteria>
+			<Criteria>ZYLPVP_BBG_GranColombia_Maya</Criteria>
+			<File>Components/BBG/sql/BBG_Expanded/Vercingetorix.sql</File>
+			<File>Components/BBG/sql/BBG_Expanded/Olympia.sql</File>
+			<File>Components/BBG/sql/BBG_Expanded/Thule.sql</File>
+			<File>Components/BBG/sql/BBG_Expanded/Te_Kinich.sql</File>
+			<File>Components/BBG/sql/BBG_Expanded/Trisong.sql</File>
+			<File>Components/BBG/sql/BBG_Expanded/Ahiram.sql</File>
+			<File>Components/BBG/sql/BBG_Expanded/Al_Hasan.sql</File>
+			<File>Components/BBG/sql/BBG_Expanded/Spearthrower.sql</File>
+			<File>Components/BBG/sql/BBG_Expanded/Resources.sql</File>
+			<File>Components/BBG/sql/BBG_Expanded/Barbarossa_UU.sql</File>
+			<File>Components/BBG/sql/BBG_Expanded/Caesar_UU.sql</File>
+			<File>Components/BBG/sql/BBG_Expanded/Disable_new.sql</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="ZYLPVP_BBG_IG_063_BBG_Expanded_WIP_Published">
+			<Properties>
+				<LoadOrder>100000000</LoadOrder>
+			</Properties>
+			<Criteria>ZYLPVP_BBG_BBGExpanded_WIP_Published</Criteria>
+			<Criteria>ZYLPVP_BBG_XP1_AND_XP2</Criteria>
+			<Criteria>ZYLPVP_BBG_DLC_Aztec</Criteria>
+			<Criteria>ZYLPVP_BBG_DLC_Macedon_Persia</Criteria>
+			<Criteria>ZYLPVP_BBG_Byzantium_Gaul</Criteria>
+			<Criteria>ZYLPVP_BBG_GranColombia_Maya</Criteria>
+			<File>Components/BBG/sql/BBG_Expanded/Vercingetorix.sql</File>
+			<File>Components/BBG/sql/BBG_Expanded/Olympia.sql</File>
+			<File>Components/BBG/sql/BBG_Expanded/Thule.sql</File>
+			<File>Components/BBG/sql/BBG_Expanded/Te_Kinich.sql</File>
+			<File>Components/BBG/sql/BBG_Expanded/Trisong.sql</File>
+			<File>Components/BBG/sql/BBG_Expanded/Ahiram.sql</File>
+			<File>Components/BBG/sql/BBG_Expanded/Al_Hasan.sql</File>
+			<File>Components/BBG/sql/BBG_Expanded/Spearthrower.sql</File>
+			<File>Components/BBG/sql/BBG_Expanded/Resources.sql</File>
+			<File>Components/BBG/sql/BBG_Expanded/Barbarossa_UU.sql</File>
+			<File>Components/BBG/sql/BBG_Expanded/Caesar_UU.sql</File>
+			<File>Components/BBG/sql/BBG_Expanded/Disable_new.sql</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="ZYLPVP_BBG_IG_064_BBG_Expanded_Release">
+			<Properties>
+				<LoadOrder>100000000</LoadOrder>
+			</Properties>
+			<Criteria>ZYLPVP_BBG_BBGExpanded_Release</Criteria>
+			<Criteria>ZYLPVP_BBG_XP1_AND_XP2</Criteria>
+			<Criteria>ZYLPVP_BBG_DLC_Aztec</Criteria>
+			<Criteria>ZYLPVP_BBG_DLC_Macedon_Persia</Criteria>
+			<Criteria>ZYLPVP_BBG_Byzantium_Gaul</Criteria>
+			<Criteria>ZYLPVP_BBG_GranColombia_Maya</Criteria>
+			<File>Components/BBG/sql/BBG_Expanded/Vercingetorix.sql</File>
+			<File>Components/BBG/sql/BBG_Expanded/Olympia.sql</File>
+			<File>Components/BBG/sql/BBG_Expanded/Thule.sql</File>
+			<File>Components/BBG/sql/BBG_Expanded/Te_Kinich.sql</File>
+			<File>Components/BBG/sql/BBG_Expanded/Trisong.sql</File>
+			<File>Components/BBG/sql/BBG_Expanded/Ahiram.sql</File>
+			<File>Components/BBG/sql/BBG_Expanded/Al_Hasan.sql</File>
+			<File>Components/BBG/sql/BBG_Expanded/Spearthrower.sql</File>
+			<File>Components/BBG/sql/BBG_Expanded/Resources.sql</File>
+			<File>Components/BBG/sql/BBG_Expanded/Barbarossa_UU.sql</File>
+			<File>Components/BBG/sql/BBG_Expanded/Caesar_UU.sql</File>
+			<File>Components/BBG/sql/BBG_Expanded/Disable_new.sql</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="ZYLPVP_BBG_IG_065_BBG_XP2_SecretSocieties">
+			<Properties>
+				<LoadOrder>11670</LoadOrder>
+			</Properties>
+			<Criteria>ZYLPVP_BBG_Ethiopia</Criteria>
+			<!-- Not fan of this criteria -->
+			<Criteria>ZYLPVP_BBG_XP2</Criteria>
+			<File>Components/BBG/sql/Secret_Societies.sql</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="ZYLPVP_BBG_IG_066_bbcc_configvalues_db">
+			<Properties>
+				<LoadOrder>11661</LoadOrder>
+			</Properties>
+			<Criteria>ZYLPVP_BBG_core_bbcc</Criteria>
+			<File>Components/BBG/sql/bbcc/bbcc_configvalues.sql</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="ZYLPVP_BBG_IG_067_core_bbcc_db">
+			<Properties>
+				<LoadOrder>11662</LoadOrder>
+			</Properties>
+			<Criteria>ZYLPVP_BBG_core_bbcc</Criteria>
+			<File>Components/BBG/sql/bbcc/core_bbcc.sql</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="ZYLPVP_BBG_IG_068_no_rng_bbcc_db">
+			<Properties>
+				<LoadOrder>11663</LoadOrder>
+			</Properties>
+			<Criteria>ZYLPVP_BBG_core_bbcc</Criteria>
+			<Criteria>ZYLPVP_BBG_no_rng_bbcc</Criteria>
+			<File>Components/BBG/sql/bbcc/no_rng_bbcc.sql</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="ZYLPVP_BBG_IG_069_cap_bbcc_db">
+			<Properties>
+				<LoadOrder>11670</LoadOrder>
+			</Properties>
+			<Criteria>ZYLPVP_BBG_core_bbcc</Criteria>
+			<Criteria>ZYLPVP_BBG_bbcc_cap</Criteria>
+			<File>Components/BBG/sql/bbcc/cap_only_bbcc.sql</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="ZYLPVP_BBG_IG_070_VictoryCulturalSetting_2">
+			<Properties>
+				<LoadOrder>20000</LoadOrder>
+			</Properties>
+			<Criteria>ZYLPVP_BBG_CVSetting_2</Criteria>
+			<File>Components/BBG/sql/victories/new_bbg_cv.sql</File>
+			<File>Components/BBG/sql/victories/new_bbg_cv_2.sql</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="ZYLPVP_BBG_IG_071_VictoryCulturalSetting_1">
+			<Properties>
+				<LoadOrder>20000</LoadOrder>
+			</Properties>
+			<Criteria>ZYLPVP_BBG_CVSetting_1</Criteria>
+			<File>Components/BBG/sql/victories/new_bbg_cv.sql</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="ZYLPVP_BBG_IG_072_VictoryScienceSetting_2">
+			<Properties>
+				<LoadOrder>20000</LoadOrder>
+			</Properties>
+			<Criteria>ZYLPVP_BBG_SVSetting_2</Criteria>
+			<Criteria>ZYLPVP_BBG_XP2</Criteria>
+			<File>Components/BBG/sql/victories/new_bbg_sv_2.sql</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="ZYLPVP_BBG_IG_073_VictoryScienceSetting_1">
+			<Properties>
+				<LoadOrder>20000</LoadOrder>
+			</Properties>
+			<Criteria>ZYLPVP_BBG_SVSetting_1</Criteria>
+			<Criteria>ZYLPVP_BBG_XP2</Criteria>
+			<File>Components/BBG/sql/victories/new_bbg_sv_1.sql</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="ZYLPVP_BBG_IG_074_VictoryDiploSetting_2">
+			<Properties>
+				<LoadOrder>20000</LoadOrder>
+			</Properties>
+			<Criteria>ZYLPVP_BBG_DVSetting_2</Criteria>
+			<Criteria>ZYLPVP_BBG_XP2</Criteria>
+			<File>Components/BBG/sql/victories/new_bbg_dv_2.sql</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="ZYLPVP_BBG_IG_075_VictoryDiploSetting_1">
+			<Properties>
+				<LoadOrder>20000</LoadOrder>
+			</Properties>
+			<Criteria>ZYLPVP_BBG_DVSetting_1</Criteria>
+			<Criteria>ZYLPVP_BBG_XP2</Criteria>
+			<File>Components/BBG/sql/victories/new_bbg_dv_1.sql</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="ZYLPVP_BBG_IG_076_VictoryReligiousSetting_2">
+			<Properties>
+				<LoadOrder>20000</LoadOrder>
+			</Properties>
+			<Criteria>ZYLPVP_BBG_RVSetting_2</Criteria>
+			<File>Components/BBG/sql/victories/new_bbg_rv_2.sql</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="ZYLPVP_BBG_IG_077_VictoryReligiousSetting_1">
+			<Properties>
+				<LoadOrder>20000</LoadOrder>
+			</Properties>
+			<Criteria>ZYLPVP_BBG_RVSetting_1</Criteria>
+			<File>Components/BBG/sql/victories/new_bbg_rv_1.sql</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="ZYLPVP_BBG_IG_078_VictoryTerritorialSetting_1">
+			<Properties>
+				<LoadOrder>20000</LoadOrder>
+			</Properties>
+			<Criteria>ZYLPVP_BBG_TerritorialSetting_1</Criteria>
+			<File>Components/BBG/sql/victories/new_bbg_new_domination.sql</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="ZYLPVP_BBG_IG_079_GlobalVictorySetting_1">
+			<Properties>
+				<LoadOrder>20000</LoadOrder>
+			</Properties>
+			<Criteria>ZYLPVP_BBG_GlobalSetting_1</Criteria>
+			<File>Components/BBG/sql/victories/new_bbg_rv_1.sql</File>
+			<File>Components/BBG/sql/victories/new_bbg_dv_1.sql</File>
+			<File>Components/BBG/sql/victories/new_bbg_sv_1.sql</File>
+			<File>Components/BBG/sql/victories/new_bbg_cv.sql</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="ZYLPVP_BBG_IG_080_GlobalVictorySetting_2">
+			<Properties>
+				<LoadOrder>20000</LoadOrder>
+			</Properties>
+			<Criteria>ZYLPVP_BBG_GlobalSetting_2</Criteria>
+			<File>Components/BBG/sql/victories/new_bbg_rv_2.sql</File>
+			<File>Components/BBG/sql/victories/new_bbg_dv_2.sql</File>
+			<File>Components/BBG/sql/victories/new_bbg_sv_2.sql</File>
+			<File>Components/BBG/sql/victories/new_bbg_cv.sql</File>
+			<File>Components/BBG/sql/victories/new_bbg_cv_2.sql</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="ZYLPVP_BBG_IG_081_GlobalVictorySetting_BBG_Legacy">
+			<Properties>
+				<LoadOrder>20000</LoadOrder>
+			</Properties>
+			<Criteria>ZYLPVP_BBG_GlobalSetting_BBG_Legacy</Criteria>
+			<File>Components/BBG/sql/victories/new_bbg_dv_2.sql</File>
+			<File>Components/BBG/sql/victories/new_bbg_cv.sql</File>
+			<File>Components/BBG/sql/victories/new_bbg_cv_2.sql</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="ZYLPVP_BBG_IG_082_Settlers">
+			<Properties>
+				<LoadOrder>20000</LoadOrder>
+			</Properties>
+			<Criteria>ZYLPVP_BBG_Settlers_Sent_Back</Criteria>
+			<File>Components/BBG/sql/Settlers/Settlers.sql</File>
+		</UpdateDatabase>
+		<UpdateIcons id="ZYLPVP_BBG_IG_083_bbg_Icons">
+			<File>Components/BBG/data/new_bbg_icons.xml</File>
+		</UpdateIcons>
+		<ReplaceUIScript id="ZYLPVP_BBG_IG_084_bbg_worldranking">
+			<Properties>
+				<LoadOrder>19998</LoadOrder>
+				<LuaContext>WorldRankings</LuaContext>
+				<LuaReplace>Components/BBG/ui/replacements/worldrankings_bbg.lua</LuaReplace>
+			</Properties>
+		</ReplaceUIScript>
+		<ReplaceUIScript id="ZYLPVP_BBG_IG_085_BBG_UnitPanel_XP2">
+			<Criteria>ZYLPVP_BBG_XP2</Criteria>
+			<Properties>
+				<LoadOrder>19999</LoadOrder>
+				<LuaContext>UnitPanel</LuaContext>
+				<LuaReplace>Components/BBG/ui/replacements/unitpanel_bbg.lua</LuaReplace>
+			</Properties>
+		</ReplaceUIScript>
+		<ImportFiles id="ZYLPVP_BBG_IG_086_bbg_files">
+			<File>Components/BBG/ui/replacements/endgamemenu_bbg.lua</File>
+		</ImportFiles>
+		<ImportFiles id="ZYLPVP_BBG_IG_087_bbg_tradesupport">
+			<Properties>
+				<LoadOrder>300</LoadOrder>
+			</Properties>
+			<Criteria>ZYLPVP_BBG_NoConflictingUIMod</Criteria>
+			<File>Components/BBG/ui/replacements/tradesupport.lua</File>
+		</ImportFiles>
+		<ImportFiles id="ZYLPVP_BBG_IG_088_bbg_basetradeui">
+			<Properties>
+				<LoadOrder>301</LoadOrder>
+			</Properties>
+			<Criteria>ZYLPVP_BBG_NoConflictingUIMod</Criteria>
+			<File>Components/BBG/ui/replacements/compatibility/traderoutechooser.lua</File>
+			<File>Components/BBG/ui/replacements/compatibility/tradeoverview.lua</File>
+		</ImportFiles>
+		<ReplaceUIScript id="ZYLPVP_BBG_IG_089_base_tradeoverview">
+			<Properties>
+				<LoadOrder>302</LoadOrder>
+				<LuaContext>TradeOverview</LuaContext>
+				<LuaReplace>Components/BBG/ui/replacements/compatibility/tradeoverview.lua</LuaReplace>
+			</Properties>
+			<Criteria>ZYLPVP_BBG_NoConflictingUIMod</Criteria>
+		</ReplaceUIScript>
+		<ImportFiles id="ZYLPVP_BBG_IG_090_bbg_tradeoverview_import">
+			<Properties>
+				<LoadOrder>303</LoadOrder>
+			</Properties>
+			<Criteria>ZYLPVP_BBG_NoConflictingUIMod</Criteria>
+			<File>Components/BBG/ui/replacements/tradeoverview_bbg.lua</File>
+		</ImportFiles>
+		<ReplaceUIScript id="ZYLPVP_BBG_IG_091_bbg_tradeoverview">
+			<Properties>
+				<LoadOrder>304</LoadOrder>
+				<LuaContext>TradeOverview</LuaContext>
+				<LuaReplace>Components/BBG/ui/replacements/tradeoverview_bbg.lua</LuaReplace>
+			</Properties>
+			<Criteria>ZYLPVP_BBG_NoConflictingUIMod</Criteria>
+		</ReplaceUIScript>
+		<AddGameplayScripts id="ZYLPVP_BBG_IG_092_Lua">
+			<Criteria>ZYLPVP_BBG_BBGExpanded</Criteria>
+			<Criteria>ZYLPVP_BBG_XP1_AND_XP2</Criteria>
+			<Criteria>ZYLPVP_BBG_DLC_Aztec</Criteria>
+			<Criteria>ZYLPVP_BBG_DLC_Macedon_Persia</Criteria>
+			<Criteria>ZYLPVP_BBG_Byzantium_Gaul</Criteria>
+			<Criteria>ZYLPVP_BBG_GranColombia_Maya</Criteria>
+			<File>Components/BBG/lua/BBG_Expanded/Thule.lua</File>
+			<File>Components/BBG/lua/BBG_Expanded/Te_Kinich.lua</File>
+			<File>Components/BBG/lua/BBG_Expanded/Al_Hasan.lua</File>
+			<File>Components/BBG/lua/BBG_Expanded/Olympia.lua</File>
+		</AddGameplayScripts>
+		<UpdateIcons id="ZYLPVP_BBM_IG_001_BBS_ICONS">
+			<File>Components/BBM/sql/bbs_icons_wonders.sql</File>
+		</UpdateIcons>
+		<UpdateArt id="ZYLPVP_BBM_IG_002_ArtDep">
+			<Properties>
+				<LoadOrder>10</LoadOrder>
+			</Properties>
+			<File>NaturalWondersMod.dep</File>
+		</UpdateArt>
+		<ImportFiles id="ZYLPVP_BBM_IG_003_Map_BBS">
+			<Properties>
+				<LoadOrder>1000</LoadOrder>
+			</Properties>
+			<File>Components/BBM/Data/BBS Maps/continents.lua</File>
+			<File>Components/BBM/Data/BBS Maps/continents_islands.lua</File>
+			<File>Components/BBM/Data/BBS Maps/fractal.lua</File>
+			<File>Components/BBM/Data/BBS Maps/inlandsea.lua</File>
+			<File>Components/BBM/Data/BBS Maps/island_plates.lua</File>
+			<File>Components/BBM/Data/BBS Maps/lakes.lua</File>
+			<File>Components/BBM/Data/BBS Maps/pangaea.lua</File>
+			<File>Components/BBM/Data/BBS Maps/pangaea_ultima.lua</File>
+			<File>Components/BBM/Data/BBS Maps/primordial.lua</File>
+			<File>Components/BBM/Data/BBS Maps/seven_seas.lua</File>
+			<File>Components/BBM/Data/BBS Maps/shuffle.lua</File>
+			<File>Components/BBM/Data/BBS Maps/splintered_fractal.lua</File>
+			<File>Components/BBM/Data/BBS Maps/small_continents.lua</File>
+			<File>Components/BBM/Data/BBS Maps/terra.lua</File>
+			<File>Components/BBM/Data/BBS Maps/tilted_axis.lua</File>
+			<File>Components/BBM/Data/BBS Maps/archipelago_xp2.lua</File>
+			<File>Components/BBM/Data/BBS Maps/highlands_xp2.lua</File>
+			<File>Components/BBM/Data/BBS Maps/rich_highlands_xp2.lua</File>
+			<File>Components/BBM/Data/BBS Maps/rich_riverlands.lua</File>
+			<File>Components/BBM/Data/BBS Maps/wetlands_xp2.lua</File>
+			<File>Components/BBM/Data/BBS Maps/perfectworld6.lua</File>
+			<File>Components/BBM/Data/BBS Maps/Utility/BBS_NaturalWonderGenerator.lua</File>
+			<File>Components/BBM/Data/BBS Maps/Utility/BBS_MountainsCliffs.lua</File>
+			<File>Components/BBM/Data/BBS Maps/Utility/BBM_AssignStartingPlots.lua</File>
+			<File>Components/BBM/Data/BBS Maps/Utility/DW_CoastalLowlands.lua</File>
+			<File>Components/BBM/Data/BBS Maps/Utility/BBM_FeatureGenerator.lua</File>
+			<File>Components/BBM/Data/BBS Maps/Utility/DW_MapUtilities.lua</File>
+			<File>Components/BBM/Data/BBS Maps/Utility/DW_MountainsCliffs.lua</File>
+			<File>Components/BBM/Data/BBS Maps/Utility/DW_RiversLakes.lua</File>
+			<File>Components/BBM/Data/BBS Maps/Utility/DW_TerrainGenerator.lua</File>
+			<File>Components/BBM/Data/BBS Maps/Utility/BBS_TerrainGenerator.lua</File>
+			<File>Components/BBM/Data/BBS Maps/Utility/BBS_ResourceGenerator.lua</File>
+			<File>Components/BBM/Data/BBS Maps/Utility/BBM_MapUtils.lua</File>
+			<File>Components/BBM/Data/BBS Maps/Utility/BBM_SpawnBalancing.lua</File>
+			<File>Components/BBM/Data/BBS Maps/Utility/BBM_CivilizationAssign.lua</File>
+		</ImportFiles>
+		<UpdateDatabase id="ZYLMRM_ConfigureMap" criteria="ZYLMRM_Map">
+			<Properties>
+				<LoadOrder>50000</LoadOrder>
+			</Properties>
+			<File>Components/BBM/Data/BBS Maps/ZYLMRM/ConfigureMap.sql</File>
+		</UpdateDatabase>
+		<ImportFiles id="ZYLMRM_MapFiles" criteria="ZYLMRM_Map">
+			<Properties>
+				<LoadOrder>50010</LoadOrder>
+			</Properties>
+			<File>Components/BBM/Data/BBS Maps/zyl_mountainous_rich_mainland.lua</File>
+			<File>Components/BBM/Data/BBS Maps/Utility/ZYL_RVC_AssignStartingPlots.lua</File>
+			<File>Components/BBM/Data/BBS Maps/Utility/ZYL_RVC_Balance.lua</File>
+			<File>Components/BBM/Data/BBS Maps/Utility/ZYL_RVC_BBS_TerrainGenerator.lua</File>
+			<File>Components/BBM/Data/BBS Maps/Utility/ZYL_RVC_CoastalLowlands.lua</File>
+			<File>Components/BBM/Data/BBS Maps/Utility/ZYL_RVC_DW_TerrainGenerator.lua</File>
+			<File>Components/BBM/Data/BBS Maps/Utility/ZYL_RVC_FeatureGenerator.lua</File>
+			<File>Components/BBM/Data/BBS Maps/Utility/ZYL_RVC_MapUtilities.lua</File>
+			<File>Components/BBM/Data/BBS Maps/Utility/ZYL_RVC_MountainsCliffs.lua</File>
+			<File>Components/BBM/Data/BBS Maps/Utility/ZYL_RVC_ResourceGenerator.lua</File>
+			<File>Components/BBM/Data/BBS Maps/Utility/ZYL_RVC_RiversLakes.lua</File>
+		</ImportFiles>
+		<UpdateDatabase id="ZYLPVP_BBM_IG_004_BBS_Global_Parameters">
+			<Properties>
+				<LoadOrder>1001</LoadOrder>
+			</Properties>
+			<File>Components/BBM/Configuration/Config.sql</File>
+			<File>Components/BBM/Gameplay/GamePlay.xml</File>
+			<File>Components/BBM/Gameplay/GamePlayXP2.xml</File>
+		</UpdateDatabase>
+		<UpdateText id="ZYLPVP_BBM_IG_005_BBS_Gameplay_test">
+			<File>Components/BBM/Lang/english.xml</File>
+			<File>Components/BBM/Lang/french.xml</File>
+			<File>Components/BBM/Lang/russian.xml</File>
+			<File>Components/BBM/Lang/chinese.xml</File>
+			<File>Components/BBM/Lang/german.xml</File>
+			<File>Components/BBM/Lang/japanese.xml</File>
+			<File>Components/BBM/Lang/korean.xml</File>
+			<File>Components/BBM/Lang/portuguese.xml</File>
+		</UpdateText>
+		<UpdateDatabase id="ZYLPVP_BBM_IG_006_BBS_Minor_Bias_Parameters">
+			<Properties>
+				<LoadOrder>1001</LoadOrder>
+			</Properties>
+			<File>Components/BBM/Configuration/Config_minor_bias.sql</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="ZYLPVP_BBM_IG_007_BBS_Minor_Bias_Parameters" criteria="ZYLPVP_BBM_DLC: Vikings Content">
+			<Properties>
+				<LoadOrder>1001</LoadOrder>
+			</Properties>
+			<File>Components/BBM/Configuration/Config_minor_bias_DLC_viking.sql</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="ZYLPVP_BBM_IG_008_BBS_Negative_StartBias">
+			<Properties>
+				<LoadOrder>2000</LoadOrder>
+			</Properties>
+			<File>Components/BBM/sql/bbs_bias_master.sql</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="ZYLPVP_BBM_IG_009_BBS_New_Natural_Wonders">
+			<Properties>
+				<LoadOrder>20000</LoadOrder>
+			</Properties>
+			<File>Components/BBM/sql/bbs_new_wonders.sql</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="ZYLPVP_BBM_IG_010_BBS_New_Natural_Wonders_Xp1">
+			<Properties>
+				<LoadOrder>20000</LoadOrder>
+			</Properties>
+			<Criteria>ZYLPVP_BBM_xp1</Criteria>
+			<File>Components/BBM/sql/bbs_new_wonders_xp1.sql</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="ZYLPVP_BBM_IG_011_BBS_New_Natural_Wonders_Xp2">
+			<Properties>
+				<LoadOrder>20000</LoadOrder>
+			</Properties>
+			<Criteria>ZYLPVP_BBM_xp2</Criteria>
+			<File>Components/BBM/sql/bbs_new_wonders_xp2.sql</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="ZYLPVP_BBM_IG_012_BBS_New_Natural_Wonders_Xp1_Xp2">
+			<Properties>
+				<LoadOrder>20000</LoadOrder>
+			</Properties>
+			<Criteria>ZYLPVP_BBM_xp1</Criteria>
+			<Criteria>ZYLPVP_BBM_xp2</Criteria>
+			<File>Components/BBM/sql/bbs_new_wonders_xp1_xp2.sql</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="ZYLPVP_BBM_IG_013_BBS_Less_Natural_Wonders">
+			<Properties>
+				<LoadOrder>20000</LoadOrder>
+			</Properties>
+			<Criteria>ZYLPVP_BBM_NATURALSetting_1</Criteria>
+			<File>Components/BBM/sql/bbs_less_wonders.sql</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="ZYLPVP_BBM_IG_014_BBS_More_Natural_Wonders">
+			<Properties>
+				<LoadOrder>20000</LoadOrder>
+			</Properties>
+			<Criteria>ZYLPVP_BBM_NATURALSetting_2</Criteria>
+			<File>Components/BBM/sql/bbs_more_wonders.sql</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="ZYLPVP_BBM_IG_015_BBS_Negative_StartBias_Australia">
+			<Properties>
+				<LoadOrder>20005</LoadOrder>
+			</Properties>
+			<Criteria>ZYLPVP_BBM_xp2_australia</Criteria>
+			<File>Components/BBM/sql/bbs_bias_australia.sql</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="ZYLPVP_BBM_IG_016_BBS_Negative_StartBias_Maya">
+			<Properties>
+				<LoadOrder>20005</LoadOrder>
+			</Properties>
+			<Criteria>ZYLPVP_BBM_dlc_maya_colombia</Criteria>
+			<File>Components/BBM/sql/bbs_bias_maya.sql</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="ZYLPVP_BBM_IG_017_BBS_Negative_StartBias_xp2">
+			<Properties>
+				<LoadOrder>20005</LoadOrder>
+			</Properties>
+			<Criteria>ZYLPVP_BBM_xp2</Criteria>
+			<File>Components/BBM/sql/bbs_bias_xp2.sql</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="ZYLPVP_BBM_IG_018_BBS_Negative_StartBias_xp1">
+			<Properties>
+				<LoadOrder>20005</LoadOrder>
+			</Properties>
+			<Criteria>ZYLPVP_BBM_xp1</Criteria>
+			<File>Components/BBM/sql/bbs_bias_xp1.sql</File>
+		</UpdateDatabase>
+		<ImportFiles id="ZYLPVP_BBM_IG_019_BBS_ExtraMapScriptImport">
+			<Properties>
+				<LoadOrder>1001</LoadOrder>
+			</Properties>
+			<File>Components/BBM/Data/BBS Maps/perfectworld6.lua</File>
+			<File>Components/BBM/Data/BBS Maps/DWArchipelago.lua</File>
+			<File>Components/BBM/Data/BBS Maps/DWContinents.lua</File>
+			<File>Components/BBM/Data/BBS Maps/DWFractal.lua</File>
+			<File>Components/BBM/Data/BBS Maps/DWPangaea.lua</File>
+			<File>Components/BBM/Data/BBS Maps/DWSmallContinents.lua</File>
+			<File>Components/BBM/Data/BBS Maps/DWMixedLand.lua</File>
+			<File>Components/BBM/Data/BBS Maps/DWMixedIslands.lua</File>
+		</ImportFiles>
+		<AddUserInterfaces id="ZYLPVP_BBM_IG_020_BBM_UI">
+			<Properties>
+				<Context>InGame</Context>
+			</Properties>
+			<File>Components/BBM/UI/BBM_UI.xml</File>
+		</AddUserInterfaces>
+	</InGameActions>
+	<Files>
+		<File>README.md</File>
+		<File>TEST_CHECKLIST.md</File>
+		<File>tools/validate.ps1</File>
+		<File>data/MP_helper.lua</File>
+		<File>data/Victories.xml</File>
+		<File>lang/Text_EN.xml</File>
+		<File>lang/Text_FR.xml</File>
+		<File>lang/Text_CN.xml</File>
+		<File>lang/Text_RU.xml</File>
+		<File>lang/Text_BR.xml</File>
+		<File>lang/Text_KO.xml</File>
+		<File>lang/Text_JP.xml</File>
+		<File>lang/Text_DE.xml</File>
+		<File>LICENSE</File>
+		<File>sql/mph_diplomacy_no_deals.sql</File>
+		<File>sql/mph_alliance_no_military.sql</File>
+		<File>sql/mph_alliance_no_military_xp1.sql</File>
+		<File>sql/mph_alliance_no_cultural.sql</File>
+		<File>sql/mph_alliance_no_cultural_xp1.sql</File>
+		<File>sql/mph_alliance_no_religious.sql</File>
+		<File>sql/mph_alliance_no_religious_xp1.sql</File>
+		<File>sql/mph_alliance_no_research.sql</File>
+		<File>sql/mph_alliance_no_research_xp1.sql</File>
+		<File>sql/mph_alliance_no_economic.sql</File>
+		<File>sql/mph_alliance_no_economic_xp1.sql</File>
+		<File>sql/mph_diplomacy_no_fs.sql</File>
+		<File>sql/mph_diplomacy_no_sw.sql</File>
+		<!-- FrontEnd UI -->
+		<File>ui/gamesetuplogic.lua</File>
+		<File>ui/hostgame.lua</File>
+		<File>ui/hostgame.xml</File>
+		<File>ui/mainmenu.lua</File>
+		<File>ui/mainmenu.xml</File>
+		<File>ui/playertargetlogic.lua</File>
+		<File>ui/setupparameters.lua</File>
+		<File>ui/stagingroom.lua</File>
+		<File>ui/stagingroom.xml</File>
+		<!-- InGame UI -->
+		<File>ui/ingame.xml</File>
+		<File>ui/ingame.lua</File>
+		<File>ui/Replacements/chatpanel_MPH.lua</File>
+		<File>ui/Replacements/diplomacyactionview_MPH.lua</File>
+		<File>ui/Replacements/diplomacydealview_MPH.lua</File>
+		<File>ui/Replacements/endgamemenu.lua</File>
+		<File>ui/Replacements/endgamemenu.xml</File>
+		<File>ui/Replacements/ingametopoptionsmenu.xml</File>
+		<File>ui/Replacements/ingametopoptionsmenu_MPH.lua</File>
+		<File>ui/Replacements/mappinlistpanel.lua</File>
+		<File>ui/Replacements/mappinlistpanel.xml</File>
+		<File>ui/Replacements/pausepanel.lua</File>
+		<File>ui/Replacements/pausepanel.xml</File>
+		<File>ui/Replacements/statusmessagepanel.lua</File>
+		<File>ui/Replacements/statusmessagepanel.xml</File>
+		<!-- Anon -->
+		<File>ui/Additions/DropControl.xml</File>
+		<File>ui/Additions/DropControl.lua</File>
+		<File>ui/Additions/MPHOptions.xml</File>
+		<File>ui/Additions/MPHOptions.lua</File>
+		<File>ui/Additions/TurnProcessing.xml</File>
+		<File>ui/Additions/TurnProcessing.lua</File>
+		<File>ui/Additions/VotePanel.xml</File>
+		<File>ui/Additions/VotePanel.lua</File>
+		<!-- Sudden Death -->
+		<File>ui/Additions/SuddenDeathPanel.lua</File>
+		<File>ui/Additions/SuddenDeathPanel.xml</File>
+		<File>ui/Replacements/unitflagmanager.lua</File>
+		<File>configuration/config.sql</File>
+		<File>configuration/Config.xml</File>
+		<File>configuration/Config_BBG.xml</File>
+		<File>configuration/Config_BBS.xml</File>
+		<File>mode/sudden_death/Sudden_Death_Portrait.dds</File>
+		<File>mode/sudden_death/Sudden_Death_Background.dds</File>
+		<File>mode/anonymous/Anonymous_Portrait.dds</File>
+		<File>mode/anonymous/Anonymous_Background.dds</File>
+		<File>mode/anonymous/text_anon.xml</File>
+		<File>icons/Anonymous_Icons.xml</File>
+		<File>icons/Anonymous_44.dds</File>
+		<File>icons/Sudden_Death_Icons.xml</File>
+		<File>icons/Sudden_Death_44.dds</File>
+		<!-- Integrated TPT UI/QoL resources -->
+		<File>configuration/Config_ZYL.xml</File>
+		<File>lang/ZYL_Text.xml</File>
+		<File>lang/Blacklist_Text.xml</File>
+		<File>Config/Config_UI.xml</File>
+		<File>Config/Config_UI_Text.xml</File>
+		<File>BNL/NetConnectionIconLogic.lua</File>
+		<File>BPC/BetterPantheonChooser_Config_Text.xml</File>
+		<File>BPC/BetterPantheonChooser_Config.xml</File>
+		<File>BPC/UI/PantheonChooser_TPT.lua</File>
+		<File>BPC/UI/PantheonChooser.xml</File>
+		<File>GBR/Goodyhuts_Boost_GP.lua</File>
+		<File>NDR/NotificationPanel_DealRemind.lua</File>
+		<File>NOC/NotificationPanel_QuickClear.lua</File>
+		<File>PCF/UI/CityBannerManager_PCF.lua</File>
+		<File>CSB/UI/CityBannerManager_TPT.lua</File>
+		<File>Settings/TPT_Settings.sql</File>
+		<File>Settings/TPT_Settings_Text.xml</File>
+		<File>Settings/UI/TPT_SettingsPanel.lua</File>
+		<File>Settings/UI/TPT_SettingsPanel.xml</File>
+		<File>FEB/ForcedEndButton_Text.xml</File>
+		<File>FEB/UI/ForcedEndButton.lua</File>
+		<File>FEB/UI/ForcedEndButton.xml</File>
+		<File>ui/Additions/BlacklistPanel.lua</File>
+		<File>ui/Additions/BlacklistPanel.xml</File>
+		<File>ui/Additions/QuickControls.lua</File>
+		<File>ui/Additions/QuickControls.xml</File>
+		<File>BRS/BetterReportScreen_Database.sql</File>
+		<File>BRS/BRSPage_Cities2.lua</File>
+		<File>BRS/BRSPage_CityStatus.lua</File>
+		<File>BRS/BRSPage_Deals.lua</File>
+		<File>BRS/BRSPage_Gossip.lua</File>
+		<File>BRS/BRSPage_Minor.lua</File>
+		<File>BRS/BRSPage_Policy.lua</File>
+		<File>BRS/BRSPage_Resources.lua</File>
+		<File>BRS/BRSPage_Units.lua</File>
+		<File>BRS/BRSPage_Yields.lua</File>
+		<File>BRS/Config/BRS_Config_Text.xml</File>
+		<File>BRS/Config/BRS_Config.xml</File>
+		<File>BRS/Icons/FontIconsRMI.dds</File>
+		<File>BRS/Icons/FontIconsRMI.xml</File>
+		<File>BRS/RealModifierAnalysis.lua</File>
+		<File>BRS/RealModifierAnalysis.xml</File>
+		<File>BRS/reportscreen.lua</File>
+		<File>BRS/reportscreen.xml</File>
+		<File>BRS/RLL/ReportsListLoader.lua</File>
+		<File>BRS/RLL/ReportsListLoader.sql</File>
+		<File>BRS/Text/BetterReportScreen_Text.xml</File>
+		<File>BRS/Text/BetterReportScreen_Text_zh_Hans_CN.xml</File>
+		<File>BRS/Text/BetterReportScreen_Text_zh_Hant_HK.xml</File>
+		<File>BRS/UI/GovernmentScreen.lua</File>
+		<File>BRS/UI/GovernmentScreen.xml</File>
+		<File>BCS/UI/CityStates.xml</File>
+		<File>BCS/UI/CityStates_TPT.lua</File>
+		<File>BGP/UI/GreatPeoplePopup.lua</File>
+		<File>BGP/UI/GreatPeoplePopup.xml</File>
+		<File>TPE/TopPanel_Text.xml</File>
+		<File>TPE/UI/TopPanelExtension.lua</File>
+		<File>TPE/UI/TopPanel_TT.lua</File>
+		<File>TPE/UI/TopPanel_TT.xml</File>
+		<File>TCP/TechAndCivicSupport.lua</File>
+		<File>TCP/Text_TCP.xml</File>
+		<File>TCP/UI/TechTree_TPT.lua</File>
+		<File>TCP/UI/CivicsTree_TPT.lua</File>
+		<File>TCP/UI/ResearchChooser_TPT.lua</File>
+		<File>TCP/UI/CivicsChooser_TPT.lua</File>
+		<File>NHK/GameCfg.xml</File>
+		<File>NHK/GameCfg_Text.xml</File>
+		<File>NHK/SQL/QueriesConfiguration.sql</File>
+		<File>NHK/SQL/QueriesGameplay.sql</File>
+		<File>NHK/Config_TurnTime.xml</File>
+		<File>NHK/Config_TurnTime_Text.xml</File>
+		<File>NHK/Config_Mappin.xml</File>
+		<File>NHK/Config_Mappin_Text.xml</File>
+		<File>NHK/Config_GreatPeople_Recruit.xml</File>
+		<File>NHK/Config_GreatPeople_Recruit_Text.xml</File>
+		<File>NHK/UI/MapPin_HotKey.lua</File>
+		<File>NHK/UI/MapPin_HotKey.xml</File>
+		<File>NHK/UI/AutoRecruit_GreatPerson_HotKey.lua</File>
+		<File>NHK/UI/AutoRecruit_GreatPerson_HotKey.xml</File>
+		<File>NHK/UI/CityBannerManager_CSA.lua</File>
+		<File>RMC/UI/RevealMapCorners.lua</File>
+		<File>RMC/UI/RevealMapCorners.xml</File>
+		<File>STR/UI/WorldViewIconsManager_STR.lua</File>
+		<File>Components/BBG/scripts/bbg_uitogameplay.xml</File>
+		<File>Components/BBG/scripts/bbg_uitogameplay.lua</File>
+		<File>Components/BBG/scripts/bbg_script.lua</File>
+		<File>Components/BBG/lang/english.xml</File>
+		<File>Components/BBG/lang/korean.xml</File>
+		<File>Components/BBG/lang/russian.xml</File>
+		<File>Components/BBG/lang/french.xml</File>
+		<File>Components/BBG/lang/polish.xml</File>
+		<File>Components/BBG/lang/japanese.xml</File>
+		<File>Components/BBG/lang/portuguese.xml</File>
+		<File>Components/BBG/lang/german.xml</File>
+		<File>Components/BBG/lang/chinese.xml</File>
+		<File>Components/BBG/lang/italian.xml</File>
+		<File>Components/BBG/lang/spanish.xml</File>
+		<File>Components/BBG/mod_filter.sql</File>
+		<File>Components/BBG/sql/colors.sql</File>
+		<File>Components/BBG/sql/_utils.sql</File>
+		<File>Components/BBG/sql/Base/_base_utils.sql</File>
+		<File>Components/BBG/sql/Base/base.sql</File>
+		<File>Components/BBG/sql/Base/America.sql</File>
+		<File>Components/BBG/sql/Base/Arabia.sql</File>
+		<File>Components/BBG/sql/Base/Beliefs.sql</File>
+		<File>Components/BBG/sql/Base/Brazil.sql</File>
+		<File>Components/BBG/sql/Base/Buildings.sql</File>
+		<File>Components/BBG/sql/Base/China.sql</File>
+		<File>Components/BBG/sql/Base/CityStates.sql</File>
+		<File>Components/BBG/sql/Base/Districts.sql</File>
+		<File>Components/BBG/sql/Base/Egypt.sql</File>
+		<File>Components/BBG/sql/Base/England.sql</File>
+		<File>Components/BBG/sql/Base/Features.sql</File>
+		<File>Components/BBG/sql/Base/France.sql</File>
+		<File>Components/BBG/sql/Base/Germany.sql</File>
+		<File>Components/BBG/sql/Base/Government.sql</File>
+		<File>Components/BBG/sql/Base/GreatPeoples.sql</File>
+		<File>Components/BBG/sql/Base/GreatWorks.sql</File>
+		<File>Components/BBG/sql/Base/Greece.sql</File>
+		<File>Components/BBG/sql/Base/India.sql</File>
+		<File>Components/BBG/sql/Base/Japan.sql</File>
+		<File>Components/BBG/sql/Base/Kongo.sql</File>
+		<File>Components/BBG/sql/Base/Norway.sql</File>
+		<File>Components/BBG/sql/Base/Policies.sql</File>
+		<File>Components/BBG/sql/Base/Rome.sql</File>
+		<File>Components/BBG/sql/Base/Russia.sql</File>
+		<File>Components/BBG/sql/Base/Scythia.sql</File>
+		<File>Components/BBG/sql/Base/Spain.sql</File>
+		<File>Components/BBG/sql/Base/Spy.sql</File>
+		<File>Components/BBG/sql/Base/Sumer.sql</File>
+		<File>Components/BBG/sql/Base/Units.sql</File>
+		<File>Components/BBG/sql/Base/Wonders.sql</File>
+		<File>Components/BBG/sql/XP1/_xp1_utils.sql</File>
+		<File>Components/BBG/sql/XP1/xp1__rise_and_fall.sql</File>
+		<File>Components/BBG/sql/XP1/Dutch.sql</File>
+		<File>Components/BBG/sql/XP1/Cree.sql</File>
+		<File>Components/BBG/sql/XP1/Scotland.sql</File>
+		<File>Components/BBG/sql/XP1/Zulu.sql</File>
+		<File>Components/BBG/sql/XP1/Features.sql</File>
+		<File>Components/BBG/sql/XP1/Buildings.sql</File>
+		<File>Components/BBG/sql/XP1/Georgia.sql</File>
+		<File>Components/BBG/sql/XP1/Korea.sql</File>
+		<File>Components/BBG/sql/XP1/Mongolia.sql</File>
+		<File>Components/BBG/sql/XP1/Netherlands.sql</File>
+		<File>Components/BBG/sql/XP1/Mapuche.sql</File>
+		<File>Components/BBG/sql/XP1/Chandragupta.sql</File>
+		<File>Components/BBG/sql/XP1/Government_XP1_or_XP2.sql</File>
+		<File>Components/BBG/sql/XP1/Policies_XP1_or_XP2.sql</File>
+		<File>Components/BBG/sql/XP1/Buildings_XP1_or_XP2.sql</File>
+		<File>Components/BBG/sql/XP1/Governors_XP1_or_XP2.sql</File>
+		<File>Components/BBG/sql/XP1/Other_XP1_or_XP2.sql</File>
+		<File>Components/BBG/sql/Base/Sumer_XP1_or_XP2.sql</File>
+		<File>Components/BBG/sql/XP2/_xp2_utils.sql</File>
+		<File>Components/BBG/sql/XP2/xp2__gathering_storm.sql</File>
+		<File>Components/BBG/sql/XP2/Buildings.sql</File>
+		<File>Components/BBG/sql/XP2/Districts.sql</File>
+		<File>Components/BBG/sql/XP2/Features.sql</File>
+		<File>Components/BBG/sql/XP2/Government.sql</File>
+		<File>Components/BBG/sql/XP2/Governors.sql</File>
+		<File>Components/BBG/sql/XP2/new_bbg_citystates_xp2.sql</File>
+		<File>Components/BBG/sql/XP2/new_bbg_improvement.sql</File>
+		<File>Components/BBG/sql/XP2/new_bbg_xp2_world_congress.sql</File>
+		<File>Components/BBG/sql/XP2/Policies.sql</File>
+		<File>Components/BBG/sql/XP2/Units.sql</File>
+		<File>Components/BBG/sql/XP2/Mali.sql</File>
+		<File>Components/BBG/sql/XP2/Canada.sql</File>
+		<File>Components/BBG/sql/XP2/new_bbg_hungary.sql</File>
+		<File>Components/BBG/sql/XP2/new_bbg_ottoman.sql</File>
+		<File>Components/BBG/sql/XP2/new_bbg_inca.sql</File>
+		<File>Components/BBG/sql/XP2/Maori.sql</File>
+		<File>Components/BBG/sql/XP2/Phoenicie.sql</File>
+		<File>Components/BBG/sql/XP2/Eleanor.sql</File>
+		<File>Components/BBG/sql/XP2/Sweden.sql</File>
+		<File>Components/BBG/sql/Base/Sumer_XP2.sql</File>
+		<File>Components/BBG/sql/Base/America_XP2.sql</File>
+		<File>Components/BBG/sql/Base/Egypt_XP2.sql</File>
+		<File>Components/BBG/sql/Base/France_XP2.sql</File>
+		<File>Components/BBG/sql/Base/Kongo_XP2.sql</File>
+		<File>Components/BBG/sql/Base/Rome_XP2.sql</File>
+		<File>Components/BBG/sql/Base/Scythia_XP2.sql</File>
+		<File>Components/BBG/sql/XP1/Cree_XP2.sql</File>
+		<File>Components/BBG/sql/XP1/Buildings_XP1_and_XP2.sql</File>
+		<File>Components/BBG/sql/DLC_Aztec/Aztec.sql</File>
+		<File>Components/BBG/sql/DLC_Vikings/_dlc_vikings_utils.sql</File>
+		<File>Components/BBG/sql/DLC_Vikings/dlc_vikings.sql</File>
+		<File>Components/BBG/sql/DLC_Vikings/dlc_vikings_nfp.sql</File>
+		<File>Components/BBG/sql/DLC_Vikings/dlc_vikings_xp1.sql</File>
+		<File>Components/BBG/sql/DLC_Poland/dlc_poland.sql</File>
+		<File>Components/BBG/sql/DLC_Poland/xp2_poland.sql</File>
+		<File>Components/BBG/sql/DLC_Australia/_dlc_australia_utils.sql</File>
+		<File>Components/BBG/sql/DLC_Australia/dlc_australia.sql</File>
+		<File>Components/BBG/sql/DLC_Australia/xp2_australia.sql</File>
+		<File>Components/BBG/sql/DLC_Macedon_Persia/Macedon.sql</File>
+		<File>Components/BBG/sql/DLC_Macedon_Persia/Persia.sql</File>
+		<File>Components/BBG/sql/DLC_Macedon_Persia/Persia_XP2.sql</File>
+		<File>Components/BBG/sql/DLC_Macedon_Persia/Wonders.sql</File>
+		<File>Components/BBG/sql/DLC_Macedon_Persia/Macedon_XP1.sql</File>
+		<File>Components/BBG/sql/DLC_Macedon_Persia/Macedon_XP2.sql</File>
+		<File>Components/BBG/sql/DLC_Nubia/dlc_nubia.sql</File>
+		<File>Components/BBG/sql/DLC_Nubia/xp2_nubia.sql</File>
+		<File>Components/BBG/sql/DLC_Nubia/Nubia_nfp.sql</File>
+		<File>Components/BBG/sql/DLC_Indonesia_Khmer/Khmer.sql</File>
+		<File>Components/BBG/sql/DLC_Indonesia_Khmer/Indonesia.sql</File>
+		<File>Components/BBG/sql/NFP/_nfp_maya_colombia_utils.sql</File>
+		<File>Components/BBG/sql/NFP/dlc_maya_colombia.sql</File>
+		<File>Components/BBG/sql/NFP/Maya.sql</File>
+		<File>Components/BBG/sql/NFP/GranColombia.sql</File>
+		<File>Components/BBG/sql/NFP/nfp_xp1_maya_colombia.sql</File>
+		<File>Components/BBG/sql/NFP/new_bbg_disasters.sql</File>
+		<File>Components/BBG/sql/NFP/nfp_ethiopia.sql</File>
+		<File>Components/BBG/sql/NFP/Teddy_Persona.sql</File>
+		<File>Components/BBG/sql/NFP/Catherine_Persona.sql</File>
+		<File>Components/BBG/sql/NFP/nfp_byzantium_gaul.sql</File>
+		<File>Components/BBG/sql/NFP/Gaul.sql</File>
+		<File>Components/BBG/sql/NFP/Byzantium.sql</File>
+		<File>Components/BBG/sql/NFP/new_bbg_nfp_babylon.sql</File>
+		<File>Components/BBG/sql/NFP/Babylon.sql</File>
+		<File>Components/BBG/sql/NFP/mali_dlc_babylon.sql</File>
+		<File>Components/BBG/sql/NFP/GreatPeoples.sql</File>
+		<File>Components/BBG/sql/NFP/Vietnam.sql</File>
+		<File>Components/BBG/sql/NFP/new_bbg_kublai.sql</File>
+		<File>Components/BBG/sql/NFP/new_bbg_buildings_preserve.sql</File>
+		<File>Components/BBG/sql/NFP/new_bbg_nfp_portugal.sql</File>
+		<File>Components/BBG/sql/LP/lp_rome_caesar.sql</File>
+		<File>Components/BBG/sql/LP/lp_america_lincoln.sql</File>
+		<File>Components/BBG/sql/LP/Sultan.sql</File>
+		<File>Components/BBG/sql/LP/lp_kongo_mbande.sql</File>
+		<File>Components/BBG/sql/LP/Tokugawa.sql</File>
+		<File>Components/BBG/sql/LP/NaderShah.sql</File>
+		<File>Components/BBG/sql/LP/lp_ottoman_suleiman_magnificent.sql</File>
+		<File>Components/BBG/sql/LP/QinUnifier.sql</File>
+		<File>Components/BBG/sql/LP/Yongle.sql</File>
+		<File>Components/BBG/sql/LP/WuZetian.sql</File>
+		<File>Components/BBG/sql/LP/WuZetian_nfp.sql</File>
+		<File>Components/BBG/sql/LP/Theodora.sql</File>
+		<File>Components/BBG/sql/LP/lp_ludwig.sql</File>
+		<File>Components/BBG/sql/LP/Sejong.sql</File>
+		<File>Components/BBG/sql/LP/lp_qin_unifier_xp2.sql</File>
+		<File>Components/BBG/sql/LP/lp_qin_unifier_xp1.sql</File>
+		<File>Components/BBG/sql/LP/Ptolemaic.sql</File>
+		<File>Components/BBG/sql/LP/Ramses.sql</File>
+		<File>Components/BBG/sql/LP/Sundiata.sql</File>
+		<File>Components/BBG/sql/LP/Elizabeth.sql</File>
+		<File>Components/BBG/sql/LP/VictoriaSteam.sql</File>
+		<File>Components/BBG/sql/LP/Varangian.sql</File>
+		<File>Components/BBG/sql/BBG_Expanded/Vercingetorix.sql</File>
+		<File>Components/BBG/sql/BBG_Expanded/Barbarossa_UU.sql</File>
+		<File>Components/BBG/sql/BBG_Expanded/Caesar_UU.sql</File>
+		<File>Components/BBG/sql/BBG_Expanded/Olympia.sql</File>
+		<File>Components/BBG/sql/BBG_Expanded/Thule.sql</File>
+		<File>Components/BBG/sql/BBG_Expanded/Te_Kinich.sql</File>
+		<File>Components/BBG/sql/BBG_Expanded/Trisong.sql</File>
+		<File>Components/BBG/sql/BBG_Expanded/Ahiram.sql</File>
+		<File>Components/BBG/sql/BBG_Expanded/Al_Hasan.sql</File>
+		<File>Components/BBG/sql/BBG_Expanded/Spearthrower.sql</File>
+		<File>Components/BBG/sql/BBG_Expanded/Resources.sql</File>
+		<File>Components/BBG/sql/BBG_Expanded/MOARUnits_enabled.sql</File>
+		<File>Components/BBG/sql/BBG_Expanded/MOARUnits_enabledconfig.sql</File>
+		<File>Components/BBG/sql/BBG_Expanded/Disable_new.sql</File>
+		<File>Components/BBG/sql/BBG_Expanded/Disable_new_config.sql</File>
+		<File>Components/BBG/lua/BBG_Expanded/Thule.lua</File>
+		<File>Components/BBG/lua/BBG_Expanded/Te_Kinich.lua</File>
+		<File>Components/BBG/lua/BBG_Expanded/Al_Hasan.lua</File>
+		<File>Components/BBG/lua/BBG_Expanded/Olympia.lua</File>
+		<File>Components/BBG/sql/Secret_Societies.sql</File>
+		<File>Components/BBG/sql/mod_associations/bbs/_bbs_utils.sql</File>
+		<File>Components/BBG/ui/replacements/worldrankings_bbg.lua</File>
+		<File>Components/BBG/ui/replacements/endgamemenu_bbg.lua</File>
+		<File>Components/BBG/ui/replacements/tradeoverview_bbg.lua</File>
+		<File>Components/BBG/ui/replacements/unitpanel_bbg.lua</File>
+		<File>Components/BBG/ui/replacements/tradesupport.lua</File>
+		<File>Components/BBG/ui/replacements/compatibility/traderoutechooser.lua</File>
+		<File>Components/BBG/ui/replacements/compatibility/tradeoverview.lua</File>
+		<File>Components/BBG/data/new_bbg_icons.xml</File>
+		<File>Components/BBG/config/config.xml</File>
+		<File>Components/BBG/config/config.sql</File>
+		<File>Components/BBG/sql/victories/new_bbg_cv_2.sql</File>
+		<File>Components/BBG/sql/victories/new_bbg_sv_2.sql</File>
+		<File>Components/BBG/sql/victories/new_bbg_dv_2.sql</File>
+		<File>Components/BBG/sql/victories/new_bbg_cv.sql</File>
+		<File>Components/BBG/sql/victories/new_bbg_sv_1.sql</File>
+		<File>Components/BBG/sql/victories/new_bbg_dv_1.sql</File>
+		<File>Components/BBG/sql/victories/new_bbg_rv_1.sql</File>
+		<File>Components/BBG/sql/victories/new_bbg_rv_2.sql</File>
+		<File>Components/BBG/sql/victories/new_bbg_new_domination.sql</File>
+		<File>Components/BBG/sql/Settlers/Settlers.sql</File>
+		<File>Components/BBG/sql/bbcc/bbcc_configvalues.sql</File>
+		<File>Components/BBG/sql/bbcc/core_bbcc.sql</File>
+		<File>Components/BBG/sql/bbcc/no_rng_bbcc.sql</File>
+		<File>Components/BBG/sql/bbcc/cap_only_bbcc.sql</File>
+		<File>Components/BBG/sql/DLC_Indonesia_Khmer/Base.sql</File>
+		<File>Components/BBM/UI/BBM_UI.lua</File>
+		<File>Components/BBM/UI/BBM_UI.xml</File>
+		<File>Components/BBM/Data/BBS Maps/continents.lua</File>
+		<File>Components/BBM/Data/BBS Maps/continents_islands.lua</File>
+		<File>Components/BBM/Data/BBS Maps/fractal.lua</File>
+		<File>Components/BBM/Data/BBS Maps/inlandsea.lua</File>
+		<File>Components/BBM/Data/BBS Maps/island_plates.lua</File>
+		<File>Components/BBM/Data/BBS Maps/lakes.lua</File>
+		<File>Components/BBM/Data/BBS Maps/pangaea.lua</File>
+		<File>Components/BBM/Data/BBS Maps/pangaea_ultima.lua</File>
+		<File>Components/BBM/Data/BBS Maps/zyl_mountainous_rich_mainland.lua</File>
+		<File>Components/BBM/Data/BBS Maps/primordial.lua</File>
+		<File>Components/BBM/Data/BBS Maps/seven_seas.lua</File>
+		<File>Components/BBM/Data/BBS Maps/shuffle.lua</File>
+		<File>Components/BBM/Data/BBS Maps/splintered_fractal.lua</File>
+		<File>Components/BBM/Data/BBS Maps/small_continents.lua</File>
+		<File>Components/BBM/Data/BBS Maps/terra.lua</File>
+		<File>Components/BBM/Data/BBS Maps/tilted_axis.lua</File>
+		<File>Components/BBM/Data/BBS Maps/archipelago_xp2.lua</File>
+		<File>Components/BBM/Data/BBS Maps/highlands_xp2.lua</File>
+		<File>Components/BBM/Data/BBS Maps/rich_highlands_xp2.lua</File>
+		<File>Components/BBM/Data/BBS Maps/rich_riverlands.lua</File>
+		<File>Components/BBM/Data/BBS Maps/wetlands_xp2.lua</File>
+		<File>Components/BBM/Data/BBS Maps/perfectworld6.lua</File>
+		<File>Components/BBM/Data/BBS Maps/Utility/BBS_NaturalWonderGenerator.lua</File>
+		<File>Components/BBM/Data/BBS Maps/Utility/BBM_AssignStartingPlots.lua</File>
+		<File>Components/BBM/Data/BBS Maps/Utility/BBS_MountainsCliffs.lua</File>
+		<File>Components/BBM/Data/BBS Maps/Utility/DW_CoastalLowlands.lua</File>
+		<File>Components/BBM/Data/BBS Maps/Utility/BBM_FeatureGenerator.lua</File>
+		<File>Components/BBM/Data/BBS Maps/Utility/DW_MapUtilities.lua</File>
+		<File>Components/BBM/Data/BBS Maps/Utility/DW_MountainsCliffs.lua</File>
+		<File>Components/BBM/Data/BBS Maps/Utility/DW_RiversLakes.lua</File>
+		<File>Components/BBM/Data/BBS Maps/Utility/DW_TerrainGenerator.lua</File>
+		<File>Components/BBM/Data/BBS Maps/Utility/BBS_TerrainGenerator.lua</File>
+		<File>Components/BBM/Data/BBS Maps/Utility/BBS_ResourceGenerator.lua</File>
+		<File>Components/BBM/Data/BBS Maps/Utility/BBM_MapUtils.lua</File>
+		<File>Components/BBM/Data/BBS Maps/Utility/BBM_SpawnBalancing.lua</File>
+		<File>Components/BBM/Data/BBS Maps/Utility/BBM_CivilizationAssign.lua</File>
+		<File>Components/BBM/Data/BBS Maps/Utility/ZYL_RVC_AssignStartingPlots.lua</File>
+		<File>Components/BBM/Data/BBS Maps/Utility/ZYL_RVC_Balance.lua</File>
+		<File>Components/BBM/Data/BBS Maps/Utility/ZYL_RVC_BBS_TerrainGenerator.lua</File>
+		<File>Components/BBM/Data/BBS Maps/Utility/ZYL_RVC_CoastalLowlands.lua</File>
+		<File>Components/BBM/Data/BBS Maps/Utility/ZYL_RVC_DW_TerrainGenerator.lua</File>
+		<File>Components/BBM/Data/BBS Maps/Utility/ZYL_RVC_FeatureGenerator.lua</File>
+		<File>Components/BBM/Data/BBS Maps/Utility/ZYL_RVC_MapUtilities.lua</File>
+		<File>Components/BBM/Data/BBS Maps/Utility/ZYL_RVC_MountainsCliffs.lua</File>
+		<File>Components/BBM/Data/BBS Maps/Utility/ZYL_RVC_ResourceGenerator.lua</File>
+		<File>Components/BBM/Data/BBS Maps/Utility/ZYL_RVC_RiversLakes.lua</File>
+		<File>Components/BBM/Data/BBS Maps/DWArchipelago.lua</File>
+		<File>Components/BBM/Data/BBS Maps/DWContinents.lua</File>
+		<File>Components/BBM/Data/BBS Maps/DWFractal.lua</File>
+		<File>Components/BBM/Data/BBS Maps/DWPangaea.lua</File>
+		<File>Components/BBM/Data/BBS Maps/DWSmallContinents.lua</File>
+		<File>Components/BBM/Data/BBS Maps/DWMixedLand.lua</File>
+		<File>Components/BBM/Data/BBS Maps/DWMixedIslands.lua</File>
+		<File>Components/BBM/Configuration/Config.xml</File>
+		<File>Components/BBM/Configuration/ZYL_MountainousRichMainland_Config.xml</File>
+		<File>Components/BBM/Data/BBS Maps/ZYLMRM/ConfigureMap.sql</File>
+		<File>Components/BBM/Configuration/Config.sql</File>
+		<File>Components/BBM/Configuration/Config_minor_bias.sql</File>
+		<File>Components/BBM/Configuration/Config_minor_bias_DLC_viking.sql</File>
+		<File>Components/BBM/Lang/english.xml</File>
+		<File>Components/BBM/Lang/french.xml</File>
+		<File>Components/BBM/Lang/russian.xml</File>
+		<File>Components/BBM/Lang/chinese.xml</File>
+		<File>Components/BBM/Lang/german.xml</File>
+		<File>Components/BBM/Lang/japanese.xml</File>
+		<File>Components/BBM/Lang/korean.xml</File>
+		<File>Components/BBM/Lang/portuguese.xml</File>
+		<File>Components/BBM/Lang/ZYL_MountainousRichMainland_Text.xml</File>
+		<File>Components/BBM/Gameplay/GamePlay.xml</File>
+		<File>Components/BBM/Gameplay/GamePlayXP2.xml</File>
+		<File>Components/BBM/sql/bbs_less_wonders.sql</File>
+		<File>Components/BBM/sql/bbs_more_wonders.sql</File>
+		<File>Components/BBM/sql/bbs_new_wonders.sql</File>
+		<File>Components/BBM/sql/bbs_icons_wonders.sql</File>
+		<File>Components/BBM/sql/bbs_new_wonders_xp1.sql</File>
+		<File>Components/BBM/sql/bbs_new_wonders_xp2.sql</File>
+		<File>Components/BBM/sql/bbs_new_wonders_xp1_xp2.sql</File>
+		<File>Components/BBM/sql/bbs_bias_master.sql</File>
+		<File>Components/BBM/sql/bbs_bias_australia.sql</File>
+		<File>Components/BBM/sql/bbs_bias_xp1.sql</File>
+		<File>Components/BBM/sql/bbs_bias_xp2.sql</File>
+		<File>Components/BBM/sql/bbs_bias_maya.sql</File>
+		<File>ArtDefs/Clutter.artdef</File>
+		<File>ArtDefs/Features.artdef</File>
+		<File>ArtDefs/StrategicView.artdef</File>
+		<File>ArtDefs/Terrains.artdef</File>
+		<File>ArtDefs/TerrainStyle.artdef</File>
+		<File>NaturalWondersMod.dep</File>
+		<File>Platforms/MacOS/BLPs/environment/clutter.blp</File>
+		<File>Platforms/MacOS/BLPs/landmarks/tilebases.blp</File>
+		<File>Platforms/MacOS/BLPs/NW_VFX.blp</File>
+		<File>Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_2TileDecalGuide3</File>
+		<File>Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_3TileDecalGuide5</File>
+		<File>Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_BioBayBlue_EM</File>
+		<File>Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_BioBayBlue_OPAC5</File>
+		<File>Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_Burn_BaseColor</File>
+		<File>Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_Burn_G</File>
+		<File>Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_Dallol_01_b</File>
+		<File>Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_Dallol_01_fow</File>
+		<File>Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_Dallol_01_g</File>
+		<File>Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_Dallol_01_h_2</File>
+		<File>Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_DiffuseTint_2TileDecalGuide3_null</File>
+		<File>Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_DiffuseTint_3TileDecalGuide5_null</File>
+		<File>Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_DiffuseTint_BioBayBlue_B6_null</File>
+		<File>Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_DiffuseTint_Dallol_01_b_null</File>
+		<File>Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_DiffuseTint_Foliage_Bld_B_null</File>
+		<File>Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_DiffuseTint_Foliage_Bld_Flowered_White_B_null</File>
+		<File>Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_DiffuseTint_NWON_BarrierReef_Decal_B_null</File>
+		<File>Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_DiffuseTint_NWON_Crater_Decal4_B_null</File>
+		<File>Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_DiffuseTint_NWON_Kailash_Decal3_B_null</File>
+		<File>Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_DiffuseTint_NWON_Mosi_Decal_B5_null</File>
+		<File>Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_DiffuseTint_NWON_Reef_Fish_B_null</File>
+		<File>Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_DiffuseTint_NWON_SriPadaS7_Decal_B_null</File>
+		<File>Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_DiffuseTint_Okavango_Decal_B_null</File>
+		<File>Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_DiffuseTint_Pillaged_Foliage_2_B4_null</File>
+		<File>Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_DiffuseTint_Pillaged_Foliage_B_null</File>
+		<File>Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_DiffuseTint_RES_Fish_x2_B_null</File>
+		<File>Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_DiffuseTint_RES_Silver_B_null</File>
+		<File>Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_DiffuseTint_RES_Silver_Decal_B_null</File>
+		<File>Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_DiffuseTint_Tree_PIL_Decal_B_null</File>
+		<File>Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_DiffuseTint_Vredefort_Decal_B2_null</File>
+		<File>Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_Foliage_Bld_Flowered_N0</File>
+		<File>Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_Foliage_Bld_Flowered_N1</File>
+		<File>Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_Foliage_Bld_G</File>
+		<File>Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_Foliage_Bld_N0</File>
+		<File>Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_Foliage_Bld_N1</File>
+		<File>Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_FOW_Tree_PIL_Decal</File>
+		<File>Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_FX_AQD_Water_a_still</File>
+		<File>Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_FX_Rock1_a_01</File>
+		<File>Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_FX_Rock1_a_02</File>
+		<File>Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_NWON_BarrierReef_Decal_B</File>
+		<File>Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_NWON_BarrierReef_Decal_FOW</File>
+		<File>Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_NWON_BarrierReef_Decal_FOWSprite</File>
+		<File>Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_NWON_BarrierReef_Decal_H</File>
+		<File>Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_NWON_Crater_Decal4_B</File>
+		<File>Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_NWON_Crater_Decal4_FOW</File>
+		<File>Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_NWON_Crater_Decal_H</File>
+		<File>Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_NWON_Kailash_Decal2_H</File>
+		<File>Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_NWON_Kailash_Decal3_B</File>
+		<File>Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_NWON_Kailash_Decal3_FOW</File>
+		<File>Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_NWON_Kailash_Decal3_S</File>
+		<File>Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_NWON_Mosi_Decal_B5</File>
+		<File>Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_NWON_Mosi_Decal_G4</File>
+		<File>Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_NWON_Mosi_Decal_H4</File>
+		<File>Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_NWON_Reef_Fish_G</File>
+		<File>Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_NWON_Reef_Fish_N0</File>
+		<File>Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_NWON_Reef_Fish_N1</File>
+		<File>Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_NWON_SriPadaS7_Decal_B</File>
+		<File>Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_NWON_SriPadaS7_Decal_FOW</File>
+		<File>Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_NWON_SriPadaS7_Decal_H</File>
+		<File>Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_NWON_Tsingy_Decal_G</File>
+		<File>Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_Okavango_Decal_B</File>
+		<File>Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_Okavango_Decal_G</File>
+		<File>Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_Okavango_Decal_H</File>
+		<File>Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_Pillaged_Foliage_2_O4</File>
+		<File>Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_Pillaged_Foliage_O</File>
+		<File>Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_ProceduralNoiseTexture2D_0x304656c5</File>
+		<File>Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_RES_Aluminum_Decal_FOW</File>
+		<File>Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_RES_Fish_x2_EM</File>
+		<File>Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_RES_Silver_Decal_B</File>
+		<File>Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_RES_Silver_Decal_G</File>
+		<File>Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_RES_Silver_Decal_H</File>
+		<File>Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_RES_Silver_G</File>
+		<File>Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_RES_Silver_M</File>
+		<File>Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_RES_Silver_N0</File>
+		<File>Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_RES_Silver_N1</File>
+		<File>Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_TER_WaterLake_Density_DarkMap_0x6b28231d</File>
+		<File>Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_TER_WaterLake_Density_ScatterMap_0x6b28231d</File>
+		<File>Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_TER_WaterRiverSource_Density_DarkMap_0x47b164c5</File>
+		<File>Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_TER_WaterRiverSource_Density_ScatterMap_0x47b164c5</File>
+		<File>Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_TER_Water_Bumps_Small_Lean0_0x9be17165</File>
+		<File>Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_TER_Water_Bumps_Small_Lean1_0x9be17165</File>
+		<File>Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_Tree_PIL_Decal_B</File>
+		<File>Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_Vredefort_Decal_B2</File>
+		<File>Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_Vredefort_Decal_G2</File>
+		<File>Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_Vredefort_Decal_H4</File>
+		<File>Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_White32</File>
+		<File>Platforms/MacOS/BLPs/strategicview/strategicview_features.blp</File>
+		<File>Platforms/MacOS/BLPs/terrain/TerrainAssetSet_Base.blp</File>
+		<File>Platforms/MacOS/BLPs/terrain/TerrainElementSet_Base.blp</File>
+		<File>Platforms/MacOS/BLPs/terrain/TerrainMaterialSet_Base.blp</File>
+		<File>Platforms/MacOS/BLPs/UI/Icons.blp</File>
+		<File>Platforms/MacOS/BLPs/Water.blp</File>
+		<File>Platforms/Windows/BLPs/environment/clutter.blp</File>
+		<File>Platforms/Windows/BLPs/landmarks/tilebases.blp</File>
+		<File>Platforms/Windows/BLPs/NW_VFX.blp</File>
+		<File>Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_2TileDecalGuide3</File>
+		<File>Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_3TileDecalGuide5</File>
+		<File>Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_BioBayBlue_EM</File>
+		<File>Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_BioBayBlue_OPAC5</File>
+		<File>Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_Burn_BaseColor</File>
+		<File>Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_Burn_G</File>
+		<File>Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_Dallol_01_b</File>
+		<File>Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_Dallol_01_fow</File>
+		<File>Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_Dallol_01_g</File>
+		<File>Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_Dallol_01_h_2</File>
+		<File>Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_DiffuseTint_2TileDecalGuide3_null</File>
+		<File>Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_DiffuseTint_3TileDecalGuide5_null</File>
+		<File>Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_DiffuseTint_BioBayBlue_B6_null</File>
+		<File>Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_DiffuseTint_Dallol_01_b_null</File>
+		<File>Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_DiffuseTint_Foliage_Bld_B_null</File>
+		<File>Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_DiffuseTint_Foliage_Bld_Flowered_White_B_null</File>
+		<File>Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_DiffuseTint_NWON_BarrierReef_Decal_B_null</File>
+		<File>Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_DiffuseTint_NWON_Crater_Decal4_B_null</File>
+		<File>Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_DiffuseTint_NWON_Kailash_Decal3_B_null</File>
+		<File>Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_DiffuseTint_NWON_Mosi_Decal_B5_null</File>
+		<File>Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_DiffuseTint_NWON_Reef_Fish_B_null</File>
+		<File>Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_DiffuseTint_NWON_SriPadaS7_Decal_B_null</File>
+		<File>Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_DiffuseTint_Okavango_Decal_B_null</File>
+		<File>Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_DiffuseTint_Pillaged_Foliage_2_B4_null</File>
+		<File>Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_DiffuseTint_Pillaged_Foliage_B_null</File>
+		<File>Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_DiffuseTint_RES_Fish_x2_B_null</File>
+		<File>Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_DiffuseTint_RES_Silver_B_null</File>
+		<File>Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_DiffuseTint_RES_Silver_Decal_B_null</File>
+		<File>Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_DiffuseTint_Tree_PIL_Decal_B_null</File>
+		<File>Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_DiffuseTint_Vredefort_Decal_B2_null</File>
+		<File>Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_Foliage_Bld_Flowered_N0</File>
+		<File>Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_Foliage_Bld_Flowered_N1</File>
+		<File>Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_Foliage_Bld_G</File>
+		<File>Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_Foliage_Bld_N0</File>
+		<File>Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_Foliage_Bld_N1</File>
+		<File>Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_FOW_Tree_PIL_Decal</File>
+		<File>Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_FX_AQD_Water_a_still</File>
+		<File>Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_FX_Rock1_a_01</File>
+		<File>Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_FX_Rock1_a_02</File>
+		<File>Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_NWON_BarrierReef_Decal_B</File>
+		<File>Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_NWON_BarrierReef_Decal_FOW</File>
+		<File>Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_NWON_BarrierReef_Decal_FOWSprite</File>
+		<File>Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_NWON_BarrierReef_Decal_H</File>
+		<File>Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_NWON_Crater_Decal4_B</File>
+		<File>Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_NWON_Crater_Decal4_FOW</File>
+		<File>Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_NWON_Crater_Decal_H</File>
+		<File>Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_NWON_Kailash_Decal2_H</File>
+		<File>Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_NWON_Kailash_Decal3_B</File>
+		<File>Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_NWON_Kailash_Decal3_FOW</File>
+		<File>Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_NWON_Kailash_Decal3_S</File>
+		<File>Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_NWON_Mosi_Decal_B5</File>
+		<File>Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_NWON_Mosi_Decal_G4</File>
+		<File>Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_NWON_Mosi_Decal_H4</File>
+		<File>Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_NWON_Reef_Fish_G</File>
+		<File>Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_NWON_Reef_Fish_N0</File>
+		<File>Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_NWON_Reef_Fish_N1</File>
+		<File>Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_NWON_SriPadaS7_Decal_B</File>
+		<File>Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_NWON_SriPadaS7_Decal_FOW</File>
+		<File>Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_NWON_SriPadaS7_Decal_H</File>
+		<File>Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_NWON_Tsingy_Decal_G</File>
+		<File>Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_Okavango_Decal_B</File>
+		<File>Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_Okavango_Decal_G</File>
+		<File>Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_Okavango_Decal_H</File>
+		<File>Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_Pillaged_Foliage_2_O4</File>
+		<File>Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_Pillaged_Foliage_O</File>
+		<File>Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_ProceduralNoiseTexture2D_0x304656c5</File>
+		<File>Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_RES_Aluminum_Decal_FOW</File>
+		<File>Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_RES_Fish_x2_EM</File>
+		<File>Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_RES_Silver_Decal_B</File>
+		<File>Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_RES_Silver_Decal_G</File>
+		<File>Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_RES_Silver_Decal_H</File>
+		<File>Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_RES_Silver_G</File>
+		<File>Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_RES_Silver_M</File>
+		<File>Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_RES_Silver_N0</File>
+		<File>Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_RES_Silver_N1</File>
+		<File>Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_TER_WaterLake_Density_DarkMap_0x6b28231d</File>
+		<File>Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_TER_WaterLake_Density_ScatterMap_0x6b28231d</File>
+		<File>Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_TER_WaterRiverSource_Density_DarkMap_0x47b164c5</File>
+		<File>Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_TER_WaterRiverSource_Density_ScatterMap_0x47b164c5</File>
+		<File>Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_TER_Water_Bumps_Small_Lean0_0x9be17165</File>
+		<File>Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_TER_Water_Bumps_Small_Lean1_0x9be17165</File>
+		<File>Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_Tree_PIL_Decal_B</File>
+		<File>Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_Vredefort_Decal_B2</File>
+		<File>Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_Vredefort_Decal_G2</File>
+		<File>Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_Vredefort_Decal_H4</File>
+		<File>Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_White32</File>
+		<File>Platforms/Windows/BLPs/strategicview/strategicview_features.blp</File>
+		<File>Platforms/Windows/BLPs/terrain/TerrainAssetSet_Base.blp</File>
+		<File>Platforms/Windows/BLPs/terrain/TerrainElementSet_Base.blp</File>
+		<File>Platforms/Windows/BLPs/terrain/TerrainMaterialSet_Base.blp</File>
+		<File>Platforms/Windows/BLPs/UI/Icons.blp</File>
+		<File>Platforms/Windows/BLPs/Water.blp</File>
+		<File>CONFLICT_RESOLUTION.md</File>
+		<File>SOURCES.md</File>
+		<File>tools/assemble_modinfo.ps1</File>
+	</Files>
+</Mod>

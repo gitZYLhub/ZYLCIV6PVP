@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<GameInfo>
+	<Parameters>
+	<!--	启动位置(标准)	-->
+	<!--
+		<Update>
+			<Where ParameterId="StartPosition"/>
+			<Set DefaultValue="2"/>
+		</Update>	
+	-->
+	<!--	无蛮族(开启)	-->
+		<Update>
+			<Where ParameterId="NoBarbarians"/>
+			<Set DefaultValue="1"/>
+		</Update>
+	<!-- 	默认回合时间预设	-->
+		<Update>
+			<Where ParameterId="TurnTimerTime"/>
+			<Set DefaultValue="60"/>
+		</Update>	
+	<!-- 	无重复文明(关闭)	-->	
+		<Update>
+			<Where ParameterId="NoDupeCivilizations"/>
+			<Set DefaultValue="0"/>
+		</Update>		
+	<!--	无重复领袖(关闭)	-->
+		<Update>
+			<Where ParameterId="NoDupeLeaders"/>
+			<Set DefaultValue="0"/>
+		</Update>
+
+		<!--禁用领袖-->
+		<Row Key1="Ruleset" Key2="RULESET_EXPANSION_2" ParameterId="LeaderPoolBan" Name="LOC_LEADER_POOL_BAN_NAME" Description="LOC_LEADER_POOL_BAN_DESC" Domain="Players:Expansion2_Players" Hash="0" Array="1" ConfigurationGroup="Game" ConfigurationId="LEADER_POOL_BAN" GroupId="MapOptions" UxHint="InvertSelection"  SortIndex="220"/>
+	</Parameters>
+</GameInfo>

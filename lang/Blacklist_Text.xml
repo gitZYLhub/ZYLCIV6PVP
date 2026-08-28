@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GameData>
+    <LocalizedText>
+        <Replace Tag="LOC_BLACKLIST_BUTTON_NAME" language="zh_Hans_CN">
+            <Text>管理黑名单</Text>
+        </Replace>
+        <Replace Tag="LOC_COPY_BLACKLIST_NAME" language="zh_Hans_CN">
+            <Text>导出黑名单到剪贴板</Text>
+        </Replace>
+        <Replace Tag="LOC_COPY_BLACKLIST_TITLE" language="zh_Hans_CN">
+            <Text>以下内容已复制到剪贴板</Text>
+        </Replace>
+
+
+        <Replace Tag="LOC_BLACKLIST_HEADER" language="zh_Hans_CN">
+            <Text>添加黑名单</Text>
+        </Replace>
+        <Replace Tag="LOC_BLACKLIST_MANAGER" language="zh_Hans_CN">
+            <Text>黑名单管理</Text>
+        </Replace>
+        <Replace Tag="LOC_BLACKLIST_PLAYERLIST" language="zh_Hans_CN">
+            <Text>玩家列表</Text>
+        </Replace>
+        <Replace Tag="LOC_BLACKLIST_HISTORY" language="zh_Hans_CN">
+            <Text>黑名单记录</Text>
+        </Replace>
+		<Replace Tag="LOC_TPT_INPUT_PLAYERINFO" Language="zh_Hans_CN">
+			<Text>添加黑名单玩家</Text>
+		</Replace>
+		<Replace Tag="LOC_TPT_INPUT_STEAMID_NAME" Language="zh_Hans_CN">
+			<Text>输入SteamID</Text>
+		</Replace>
+		<Replace Tag="LOC_TPT_INPUT_STEAMID_TT" Language="zh_Hans_CN">
+			<Text>输入17位的steamID,例如76561191234567890</Text>
+		</Replace>
+		<Replace Tag="LOC_TPT_INPUT_DESC_NAME" Language="zh_Hans_CN">
+			<Text>备注描述</Text>
+		</Replace>
+		<Replace Tag="LOC_TPT_INPUT_DESC_TT" Language="zh_Hans_CN">
+			<Text>会显示在提示标签中，可以为空</Text>
+		</Replace>
+		<Replace Tag="LOC_TPT_STEAM_HOMEPAGE_TT" Language="zh_Hans_CN">
+			<Text>打开Steam主页</Text>
+		</Replace>
+		<Replace Tag="LOC_BLACKLIST_BUTTON_NAME" Language="en_US"><Text>Manage blacklist</Text></Replace>
+		<Replace Tag="LOC_COPY_BLACKLIST_NAME" Language="en_US"><Text>Copy blacklist to clipboard</Text></Replace>
+		<Replace Tag="LOC_COPY_BLACKLIST_TITLE" Language="en_US"><Text>Copied to clipboard</Text></Replace>
+		<Replace Tag="LOC_BLACKLIST_HEADER" Language="en_US"><Text>Add to blacklist</Text></Replace>
+		<Replace Tag="LOC_BLACKLIST_MANAGER" Language="en_US"><Text>Blacklist manager</Text></Replace>
+		<Replace Tag="LOC_BLACKLIST_PLAYERLIST" Language="en_US"><Text>Player list</Text></Replace>
+		<Replace Tag="LOC_BLACKLIST_HISTORY" Language="en_US"><Text>Saved entries</Text></Replace>
+		<Replace Tag="LOC_TPT_INPUT_PLAYERINFO" Language="en_US"><Text>Add a player</Text></Replace>
+		<Replace Tag="LOC_TPT_INPUT_STEAMID_NAME" Language="en_US"><Text>Steam ID</Text></Replace>
+		<Replace Tag="LOC_TPT_INPUT_STEAMID_TT" Language="en_US"><Text>Enter a 17-digit Steam ID, for example 76561191234567890.</Text></Replace>
+		<Replace Tag="LOC_TPT_INPUT_DESC_NAME" Language="en_US"><Text>Note</Text></Replace>
+		<Replace Tag="LOC_TPT_INPUT_DESC_TT" Language="en_US"><Text>Optional note shown in the tooltip.</Text></Replace>
+		<Replace Tag="LOC_TPT_STEAM_HOMEPAGE_TT" Language="en_US"><Text>Open Steam profile</Text></Replace>
+	</LocalizedText>
+</GameData>

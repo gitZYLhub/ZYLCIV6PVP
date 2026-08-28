@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Context Name="ZYLQuickControls">
+	<GridButton ID="AddTimeButton" Anchor="R,T" Offset="60,1" Size="50,24" Texture="Controls_ButtonControl" SliceCorner="12,12" SliceTextureSize="24,24" StateOffsetIncrement="0,24" ToolTip="LOC_ZYL_QUICK_ADD_TT">
+		<Label Style="FontNormal16" FontStyle="stroke" ColorSet="ResGoldLabelCS" Anchor="C,C" String="P++" Offset="0,1"/>
+	</GridButton>
+	<GridButton ID="ReduceTimeButton" Anchor="R,T" Offset="8,1" Size="50,24" Texture="Controls_ButtonControl" SliceCorner="12,12" SliceTextureSize="24,24" StateOffsetIncrement="0,24" ToolTip="LOC_ZYL_QUICK_REDUCE_TT">
+		<Label Style="FontNormal16" FontStyle="stroke" ColorSet="ResGoldLabelCS" Anchor="C,C" String="P--" Offset="0,1"/>
+	</GridButton>
+	<GridButton ID="BlackListButton" Anchor="R,T" Offset="112,1" Size="34,24" Texture="Controls_ButtonControl" SliceCorner="12,12" SliceTextureSize="24,24" StateOffsetIncrement="0,24" ToolTip="LOC_BLACKLIST_BUTTON_NAME">
+		<Label Style="FontNormal16" FontStyle="stroke" ColorSet="BodyTextCool" Anchor="C,C" String="B" Offset="0,1"/>
+	</GridButton>
+</Context>

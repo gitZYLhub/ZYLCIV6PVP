@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GameData>
+	<LocalizedText>
+		<Row Tag="LOC_ZYL_TOOLS_COMMAND_NAME" Language="zh_Hans_CN"><Text>[COLOR:ResGoldLabelCS]联机计时指令[ENDCOLOR]</Text></Row>
+		<Row Tag="LOC_ZYL_TOOLS_COMMAND_DESC" Language="zh_Hans_CN"><Text>允许公共聊天使用 p+/p++ 加时、p-/p-- 减时，以及 p+++ 临时关闭本回合计时。所有修改仅由房主执行。</Text></Row>
+		<Row Tag="LOC_ZYL_TOOLS_15_TIME_NAME" Language="zh_Hans_CN"><Text>[COLOR:ResGoldLabelCS]15 秒计时提醒[ENDCOLOR]</Text></Row>
+		<Row Tag="LOC_ZYL_TOOLS_15_TIME_DESC" Language="zh_Hans_CN"><Text>在剩余 15 至 8 秒时播放逐秒提示音。</Text></Row>
+		<Row Tag="LOC_ZYL_QUICK_ADD_TT" Language="zh_Hans_CN"><Text>公共聊天发送 p++：本回合加时 20 秒，每回合限一次；不足 8 秒时加 24 秒。</Text></Row>
+		<Row Tag="LOC_ZYL_QUICK_REDUCE_TT" Language="zh_Hans_CN"><Text>公共聊天发送 p--：本回合减时 10 秒，最低 40 秒，每回合限一次。</Text></Row>
+		<Row Tag="LOC_ZYL_RANDOM_TEAMS" Language="zh_Hans_CN"><Text>随机分队</Text></Row>
+		<Row Tag="LOC_ZYL_RANDOM_TEAMS_TT" Language="zh_Hans_CN"><Text>房主将已连接的真人参赛者随机且均衡地分入两队；排除 AI、观察者和空槽。</Text></Row>
+		<Row Tag="LOC_ZYL_TOGGLE_SLOTS" Language="zh_Hans_CN"><Text>空位开关</Text></Row>
+		<Row Tag="LOC_ZYL_TOGGLE_SLOTS_TT" Language="zh_Hans_CN"><Text>有开放空位时关闭全部空位；没有开放空位时增加一个空位。</Text></Row>
+
+		<Row Tag="LOC_ZYL_TOOLS_COMMAND_NAME" Language="en_US"><Text>[COLOR:ResGoldLabelCS]Multiplayer timer commands[ENDCOLOR]</Text></Row>
+		<Row Tag="LOC_ZYL_TOOLS_COMMAND_DESC" Language="en_US"><Text>Enables public-chat p+/p++ time extension, p-/p-- time reduction, and p+++ temporary no-timer commands. Only the host applies changes.</Text></Row>
+		<Row Tag="LOC_ZYL_TOOLS_15_TIME_NAME" Language="en_US"><Text>[COLOR:ResGoldLabelCS]15-second warning[ENDCOLOR]</Text></Row>
+		<Row Tag="LOC_ZYL_TOOLS_15_TIME_DESC" Language="en_US"><Text>Plays a countdown sound from 15 through 8 seconds remaining.</Text></Row>
+		<Row Tag="LOC_ZYL_QUICK_ADD_TT" Language="en_US"><Text>Send p++ publicly: add 20 seconds once per turn, or 24 seconds below 8 seconds.</Text></Row>
+		<Row Tag="LOC_ZYL_QUICK_REDUCE_TT" Language="en_US"><Text>Send p-- publicly: subtract 10 seconds once per turn, with a 40-second floor.</Text></Row>
+		<Row Tag="LOC_ZYL_RANDOM_TEAMS" Language="en_US"><Text>Random Teams</Text></Row>
+		<Row Tag="LOC_ZYL_RANDOM_TEAMS_TT" Language="en_US"><Text>Host-only balanced shuffle of connected human participants; excludes AI, observers, and empty slots.</Text></Row>
+		<Row Tag="LOC_ZYL_TOGGLE_SLOTS" Language="en_US"><Text>Empty Slots</Text></Row>
+		<Row Tag="LOC_ZYL_TOGGLE_SLOTS_TT" Language="en_US"><Text>Close all open empty slots, or add one open slot when none are open.</Text></Row>
+	</LocalizedText>
+</GameData>

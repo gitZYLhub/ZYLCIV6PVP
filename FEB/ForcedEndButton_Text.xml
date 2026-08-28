@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GameData>
+    <LocalizedText>
+        <Replace Tag="LOC_FORCEEND_TT" language="zh_Hans_CN">
+            <Text>强制结束当前回合（只发送一次本地请求）</Text>
+        </Replace>
+        <Replace Tag="LOC_FORCEEND_TT" language="en_US">
+            <Text>Force end the current turn (one local request)</Text>
+        </Replace>
+	</LocalizedText>
+</GameData>
