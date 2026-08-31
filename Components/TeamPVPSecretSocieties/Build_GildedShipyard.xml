@@ -9,6 +9,7 @@
 			Description="LOC_BUILDING_GILDED_Shipyard_DESCRIPTION"
 			Cost="250"
 			PrereqDistrict="DISTRICT_HARBOR"
+			PurchaseYield="YIELD_GOLD"
 			CitizenSlots="1"/>
 	</Buildings>
 	<Building_GreatPersonPoints>

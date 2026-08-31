@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Taoist_text_CN -->
+<!-- Author: pen -->
+<!-- DateCreated: 2023/6/8 10:35:13 -->
+<GameData>
+	<LocalizedText>	
+		<Replace Tag="LOC_UNIT_TAOIST_NAME" Language="en_US">
+			<Text>Ley Line Detector</Text>
+		</Replace>
+		<Replace Tag="LOC_UNIT_TAOIST_DESCRIPTION" Language="en_US">
+			<Text>Unique support unit of the Hermetic Order. May move a Ley Line from an unowned tile to another valid tile. Like a Great Person, retreats to your capital when captured.</Text>
+		</Replace>
+		<Replace Tag="LOC_ABILITY_TAOIST_ADD_LEYLINE" Language="en_US"><Text>Probe the Ley Lines</Text></Replace>
+		<Replace Tag="LOC_TAOIST_ADD_LEYLINE_TOOLTIP" Language="en_US"><Text>[COLOR:Red]H-U-N-T-I-N-G[ENDCOLOR]</Text></Replace>
+		<Replace Tag="LOC_TAOIST_RIGID_TERRAIN_TOOLTIP" Language="en_US"><Text>C-L-O-S-E-L-Y</Text></Replace>
+		<Replace Tag="LOC_ABILITY_TAOIST_NOT_ADD_LEYLINE" Language="en_US"><Text>C-L-O-S-E-L-Y</Text></Replace>
+		<Replace Tag="LOC_TAOIST_NO_DISTRICT_TOOLTIP" Language="en_US"><Text>C-L-O-S-E-L-Y</Text></Replace>
+		<Replace Tag="LOC_TAOIST_NO_IMPROVEMENT_TOOLTIP" Language="en_US"><Text>C-L-O-S-E-L-Y</Text></Replace>
+		<Replace Tag="LOC_ABILITY_TAOIST_REMOVE_LEYLINE" Language="en_US"><Text>F-O-L-L-O-W</Text></Replace>
+		<Replace Tag="LOC_ABILITY_TAOIST_REMOVE_LEYLINE_TO_MAX" Language="en_US"><Text>N-O-W-A-Y</Text></Replace>
+		<Replace Tag="LOC_TAOIST_NO_BORDER_TOOLTIP" Language="en_US"><Text>[COLOR:Red]A mysterious magnetic force prevents use of the planchette.[ENDCOLOR]</Text></Replace>
+		<Replace Tag="LOC_TAOIST_MAX_LEYLINE" Language="en_US"><Text>Stored Ley Lines: [COLOR:Red]{1_Num}[ENDCOLOR] / {2_Num}</Text></Replace>
+		<Replace Tag="LOC_GRANT_TAOIST_UNIT_DESCRIPTION" Language="en_US"><Text>Gain a Ley Line Detector in the Capital</Text></Replace>
+		<Replace Tag="LOC_UNIT_TAOIST_NAME" Language="zh_Hant_HK"><Text>地卜師</Text></Replace>
+		<Replace Tag="LOC_UNIT_TAOIST_DESCRIPTION" Language="zh_Hant_HK">
+			<Text>黃金黎明協會特色支援單位。可以將無主單元格上的地脈移動到另一個有效單元格。被捕獲時如同偉人一樣自動撤回首都。</Text>
+		</Replace>
+		<Replace Tag="LOC_UNIT_TAOIST_NAME" Language="zh_Hans_CN">
+			<Text>地卜师</Text>
+		</Replace>
+		<Replace Tag="LOC_UNIT_TAOIST_DESCRIPTION" Language="zh_Hans_CN">
+			<Text>黄金黎明协会特色支援单位。解锁“对外贸易”以及首次建成炼金术会所时，分别在首都获得一名地卜师。[NEWLINE]可以吸收无主单元格上的地脉，将其移动到另一个有效单元格。被捕获时如同伟人一样自动撤回首都。</Text>
+		</Replace>
+		<Row Tag="LOC_PEDIA_UNITS_PAGE_UNIT_TAOIST_CHAPTER_HISTORY_PARA_1" Language="zh_Hans_CN">
+			<Text>地卜师，为星球塑性师在获取黄金黎明结社后，通过查询其古老典籍，对地脉嬗变的过程中诞生的一个分支。地卜师是通过对西方神秘学研究、融合了中国风水理论核心概念，使用通灵板（Ouija Board）作为操作方式，进行与灵体的对话、定位出具有特殊能量的“地脉点”的特殊感知型职业。[NEWLINE]一次完整的与灵体沟通需要使用通灵板作为媒介，下文提供一套系统、详细且强调安全规范的操作指南，涵盖从准备到结束的全过程。[NEWLINE][NEWLINE]免责声明：[NEWLINE]通灵板的使用始终伴随着争议和潜在的心理风险。通灵板的使用者应具备基本常识并具有应对灵体突发恶意的提前准备。[NEWLINE][NEWLINE]一、一套标准的通灵板包含以下部分：[NEWLINE]图板：一块平面木板，上面通常印有：[NEWLINE]26个英文字母（A-Z）。数字0-9。一侧印有词汇“是（YES）”、“否（NO）”。词汇“再见（GOODBYE）”。部分图板可能包含太阳、月亮等符号，用于判断灵体类型。[NEWLINE]乩板：一个心形或倒三角形的可移动指示器，通常带有透明窗口或指针，用于在字母和符号上滑动，拼出答案。使用者将手指轻轻置于其上。[NEWLINE][NEWLINE]环境与心态准备[NEWLINE]选择一个安静、不受打扰的室内环境。避免在墓地、凶案现场或被认为阴气过重的地方使用。确保光线适宜，通常建议使用烛光或柔和的灯光以营造氛围，但需注意防火安全。所有参与者应保持清醒、冷静，情绪稳定。[NEWLINE][NEWLINE]二、标准操作流程[NEWLINE]提问方式：通过向通灵板提问的方式，问题应清晰、简洁，最好能用“是”或“否”回答，或拼写简短的单词。问题应由浅入深，从验证存在开始（如“你是善意的吗？”），再逐步进入特定话题，如“请问你看到过地脉吗？”“请问地脉距离我远吗？”“请问我刚才的移动是离地脉更近一步还是更远？”，切忌在确定灵体与地脉的依存方式前，直接询问灵体地脉的准确坐标。[NEWLINE]等待回应：提出问题后，保持手指放松，耐心等待。乩板可能会开始缓慢移动，乩板会在多个字母或符号移动，乩板停驻时读取其字母，来拼出灵体的回答。移动可能是平滑的，也可能是跳跃式的。[NEWLINE]记录答案：如灵体依次拼出 N-O-W-A-Y，则读取其英文意味“不可能”或“别想”。[NEWLINE][NEWLINE]永远礼貌告别：这是最重要的规则。 无论对话进行得如何，结束时必须明确道别。可以说：“感谢你的交流，现在我们将结束这次对话，再见。”并引导或等待乩板滑向“GOODBYE”。在未正式道别前，所有参与者不得将手指移开乩板或离开。[NEWLINE][NEWLINE]禁止询问特定问题：[NEWLINE]切勿询问自己或他人的死亡时间、方式。切勿直接询问灵体地脉的准确坐标。切勿要求灵体证明其存在（如让物体移动、熄灭灯光等），这可能被视为邀请或挑衅。切勿询问发现地脉后的物质利益问题。[NEWLINE][NEWLINE]三、识别与处理异常：[NEWLINE]恶意迹象：如果乩板开始快速画圈（如“8字形”）、反复在数字“8”上停留、或从Z到A、9到0倒序移动，这可能表示遇到了恶意的灵体干扰。遭遇恶灵：立即保持冷静，坚定地表示：“我们不欢迎恶意的存在，请立即离开。”然后果断引导乩板至“GOODBYE”结束对话。有说法称，将通灵板上下颠倒使用可以抵御恶灵，但这并非公认方法。更稳妥的做法是立即结束。乩板失控：如果乩板剧烈移动或试图脱离图板，所有参与者应同时坚定地将手指按下，稳住乩板，并立即进行告别仪式。使用限制：避免长时间或过于频繁地使用通灵板。不要依赖它做重要的人生决定。对其给出的信息保持批判态度，切勿盲目相信所有内容。[NEWLINE][NEWLINE]请谨记：[NEWLINE]你沟通的对象本质是未知的。你接收到的信息可能具有误导性或源于自身潜意识。过度投入可能对心理健康产生负面影响。最重要的原则是：保持怀疑，设定界限，永远优先保障自身的身心安全与现实福祉。</Text>		
+		</Row>
+		<Replace Tag="LOC_ABILITY_TAOIST_ADD_LEYLINE" Language="zh_Hans_CN">
+			<Text>探虚问奇</Text>
+		</Replace>
+		<Replace Tag="LOC_TAOIST_ADD_LEYLINE_TOOLTIP" Language="zh_Hans_CN">
+			<Text>[COLOR:Red]H-U-N-T-I-N-G[ENDCOLOR]</Text>
+		</Replace>
+		<Replace Tag="LOC_TAOIST_RIGID_TERRAIN_TOOLTIP" Language="zh_Hans_CN">
+			<Text>C-L-O-S-E-L-Y</Text>
+		</Replace>
+		<Replace Tag="LOC_ABILITY_TAOIST_NOT_ADD_LEYLINE" Language="zh_Hans_CN">
+			<Text>C-L-O-S-E-L-Y</Text>
+		</Replace>
+		<Replace Tag="LOC_TAOIST_NO_DISTRICT_TOOLTIP" Language="zh_Hans_CN">
+			<Text>C-L-O-S-E-L-Y</Text>
+		</Replace>
+		<Replace Tag="LOC_TAOIST_NO_IMPROVEMENT_TOOLTIP" Language="zh_Hans_CN">
+			<Text>C-L-O-S-E-L-Y</Text>
+		</Replace>
+		<Replace Tag="LOC_ABILITY_TAOIST_REMOVE_LEYLINE" Language="zh_Hans_CN">
+			<Text>F-O-L-L-O-W</Text>
+		</Replace>
+		<Replace Tag="LOC_ABILITY_TAOIST_REMOVE_LEYLINE_TO_MAX" Language="zh_Hans_CN">
+			<Text>N-O-W-A-Y</Text>
+		</Replace>
+		<Replace Tag="LOC_TAOIST_NO_BORDER_TOOLTIP" Language="zh_Hans_CN">
+			<Text>[COLOR:Red]神秘的磁场力量阻止你使用通灵板[ENDCOLOR]</Text>
+		</Replace>
+		<Replace Tag="LOC_TAOIST_MAX_LEYLINE" Language="zh_Hans_CN">
+			<Text>最大储存地脉数量：[COLOR:Red]{1_Num}[ENDCOLOR] /{2_Num}</Text>
+		</Replace>
+		<Replace Tag="LOC_GRANT_TAOIST_UNIT_DESCRIPTION" Language="zh_Hans_CN">
+			<Text>首都获得一位地卜师</Text>
+		</Replace>
+	</LocalizedText>		
+</GameData>

@@ -2643,6 +2643,21 @@
 			<Criteria>ZYL_SecretSocietiesXP2</Criteria>
 			<File>Components/TeamPVPSecretSocieties/TeamPVPSecretSocieties.dep</File>
 		</UpdateArt>
+		<UpdateArt id="ZYL_TPVP_TaoistArt">
+			<Properties>
+				<LoadOrder>250000001</LoadOrder>
+				<Context>InGame</Context>
+			</Properties>
+			<Criteria>ZYL_SecretSocietiesXP2</Criteria>
+			<File>Components/TeamPVPSecretSocieties/Taoist/Taoist.dep</File>
+		</UpdateArt>
+		<UpdateDatabase id="ZYL_TPVP_TaoistDatabase">
+			<Properties>
+				<LoadOrder>250000005</LoadOrder>
+			</Properties>
+			<Criteria>ZYL_SecretSocietiesXP2</Criteria>
+			<File>Components/TeamPVPSecretSocieties/Taoist/Data/Taoist_unit.sql</File>
+		</UpdateDatabase>
 		<UpdateDatabase id="ZYL_TPVP_GildedShipyard">
 			<Properties>
 				<LoadOrder>250000000</LoadOrder>
@@ -2663,6 +2678,7 @@
 			</Properties>
 			<Criteria>ZYL_SecretSocietiesXP2</Criteria>
 			<File>Components/TeamPVPSecretSocieties/Text.xml</File>
+			<File>Components/TeamPVPSecretSocieties/Taoist/Text/Taoist_text.xml</File>
 		</UpdateText>
 		<UpdateIcons id="ZYL_TPVP_SecretSocietiesIcons">
 			<Properties>
@@ -2670,7 +2686,23 @@
 			</Properties>
 			<Criteria>ZYL_SecretSocietiesXP2</Criteria>
 			<File>Components/TeamPVPSecretSocieties/Icons.xml</File>
+			<File>Components/TeamPVPSecretSocieties/Taoist/Data/Taoist_icon.xml</File>
 		</UpdateIcons>
+		<AddUserInterfaces id="ZYL_TPVP_TaoistUI">
+			<Properties>
+				<LoadOrder>250000030</LoadOrder>
+				<Context>InGame</Context>
+			</Properties>
+			<Criteria>ZYL_SecretSocietiesXP2</Criteria>
+			<File>Components/TeamPVPSecretSocieties/Taoist/UI/Taoist_UI.xml</File>
+		</AddUserInterfaces>
+		<AddGameplayScripts id="ZYL_TPVP_TaoistGameplay">
+			<Properties>
+				<LoadOrder>250000030</LoadOrder>
+			</Properties>
+			<Criteria>ZYL_SecretSocietiesXP2</Criteria>
+			<File>Components/TeamPVPSecretSocieties/Taoist/Scripts/Taoist_Gameplay.lua</File>
+		</AddGameplayScripts>
 		<UpdateDatabase id="ZYL_GameplayOverrides">
 			<Properties>
 				<LoadOrder>260000000</LoadOrder>
@@ -3528,6 +3560,16 @@
 		<File>Components/TeamPVPSecretSocieties/Icons.xml</File>
 		<File>Components/TeamPVPSecretSocieties/TeamPVPSecretSocieties.dep</File>
 		<File>Components/TeamPVPSecretSocieties/Buildings.artdef</File>
+		<File>Components/TeamPVPSecretSocieties/Taoist/Taoist.dep</File>
+		<File>Components/TeamPVPSecretSocieties/Taoist/Artdefs/Units.artdef</File>
+		<File>Components/TeamPVPSecretSocieties/Taoist/Data/Taoist_icon.xml</File>
+		<File>Components/TeamPVPSecretSocieties/Taoist/Data/Taoist_unit.sql</File>
+		<File>Components/TeamPVPSecretSocieties/Taoist/Platforms/MacOS/BLPs/Taoist.blp</File>
+		<File>Components/TeamPVPSecretSocieties/Taoist/Platforms/Windows/BLPs/Taoist.blp</File>
+		<File>Components/TeamPVPSecretSocieties/Taoist/Scripts/Taoist_Gameplay.lua</File>
+		<File>Components/TeamPVPSecretSocieties/Taoist/Text/Taoist_text.xml</File>
+		<File>Components/TeamPVPSecretSocieties/Taoist/UI/Taoist_UI.lua</File>
+		<File>Components/TeamPVPSecretSocieties/Taoist/UI/Taoist_UI.xml</File>
 		<File>FEB/ForcedEndButton_Text.xml</File>
 		<File>FEB/UI/ForcedEndButton.lua</File>
 		<File>FEB/UI/ForcedEndButton.xml</File>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Taoist_icon -->
+<!-- Author: pen -->
+<!-- DateCreated: 2023/6/8 10:33:38 -->
+<GameData>
+	<IconTextureAtlases>
+		<Row Name="ATLAS_ICON_UNIT_TAOIST" IconSize="22" Filename="ICON_UNIT_TAOIST_22"/>
+		<Row Name="ATLAS_ICON_UNIT_TAOIST" IconSize="32" Filename="ICON_UNIT_TAOIST_32"/>
+		<Row Name="ATLAS_ICON_UNIT_TAOIST" IconSize="38" Filename="ICON_UNIT_TAOIST_38"/>
+		<Row Name="ATLAS_ICON_UNIT_TAOIST" IconSize="50" Filename="ICON_UNIT_TAOIST_50"/>
+		<Row Name="ATLAS_ICON_UNIT_TAOIST" IconSize="80" Filename="ICON_UNIT_TAOIST_80"/>
+		<Row Name="ATLAS_ICON_UNIT_TAOIST" IconSize="256" Filename="ICON_UNIT_TAOIST_256"/>
+
+		<Row Name="ATLAS_ICON_UNIT_TAOIST_4" IconSize="22" Filename="ICON_UNIT_TAOIST_4_22"/>
+		<Row Name="ATLAS_ICON_UNIT_TAOIST_4" IconSize="32" Filename="ICON_UNIT_TAOIST_4_32"/>
+		<Row Name="ATLAS_ICON_UNIT_TAOIST_4" IconSize="38" Filename="ICON_UNIT_TAOIST_4_38"/>
+		<Row Name="ATLAS_ICON_UNIT_TAOIST_4" IconSize="50" Filename="ICON_UNIT_TAOIST_4_50"/>
+		<Row Name="ATLAS_ICON_UNIT_TAOIST_4" IconSize="80" Filename="ICON_UNIT_TAOIST_4_80"/>
+		<Row Name="ATLAS_ICON_UNIT_TAOIST_4" IconSize="256" Filename="ICON_UNIT_TAOIST_4_256"/>
+		
+		<Row Name="ATLAS_ICON_UNIT_TAOIST_6" IconSize="38" Filename="ICON_UNIT_TAOIST_6_38"/>
+		<Row Name="ATLAS_ICON_UNIT_TAOIST_6" IconSize="50" Filename="ICON_UNIT_TAOIST_6_50"/>
+		<Row Name="ATLAS_ICON_UNIT_TAOIST_6" IconSize="80" Filename="ICON_UNIT_TAOIST_6_80"/>
+		<Row Name="ATLAS_ICON_UNIT_TAOIST_6" IconSize="256" Filename="ICON_UNIT_TAOIST_6_256"/>
+	</IconTextureAtlases>
+	<IconDefinitions>
+		<Row Name="ICON_UNIT_TAOIST"			Atlas="ATLAS_ICON_UNIT_TAOIST_4" Index="0"/>
+		<Row Name="ICON_UNIT_TAOIST_FOW"		Atlas="ICON_ATLAS_UNITS_FOW" Index="12"/>
+		<Row Name="ICON_UNIT_TAOIST_PORTRAIT"	Atlas="ICON_ATLAS_UNIT_PORTRAITS"   Index="12"/>
+	</IconDefinitions>
+</GameData>

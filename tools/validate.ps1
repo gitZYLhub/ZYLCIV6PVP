@@ -1619,16 +1619,39 @@ if (Test-Path -LiteralPath $teamPvpSocietyPaths.Gameplay) {
     $requiredSocietySqlTokens = @(
         'DiscoverAtCityStateBaseChance = 100000',
         'DiscoverAtGoodyHutBaseChance = 100000',
+        "WHERE GovernorPromotionType = 'GOVERNOR_PROMOTION_SANGUINE_PACT_2'",
+        "SET BaseMoves = 3",
+        "('ROUTE_ANCIENT_ROAD', 'UNIT_VAMPIRE')",
+        "('ROUTE_MEDIEVAL_ROAD', 'UNIT_VAMPIRE')",
+        "('ROUTE_INDUSTRIAL_ROAD', 'UNIT_VAMPIRE')",
+        "('ROUTE_MODERN_ROAD', 'UNIT_VAMPIRE')",
+        "'SECRET_SOCIETIES_DISABLE_VAMPIRE_NORMAL_HEALING', 'Amount', -5",
+        "'SECRET_SOCIETIES_ENABLE_VAMPIRE_PILLAGE_HEALING', 'Amount', 50",
+        "'SECRET_SOCIETIES_ENABLE_VAMPIRE_PILLAGE_HEALING', 'Key', 'HEAL_ON_PILLAGE'",
+        "'ZYL_TPVP_SANGUINE_VAMPIRE_HEAL_FROM_COMBAT'",
+        "'ZYL_TPVP_SANGUINE_VAMPIRE_HEAL_FROM_COMBAT', 'Amount', 10",
+        "'ZYL_TPVP_SANGUINE_ENCAMPMENT_PRODUCTION', 'Amount', 50",
+        "'ZYL_TPVP_SANGUINE_BARRACKS_PRODUCTION', 'Amount', 1",
+        "'ZYL_TPVP_SANGUINE_STABLE_PRODUCTION', 'Amount', 1",
+        "'ZYL_TPVP_SANGUINE_ARMORY_PRODUCTION', 'Amount', 2",
+        "'ZYL_TPVP_SANGUINE_MILITARY_ACADEMY_PRODUCTION', 'Amount', 4",
+        "'ZYL_TPVP_SANGUINE_MILITARY_POLICY_SLOT', 'GovernmentSlotType', 'SLOT_MILITARY'",
+        "('GOVERNOR_PROMOTION_SANGUINE_PACT_1', 'SECRET_SOCIETY_VAMPIRES_ADVANCED_PILLAGING')",
+        "('GOVERNOR_PROMOTION_SANGUINE_PACT_2', 'SECRET_SOCIETY_GRANT_TWO_VAMPIRE_BUILDS')",
+        "('GOVERNOR_PROMOTION_SANGUINE_PACT_3', 'SECRET_SOCIETY_GRANT_ONE_VAMPIRE_BUILD')",
+        "('GOVERNOR_PROMOTION_SANGUINE_PACT_4', 'SECRET_SOCIETY_GRANT_ONE_VAMPIRE_BUILD')",
         "SET EarliestGameEra = 'ERA_RENAISSANCE'",
+        "SET EarliestGameEra = 'ERA_INDUSTRIAL'",
         "WHERE BuildingType = 'BUILDING_GILDED_VAULT'",
+        "PurchaseYield = 'YIELD_GOLD'",
         "WHERE BuildingType = 'BUILDING_ALCHEMICAL_SOCIETY'",
         "WHEN 'YIELD_SCIENCE' THEN 4",
         "WHEN 'YIELD_PRODUCTION' THEN 2",
         "'GOVERNOR_PROMOTION_OWLS_OF_MINERVA_3_SPY_CAPACITY'",
         "'GOVERNOR_PROMOTION_OWLS_OF_MINERVA_4_GOLD_INTEREST'",
-        "'GOVERNOR_PROMOTION_VOIDSINGERS_2_GOLD_FROM_FAITH' THEN '1'",
+        "'GOVERNOR_PROMOTION_VOIDSINGERS_2_GOLD_FROM_FAITH' THEN '10'",
         "'GOVERNOR_PROMOTION_VOIDSINGERS_2_SCIENCE_FROM_FAITH' THEN '10'",
-        "'GOVERNOR_PROMOTION_VOIDSINGERS_2_CULTURE_FROM_FAITH' THEN '4'",
+        "'GOVERNOR_PROMOTION_VOIDSINGERS_2_CULTURE_FROM_FAITH' THEN '10'",
         "'ZYL_TPVP_VOIDSINGER_RELIC_PRODUCTION', 'YieldChange', 1",
         "'SANGUINE_PACT_VAMPIRE_COMBAT_STRENGTH_FROM_PROPERTY', 'Max', 3",
         "'SANGUINE_PACT_VAMPIRE_BARB_COMBAT_STRENGTH_FROM_PROPERTY'",
@@ -1639,11 +1662,49 @@ if (Test-Path -LiteralPath $teamPvpSocietyPaths.Gameplay) {
         "'IMPROVEMENT_VAMPIRE_CASTLE', 'YIELD_PRODUCTION', 5",
         "'RESOURCE_LEY_LINE', 'YIELD_GOLD', 40, NULL",
         "'IMPROVEMENT_FARM', 'RESOURCE_LEY_LINE', 0",
+        "'BUILDING_GILDED_Shipyard', 'BBG_SHIPYARD_FISHERY_PRODUCTION'",
+        "'ZYL_TPVP_MILITARYRESEARCH_GILDED_SHIPYARD_SCIENCE'",
+        "'ZYL_TPVP_CARDIFF_GILDED_SHIPYARD_PRODUCTION_ATTACH'",
+        "'ZYL_TPVP_CARDIFF_GILDED_SHIPYARD_GOLD_ATTACH'",
         "'ZYL_TPVP_GILDED_SHIPYARD_ADJ_12'"
     )
     foreach ($token in $requiredSocietySqlTokens) {
         if (-not $teamPvpSocietySql.Contains($token)) {
             Add-ValidationError "Team PVP Secret Societies SQL is missing required behavior: $token"
+        }
+    }
+    if ($teamPvpSocietySql -notmatch "(?is)\('GOVERNOR_PROMOTION_SANGUINE_PACT_1',\s*'SECRET_SOCIETY_VAMPIRES_ADVANCED_PILLAGING'\)") {
+        Add-ValidationError 'Sanguine Pact advanced pillaging is not attached to tier 1.'
+    }
+    if ($teamPvpSocietySql -match "(?is)\('GOVERNOR_PROMOTION_SANGUINE_PACT_3',\s*'SECRET_SOCIETY_VAMPIRES_ADVANCED_PILLAGING'\)") {
+        Add-ValidationError 'Sanguine Pact advanced pillaging must not remain attached to tier 3.'
+    }
+    if ($teamPvpSocietySql -notmatch "(?is)\('GOVERNOR_PROMOTION_SANGUINE_PACT_1',\s*'ZYL_TPVP_SANGUINE_VAMPIRE_HEAL_FROM_COMBAT_ATTACH'\)") {
+        Add-ValidationError 'Sanguine Pact combat-heal modifier is not attached to tier 1.'
+    }
+    if ($teamPvpSocietySql -notmatch "(?is)\('ZYL_TPVP_SANGUINE_VAMPIRE_HEAL_FROM_COMBAT_ATTACH',\s*'MODIFIER_PLAYER_UNITS_ATTACH_MODIFIER',\s*'THIS_UNIT_IS_A_VAMPIRE'\)") {
+        Add-ValidationError 'Sanguine Pact combat healing is not restricted to Vampire units.'
+    }
+    if ($teamPvpSocietySql -notmatch "(?is)\('ZYL_TPVP_SANGUINE_VAMPIRE_HEAL_FROM_COMBAT',\s*'MODIFIER_PLAYER_UNIT_ADJUST_HEAL_FROM_COMBAT',\s*NULL\)") {
+        Add-ValidationError 'Sanguine Pact combat healing is not restricted to Vampire units.'
+    }
+    foreach ($sanguinePromotion in @(
+        @{ Promotion = '1'; Modifier = 'ZYL_TPVP_SANGUINE_ENCAMPMENT_PRODUCTION' },
+        @{ Promotion = '1'; Modifier = 'ZYL_TPVP_SANGUINE_BARRACKS_PRODUCTION' },
+        @{ Promotion = '1'; Modifier = 'ZYL_TPVP_SANGUINE_STABLE_PRODUCTION' },
+        @{ Promotion = '2'; Modifier = 'ZYL_TPVP_SANGUINE_ARMORY_PRODUCTION' },
+        @{ Promotion = '2'; Modifier = 'ZYL_TPVP_SANGUINE_MILITARY_POLICY_SLOT' },
+        @{ Promotion = '3'; Modifier = 'ZYL_TPVP_SANGUINE_MILITARY_ACADEMY_PRODUCTION' }
+    )) {
+        $sanguineBindingPattern = "(?is)\('GOVERNOR_PROMOTION_SANGUINE_PACT_$($sanguinePromotion.Promotion)',\s*'$([regex]::Escape($sanguinePromotion.Modifier))'\)"
+        if ($teamPvpSocietySql -notmatch $sanguineBindingPattern) {
+            Add-ValidationError "Sanguine Pact tier $($sanguinePromotion.Promotion) is missing $($sanguinePromotion.Modifier)."
+        }
+    }
+    foreach ($buildingType in @('BUILDING_GILDED_VAULT', 'BUILDING_GILDED_Shipyard')) {
+        $goldPurchasePattern = "(?is)UPDATE\s+Buildings\s+SET(?:(?!;).)*PurchaseYield\s*=\s*'YIELD_GOLD'(?:(?!;).)*WHERE\s+BuildingType\s*=\s*'$([regex]::Escape($buildingType))'\s*;"
+        if ($teamPvpSocietySql -notmatch $goldPurchasePattern) {
+            Add-ValidationError "$buildingType is not pinned to Gold purchasing in the final Team PVP gameplay layer."
         }
     }
     foreach ($outOfScopeToken in @(
@@ -1666,6 +1727,9 @@ if (Test-Path -LiteralPath $teamPvpSocietyPaths.Building) {
     if ($null -eq $gildedShipyardRow -or $gildedShipyardRow.GetAttribute('Cost') -ne '250') {
         Add-ValidationError 'The Team PVP Gilded Shipyard must exist at its effective 250 Production cost.'
     }
+    if ($null -eq $gildedShipyardRow -or $gildedShipyardRow.GetAttribute('PurchaseYield') -ne 'YIELD_GOLD') {
+        Add-ValidationError 'The Team PVP Gilded Shipyard must be purchasable with Gold.'
+    }
     foreach ($yield in @{
         YIELD_FOOD = '1'
         YIELD_PRODUCTION = '1'
@@ -1683,14 +1747,55 @@ if (Test-Path -LiteralPath $teamPvpSocietyPaths.Text) {
         foreach ($tag in @(
             'LOC_BUILDING_GILDED_Shipyard_DESCRIPTION',
             'LOC_GOVERNOR_PROMOTION_OWLS_OF_MINERVA_3_DESCRIPTION',
+            'LOC_GOVERNOR_PROMOTION_OWLS_OF_MINERVA_4_DESCRIPTION',
             'LOC_GOVERNOR_PROMOTION_HERMETIC_ORDER_1_DESCRIPTION',
+            'LOC_GOVERNOR_PROMOTION_HERMETIC_ORDER_4_DESCRIPTION',
             'LOC_GOVERNOR_PROMOTION_VOIDSINGERS_3_DESCRIPTION',
+            'LOC_GOVERNOR_PROMOTION_VOIDSINGERS_4_DESCRIPTION',
             'LOC_UNIT_VAMPIRE_DESCRIPTION',
+            'LOC_GOVERNOR_PROMOTION_SANGUINE_PACT_4_DESCRIPTION',
             'LOC_IMPROVEMENT_VAMPIRE_CASTLE_DESCRIPTION'
         )) {
             if ($null -eq $teamPvpSocietyText.SelectSingleNode("/GameData/LocalizedText/Replace[@Tag='$tag' and @Language='$language']/Text")) {
                 Add-ValidationError "Team PVP Secret Societies localization is missing $tag for $language."
             }
+        }
+    }
+    $sanguineTextChecks = @(
+    [pscustomobject]@{ Language = 'en_US'; Tag = 'LOC_GOVERNOR_PROMOTION_SANGUINE_PACT_1_DESCRIPTION'; Tokens = @('3 [ICON_Movement]', '10 HP', '50 HP', '1 [ICON_Movement]', '+50% [ICON_Production]') },
+        [pscustomobject]@{ Language = 'en_US'; Tag = 'LOC_GOVERNOR_PROMOTION_SANGUINE_PACT_2_DESCRIPTION'; Tokens = @('maximum of 2', '+2 [ICON_Production]', 'Military policy') },
+        [pscustomobject]@{ Language = 'en_US'; Tag = 'LOC_GOVERNOR_PROMOTION_SANGUINE_PACT_3_DESCRIPTION'; Tokens = @('maximum to 3', '+4 [ICON_Production]') },
+        [pscustomobject]@{ Language = 'en_US'; Tag = 'LOC_GOVERNOR_PROMOTION_SANGUINE_PACT_4_DESCRIPTION'; Tokens = @('Industrial Era', 'maximum to 4') },
+        [pscustomobject]@{ Language = 'zh_Hans_CN'; Tag = 'LOC_GOVERNOR_PROMOTION_SANGUINE_PACT_1_DESCRIPTION'; Tokens = @('3 [ICON_Movement]', '10点生命值', '50点生命值', '1 [ICON_Movement]', '+50%') },
+        [pscustomobject]@{ Language = 'zh_Hans_CN'; Tag = 'LOC_GOVERNOR_PROMOTION_SANGUINE_PACT_2_DESCRIPTION'; Tokens = @('最多2座', '兵工厂+2', '军事政策槽位') },
+        [pscustomobject]@{ Language = 'zh_Hans_CN'; Tag = 'LOC_GOVERNOR_PROMOTION_SANGUINE_PACT_3_DESCRIPTION'; Tokens = @('上限提高至3座', '军事学院+4') },
+        [pscustomobject]@{ Language = 'zh_Hans_CN'; Tag = 'LOC_GOVERNOR_PROMOTION_SANGUINE_PACT_4_DESCRIPTION'; Tokens = @('工业时代', '上限提高至4座') },
+        [pscustomobject]@{ Language = 'zh_Hant_HK'; Tag = 'LOC_GOVERNOR_PROMOTION_SANGUINE_PACT_1_DESCRIPTION'; Tokens = @('3 [ICON_Movement]', '10生命', '50生命', '1 [ICON_Movement]', '+50%') },
+        [pscustomobject]@{ Language = 'zh_Hant_HK'; Tag = 'LOC_GOVERNOR_PROMOTION_SANGUINE_PACT_2_DESCRIPTION'; Tokens = @('最多2座', '兵工廠+2', '軍事政策槽位') },
+        [pscustomobject]@{ Language = 'zh_Hant_HK'; Tag = 'LOC_GOVERNOR_PROMOTION_SANGUINE_PACT_3_DESCRIPTION'; Tokens = @('上限提高至3座', '軍事學院+4') },
+        [pscustomobject]@{ Language = 'zh_Hant_HK'; Tag = 'LOC_GOVERNOR_PROMOTION_SANGUINE_PACT_4_DESCRIPTION'; Tokens = @('工業時代', '上限提高至4座') }
+    )
+    foreach ($sanguineTextCheck in $sanguineTextChecks) {
+        $sanguineTextNode = $teamPvpSocietyText.SelectSingleNode("/GameData/LocalizedText/Replace[@Tag='$($sanguineTextCheck.Tag)' and @Language='$($sanguineTextCheck.Language)']/Text")
+        if ($null -eq $sanguineTextNode) {
+            Add-ValidationError "Sanguine Pact localization is missing $($sanguineTextCheck.Tag) for $($sanguineTextCheck.Language)."
+        }
+        else {
+            foreach ($sanguineTextToken in $sanguineTextCheck.Tokens) {
+                if (-not $sanguineTextNode.InnerText.Contains($sanguineTextToken)) {
+                    Add-ValidationError "Sanguine Pact localization $($sanguineTextCheck.Tag) for $($sanguineTextCheck.Language) is missing: $sanguineTextToken"
+                }
+            }
+        }
+    }
+    foreach ($entry in @{
+        en_US = 'Fisheries'
+        zh_Hans_CN = '渔场'
+        zh_Hant_HK = '漁場'
+    }.GetEnumerator()) {
+        $gildedShipyardText = $teamPvpSocietyText.SelectSingleNode("/GameData/LocalizedText/Replace[@Tag='LOC_BUILDING_GILDED_Shipyard_DESCRIPTION' and @Language='$($entry.Key)']/Text")
+        if ($null -eq $gildedShipyardText -or -not $gildedShipyardText.InnerText.Contains($entry.Value)) {
+            Add-ValidationError "Gilded Shipyard localization for $($entry.Key) does not mention its Fishery Production bonus."
         }
     }
 }

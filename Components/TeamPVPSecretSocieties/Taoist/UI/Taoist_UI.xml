@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Taoist_UI -->
+<!-- Author: pen -->
+<!-- DateCreated: 2023/6/8 11:18:14 -->
+<GameData>
+	<Grid ID="TaoistGrid" Anchor="R,B" Size="46,41" AutoSizePadding="6,0" Texture="SelectionPanel_ActionGroupSlot" SliceCorner="5,19" SliceSize="1,1" SliceTextureSize="12,41" ConsumeMouse="1" Hidden="1">
+		<!-- Plant and Breed Button -->
+		<Button ID="TaoistButton" Anchor="C,B" Size="44,53" Texture="UnitPanel_ActionButton">
+			<!-- Button Image -->
+			<Image ID="TaoistButtonIcon"	Anchor="C,C" Offset="0,-2" Size="38,38" Texture="ICON_UNIT_TAOIST_4_38.dds"/>
+		</Button>
+	</Grid>		
+</GameData>
