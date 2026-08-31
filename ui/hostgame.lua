@@ -34,6 +34,28 @@ local m_InSession = false
 local m_Preset = -1;
 local b_visible = false;
 
+local ZYL_LOBBY_DEFAULTS:table = {
+	{ "TOOLS_COMMAND", 1 },
+	{ "TOOLS_15_TIME", 1 },
+	{ "CPL_SMARTTIMER", 8 },
+	{ "ZYL_ERA_LENGTH_OPTIMIZATION", 1 },
+	{ "ZYL_DIPLOMACY_RIBBON_MODE", 0 },
+	{ "BBCC_SETTING", 0 },
+	{ "BBCC_SETTING_YIELD", 2 },
+	{ "BARBS_SETTING", -1 },
+	{ "GAME_NO_BARBARIANS", 1 },
+	{ "GAMEMODE_MONOPOLIES", 1 },
+	{ "GAMEMODE_SECRETSOCIETIES", 1 },
+};
+
+-- Keep the fresh-room and Restore Defaults paths deterministic even when the
+-- front-end cache still contains values from an earlier ZYLPVPMOD build.
+function ApplyZYLLobbyDefaults()
+	for _, entry in ipairs(ZYL_LOBBY_DEFAULTS) do
+		GameConfiguration.SetValue(entry[1], entry[2]);
+	end
+end
+
 
 function OnSetParameterValues(pid: string, values: table)
 	local indexed_values = {};
@@ -495,6 +517,8 @@ function OnDefaultButton()
 	local gameMode = GameModeTypeForMPLobbyType(m_lobbyModeName);
 	local gameName = GameConfiguration.GetValue("GAME_NAME");
 	GameConfiguration.SetToDefaults(gameMode);
+	GameConfiguration.SetKickVoting(true);
+	ApplyZYLLobbyDefaults();
 	GameConfiguration.RegenerateSeeds();
 
 	-- Kludge:  SetToDefaults assigns the ruleset to be standard.
@@ -733,6 +757,8 @@ function OnRaiseHostGame()
 	-- "Raise" means the host game screen is being shown for a fresh game.  Game configuration need to be defaulted.
 	local gameMode = GameModeTypeForMPLobbyType(m_lobbyModeName);
 	GameConfiguration.SetToDefaults(gameMode);
+	GameConfiguration.SetKickVoting(true);
+	ApplyZYLLobbyDefaults();
 
 	-- Kludge:  SetToDefaults assigns the ruleset to be standard.
 	-- Clear this value so that the setup parameters code can guess the best 
@@ -969,6 +995,7 @@ function CheckPreset()
 		if currentPreset == 0 then
 			print("Applied Default Settings")
 			Default_Natural_Wonders()
+			ApplyZYLLobbyDefaults()
 		end
 		-- CWC
 		if currentPreset == 1 then

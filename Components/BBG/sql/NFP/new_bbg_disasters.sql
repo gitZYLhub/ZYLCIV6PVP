@@ -96,6 +96,15 @@ UPDATE RandomEvent_Yields SET Percentage=Percentage*.75 WHERE RandomEventType LI
 
 -- 15/15/24 disaster 0 is now disaster 1, disaster 0 has no disaster
 DELETE FROM RandomEvent_Frequencies WHERE RealismSettingType='REALISM_SETTING_LIGHT';
-UPDATE RandomEvent_Frequencies SET RealismSettingType='REALISM_SETTING_LIGHT' WHERE RealismSettingType='REALISM_SETTING_MINIMAL';
+-- Use an INSERT/DELETE migration rather than updating the key in place.  The
+-- same event may already have both MINIMAL and LIGHT rows when another
+-- wonder/map action loaded before this one; a direct UPDATE then violates
+-- the composite primary key and leaves the rest of this file unreliable.
+INSERT OR REPLACE INTO RandomEvent_Frequencies
+	(RandomEventType, RealismSettingType, OccurrencesPerGame)
+SELECT RandomEventType, 'REALISM_SETTING_LIGHT', OccurrencesPerGame
+FROM RandomEvent_Frequencies
+WHERE RealismSettingType='REALISM_SETTING_MINIMAL';
+DELETE FROM RandomEvent_Frequencies WHERE RealismSettingType='REALISM_SETTING_MINIMAL';
 
 

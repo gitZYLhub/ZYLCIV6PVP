@@ -47,7 +47,7 @@
 		<Text>切换至报告界面</Text>
 	</Row>
 	<Row Tag="LOC_OPTIONS_HOTKEY_UI_REPORTS_HELP" Language="zh_Hans_CN">
-		<Text>切换报告界面的能见度</Text>
+		<Text>显示或隐藏报告界面</Text>
 	</Row>
 	
 </LocalizedText>

@@ -579,19 +579,19 @@
 		</Replace>
 		<!-- = Old Faithful = -->
 		<Replace Tag="LOC_FEATURE_OLD_FAITHFUL_NAME" Language="zh_Hans_CN">
-			<Text>老实泉</Text>
+			<Text>老忠实泉</Text>
 		</Replace>
 		<Replace Tag="LOC_FEATURE_OLD_FAITHFUL_DESCRIPTION" Language="zh_Hans_CN">
 			<Text>占1个单元格的自然奇观。提供+3 [ICON_SCIENCE] 科技值、+2 [ICON_FOOD] 食物、+1 [ICON_Faith] 信仰值、+1 [ICON_GOLD] 金币。为学院提供大量相邻加成。</Text>
 		</Replace>
 		<Replace Tag="LOC_FEATURE_OLD_FAITHFUL_QUOTE" Language="zh_Hans_CN">
-			<Text>“它在我们逗留期间以规律的间隔喷发了九次，每次喷发时热水柱被喷出的高度在90至125英尺之间，每次持续时间为15至20分钟。我们给它取名为“老实泉”。”[NEWLINE]——纳撒尼尔·P·朗福德</Text>
+			<Text>“它在我们逗留期间以规律的间隔喷发了九次，每次喷发时热水柱被喷出的高度在90至125英尺之间，每次持续时间为15至20分钟。我们给它取名为“老忠实泉”。”[NEWLINE]——纳撒尼尔·P·朗福德</Text>
 		</Replace>
 		<Replace Tag="LOC_PEDIA_FEATURES_PAGE_FEATURE_OLD_FAITHFUL_CHAPTER_HISTORY_PARA_1" Language="zh_Hans_CN">
-			<Text>"老实泉"（Old Faithful）是位于美国怀俄明州黄石国家公园内的一座间歇泉。它于1870年被欧洲人首次发现（而当地原住民早在一万年前就已经发现了这个景观），因其喷发的规律性而得名。该泉每隔60-90分钟就会喷发一次，将一柱热水喷射到约30-50米（100-175英尺）的高度（间隔时间取决于前一次喷发的猛烈程度）。间歇泉是由于地下水与岩浆（熔岩）相遇而产生的。水瞬间被转化为蒸汽，以极高的压力冲出最近的可用开口。老忠实泉和黄石国家公园内的其他250个间歇泉每年吸引着约300万游客的到来。</Text>
+			<Text>"老忠实泉"（Old Faithful）是位于美国怀俄明州黄石国家公园内的一座间歇泉。它于1870年被欧洲人首次发现（而当地原住民早在一万年前就已经发现了这个景观），因其喷发的规律性而得名。该泉每隔60-90分钟就会喷发一次，将一柱热水喷射到约30-50米（100-175英尺）的高度（间隔时间取决于前一次喷发的猛烈程度）。间歇泉是由于地下水与岩浆（熔岩）相遇而产生的。水瞬间被转化为蒸汽，以极高的压力冲出最近的可用开口。老忠实泉和黄石国家公园内的其他250个间歇泉每年吸引着约300万游客的到来。</Text>
 		</Replace>
 		<Replace Tag="LOC_DISTRICT_OLD_FAITHFUL_SCIENCE" Language="zh_Hans_CN">
-				<Text>+{1_num} [ICON_SCIENCE] 科技值来自相邻奇观“老实泉”。</Text>
+				<Text>+{1_num} [ICON_SCIENCE] 科技值来自相邻奇观“老忠实泉”。</Text>
 		</Replace>
 		<!-- = Lakes of Ounianga = -->
 		<Replace Tag="LOC_FEATURE_OUNIANGA_NAME" Language="zh_Hans_CN">

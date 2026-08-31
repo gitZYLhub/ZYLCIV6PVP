@@ -31,7 +31,11 @@ function OnPantheonFounded()
 	for row in GameInfo.Beliefs() do
 		if IsBelief(row) then
 			if not CanSelectBelief(row) then
-				if m_uiSelectedBeliefInstance == InstanceButton[row] then
+				local beliefInst:table = InstanceButton[row.Index];
+				if beliefInst == nil then
+					-- The multiplayer event may arrive before Realize has built the list.
+					-- In particular, nil == nil must not be treated as a selection match.
+				elseif m_uiSelectedBeliefInstance == beliefInst then
 					m_uiSelectedBeliefInstance.BeliefButton:SetSelected(false);
 					m_uiSelectedBeliefInstance.BeliefButton:SetDisabled(true)
 					m_uiSelectedBeliefInstance = nil
@@ -42,7 +46,7 @@ function OnPantheonFounded()
 					Controls.ConfirmGrid:SetHide(true);
 					Controls.BottomGrid:SetParentRelativeSizeY(BELIEFS_PANEL_RELATIVE_SIZE_UNSELECTED);
 				else
-					InstanceButton[row].BeliefButton:SetDisabled(true)
+					beliefInst.BeliefButton:SetDisabled(true)
 				end
 			end
 		end
@@ -53,6 +57,7 @@ function Realize()
 
 	-- Update available pantheon beliefs
 	m_pSelectBeliefsIM:ResetInstances();
+	InstanceButton = {};
 	for row in GameInfo.Beliefs() do
 		if IsBelief(row) then
 			local beliefInst:table = m_pSelectBeliefsIM:GetInstance();
@@ -66,7 +71,7 @@ function Realize()
 			
 			beliefInst.BeliefButton:SetDisabled( not CanSelectBelief(row) )		-- 如果有人已经选了万神殿，此按钮无效
 
-			InstanceButton[row] = beliefInst;
+			InstanceButton[row.Index] = beliefInst;
 		end
 	end
 

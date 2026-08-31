@@ -4,6 +4,124 @@
 
 CivilizationAssignSpawn = {}
 
+-- These lobby aliases deliberately keep their original CivilizationType so
+-- every BBG rule and unique component remains identical.  Spawn placement is
+-- the sole difference: ignore only TERRAIN_COAST for the inland leader IDs.
+local ZYL_INLAND_COAST_VARIANT = {
+    LEADER_HOJO_INLAND = true,
+    LEADER_PHILIP_II_INLAND = true,
+    LEADER_WILHELMINA_INLAND = true
+}
+
+function ZYL_IsInlandCoastVariant(leaderType)
+    return ZYL_INLAND_COAST_VARIANT[leaderType] == true;
+end
+
+-- BBM falls back to Firaxis placement on unsupported scripts or after failed
+-- placement attempts.  Mirror Firaxis' terrain-bias pass while filtering only
+-- TERRAIN_COAST for inland aliases.  Copying the pass is intentional: wrapping
+-- the original function cannot remove one terrain when a future balance update
+-- puts coast and another terrain in the same tier.
+if AssignStartingPlots ~= nil and not g_ZYL_InlandBiasPatchInstalled then
+    local zylOriginalStartBiasTerrains = AssignStartingPlots.__StartBiasTerrains;
+    function AssignStartingPlots:__StartBiasTerrains(playerIndex, tier, minor)
+        local playerId = minor and self.minorList[playerIndex - self.iNumMajorCivs]
+            or self.majorList[playerIndex];
+        local playerConfig = playerId ~= nil and PlayerConfigurations[playerId] or nil;
+        if playerConfig == nil
+                or not ZYL_IsInlandCoastVariant(playerConfig:GetLeaderTypeName()) then
+            return zylOriginalStartBiasTerrains(self, playerIndex, tier, minor);
+        end
+
+        local civilizationType = playerConfig:GetCivilizationTypeName();
+        local terrains = {};
+        for row in GameInfo.StartBiasTerrains() do
+            if row.CivilizationType == civilizationType and row.Tier == tier then
+                if row.TerrainType ~= "TERRAIN_COAST" then
+                    table.insert(terrains, row.TerrainType);
+                end
+            end
+        end
+
+        if #terrains == 0 then
+            return;
+        end
+
+        local range = minor and 2 or 3;
+        local playerStart = self.playerStarts[playerIndex];
+        local terrainPlots = {};
+        local terrainNames = {};
+        for row in GameInfo.Terrains() do
+            table.insert(terrainNames, row.TerrainType);
+        end
+
+        for _, startPlot in pairs(playerStart) do
+            if startPlot ~= nil then
+                local plotX = startPlot:GetX();
+                local plotY = startPlot:GetY();
+                local hasTerrain = false;
+                for dx = -range, range - 1 do
+                    for dy = -range, range - 1 do
+                        local otherPlot = Map.GetPlotXY(plotX, plotY, dx, dy, range);
+                        if otherPlot ~= nil
+                                and startPlot:GetIndex() ~= otherPlot:GetIndex()
+                                and otherPlot:GetTerrainType() ~= g_TERRAIN_NONE then
+                            for _, terrainType in ipairs(terrains) do
+                                if terrainNames[otherPlot:GetTerrainType() + 1] == terrainType then
+                                    hasTerrain = true;
+                                end
+                            end
+                        end
+                    end
+                end
+                if hasTerrain then
+                    table.insert(terrainPlots, startPlot);
+                end
+            end
+        end
+
+        if #terrainPlots > 1 then
+            local terrainValue = table.fill(0, #terrainPlots);
+            for i, terrainPlot in ipairs(terrainPlots) do
+                local plotX = terrainPlot:GetX();
+                local plotY = terrainPlot:GetY();
+                for dx = -range, range - 1 do
+                    for dy = -range, range - 1 do
+                        local otherPlot = Map.GetPlotXY(plotX, plotY, dx, dy, range);
+                        if otherPlot ~= nil and otherPlot:GetTerrainType() ~= g_TERRAIN_NONE then
+                            for _, terrainType in ipairs(terrains) do
+                                if terrainNames[otherPlot:GetTerrainType() + 1] == terrainType then
+                                    terrainValue[i] = terrainValue[i] + 1;
+                                end
+                            end
+                        end
+                    end
+                end
+            end
+
+            self.sortedArray = {};
+            self:__SortByArray(terrainPlots, terrainValue);
+            for key in pairs(playerStart) do
+                playerStart[key] = nil;
+            end
+            for _, terrainPlot in ipairs(self.sortedArray) do
+                table.insert(playerStart, terrainPlot);
+            end
+        elseif #terrainPlots == 1 then
+            local selectedPlot = terrainPlots[1];
+            for key, startPlot in pairs(playerStart) do
+                if selectedPlot:GetIndex() == startPlot:GetIndex() then
+                    playerStart[key] = selectedPlot;
+                else
+                    playerStart[key] = nil;
+                end
+            end
+            self:__StartBiasPlotRemoval(selectedPlot, minor, playerIndex);
+        end
+    end
+    g_ZYL_InlandBiasPatchInstalled = true;
+end
+
 function CivilizationAssignSpawn.new(player, leader, name, team, index)
     local instance = {}
     setmetatable(instance, {__index = CivilizationAssignSpawn});
@@ -44,7 +162,9 @@ end
 -- Fill all the biases data for the civ and set the parameters
 function CivilizationAssignSpawn:GetBiases()
     local biases = {};
-    if GameInfo.Leaders_XP2[self.CivilizationLeader] ~= nil and GameInfo.Leaders_XP2[self.CivilizationLeader].OceanStart == true then
+    if not ZYL_IsInlandCoastVariant(self.CivilizationLeader)
+            and GameInfo.Leaders_XP2[self.CivilizationLeader] ~= nil
+            and GameInfo.Leaders_XP2[self.CivilizationLeader].OceanStart == true then
         --self.IsOceanBias = true;
         local bias = {};
         bias.IsNegative = false;
@@ -84,7 +204,9 @@ function CivilizationAssignSpawn:GetBiases()
         end
     end
     for row in GameInfo.StartBiasTerrains() do
-        if(row.CivilizationType == self.CivilizationName) then
+        local skipCoast = ZYL_IsInlandCoastVariant(self.CivilizationLeader)
+            and row.TerrainType == "TERRAIN_COAST";
+        if(row.CivilizationType == self.CivilizationName and not skipCoast) then
             local bias = {};
             bias.IsNegative = false;
             bias.Tier = row.Tier;

@@ -50,7 +50,16 @@ INSERT INTO Modifiers(ModifierId, ModifierType) VALUES
     ('BBG_MALON_RAIDER_FREE_PROMOTION', 'MODIFIER_PLAYER_UNIT_ADJUST_GRANT_EXPERIENCE');
 INSERT INTO ModifierArguments(ModifierId, Name, Value) VALUES
     ('BBG_MALON_RAIDER_FREE_PROMOTION', 'Amount', -1);
-UPDATE UnitAbilityModifiers SET ModifierId = 'BBG_MALON_RAIDER_FREE_PROMOTION' WHERE UnitAbilityType = 'ABILITY_MAPUCHE_MALON_RAIDER';
+-- Replace only the legacy no-movement pillage binding.  Updating every row
+-- for the ability can collide with another binding (for example when the
+-- flat-terrain movement modifier has already been inserted), and would also
+-- silently discard that modifier.  Keep the replacement idempotent so a
+-- reused debug database cannot abort this action on a UNIQUE constraint.
+DELETE FROM UnitAbilityModifiers
+WHERE UnitAbilityType = 'ABILITY_MAPUCHE_MALON_RAIDER'
+  AND ModifierId = 'MALON_RAIDER_LESS_MOVEMENT_PILLAGE';
+INSERT OR IGNORE INTO UnitAbilityModifiers (UnitAbilityType, ModifierId)
+VALUES ('ABILITY_MAPUCHE_MALON_RAIDER', 'BBG_MALON_RAIDER_FREE_PROMOTION');
 
 
 -- Chemamull Unique Improvement gets +1 Production (another at Civil Service Civic)

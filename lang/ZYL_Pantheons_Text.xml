@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GameData>
+	<LocalizedText>
+		<!-- English -->
+		<Row Tag="LOC_BELIEF_ZYL_LBM_MOON_GODDESS_NAME" Language="en_US"><Text>Moon Goddess</Text></Row>
+		<Row Tag="LOC_BELIEF_ZYL_LBM_MOON_GODDESS_DESCRIPTION" Language="en_US"><Text>Coast and Ocean tiles in cities following this Pantheon provide +2 [ICON_Gold] Gold.</Text></Row>
+		<Row Tag="LOC_BELIEF_ZYL_LBM_COMMERCE_GODDESS_NAME" Language="en_US"><Text>Goddess of Commerce</Text></Row>
+		<Row Tag="LOC_BELIEF_ZYL_LBM_COMMERCE_GODDESS_DESCRIPTION" Language="en_US"><Text>+1 [ICON_TradeRoute] Trade Route capacity. All Trade Routes provide +1 [ICON_Faith] Faith.</Text></Row>
+		<Row Tag="LOC_BELIEF_ZYL_LBM_SUN_GOD_NAME" Language="en_US"><Text>Sun God</Text></Row>
+		<Row Tag="LOC_BELIEF_ZYL_LBM_SUN_GOD_DESCRIPTION" Language="en_US"><Text>Wheat, Rice, and Maize in cities following this Pantheon provide +2 [ICON_Faith] Faith.</Text></Row>
+		<Row Tag="LOC_BELIEF_ZYL_LBM_ORAL_TRADITION_NAME" Language="en_US"><Text>Oral Tradition</Text></Row>
+		<Row Tag="LOC_BELIEF_ZYL_LBM_ORAL_TRADITION_DESCRIPTION" Language="en_US"><Text>Plantations in cities following this Pantheon provide +1 [ICON_Food] Food and +2 [ICON_Gold] Gold.</Text></Row>
+		<Row Tag="LOC_BELIEF_ZYL_LBM_EARTH_SPIRITS_NAME" Language="en_US"><Text>Earth Spirits</Text></Row>
+		<Row Tag="LOC_BELIEF_ZYL_LBM_EARTH_SPIRITS_DESCRIPTION" Language="en_US"><Text>Tile purchase costs are reduced by 50%.</Text></Row>
+		<Row Tag="LOC_BELIEF_ZYL_LBM_GARDEN_GODDESS_NAME" Language="en_US"><Text>Goddess of Gardens</Text></Row>
+		<Row Tag="LOC_BELIEF_ZYL_LBM_GARDEN_GODDESS_DESCRIPTION" Language="en_US"><Text>Plantations in cities following this Pantheon provide +1 [ICON_Science] Science and +2 [ICON_Gold] Gold.</Text></Row>
+		<Row Tag="LOC_BELIEF_ZYL_LBM_WEALTH_GODDESS_NAME" Language="en_US"><Text>Goddess of Wealth</Text></Row>
+		<Row Tag="LOC_BELIEF_ZYL_LBM_WEALTH_GODDESS_DESCRIPTION" Language="en_US"><Text>Researching Pottery unlocks Commercial Hubs. Luxury resource tiles adjacent to a Commercial Hub in cities following this Pantheon provide +2 [ICON_Gold] Gold.</Text></Row>
+		<Row Tag="LOC_BELIEF_ZYL_LBM_TRADE_GOD_NAME" Language="en_US"><Text>God of Trade</Text></Row>
+		<Row Tag="LOC_BELIEF_ZYL_LBM_TRADE_GOD_DESCRIPTION" Language="en_US"><Text>All Trade Routes provide +1 [ICON_Production] Production. Purchasing Traders costs 50% less.</Text></Row>
+		<Row Tag="LOC_BELIEF_ZYL_LBM_PATH_OF_CONQUEST_NAME" Language="en_US"><Text>Path of Conquest</Text></Row>
+		<Row Tag="LOC_BELIEF_ZYL_LBM_PATH_OF_CONQUEST_DESCRIPTION" Language="en_US"><Text>Encampments and their unique replacements provide +1 [ICON_Production] Production, +1 [ICON_Culture] Culture, and +2 [ICON_Gold] Gold.</Text></Row>
+		<Row Tag="LOC_BELIEF_ZYL_LBM_SACRED_INSCRIPTIONS_NAME" Language="en_US"><Text>Sacred Inscriptions</Text></Row>
+		<Row Tag="LOC_BELIEF_ZYL_LBM_SACRED_INSCRIPTIONS_DESCRIPTION" Language="en_US"><Text>Cities with a Monument or Old God Obelisk receive +3 [ICON_Faith] Faith.</Text></Row>
+		<Row Tag="LOC_BELIEF_ZYL_LBM_GRANARY_GOD_NAME" Language="en_US"><Text>God of Granaries</Text></Row>
+		<Row Tag="LOC_BELIEF_ZYL_LBM_GRANARY_GOD_DESCRIPTION" Language="en_US"><Text>Cities with a Granary receive +1 [ICON_Culture] Culture, +1 [ICON_Gold] Gold, and +1 [ICON_Faith] Faith.</Text></Row>
+		<Row Tag="LOC_BELIEF_ZYL_LBM_REEF_PARADISE_NAME" Language="en_US"><Text>Reef Paradise</Text></Row>
+		<Row Tag="LOC_BELIEF_ZYL_LBM_REEF_PARADISE_DESCRIPTION" Language="en_US"><Text>Reefs in cities following this Pantheon provide +1 [ICON_Food] Food and +1 [ICON_Culture] Culture.</Text></Row>
+		<Row Tag="LOC_BELIEF_ZYL_LBM_SIREN_NAME" Language="en_US"><Text>Siren</Text></Row>
+		<Row Tag="LOC_BELIEF_ZYL_LBM_SIREN_DESCRIPTION" Language="en_US"><Text>Water tiles in cities following this Pantheon provide +1 [ICON_Faith] Faith.</Text></Row>
+		<Row Tag="LOC_BELIEF_ZYL_DRUID_NAME" Language="en_US"><Text>Druid</Text></Row>
+		<Row Tag="LOC_BELIEF_ZYL_DRUID_DESCRIPTION" Language="en_US"><Text>Holy Site districts receive a standard +1 [ICON_Faith] Faith adjacency bonus from each adjacent Woods tile.</Text></Row>
+		<Replace Tag="LOC_BELIEF_SACRED_PATH_DESCRIPTION" Language="en_US"><Text>Holy Site districts receive a standard +1 [ICON_Faith] Faith adjacency bonus from each adjacent Rainforest and Marsh tile.</Text></Replace>
+		<Replace Tag="LOC_DISTRICT_SACREDPATH_WOODS_FAITH" Language="en_US"><Text>+{1_num} [ICON_Faith] Faith from the adjacent Woods {1_Num : plural 1?tile; other?tiles;}.</Text></Replace>
+		<Replace Tag="LOC_BBG_DISTRICT_SACREDPATH_MARSHES_FAITH" Language="en_US"><Text>+{1_num} [ICON_Faith] Faith from the adjacent Marsh {1_Num : plural 1?tile; other?tiles;}.</Text></Replace>
+		<Row Tag="LOC_DISTRICT_ZYL_DRUID_WOODS_FAITH" Language="en_US"><Text>+{1_num} [ICON_Faith] Faith from the adjacent Woods {1_Num : plural 1?tile; other?tiles;}.</Text></Row>
+
+		<!-- Simplified Chinese -->
+		<Row Tag="LOC_BELIEF_ZYL_LBM_MOON_GODDESS_NAME" Language="zh_Hans_CN"><Text>月亮女神</Text></Row>
+		<Row Tag="LOC_BELIEF_ZYL_LBM_MOON_GODDESS_DESCRIPTION" Language="zh_Hans_CN"><Text>信奉此万神殿的城市中，海岸和海洋单元格+2 [ICON_Gold] 金币。</Text></Row>
+		<Row Tag="LOC_BELIEF_ZYL_LBM_COMMERCE_GODDESS_NAME" Language="zh_Hans_CN"><Text>商业女神</Text></Row>
+		<Row Tag="LOC_BELIEF_ZYL_LBM_COMMERCE_GODDESS_DESCRIPTION" Language="zh_Hans_CN"><Text>+1 [ICON_TradeRoute] 贸易路线容量。所有贸易路线+1 [ICON_Faith] 信仰值。</Text></Row>
+		<Row Tag="LOC_BELIEF_ZYL_LBM_SUN_GOD_NAME" Language="zh_Hans_CN"><Text>太阳神</Text></Row>
+		<Row Tag="LOC_BELIEF_ZYL_LBM_SUN_GOD_DESCRIPTION" Language="zh_Hans_CN"><Text>信奉此万神殿的城市中，小麦、大米、玉米+2 [ICON_Faith] 信仰值。</Text></Row>
+		<Row Tag="LOC_BELIEF_ZYL_LBM_ORAL_TRADITION_NAME" Language="zh_Hans_CN"><Text>口述传统</Text></Row>
+		<Row Tag="LOC_BELIEF_ZYL_LBM_ORAL_TRADITION_DESCRIPTION" Language="zh_Hans_CN"><Text>信奉此万神殿的城市中，种植园+1 [ICON_Food] 食物、+2 [ICON_Gold] 金币。</Text></Row>
+		<Row Tag="LOC_BELIEF_ZYL_LBM_EARTH_SPIRITS_NAME" Language="zh_Hans_CN"><Text>地灵契约</Text></Row>
+		<Row Tag="LOC_BELIEF_ZYL_LBM_EARTH_SPIRITS_DESCRIPTION" Language="zh_Hans_CN"><Text>购买单元格的费用降低50%。</Text></Row>
+		<Row Tag="LOC_BELIEF_ZYL_LBM_GARDEN_GODDESS_NAME" Language="zh_Hans_CN"><Text>花园女神</Text></Row>
+		<Row Tag="LOC_BELIEF_ZYL_LBM_GARDEN_GODDESS_DESCRIPTION" Language="zh_Hans_CN"><Text>信奉此万神殿的城市中，种植园+1 [ICON_Science] 科技值、+2 [ICON_Gold] 金币。</Text></Row>
+		<Row Tag="LOC_BELIEF_ZYL_LBM_WEALTH_GODDESS_NAME" Language="zh_Hans_CN"><Text>财富女神</Text></Row>
+		<Row Tag="LOC_BELIEF_ZYL_LBM_WEALTH_GODDESS_DESCRIPTION" Language="zh_Hans_CN"><Text>研究“制陶术”后即可建造商业中心。信奉此万神殿的城市中，与商业中心相邻的奢侈资源单元格+2 [ICON_Gold] 金币。</Text></Row>
+		<Row Tag="LOC_BELIEF_ZYL_LBM_TRADE_GOD_NAME" Language="zh_Hans_CN"><Text>贸易之神</Text></Row>
+		<Row Tag="LOC_BELIEF_ZYL_LBM_TRADE_GOD_DESCRIPTION" Language="zh_Hans_CN"><Text>所有贸易路线+1 [ICON_Production] 生产力。购买商人的费用降低50%。</Text></Row>
+		<Row Tag="LOC_BELIEF_ZYL_LBM_PATH_OF_CONQUEST_NAME" Language="zh_Hans_CN"><Text>征战之路</Text></Row>
+		<Row Tag="LOC_BELIEF_ZYL_LBM_PATH_OF_CONQUEST_DESCRIPTION" Language="zh_Hans_CN"><Text>军营及其特色替代区域+1 [ICON_Production] 生产力、+1 [ICON_Culture] 文化值、+2 [ICON_Gold] 金币。</Text></Row>
+		<Row Tag="LOC_BELIEF_ZYL_LBM_SACRED_INSCRIPTIONS_NAME" Language="zh_Hans_CN"><Text>神圣碑文</Text></Row>
+		<Row Tag="LOC_BELIEF_ZYL_LBM_SACRED_INSCRIPTIONS_DESCRIPTION" Language="zh_Hans_CN"><Text>拥有纪念碑或旧神方尖碑的城市+3 [ICON_Faith] 信仰值。</Text></Row>
+		<Row Tag="LOC_BELIEF_ZYL_LBM_GRANARY_GOD_NAME" Language="zh_Hans_CN"><Text>仓廪之神</Text></Row>
+		<Row Tag="LOC_BELIEF_ZYL_LBM_GRANARY_GOD_DESCRIPTION" Language="zh_Hans_CN"><Text>拥有粮仓的城市+1 [ICON_Culture] 文化值、+1 [ICON_Gold] 金币、+1 [ICON_Faith] 信仰值。</Text></Row>
+		<Row Tag="LOC_BELIEF_ZYL_LBM_REEF_PARADISE_NAME" Language="zh_Hans_CN"><Text>礁石天堂</Text></Row>
+		<Row Tag="LOC_BELIEF_ZYL_LBM_REEF_PARADISE_DESCRIPTION" Language="zh_Hans_CN"><Text>信奉此万神殿的城市中，礁石+1 [ICON_Food] 食物、+1 [ICON_Culture] 文化值。</Text></Row>
+		<Row Tag="LOC_BELIEF_ZYL_LBM_SIREN_NAME" Language="zh_Hans_CN"><Text>海妖塞壬</Text></Row>
+		<Row Tag="LOC_BELIEF_ZYL_LBM_SIREN_DESCRIPTION" Language="zh_Hans_CN"><Text>信奉此万神殿的城市中，所有水域单元格+1 [ICON_Faith] 信仰值。</Text></Row>
+		<Row Tag="LOC_BELIEF_ZYL_DRUID_NAME" Language="zh_Hans_CN"><Text>德鲁伊</Text></Row>
+		<Row Tag="LOC_BELIEF_ZYL_DRUID_DESCRIPTION" Language="zh_Hans_CN"><Text>圣地区域从每个相邻的树林单元格获得+1 [ICON_Faith] 信仰值标准相邻加成。</Text></Row>
+		<Replace Tag="LOC_BELIEF_SACRED_PATH_DESCRIPTION" Language="zh_Hans_CN"><Text>圣地区域从每个相邻的雨林和沼泽单元格获得+1 [ICON_Faith] 信仰值标准相邻加成。</Text></Replace>
+		<Replace Tag="LOC_DISTRICT_SACREDPATH_WOODS_FAITH" Language="zh_Hans_CN"><Text>来自相邻树林的+{1_num} [ICON_Faith] 信仰值相邻加成。</Text></Replace>
+		<Row Tag="LOC_BBG_DISTRICT_SACREDPATH_MARSHES_FAITH" Language="zh_Hans_CN"><Text>来自相邻沼泽的+{1_num} [ICON_Faith] 信仰值相邻加成。</Text></Row>
+		<Row Tag="LOC_DISTRICT_ZYL_DRUID_WOODS_FAITH" Language="zh_Hans_CN"><Text>来自相邻树林的+{1_num} [ICON_Faith] 信仰值相邻加成。</Text></Row>
+
+		<!-- Traditional Chinese -->
+		<Row Tag="LOC_BELIEF_ZYL_LBM_MOON_GODDESS_NAME" Language="zh_Hant_HK"><Text>月亮女神</Text></Row>
+		<Row Tag="LOC_BELIEF_ZYL_LBM_MOON_GODDESS_DESCRIPTION" Language="zh_Hant_HK"><Text>信奉此萬神殿的城市中，海岸和海洋單元格+2 [ICON_Gold] 金幣。</Text></Row>
+		<Row Tag="LOC_BELIEF_ZYL_LBM_COMMERCE_GODDESS_NAME" Language="zh_Hant_HK"><Text>商業女神</Text></Row>
+		<Row Tag="LOC_BELIEF_ZYL_LBM_COMMERCE_GODDESS_DESCRIPTION" Language="zh_Hant_HK"><Text>+1 [ICON_TradeRoute] 貿易路線容量。所有貿易路線+1 [ICON_Faith] 信仰值。</Text></Row>
+		<Row Tag="LOC_BELIEF_ZYL_LBM_SUN_GOD_NAME" Language="zh_Hant_HK"><Text>太陽神</Text></Row>
+		<Row Tag="LOC_BELIEF_ZYL_LBM_SUN_GOD_DESCRIPTION" Language="zh_Hant_HK"><Text>信奉此萬神殿的城市中，小麥、稻米、玉米+2 [ICON_Faith] 信仰值。</Text></Row>
+		<Row Tag="LOC_BELIEF_ZYL_LBM_ORAL_TRADITION_NAME" Language="zh_Hant_HK"><Text>口述傳統</Text></Row>
+		<Row Tag="LOC_BELIEF_ZYL_LBM_ORAL_TRADITION_DESCRIPTION" Language="zh_Hant_HK"><Text>信奉此萬神殿的城市中，種植園+1 [ICON_Food] 食物、+2 [ICON_Gold] 金幣。</Text></Row>
+		<Row Tag="LOC_BELIEF_ZYL_LBM_EARTH_SPIRITS_NAME" Language="zh_Hant_HK"><Text>地靈契約</Text></Row>
+		<Row Tag="LOC_BELIEF_ZYL_LBM_EARTH_SPIRITS_DESCRIPTION" Language="zh_Hant_HK"><Text>購買單元格的費用降低50%。</Text></Row>
+		<Row Tag="LOC_BELIEF_ZYL_LBM_GARDEN_GODDESS_NAME" Language="zh_Hant_HK"><Text>花園女神</Text></Row>
+		<Row Tag="LOC_BELIEF_ZYL_LBM_GARDEN_GODDESS_DESCRIPTION" Language="zh_Hant_HK"><Text>信奉此萬神殿的城市中，種植園+1 [ICON_Science] 科技值、+2 [ICON_Gold] 金幣。</Text></Row>
+		<Row Tag="LOC_BELIEF_ZYL_LBM_WEALTH_GODDESS_NAME" Language="zh_Hant_HK"><Text>財富女神</Text></Row>
+		<Row Tag="LOC_BELIEF_ZYL_LBM_WEALTH_GODDESS_DESCRIPTION" Language="zh_Hant_HK"><Text>研究「製陶術」後即可建造商業中心。信奉此萬神殿的城市中，與商業中心相鄰的奢侈資源單元格+2 [ICON_Gold] 金幣。</Text></Row>
+		<Row Tag="LOC_BELIEF_ZYL_LBM_TRADE_GOD_NAME" Language="zh_Hant_HK"><Text>貿易之神</Text></Row>
+		<Row Tag="LOC_BELIEF_ZYL_LBM_TRADE_GOD_DESCRIPTION" Language="zh_Hant_HK"><Text>所有貿易路線+1 [ICON_Production] 生產力。購買商人的費用降低50%。</Text></Row>
+		<Row Tag="LOC_BELIEF_ZYL_LBM_PATH_OF_CONQUEST_NAME" Language="zh_Hant_HK"><Text>征戰之路</Text></Row>
+		<Row Tag="LOC_BELIEF_ZYL_LBM_PATH_OF_CONQUEST_DESCRIPTION" Language="zh_Hant_HK"><Text>軍營及其特色替代區域+1 [ICON_Production] 生產力、+1 [ICON_Culture] 文化值、+2 [ICON_Gold] 金幣。</Text></Row>
+		<Row Tag="LOC_BELIEF_ZYL_LBM_SACRED_INSCRIPTIONS_NAME" Language="zh_Hant_HK"><Text>神聖碑文</Text></Row>
+		<Row Tag="LOC_BELIEF_ZYL_LBM_SACRED_INSCRIPTIONS_DESCRIPTION" Language="zh_Hant_HK"><Text>擁有紀念碑或舊神方尖碑的城市+3 [ICON_Faith] 信仰值。</Text></Row>
+		<Row Tag="LOC_BELIEF_ZYL_LBM_GRANARY_GOD_NAME" Language="zh_Hant_HK"><Text>倉廩之神</Text></Row>
+		<Row Tag="LOC_BELIEF_ZYL_LBM_GRANARY_GOD_DESCRIPTION" Language="zh_Hant_HK"><Text>擁有糧倉的城市+1 [ICON_Culture] 文化值、+1 [ICON_Gold] 金幣、+1 [ICON_Faith] 信仰值。</Text></Row>
+		<Row Tag="LOC_BELIEF_ZYL_LBM_REEF_PARADISE_NAME" Language="zh_Hant_HK"><Text>礁石天堂</Text></Row>
+		<Row Tag="LOC_BELIEF_ZYL_LBM_REEF_PARADISE_DESCRIPTION" Language="zh_Hant_HK"><Text>信奉此萬神殿的城市中，礁石+1 [ICON_Food] 食物、+1 [ICON_Culture] 文化值。</Text></Row>
+		<Row Tag="LOC_BELIEF_ZYL_LBM_SIREN_NAME" Language="zh_Hant_HK"><Text>海妖塞壬</Text></Row>
+		<Row Tag="LOC_BELIEF_ZYL_LBM_SIREN_DESCRIPTION" Language="zh_Hant_HK"><Text>信奉此萬神殿的城市中，所有水域單元格+1 [ICON_Faith] 信仰值。</Text></Row>
+		<Row Tag="LOC_BELIEF_ZYL_DRUID_NAME" Language="zh_Hant_HK"><Text>德魯伊</Text></Row>
+		<Row Tag="LOC_BELIEF_ZYL_DRUID_DESCRIPTION" Language="zh_Hant_HK"><Text>聖地區域從每個相鄰的樹林單元格獲得+1 [ICON_Faith] 信仰值標準相鄰加成。</Text></Row>
+		<Replace Tag="LOC_BELIEF_SACRED_PATH_DESCRIPTION" Language="zh_Hant_HK"><Text>聖地區域從每個相鄰的雨林和沼澤單元格獲得+1 [ICON_Faith] 信仰值標準相鄰加成。</Text></Replace>
+		<Row Tag="LOC_DISTRICT_ZYL_DRUID_WOODS_FAITH" Language="zh_Hant_HK"><Text>來自相鄰樹林的+{1_num} [ICON_Faith] 信仰值相鄰加成。</Text></Row>
+	</LocalizedText>
+</GameData>

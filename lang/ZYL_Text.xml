@@ -5,22 +5,52 @@
 		<Row Tag="LOC_ZYL_TOOLS_COMMAND_DESC" Language="zh_Hans_CN"><Text>允许公共聊天使用 p+/p++ 加时、p-/p-- 减时，以及 p+++ 临时关闭本回合计时。所有修改仅由房主执行。</Text></Row>
 		<Row Tag="LOC_ZYL_TOOLS_15_TIME_NAME" Language="zh_Hans_CN"><Text>[COLOR:ResGoldLabelCS]15 秒计时提醒[ENDCOLOR]</Text></Row>
 		<Row Tag="LOC_ZYL_TOOLS_15_TIME_DESC" Language="zh_Hans_CN"><Text>在剩余 15 至 8 秒时播放逐秒提示音。</Text></Row>
-		<Row Tag="LOC_ZYL_QUICK_ADD_TT" Language="zh_Hans_CN"><Text>公共聊天发送 p++：本回合加时 20 秒，每回合限一次；不足 8 秒时加 24 秒。</Text></Row>
+		<Row Tag="LOC_ZYL_ERA_LENGTH_OPTIMIZATION_NAME" Language="zh_Hans_CN"><Text>时代长度优化</Text></Row>
+		<Row Tag="LOC_ZYL_ERA_LENGTH_OPTIMIZATION_DESC" Language="zh_Hans_CN"><Text>调整世界时代持续范围：标准速度下，远古时代40–50回合，古典和中世纪时代50–60回合；联机速度下，远古时代20–25回合，古典和中世纪时代25–30回合。其他时代保持原版。默认开启。</Text></Row>
+		<Row Tag="LOC_ZYL_DIPLOMACY_RIBBON_MODE_NAME" Language="zh_Hans_CN"><Text>外交栏情报模式</Text></Row>
+		<Row Tag="LOC_ZYL_DIPLOMACY_RIBBON_MODE_DESC" Language="zh_Hans_CN"><Text>设置右上角外交栏采用个人或团队外交能见度。科技值和文化值始终可见；有限、公开、秘密和绝密能见度依次解锁军力、粮食与生产力、每回合金币与信仰、当前研究的科技与市政。未解锁的情报显示为问号，未接触的玩家仍保持匿名。</Text></Row>
+		<Row Tag="LOC_ZYL_DIPLOMACY_RIBBON_MODE_FFA_NAME" Language="zh_Hans_CN"><Text>FFA 模式</Text></Row>
+		<Row Tag="LOC_ZYL_DIPLOMACY_RIBBON_MODE_FFA_DESC" Language="zh_Hans_CN"><Text>只使用本地玩家对目标玩家的外交能见度。默认选项。</Text></Row>
+		<Row Tag="LOC_ZYL_DIPLOMACY_RIBBON_MODE_TEAM_NAME" Language="zh_Hans_CN"><Text>组队模式</Text></Row>
+		<Row Tag="LOC_ZYL_DIPLOMACY_RIBBON_MODE_TEAM_DESC" Language="zh_Hans_CN"><Text>使用本队所有玩家对目标玩家的最高外交能见度；队友之间完整共享情报。</Text></Row>
+		<Row Tag="LOC_ZYL_DIPLOMACY_RIBBON_FOOD_TT" Language="zh_Hans_CN"><Text>全帝国每回合食物盈余</Text></Row>
+		<Row Tag="LOC_ZYL_DIPLOMACY_RIBBON_PRODUCTION_TT" Language="zh_Hans_CN"><Text>全帝国每回合生产力</Text></Row>
+		<Row Tag="LOC_ZYL_DIPLOMACY_RIBBON_GOLD_TT" Language="zh_Hans_CN"><Text>每回合金币</Text></Row>
+		<Row Tag="LOC_ZYL_DIPLOMACY_RIBBON_FAITH_TT" Language="zh_Hans_CN"><Text>每回合信仰</Text></Row>
+		<Row Tag="LOC_ZYL_DIPLOMACY_RIBBON_RESEARCH_LOCKED_TT" Language="zh_Hans_CN"><Text>达到绝密外交能见度后显示当前研究项目。</Text></Row>
+		<Row Tag="LOC_ZYL_QUICK_ADD_TT" Language="zh_Hans_CN"><Text>公共聊天发送 p++：本回合每次加时 20 秒，每回合最多 3 次；不足 8 秒时每次加时 24 秒。</Text></Row>
 		<Row Tag="LOC_ZYL_QUICK_REDUCE_TT" Language="zh_Hans_CN"><Text>公共聊天发送 p--：本回合减时 10 秒，最低 40 秒，每回合限一次。</Text></Row>
 		<Row Tag="LOC_ZYL_RANDOM_TEAMS" Language="zh_Hans_CN"><Text>随机分队</Text></Row>
 		<Row Tag="LOC_ZYL_RANDOM_TEAMS_TT" Language="zh_Hans_CN"><Text>房主将已连接的真人参赛者随机且均衡地分入两队；排除 AI、观察者和空槽。</Text></Row>
 		<Row Tag="LOC_ZYL_TOGGLE_SLOTS" Language="zh_Hans_CN"><Text>空位开关</Text></Row>
 		<Row Tag="LOC_ZYL_TOGGLE_SLOTS_TT" Language="zh_Hans_CN"><Text>有开放空位时关闭全部空位；没有开放空位时增加一个空位。</Text></Row>
+		<Replace Tag="LOC_UNIT_SETTLER_DESCRIPTION" Language="zh_Hans_CN"><Text>可创建新城市。完成时，该城市 [ICON_Citizen] 人口减1。[NEWLINE][NEWLINE]建立首座城市前，开拓者+1 [ICON_Movement] 移动力，忽略地形和过河移动力消耗，上船和下船不消耗 [ICON_Movement] 移动力。</Text></Replace>
 
 		<Row Tag="LOC_ZYL_TOOLS_COMMAND_NAME" Language="en_US"><Text>[COLOR:ResGoldLabelCS]Multiplayer timer commands[ENDCOLOR]</Text></Row>
 		<Row Tag="LOC_ZYL_TOOLS_COMMAND_DESC" Language="en_US"><Text>Enables public-chat p+/p++ time extension, p-/p-- time reduction, and p+++ temporary no-timer commands. Only the host applies changes.</Text></Row>
 		<Row Tag="LOC_ZYL_TOOLS_15_TIME_NAME" Language="en_US"><Text>[COLOR:ResGoldLabelCS]15-second warning[ENDCOLOR]</Text></Row>
 		<Row Tag="LOC_ZYL_TOOLS_15_TIME_DESC" Language="en_US"><Text>Plays a countdown sound from 15 through 8 seconds remaining.</Text></Row>
-		<Row Tag="LOC_ZYL_QUICK_ADD_TT" Language="en_US"><Text>Send p++ publicly: add 20 seconds once per turn, or 24 seconds below 8 seconds.</Text></Row>
+		<Row Tag="LOC_ZYL_ERA_LENGTH_OPTIMIZATION_NAME" Language="en_US"><Text>Era Length Optimization</Text></Row>
+		<Row Tag="LOC_ZYL_ERA_LENGTH_OPTIMIZATION_DESC" Language="en_US"><Text>Adjusts World Era duration ranges: at Standard speed, Ancient lasts 40–50 turns and Classical and Medieval last 50–60; at Online speed, Ancient lasts 20–25 and Classical and Medieval last 25–30. Other eras retain their default ranges. Enabled by default.</Text></Row>
+		<Row Tag="LOC_ZYL_DIPLOMACY_RIBBON_MODE_NAME" Language="en_US"><Text>Diplomacy Ribbon Intelligence</Text></Row>
+		<Row Tag="LOC_ZYL_DIPLOMACY_RIBBON_MODE_DESC" Language="en_US"><Text>Sets whether the top-right diplomacy ribbon uses individual or team Diplomatic Visibility. Science and Culture yields are always visible; Limited, Open, Secret, and Top Secret visibility successively reveal Military Strength, Food and Production, Gold and Faith per turn, and current Technology and Civic research. Locked intelligence is shown as a question mark, while unmet players remain anonymous.</Text></Row>
+		<Row Tag="LOC_ZYL_DIPLOMACY_RIBBON_MODE_FFA_NAME" Language="en_US"><Text>FFA Mode</Text></Row>
+		<Row Tag="LOC_ZYL_DIPLOMACY_RIBBON_MODE_FFA_DESC" Language="en_US"><Text>Uses only the local player's Diplomatic Visibility on each target. This is the default.</Text></Row>
+		<Row Tag="LOC_ZYL_DIPLOMACY_RIBBON_MODE_TEAM_NAME" Language="en_US"><Text>Team Mode</Text></Row>
+		<Row Tag="LOC_ZYL_DIPLOMACY_RIBBON_MODE_TEAM_DESC" Language="en_US"><Text>Uses the highest Diplomatic Visibility that any teammate has on each target; teammates share full intelligence.</Text></Row>
+		<Row Tag="LOC_ZYL_DIPLOMACY_RIBBON_FOOD_TT" Language="en_US"><Text>Empire-wide Food surplus per turn</Text></Row>
+		<Row Tag="LOC_ZYL_DIPLOMACY_RIBBON_PRODUCTION_TT" Language="en_US"><Text>Empire-wide Production per turn</Text></Row>
+		<Row Tag="LOC_ZYL_DIPLOMACY_RIBBON_GOLD_TT" Language="en_US"><Text>Gold per turn</Text></Row>
+		<Row Tag="LOC_ZYL_DIPLOMACY_RIBBON_FAITH_TT" Language="en_US"><Text>Faith per turn</Text></Row>
+		<Row Tag="LOC_ZYL_DIPLOMACY_RIBBON_RESEARCH_LOCKED_TT" Language="en_US"><Text>Current research is shown at Top Secret Diplomatic Visibility.</Text></Row>
+		<Row Tag="LOC_ZYL_QUICK_ADD_TT" Language="en_US"><Text>Send p++ publicly: add 20 seconds per use, up to 3 uses per turn; each use adds 24 seconds below 8 seconds.</Text></Row>
 		<Row Tag="LOC_ZYL_QUICK_REDUCE_TT" Language="en_US"><Text>Send p-- publicly: subtract 10 seconds once per turn, with a 40-second floor.</Text></Row>
 		<Row Tag="LOC_ZYL_RANDOM_TEAMS" Language="en_US"><Text>Random Teams</Text></Row>
 		<Row Tag="LOC_ZYL_RANDOM_TEAMS_TT" Language="en_US"><Text>Host-only balanced shuffle of connected human participants; excludes AI, observers, and empty slots.</Text></Row>
 		<Row Tag="LOC_ZYL_TOGGLE_SLOTS" Language="en_US"><Text>Empty Slots</Text></Row>
 		<Row Tag="LOC_ZYL_TOGGLE_SLOTS_TT" Language="en_US"><Text>Close all open empty slots, or add one open slot when none are open.</Text></Row>
+		<Replace Tag="LOC_UNIT_SETTLER_DESCRIPTION" Language="en_US"><Text>May create new cities. Reduces the city's [ICON_Citizen] Population by 1 when completed.[NEWLINE][NEWLINE]Before the first city is founded, Settlers have +1 [ICON_Movement] Movement, ignore terrain and river movement costs, and pay no [ICON_Movement] Movement to embark or disembark.</Text></Replace>
+
+		<Replace Tag="LOC_UNIT_SETTLER_DESCRIPTION" Language="zh_Hant_HK"><Text>可以創建新城市。完成時，城市 [ICON_Citizen] 人口減1。[NEWLINE][NEWLINE]建立首座城市前，開拓者+1 [ICON_Movement] 移動力，忽略地形和過河移動力消耗，上船和下船不消耗 [ICON_Movement] 移動力。</Text></Replace>
 	</LocalizedText>
 </GameData>

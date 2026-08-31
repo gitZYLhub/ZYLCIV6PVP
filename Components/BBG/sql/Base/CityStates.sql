@@ -109,7 +109,7 @@ UPDATE ModifierArguments SET Value='10' WHERE ModifierId='MINOR_CIV_CARTHAGE_MIL
 -- 09/03/24 Lisbon pillage apply on land too
 UPDATE ModifierArguments SET Value='ABILITY_ECONOMIC_GOLDEN_AGE_PLUNDER_IMMUNITY' WHERE ModifierId='MINOR_CIV_LISBON_SEA_TRADE_ROUTE_PLUNDER_IMMUNITY_BONUS' AND Name='AbilityType';
 
--- 09/03/2024 colossal heads +1 food, +1 housing
+-- 09/03/2024 colossal heads +1 food, +0.5 housing (Housing 1 / TilesRequired 2)
 INSERT INTO Improvement_YieldChanges (ImprovementType, YieldType, YieldChange) VALUES ('IMPROVEMENT_COLOSSAL_HEAD', 'YIELD_FOOD', 1);
 UPDATE Improvements SET Housing=1 WHERE ImprovementType='IMPROVEMENT_COLOSSAL_HEAD';
 UPDATE Improvements SET TilesRequired=2 WHERE ImprovementType='IMPROVEMENT_COLOSSAL_HEAD';

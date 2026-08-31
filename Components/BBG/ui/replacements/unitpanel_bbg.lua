@@ -76,6 +76,23 @@ function TradeUnitView( viewData:table )
 		Controls.TradeUnitContainer:SetHide(true);
 	end
 end
+
+-- Team PVP Tools removes the confirmation dialog shown when a settler founds
+-- a city.  UnitPanel is owned by BBG in the integrated package, so this small
+-- override is folded into the BBG replacement instead of registering a second
+-- UnitPanel replacement (which would make load order nondeterministic).
+function OnUnitActionClicked_FoundCity(kResults:table)
+	if g_isOkayToProcess then
+		local pSelectedUnit = UI.GetHeadSelectedUnit()
+		if pSelectedUnit ~= nil then
+			UnitManager.RequestOperation(pSelectedUnit, UnitOperationTypes.FOUND_CITY)
+		end
+	end
+	if UILens.IsLayerOn(m_HexColoringWaterAvail) then
+		UILens.ToggleLayerOff(m_HexColoringWaterAvail)
+	end
+	UILens.SetActive("Default")
+end
 --[[ Commented out as currently unused in modinfo and needed file for amani display
 print("Unitpanel Replacement for BBG")
 --Hungary Huszar Display Override: 

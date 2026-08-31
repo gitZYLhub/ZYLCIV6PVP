@@ -71,7 +71,7 @@
 -- v1.10
 --		World Congress timer no longer infinite
 --		Added No Frienship, no surprise wars option
--- v1.2.3
+-- v1.2.4
 --		Updated version number
 --		Congress no longer can be skipped on lag
 -- v1.3.2
@@ -91,7 +91,7 @@
 --	NEW VARIABLES
 -- ===========================================================================
 ExposedMembers.LuaEvents = LuaEvents
-local g_version = "ZYLPVPMOD v1.0.0"
+local g_version = "ZYLPVPMOD v1.2.4"
 local Drop_Data = {};
 local b_debug = false
 

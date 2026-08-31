@@ -106,6 +106,178 @@ local function ZYL_RVC_IsLeyLine(resourceIndex)
     return RESOURCE_LEY_LINE_INDEX >= 0 and resourceIndex == RESOURCE_LEY_LINE_INDEX;
 end
 
+local function ZYL_RVC_IsBonusResource(resourceIndex)
+    if resourceIndex == nil or resourceIndex < 0 then
+        return false;
+    end
+    local resource = GameInfo.Resources[resourceIndex];
+    return resource ~= nil and resource.ResourceClassType == "RESOURCECLASS_BONUS";
+end
+
+local ZYL_RVC_IRON_HILL_TERRAIN = {
+    [TERRAIN_GRASS_INDEX] = TERRAIN_GRASS_HILLS_INDEX,
+    [TERRAIN_GRASS_HILLS_INDEX] = TERRAIN_GRASS_HILLS_INDEX,
+    [TERRAIN_PLAINS_INDEX] = TERRAIN_PLAINS_HILLS_INDEX,
+    [TERRAIN_PLAINS_HILLS_INDEX] = TERRAIN_PLAINS_HILLS_INDEX,
+    [TERRAIN_DESERT_INDEX] = TERRAIN_DESERT_HILLS_INDEX,
+    [TERRAIN_DESERT_HILLS_INDEX] = TERRAIN_DESERT_HILLS_INDEX,
+    [TERRAIN_TUNDRA_INDEX] = TERRAIN_TUNDRA_HILLS_INDEX,
+    [TERRAIN_TUNDRA_HILLS_INDEX] = TERRAIN_TUNDRA_HILLS_INDEX,
+    [TERRAIN_SNOW_INDEX] = TERRAIN_SNOW_HILLS_INDEX,
+    [TERRAIN_SNOW_HILLS_INDEX] = TERRAIN_SNOW_HILLS_INDEX,
+};
+
+local function ZYL_RVC_SortStrategicFallbackCandidates(candidates)
+    table.sort(candidates, function(a, b)
+        if a.Score == b.Score then return a.Plot:GetIndex() < b.Plot:GetIndex(); end
+        return a.Score < b.Score;
+    end);
+end
+
+local function ZYL_RVC_RecordStrategicFallback(plot, resourceIndex, label, leader)
+    local count = (Game:GetProperty("ZYLRM_EARLY_STRATEGIC_FALLBACKS") or 0) + 1;
+    Game:SetProperty("ZYLRM_EARLY_STRATEGIC_FALLBACKS", count);
+    print("ZYL RVC guaranteed early strategic fallback:", label,
+        "resource", resourceIndex, "leader", tostring(leader),
+        "plot", plot:GetX(), plot:GetY());
+end
+
+local function ZYL_RVC_TryPlaceTransformedStrategic(candidate, resourceIndex, targetTerrain, label, leader)
+    local plot = candidate.Plot;
+    local originalTerrain = plot:GetTerrainType();
+    local originalResource = plot:GetResourceType();
+
+    if originalResource >= 0 then
+        ResourceBuilder.SetResourceType(plot, -1);
+    end
+    if targetTerrain ~= originalTerrain then
+        TerrainBuilder.SetTerrainType(plot, targetTerrain);
+    end
+
+    if ResourceBuilder.CanHaveResource(plot, resourceIndex) then
+        ResourceBuilder.SetResourceType(plot, resourceIndex, 1);
+        if plot:GetResourceType() == resourceIndex then
+            ZYL_RVC_RecordStrategicFallback(plot, resourceIndex, label, leader);
+            return true;
+        end
+    end
+
+    ResourceBuilder.SetResourceType(plot, -1);
+    if targetTerrain ~= originalTerrain then
+        TerrainBuilder.SetTerrainType(plot, originalTerrain);
+    end
+    if originalResource >= 0 then
+        ResourceBuilder.SetResourceType(plot, originalResource, 1);
+    end
+    return false;
+end
+
+-- Last-resort guarantee for the two Ancient-era strategic resources.  The
+-- normal BBM/TPT routines run first.  This pass searches farther, converts an
+-- empty low-value desert tile for horses when Mali's desert shaping removed
+-- every legal host, and may replace only an ordinary bonus resource for iron.
+-- Luxuries, strategics, ley lines, features and natural wonders are preserved.
+local function ZYL_RVC_PlaceGuaranteedEarlyStrategic(resourceIndex, startPlot, leader)
+    if startPlot == nil
+            or (resourceIndex ~= RESOURCE_HORSES_INDEX and resourceIndex ~= RESOURCE_IRON_INDEX) then
+        return false;
+    end
+
+    local directCandidates = {};
+    local horseDesertCandidates = {};
+    local ironEmptyCandidates = {};
+    local ironBonusCandidates = {};
+    local maximumRadius = resourceIndex == RESOURCE_IRON_INDEX and 7 or 6;
+	local protectedStartPlots = {};
+	for _, playerID in ipairs(PlayerManager.GetAliveMajorIDs()) do
+		local playerStart = Players[playerID] and Players[playerID]:GetStartingPlot() or nil;
+		if playerStart ~= nil then protectedStartPlots[playerStart:GetIndex()] = true; end
+	end
+	for _, playerID in ipairs(PlayerManager.GetAliveMinorIDs()) do
+		local playerStart = Players[playerID] and Players[playerID]:GetStartingPlot() or nil;
+		if playerStart ~= nil then protectedStartPlots[playerStart:GetIndex()] = true; end
+	end
+
+    for plotIndex = 0, Map.GetPlotCount() - 1 do
+        local plot = Map.GetPlotByIndex(plotIndex);
+        if plot ~= nil and not plot:IsWater() and not plot:IsImpassable()
+                and not plot:IsNaturalWonder() and plot:GetImprovementType() == -1
+                and not protectedStartPlots[plotIndex] then
+            local distance = Map.GetPlotDistance(startPlot:GetIndex(), plotIndex);
+            if distance >= 2 and distance <= maximumRadius then
+                local resource = plot:GetResourceType();
+                local terrain = plot:GetTerrainType();
+                local score = distance * 100 + (plot:IsRiver() and 30 or 0);
+
+                if resource == -1 and plot:GetFeatureType() == -1
+                        and ResourceBuilder.CanHaveResource(plot, resourceIndex) then
+                    table.insert(directCandidates, { Plot = plot, Score = score });
+                elseif resourceIndex == RESOURCE_HORSES_INDEX
+                        and resource == -1 and plot:GetFeatureType() == -1
+                        and (terrain == TERRAIN_DESERT_INDEX or terrain == TERRAIN_DESERT_HILLS_INDEX) then
+                    table.insert(horseDesertCandidates, {
+                        Plot = plot,
+                        Score = score + (terrain == TERRAIN_DESERT_HILLS_INDEX and 20 or 0),
+                    });
+                elseif resourceIndex == RESOURCE_IRON_INDEX and plot:GetFeatureType() == -1
+                        and ZYL_RVC_IRON_HILL_TERRAIN[terrain] ~= nil then
+                    local candidate = {
+                        Plot = plot,
+                        Score = score + (terrain == ZYL_RVC_IRON_HILL_TERRAIN[terrain] and 0 or 20),
+                    };
+                    if resource == -1 then
+                        table.insert(ironEmptyCandidates, candidate);
+                    elseif ZYL_RVC_IsBonusResource(resource)
+                            and not ZYL_RVC_IsStrategicResource(resource)
+                            and not ZYL_RVC_IsLeyLine(resource) then
+                        candidate.Score = candidate.Score + 1000;
+                        table.insert(ironBonusCandidates, candidate);
+                    end
+                end
+            end
+        end
+    end
+
+    ZYL_RVC_SortStrategicFallbackCandidates(directCandidates);
+    for _, candidate in ipairs(directCandidates) do
+        ResourceBuilder.SetResourceType(candidate.Plot, resourceIndex, 1);
+        if candidate.Plot:GetResourceType() == resourceIndex then
+            ZYL_RVC_RecordStrategicFallback(candidate.Plot, resourceIndex, "expanded empty range", leader);
+            return true;
+        end
+    end
+
+    if resourceIndex == RESOURCE_HORSES_INDEX then
+        ZYL_RVC_SortStrategicFallbackCandidates(horseDesertCandidates);
+        for _, candidate in ipairs(horseDesertCandidates) do
+            if ZYL_RVC_TryPlaceTransformedStrategic(candidate, resourceIndex,
+                    TERRAIN_PLAINS_INDEX, "empty desert converted to plains", leader) then
+                return true;
+            end
+        end
+    else
+        ZYL_RVC_SortStrategicFallbackCandidates(ironEmptyCandidates);
+        for _, candidate in ipairs(ironEmptyCandidates) do
+            local targetTerrain = ZYL_RVC_IRON_HILL_TERRAIN[candidate.Plot:GetTerrainType()];
+            if ZYL_RVC_TryPlaceTransformedStrategic(candidate, resourceIndex,
+                    targetTerrain, "empty terrain converted to hills", leader) then
+                return true;
+            end
+        end
+
+        ZYL_RVC_SortStrategicFallbackCandidates(ironBonusCandidates);
+        for _, candidate in ipairs(ironBonusCandidates) do
+            local targetTerrain = ZYL_RVC_IRON_HILL_TERRAIN[candidate.Plot:GetTerrainType()];
+            if ZYL_RVC_TryPlaceTransformedStrategic(candidate, resourceIndex,
+                    targetTerrain, "ordinary bonus resource replaced", leader) then
+                return true;
+            end
+        end
+    end
+
+    return false;
+end
+
 local function ZYL_RVC_IsMinorMarkedFailing(playerId)
     local failureCount = Game:GetProperty("BBS_MINOR_FAILING_TOTAL") or 0;
     for failureIndex = 1, failureCount do
@@ -114,17 +286,6 @@ local function ZYL_RVC_IsMinorMarkedFailing(playerId)
         end
     end
     return false;
-end
-
-local function ZYL_RVC_RecordMinorFailure(playerId)
-    if ZYL_RVC_IsMinorMarkedFailing(playerId) then
-        return false;
-    end
-
-    local failureCount = (Game:GetProperty("BBS_MINOR_FAILING_TOTAL") or 0) + 1;
-    Game:SetProperty("BBS_MINOR_FAILING_TOTAL", failureCount);
-    Game:SetProperty("BBS_MINOR_FAILING_ID_" .. failureCount, playerId);
-    return true;
 end
 
 local function ZYL_RVC_IsPreservedTundraResource(resourceIndex)
@@ -620,22 +781,11 @@ function ZYL_RVC_Balance(args)
         if (Game:GetProperty("BBS_MINOR_FAILING_TOTAL") ~= nil) then
             -- BBS placement true
             if (Game:GetProperty("BBS_MINOR_FAILING_TOTAL") > 0) then
-                __Debug("Minor failure module:", Game:GetProperty("BBS_MINOR_FAILING_TOTAL"), " Minor Civs are failing.")
+                __Debug("Minor failure module:", Game:GetProperty("BBS_MINOR_FAILING_TOTAL"), " Minor Civs are still missing after fallback.")
                 for j = 1, Game:GetProperty("BBS_MINOR_FAILING_TOTAL") do
-                    if (Game:GetProperty("BBS_MINOR_FAILING_ID_" .. j) ~= nil) then
-                        local playerUnits;
-                        if (Players[Game:GetProperty("BBS_MINOR_FAILING_ID_" .. j)] ~= nil) then
-                            if (Players[Game:GetProperty("BBS_MINOR_FAILING_ID_" .. j)]:GetUnits() ~= nil) then
-                                playerUnits = Players[Game:GetProperty("BBS_MINOR_FAILING_ID_" .. j)]:GetUnits();
-                                for k, unit in playerUnits:Members() do
-                                    playerUnits:Destroy(unit)
-                                end
-                                --[[ Corrupted legacy log text retained only as a comment.
-                                print("城邦玩家", Game:GetProperty("BBS_MINOR_FAILING_ID_" .. j), "因未能安排合适出生点而被移除。")
-                                ]]
-                                print("Removing city-state player", Game:GetProperty("BBS_MINOR_FAILING_ID_" .. j), "because no valid starting plot was found")
-                            end
-                        end
+                    local playerID = Game:GetProperty("BBS_MINOR_FAILING_ID_" .. j);
+                    if playerID ~= nil then
+                        print("WARNING: city-state player still has no starting plot after relaxed fallback", playerID)
                     end
                 end
             else
@@ -672,7 +822,8 @@ function ZYL_RVC_Balance(args)
 					if cityStatePlacement ~= 0 then
 						for j = 1, minor_count do
 							if Players[minor_table[j]]:IsAlive() == true
-								and not ZYL_RVC_IsMinorMarkedFailing(minor_table[j]) then
+								and not ZYL_RVC_IsMinorMarkedFailing(minor_table[j])
+								and Players[minor_table[j]]:GetStartingPlot() ~= nil then
 								local pStartPlot_j = Players[minor_table[j]]:GetStartingPlot()
 								local distance = Map.GetPlotDistance(pStartPlot_i:GetIndex(), pStartPlot_j:GetIndex())
 								__Debug("I:", i, "J:", j, "Distance:", distance)
@@ -681,14 +832,7 @@ function ZYL_RVC_Balance(args)
 									if (Game:GetProperty("BBS_MINOR_FAILING_TOTAL") == nil) then
 										Game:SetProperty("BBS_MINOR_FAILING_TOTAL", 0)
 									end
-									-- Let's kill a CS to ensure the game is within CPL rules
-									local playerUnits;
-									playerUnits = Players[minor_table[j]]:GetUnits();
-									for k, unit in playerUnits:Members() do
-										playerUnits:Destroy(unit)
-									end
-									print("Minor failure module: Firaxis Placement: Minor Player", minor_table[j], " has been eliminated (too close to major).", distance)
-									ZYL_RVC_RecordMinorFailure(minor_table[j])
+									print("WARNING: city-state player is closer to a major than the preferred CPL distance", minor_table[j], distance)
 								end
 							end
 						end
@@ -708,7 +852,7 @@ function ZYL_RVC_Balance(args)
 					local pStartPlot_i = Players[minor_table[i]]:GetStartingPlot()
 					for j = 1, minor_count do
 						local pStartPlot_j = Players[minor_table[j]]:GetStartingPlot()
-						if (minor_table[i] ~= minor_table[j]) then
+						if (minor_table[i] ~= minor_table[j] and pStartPlot_i ~= nil and pStartPlot_j ~= nil) then
 							bmin = ZYL_RVC_IsMinorMarkedFailing(minor_table[i])
 								or ZYL_RVC_IsMinorMarkedFailing(minor_table[j])
 							if bmin == false then
@@ -718,14 +862,7 @@ function ZYL_RVC_Balance(args)
 									if (Game:GetProperty("BBS_MINOR_FAILING_TOTAL") == nil) then
 										Game:SetProperty("BBS_MINOR_FAILING_TOTAL", 0)
 									end
-									-- Let's kill a CS to avoid a CS settler roaming and breaking CPL rules
-									local playerUnits;
-									playerUnits = Players[minor_table[j]]:GetUnits();
-									for k, unit in playerUnits:Members() do
-										playerUnits:Destroy(unit)
-									end
-									print("Minor failure module: Firaxis Placement: Minor Player", minor_table[j], " has been eliminated (too close to minor).", distance)
-									ZYL_RVC_RecordMinorFailure(minor_table[j])
+									print("WARNING: city-state players are closer than the preferred CPL distance", minor_table[i], minor_table[j], distance)
 								end
 							else
 								bmin = false
@@ -5996,6 +6133,10 @@ function PlaceResource(eResourceType, plot, leader)
             end
 
         end
+    end
+
+    if ZYL_RVC_PlaceGuaranteedEarlyStrategic(eResourceType, plot, leader) then
+        return true;
     end
 
     __Debug("Balance Resources: Failed to Add:", eResourceType);

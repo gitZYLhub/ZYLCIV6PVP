@@ -29,7 +29,123 @@ local Teamers_Ref_team = nil
 local Teamers_Ref_team_overturn = nil
 local TEAM_WRONG_SIDE_PENALTY = 120000000
 
+local ZYL_INLAND_COAST_VARIANT = {
+	LEADER_HOJO_INLAND = true,
+	LEADER_PHILIP_II_INLAND = true,
+	LEADER_WILHELMINA_INLAND = true
+}
 
+local function ZYL_IsInlandCoastVariant(leaderType)
+	return ZYL_INLAND_COAST_VARIANT[leaderType] == true;
+end
+
+local function ZYL_IsInlandCoastVariantPlayer(playerID)
+	local playerConfig = playerID ~= nil and PlayerConfigurations[playerID] or nil;
+	return playerConfig ~= nil and ZYL_IsInlandCoastVariant(playerConfig:GetLeaderTypeName());
+end
+
+-- Keep the inland choice intact when this map's custom placement is disabled
+-- or has to fall back to Firaxis placement.  This mirrors Firaxis' terrain
+-- pass and removes only coast, including when another terrain shares its tier.
+if AssignStartingPlots ~= nil and not g_ZYL_InlandBiasPatchInstalled then
+	local zylOriginalStartBiasTerrains = AssignStartingPlots.__StartBiasTerrains;
+	function AssignStartingPlots:__StartBiasTerrains(playerIndex, tier, minor)
+		local playerId = minor and self.minorList[playerIndex - self.iNumMajorCivs]
+			or self.majorList[playerIndex];
+		local playerConfig = playerId ~= nil and PlayerConfigurations[playerId] or nil;
+		if playerConfig == nil
+				or not ZYL_IsInlandCoastVariant(playerConfig:GetLeaderTypeName()) then
+			return zylOriginalStartBiasTerrains(self, playerIndex, tier, minor);
+		end
+
+		local civilizationType = playerConfig:GetCivilizationTypeName();
+		local terrains = {};
+		for row in GameInfo.StartBiasTerrains() do
+			if row.CivilizationType == civilizationType and row.Tier == tier then
+				if row.TerrainType ~= "TERRAIN_COAST" then
+					table.insert(terrains, row.TerrainType);
+				end
+			end
+		end
+
+		if #terrains == 0 then
+			return;
+		end
+
+		local range = minor and 2 or 3;
+		local playerStart = self.playerStarts[playerIndex];
+		local terrainPlots = {};
+		local terrainNames = {};
+		for row in GameInfo.Terrains() do
+			table.insert(terrainNames, row.TerrainType);
+		end
+
+		for _, startPlot in ipairs(playerStart) do
+			if startPlot ~= nil then
+				local plotX = startPlot:GetX();
+				local plotY = startPlot:GetY();
+				local hasTerrain = false;
+				for dx = -range, range - 1 do
+					for dy = -range, range - 1 do
+						local otherPlot = Map.GetPlotXY(plotX, plotY, dx, dy, range);
+						if otherPlot ~= nil
+								and startPlot:GetIndex() ~= otherPlot:GetIndex()
+								and otherPlot:GetTerrainType() ~= g_TERRAIN_NONE then
+							for _, terrainType in ipairs(terrains) do
+								if terrainNames[otherPlot:GetTerrainType() + 1] == terrainType then
+									hasTerrain = true;
+								end
+							end
+						end
+					end
+				end
+				if hasTerrain then
+					table.insert(terrainPlots, startPlot);
+				end
+			end
+		end
+
+		if #terrainPlots > 1 then
+			local terrainValue = table.fill(0, #terrainPlots);
+			for i, terrainPlot in ipairs(terrainPlots) do
+				local plotX = terrainPlot:GetX();
+				local plotY = terrainPlot:GetY();
+				for dx = -range, range - 1 do
+					for dy = -range, range - 1 do
+						local otherPlot = Map.GetPlotXY(plotX, plotY, dx, dy, range);
+						if otherPlot ~= nil and otherPlot:GetTerrainType() ~= g_TERRAIN_NONE then
+							for _, terrainType in ipairs(terrains) do
+								if terrainNames[otherPlot:GetTerrainType() + 1] == terrainType then
+									terrainValue[i] = terrainValue[i] + 1;
+								end
+							end
+						end
+					end
+				end
+			end
+
+			self.sortedArray = {};
+			self:__SortByArray(terrainPlots, terrainValue);
+			for key = #playerStart, 1, -1 do
+				playerStart[key] = nil;
+			end
+			for _, terrainPlot in ipairs(self.sortedArray) do
+				table.insert(playerStart, terrainPlot);
+			end
+		elseif #terrainPlots == 1 then
+			local selectedPlot = terrainPlots[1];
+			for key, startPlot in ipairs(playerStart) do
+				if selectedPlot:GetIndex() == startPlot:GetIndex() then
+					playerStart[key] = selectedPlot;
+				else
+					playerStart[key] = nil;
+				end
+			end
+			self:__StartBiasPlotRemoval(selectedPlot, minor, playerIndex);
+		end
+	end
+	g_ZYL_InlandBiasPatchInstalled = true;
+end
 
 local SEAS_CIVILIZATION = {}
 for row in GameInfo.StartBiasTerrains() do
@@ -126,8 +242,12 @@ function BBS_AssignStartingPlots.Create(args)
         __Debug								= BBS_AssignStartingPlots.__Debug,
         __InitStartingData					= BBS_AssignStartingPlots.__InitStartingData,
         __FilterStart                       = BBS_AssignStartingPlots.__FilterStart,
-        __SetStartBias                      = BBS_AssignStartingPlots.__SetStartBias,
+		__SetStartBias                      = BBS_AssignStartingPlots.__SetStartBias,
 		__PlaceMinorCivsVanilla             = BBS_AssignStartingPlots.__PlaceMinorCivsVanilla,
+		__PlaceMissingMinorCivsRelaxed      = BBS_AssignStartingPlots.__PlaceMissingMinorCivsRelaxed,
+		__FindRelaxedMinorStart             = BBS_AssignStartingPlots.__FindRelaxedMinorStart,
+		__GetMinorStartDistances            = BBS_AssignStartingPlots.__GetMinorStartDistances,
+		__IsEmergencyMinorStart             = BBS_AssignStartingPlots.__IsEmergencyMinorStart,
         __BiasRoutine                       = BBS_AssignStartingPlots.__BiasRoutine,
         __FindBias                          = BBS_AssignStartingPlots.__FindBias,
         __RateBiasPlots                     = BBS_AssignStartingPlots.__RateBiasPlots,
@@ -229,7 +349,7 @@ function BBS_AssignStartingPlots.Create(args)
     print("TeamPVP __InitStartingData i:",i);
 		instance:__InitStartingData()
 	
-		if bError_major == false and bError_proximity == false and bError_shit_settle == false and bError_distribution == false then
+		if bError_major == false and bError_proximity == false and bError_shit_settle == false and bError_distribution == false and bError_minor == false then
 			print("BBS_AssignStartingPlots: Successfully ran!")
 			if  (bError_minor == true) then
 				print("BBS_AssignStartingPlots: An error has occured: A city-state is missing.")
@@ -296,8 +416,9 @@ function BBS_AssignStartingPlots:__InitMajorDistributionBands(landPlayers)
 
     for _, playerID in ipairs(landPlayers or {}) do
         if not self.oceanStartFallbackPlayers[playerID] then
-            local civilizationType = PlayerConfigurations[playerID]:GetCivilizationTypeName();
-            local isCoast = SEAS_CIVILIZATION[civilizationType];
+			local civilizationType = PlayerConfigurations[playerID]:GetCivilizationTypeName();
+			local isCoast = SEAS_CIVILIZATION[civilizationType]
+				and not ZYL_IsInlandCoastVariantPlayer(playerID);
             addPlayer(playerID, isCoast and "COAST" or "INLAND");
         end
     end
@@ -327,7 +448,13 @@ function BBS_AssignStartingPlots:__InitMajorDistributionBands(landPlayers)
     local maxCoordinate = axisLength - edgeMargin;
     local usableLength = math.max(1, maxCoordinate - minCoordinate + 1);
 
-    for key, group in pairs(self.distributionGroups) do
+	local distributionGroupKeys = {};
+	for key in pairs(self.distributionGroups) do
+		table.insert(distributionGroupKeys, key);
+	end
+	table.sort(distributionGroupKeys);
+	for _, key in ipairs(distributionGroupKeys) do
+		local group = self.distributionGroups[key];
         local bandCount = #group.Players;
         for bandIndex = 1, bandCount do
             local bandMin = minCoordinate + math.floor((bandIndex - 1) * usableLength / bandCount);
@@ -506,7 +633,12 @@ function BBS_AssignStartingPlots:__ValidateMajorDistribution()
         return true;
     end
 
-    for playerID, _ in pairs(self.playerDistributionGroup) do
+	local distributionPlayerIDs = {};
+	for playerID in pairs(self.playerDistributionGroup) do
+		table.insert(distributionPlayerIDs, playerID);
+	end
+	table.sort(distributionPlayerIDs);
+	for _, playerID in ipairs(distributionPlayerIDs) do
         local band = self.playerDistributionBands[playerID];
         local player = Players[playerID];
         local plot = player and player:GetStartingPlot() or nil;
@@ -689,6 +821,13 @@ function BBS_AssignStartingPlots:__InitStartingData()
         end
     end
 
+	-- Region division occasionally returns fewer legal city-state starts than
+	-- requested on the compact Rich Mainland layouts.  Search the complete map
+	-- before the sanity check and relax only city-state distances, one tier at a
+	-- time.  This keeps every requested city-state in the game instead of giving
+	-- it an arbitrary temporary tile that the balance pass later deletes.
+	self:__PlaceMissingMinorCivsRelaxed();
+
 	-- Place the spectator
     if (self.iNumSpecMajorCivs > 0) then
         for i = 1, self.iNumSpecMajorCivs do
@@ -712,31 +851,23 @@ function BBS_AssignStartingPlots:__InitStartingData()
 		end
 	end
 
-	if (Game:GetProperty("BBS_MINOR_FAILING_TOTAL") == nil) then
-		local count = 0
-		for i = 1, PlayerManager.GetAliveMinorsCount() do
-		
-			local startPlot = Players[self.minorList[i]]:GetStartingPlot();
-			print(i, count)
-			if (startPlot == nil) then
-				print("Error Minor Player is missing:", self.minorList[i]);
-				count = count + 1
-				Game:SetProperty("BBS_MINOR_FAILING_ID_"..count,self.minorList[i])
-				startPlot = Map.GetPlotByIndex(PlayerManager.GetAliveMajorsCount()+PlayerManager.GetAliveMinorsCount()+count);
-				local minPlayer = Players[self.minorList[i]]
-				minPlayer:SetStartingPlot(startPlot);
-				self:__Debug("Minor Temp Start X: ", startPlot:GetX(), "Y: ", startPlot:GetY());
-				else
-				print("Minor", PlayerConfigurations[self.minorList[i]]:GetCivilizationTypeName(), "Start X: ", startPlot:GetX(), "Y: ", startPlot:GetY());
-			end
+	local missingMinorCount = 0
+	for i = 1, PlayerManager.GetAliveMinorsCount() do
+		local playerID = self.minorList[i];
+		local startPlot = Players[playerID]:GetStartingPlot();
+		if (startPlot == nil) then
+			missingMinorCount = missingMinorCount + 1
+			Game:SetProperty("BBS_MINOR_FAILING_ID_" .. missingMinorCount, playerID)
+			print("Error Minor Player is still missing after relaxed fallback:", playerID);
+		else
+			print("Minor", PlayerConfigurations[playerID]:GetCivilizationTypeName(), "Start X: ", startPlot:GetX(), "Y: ", startPlot:GetY());
 		end
-
-		Game:SetProperty("BBS_MINOR_FAILING_TOTAL",count)
 	end
+	Game:SetProperty("BBS_MINOR_FAILING_TOTAL", missingMinorCount)
 
 	self:__Debug(Game:GetProperty("BBS_MINOR_FAILING_TOTAL"),"Minor Players are missing");
 
-	if (Game:GetProperty("BBS_MINOR_FAILING_TOTAL") > 0) then
+	if (missingMinorCount > 0) then
 		bError_minor = true
 		else
 		bError_minor = false
@@ -769,13 +900,7 @@ function BBS_AssignStartingPlots:__InitStartingData()
 							local distance = Map.GetPlotDistance(pStartPlot_i:GetIndex(),pStartPlot_k:GetIndex())
 							self:__Debug("I:", tempMajorList[i],"K:", self.minorList[k],"Distance:",distance)
 							if (distance < 5 or pStartPlot_i:GetIndex() == pStartPlot_k:GetIndex()) then
-								self:__Debug("Error Minor Player is missing:", self.minorList[k]);
-								count = count + 1
-								Game:SetProperty("BBS_MINOR_FAILING_ID_"..count,self.minorList[k])
-								startPlot = Map.GetPlotByIndex(PlayerManager.GetAliveMajorsCount()+PlayerManager.GetAliveMinorsCount()+count);
-								local minPlayer = Players[self.minorList[k]]
-								minPlayer:SetStartingPlot(startPlot);
-								self:__Debug("Minor Temp Start X: ", startPlot:GetX(), "Y: ", startPlot:GetY());
+								print("WARNING: city-state remains unusually close to a major after fallback:", self.minorList[k], "distance", distance);
 							end
 						end
 					end					
@@ -821,6 +946,133 @@ function BBS_AssignStartingPlots:__PlaceMinorCivsVanilla()
 	self:__SetStartBias(minorStartRegions, valid, self.minorList, false);
 end
 ------------------------------------------------------------------------------
+local ZYL_RVC_MINOR_DISTANCE_TIERS = {
+	{ MinMajor = 11, MinMinor = 7, Strict = true },
+	{ MinMajor = 10, MinMinor = 6, Strict = true },
+	{ MinMajor = 9, MinMinor = 6, Strict = true },
+	{ MinMajor = 8, MinMinor = 5, Strict = true },
+	{ MinMajor = 7, MinMinor = 5, Strict = true },
+	{ MinMajor = 6, MinMinor = 4, Strict = true },
+	{ MinMajor = 6, MinMinor = 3, Strict = false },
+};
+
+function BBS_AssignStartingPlots:__GetMinorStartDistances(plot, playerID)
+	local minMajorDistance = 999;
+	local minMinorDistance = 999;
+	local plotIndex = plot:GetIndex();
+
+	for _, majorID in ipairs(PlayerManager.GetAliveMajorIDs()) do
+		local major = Players[majorID];
+		local majorStart = major ~= nil and major:GetStartingPlot() or nil;
+		local majorConfig = PlayerConfigurations[majorID];
+		if majorStart ~= nil and majorConfig ~= nil
+				and majorConfig:GetLeaderTypeName() ~= "LEADER_SPECTATOR"
+				and majorConfig:GetHandicapTypeID() ~= 2021024770 then
+			minMajorDistance = math.min(minMajorDistance,
+				Map.GetPlotDistance(plotIndex, majorStart:GetIndex()));
+		end
+	end
+
+	for _, minorID in ipairs(PlayerManager.GetAliveMinorIDs()) do
+		if minorID ~= playerID then
+			local minor = Players[minorID];
+			local minorStart = minor ~= nil and minor:GetStartingPlot() or nil;
+			if minorStart ~= nil then
+				minMinorDistance = math.min(minMinorDistance,
+					Map.GetPlotDistance(plotIndex, minorStart:GetIndex()));
+			end
+		end
+	end
+
+	return minMajorDistance, minMinorDistance;
+end
+
+function BBS_AssignStartingPlots:__IsEmergencyMinorStart(plot)
+	if plot == nil or plot:IsWater() or plot:IsImpassable()
+			or plot:IsNaturalWonder() or plot:GetResourceType() ~= -1 then
+		return false;
+	end
+	if not self:__NaturalWonderBuffer(plot, false) then
+		return false;
+	end
+
+	local usableAdjacent = 0;
+	for direction = 0, DirectionTypes.NUM_DIRECTION_TYPES - 1 do
+		local adjacentPlot = Map.GetAdjacentPlot(plot:GetX(), plot:GetY(), direction);
+		if adjacentPlot ~= nil and not adjacentPlot:IsWater() and not adjacentPlot:IsImpassable() then
+			usableAdjacent = usableAdjacent + 1;
+		end
+	end
+	return usableAdjacent >= 3;
+end
+
+function BBS_AssignStartingPlots:__FindRelaxedMinorStart(playerID)
+	for tierIndex, tier in ipairs(ZYL_RVC_MINOR_DISTANCE_TIERS) do
+		local candidates = {};
+		for plotIndex = 0, Map.GetPlotCount() - 1 do
+			local plot = Map.GetPlotByIndex(plotIndex);
+			local validTerrain = plot ~= nil and not plot:IsWater()
+				and not plot:IsImpassable() and not plot:IsMountain()
+				and not plot:IsNaturalWonder() and plot:GetResourceType() == -1
+				and ((tier.Strict and self:__GetValidAdjacent(plot, false))
+					or (not tier.Strict and self:__IsEmergencyMinorStart(plot)));
+			if validTerrain then
+				local majorDistance, minorDistance = self:__GetMinorStartDistances(plot, playerID);
+				if majorDistance >= tier.MinMajor and minorDistance >= tier.MinMinor then
+					local fertility = StartPositioner.GetPlotFertility(plotIndex, -1) or 0;
+					local score = fertility * 100
+						+ math.min(majorDistance, 30) * 8
+						+ math.min(minorDistance, 30) * 4;
+					if plot:IsFreshWater() then score = score + 1000; end
+					if plot:IsCoastalLand() then score = score + 400; end
+					score = score + TerrainBuilder.GetRandomNumber(50, "ZYL RVC relaxed city-state start");
+					table.insert(candidates, {
+						Plot = plot,
+						Score = score,
+						MajorDistance = majorDistance,
+						MinorDistance = minorDistance,
+					});
+				end
+			end
+		end
+
+		if #candidates > 0 then
+			table.sort(candidates, function(a, b)
+				if a.Score == b.Score then return a.Plot:GetIndex() < b.Plot:GetIndex(); end
+				return a.Score > b.Score;
+			end);
+			return candidates[1], tierIndex, tier;
+		end
+	end
+	return nil, nil, nil;
+end
+
+function BBS_AssignStartingPlots:__PlaceMissingMinorCivsRelaxed()
+	local relaxedCount = 0;
+	for minorIndex, playerID in ipairs(self.minorList) do
+		local player = Players[playerID];
+		if player ~= nil and player:GetStartingPlot() == nil then
+			local candidate, tierIndex, tier = self:__FindRelaxedMinorStart(playerID);
+			if candidate ~= nil then
+				local startPlot = candidate.Plot;
+				player:SetStartingPlot(startPlot);
+				self.playerStarts[minorIndex + self.iNumMajorCivs] = { startPlot };
+				table.insert(self.minorStartPlots, startPlot);
+				table.insert(self.minorStartPlotsID, { ID = playerID, Plot = startPlot });
+				relaxedCount = relaxedCount + 1;
+				Game:SetProperty("ZYLRM_MINOR_RELAXED_" .. playerID, tierIndex);
+				print("ZYL RVC city-state relaxed fallback:", playerID,
+					"tier", tierIndex, "minimums", tier.MinMajor, tier.MinMinor,
+					"actual", candidate.MajorDistance, candidate.MinorDistance,
+					"plot", startPlot:GetX(), startPlot:GetY());
+			else
+				print("ZYL RVC WARNING: no safe relaxed city-state start found for", playerID);
+			end
+		end
+	end
+	Game:SetProperty("ZYLRM_MINOR_RELAXED_COUNT", relaxedCount);
+end
+------------------------------------------------------------------------------
 function BBS_AssignStartingPlots:__FilterStart(plots, index, major)
     local sortedPlots = {};
     local atLeastOneValidPlot = false;
@@ -852,10 +1104,13 @@ function BBS_AssignStartingPlots:__SetStartBias(startPlots, iNumberCiv, playersL
     for i = 1, iNumberCiv do
         local civ = {};
         civ.Type = PlayerConfigurations[playersList[i]]:GetCivilizationTypeName();
+        civ.LeaderType = PlayerConfigurations[playersList[i]]:GetLeaderTypeName();
 
         civ.Index = i;
-        civ.Category = (self.oceanStartFallbackPlayers[playersList[i]] or SEAS_CIVILIZATION[civ.Type]) and "COAST" or "INLAND";
-        local biases = self:__FindBias(civ.Type);
+        civ.Category = (self.oceanStartFallbackPlayers[playersList[i]]
+            or (SEAS_CIVILIZATION[civ.Type] and not ZYL_IsInlandCoastVariant(civ.LeaderType)))
+            and "COAST" or "INLAND";
+        local biases = self:__FindBias(civ.Type, civ.LeaderType);
         --[[if (self:__TableSize(biases) > 0) then
             civ.Tier = biases[1].Tier;
         else
@@ -918,7 +1173,8 @@ function BBS_AssignStartingPlots:__SetStartBias(startPlots, iNumberCiv, playersL
 end
 ------------------------------------------------------------------------------
 function BBS_AssignStartingPlots:__BiasRoutine(civilizationType, startPlots, index, playersList, major)
-    local biases = self:__FindBias(civilizationType);
+    local leaderType = PlayerConfigurations[playersList[index]]:GetLeaderTypeName();
+    local biases = self:__FindBias(civilizationType, leaderType);
     local ratedBiases = nil;
     local regionIndex = 0;
     local settled = false;
@@ -1032,7 +1288,7 @@ function BBS_AssignStartingPlots:__BiasRoutine(civilizationType, startPlots, ind
     end
 end
 ------------------------------------------------------------------------------
-function BBS_AssignStartingPlots:__FindBias(civilizationType)
+function BBS_AssignStartingPlots:__FindBias(civilizationType, leaderType)
     local biases = {};
     for row in GameInfo.StartBiasResources() do
         if(row.CivilizationType == civilizationType) then
@@ -1055,7 +1311,9 @@ function BBS_AssignStartingPlots:__FindBias(civilizationType)
         end
     end
     for row in GameInfo.StartBiasTerrains() do
-        if(row.CivilizationType == civilizationType) then
+        local skipCoast = ZYL_IsInlandCoastVariant(leaderType)
+            and row.TerrainType == "TERRAIN_COAST";
+        if(row.CivilizationType == civilizationType and not skipCoast) then
             local bias = {};
             bias.Tier = row.Tier;
             bias.Type = "TERRAINS";
@@ -1102,6 +1360,7 @@ function BBS_AssignStartingPlots:__RateBiasPlots(biases, startPlots, major, regi
     local ratedPlots = {};
 	local region_bonus = 0
 	 local gridWidth, gridHeight = Map.GetGridSize();
+	local isInlandCoastVariant = ZYL_IsInlandCoastVariantPlayer(iPlayer);
 
     if distributionBand ~= nil then
         local filteredPlots = {};
@@ -1328,7 +1587,7 @@ function BBS_AssignStartingPlots:__RateBiasPlots(biases, startPlots, major, regi
                 end
 			end
             -- Civilizations without a coast start bias should strongly prefer inland starts.
-            if not SEAS_CIVILIZATION[civilizationType] then
+            if not SEAS_CIVILIZATION[civilizationType] or isInlandCoastVariant then
                 local isCoast =self:__CountAdjacentTerrainsInRange(ratedPlot.Plot, g_TERRAIN_TYPE_COAST, major);
                 if(isCoast>=1)then
                     if isStartCheck == true then

@@ -90,4 +90,94 @@
 			<Text>Anon has finished loading.</Text>
 		</Replace>
   </BaseGameText>
+  <LocalizedText>
+	<!-- Simplified Chinese: preserve anonymous player masking. -->
+		<Replace Tag="LOC_NOTIFICATION_PLAYER_CONNECTING" Language="zh_Hans_CN">
+			<Text>匿名玩家正在加入</Text>
+		</Replace>
+		<Replace Tag="LOC_NOTIFICATION_PLAYER_CONNECTING_TT" Language="zh_Hans_CN">
+			<Text>匿名玩家正在加入游戏。此过程可能需要几分钟。</Text>
+		</Replace>
+		<Replace Tag="LOC_NOTIFICATION_PLAYER_CONNECTED" Language="zh_Hans_CN">
+			<Text>匿名玩家已加入</Text>
+		</Replace>
+		<Replace Tag="LOC_NOTIFICATION_PLAYER_CONNECTED_TT" Language="zh_Hans_CN">
+			<Text>匿名玩家已完成游戏加载。</Text>
+		</Replace>
+		<Replace Tag="LOC_NOTIFICATION_PLAYER_DISCONNECT" Language="zh_Hans_CN">
+			<Text>匿名玩家已断开连接</Text>
+		</Replace>
+		<Replace Tag="LOC_NOTIFICATION_PLAYER_DISCONNECT_TT" Language="zh_Hans_CN">
+			<Text>匿名玩家已断开与游戏的连接。</Text>
+		</Replace>
+		<Replace Tag="LOC_NOTIFICATION_PLAYER_KICKED" Language="zh_Hans_CN">
+			<Text>匿名玩家已被踢出</Text>
+		</Replace>
+		<Replace Tag="LOC_NOTIFICATION_PLAYER_KICKED_TT" Language="zh_Hans_CN">
+			<Text>匿名玩家已被踢出游戏。</Text>
+		</Replace>
+		<Replace Tag="LOC_NOTIFICATION_PLAYER_MOD_STATUS" Language="zh_Hans_CN">
+			<Text>匿名玩家正在下载模组</Text>
+		</Replace>
+		<Replace Tag="LOC_NOTIFICATION_PLAYER_MOD_STATUS_TT" Language="zh_Hans_CN">
+			<Text>匿名玩家正在下载进行此游戏所需的模组。（共{3 : number}个，已下载{2 : number}个）</Text>
+		</Replace>
+		<Replace Tag="LOC_NOTIFICATION_HOST_MIGRATION" Language="zh_Hans_CN">
+			<Text>正在迁移主机</Text>
+		</Replace>
+		<Replace Tag="LOC_NOTIFICATION_HOST_MIGRATION_TT" Language="zh_Hans_CN">
+			<Text>游戏正在迁移至新的游戏主机，即将恢复。</Text>
+		</Replace>
+		<Replace Tag="LOC_NOTIFICATION_HOST_CHANGED" Language="zh_Hans_CN">
+			<Text>主机迁移完成</Text>
+		</Replace>
+		<Replace Tag="LOC_NOTIFICATION_HOST_CHANGED_TT" Language="zh_Hans_CN">
+			<Text>匿名玩家现已成为新的游戏主机。</Text>
+		</Replace>
+		<Replace Tag="LOC_NOTIFICATION_PLAYBYCLOUD_YOURTURN" Language="zh_Hans_CN">
+			<Text>云端游戏：轮到您了</Text>
+		</Replace>
+		<Replace Tag="LOC_NOTIFICATION_PLAYBYCLOUD_YOURTURN_TT" Language="zh_Hans_CN">
+			<Text>您的云端游戏轮次已经开始。（{1_cloudGameName}）</Text>
+		</Replace>
+		<Replace Tag="LOC_NOTIFICATION_PLAYBYCLOUD_GAMEREADY" Language="zh_Hans_CN">
+			<Text>云端游戏已准备就绪</Text>
+		</Replace>
+		<Replace Tag="LOC_NOTIFICATION_PLAYBYCLOUD_GAMEREADY_TT" Language="zh_Hans_CN">
+			<Text>您的一场云端游戏已准备开始。（{1_cloudGameName}）</Text>
+		</Replace>
+		<Replace Tag="LOC_NOTIFICATION_PLAYBYCLOUD_UNSEENCOMPLETE" Language="zh_Hans_CN">
+			<Text>云端游戏已结束</Text>
+		</Replace>
+		<Replace Tag="LOC_NOTIFICATION_PLAYBYCLOUD_UNSEENCOMPLETE_TT" Language="zh_Hans_CN">
+			<Text>您的一场云端游戏最近已经结束。（{1_cloudGameName}）</Text>
+		</Replace>
+		<Replace Tag="LOC_NOTIFICATION_WRONG_PHASE_TT" Language="zh_Hans_CN">
+			<Text>[COLOR:Civ6Red]回合阶段错误[ENDCOLOR]</Text>
+		</Replace>
+		<Replace Tag="LOC_NOTIFICATION_SIMULTANEOUS_TURNS" Language="zh_Hans_CN">
+			<Text>同时行动回合</Text>
+		</Replace>
+		<Replace Tag="LOC_NOTIFICATION_SIMULTANEOUS_TURNS_TT" Language="zh_Hans_CN">
+			<Text>您与真人玩家的战争已经结束。您的回合将与所有未参战文明同时进行。</Text>
+		</Replace>
+		<Replace Tag="LOC_NOTIFICATION_SEQUENTIAL_TURNS" Language="zh_Hans_CN">
+			<Text>依次行动回合</Text>
+		</Replace>
+		<Replace Tag="LOC_NOTIFICATION_SEQUENTIAL_TURNS_TT" Language="zh_Hans_CN">
+			<Text>您正在与真人玩家交战。冲突结束前，您的回合将与所有参战文明依次进行。</Text>
+		</Replace>
+		<Replace Tag="LOC_NOTIFICATION_PLAYER_DESYNCED" Language="zh_Hans_CN">
+			<Text>匿名玩家已失去同步</Text>
+		</Replace>
+		<Replace Tag="LOC_NOTIFICATION_PLAYER_DESYNCED_TT" Language="zh_Hans_CN">
+			<Text>匿名玩家的游戏状态与主机出现偏差，正在重新加载以修正问题。</Text>
+		</Replace>
+		<Replace Tag="LOC_NOTIFICATION_PLAYER_RESYNC_COMPLETE" Language="zh_Hans_CN">
+			<Text>匿名玩家重新同步完成</Text>
+		</Replace>
+		<Replace Tag="LOC_NOTIFICATION_PLAYER_RESYNC_COMPLETE_TT" Language="zh_Hans_CN">
+			<Text>匿名玩家已完成加载。</Text>
+		</Replace>
+  </LocalizedText>
 </GameData>

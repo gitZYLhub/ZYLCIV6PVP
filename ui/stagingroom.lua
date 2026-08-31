@@ -59,6 +59,9 @@ local g_timer = 0
 local g_tick_size = 5 -- Time between refresh in second
 local b_tick = false
 local g_player_status = {} 
+local MPH_HANDSHAKE_GRACE_SECONDS = 20
+local MPH_HANDSHAKE_RETRY_SECONDS = 4
+local MPH_HANDSHAKE_MAX_RETRIES = 6
 
 
 -- Visibility / Disabled controls
@@ -605,6 +608,9 @@ function RefreshStatusID(playerID,version,bbs_version,bbg_version)
 					if Network.IsPlayerConnected(playerID) then
 						player.Status = 0
 						player.Version = 0
+						player.HandshakeStartedAt = nil
+						player.HandshakeLastSentAt = nil
+						player.HandshakeAttempts = 0
 						if b_bbg_game == true then
 							player.bbg_id = s_bbg_id
 							player.bbg_v = 0
@@ -695,6 +701,9 @@ function RefreshStatusID(playerID,version,bbs_version,bbg_version)
 					if Network.IsPlayerConnected(playerID) then
 						player.Status = 2
 						player.Version = tostring(version)	
+						player.HandshakeStartedAt = nil
+						player.HandshakeLastSentAt = nil
+						player.HandshakeAttempts = 0
 						player.bbg_v = tostring(bbg_version)	
 						player.bbs_v = tostring(bbs_version)	
 						player.Name = PlayerConfigurations[playerID]:GetPlayerName()
@@ -769,6 +778,9 @@ function ResetStatus_SpecificID(playerID)
 			if player.ID == playerID then
 				player.Status = 0
 				player.Version = 0
+				player.HandshakeStartedAt = nil
+				player.HandshakeLastSentAt = nil
+				player.HandshakeAttempts = 0
 				if b_bbg_game == true then
 					player.bbg_id = s_bbg_id
 					player.bbg_v = 0
@@ -810,17 +822,33 @@ function RefreshStatus()
 	b_mods_ok = true
 	if hostID == localID and b_mph_game == true then
 		if g_player_status ~= nil and #g_player_status > 0 then
-			for i, player in pairs(g_player_status) do
+			for i, player in ipairs(g_player_status) do
 				if Network.IsPlayerConnected(player.ID) == false and player.Status ~= -1 then
 					player.Status = -1
 				end
-				if player.Status == 1 then
-					-- We haven't received an answer most likely hasn't a fully loaded MPH
-						Network.SendChat("[COLOR_Civ6Red]Error:"..player.Name.." - MPH not preloaded. Cannot check Mod Version.",-2,player.ID)
-						Network.SendChat("[COLOR_Civ6Red]You do not have a fully loaded version of MPH! [NEWLINE]Please subscribe to the mod on Steam. [NEWLINE]Be sure you to have MPH selected in additional content [NEWLINE]Be sure to restart the game before joining this game.[ENDCOLOR]",-2,player.ID)
-
-					player.Status = 66
+				if player.Status == 66 then
 					b_mods_ok = false
+				end
+				if player.Status == 1 then
+					local now = os.time()
+					if player.HandshakeStartedAt == nil then
+						player.HandshakeStartedAt = now
+						player.HandshakeLastSentAt = now
+						player.HandshakeAttempts = 1
+					end
+					b_mods_ok = false
+					if now - player.HandshakeStartedAt >= MPH_HANDSHAKE_GRACE_SECONDS then
+						Network.SendChat("[COLOR_Civ6Red]Error:"..player.Name.." - MPH did not answer within "..tostring(MPH_HANDSHAKE_GRACE_SECONDS).." seconds. Cannot check Mod Version.",-2,player.ID)
+						Network.SendChat("[COLOR_Civ6Red]MPH handshake timed out. Please wait until the staging-room UI finishes loading, then use Mod Check or rejoin the room.[ENDCOLOR]",-2,player.ID)
+						player.Status = 66
+					elseif now - player.HandshakeLastSentAt >= MPH_HANDSHAKE_RETRY_SECONDS
+							and player.HandshakeAttempts < MPH_HANDSHAKE_MAX_RETRIES then
+						local name = player.Name or ("Player "..tostring(player.ID))
+						Network.SendChat("[COLOR_Civ6Green]# Greetings! "..tostring(name).." has joined a MP game using Multiplayer Helper (v "..tostring(g_version).."). [ENDCOLOR]",-2,player.ID)
+						player.HandshakeLastSentAt = now
+						player.HandshakeAttempts = player.HandshakeAttempts + 1
+						print("RefreshStatus() - Retrying MPH handshake - ID:",player.ID,"attempt:",player.HandshakeAttempts)
+					end
 				end
 				if player.Status == 2 then
 					-- We haven't received an answer most likely hasn't a fully loaded MPH
@@ -845,6 +873,7 @@ function RefreshStatus()
 						end
 				end				
 				if player.Status == 0 then
+					b_mods_ok = false
 					print("RefreshStatus() - Host Querrying - ID:",player.ID)
 					local name = PlayerConfigurations[player.ID]:GetPlayerName()
 					if name == nil then
@@ -854,6 +883,9 @@ function RefreshStatus()
 					-- Request Clients
 					Network.SendChat("[COLOR_Civ6Green]# Greetings! "..name.." has joined a MP game using Multiplayer Helper (v "..g_version.."). [ENDCOLOR]",-2,player.ID)
 					player.Status = 1
+					player.HandshakeStartedAt = os.time()
+					player.HandshakeLastSentAt = player.HandshakeStartedAt
+					player.HandshakeAttempts = 1
 				end
 				if Network.IsPlayerConnected(player.ID) and (g_phase == PHASE_DEFAULT or g_phase == PHASE_INIT) then
 					UpdatePlayerEntry(player.ID)
@@ -4106,6 +4138,10 @@ function OnMultiplayerChat( fromPlayer, toPlayer, text, eTargetType )
 	if string.sub(text,1,18) == ".mph_ui_modversion"  then --and toPlayer == Network.GetGameHostPlayerID()
 		local indexBBSs, indexBBSe = string.find(text,"_BBM_")
 		local indexBBGs, indexBBGe = string.find(text,"_BBG_")
+		if indexBBSs == nil or indexBBSe == nil or indexBBGs == nil or indexBBGe == nil then
+			print("Ignored malformed MPH version response from player",fromPlayer,text)
+			return
+		end
 		local mph_version = string.sub(text,20,indexBBSs-1)
 		local bbs_version = string.sub(text,indexBBSe+1,indexBBGs-1)
 		local bbg_version = string.sub(text, indexBBGe+1)
@@ -4458,6 +4494,9 @@ function OnMultplayerPlayerConnected( playerID )
 	end
 	
 	RefreshStatusID(playerID)
+	if Network.GetLocalPlayerID() ~= Network.GetGameHostPlayerID() then
+		SendVersion()
+	end
 	g_phase = PHASE_DEFAULT						  
 	if( ContextPtr:IsHidden() == false ) then
 		if GameConfiguration.GetValue("GAMEMODE_ANONYMOUS") == false then
@@ -4650,7 +4689,7 @@ end
 
 function OnMultiplayerHostMigrated( newHostID : number )
 	g_player_status = {}
-	RefreshStatusID(playerID)
+	RefreshStatusID(newHostID)
 	if g_phase ~= PHASE_DEFAULT then
 		HostReset()
 	end
@@ -6545,6 +6584,9 @@ function OnShow()
 	ShowHideEditButton();	
 	ShowHideTopLeftButtons();
 	RealizeGameSetup();
+	-- Proactively announce the local version after the staging-room UI and
+	-- enabled-mod flags are ready. Host retries below remain as a fallback.
+	SendVersion()
 	BuildPlayerList();
 	PopulateTargetPull(Controls.ChatPull, Controls.ChatEntry, Controls.ChatIcon, m_playerTargetEntries, m_playerTarget, false, OnChatPulldownChanged);
 	ShowHideChatPanel();
@@ -7549,4 +7591,3 @@ function Initialize()
 end
 
 Initialize();
-

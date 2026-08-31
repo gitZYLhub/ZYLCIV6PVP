@@ -5,5 +5,24 @@
 		<Row Name="ICON_POLICY_HARD_SHELL_EXPLOSIVES" Atlas="ICON_ATLAS_POLICIES" Index="1"/>
 		<Row Name="ICON_POLICY_TRENCH_WARFARE" Atlas="ICON_ATLAS_POLICIES" Index="1"/>
 		<Row Name="ICON_VICTORY_TRADITIONAL_DOMINATION" Atlas="ICON_ATLAS_VICTORIES" Index="3"/>
-  	</IconDefinitions>                                                                
-</GameInfo>  
+	</IconDefinitions>
+	<IconAliases>
+		<!-- BBG policies use the stock icon for their policy-card slot. -->
+		<Row Name="ICON_POLICY_EMPIRICAL_METHOD" OtherName="ICON_POLICY_ECONOMIC"/>
+		<Row Name="ICON_POLICY_MASTER_ARTISANS" OtherName="ICON_POLICY_MILITARY"/>
+		<Row Name="ICON_POLICY_BATTLEFIELD_MEDICINE" OtherName="ICON_POLICY_MILITARY"/>
+		<Row Name="ICON_POLICY_SCIENTIFIC_VANGUARD" OtherName="ICON_POLICY_WILDCARD"/>
+		<Row Name="ICON_POLICY_KOLKHOZ" OtherName="ICON_POLICY_MILITARY"/>
+		<Row Name="ICON_POLICY_PROSPERITY_PACT" OtherName="ICON_POLICY_DIPLOMATIC"/>
+		<Row Name="ICON_POLICY_MILITARY_COMMAND_CENTER" OtherName="ICON_POLICY_MILITARY"/>
+		<Row Name="ICON_POLICY_ARMS_RACE" OtherName="ICON_POLICY_MILITARY"/>
+		<Row Name="ICON_POLICY_SOVEREIGN_STATE" OtherName="ICON_POLICY_DIPLOMATIC"/>
+
+		<!-- Firaxis supplies no generic promotion icon keys for society Governors,
+		     although the standard Governor UI asks for them. -->
+		<Row Name="ICON_GOVERNOR_OWLS_OF_MINERVA_PROMOTION" OtherName="ICON_GOVERNOR_GENERIC_PROMOTION"/>
+		<Row Name="ICON_GOVERNOR_HERMETIC_ORDER_PROMOTION" OtherName="ICON_GOVERNOR_GENERIC_PROMOTION"/>
+		<Row Name="ICON_GOVERNOR_VOIDSINGERS_PROMOTION" OtherName="ICON_GOVERNOR_GENERIC_PROMOTION"/>
+		<Row Name="ICON_GOVERNOR_SANGUINE_PACT_PROMOTION" OtherName="ICON_GOVERNOR_GENERIC_PROMOTION"/>
+	</IconAliases>
+</GameInfo>

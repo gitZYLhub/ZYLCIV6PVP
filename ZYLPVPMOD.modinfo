@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Mod id="4dd01931-9d44-4a8a-8e74-712cba0f0072" version="100">
+<Mod id="4dd01931-9d44-4a8a-8e74-712cba0f0072" version="124">
 	<Properties>
 		<Name>LOC_ZYLPVPMOD_TITLE</Name>
 		<Description>LOC_ZYLPVPMOD_DESCRIPTION</Description>
 		<Created>1</Created>
-		<Version>100</Version>
+		<Version>124</Version>
 		<Teaser>LOC_ZYLPVPMOD_TEASER</Teaser>
-		<Authors>BBG Team, BBM Team, Cisco, D. / Jack The Narrator, Team PVP Tools contributors; integrated by ZYL</Authors>
-		<SpecialThanks>Civilization VI BBG, BBM, CPL, MPH and Team PVP communities</SpecialThanks>
+		<Authors>BBG Team, BBM Team, BBG Expanded and CIVITAS Resources contributors, Cisco, D. / Jack The Narrator, Team PVP Tools contributors, ~Venom~, wltk, DeepLogic and JamieNyanchi; integrated by ZYL</Authors>
+		<SpecialThanks>Civilization VI BBG, BBM, BBG Expanded, CIVITAS, CPL, MPH, Team PVP, Better Deal Window and Detailed Map Tacks communities</SpecialThanks>
 		<AffectsSavedGames>1</AffectsSavedGames>
 		<CompatibleVersions>1.2,2.0</CompatibleVersions>
 		<BBGVersion>7.4.6</BBGVersion>
 		<BBMVersion>1.39.1</BBMVersion>
-		<ToolboxVersion>1.0.0</ToolboxVersion>
+		<ToolboxVersion>1.2.4</ToolboxVersion>
 	</Properties>
 	<Dependencies>
 		<Mod id="1B28771A-C749-434B-9053-D1380C553DE9" title="Expansion: Rise and Fall" />
@@ -34,20 +34,24 @@
 		<Mod id="c6477d9f-6bad-4d24-9e76-49cda4f0a966" title="Better Builder Charges Tracking (included)" />
 		<Mod id="6a18ae19-df93-4322-a3d5-33c5a5087b36" title="Real Great People (conflicting UI)" />
 		<Mod id="aa42d206-0aa1-4bbf-9ac0-27d338e2d91e" title="Real Stylish Great People (conflicting UI)" />
-		<Mod id="4ecfcc62-5471-4435-b295-590df213e8d8" title="Detailed Map Tacks (conflicting map-pin UI)" />
+		<Mod id="4ecfcc62-5471-4435-b295-590df213e8d8" title="Detailed Map Tacks (integrated)" />
+		<Mod id="fbb7b86a-9ac9-4a8e-9439-9ded6aceda0e" title="Better Deal Window (integrated)" />
+		<Mod id="3cfbc742-30f5-480f-a938-e7b71f160d4e" title="Team PVP Balanced mod Secret Societies 3.93 (included)" />
+		<Mod id="664d17a5-f3be-493a-9332-8e20da1166fa" title="CIVITAS Resources Expanded (included)" />
+		<Mod id="41493218-3632-421b-a1a3-367f7c7ba610" title="ZYL Lightweight Balance (selected features included)" />
 	</Blocks>
 	<LocalizedText>
 		<Text id="LOC_ZYLPVPMOD_TITLE">
-			<en_US>ZYLPVPMOD 1.0.0</en_US>
-			<zh_Hans_CN>ZYLPVPMOD 1.0.0</zh_Hans_CN>
+			<en_US>ZYLPVPMOD 1.2.4</en_US>
+			<zh_Hans_CN>ZYLPVPMOD 1.2.4</zh_Hans_CN>
 		</Text>
 		<Text id="LOC_ZYLPVPMOD_TEASER">
-			<en_US>BBG 7.4.6 + BBM 1.39.1 + ZYL multiplayer tournament and quality-of-life suite.</en_US>
-			<zh_Hans_CN>BBG 7.4.6 + BBM 1.39.1 + ZYL 联机比赛控制与 UI 工具箱。</zh_Hans_CN>
+			<en_US>BBG 7.4.6 + BBM 1.39.1 + Better Deal Window + Detailed Map Tacks + ZYL multiplayer tournament and quality-of-life suite.</en_US>
+			<zh_Hans_CN>BBG 7.4.6 + BBM 1.39.1 + Better Deal Window + Detailed Map Tacks + ZYL 联机比赛控制与 UI 工具箱。</zh_Hans_CN>
 		</Text>
 		<Text id="LOC_ZYLPVPMOD_DESCRIPTION">
-			<en_US>One self-contained multiplayer package: Better Balanced Game 7.4.6, Better Balanced Map 1.39.1, MPH tournament controls and selected Team PVP UI/QoL. Component Mod IDs are blocked to prevent double loading. Science and culture stacking remain enabled.</en_US>
-			<zh_Hans_CN>一体化联机包：Better Balanced Game 7.4.6、Better Balanced Map 1.39.1、MPH 比赛控制和经冲突处理的 Team PVP UI/QoL。阻止原组件重复加载，并保留可卡科技与市政的原版行为。</zh_Hans_CN>
+			<en_US>One self-contained multiplayer package: Better Balanced Game 7.4.6, Better Balanced Map 1.39.1, six BBG Expanded luxury resources, selected Lightweight Balance pantheons plus ZYL Druid, Better Deal Window, Detailed Map Tacks, MPH tournament controls and selected Team PVP UI/QoL. The deal window preserves MPH trade restrictions; map-tack hotkeys preserve the MPH no-pins rule and NHK chat pins. Conflicting component Mod IDs are blocked to prevent double loading. Science and culture stacking remain enabled.</en_US>
+			<zh_Hans_CN>一体化联机包：Better Balanced Game 7.4.6、Better Balanced Map 1.39.1、BBG Expanded 六种奢侈资源、精选 LightweightBalance 万神殿与 ZYL 德鲁伊、Better Deal Window、Detailed Map Tacks、MPH 比赛控制和精选 Team PVP UI/QoL。交易界面保留 MPH 的禁交易规则；地图钉热键保留 MPH 禁钉规则与 NHK 聊天地图钉。阻止已整合或冲突组件重复加载；科技与市政保持原版可堆积行为。</zh_Hans_CN>
 		</Text>
 		<Text id="LOC_MPH_TITLE">
 			<en_US>Multiplayer Helper 1.7.9</en_US>
@@ -464,10 +468,6 @@
 			<!-- WIP -->
 			<ModInUse>2a0aa96a-a31c-4ce2-87ec-09144f6f3e00</ModInUse>
 		</Criteria>
-		<Criteria id="ZYLPVP_BBG_BBGExpanded_WIP_Published">
-			<!-- WIP -->
-			<ModInUse>2a0aa96a-a31c-4ce2-87ec-09152f6f3888</ModInUse>
-		</Criteria>
 		<Criteria id="ZYLPVP_BBG_BBGExpanded_Release">
 			<!-- Release -->
 			<ModInUse>2a0aa96a-a31c-4ce2-87ec-09152f6f3e00</ModInUse>
@@ -573,11 +573,93 @@
 				<Value>0</Value>
 			</ConfigurationValueMatches>
 		</Criteria>
-		<Criteria id="ZYLMRM_Map">
+		<Criteria id="ZYLPVP_BDW_Expansion1">
+			<GameCoreInUse>Expansion1</GameCoreInUse>
+		</Criteria>
+		<Criteria id="ZYLPVP_BDW_Expansion2">
+			<GameCoreInUse>Expansion2</GameCoreInUse>
+		</Criteria>
+		<Criteria id="ZYLPVP_BDW_Monopolies_Mode">
+			<ConfigurationValueMatches>
+				<Group>Game</Group>
+				<ConfigurationId>GAMEMODE_MONOPOLIES</ConfigurationId>
+				<Value>1</Value>
+			</ConfigurationValueMatches>
+		</Criteria>
+		<Criteria id="ZYLPVP_BDW_Monopolies_Mode_Expansion2">
+			<RuleSetInUse>RULESET_EXPANSION_2</RuleSetInUse>
+			<ConfigurationValueMatches>
+				<Group>Game</Group>
+				<ConfigurationId>GAMEMODE_MONOPOLIES</ConfigurationId>
+				<Value>1</Value>
+			</ConfigurationValueMatches>
+		</Criteria>
+		<Criteria id="ZYL_Ethiopia">
+			<ModInUse>1B394FE9-23DC-4868-8F0A-5220CB8FB427</ModInUse>
+		</Criteria>
+		<Criteria id="ZYL_SecretSocietiesXP2">
+			<RuleSetInUse>RULESET_EXPANSION_2</RuleSetInUse>
+			<ModInUse>1B394FE9-23DC-4868-8F0A-5220CB8FB427</ModInUse>
+			<ConfigurationValueMatches>
+				<Group>Game</Group>
+				<ConfigurationId>GAMEMODE_SECRETSOCIETIES</ConfigurationId>
+				<Value>1</Value>
+			</ConfigurationValueMatches>
+		</Criteria>
+		<Criteria id="ZYL_NoExternalBBGExpanded">
+			<ModInUse inverse="1">2a0aa96a-a31c-4ce2-87ec-09144f6f3e00</ModInUse>
+			<ModInUse inverse="1">2a0aa96a-a31c-4ce2-87ec-09152f6f3888</ModInUse>
+			<ModInUse inverse="1">2a0aa96a-a31c-4ce2-87ec-09152f6f3e00</ModInUse>
+		</Criteria>
+		<Criteria id="ZYL_MonopoliesMode">
+			<ConfigurationValueMatches>
+				<Group>Game</Group>
+				<ConfigurationId>GAMEMODE_MONOPOLIES</ConfigurationId>
+				<Value>1</Value>
+			</ConfigurationValueMatches>
+		</Criteria>
+		<Criteria id="ZYL_GatheringStorm">
+			<RuleSetInUse>RULESET_EXPANSION_2</RuleSetInUse>
+		</Criteria>
+		<Criteria id="ZYL_EraLengthOptimization">
+			<RuleSetInUse>RULESET_EXPANSION_1,RULESET_EXPANSION_2</RuleSetInUse>
+			<ConfigurationValueMatches>
+				<Group>Game</Group>
+				<ConfigurationId>ZYL_ERA_LENGTH_OPTIMIZATION</ConfigurationId>
+				<Value>1</Value>
+			</ConfigurationValueMatches>
+		</Criteria>
+		<Criteria id="ZYL_NoMapPins">
+			<ConfigurationValueMatches>
+				<Group>Game</Group>
+				<ConfigurationId>CPL_NO_PINS</ConfigurationId>
+				<Value>1</Value>
+			</ConfigurationValueMatches>
+		</Criteria>
+		<Criteria id="ZYL_RichMainland_Team">
 			<ConfigurationValueMatches>
 				<Group>Map</Group>
 				<ConfigurationId>MAP_SCRIPT</ConfigurationId>
-				<Value>zyl_mountainous_rich_mainland.lua</Value>
+				<Value>zyl_team_rich_mainland.lua</Value>
+			</ConfigurationValueMatches>
+		</Criteria>
+		<Criteria id="ZYL_RichMainland_FFA">
+			<ConfigurationValueMatches>
+				<Group>Map</Group>
+				<ConfigurationId>MAP_SCRIPT</ConfigurationId>
+				<Value>zyl_ffa_rich_mainland.lua</Value>
+			</ConfigurationValueMatches>
+		</Criteria>
+		<Criteria id="ZYL_RichMainland" any="1">
+			<ConfigurationValueMatches>
+				<Group>Map</Group>
+				<ConfigurationId>MAP_SCRIPT</ConfigurationId>
+				<Value>zyl_team_rich_mainland.lua</Value>
+			</ConfigurationValueMatches>
+			<ConfigurationValueMatches>
+				<Group>Map</Group>
+				<ConfigurationId>MAP_SCRIPT</ConfigurationId>
+				<Value>zyl_ffa_rich_mainland.lua</Value>
 			</ConfigurationValueMatches>
 		</Criteria>
 	</ActionCriteria>
@@ -692,27 +774,14 @@
 			</Properties>
 			<File>Components/BBG/sql/colors.sql</File>
 		</UpdateColors>
-		<UpdateDatabase id="ZYLPVP_BBG_FE_005_BBG_Expanded_Disable_new_front">
-			<Properties>
-				<LoadOrder>100000000</LoadOrder>
-			</Properties>
-			<File>Components/BBG/sql/BBG_Expanded/Disable_new_config.sql</File>
-		</UpdateDatabase>
-		<UpdateDatabase id="ZYLPVP_BBG_FE_006_BBG_Expanded_MOAR_Units_WIP_front">
+		<UpdateDatabase id="ZYLPVP_BBG_FE_005_BBG_Expanded_MOAR_Units_WIP_front">
 			<Properties>
 				<LoadOrder>4</LoadOrder>
 			</Properties>
 			<Criteria>ZYLPVP_BBG_BBGExpanded_WIP</Criteria>
 			<File>Components/BBG/sql/BBG_Expanded/MOARUnits_enabledconfig.sql</File>
 		</UpdateDatabase>
-		<UpdateDatabase id="ZYLPVP_BBG_FE_007_BBG_Expanded_MOAR_Units_WIP_front">
-			<Properties>
-				<LoadOrder>4</LoadOrder>
-			</Properties>
-			<Criteria>ZYLPVP_BBG_BBGExpanded_WIP_Published</Criteria>
-			<File>Components/BBG/sql/BBG_Expanded/MOARUnits_enabledconfig.sql</File>
-		</UpdateDatabase>
-		<UpdateDatabase id="ZYLPVP_BBG_FE_008_BBG_Expanded_MOAR_Units_Release_front">
+		<UpdateDatabase id="ZYLPVP_BBG_FE_006_BBG_Expanded_MOAR_Units_Release_front">
 			<Properties>
 				<LoadOrder>4</LoadOrder>
 			</Properties>
@@ -721,7 +790,6 @@
 		</UpdateDatabase>
 		<UpdateDatabase id="ZYLPVP_BBM_FE_001_BBS_SETTINGS">
 			<File>Components/BBM/Configuration/Config.xml</File>
-			<File>Components/BBM/Configuration/ZYL_MountainousRichMainland_Config.xml</File>
 		</UpdateDatabase>
 		<UpdateText id="ZYLPVP_BBM_FE_002_BBS_SETTINGS_TEXTS">
 			<File>Components/BBM/Lang/english.xml</File>
@@ -732,11 +800,98 @@
 			<File>Components/BBM/Lang/japanese.xml</File>
 			<File>Components/BBM/Lang/korean.xml</File>
 			<File>Components/BBM/Lang/portuguese.xml</File>
-			<File>Components/BBM/Lang/ZYL_MountainousRichMainland_Text.xml</File>
 		</UpdateText>
 		<UpdateIcons id="ZYLPVP_BBM_FE_003_BBS_ICONS">
 			<File>Components/BBM/sql/bbs_icons_wonders.sql</File>
 		</UpdateIcons>
+		<UpdateText id="ZYLPVP_DetailedMapTacks_FE_001_dmt_settings_text">
+			<File Priority="1">Components/DetailedMapTacks/config/en_us/dmt_options_text.xml</File>
+			<File>Components/DetailedMapTacks/config/dmt_options_translations_text.xml</File>
+		</UpdateText>
+		<UpdateDatabase id="ZYL_CoastLeaderVariants_Config">
+			<Properties>
+				<LoadOrder>200000000</LoadOrder>
+			</Properties>
+			<File>LeaderVariants/ZYL_CoastLeaderVariants_Config.sql</File>
+		</UpdateDatabase>
+		<UpdateText id="ZYL_CoastLeaderVariants_ConfigText">
+			<Properties>
+				<LoadOrder>200000000</LoadOrder>
+			</Properties>
+			<File>LeaderVariants/ZYL_CoastLeaderVariants_Text.sql</File>
+		</UpdateText>
+		<UpdateIcons id="ZYL_CoastLeaderVariants_ConfigIcons">
+			<Properties>
+				<LoadOrder>200000000</LoadOrder>
+			</Properties>
+			<File>LeaderVariants/ZYL_CoastLeaderVariants_Icons.sql</File>
+		</UpdateIcons>
+		<UpdateColors id="ZYL_CoastLeaderVariants_ConfigColors">
+			<Properties>
+				<LoadOrder>200000000</LoadOrder>
+			</Properties>
+			<File>LeaderVariants/ZYL_CoastLeaderVariants_Colors.sql</File>
+		</UpdateColors>
+		<UpdateDatabase id="ZYL_BBGExpandedDisableConfig">
+			<Properties>
+				<LoadOrder>100000000</LoadOrder>
+			</Properties>
+			<File>Components/BBG/sql/BBG_Expanded/Disable_new_config.sql</File>
+		</UpdateDatabase>
+		<UpdateText id="ZYL_GameplayOverridesFrontEndText">
+			<Properties>
+				<LoadOrder>260000020</LoadOrder>
+			</Properties>
+			<File>lang/ZYL_GameplayOverrides_Text.xml</File>
+		</UpdateText>
+		<UpdateText id="ZYL_BBG74_ChineseTextFrontEnd">
+			<Properties>
+				<LoadOrder>259999990</LoadOrder>
+			</Properties>
+			<File>lang/ZYL_BBG74_Chinese_Text.xml</File>
+		</UpdateText>
+		<UpdateDatabase id="ZYL_DisableNaturalDisastersOption">
+			<Properties>
+				<LoadOrder>99999</LoadOrder>
+			</Properties>
+			<File>configuration/ZYL_DisasterRange.sql</File>
+		</UpdateDatabase>
+		<ImportFiles id="ZYL_LANPlayerNameLength">
+			<Properties>
+				<LoadOrder>1000</LoadOrder>
+			</Properties>
+			<File>Option/Options.xml</File>
+		</ImportFiles>
+		<UpdateDatabase id="ZYL_RandomPromotionHotkeyConfig">
+			<Properties>
+				<LoadOrder>1000</LoadOrder>
+			</Properties>
+			<File>NHK/Config_NewUnitOperation.xml</File>
+		</UpdateDatabase>
+		<UpdateText id="ZYL_RandomPromotionHotkeyConfigText">
+			<Properties>
+				<LoadOrder>1000</LoadOrder>
+			</Properties>
+			<File>NHK/Config_NewUnitOperation_Text.xml</File>
+		</UpdateText>
+		<UpdateDatabase id="ZYL_RichMainland_Config">
+			<Properties>
+				<LoadOrder>200000100</LoadOrder>
+			</Properties>
+			<File>Components/BBM/Configuration/ZYL_RichMainland_Config.xml</File>
+		</UpdateDatabase>
+		<UpdateText id="ZYL_RichMainland_Text">
+			<Properties>
+				<LoadOrder>200000100</LoadOrder>
+			</Properties>
+			<File>Components/BBM/Lang/ZYL_RichMainland_Text.xml</File>
+		</UpdateText>
+		<UpdateDatabase id="ZYL_LobbyDefaults">
+			<Properties>
+				<LoadOrder>300000000</LoadOrder>
+			</Properties>
+			<File>configuration/ZYL_LobbyDefaults.xml</File>
+		</UpdateDatabase>
 	</FrontEndActions>
 	<InGameActions>
 		<AddGameplayScripts id="CPL_Helper">
@@ -929,7 +1084,6 @@
 			</Properties>
 			<File>ui/Replacements/chatpanel_MPH.lua</File>
 			<File>ui/Replacements/diplomacyactionview_MPH.lua</File>
-			<File>ui/Replacements/diplomacydealview_MPH.lua</File>
 			<File>ui/Replacements/endgamemenu.lua</File>
 			<File>ui/Replacements/endgamemenu.xml</File>
 			<File>ui/Replacements/ingametopoptionsmenu.xml</File>
@@ -1043,7 +1197,6 @@
 			<File>lang/ZYL_Text.xml</File>
 			<File>lang/Blacklist_Text.xml</File>
 			<File>Settings/TPT_Settings_Text.xml</File>
-			<File>FEB/ForcedEndButton_Text.xml</File>
 			<File>BPC/BetterPantheonChooser_Config_Text.xml</File>
 			<File>BRS/Config/BRS_Config_Text.xml</File>
 			<File>BRS/Text/BetterReportScreen_Text.xml</File>
@@ -1075,13 +1228,6 @@
 				<Context>InGame</Context>
 			</Properties>
 			<File>ui/Additions/QuickControls.xml</File>
-		</AddUserInterfaces>
-		<AddUserInterfaces id="ZYL_ForcedEndButton">
-			<Properties>
-				<LoadOrder>115</LoadOrder>
-				<Context>InGame</Context>
-			</Properties>
-			<File>FEB/UI/ForcedEndButton.xml</File>
 		</AddUserInterfaces>
 		<AddUserInterfaces id="ZYL_RevealMapCorners">
 			<Properties>
@@ -1827,19 +1973,7 @@
 			<Criteria>ZYLPVP_BBG_GranColombia_Maya</Criteria>
 			<File>Components/BBG/sql/BBG_Expanded/MOARUnits_enabled.sql</File>
 		</UpdateDatabase>
-		<UpdateDatabase id="ZYLPVP_BBG_IG_060_BBG_Expanded_MOAR_Units_WIP">
-			<Properties>
-				<LoadOrder>4</LoadOrder>
-			</Properties>
-			<Criteria>ZYLPVP_BBG_BBGExpanded_WIP_Published</Criteria>
-			<Criteria>ZYLPVP_BBG_XP1_AND_XP2</Criteria>
-			<Criteria>ZYLPVP_BBG_DLC_Aztec</Criteria>
-			<Criteria>ZYLPVP_BBG_DLC_Macedon_Persia</Criteria>
-			<Criteria>ZYLPVP_BBG_Byzantium_Gaul</Criteria>
-			<Criteria>ZYLPVP_BBG_GranColombia_Maya</Criteria>
-			<File>Components/BBG/sql/BBG_Expanded/MOARUnits_enabled.sql</File>
-		</UpdateDatabase>
-		<UpdateDatabase id="ZYLPVP_BBG_IG_061_BBG_Expanded_MOAR_Units_Release">
+		<UpdateDatabase id="ZYLPVP_BBG_IG_060_BBG_Expanded_MOAR_Units_Release">
 			<Properties>
 				<LoadOrder>4</LoadOrder>
 			</Properties>
@@ -1851,7 +1985,7 @@
 			<Criteria>ZYLPVP_BBG_GranColombia_Maya</Criteria>
 			<File>Components/BBG/sql/BBG_Expanded/MOARUnits_enabled.sql</File>
 		</UpdateDatabase>
-		<UpdateDatabase id="ZYLPVP_BBG_IG_062_BBG_Expanded_WIP">
+		<UpdateDatabase id="ZYLPVP_BBG_IG_061_BBG_Expanded_WIP">
 			<Properties>
 				<LoadOrder>100000000</LoadOrder>
 			</Properties>
@@ -1872,32 +2006,9 @@
 			<File>Components/BBG/sql/BBG_Expanded/Resources.sql</File>
 			<File>Components/BBG/sql/BBG_Expanded/Barbarossa_UU.sql</File>
 			<File>Components/BBG/sql/BBG_Expanded/Caesar_UU.sql</File>
-			<File>Components/BBG/sql/BBG_Expanded/Disable_new.sql</File>
+			<!-- BBG Expanded 2 -->
 		</UpdateDatabase>
-		<UpdateDatabase id="ZYLPVP_BBG_IG_063_BBG_Expanded_WIP_Published">
-			<Properties>
-				<LoadOrder>100000000</LoadOrder>
-			</Properties>
-			<Criteria>ZYLPVP_BBG_BBGExpanded_WIP_Published</Criteria>
-			<Criteria>ZYLPVP_BBG_XP1_AND_XP2</Criteria>
-			<Criteria>ZYLPVP_BBG_DLC_Aztec</Criteria>
-			<Criteria>ZYLPVP_BBG_DLC_Macedon_Persia</Criteria>
-			<Criteria>ZYLPVP_BBG_Byzantium_Gaul</Criteria>
-			<Criteria>ZYLPVP_BBG_GranColombia_Maya</Criteria>
-			<File>Components/BBG/sql/BBG_Expanded/Vercingetorix.sql</File>
-			<File>Components/BBG/sql/BBG_Expanded/Olympia.sql</File>
-			<File>Components/BBG/sql/BBG_Expanded/Thule.sql</File>
-			<File>Components/BBG/sql/BBG_Expanded/Te_Kinich.sql</File>
-			<File>Components/BBG/sql/BBG_Expanded/Trisong.sql</File>
-			<File>Components/BBG/sql/BBG_Expanded/Ahiram.sql</File>
-			<File>Components/BBG/sql/BBG_Expanded/Al_Hasan.sql</File>
-			<File>Components/BBG/sql/BBG_Expanded/Spearthrower.sql</File>
-			<File>Components/BBG/sql/BBG_Expanded/Resources.sql</File>
-			<File>Components/BBG/sql/BBG_Expanded/Barbarossa_UU.sql</File>
-			<File>Components/BBG/sql/BBG_Expanded/Caesar_UU.sql</File>
-			<File>Components/BBG/sql/BBG_Expanded/Disable_new.sql</File>
-		</UpdateDatabase>
-		<UpdateDatabase id="ZYLPVP_BBG_IG_064_BBG_Expanded_Release">
+		<UpdateDatabase id="ZYLPVP_BBG_IG_062_BBG_Expanded_Release">
 			<Properties>
 				<LoadOrder>100000000</LoadOrder>
 			</Properties>
@@ -1918,32 +2029,33 @@
 			<File>Components/BBG/sql/BBG_Expanded/Resources.sql</File>
 			<File>Components/BBG/sql/BBG_Expanded/Barbarossa_UU.sql</File>
 			<File>Components/BBG/sql/BBG_Expanded/Caesar_UU.sql</File>
-			<File>Components/BBG/sql/BBG_Expanded/Disable_new.sql</File>
+			<!-- BBG Expanded 2 -->
 		</UpdateDatabase>
-		<UpdateDatabase id="ZYLPVP_BBG_IG_065_BBG_XP2_SecretSocieties">
+		<UpdateDatabase id="ZYLPVP_BBG_IG_063_BBG_XP2_SecretSocieties">
 			<Properties>
 				<LoadOrder>11670</LoadOrder>
 			</Properties>
 			<Criteria>ZYLPVP_BBG_Ethiopia</Criteria>
 			<!-- Not fan of this criteria -->
 			<Criteria>ZYLPVP_BBG_XP2</Criteria>
+			<Criteria>ZYL_SecretSocietiesXP2</Criteria>
 			<File>Components/BBG/sql/Secret_Societies.sql</File>
 		</UpdateDatabase>
-		<UpdateDatabase id="ZYLPVP_BBG_IG_066_bbcc_configvalues_db">
+		<UpdateDatabase id="ZYLPVP_BBG_IG_064_bbcc_configvalues_db">
 			<Properties>
 				<LoadOrder>11661</LoadOrder>
 			</Properties>
 			<Criteria>ZYLPVP_BBG_core_bbcc</Criteria>
 			<File>Components/BBG/sql/bbcc/bbcc_configvalues.sql</File>
 		</UpdateDatabase>
-		<UpdateDatabase id="ZYLPVP_BBG_IG_067_core_bbcc_db">
+		<UpdateDatabase id="ZYLPVP_BBG_IG_065_core_bbcc_db">
 			<Properties>
 				<LoadOrder>11662</LoadOrder>
 			</Properties>
 			<Criteria>ZYLPVP_BBG_core_bbcc</Criteria>
 			<File>Components/BBG/sql/bbcc/core_bbcc.sql</File>
 		</UpdateDatabase>
-		<UpdateDatabase id="ZYLPVP_BBG_IG_068_no_rng_bbcc_db">
+		<UpdateDatabase id="ZYLPVP_BBG_IG_066_no_rng_bbcc_db">
 			<Properties>
 				<LoadOrder>11663</LoadOrder>
 			</Properties>
@@ -1951,7 +2063,7 @@
 			<Criteria>ZYLPVP_BBG_no_rng_bbcc</Criteria>
 			<File>Components/BBG/sql/bbcc/no_rng_bbcc.sql</File>
 		</UpdateDatabase>
-		<UpdateDatabase id="ZYLPVP_BBG_IG_069_cap_bbcc_db">
+		<UpdateDatabase id="ZYLPVP_BBG_IG_067_cap_bbcc_db">
 			<Properties>
 				<LoadOrder>11670</LoadOrder>
 			</Properties>
@@ -1959,7 +2071,7 @@
 			<Criteria>ZYLPVP_BBG_bbcc_cap</Criteria>
 			<File>Components/BBG/sql/bbcc/cap_only_bbcc.sql</File>
 		</UpdateDatabase>
-		<UpdateDatabase id="ZYLPVP_BBG_IG_070_VictoryCulturalSetting_2">
+		<UpdateDatabase id="ZYLPVP_BBG_IG_068_VictoryCulturalSetting_2">
 			<Properties>
 				<LoadOrder>20000</LoadOrder>
 			</Properties>
@@ -1967,14 +2079,14 @@
 			<File>Components/BBG/sql/victories/new_bbg_cv.sql</File>
 			<File>Components/BBG/sql/victories/new_bbg_cv_2.sql</File>
 		</UpdateDatabase>
-		<UpdateDatabase id="ZYLPVP_BBG_IG_071_VictoryCulturalSetting_1">
+		<UpdateDatabase id="ZYLPVP_BBG_IG_069_VictoryCulturalSetting_1">
 			<Properties>
 				<LoadOrder>20000</LoadOrder>
 			</Properties>
 			<Criteria>ZYLPVP_BBG_CVSetting_1</Criteria>
 			<File>Components/BBG/sql/victories/new_bbg_cv.sql</File>
 		</UpdateDatabase>
-		<UpdateDatabase id="ZYLPVP_BBG_IG_072_VictoryScienceSetting_2">
+		<UpdateDatabase id="ZYLPVP_BBG_IG_070_VictoryScienceSetting_2">
 			<Properties>
 				<LoadOrder>20000</LoadOrder>
 			</Properties>
@@ -1982,7 +2094,7 @@
 			<Criteria>ZYLPVP_BBG_XP2</Criteria>
 			<File>Components/BBG/sql/victories/new_bbg_sv_2.sql</File>
 		</UpdateDatabase>
-		<UpdateDatabase id="ZYLPVP_BBG_IG_073_VictoryScienceSetting_1">
+		<UpdateDatabase id="ZYLPVP_BBG_IG_071_VictoryScienceSetting_1">
 			<Properties>
 				<LoadOrder>20000</LoadOrder>
 			</Properties>
@@ -1990,7 +2102,7 @@
 			<Criteria>ZYLPVP_BBG_XP2</Criteria>
 			<File>Components/BBG/sql/victories/new_bbg_sv_1.sql</File>
 		</UpdateDatabase>
-		<UpdateDatabase id="ZYLPVP_BBG_IG_074_VictoryDiploSetting_2">
+		<UpdateDatabase id="ZYLPVP_BBG_IG_072_VictoryDiploSetting_2">
 			<Properties>
 				<LoadOrder>20000</LoadOrder>
 			</Properties>
@@ -1998,7 +2110,7 @@
 			<Criteria>ZYLPVP_BBG_XP2</Criteria>
 			<File>Components/BBG/sql/victories/new_bbg_dv_2.sql</File>
 		</UpdateDatabase>
-		<UpdateDatabase id="ZYLPVP_BBG_IG_075_VictoryDiploSetting_1">
+		<UpdateDatabase id="ZYLPVP_BBG_IG_073_VictoryDiploSetting_1">
 			<Properties>
 				<LoadOrder>20000</LoadOrder>
 			</Properties>
@@ -2006,28 +2118,28 @@
 			<Criteria>ZYLPVP_BBG_XP2</Criteria>
 			<File>Components/BBG/sql/victories/new_bbg_dv_1.sql</File>
 		</UpdateDatabase>
-		<UpdateDatabase id="ZYLPVP_BBG_IG_076_VictoryReligiousSetting_2">
+		<UpdateDatabase id="ZYLPVP_BBG_IG_074_VictoryReligiousSetting_2">
 			<Properties>
 				<LoadOrder>20000</LoadOrder>
 			</Properties>
 			<Criteria>ZYLPVP_BBG_RVSetting_2</Criteria>
 			<File>Components/BBG/sql/victories/new_bbg_rv_2.sql</File>
 		</UpdateDatabase>
-		<UpdateDatabase id="ZYLPVP_BBG_IG_077_VictoryReligiousSetting_1">
+		<UpdateDatabase id="ZYLPVP_BBG_IG_075_VictoryReligiousSetting_1">
 			<Properties>
 				<LoadOrder>20000</LoadOrder>
 			</Properties>
 			<Criteria>ZYLPVP_BBG_RVSetting_1</Criteria>
 			<File>Components/BBG/sql/victories/new_bbg_rv_1.sql</File>
 		</UpdateDatabase>
-		<UpdateDatabase id="ZYLPVP_BBG_IG_078_VictoryTerritorialSetting_1">
+		<UpdateDatabase id="ZYLPVP_BBG_IG_076_VictoryTerritorialSetting_1">
 			<Properties>
 				<LoadOrder>20000</LoadOrder>
 			</Properties>
 			<Criteria>ZYLPVP_BBG_TerritorialSetting_1</Criteria>
 			<File>Components/BBG/sql/victories/new_bbg_new_domination.sql</File>
 		</UpdateDatabase>
-		<UpdateDatabase id="ZYLPVP_BBG_IG_079_GlobalVictorySetting_1">
+		<UpdateDatabase id="ZYLPVP_BBG_IG_077_GlobalVictorySetting_1">
 			<Properties>
 				<LoadOrder>20000</LoadOrder>
 			</Properties>
@@ -2037,7 +2149,7 @@
 			<File>Components/BBG/sql/victories/new_bbg_sv_1.sql</File>
 			<File>Components/BBG/sql/victories/new_bbg_cv.sql</File>
 		</UpdateDatabase>
-		<UpdateDatabase id="ZYLPVP_BBG_IG_080_GlobalVictorySetting_2">
+		<UpdateDatabase id="ZYLPVP_BBG_IG_078_GlobalVictorySetting_2">
 			<Properties>
 				<LoadOrder>20000</LoadOrder>
 			</Properties>
@@ -2048,7 +2160,7 @@
 			<File>Components/BBG/sql/victories/new_bbg_cv.sql</File>
 			<File>Components/BBG/sql/victories/new_bbg_cv_2.sql</File>
 		</UpdateDatabase>
-		<UpdateDatabase id="ZYLPVP_BBG_IG_081_GlobalVictorySetting_BBG_Legacy">
+		<UpdateDatabase id="ZYLPVP_BBG_IG_079_GlobalVictorySetting_BBG_Legacy">
 			<Properties>
 				<LoadOrder>20000</LoadOrder>
 			</Properties>
@@ -2057,24 +2169,24 @@
 			<File>Components/BBG/sql/victories/new_bbg_cv.sql</File>
 			<File>Components/BBG/sql/victories/new_bbg_cv_2.sql</File>
 		</UpdateDatabase>
-		<UpdateDatabase id="ZYLPVP_BBG_IG_082_Settlers">
+		<UpdateDatabase id="ZYLPVP_BBG_IG_080_Settlers">
 			<Properties>
 				<LoadOrder>20000</LoadOrder>
 			</Properties>
 			<Criteria>ZYLPVP_BBG_Settlers_Sent_Back</Criteria>
 			<File>Components/BBG/sql/Settlers/Settlers.sql</File>
 		</UpdateDatabase>
-		<UpdateIcons id="ZYLPVP_BBG_IG_083_bbg_Icons">
+		<UpdateIcons id="ZYLPVP_BBG_IG_081_bbg_Icons">
 			<File>Components/BBG/data/new_bbg_icons.xml</File>
 		</UpdateIcons>
-		<ReplaceUIScript id="ZYLPVP_BBG_IG_084_bbg_worldranking">
+		<ReplaceUIScript id="ZYLPVP_BBG_IG_082_bbg_worldranking">
 			<Properties>
 				<LoadOrder>19998</LoadOrder>
 				<LuaContext>WorldRankings</LuaContext>
 				<LuaReplace>Components/BBG/ui/replacements/worldrankings_bbg.lua</LuaReplace>
 			</Properties>
 		</ReplaceUIScript>
-		<ReplaceUIScript id="ZYLPVP_BBG_IG_085_BBG_UnitPanel_XP2">
+		<ReplaceUIScript id="ZYLPVP_BBG_IG_083_BBG_UnitPanel_XP2">
 			<Criteria>ZYLPVP_BBG_XP2</Criteria>
 			<Properties>
 				<LoadOrder>19999</LoadOrder>
@@ -2082,17 +2194,17 @@
 				<LuaReplace>Components/BBG/ui/replacements/unitpanel_bbg.lua</LuaReplace>
 			</Properties>
 		</ReplaceUIScript>
-		<ImportFiles id="ZYLPVP_BBG_IG_086_bbg_files">
+		<ImportFiles id="ZYLPVP_BBG_IG_084_bbg_files">
 			<File>Components/BBG/ui/replacements/endgamemenu_bbg.lua</File>
 		</ImportFiles>
-		<ImportFiles id="ZYLPVP_BBG_IG_087_bbg_tradesupport">
+		<ImportFiles id="ZYLPVP_BBG_IG_085_bbg_tradesupport">
 			<Properties>
 				<LoadOrder>300</LoadOrder>
 			</Properties>
 			<Criteria>ZYLPVP_BBG_NoConflictingUIMod</Criteria>
 			<File>Components/BBG/ui/replacements/tradesupport.lua</File>
 		</ImportFiles>
-		<ImportFiles id="ZYLPVP_BBG_IG_088_bbg_basetradeui">
+		<ImportFiles id="ZYLPVP_BBG_IG_086_bbg_basetradeui">
 			<Properties>
 				<LoadOrder>301</LoadOrder>
 			</Properties>
@@ -2100,7 +2212,7 @@
 			<File>Components/BBG/ui/replacements/compatibility/traderoutechooser.lua</File>
 			<File>Components/BBG/ui/replacements/compatibility/tradeoverview.lua</File>
 		</ImportFiles>
-		<ReplaceUIScript id="ZYLPVP_BBG_IG_089_base_tradeoverview">
+		<ReplaceUIScript id="ZYLPVP_BBG_IG_087_base_tradeoverview">
 			<Properties>
 				<LoadOrder>302</LoadOrder>
 				<LuaContext>TradeOverview</LuaContext>
@@ -2108,14 +2220,14 @@
 			</Properties>
 			<Criteria>ZYLPVP_BBG_NoConflictingUIMod</Criteria>
 		</ReplaceUIScript>
-		<ImportFiles id="ZYLPVP_BBG_IG_090_bbg_tradeoverview_import">
+		<ImportFiles id="ZYLPVP_BBG_IG_088_bbg_tradeoverview_import">
 			<Properties>
 				<LoadOrder>303</LoadOrder>
 			</Properties>
 			<Criteria>ZYLPVP_BBG_NoConflictingUIMod</Criteria>
 			<File>Components/BBG/ui/replacements/tradeoverview_bbg.lua</File>
 		</ImportFiles>
-		<ReplaceUIScript id="ZYLPVP_BBG_IG_091_bbg_tradeoverview">
+		<ReplaceUIScript id="ZYLPVP_BBG_IG_089_bbg_tradeoverview">
 			<Properties>
 				<LoadOrder>304</LoadOrder>
 				<LuaContext>TradeOverview</LuaContext>
@@ -2123,7 +2235,7 @@
 			</Properties>
 			<Criteria>ZYLPVP_BBG_NoConflictingUIMod</Criteria>
 		</ReplaceUIScript>
-		<AddGameplayScripts id="ZYLPVP_BBG_IG_092_Lua">
+		<AddGameplayScripts id="ZYLPVP_BBG_IG_090_Lua">
 			<Criteria>ZYLPVP_BBG_BBGExpanded</Criteria>
 			<Criteria>ZYLPVP_BBG_XP1_AND_XP2</Criteria>
 			<Criteria>ZYLPVP_BBG_DLC_Aztec</Criteria>
@@ -2183,28 +2295,6 @@
 			<File>Components/BBM/Data/BBS Maps/Utility/BBM_MapUtils.lua</File>
 			<File>Components/BBM/Data/BBS Maps/Utility/BBM_SpawnBalancing.lua</File>
 			<File>Components/BBM/Data/BBS Maps/Utility/BBM_CivilizationAssign.lua</File>
-		</ImportFiles>
-		<UpdateDatabase id="ZYLMRM_ConfigureMap" criteria="ZYLMRM_Map">
-			<Properties>
-				<LoadOrder>50000</LoadOrder>
-			</Properties>
-			<File>Components/BBM/Data/BBS Maps/ZYLMRM/ConfigureMap.sql</File>
-		</UpdateDatabase>
-		<ImportFiles id="ZYLMRM_MapFiles" criteria="ZYLMRM_Map">
-			<Properties>
-				<LoadOrder>50010</LoadOrder>
-			</Properties>
-			<File>Components/BBM/Data/BBS Maps/zyl_mountainous_rich_mainland.lua</File>
-			<File>Components/BBM/Data/BBS Maps/Utility/ZYL_RVC_AssignStartingPlots.lua</File>
-			<File>Components/BBM/Data/BBS Maps/Utility/ZYL_RVC_Balance.lua</File>
-			<File>Components/BBM/Data/BBS Maps/Utility/ZYL_RVC_BBS_TerrainGenerator.lua</File>
-			<File>Components/BBM/Data/BBS Maps/Utility/ZYL_RVC_CoastalLowlands.lua</File>
-			<File>Components/BBM/Data/BBS Maps/Utility/ZYL_RVC_DW_TerrainGenerator.lua</File>
-			<File>Components/BBM/Data/BBS Maps/Utility/ZYL_RVC_FeatureGenerator.lua</File>
-			<File>Components/BBM/Data/BBS Maps/Utility/ZYL_RVC_MapUtilities.lua</File>
-			<File>Components/BBM/Data/BBS Maps/Utility/ZYL_RVC_MountainsCliffs.lua</File>
-			<File>Components/BBM/Data/BBS Maps/Utility/ZYL_RVC_ResourceGenerator.lua</File>
-			<File>Components/BBM/Data/BBS Maps/Utility/ZYL_RVC_RiversLakes.lua</File>
 		</ImportFiles>
 		<UpdateDatabase id="ZYLPVP_BBM_IG_004_BBS_Global_Parameters">
 			<Properties>
@@ -2331,6 +2421,408 @@
 			</Properties>
 			<File>Components/BBM/UI/BBM_UI.xml</File>
 		</AddUserInterfaces>
+		<ImportFiles id="ZYLPVP_BetterDealWindow_IG_001_ADW_Initial">
+			<Properties>
+				<LoadOrder>50000</LoadOrder>
+			</Properties>
+			<File>Components/BetterDealWindow/DiplomacyDealView.lua</File>
+			<File>Components/BetterDealWindow/DiplomacyDealView.xml</File>
+			<File>Components/BetterDealWindow/DiplomacyDealView_Expansion2.lua</File>
+		</ImportFiles>
+		<UpdateText id="ZYLPVP_BetterDealWindow_IG_002_ADW_UpdateText">
+			<File>Components/BetterDealWindow/Text/BDW_Text.xml</File>
+			<File>Components/BetterDealWindow/Text/BDW_Text_CN.xml</File>
+			<File>Components/BetterDealWindow/Text/BDW_Text_DE.xml</File>
+			<File>Components/BetterDealWindow/Text/BDW_Text_ES.xml</File>
+			<File>Components/BetterDealWindow/Text/BDW_Text_FR.xml</File>
+			<File>Components/BetterDealWindow/Text/BDW_Text_IT.xml</File>
+			<File>Components/BetterDealWindow/Text/BDW_Text_JP.xml</File>
+			<File>Components/BetterDealWindow/Text/BDW_Text_KR.xml</File>
+			<File>Components/BetterDealWindow/Text/BDW_Text_PL.xml</File>
+			<File>Components/BetterDealWindow/Text/BDW_Text_PT.xml</File>
+			<File>Components/BetterDealWindow/Text/BDW_Text_RU.xml</File>
+		</UpdateText>
+		<AddUserInterfaces id="ZYLPVP_DetailedMapTacks_IG_001_dmt_yieldcalculator">
+			<Properties>
+				<Context>InGame</Context>
+			</Properties>
+			<File>Components/DetailedMapTacks/ui/dmt_yieldcalculator.xml</File>
+		</AddUserInterfaces>
+		<UpdateText id="ZYLPVP_DetailedMapTacks_IG_002_dmt_text">
+			<File Priority="1">Components/DetailedMapTacks/config/en_us/dmt_options_text.xml</File>
+			<File>Components/DetailedMapTacks/config/dmt_options_translations_text.xml</File>
+			<File Priority="1">Components/DetailedMapTacks/text/en_us/dmt_text.xml</File>
+			<File>Components/DetailedMapTacks/text/dmt_translations_text.xml</File>
+		</UpdateText>
+		<ImportFiles id="ZYLPVP_DetailedMapTacks_IG_003_dmt_files">
+			<Properties>
+				<LoadOrder>12345</LoadOrder>
+			</Properties>
+			<!-- Higher than Map Tacks mod's 12000. -->
+			<File>Components/DetailedMapTacks/ui/dmt_mappinsubjectmanager.lua</File>
+			<File>Components/DetailedMapTacks/ui/dmt_modifiercalculator.lua</File>
+			<File>Components/DetailedMapTacks/ui/dmt_modifierrequirementchecker.lua</File>
+			<File>Components/DetailedMapTacks/ui/dmt_serialize.lua</File>
+			<File>Components/DetailedMapTacks/ui/dmt_yieldcalculator.lua</File>
+			<File>Components/DetailedMapTacks/ui/dmt_yieldcalculator.xml</File>
+			<File>Components/DetailedMapTacks/ui/mappinmanager_dmt.lua</File>
+			<File>Components/DetailedMapTacks/ui/mappinmanager.xml</File>
+			<File>Components/DetailedMapTacks/ui/mappinpopup_dmt.lua</File>
+		</ImportFiles>
+		<UpdateDatabase id="ZYL_CoastLeaderVariants_Gameplay">
+			<Properties>
+				<LoadOrder>200000000</LoadOrder>
+			</Properties>
+			<File>LeaderVariants/ZYL_CoastLeaderVariants_Gameplay.sql</File>
+		</UpdateDatabase>
+		<UpdateText id="ZYL_CoastLeaderVariants_GameplayText">
+			<Properties>
+				<LoadOrder>200000000</LoadOrder>
+			</Properties>
+			<File>LeaderVariants/ZYL_CoastLeaderVariants_Text.sql</File>
+		</UpdateText>
+		<UpdateIcons id="ZYL_CoastLeaderVariants_GameplayIcons">
+			<Properties>
+				<LoadOrder>200000000</LoadOrder>
+			</Properties>
+			<File>LeaderVariants/ZYL_CoastLeaderVariants_Icons.sql</File>
+		</UpdateIcons>
+		<UpdateColors id="ZYL_CoastLeaderVariants_GameplayColors">
+			<Properties>
+				<LoadOrder>200000000</LoadOrder>
+			</Properties>
+			<File>LeaderVariants/ZYL_CoastLeaderVariants_Colors.sql</File>
+		</UpdateColors>
+		<UpdateDatabase id="ZYL_StartingSettlerMovement">
+			<Properties>
+				<LoadOrder>50020</LoadOrder>
+			</Properties>
+			<File>sql/ZYL_StartingSettler.sql</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="ZYL_BBGExpandedDisableGameplay">
+			<Properties>
+				<LoadOrder>100000000</LoadOrder>
+			</Properties>
+			<File>Components/BBG/sql/BBG_Expanded/Disable_new.sql</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="ZYL_BBGExpandedResources">
+			<Properties>
+				<LoadOrder>5</LoadOrder>
+			</Properties>
+			<Criteria>ZYL_NoExternalBBGExpanded</Criteria>
+			<File>CIVITASResources/Core/p0k_Resources.sql</File>
+		</UpdateDatabase>
+		<UpdateArt id="ZYL_BBGExpandedResourcesArt">
+			<Properties>
+				<LoadOrder>5</LoadOrder>
+			</Properties>
+			<Criteria>ZYL_NoExternalBBGExpanded</Criteria>
+			<File>CIVITASResources/CIVITAS Resources.dep</File>
+		</UpdateArt>
+		<UpdateIcons id="ZYL_BBGExpandedResourcesIcons">
+			<Properties>
+				<LoadOrder>5</LoadOrder>
+			</Properties>
+			<Criteria>ZYL_NoExternalBBGExpanded</Criteria>
+			<File>CIVITASResources/Core/CVS_Resource_Icon_Definitions.sql</File>
+		</UpdateIcons>
+		<UpdateText id="ZYL_BBGExpandedResourcesText">
+			<Properties>
+				<LoadOrder>5</LoadOrder>
+			</Properties>
+			<Criteria>ZYL_NoExternalBBGExpanded</Criteria>
+			<File>CIVITASResources/Core/p0k_Resources_Localisation.sql</File>
+		</UpdateText>
+		<UpdateDatabase id="ZYL_BBGExpandedResourcesMode">
+			<Properties>
+				<LoadOrder>10</LoadOrder>
+			</Properties>
+			<Criteria>ZYL_NoExternalBBGExpanded</Criteria>
+			<Criteria>ZYL_MonopoliesMode</Criteria>
+			<File>CIVITASResources/Core_MODE/p0k_Resources_MODE_Industries.sql</File>
+			<File>CIVITASResources/Core_MODE/p0k_Resources_MODE_Products.sql</File>
+			<File>CIVITASResources/Core_MODE/p0k_Resources_MODE_Projects.sql</File>
+		</UpdateDatabase>
+		<UpdateIcons id="ZYL_BBGExpandedResourcesModeIcons">
+			<Properties>
+				<LoadOrder>10</LoadOrder>
+			</Properties>
+			<Criteria>ZYL_NoExternalBBGExpanded</Criteria>
+			<Criteria>ZYL_MonopoliesMode</Criteria>
+			<File>CIVITASResources/Core_MODE/p0k_Resources_MODE_Icon_Definitions.sql</File>
+		</UpdateIcons>
+		<UpdateText id="ZYL_BBGExpandedResourcesModeText">
+			<Properties>
+				<LoadOrder>10</LoadOrder>
+			</Properties>
+			<Criteria>ZYL_NoExternalBBGExpanded</Criteria>
+			<Criteria>ZYL_MonopoliesMode</Criteria>
+			<File>CIVITASResources/Core_MODE/p0k_Resources_MODE_Localisation.sql</File>
+		</UpdateText>
+		<UpdateDatabase id="ZYL_BBGExpandedResourcesBalance">
+			<Properties>
+				<LoadOrder>100000000</LoadOrder>
+			</Properties>
+			<Criteria>ZYL_NoExternalBBGExpanded</Criteria>
+			<File>Components/BBG/sql/BBG_Expanded/Resources.sql</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="ZYL_ResourceHarvests">
+			<Properties>
+				<LoadOrder>200000000</LoadOrder>
+			</Properties>
+			<File>sql/ZYL_ResourceHarvests.sql</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="ZYL_SelectedPantheons">
+			<Properties>
+				<LoadOrder>210000000</LoadOrder>
+			</Properties>
+			<File>sql/ZYL_Pantheons.sql</File>
+		</UpdateDatabase>
+		<UpdateText id="ZYL_SelectedPantheonsText">
+			<Properties>
+				<LoadOrder>210000010</LoadOrder>
+			</Properties>
+			<File>lang/ZYL_Pantheons_Text.xml</File>
+		</UpdateText>
+		<UpdateIcons id="ZYL_SelectedPantheonsIcons">
+			<Properties>
+				<LoadOrder>210000010</LoadOrder>
+			</Properties>
+			<File>icons/ZYL_Pantheon_Icons.xml</File>
+		</UpdateIcons>
+		<UpdateDatabase id="ZYL_GeothermalMines">
+			<Properties>
+				<LoadOrder>210000020</LoadOrder>
+			</Properties>
+			<Criteria>ZYL_GatheringStorm</Criteria>
+			<File>sql/ZYL_GeothermalMines.sql</File>
+		</UpdateDatabase>
+		<ImportFiles id="ZYL_RichMainland_MapScripts">
+			<Properties>
+				<LoadOrder>1001</LoadOrder>
+			</Properties>
+			<File>Components/BBM/Data/BBS Maps/zyl_team_rich_mainland.lua</File>
+			<File>Components/BBM/Data/BBS Maps/zyl_ffa_rich_mainland.lua</File>
+			<File>Components/BBM/Data/BBS Maps/zyl_rich_mainland_core.lua</File>
+			<File>Components/BBM/Data/BBS Maps/Utility/ZYL_RVC_AssignStartingPlots.lua</File>
+			<File>Components/BBM/Data/BBS Maps/Utility/ZYL_RVC_Balance.lua</File>
+			<File>Components/BBM/Data/BBS Maps/Utility/ZYL_RVC_BBS_TerrainGenerator.lua</File>
+			<File>Components/BBM/Data/BBS Maps/Utility/ZYL_RVC_CoastalLowlands.lua</File>
+			<File>Components/BBM/Data/BBS Maps/Utility/ZYL_RVC_DW_TerrainGenerator.lua</File>
+			<File>Components/BBM/Data/BBS Maps/Utility/ZYL_RVC_FeatureGenerator.lua</File>
+			<File>Components/BBM/Data/BBS Maps/Utility/ZYL_RVC_MapUtilities.lua</File>
+			<File>Components/BBM/Data/BBS Maps/Utility/ZYL_RVC_MountainsCliffs.lua</File>
+			<File>Components/BBM/Data/BBS Maps/Utility/ZYL_RVC_ResourceGenerator.lua</File>
+			<File>Components/BBM/Data/BBS Maps/Utility/ZYL_RVC_RiversLakes.lua</File>
+		</ImportFiles>
+		<UpdateDatabase id="ZYL_RichMainland_Common">
+			<Properties>
+				<LoadOrder>1002</LoadOrder>
+			</Properties>
+			<Criteria>ZYL_RichMainland</Criteria>
+			<File>Components/BBM/Data/BBS Maps/ZYLRM/ConfigureCommon.sql</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="ZYL_RichMainland_Team_Config">
+			<Properties>
+				<LoadOrder>1003</LoadOrder>
+			</Properties>
+			<Criteria>ZYL_RichMainland_Team</Criteria>
+			<File>Components/BBM/Data/BBS Maps/ZYLRM/ConfigureTeam.sql</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="ZYL_RichMainland_FFA_Config">
+			<Properties>
+				<LoadOrder>1003</LoadOrder>
+			</Properties>
+			<Criteria>ZYL_RichMainland_FFA</Criteria>
+			<File>Components/BBM/Data/BBS Maps/ZYLRM/ConfigureFFA.sql</File>
+		</UpdateDatabase>
+		<UpdateArt id="ZYL_TPVP_SecretSocietiesArt">
+			<Properties>
+				<LoadOrder>250000000</LoadOrder>
+			</Properties>
+			<Criteria>ZYL_SecretSocietiesXP2</Criteria>
+			<File>Components/TeamPVPSecretSocieties/TeamPVPSecretSocieties.dep</File>
+		</UpdateArt>
+		<UpdateDatabase id="ZYL_TPVP_GildedShipyard">
+			<Properties>
+				<LoadOrder>250000000</LoadOrder>
+			</Properties>
+			<Criteria>ZYL_SecretSocietiesXP2</Criteria>
+			<File>Components/TeamPVPSecretSocieties/Build_GildedShipyard.xml</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="ZYL_TPVP_SecretSocietiesGameplay">
+			<Properties>
+				<LoadOrder>250000010</LoadOrder>
+			</Properties>
+			<Criteria>ZYL_SecretSocietiesXP2</Criteria>
+			<File>Components/TeamPVPSecretSocieties/Gameplay.sql</File>
+		</UpdateDatabase>
+		<UpdateText id="ZYL_TPVP_SecretSocietiesText">
+			<Properties>
+				<LoadOrder>250000020</LoadOrder>
+			</Properties>
+			<Criteria>ZYL_SecretSocietiesXP2</Criteria>
+			<File>Components/TeamPVPSecretSocieties/Text.xml</File>
+		</UpdateText>
+		<UpdateIcons id="ZYL_TPVP_SecretSocietiesIcons">
+			<Properties>
+				<LoadOrder>250000020</LoadOrder>
+			</Properties>
+			<Criteria>ZYL_SecretSocietiesXP2</Criteria>
+			<File>Components/TeamPVPSecretSocieties/Icons.xml</File>
+		</UpdateIcons>
+		<UpdateDatabase id="ZYL_GameplayOverrides">
+			<Properties>
+				<LoadOrder>260000000</LoadOrder>
+			</Properties>
+			<File>sql/ZYL_GameplayOverrides.sql</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="ZYL_EraLengthOptimization">
+			<Properties>
+				<LoadOrder>260000005</LoadOrder>
+			</Properties>
+			<Criteria>ZYL_EraLengthOptimization</Criteria>
+			<File>sql/ZYL_EraLengthOptimization.sql</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="ZYL_GovernorOverrides">
+			<Properties>
+				<LoadOrder>260000010</LoadOrder>
+			</Properties>
+			<Criteria>ZYLPVP_BBG_XP1_OR_XP2</Criteria>
+			<File>sql/ZYL_GovernorOverrides.sql</File>
+		</UpdateDatabase>
+		<UpdateText id="ZYL_GameplayOverridesText">
+			<Properties>
+				<LoadOrder>260000020</LoadOrder>
+			</Properties>
+			<File>lang/ZYL_GameplayOverrides_Text.xml</File>
+		</UpdateText>
+		<UpdateText id="ZYL_BBG74_ChineseText">
+			<Properties>
+				<LoadOrder>259999990</LoadOrder>
+			</Properties>
+			<File>lang/ZYL_BBG74_Chinese_Text.xml</File>
+		</UpdateText>
+		<UpdateText id="ZYL_BBGExpandedChineseText">
+			<Properties>
+				<LoadOrder>259999995</LoadOrder>
+			</Properties>
+			<File>lang/ZYL_BBGExpanded_Chinese.sql</File>
+		</UpdateText>
+		<AddGameplayScripts id="ZYL_BoostTriggers">
+			<Properties>
+				<LoadOrder>260000030</LoadOrder>
+			</Properties>
+			<File>scripts/ZYL_BoostTriggers.lua</File>
+		</AddGameplayScripts>
+		<AddGameplayScripts id="ZYL_GameFeatureNotices">
+			<Properties>
+				<LoadOrder>1000</LoadOrder>
+			</Properties>
+			<File>NT/Notice.lua</File>
+		</AddGameplayScripts>
+		<UpdateText id="ZYL_GameFeatureNoticesText">
+			<Properties>
+				<LoadOrder>1000</LoadOrder>
+			</Properties>
+			<File>NT/Notice_Text.xml</File>
+		</UpdateText>
+		<UpdateText id="ZYL_RandomPromotionHotkeyText">
+			<Properties>
+				<LoadOrder>1000</LoadOrder>
+			</Properties>
+			<File>NHK/Config_NewUnitOperation_Text.xml</File>
+		</UpdateText>
+		<AddUserInterfaces id="ZYL_RandomPromotionHotkey">
+			<Properties>
+				<LoadOrder>1100</LoadOrder>
+				<Context>InGame</Context>
+			</Properties>
+			<Criteria>TPT_NEW_HOTKEYS</Criteria>
+			<File>NHK/UI/NewUnitOperation.xml</File>
+		</AddUserInterfaces>
+		<ReplaceUIScript id="ZYL_HideMapPinListPanel">
+			<Properties>
+				<LoadOrder>1100</LoadOrder>
+				<LuaContext>MapPinListPanel</LuaContext>
+				<LuaReplace>RMP/UI/MapPinListPanel.lua</LuaReplace>
+			</Properties>
+			<Criteria>ZYL_NoMapPins</Criteria>
+		</ReplaceUIScript>
+		<ImportFiles id="ZYL_HideMapPinListPanelFiles">
+			<Properties>
+				<LoadOrder>1110</LoadOrder>
+			</Properties>
+			<Criteria>ZYL_NoMapPins</Criteria>
+			<File>RMP/UI/MapPinListPanel.xml</File>
+			<File>RMP/UI/MapPinListPanel.lua</File>
+		</ImportFiles>
+		<AddUserInterfaces id="ZYL_HideMapPinListButton">
+			<Properties>
+				<LoadOrder>1100</LoadOrder>
+				<Context>InGame</Context>
+			</Properties>
+			<Criteria>ZYL_NoMapPins</Criteria>
+			<File>RMP/UI/Hide_MapPinListButton.xml</File>
+		</AddUserInterfaces>
+		<UpdateText id="ZYL_ForcedEndButtonText">
+			<Properties>
+				<LoadOrder>1200</LoadOrder>
+			</Properties>
+			<File>FEB/ForcedEndButton_Text.xml</File>
+		</UpdateText>
+		<AddUserInterfaces id="ZYL_ForcedEndButton">
+			<Properties>
+				<LoadOrder>1200</LoadOrder>
+				<Context>InGame</Context>
+			</Properties>
+			<File>FEB/UI/ForcedEndButton.xml</File>
+		</AddUserInterfaces>
+		<ImportFiles id="ZYL_BDW_CompatibilityFiles">
+			<Properties>
+				<LoadOrder>50009</LoadOrder>
+			</Properties>
+			<File>Components/BetterDealWindow/DiplomacyDealView_ZYLPVP_Expansion2.lua</File>
+			<File>Components/BetterDealWindow/ZYLPVP_BDW_MPH_Compatibility.lua</File>
+		</ImportFiles>
+		<ReplaceUIScript id="ZYL_BDW_DiplomacyDealView_XP2">
+			<Properties>
+				<LoadOrder>50010</LoadOrder>
+				<LuaContext>DiplomacyDealView</LuaContext>
+				<LuaReplace>Components/BetterDealWindow/DiplomacyDealView_ZYLPVP_Expansion2.lua</LuaReplace>
+			</Properties>
+			<Criteria>Expansion2</Criteria>
+		</ReplaceUIScript>
+		<ImportFiles id="ZYL_DiplomacyRibbonFiles_XP2">
+			<Properties>
+				<LoadOrder>50009</LoadOrder>
+			</Properties>
+			<Criteria>Expansion2</Criteria>
+			<File>ui/Replacements/DiplomacyRibbon.xml</File>
+			<File>ui/Replacements/DiplomacyRibbon_ZYL.lua</File>
+		</ImportFiles>
+		<ReplaceUIScript id="ZYL_DiplomacyRibbonIntel_XP2">
+			<Properties>
+				<LoadOrder>50010</LoadOrder>
+				<LuaContext>DiplomacyRibbon</LuaContext>
+				<LuaReplace>ui/Replacements/DiplomacyRibbon_ZYL.lua</LuaReplace>
+			</Properties>
+			<Criteria>Expansion2</Criteria>
+		</ReplaceUIScript>
+		<ReplaceUIScript id="ZYL_DMT_MapPinManager">
+			<Properties>
+				<LoadOrder>50020</LoadOrder>
+				<LuaContext>MapPinManager</LuaContext>
+				<LuaReplace>Components/DetailedMapTacks/ui/mappinmanager_dmt.lua</LuaReplace>
+			</Properties>
+		</ReplaceUIScript>
+		<ReplaceUIScript id="ZYL_DMT_MapPinPopup">
+			<Properties>
+				<LoadOrder>50020</LoadOrder>
+				<LuaContext>MapPinPopup</LuaContext>
+				<LuaReplace>Components/DetailedMapTacks/ui/mappinpopup_dmt.lua</LuaReplace>
+			</Properties>
+		</ReplaceUIScript>
 	</InGameActions>
 	<Files>
 		<File>README.md</File>
@@ -2375,7 +2867,6 @@
 		<File>ui/ingame.lua</File>
 		<File>ui/Replacements/chatpanel_MPH.lua</File>
 		<File>ui/Replacements/diplomacyactionview_MPH.lua</File>
-		<File>ui/Replacements/diplomacydealview_MPH.lua</File>
 		<File>ui/Replacements/endgamemenu.lua</File>
 		<File>ui/Replacements/endgamemenu.xml</File>
 		<File>ui/Replacements/ingametopoptionsmenu.xml</File>
@@ -2432,9 +2923,6 @@
 		<File>Settings/TPT_Settings_Text.xml</File>
 		<File>Settings/UI/TPT_SettingsPanel.lua</File>
 		<File>Settings/UI/TPT_SettingsPanel.xml</File>
-		<File>FEB/ForcedEndButton_Text.xml</File>
-		<File>FEB/UI/ForcedEndButton.lua</File>
-		<File>FEB/UI/ForcedEndButton.xml</File>
 		<File>ui/Additions/BlacklistPanel.lua</File>
 		<File>ui/Additions/BlacklistPanel.xml</File>
 		<File>ui/Additions/QuickControls.lua</File>
@@ -2671,8 +3159,6 @@
 		<File>Components/BBG/sql/BBG_Expanded/Resources.sql</File>
 		<File>Components/BBG/sql/BBG_Expanded/MOARUnits_enabled.sql</File>
 		<File>Components/BBG/sql/BBG_Expanded/MOARUnits_enabledconfig.sql</File>
-		<File>Components/BBG/sql/BBG_Expanded/Disable_new.sql</File>
-		<File>Components/BBG/sql/BBG_Expanded/Disable_new_config.sql</File>
 		<File>Components/BBG/lua/BBG_Expanded/Thule.lua</File>
 		<File>Components/BBG/lua/BBG_Expanded/Te_Kinich.lua</File>
 		<File>Components/BBG/lua/BBG_Expanded/Al_Hasan.lua</File>
@@ -2714,7 +3200,6 @@
 		<File>Components/BBM/Data/BBS Maps/lakes.lua</File>
 		<File>Components/BBM/Data/BBS Maps/pangaea.lua</File>
 		<File>Components/BBM/Data/BBS Maps/pangaea_ultima.lua</File>
-		<File>Components/BBM/Data/BBS Maps/zyl_mountainous_rich_mainland.lua</File>
 		<File>Components/BBM/Data/BBS Maps/primordial.lua</File>
 		<File>Components/BBM/Data/BBS Maps/seven_seas.lua</File>
 		<File>Components/BBM/Data/BBS Maps/shuffle.lua</File>
@@ -2742,16 +3227,6 @@
 		<File>Components/BBM/Data/BBS Maps/Utility/BBM_MapUtils.lua</File>
 		<File>Components/BBM/Data/BBS Maps/Utility/BBM_SpawnBalancing.lua</File>
 		<File>Components/BBM/Data/BBS Maps/Utility/BBM_CivilizationAssign.lua</File>
-		<File>Components/BBM/Data/BBS Maps/Utility/ZYL_RVC_AssignStartingPlots.lua</File>
-		<File>Components/BBM/Data/BBS Maps/Utility/ZYL_RVC_Balance.lua</File>
-		<File>Components/BBM/Data/BBS Maps/Utility/ZYL_RVC_BBS_TerrainGenerator.lua</File>
-		<File>Components/BBM/Data/BBS Maps/Utility/ZYL_RVC_CoastalLowlands.lua</File>
-		<File>Components/BBM/Data/BBS Maps/Utility/ZYL_RVC_DW_TerrainGenerator.lua</File>
-		<File>Components/BBM/Data/BBS Maps/Utility/ZYL_RVC_FeatureGenerator.lua</File>
-		<File>Components/BBM/Data/BBS Maps/Utility/ZYL_RVC_MapUtilities.lua</File>
-		<File>Components/BBM/Data/BBS Maps/Utility/ZYL_RVC_MountainsCliffs.lua</File>
-		<File>Components/BBM/Data/BBS Maps/Utility/ZYL_RVC_ResourceGenerator.lua</File>
-		<File>Components/BBM/Data/BBS Maps/Utility/ZYL_RVC_RiversLakes.lua</File>
 		<File>Components/BBM/Data/BBS Maps/DWArchipelago.lua</File>
 		<File>Components/BBM/Data/BBS Maps/DWContinents.lua</File>
 		<File>Components/BBM/Data/BBS Maps/DWFractal.lua</File>
@@ -2760,8 +3235,6 @@
 		<File>Components/BBM/Data/BBS Maps/DWMixedLand.lua</File>
 		<File>Components/BBM/Data/BBS Maps/DWMixedIslands.lua</File>
 		<File>Components/BBM/Configuration/Config.xml</File>
-		<File>Components/BBM/Configuration/ZYL_MountainousRichMainland_Config.xml</File>
-		<File>Components/BBM/Data/BBS Maps/ZYLMRM/ConfigureMap.sql</File>
 		<File>Components/BBM/Configuration/Config.sql</File>
 		<File>Components/BBM/Configuration/Config_minor_bias.sql</File>
 		<File>Components/BBM/Configuration/Config_minor_bias_DLC_viking.sql</File>
@@ -2773,7 +3246,6 @@
 		<File>Components/BBM/Lang/japanese.xml</File>
 		<File>Components/BBM/Lang/korean.xml</File>
 		<File>Components/BBM/Lang/portuguese.xml</File>
-		<File>Components/BBM/Lang/ZYL_MountainousRichMainland_Text.xml</File>
 		<File>Components/BBM/Gameplay/GamePlay.xml</File>
 		<File>Components/BBM/Gameplay/GamePlayXP2.xml</File>
 		<File>Components/BBM/sql/bbs_less_wonders.sql</File>
@@ -2984,8 +3456,426 @@
 		<File>Platforms/Windows/BLPs/terrain/TerrainMaterialSet_Base.blp</File>
 		<File>Platforms/Windows/BLPs/UI/Icons.blp</File>
 		<File>Platforms/Windows/BLPs/Water.blp</File>
+		<File>Components/BetterDealWindow/DiplomacyDealView.lua</File>
+		<File>Components/BetterDealWindow/DiplomacyDealView.xml</File>
+		<File>Components/BetterDealWindow/DiplomacyDealView_Expansion2.lua</File>
+		<File>Components/BetterDealWindow/Text/BDW_Text.xml</File>
+		<File>Components/BetterDealWindow/Text/BDW_Text_CN.xml</File>
+		<File>Components/BetterDealWindow/Text/BDW_Text_DE.xml</File>
+		<File>Components/BetterDealWindow/Text/BDW_Text_ES.xml</File>
+		<File>Components/BetterDealWindow/Text/BDW_Text_FR.xml</File>
+		<File>Components/BetterDealWindow/Text/BDW_Text_IT.xml</File>
+		<File>Components/BetterDealWindow/Text/BDW_Text_JP.xml</File>
+		<File>Components/BetterDealWindow/Text/BDW_Text_KR.xml</File>
+		<File>Components/BetterDealWindow/Text/BDW_Text_PL.xml</File>
+		<File>Components/BetterDealWindow/Text/BDW_Text_PT.xml</File>
+		<File>Components/BetterDealWindow/Text/BDW_Text_RU.xml</File>
+		<File>Components/BetterDealWindow/DiplomacyDealView_ZYLPVP_Expansion2.lua</File>
+		<File>Components/BetterDealWindow/ZYLPVP_BDW_MPH_Compatibility.lua</File>
+		<File>Components/DetailedMapTacks/config/en_us/dmt_options_text.xml</File>
+		<File>Components/DetailedMapTacks/config/dmt_options_translations_text.xml</File>
+		<File>Components/DetailedMapTacks/text/en_us/dmt_text.xml</File>
+		<File>Components/DetailedMapTacks/text/dmt_translations_text.xml</File>
+		<File>Components/DetailedMapTacks/ui/dmt_mappinsubjectmanager.lua</File>
+		<File>Components/DetailedMapTacks/ui/dmt_modifiercalculator.lua</File>
+		<File>Components/DetailedMapTacks/ui/dmt_modifierrequirementchecker.lua</File>
+		<File>Components/DetailedMapTacks/ui/dmt_serialize.lua</File>
+		<File>Components/DetailedMapTacks/ui/dmt_yieldcalculator.lua</File>
+		<File>Components/DetailedMapTacks/ui/dmt_yieldcalculator.xml</File>
+		<File>Components/DetailedMapTacks/ui/mappinmanager_dmt.lua</File>
+		<File>Components/DetailedMapTacks/ui/mappinmanager.xml</File>
+		<File>Components/DetailedMapTacks/ui/mappinpopup_dmt.lua</File>
+		<File>LeaderVariants/ZYL_CoastLeaderVariants_Gameplay.sql</File>
+		<File>LeaderVariants/ZYL_CoastLeaderVariants_Config.sql</File>
+		<File>LeaderVariants/ZYL_CoastLeaderVariants_Text.sql</File>
+		<File>LeaderVariants/ZYL_CoastLeaderVariants_Icons.sql</File>
+		<File>LeaderVariants/ZYL_CoastLeaderVariants_Colors.sql</File>
+		<File>ArtDefs/ZYL_CoastLeaderVariants_Leaders.artdef</File>
+		<File>ArtDefs/ZYL_CoastLeaderVariants_FallbackLeaders.artdef</File>
+		<File>sql/ZYL_StartingSettler.sql</File>
+		<File>sql/ZYL_ResourceHarvests.sql</File>
+		<File>sql/ZYL_Pantheons.sql</File>
+		<File>sql/ZYL_GeothermalMines.sql</File>
+		<File>sql/ZYL_GameplayOverrides.sql</File>
+		<File>sql/ZYL_EraLengthOptimization.sql</File>
+		<File>sql/ZYL_GovernorOverrides.sql</File>
+		<File>lang/ZYL_Pantheons_Text.xml</File>
+		<File>lang/ZYL_GameplayOverrides_Text.xml</File>
+		<File>lang/ZYL_BBG74_Chinese_Text.xml</File>
+		<File>lang/ZYL_BBGExpanded_Chinese.sql</File>
+		<File>scripts/ZYL_BoostTriggers.lua</File>
+		<File>configuration/ZYL_DisasterRange.sql</File>
+		<File>configuration/ZYL_LobbyDefaults.xml</File>
+		<File>icons/ZYL_Pantheon_Icons.xml</File>
+		<File>Option/Options.xml</File>
+		<File>NT/Notice.lua</File>
+		<File>NT/Notice_Text.xml</File>
+		<File>NHK/Config_NewUnitOperation.xml</File>
+		<File>NHK/Config_NewUnitOperation_Text.xml</File>
+		<File>NHK/UI/NewUnitOperation.lua</File>
+		<File>NHK/UI/NewUnitOperation.xml</File>
+		<File>ui/Replacements/DiplomacyRibbon_ZYL.lua</File>
+		<File>ui/Replacements/DiplomacyRibbon.xml</File>
+		<File>RMP/UI/Hide_MapPinListButton.lua</File>
+		<File>RMP/UI/Hide_MapPinListButton.xml</File>
+		<File>RMP/UI/MapPinListPanel.lua</File>
+		<File>RMP/UI/MapPinListPanel.xml</File>
+		<File>Components/TeamPVPSecretSocieties/Build_GildedShipyard.xml</File>
+		<File>Components/BBG/sql/BBG_Expanded/Disable_new.sql</File>
+		<File>Components/BBG/sql/BBG_Expanded/Disable_new_config.sql</File>
+		<File>Components/TeamPVPSecretSocieties/Gameplay.sql</File>
+		<File>Components/TeamPVPSecretSocieties/Text.xml</File>
+		<File>Components/TeamPVPSecretSocieties/Icons.xml</File>
+		<File>Components/TeamPVPSecretSocieties/TeamPVPSecretSocieties.dep</File>
+		<File>Components/TeamPVPSecretSocieties/Buildings.artdef</File>
+		<File>FEB/ForcedEndButton_Text.xml</File>
+		<File>FEB/UI/ForcedEndButton.lua</File>
+		<File>FEB/UI/ForcedEndButton.xml</File>
+		<File>Components/BBM/Configuration/ZYL_RichMainland_Config.xml</File>
+		<File>Components/BBM/Lang/ZYL_RichMainland_Text.xml</File>
+		<File>Components/BBM/Data/BBS Maps/zyl_team_rich_mainland.lua</File>
+		<File>Components/BBM/Data/BBS Maps/zyl_ffa_rich_mainland.lua</File>
+		<File>Components/BBM/Data/BBS Maps/zyl_rich_mainland_core.lua</File>
+		<File>Components/BBM/Data/BBS Maps/ZYLRM/ConfigureCommon.sql</File>
+		<File>Components/BBM/Data/BBS Maps/ZYLRM/ConfigureTeam.sql</File>
+		<File>Components/BBM/Data/BBS Maps/ZYLRM/ConfigureFFA.sql</File>
+		<File>Components/BBM/Data/BBS Maps/Utility/ZYL_RVC_AssignStartingPlots.lua</File>
+		<File>Components/BBM/Data/BBS Maps/Utility/ZYL_RVC_Balance.lua</File>
+		<File>Components/BBM/Data/BBS Maps/Utility/ZYL_RVC_BBS_TerrainGenerator.lua</File>
+		<File>Components/BBM/Data/BBS Maps/Utility/ZYL_RVC_CoastalLowlands.lua</File>
+		<File>Components/BBM/Data/BBS Maps/Utility/ZYL_RVC_DW_TerrainGenerator.lua</File>
+		<File>Components/BBM/Data/BBS Maps/Utility/ZYL_RVC_FeatureGenerator.lua</File>
+		<File>Components/BBM/Data/BBS Maps/Utility/ZYL_RVC_MapUtilities.lua</File>
+		<File>Components/BBM/Data/BBS Maps/Utility/ZYL_RVC_MountainsCliffs.lua</File>
+		<File>Components/BBM/Data/BBS Maps/Utility/ZYL_RVC_ResourceGenerator.lua</File>
+		<File>Components/BBM/Data/BBS Maps/Utility/ZYL_RVC_RiversLakes.lua</File>
 		<File>CONFLICT_RESOLUTION.md</File>
 		<File>SOURCES.md</File>
 		<File>tools/assemble_modinfo.ps1</File>
+		<File>CIVITASResources/Animations/Penguin.anm</File>
+		<File>CIVITASResources/Animations/Penguin.fgx</File>
+		<File>CIVITASResources/Animations/Penguins.anm</File>
+		<File>CIVITASResources/Animations/Penguins.fgx</File>
+		<File>CIVITASResources/ArtDefs/Clutter.artdef</File>
+		<File>CIVITASResources/ArtDefs/Improvements.artdef</File>
+		<File>CIVITASResources/ArtDefs/Landmarks.artdef</File>
+		<File>CIVITASResources/ArtDefs/Resources.artdef</File>
+		<File>CIVITASResources/Assets/IMP_CVS_Lumbermill_IND_Base002.ast</File>
+		<File>CIVITASResources/Assets/IMP_CVS_Lumbermill_IND_Base003.ast</File>
+		<File>CIVITASResources/Assets/IMP_CVS_Lumbermill_Industrial_Base.ast</File>
+		<File>CIVITASResources/Assets/IMP_CVS_Lumbermill_Medieval_Base.ast</File>
+		<File>CIVITASResources/Assets/IMP_CVS_Lumbermill_Medieval_Base002.ast</File>
+		<File>CIVITASResources/Assets/IMP_CVS_Lumbermill_Medieval_Base003.ast</File>
+		<File>CIVITASResources/Assets/IMP_CVS_Lumbermill_Medieval_Log.ast</File>
+		<File>CIVITASResources/Assets/IMP_CVS_Lumbermill_Medieval_Log_Cut.ast</File>
+		<File>CIVITASResources/Assets/IMP_CVS_Lumbermill_Medieval_Log_Cut_Stack.ast</File>
+		<File>CIVITASResources/Assets/IMP_CVS_Lumbermill_Medieval_Scrap.ast</File>
+		<File>CIVITASResources/Assets/IMP_CVS_Lumbermill_Medieval_Scrap_SM.ast</File>
+		<File>CIVITASResources/Assets/IMP_CVS_Lumbermill_Medieval_Storage.ast</File>
+		<File>CIVITASResources/Assets/IMP_CVS_Lumbermill_Medieval_Stump.ast</File>
+		<File>CIVITASResources/Assets/IMP_CVS_Lumbermill_Medieval_StumpGroup_A.ast</File>
+		<File>CIVITASResources/Assets/IMP_CVS_Lumbermill_Medieval_StumpGroup_B.ast</File>
+		<File>CIVITASResources/Assets/IMP_CVS_POM_PLNT_Ancient.ast</File>
+		<File>CIVITASResources/Assets/IMP_CVS_POM_PLNT_Industrial.ast</File>
+		<File>CIVITASResources/Assets/IMP_LEU_p0k_Camp_AN_01.ast</File>
+		<File>CIVITASResources/Assets/IMP_LEU_p0k_Camp_AN_02.ast</File>
+		<File>CIVITASResources/Assets/IMP_LEU_p0k_Camp_AN_03.ast</File>
+		<File>CIVITASResources/Assets/IMP_LEU_p0k_Camp_IND_01.ast</File>
+		<File>CIVITASResources/Assets/IMP_LEU_p0k_Camp_IND_02.ast</File>
+		<File>CIVITASResources/Assets/IMP_LEU_p0k_Camp_IND_03.ast</File>
+		<File>CIVITASResources/Assets/IMP_p0k_Figs_PLNT_ANC_EXP1.ast</File>
+		<File>CIVITASResources/Assets/IMP_p0k_Figs_PLNT_IND_EXP1.ast</File>
+		<File>CIVITASResources/Assets/IMP_p0k_Maple_PLNT_Ancient.ast</File>
+		<File>CIVITASResources/Assets/IMP_p0k_Maple_PLNT_Industrial.ast</File>
+		<File>CIVITASResources/Assets/IMP_p0k_Opal_Mine_AN_01.ast</File>
+		<File>CIVITASResources/Assets/IMP_p0k_Opal_Mine_AN_02.ast</File>
+		<File>CIVITASResources/Assets/IMP_p0k_Opal_Mine_AN_03.ast</File>
+		<File>CIVITASResources/Assets/IMP_p0k_Opal_Mine_IND.ast</File>
+		<File>CIVITASResources/Assets/IMP_p0k_Opal_Mine_IND_02.ast</File>
+		<File>CIVITASResources/Assets/IMP_p0k_Opal_Mine_IND_03.ast</File>
+		<File>CIVITASResources/Assets/IMP_p0k_Papyrus_PLNT_Ancient.ast</File>
+		<File>CIVITASResources/Assets/IMP_p0k_Papyrus_PLNT_Industrial.ast</File>
+		<File>CIVITASResources/Assets/IMP_p0k_Penguin_Camp_AN_01.ast</File>
+		<File>CIVITASResources/Assets/IMP_p0k_Penguin_Camp_AN_02.ast</File>
+		<File>CIVITASResources/Assets/IMP_p0k_Penguin_Camp_AN_03.ast</File>
+		<File>CIVITASResources/Assets/IMP_p0k_Penguin_Camp_IND_01.ast</File>
+		<File>CIVITASResources/Assets/IMP_p0k_Penguin_Camp_IND_02.ast</File>
+		<File>CIVITASResources/Assets/IMP_p0k_Penguin_Camp_IND_03.ast</File>
+		<File>CIVITASResources/Assets/IMP_p0k_Plums_PLNT_Ancient.ast</File>
+		<File>CIVITASResources/Assets/IMP_p0k_Plums_PLNT_Industrial.ast</File>
+		<File>CIVITASResources/Assets/p0k_Papyrus_Asset_01.ast</File>
+		<File>CIVITASResources/Assets/p0k_Papyrus_Asset_02.ast</File>
+		<File>CIVITASResources/Assets/p0k_Papyrus_Asset_03.ast</File>
+		<File>CIVITASResources/Assets/RES_CVS_Pomegranate_Tree_Bld_A.ast</File>
+		<File>CIVITASResources/Assets/RES_CVS_Pomegranate_Tree_Bld_B.ast</File>
+		<File>CIVITASResources/Assets/RES_CVS_Pomegranate_Tree_Bld_C.ast</File>
+		<File>CIVITASResources/Assets/RES_CVS_Pomegranate_Tree01.ast</File>
+		<File>CIVITASResources/Assets/RES_LEU_p0k_Maple_Bld_Red_A.ast</File>
+		<File>CIVITASResources/Assets/RES_LEU_p0k_Maple_Bld_Red_B.ast</File>
+		<File>CIVITASResources/Assets/RES_LEU_p0k_Maple_Bld_Red_C.ast</File>
+		<File>CIVITASResources/Assets/RES_LEU_p0k_Maple_Tree_Red_01.ast</File>
+		<File>CIVITASResources/Assets/RES_LEU_p0k_Maple_Tree_Red_02.ast</File>
+		<File>CIVITASResources/Assets/RES_LEU_p0k_Maple_Tree_Red_03.ast</File>
+		<File>CIVITASResources/Assets/RES_p0k_Figs_Bld_A.ast</File>
+		<File>CIVITASResources/Assets/RES_p0k_Figs_Bld_B.ast</File>
+		<File>CIVITASResources/Assets/RES_p0k_Figs_Bld_C.ast</File>
+		<File>CIVITASResources/Assets/RES_p0k_Figs_Tree_01.ast</File>
+		<File>CIVITASResources/Assets/RES_p0k_Figs_Tree_02.ast</File>
+		<File>CIVITASResources/Assets/RES_p0k_Figs_Tree_03.ast</File>
+		<File>CIVITASResources/Assets/RES_p0k_Maple_DeepRed_01.ast</File>
+		<File>CIVITASResources/Assets/RES_p0k_Maple_DeepRed_02.ast</File>
+		<File>CIVITASResources/Assets/RES_p0k_Maple_DeepRed_03.ast</File>
+		<File>CIVITASResources/Assets/RES_p0k_Maple_DeepRed_Bld_A.ast</File>
+		<File>CIVITASResources/Assets/RES_p0k_Maple_DeepRed_Bld_B.ast</File>
+		<File>CIVITASResources/Assets/RES_p0k_Maple_DeepRed_Bld_C.ast</File>
+		<File>CIVITASResources/Assets/RES_p0k_Maple_LiteRed_01.ast</File>
+		<File>CIVITASResources/Assets/RES_p0k_Maple_LiteRed_02.ast</File>
+		<File>CIVITASResources/Assets/RES_p0k_Maple_LiteRed_03.ast</File>
+		<File>CIVITASResources/Assets/RES_p0k_Maple_LiteRed_Bld_A.ast</File>
+		<File>CIVITASResources/Assets/RES_p0k_Maple_LiteRed_Bld_B.ast</File>
+		<File>CIVITASResources/Assets/RES_p0k_Maple_LiteRed_Bld_C.ast</File>
+		<File>CIVITASResources/Assets/RES_p0k_Maple_MedRed_01.ast</File>
+		<File>CIVITASResources/Assets/RES_p0k_Maple_MedRed_02.ast</File>
+		<File>CIVITASResources/Assets/RES_p0k_Maple_MedRed_03.ast</File>
+		<File>CIVITASResources/Assets/RES_p0k_Maple_MedRed_Bld_A.ast</File>
+		<File>CIVITASResources/Assets/RES_p0k_Maple_MedRed_Bld_B.ast</File>
+		<File>CIVITASResources/Assets/RES_p0k_Maple_MedRed_Bld_C.ast</File>
+		<File>CIVITASResources/Assets/RES_p0k_Opal_Boulder_Clump_Bld.ast</File>
+		<File>CIVITASResources/Assets/RES_p0k_Opal_Decal01.ast</File>
+		<File>CIVITASResources/Assets/RES_p0k_Opal_Decal02.ast</File>
+		<File>CIVITASResources/Assets/RES_p0k_Opal_Rock_Bld_A.ast</File>
+		<File>CIVITASResources/Assets/RES_p0k_Opal_Rock_Bld_B.ast</File>
+		<File>CIVITASResources/Assets/RES_p0k_Opal_Rock_Bld_C.ast</File>
+		<File>CIVITASResources/Assets/RES_p0k_Opal_Rock01.ast</File>
+		<File>CIVITASResources/Assets/RES_p0k_Opal_Rock02.ast</File>
+		<File>CIVITASResources/Assets/RES_p0k_Opal_Rock03.ast</File>
+		<File>CIVITASResources/Assets/RES_p0k_Opal_Rock04.ast</File>
+		<File>CIVITASResources/Assets/RES_p0k_Opal_Rock05.ast</File>
+		<File>CIVITASResources/Assets/RES_p0k_Papyrus_Bld_A.ast</File>
+		<File>CIVITASResources/Assets/RES_p0k_Papyrus_Bld_B.ast</File>
+		<File>CIVITASResources/Assets/RES_p0k_Papyrus_Bld_C.ast</File>
+		<File>CIVITASResources/Assets/RES_p0k_Papyrus01.ast</File>
+		<File>CIVITASResources/Assets/RES_p0k_Papyrus02.ast</File>
+		<File>CIVITASResources/Assets/RES_p0k_Papyrus03.ast</File>
+		<File>CIVITASResources/Assets/RES_p0k_Penguins.ast</File>
+		<File>CIVITASResources/Assets/RES_p0k_Penguins_Bld_A.ast</File>
+		<File>CIVITASResources/Assets/RES_p0k_Plum_Tree_Bld_A.ast</File>
+		<File>CIVITASResources/Assets/RES_p0k_Plum_Tree_Bld_B.ast</File>
+		<File>CIVITASResources/Assets/RES_p0k_Plum_Tree_Bld_C.ast</File>
+		<File>CIVITASResources/Assets/RES_p0k_Plum_Tree01.ast</File>
+		<File>CIVITASResources/BBGExpanded_LICENSE.txt</File>
+		<File>CIVITASResources/CIVITAS Resources.dep</File>
+		<File>CIVITASResources/Core/CVS_Resource_Icon_Definitions.sql</File>
+		<File>CIVITASResources/Core/p0k_Resources.sql</File>
+		<File>CIVITASResources/Core/p0k_Resources_Localisation.sql</File>
+		<File>CIVITASResources/Core_MODE/p0k_Resources_MODE_Icon_Definitions.sql</File>
+		<File>CIVITASResources/Core_MODE/p0k_Resources_MODE_Industries.sql</File>
+		<File>CIVITASResources/Core_MODE/p0k_Resources_MODE_Localisation.sql</File>
+		<File>CIVITASResources/Core_MODE/p0k_Resources_MODE_Products.sql</File>
+		<File>CIVITASResources/Core_MODE/p0k_Resources_MODE_Projects.sql</File>
+		<File>CIVITASResources/files.xml</File>
+		<File>CIVITASResources/Geometries/FXm_Penguin.fgx</File>
+		<File>CIVITASResources/Geometries/FXm_Penguin.geo</File>
+		<File>CIVITASResources/Materials/p0k_Maple_DeepRed.mtl</File>
+		<File>CIVITASResources/Materials/p0k_Maple_LiteRed.mtl</File>
+		<File>CIVITASResources/Materials/p0k_Maple_MedRed.mtl</File>
+		<File>CIVITASResources/Materials/p0k_penguin.mtl</File>
+		<File>CIVITASResources/Materials/RES_CVS_Pomegranate.mtl</File>
+		<File>CIVITASResources/Materials/RES_CVS_Pomegranate_Unworked.mtl</File>
+		<File>CIVITASResources/Materials/RES_LEU_p0k_Maple_Red.mtl</File>
+		<File>CIVITASResources/Materials/RES_LEU_p0k_Maple_Red_Unworked.mtl</File>
+		<File>CIVITASResources/Materials/RES_p0k_Figs.mtl</File>
+		<File>CIVITASResources/Materials/RES_p0k_Figs_Unworked.mtl</File>
+		<File>CIVITASResources/Materials/RES_p0k_Opal.mtl</File>
+		<File>CIVITASResources/Materials/RES_p0k_Opal_Decal.mtl</File>
+		<File>CIVITASResources/Materials/RES_p0k_Plums.mtl</File>
+		<File>CIVITASResources/Materials/RES_p0k_Plums_Unworked.mtl</File>
+		<File>CIVITASResources/Platforms/MacOS/BLPs/environment/clutter.blp</File>
+		<File>CIVITASResources/Platforms/MacOS/BLPs/landmarks/tilebases.blp</File>
+		<File>CIVITASResources/Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_Burn_BaseColor</File>
+		<File>CIVITASResources/Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_Burn_G</File>
+		<File>CIVITASResources/Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_Decal_Mine_Hole_B</File>
+		<File>CIVITASResources/Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_Decal_Mine_Hole_FOW</File>
+		<File>CIVITASResources/Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_Decal_Mine_Hole_H</File>
+		<File>CIVITASResources/Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_Decals_Parts_Ancient_01_B</File>
+		<File>CIVITASResources/Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_Decals_Parts_Ancient_01_FOW</File>
+		<File>CIVITASResources/Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_Decals_Parts_Ancient_01_H</File>
+		<File>CIVITASResources/Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_Decals_Parts_Ancient_02_B</File>
+		<File>CIVITASResources/Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_Decals_Parts_Ancient_02_FOW</File>
+		<File>CIVITASResources/Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_Decals_Parts_Ancient_02_H</File>
+		<File>CIVITASResources/Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_Decals_Parts_Ancient_PIL_B</File>
+		<File>CIVITASResources/Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_Decals_Parts_Ancient_PIL_H</File>
+		<File>CIVITASResources/Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_Decals_Parts_Industrial_01_B</File>
+		<File>CIVITASResources/Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_Decals_Parts_Industrial_01_FOW</File>
+		<File>CIVITASResources/Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_Decals_Parts_Industrial_01_H</File>
+		<File>CIVITASResources/Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_Decals_Parts_Industrial_PIL_B</File>
+		<File>CIVITASResources/Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_Decals_Parts_Industrial_PIL_H</File>
+		<File>CIVITASResources/Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_Decals_Rail_Tracks_B</File>
+		<File>CIVITASResources/Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_Decals_Rail_Tracks_FOW</File>
+		<File>CIVITASResources/Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_Decals_Rail_Tracks_H</File>
+		<File>CIVITASResources/Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_Decals_Rail_Tracks_S</File>
+		<File>CIVITASResources/Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_DiffuseTint_Decal_Mine_Hole_B_null</File>
+		<File>CIVITASResources/Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_DiffuseTint_Decals_Parts_Ancient_01_B_null</File>
+		<File>CIVITASResources/Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_DiffuseTint_Decals_Parts_Ancient_02_B_null</File>
+		<File>CIVITASResources/Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_DiffuseTint_Decals_Parts_Ancient_PIL_B_null</File>
+		<File>CIVITASResources/Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_DiffuseTint_Decals_Parts_Industrial_01_B_null</File>
+		<File>CIVITASResources/Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_DiffuseTint_Decals_Parts_Industrial_PIL_B_null</File>
+		<File>CIVITASResources/Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_DiffuseTint_Decals_Rail_Tracks_B_null</File>
+		<File>CIVITASResources/Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_DiffuseTint_DIS_ENT_VFX_B_null</File>
+		<File>CIVITASResources/Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_DiffuseTint_Jungle_Leaves_Decal_B_null</File>
+		<File>CIVITASResources/Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_DiffuseTint_p0k_Maple_DeepRed_B_null</File>
+		<File>CIVITASResources/Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_DiffuseTint_p0k_Maple_MedRed_B_null</File>
+		<File>CIVITASResources/Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_DiffuseTint_p0k_Maple_Orange_B_null</File>
+		<File>CIVITASResources/Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_DiffuseTint_RES_CVS_Pomagranate_B_null</File>
+		<File>CIVITASResources/Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_DiffuseTint_RES_CVS_Pomagranate_B_Unworked_null</File>
+		<File>CIVITASResources/Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_DiffuseTint_RES_p0k_Opal_Decal_New_B_null</File>
+		<File>CIVITASResources/Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_DiffuseTint_RES_p0k_Opal_New_B_null</File>
+		<File>CIVITASResources/Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_DiffuseTint_RES_p0k_Plums_New_B_null</File>
+		<File>CIVITASResources/Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_DiffuseTint_RES_p0k_Plums_Unworked_New_B_null</File>
+		<File>CIVITASResources/Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_DiffuseTint_TER_River_Clutter_B_null</File>
+		<File>CIVITASResources/Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_DiffuseTint_Tree_Dirt_Decal_B_null</File>
+		<File>CIVITASResources/Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_DiffuseTint_Tree_PIL_Decal_B_null</File>
+		<File>CIVITASResources/Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_DIS_ENT_VFX_G</File>
+		<File>CIVITASResources/Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_FOW_Tree_PIL_Decal</File>
+		<File>CIVITASResources/Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_Jungle_Leaves_Decal_B</File>
+		<File>CIVITASResources/Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_Jungle_Leaves_Decal_FOW</File>
+		<File>CIVITASResources/Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_Jungle_Leaves_Decal_H</File>
+		<File>CIVITASResources/Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_ProceduralNoiseTexture2D_0x304656c5</File>
+		<File>CIVITASResources/Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_RES_Aluminum_Decal_FOW</File>
+		<File>CIVITASResources/Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_RES_Citrus_G</File>
+		<File>CIVITASResources/Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_RES_Citrus_N0</File>
+		<File>CIVITASResources/Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_RES_Citrus_N1</File>
+		<File>CIVITASResources/Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_RES_Citrus_O</File>
+		<File>CIVITASResources/Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_RES_Gold_G</File>
+		<File>CIVITASResources/Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_RES_Gold_M</File>
+		<File>CIVITASResources/Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_RES_Gold_N0</File>
+		<File>CIVITASResources/Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_RES_Gold_N1</File>
+		<File>CIVITASResources/Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_RES_p0k_Opal_Decal_New_B</File>
+		<File>CIVITASResources/Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_RES_Silver_Decal_G</File>
+		<File>CIVITASResources/Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_RES_Silver_Decal_H</File>
+		<File>CIVITASResources/Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_TER_River_Clutter_G</File>
+		<File>CIVITASResources/Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_TER_River_Clutter_N0</File>
+		<File>CIVITASResources/Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_TER_River_Clutter_N1</File>
+		<File>CIVITASResources/Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_Tree_Dirt_Decal_B</File>
+		<File>CIVITASResources/Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_Tree_Dirt_Decal_FOW</File>
+		<File>CIVITASResources/Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_Tree_Dirt_Decal_H</File>
+		<File>CIVITASResources/Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_Tree_PIL_Decal_B</File>
+		<File>CIVITASResources/Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_Trees_Decid_N0</File>
+		<File>CIVITASResources/Platforms/MacOS/BLPs/SHARED_DATA/TEXTURE_Trees_Decid_N1</File>
+		<File>CIVITASResources/Platforms/MacOS/BLPs/UI/Icons.blp</File>
+		<File>CIVITASResources/Platforms/Windows/BLPs/environment/clutter.blp</File>
+		<File>CIVITASResources/Platforms/Windows/BLPs/landmarks/tilebases.blp</File>
+		<File>CIVITASResources/Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_Burn_BaseColor</File>
+		<File>CIVITASResources/Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_Burn_G</File>
+		<File>CIVITASResources/Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_Decal_Mine_Hole_B</File>
+		<File>CIVITASResources/Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_Decal_Mine_Hole_FOW</File>
+		<File>CIVITASResources/Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_Decal_Mine_Hole_H</File>
+		<File>CIVITASResources/Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_Decals_Parts_Ancient_01_B</File>
+		<File>CIVITASResources/Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_Decals_Parts_Ancient_01_FOW</File>
+		<File>CIVITASResources/Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_Decals_Parts_Ancient_01_H</File>
+		<File>CIVITASResources/Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_Decals_Parts_Ancient_02_B</File>
+		<File>CIVITASResources/Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_Decals_Parts_Ancient_02_FOW</File>
+		<File>CIVITASResources/Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_Decals_Parts_Ancient_02_H</File>
+		<File>CIVITASResources/Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_Decals_Parts_Ancient_PIL_B</File>
+		<File>CIVITASResources/Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_Decals_Parts_Ancient_PIL_H</File>
+		<File>CIVITASResources/Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_Decals_Parts_Industrial_01_B</File>
+		<File>CIVITASResources/Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_Decals_Parts_Industrial_01_FOW</File>
+		<File>CIVITASResources/Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_Decals_Parts_Industrial_01_H</File>
+		<File>CIVITASResources/Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_Decals_Parts_Industrial_PIL_B</File>
+		<File>CIVITASResources/Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_Decals_Parts_Industrial_PIL_H</File>
+		<File>CIVITASResources/Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_Decals_Rail_Tracks_B</File>
+		<File>CIVITASResources/Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_Decals_Rail_Tracks_FOW</File>
+		<File>CIVITASResources/Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_Decals_Rail_Tracks_H</File>
+		<File>CIVITASResources/Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_Decals_Rail_Tracks_S</File>
+		<File>CIVITASResources/Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_DiffuseTint_Decal_Mine_Hole_B_null</File>
+		<File>CIVITASResources/Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_DiffuseTint_Decals_Parts_Ancient_01_B_null</File>
+		<File>CIVITASResources/Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_DiffuseTint_Decals_Parts_Ancient_02_B_null</File>
+		<File>CIVITASResources/Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_DiffuseTint_Decals_Parts_Ancient_PIL_B_null</File>
+		<File>CIVITASResources/Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_DiffuseTint_Decals_Parts_Industrial_01_B_null</File>
+		<File>CIVITASResources/Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_DiffuseTint_Decals_Parts_Industrial_PIL_B_null</File>
+		<File>CIVITASResources/Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_DiffuseTint_Decals_Rail_Tracks_B_null</File>
+		<File>CIVITASResources/Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_DiffuseTint_DIS_ENT_VFX_B_null</File>
+		<File>CIVITASResources/Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_DiffuseTint_Jungle_Leaves_Decal_B_null</File>
+		<File>CIVITASResources/Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_DiffuseTint_p0k_Maple_DeepRed_B_null</File>
+		<File>CIVITASResources/Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_DiffuseTint_p0k_Maple_MedRed_B_null</File>
+		<File>CIVITASResources/Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_DiffuseTint_p0k_Maple_Orange_B_null</File>
+		<File>CIVITASResources/Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_DiffuseTint_RES_CVS_Pomagranate_B_null</File>
+		<File>CIVITASResources/Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_DiffuseTint_RES_CVS_Pomagranate_B_Unworked_null</File>
+		<File>CIVITASResources/Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_DiffuseTint_RES_p0k_Opal_Decal_New_B_null</File>
+		<File>CIVITASResources/Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_DiffuseTint_RES_p0k_Opal_New_B_null</File>
+		<File>CIVITASResources/Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_DiffuseTint_RES_p0k_Plums_New_B_null</File>
+		<File>CIVITASResources/Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_DiffuseTint_RES_p0k_Plums_Unworked_New_B_null</File>
+		<File>CIVITASResources/Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_DiffuseTint_TER_River_Clutter_B_null</File>
+		<File>CIVITASResources/Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_DiffuseTint_Tree_Dirt_Decal_B_null</File>
+		<File>CIVITASResources/Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_DiffuseTint_Tree_PIL_Decal_B_null</File>
+		<File>CIVITASResources/Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_DIS_ENT_VFX_G</File>
+		<File>CIVITASResources/Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_FOW_Tree_PIL_Decal</File>
+		<File>CIVITASResources/Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_Jungle_Leaves_Decal_B</File>
+		<File>CIVITASResources/Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_Jungle_Leaves_Decal_FOW</File>
+		<File>CIVITASResources/Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_Jungle_Leaves_Decal_H</File>
+		<File>CIVITASResources/Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_ProceduralNoiseTexture2D_0x304656c5</File>
+		<File>CIVITASResources/Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_RES_Aluminum_Decal_FOW</File>
+		<File>CIVITASResources/Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_RES_Citrus_G</File>
+		<File>CIVITASResources/Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_RES_Citrus_N0</File>
+		<File>CIVITASResources/Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_RES_Citrus_N1</File>
+		<File>CIVITASResources/Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_RES_Citrus_O</File>
+		<File>CIVITASResources/Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_RES_Gold_G</File>
+		<File>CIVITASResources/Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_RES_Gold_M</File>
+		<File>CIVITASResources/Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_RES_Gold_N0</File>
+		<File>CIVITASResources/Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_RES_Gold_N1</File>
+		<File>CIVITASResources/Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_RES_p0k_Opal_Decal_New_B</File>
+		<File>CIVITASResources/Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_RES_Silver_Decal_G</File>
+		<File>CIVITASResources/Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_RES_Silver_Decal_H</File>
+		<File>CIVITASResources/Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_TER_River_Clutter_G</File>
+		<File>CIVITASResources/Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_TER_River_Clutter_N0</File>
+		<File>CIVITASResources/Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_TER_River_Clutter_N1</File>
+		<File>CIVITASResources/Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_Tree_Dirt_Decal_B</File>
+		<File>CIVITASResources/Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_Tree_Dirt_Decal_FOW</File>
+		<File>CIVITASResources/Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_Tree_Dirt_Decal_H</File>
+		<File>CIVITASResources/Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_Tree_PIL_Decal_B</File>
+		<File>CIVITASResources/Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_Trees_Decid_N0</File>
+		<File>CIVITASResources/Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_Trees_Decid_N1</File>
+		<File>CIVITASResources/Platforms/Windows/BLPs/UI/Icons.blp</File>
+		<File>CIVITASResources/Textures/DIS_ENT_VFX_B.dds</File>
+		<File>CIVITASResources/Textures/DIS_ENT_VFX_B.tex</File>
+		<File>CIVITASResources/Textures/DIS_ENT_VFX_G.dds</File>
+		<File>CIVITASResources/Textures/DIS_ENT_VFX_G.tex</File>
+		<File>CIVITASResources/Textures/p0k_Resources_Atlas_22.dds</File>
+		<File>CIVITASResources/Textures/p0k_Resources_Atlas_22.tex</File>
+		<File>CIVITASResources/Textures/p0k_Resources_Atlas_256.dds</File>
+		<File>CIVITASResources/Textures/p0k_Resources_Atlas_256.tex</File>
+		<File>CIVITASResources/Textures/p0k_Resources_Atlas_256_FOW.dds</File>
+		<File>CIVITASResources/Textures/p0k_Resources_Atlas_256_FOW.tex</File>
+		<File>CIVITASResources/Textures/p0k_Resources_Atlas_38.dds</File>
+		<File>CIVITASResources/Textures/p0k_Resources_Atlas_38.tex</File>
+		<File>CIVITASResources/Textures/p0k_Resources_Atlas_50.dds</File>
+		<File>CIVITASResources/Textures/p0k_Resources_Atlas_50.tex</File>
+		<File>CIVITASResources/Textures/p0k_Resources_Atlas_64.dds</File>
+		<File>CIVITASResources/Textures/p0k_Resources_Atlas_64.tex</File>
+		<File>CIVITASResources/Textures/p0k_Resources_Atlas_FOW.dds</File>
+		<File>CIVITASResources/Textures/p0k_Resources_Atlas_FOW.tex</File>
+		<File>CIVITASResources/Textures/p0k_Resources_MODE_Atlas_256.dds</File>
+		<File>CIVITASResources/Textures/p0k_Resources_MODE_Atlas_256.tex</File>
+		<File>CIVITASResources/Textures/p0k_Resources_MODE_Atlas_32.dds</File>
+		<File>CIVITASResources/Textures/p0k_Resources_MODE_Atlas_32.tex</File>
+		<File>CIVITASResources/Textures/p0k_Resources_MODE_Atlas_38.dds</File>
+		<File>CIVITASResources/Textures/p0k_Resources_MODE_Atlas_38.tex</File>
+		<File>CIVITASResources/Textures/p0k_Resources_MODE_Atlas_50.dds</File>
+		<File>CIVITASResources/Textures/p0k_Resources_MODE_Atlas_50.tex</File>
+		<File>CIVITASResources/Textures/p0k_Resources_MODE_Atlas_64.dds</File>
+		<File>CIVITASResources/Textures/p0k_Resources_MODE_Atlas_64.tex</File>
+		<File>CIVITASResources/Textures/p0k_Resources_MODE_Atlas_FOW.dds</File>
+		<File>CIVITASResources/Textures/p0k_Resources_MODE_Atlas_FOW.tex</File>
+		<File>CIVITASResources/Textures/RES_CVS_Electrum_B3.dds</File>
+		<File>CIVITASResources/Textures/RES_CVS_Electrum_B3.tex</File>
+		<File>CIVITASResources/Textures/RES_CVS_Electrum_Decal_B5.dds</File>
+		<File>CIVITASResources/Textures/RES_CVS_Electrum_Decal_B5.tex</File>
+		<File>CIVITASResources/Textures/RES_CVS_Pomagranate_B.dds</File>
+		<File>CIVITASResources/Textures/RES_CVS_Pomagranate_B.tex</File>
+		<File>CIVITASResources/Textures/RES_CVS_Pomagranate_B_Unworked.dds</File>
+		<File>CIVITASResources/Textures/RES_CVS_Pomagranate_B_Unworked.tex</File>
+		<File>CIVITASResources/XLPs/Clutter.xlp</File>
+		<File>CIVITASResources/XLPs/Icons.xlp</File>
+		<File>CIVITASResources/XLPs/tilebases.xlp</File>
 	</Files>
 </Mod>

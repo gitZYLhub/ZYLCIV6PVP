@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GameData>
+    <LocalizedText>
+        <Replace Tag="LOC_FAST_PROMOTE_NAME" Language="zh_Hans_CN">
+            <Text>随机升级</Text>
+        </Replace>
+        <Replace Tag="LOC_FAST_PROMOTE_DESC" Language="zh_Hans_CN">
+            <Text>快速随机选择一项升级，不需要点击升级树</Text>
+        </Replace>
+        <Replace Tag="LOC_FAST_PROMOTE_NAME" Language="en_US">
+            <Text>Random promotion</Text>
+        </Replace>
+        <Replace Tag="LOC_FAST_PROMOTE_DESC" Language="en_US">
+            <Text>Choose a random available promotion without opening the promotion tree.</Text>
+        </Replace>
+    </LocalizedText>
+</GameData>

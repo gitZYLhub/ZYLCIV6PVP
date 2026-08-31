@@ -656,7 +656,7 @@
 			<Text>Rzeki dają +1 do [ICON_FAITH] wiary bonus za sąsiedztwo dla dzielnicy świątyynnej. +1 [ICON_Amenities] udogodnienie orz +1 do [ICON_HOUSING] obszarów mieszkalnych dla miast mających dzielnicę świątynną sąsiadującą z rzeką.</Text>
 		</Replace>
 		<Replace Tag="LOC_BELIEF_SACRED_PATH_DESCRIPTION" Language="pl_PL">
-			<Text>Dzielnice świątynne otrzymują +1 do [ICON_FAITH] wiary z sąsiednich pól z lasem bądź lasem deszczowym.</Text>
+			<Text>Dzielnice świątynne otrzymują +1 do [ICON_FAITH] wiary z każdego sąsiedniego pola lasu deszczowego lub bagna.</Text>
 		</Replace>
 		<Replace Tag="LOC_BELIEF_STONE_CIRCLES_DESCRIPTION" Language="pl_PL">
 			<Text>+1 [ICON_PRODUCTION] produkcji i +1 do [ICON_FAITH] wiary dzięki kamieniołomom.</Text>

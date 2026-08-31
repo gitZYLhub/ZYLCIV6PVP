@@ -1,5 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?> 
  <GameData>
+	<EnglishText>
+		<Row Tag="LOC_DMT_OPTIONS_HOTKEY_TOGGLE_MAP_TACK_VISIBILITY_NAME">
+			<Text>Toggle Map Tacks Visibility</Text>
+		</Row>
+		<Row Tag="LOC_DMT_OPTIONS_HOTKEY_TOGGLE_MAP_TACK_VISIBILITY_DESC">
+			<Text>Show or hide all map tacks</Text>
+		</Row>
+		<Row Tag="LOC_DMT_OPTIONS_HOTKEY_ADD_MESSAGE_TACK">
+			<Text>Send Map Tack to Chat</Text>
+		</Row>
+	</EnglishText>
 	<LocalizedText>
 		<Replace Tag="LOC_DMT_OPTIONS_HOTKEY_CATEGORY" Language="zh_Hans_CN">
 			<Text>地图钉</Text>
@@ -19,5 +30,23 @@
         <Replace Tag="LOC_DMT_OPTIONS_HOTKEY_ADD_MESSAGE_TACK" Language="zh_Hans_CN">
             <Text>[COLOR:ResGoldLabelCS]发送聊天坐标[ENDCOLOR]</Text>
         </Replace>
+		<Replace Tag="LOC_DMT_OPTIONS_HOTKEY_CATEGORY" Language="zh_Hant_HK">
+			<Text>地圖釘</Text>
+		</Replace>
+		<Replace Tag="LOC_DMT_OPTIONS_HOTKEY_TOGGLE_MAP_TACK_VISIBILITY_NAME" Language="zh_Hant_HK">
+			<Text>顯示/隱藏所有地圖釘</Text>
+		</Replace>
+		<Replace Tag="LOC_DMT_OPTIONS_HOTKEY_TOGGLE_MAP_TACK_VISIBILITY_DESC" Language="zh_Hant_HK">
+			<Text>顯示或隱藏所有地圖釘</Text>
+		</Replace>
+		<Replace Tag="LOC_DMT_OPTIONS_HOTKEY_ADD_MAP_TACK" Language="zh_Hant_HK">
+			<Text>添加地圖釘</Text>
+		</Replace>
+		<Replace Tag="LOC_DMT_OPTIONS_HOTKEY_DELETE_MAP_TACK" Language="zh_Hant_HK">
+			<Text>刪除地圖釘</Text>
+		</Replace>
+		<Replace Tag="LOC_DMT_OPTIONS_HOTKEY_ADD_MESSAGE_TACK" Language="zh_Hant_HK">
+			<Text>發送聊天座標</Text>
+		</Replace>
 	</LocalizedText>
 </GameData>

@@ -970,7 +970,7 @@
 		<!-- == MAYA == -->
 		<!-- = civilization ability = -->
 		<Replace Tag="LOC_TRAIT_CIVILIZATION_MAYAB_DESCRIPTION" Language="es_ES">
-		    <Text>Asentarse adyacente a Costa o Agua Dulce no da Alojamiento [ICON_HOUSING] adicional. El Palacio recibe +1 Alojamiento [ICON_HOUSING]. Las Granjas otorgan +1 Alojamiento [ICON_HOUSING] adicional, +1 Producción [ICON_PRODUCTION] por cada Observatorio adyacente y +1 Oro [ICON_GOLD]. Las Plantaciones otorgan +1 Ciencia [ICON_SCIENCE] por cada Observatorio adyacente tras investigar Educación. +1 Servicios [ICON_Amenities] por cada Recurso de Lujo adyacente al Centro de la Ciudad. +3 Fuerza de Combate [ICON_STRENGTH] a unidades a 6 casillas de tu capital.[NEWLINE][NEWLINE][ICON_BULLET]Sesgo: T3 Lujo de Plantaciones, T4 Plátanos. Especial "Hidrofóbico".</Text>
+		    <Text>Asentarse adyacente a Costa o Agua Dulce no da Alojamiento [ICON_HOUSING] adicional. Todas las ciudades reciben +1 Alojamiento [ICON_HOUSING]. Las Granjas otorgan +1 Alojamiento [ICON_HOUSING] adicional, +1 Producción [ICON_PRODUCTION] por cada Observatorio adyacente y +1 Oro [ICON_GOLD]. Las Plantaciones otorgan +1 Ciencia [ICON_SCIENCE] por cada Observatorio adyacente tras investigar Educación. +1 Servicios [ICON_Amenities] por cada Recurso de Lujo adyacente al Centro de la Ciudad. +3 Fuerza de Combate [ICON_STRENGTH] a unidades a 6 casillas de tu capital.[NEWLINE][NEWLINE][ICON_BULLET]Sesgo: T3 Lujo de Plantaciones, T4 Plátanos. Especial "Hidrofóbico".</Text>
 		</Replace>
 		<!-- = unique district = -->
 		<Replace Tag="LOC_DISTRICT_OBSERVATORY_DESCRIPTION" Language="es_ES">
@@ -1783,7 +1783,7 @@
 		    <Text>Los Ríos otorgan +2 a la Fe [ICON_FAITH] por adyacencia a Lugares Sagrados. +1 a Servicios [ICON_Amenities] en ciudades con un Lugar Sagrado adyacente a un Río.</Text>
 		</Replace>
 		<Replace Tag="LOC_BELIEF_SACRED_PATH_DESCRIPTION" Language="es_ES">
-			<Text>Los Lugares sagrados obtienen +1 a Fe [ICON_Faith] por Bosques y Selvas tropicales adyacentes.</Text>
+			<Text>Los Lugares sagrados obtienen +1 a Fe [ICON_Faith] por cada casilla de Selva tropical o Pantano adyacente.</Text>
 		</Replace>
 		<Row Tag="LOC_DISTRICT_SACREDPATH_WOODS_FAITH" Language="es_ES">
 			<Text>+{1_num} de Fe [ICON_Faith] por Bosques adyacentes.</Text>

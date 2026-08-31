@@ -1081,7 +1081,7 @@
 		<!-- == MAYAS == -->
 		<!-- = Civilization - Civilisation = -->
 		<Replace Tag="LOC_TRAIT_CIVILIZATION_MAYAB_DESCRIPTION" Language="fr_FR">
-			<Text>Les villes n'obtiennent pas [ICON_HOUSING] d'Habitations de l'eau douce et des cases côtières. [ICON_HOUSING] Habitations +1 pour la [ICON_CAPITAL] Capitale. Les Centres-villes gagnent +1 [ICON_AMENITIES] Activités pour chaque ressource de luxe adjacente.[NEWLINE][NEWLINE]Les fermes fournissent +1 [ICON_GOLD] Or et +1 [ICON_HOUSING] Habitations, ainsi que +1 [ICON_PRODUCTION] Production par Observatoire adjacent.[NEWLINE][ICON_SCIENCE]Science +1 pour les plantations par Observatoire adjacent (passe à +2 à l'[COLOR_FLOAT_SCIENCE]Éducation[ENDCOLOR]).[NEWLINE][NEWLINE]Bias : T3 Ressources de luxe à plantation / T4 Bananes.</Text>
+			<Text>Les villes n'obtiennent pas [ICON_HOUSING] d'Habitations de l'eau douce et des cases côtières. Toutes les villes reçoivent +1 [ICON_HOUSING] Habitations. Les Centres-villes gagnent +1 [ICON_AMENITIES] Activités pour chaque ressource de luxe adjacente.[NEWLINE][NEWLINE]Les fermes fournissent +1 [ICON_GOLD] Or et +1 [ICON_HOUSING] Habitations, ainsi que +1 [ICON_PRODUCTION] Production par Observatoire adjacent.[NEWLINE][ICON_SCIENCE]Science +1 pour les plantations par Observatoire adjacent (passe à +2 à l'[COLOR_FLOAT_SCIENCE]Éducation[ENDCOLOR]).[NEWLINE][NEWLINE]Bias : T3 Ressources de luxe à plantation / T4 Bananes.</Text>
 		</Replace>
 		<!-- = Leader (Lady Six Sky) - Dirigeant (Dame Six Cieux) = -->
 		<Replace Tag="LOC_TRAIT_LEADER_MUTAL_DESCRIPTION" Language="fr_FR">
@@ -2823,7 +2823,7 @@
 			<Text>[ICON_PRODUCTION] Production +1 pour les cases de plaines inondables travaillées ou sous un Centre-ville, et les cases de marais et d'oasis. </Text>
 		</Replace>
 		<Replace Tag="LOC_BELIEF_SACRED_PATH_DESCRIPTION" Language="fr_FR">
-			<Text>[ICON_FAITH] Foi +1 pour les Lieux saints pour chaque case de forêt, de forêt tropicale et de marais adjacente.</Text>
+			<Text>[ICON_FAITH] Foi +1 pour les Lieux saints pour chaque case de forêt tropicale ou de marais adjacente.</Text>
 		</Replace>
 		<Replace Tag="LOC_BBG_DISTRICT_SACREDPATH_MARSHES_FAITH" Language="fr_FR">
 			<Text>[ICON_FAITH] Foi +{1_num} des cases de marais adjacentes.</Text>

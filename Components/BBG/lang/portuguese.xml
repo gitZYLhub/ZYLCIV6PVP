@@ -1057,7 +1057,7 @@
 		<!-- == MAYA - MAIA == -->
 		<!-- = civilization ability = -->
 		<Replace Tag="LOC_TRAIT_CIVILIZATION_MAYAB_DESCRIPTION" Language="pt_BR">
-			<Text>As cidades não recebem [ICON_HOUSING] Habitações da água doce e dos painéis costeiros. [ICON_HOUSING] Habitações +1 para a [ICON_CAPITAL] Capital. Os Centros da Cidade ganham +1 de [ICON_AMENITIES] Serviço para cada recurso de luxo adjacente.[NEWLINE][NEWLINE]As fazendas fornecem +1 de [ICON_GOLD] Ouro e +1 de [ICON_HOUSING] Habitação, assim como +1 de [ICON_PRODUCTION] Produção por Observatório adjacente.[NEWLINE][ICON_SCIENCE] Ciência +1 para plantações por Observatório adjacente (passa a +2 na Educação).[NEWLINE][NEWLINE]Tendência de Nascimento: T3 Recursos de luxo em plantação / T4 Bananas.</Text>
+			<Text>As cidades não recebem [ICON_HOUSING] Habitações da água doce e dos painéis costeiros. Todas as cidades recebem +1 [ICON_HOUSING] Habitação. Os Centros da Cidade ganham +1 de [ICON_AMENITIES] Serviço para cada recurso de luxo adjacente.[NEWLINE][NEWLINE]As fazendas fornecem +1 de [ICON_GOLD] Ouro e +1 de [ICON_HOUSING] Habitação, assim como +1 de [ICON_PRODUCTION] Produção por Observatório adjacente.[NEWLINE][ICON_SCIENCE] Ciência +1 para plantações por Observatório adjacente (passa a +2 na Educação).[NEWLINE][NEWLINE]Tendência de Nascimento: T3 Recursos de luxo em plantação / T4 Bananas.</Text>
 		</Replace>
 		<!-- = leader ability = -->
 		<Replace Tag="LOC_TRAIT_LEADER_MUTAL_DESCRIPTION" Language="pt_BR">
@@ -2766,7 +2766,7 @@
 			<Text>[ICON_PRODUCTION] Produção +1 para os paineis de planícies alagadas trabalhadas ou sob um Centro da Cidade, e para os paineis de pântanos e oásis.</Text>
 		</Replace>
 		<Replace Tag="LOC_BELIEF_SACRED_PATH_DESCRIPTION" Language="pt_BR">
-			<Text>[ICON_FAITH] Fé +1 para os Locais Sagrados para cada Paineil de floresta, floresta tropical e pântano adjacente.</Text>
+			<Text>[ICON_FAITH] Fé +1 para os Locais Sagrados para cada painel de floresta tropical e pântano adjacente.</Text>
 		</Replace>
 		<Replace Tag="LOC_BBG_DISTRICT_SACREDPATH_MARSHES_FAITH" Language="pt_BR">
 			<Text>[ICON_FAITH] Fé +{1_num} das áreas de pântano adjacentes.</Text>

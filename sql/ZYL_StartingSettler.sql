@@ -1,0 +1,82 @@
+------------------------------------------------------------------------------
+-- Faster starting Settlers
+--
+-- Ported from ZYL_LightweightBalance. These modifiers apply only while the
+-- player has no Palace, so they help the initial Settler choose a capital
+-- location without changing any Settler trained after the capital is founded.
+------------------------------------------------------------------------------
+
+-- Civ VI does not expose a stock player-wide modifier type for this effect,
+-- so bind the existing ignore-terrain effect to the player's units.
+INSERT OR IGNORE INTO Types (Type, Kind) VALUES
+	('ZYL_MODIFIER_PLAYER_UNITS_ADJUST_IGNORE_TERRAIN_COST', 'KIND_MODIFIER');
+
+INSERT OR IGNORE INTO DynamicModifiers
+	(ModifierType, CollectionType, EffectType)
+VALUES
+	('ZYL_MODIFIER_PLAYER_UNITS_ADJUST_IGNORE_TERRAIN_COST',
+	 'COLLECTION_PLAYER_UNITS',
+	 'EFFECT_ADJUST_UNIT_IGNORE_TERRAIN_COST');
+
+INSERT OR IGNORE INTO TraitModifiers (TraitType, ModifierId) VALUES
+	('TRAIT_LEADER_MAJOR_CIV', 'ZYL_STARTING_SETTLER_MOVEMENT'),
+	('TRAIT_LEADER_MAJOR_CIV', 'ZYL_STARTING_SETTLER_IGNORE_TERRAIN'),
+	('TRAIT_LEADER_MAJOR_CIV', 'ZYL_STARTING_SETTLER_IGNORE_RIVERS'),
+	('TRAIT_LEADER_MAJOR_CIV', 'ZYL_STARTING_SETTLER_IGNORE_SHORES');
+
+INSERT OR IGNORE INTO Modifiers
+	(ModifierId, ModifierType, Permanent, SubjectRequirementSetId)
+VALUES
+	('ZYL_STARTING_SETTLER_MOVEMENT',
+	 'MODIFIER_PLAYER_UNITS_ADJUST_MOVEMENT',
+	 1,
+	 'ZYL_STARTING_SETTLER_REQUIREMENTS'),
+	('ZYL_STARTING_SETTLER_IGNORE_TERRAIN',
+	 'ZYL_MODIFIER_PLAYER_UNITS_ADJUST_IGNORE_TERRAIN_COST',
+	 1,
+	 'ZYL_STARTING_SETTLER_REQUIREMENTS'),
+	('ZYL_STARTING_SETTLER_IGNORE_RIVERS',
+	 'MODIFIER_PLAYER_UNITS_ADJUST_IGNORE_RIVERS',
+	 1,
+	 'ZYL_STARTING_SETTLER_REQUIREMENTS'),
+	('ZYL_STARTING_SETTLER_IGNORE_SHORES',
+	 'MODIFIER_PLAYER_UNITS_ADJUST_IGNORE_SHORES',
+	 1,
+	 'ZYL_STARTING_SETTLER_REQUIREMENTS');
+
+INSERT OR IGNORE INTO ModifierArguments (ModifierId, Name, Value) VALUES
+	('ZYL_STARTING_SETTLER_MOVEMENT', 'Amount', 1),
+	('ZYL_STARTING_SETTLER_IGNORE_TERRAIN', 'Ignore', 1),
+	('ZYL_STARTING_SETTLER_IGNORE_TERRAIN', 'Type', 'ALL'),
+	('ZYL_STARTING_SETTLER_IGNORE_RIVERS', 'Ignore', 1),
+	('ZYL_STARTING_SETTLER_IGNORE_SHORES', 'Ignore', 1);
+
+INSERT OR IGNORE INTO RequirementSets
+	(RequirementSetId, RequirementSetType)
+VALUES
+	('ZYL_STARTING_SETTLER_REQUIREMENTS', 'REQUIREMENTSET_TEST_ALL');
+
+INSERT OR IGNORE INTO RequirementSetRequirements
+	(RequirementSetId, RequirementId)
+VALUES
+	('ZYL_STARTING_SETTLER_REQUIREMENTS',
+	 'ZYL_REQUIRES_UNIT_IS_STARTING_SETTLER'),
+	('ZYL_STARTING_SETTLER_REQUIREMENTS',
+	 'ZYL_REQUIRES_PLAYER_HAS_NO_PALACE');
+
+INSERT OR IGNORE INTO Requirements
+	(RequirementId, RequirementType, Inverse)
+VALUES
+	('ZYL_REQUIRES_UNIT_IS_STARTING_SETTLER',
+	 'REQUIREMENT_UNIT_TYPE_MATCHES',
+	 0),
+	('ZYL_REQUIRES_PLAYER_HAS_NO_PALACE',
+	 'REQUIREMENT_PLAYER_HAS_AT_LEAST_NUM_BUILDINGS',
+	 1);
+
+INSERT OR IGNORE INTO RequirementArguments
+	(RequirementId, Name, Value)
+VALUES
+	('ZYL_REQUIRES_UNIT_IS_STARTING_SETTLER', 'UnitType', 'UNIT_SETTLER'),
+	('ZYL_REQUIRES_PLAYER_HAS_NO_PALACE', 'BuildingType', 'BUILDING_PALACE'),
+	('ZYL_REQUIRES_PLAYER_HAS_NO_PALACE', 'Amount', 1);

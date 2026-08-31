@@ -328,12 +328,21 @@ function DoRiver(startPlot, thisFlowDirection, originalFlowDirection, riverID)
 			return Map.GetAdjacentPlot(riverPlotX, riverPlotY, DirectionTypes.DIRECTION_NORTHWEST);
 		end
 	}
+	local adjacentPlotOrder = {
+		FlowDirectionTypes.FLOWDIRECTION_NORTH,
+		FlowDirectionTypes.FLOWDIRECTION_NORTHEAST,
+		FlowDirectionTypes.FLOWDIRECTION_SOUTHEAST,
+		FlowDirectionTypes.FLOWDIRECTION_SOUTH,
+		FlowDirectionTypes.FLOWDIRECTION_SOUTHWEST,
+		FlowDirectionTypes.FLOWDIRECTION_NORTHWEST
+	};
 
 	if(bestFlowDirection == FlowDirectionTypes.NO_FLOWDIRECTION) then
 
 		-- Attempt to calculate the best flow direction.
 		local bestValue = math.huge;
-		for flowDirection, getAdjacentPlot in pairs(adjacentPlotFunctions) do
+		for _, flowDirection in ipairs(adjacentPlotOrder) do
+			local getAdjacentPlot = adjacentPlotFunctions[flowDirection];
 
 			if (GetOppositeFlowDirection(flowDirection) ~= originalFlowDirection) then
 
@@ -363,7 +372,8 @@ function DoRiver(startPlot, thisFlowDirection, originalFlowDirection, riverID)
 		if(bestFlowDirection == FlowDirectionTypes.NO_FLOWDIRECTION) then
 
 			local bestValue = math.huge;
-			for flowDirection, getAdjacentPlot in pairs(adjacentPlotFunctions) do
+			for _, flowDirection in ipairs(adjacentPlotOrder) do
+				local getAdjacentPlot = adjacentPlotFunctions[flowDirection];
 
 				if (thisFlowDirection == FlowDirectionTypes.NO_FLOWDIRECTION or
 					flowDirection == TurnRightFlowDirections[thisFlowDirection] or
@@ -618,8 +628,8 @@ function DoRoute()
 	local iW, iH = Map.GetGridSize();
 	local RouteLevel = tonumber(MapConfiguration.GetValue("RouteLevel")) or -1;
 	if RouteLevel < 0 then
-		Game:SetProperty("ZYLMRM_ROUTE_TILES", 0);
-		print("ZYLMRM routes: 0 (disabled)");
+		Game:SetProperty("ZYLRM_ROUTE_TILES", 0);
+		print("ZYLRM routes: 0 (disabled)");
 		return;
 	end
 	AreaBuilder.Recalculate();
@@ -745,9 +755,17 @@ function DoRoute()
 		end
 	end
 
-	for pPlot, _ in pairs(RoutePlots) do		-- 修路
+	local routePlotIndices = {};
+	for pPlot in pairs(RoutePlots) do
+		if pPlot ~= nil then
+			table.insert(routePlotIndices, pPlot:GetIndex());
+		end
+	end
+	table.sort(routePlotIndices);
+	for _, plotIndex in ipairs(routePlotIndices) do		-- 修路
+		local pPlot = Map.GetPlotByIndex(plotIndex);
 		if CanRoute(pPlot) then
-			RouteBuilder.SetRouteType(pPlot:GetIndex(), RouteLevel);
+			RouteBuilder.SetRouteType(plotIndex, RouteLevel);
 		end
 	end
 	local routeCount = 0;
@@ -757,8 +775,8 @@ function DoRoute()
 			routeCount = routeCount + 1;
 		end
 	end
-	Game:SetProperty("ZYLMRM_ROUTE_TILES", routeCount);
-	print(string.format("ZYLMRM routes: %d (level %d)", routeCount, RouteLevel));
+	Game:SetProperty("ZYLRM_ROUTE_TILES", routeCount);
+	print(string.format("ZYLRM routes: %d (level %d)", routeCount, RouteLevel));
 end
 
 function CanRoute(pPlot)

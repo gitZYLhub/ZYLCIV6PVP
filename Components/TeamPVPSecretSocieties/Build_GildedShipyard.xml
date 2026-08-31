@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GameInfo>
+	<Types>
+		<Row Type="BUILDING_GILDED_Shipyard" Kind="KIND_BUILDING"/>
+	</Types>
+	<Buildings>
+		<Row BuildingType="BUILDING_GILDED_Shipyard"
+			Name="LOC_BUILDING_GILDED_Shipyard_NAME"
+			Description="LOC_BUILDING_GILDED_Shipyard_DESCRIPTION"
+			Cost="250"
+			PrereqDistrict="DISTRICT_HARBOR"
+			CitizenSlots="1"/>
+	</Buildings>
+	<Building_GreatPersonPoints>
+		<Row BuildingType="BUILDING_GILDED_Shipyard" GreatPersonClassType="GREAT_PERSON_CLASS_ADMIRAL" PointsPerTurn="2"/>
+	</Building_GreatPersonPoints>
+	<Building_YieldChanges>
+		<Row BuildingType="BUILDING_GILDED_Shipyard" YieldType="YIELD_FOOD" YieldChange="1"/>
+		<Row BuildingType="BUILDING_GILDED_Shipyard" YieldType="YIELD_PRODUCTION" YieldChange="1"/>
+	</Building_YieldChanges>
+	<BuildingConditions>
+		<Row BuildingType="BUILDING_GILDED_Shipyard" UnlocksFromEffect="true"/>
+	</BuildingConditions>
+	<BuildingModifiers>
+		<Row BuildingType="BUILDING_GILDED_Shipyard" ModifierId="SHIPYARD_TRAINED_UNIT_XP_MODIFIER"/>
+		<Row BuildingType="BUILDING_GILDED_Shipyard" ModifierId="SHIPYARD_UNIMPROVED_COAST_PRODUCTION"/>
+		<Row BuildingType="BUILDING_GILDED_Shipyard" ModifierId="ZYL_TPVP_GILDED_SHIPYARD_CULTURE_WITHOUT_VAULT"/>
+	</BuildingModifiers>
+	<BuildingPrereqs>
+		<Row Building="BUILDING_GILDED_Shipyard" PrereqBuilding="BUILDING_LIGHTHOUSE"/>
+		<Row Building="BUILDING_SEAPORT" PrereqBuilding="BUILDING_GILDED_Shipyard"/>
+	</BuildingPrereqs>
+	<BuildingReplaces>
+		<Row CivUniqueBuildingType="BUILDING_GILDED_Shipyard" ReplacesBuildingType="BUILDING_SHIPYARD"/>
+	</BuildingReplaces>
+	<Building_TourismBombs_XP2>
+		<Row BuildingType="BUILDING_GILDED_Shipyard" TourismBombValue="500"/>
+	</Building_TourismBombs_XP2>
+	<GovernorPromotionModifiers>
+		<Row GovernorPromotionType="GOVERNOR_PROMOTION_OWLS_OF_MINERVA_2" ModifierId="ZYL_TPVP_UNLOCK_GILDED_SHIPYARD"/>
+	</GovernorPromotionModifiers>
+	<Modifiers>
+		<Row ModifierId="ZYL_TPVP_UNLOCK_GILDED_SHIPYARD" ModifierType="MODIFIER_PLAYER_ADJUST_VALID_BUILDING"/>
+		<Row ModifierId="ZYL_TPVP_GILDED_SHIPYARD_CULTURE_WITHOUT_VAULT"
+			ModifierType="MODIFIER_SINGLE_CITY_ADJUST_YIELD_CHANGE"
+			SubjectRequirementSetId="ZYL_TPVP_CITY_HAS_NO_GILDED_VAULT"/>
+	</Modifiers>
+	<ModifierArguments>
+		<Row ModifierId="ZYL_TPVP_UNLOCK_GILDED_SHIPYARD" Name="BuildingType" Value="BUILDING_GILDED_Shipyard"/>
+		<Row ModifierId="ZYL_TPVP_UNLOCK_GILDED_SHIPYARD" Name="BuildingTypeToReplace" Value="BUILDING_SHIPYARD"/>
+		<Row ModifierId="ZYL_TPVP_GILDED_SHIPYARD_CULTURE_WITHOUT_VAULT" Name="YieldType" Value="YIELD_CULTURE"/>
+		<Row ModifierId="ZYL_TPVP_GILDED_SHIPYARD_CULTURE_WITHOUT_VAULT" Name="Amount" Value="3"/>
+	</ModifierArguments>
+	<Requirements>
+		<Row RequirementId="ZYL_TPVP_REQUIRES_NO_GILDED_VAULT"
+			RequirementType="REQUIREMENT_CITY_HAS_BUILDING"
+			Inverse="true"/>
+	</Requirements>
+	<RequirementArguments>
+		<Row RequirementId="ZYL_TPVP_REQUIRES_NO_GILDED_VAULT" Name="BuildingType" Value="BUILDING_GILDED_VAULT"/>
+		<Row RequirementId="ZYL_TPVP_REQUIRES_NO_GILDED_VAULT" Name="MustBeFunctioning" Value="false"/>
+	</RequirementArguments>
+	<RequirementSets>
+		<Row RequirementSetId="ZYL_TPVP_CITY_HAS_NO_GILDED_VAULT" RequirementSetType="REQUIREMENTSET_TEST_ALL"/>
+	</RequirementSets>
+	<RequirementSetRequirements>
+		<Row RequirementSetId="ZYL_TPVP_CITY_HAS_NO_GILDED_VAULT" RequirementId="ZYL_TPVP_REQUIRES_NO_GILDED_VAULT"/>
+	</RequirementSetRequirements>
+</GameInfo>

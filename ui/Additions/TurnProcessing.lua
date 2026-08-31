@@ -21,7 +21,8 @@ local g_playertime = {}
 local b_settimer = false
 local b_setprocess = false
 local b_teamer = false
-local g_timeCommandUsed = false
+local MAX_TIME_EXTENSIONS_PER_TURN = 3
+local g_timeCommandUses = 0
 local g_reduceCommandUsed = false
 local g_temporaryNoTimer = false
 local g_turnTimer = { ElapsedTime = 0, MaxTurnTime = 0, TimeRemaining = 0 }
@@ -75,13 +76,13 @@ function OnMultiplayerChat(fromPlayer, toPlayer, text, eTargetType)
 
 	local command = string.lower(string.match(text, "^%s*(.-)%s*$") or text)
 	if command == "p+" or command == "p++" then
-		if g_timeCommandUsed then return end
+		if g_timeCommandUses >= MAX_TIME_EXTENSIONS_PER_TURN then return end
 		local current = tonumber(GameConfiguration.GetValue("TURN_TIMER_TIME")) or g_turnTimer.MaxTurnTime or 0
 		local extra = (g_turnTimer.MaxTurnTime > 0 and g_turnTimer.TimeRemaining < 8) and 24 or 20
 		local adjusted = math.max(0, current) + extra
 		ApplyHostTimer(adjusted, nil, true)
 		g_currenttimer = adjusted
-		g_timeCommandUsed = true
+		g_timeCommandUses = g_timeCommandUses + 1
 		return
 	end
 
@@ -198,6 +199,7 @@ function SmartTimer()
 	-- 5: Casual
 	-- 6: Phyphy
 	-- 7: 2vi2 (Flashy)
+	-- 8: Casual Balanced (highest individual load)
 	if GameConfiguration.GetValue("CPL_SMARTTIMER") == 1 then
 		return
 	end
@@ -205,15 +207,21 @@ function SmartTimer()
 	local tot_cities = 0
 	local tot_units = 0
 	local tot_humans = 0
+	local max_cities = 0
+	local max_units = 0
 	local b_war = false
 	local currentTurn = Game.GetCurrentGameTurn()
 	for _, i in ipairs(PlayerManager.GetAliveMajorIDs()) do
 		local player = Players[i]
 		if player ~= nil and player:IsAlive() == true then
 			if player:IsHuman() == true then
+				local city_count = player:GetCities():GetCount()
+				local unit_count = player:GetUnits():GetCount()
 				tot_humans = tot_humans + 1
-				tot_cities = tot_cities + player:GetCities():GetCount()
-				tot_units = tot_units + player:GetUnits():GetCount()
+				tot_cities = tot_cities + city_count
+				tot_units = tot_units + unit_count
+				max_cities = math.max(max_cities, city_count)
+				max_units = math.max(max_units, unit_count)
 				if player:GetDiplomacy():IsAtWarWithHumans() == true then
 					b_war = true
 				end
@@ -337,6 +345,24 @@ function SmartTimer()
 	
 	end
 
+	if GameConfiguration.GetValue("CPL_SMARTTIMER") == 8 then
+		-- Preserve the Casual baseline, but size the turn for the highest city
+		-- and unit counts so the busiest human player always determines the load.
+		timer = 95 + max_cities * 4 + max_units + g_timeshift
+
+		if currentTurn > -1 and currentTurn < 10 then
+			timer = timer - 25
+		end
+		-- Give the highest-load variant more room in the midgame and let the
+		-- late-game allowance grow again instead of dropping at turn 90.
+		if currentTurn > 44 then
+			timer = timer + 40
+		end
+		if currentTurn > 89 then
+			timer = timer + 20
+		end
+	end
+
 
 	if GameConfiguration.GetValue("CPL_SMARTTIMER") == 4 then
 
@@ -425,7 +451,7 @@ end
 
 
 function OnTurnEnd(turn)
-	g_timeCommandUsed = false
+	g_timeCommandUses = 0
 	g_reduceCommandUsed = false
 	g_lastWarningSecond = -1
 	SmartTimer()

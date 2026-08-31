@@ -40,8 +40,10 @@ DELETE FROM TraitModifiers WHERE TraitType='TRAIT_LEADER_MUTAL' AND ModifierId='
 UPDATE ModifierArguments SET Value='5, 5, 5, 5, 5, 5' WHERE ModifierId='TRAIT_LEADER_NEARBY_CITIES_GAIN_YIELDS' AND Name='Amount';
 UPDATE ModifierArguments SET Value='-10, -10, -10, -10, -10, -10' WHERE ModifierId='TRAIT_LEADER_NEARBY_CITIES_LOSE_YIELDS' AND Name='Amount';
 
+-- ZYL: retain BBG's stable modifier ID, but apply its +1 Housing to every
+-- Maya city instead of only the capital.
 INSERT INTO Modifiers (ModifierId, ModifierType) VALUES
-    ('BBG_MAYA_CAPITAL_HOUSING', 'MODIFIER_PLAYER_CAPITAL_CITY_ADJUST_BUILDING_HOUSING');
+    ('BBG_MAYA_CAPITAL_HOUSING', 'MODIFIER_PLAYER_CITIES_ADJUST_BUILDING_HOUSING');
 INSERT INTO ModifierArguments (ModifierId, Name, Value) VALUES
     ('BBG_MAYA_CAPITAL_HOUSING', 'Amount', 1);
 INSERT INTO TraitModifiers (TraitType, ModifierId) VALUES

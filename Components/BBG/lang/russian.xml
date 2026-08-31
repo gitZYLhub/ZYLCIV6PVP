@@ -1100,7 +1100,7 @@
         <!-- == MAYA - Майя == -->
         <!-- = civilization ability = -->
         <Replace Tag="LOC_TRAIT_CIVILIZATION_MAYAB_DESCRIPTION" Language="ru_RU">
-            <Text>Селение рядом с пресной водой и побережьем не дает дополнительного [ICON_HOUSING] жилья. [ICON_CAPITAL] Столица получает +1 [ICON_HOUSING] жилья.[NEWLINE][NEWLINE]Каждая ферма дает дополнительные +1 ед. [ICON_HOUSING] жилья, +1 [ICON_PRODuction] производства для каждой соседней обсерватории и +1 [ICON_GOLD] золота.[NEWLINE]Плантации рядом с обсерваторией получают +1 [Icon_Science] науки (бонус увеличивается до +2 после изучения образования).[NEWLINE]+1 [ICON_AMENITIES] довольства за каждый редкий ресурс рядом с городским центром.[NEWLINE][ICON_BULLET]Особая привязка "Водобоязнь": Т3 редкие ресурсы, улучшаемые плантациями, Т4 бананы.</Text>
+            <Text>Селение рядом с пресной водой и побережьем не дает дополнительного [ICON_HOUSING] жилья. Все города получают +1 [ICON_HOUSING] жилья.[NEWLINE][NEWLINE]Каждая ферма дает дополнительные +1 ед. [ICON_HOUSING] жилья, +1 [ICON_PRODuction] производства для каждой соседней обсерватории и +1 [ICON_GOLD] золота.[NEWLINE]Плантации рядом с обсерваторией получают +1 [Icon_Science] науки (бонус увеличивается до +2 после изучения образования).[NEWLINE]+1 [ICON_AMENITIES] довольства за каждый редкий ресурс рядом с городским центром.[NEWLINE][ICON_BULLET]Особая привязка "Водобоязнь": Т3 редкие ресурсы, улучшаемые плантациями, Т4 бананы.</Text>
         </Replace>
         <!-- = leader ability (Lady Six Sky) - Иш-Вак-Чан-Ахав = -->
         <Replace Tag="LOC_TRAIT_LEADER_MUTAL_DESCRIPTION" Language="ru_RU">
@@ -4901,7 +4901,7 @@
         </Replace>
         <!-- == Sacred Path - Священный путь == -->
         <Replace Tag="LOC_BELIEF_SACRED_PATH_DESCRIPTION" Language="ru_RU">
-            <Text>Священные места получают +1 к [ICON_Faith] вере за каждые соседние клетки с лесом, джунглями или болотом.</Text>
+            <Text>Священные места получают +1 к [ICON_Faith] вере за каждую соседнюю клетку с джунглями или болотом.</Text>
         </Replace>
         <Replace Tag="LOC_DISTRICT_SACREDPATH_WOODS_FAITH" Language="ru_RU">
             <Text>+{1_num} [ICON_Faith] веры от соседн{1_Num : plural 1?ей клетки; other?их клеток;} с лесом.</Text>

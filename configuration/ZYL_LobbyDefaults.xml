@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GameInfo>
+	<!--
+		This file must load after MPH, BBG and the ZYL map configuration actions.
+		Putting these Updates beside the option declarations makes them silently
+		match zero rows when the target Parameters have not been created yet.
+	-->
+	<Parameters>
+		<Update><Where ParameterId="TOOLS_COMMAND"/><Set DefaultValue="1"/></Update>
+		<Update><Where ParameterId="TOOLS_15_TIME"/><Set DefaultValue="1"/></Update>
+		<Update><Where ParameterId="CPL_SMARTTIMER"/><Set DefaultValue="8"/></Update>
+		<Update><Where ParameterId="ZYL_ERA_LENGTH_OPTIMIZATION"/><Set DefaultValue="1"/></Update>
+		<Update><Where ParameterId="ZYL_DIPLOMACY_RIBBON_MODE"/><Set DefaultValue="0"/></Update>
+		<Update><Where ParameterId="BBCC_SETTING"/><Set DefaultValue="0"/></Update>
+		<Update><Where ParameterId="BBCC_SETTING_YIELD"/><Set DefaultValue="2"/></Update>
+		<Update><Where ParameterId="BarbariansSetting"/><Set DefaultValue="-1"/></Update>
+		<Update><Where ParameterId="NoBarbarians"/><Set DefaultValue="1"/></Update>
+		<Update><Where ParameterId="GameMode_Monopolies"/><Set DefaultValue="1"/></Update>
+		<Update><Where ParameterId="GameMode_SecretSocieties"/><Set DefaultValue="1"/></Update>
+		<Update><Where ParameterId="ZYLRM_TEAM_RouteLevel"/><Set DefaultValue="1"/></Update>
+		<Update><Where ParameterId="ZYLRM_FFA_RouteLevel"/><Set DefaultValue="1"/></Update>
+	</Parameters>
+</GameInfo>

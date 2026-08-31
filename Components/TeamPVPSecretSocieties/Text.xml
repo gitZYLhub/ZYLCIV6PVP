@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GameData>
+	<LocalizedText>
+		<!-- English -->
+		<Replace Tag="LOC_BUILDING_GILDED_Shipyard_NAME" Language="en_US">
+			<Text>Gilded Shipyard</Text>
+		</Replace>
+		<Replace Tag="LOC_BUILDING_GILDED_Shipyard_DESCRIPTION" Language="en_US">
+			<Text>Unique to the Owls of Minerva, replaces the Shipyard. +1 [ICON_Food] Food and +1 [ICON_Production] Production. +2 [ICON_GreatAdmiral] Great Admiral points per turn. Naval units trained in this city gain +25% combat experience. Grants [ICON_Production] Production equal to the Harbor's base [ICON_Gold] Gold adjacency bonus; adjacency-doubling policies do not double this Production. Unimproved Coast and Lake tiles in this city gain +1 [ICON_Production] Production. If this city has no Gilded Vault, +3 [ICON_Culture] Culture. After revealing [ICON_RESOURCE_COAL] Coal, provides 1 Coal per turn.</Text>
+		</Replace>
+		<Replace Tag="LOC_BUILDING_GILDED_VAULT_DESCRIPTION" Language="en_US">
+			<Text>Unique to the Owls of Minerva, replaces the Bank. +3 [ICON_Culture] Culture. Having a Harbor in this city provides +1 [ICON_TradeRoute] Trade Route capacity.</Text>
+		</Replace>
+		<Replace Tag="LOC_GOVERNOR_PROMOTION_OWLS_OF_MINERVA_2_DESCRIPTION" Language="en_US">
+			<Text>Unlocked in the Medieval Era. Allows construction of the Gilded Vault, a powerful Bank replacement, and the Gilded Shipyard, a powerful Shipyard replacement.</Text>
+		</Replace>
+		<Replace Tag="LOC_GOVERNOR_PROMOTION_OWLS_OF_MINERVA_3_DESCRIPTION" Language="en_US">
+			<Text>Unlocked in the Renaissance Era. +1 Wildcard policy slot and +1 Spy capacity. Your cities gain +4 Loyalty per turn and +1 [ICON_Amenities] Amenity when your Spy is in their territory. Successful offensive Spy missions also grant 150% of the [ICON_Science] Science, [ICON_Culture] Culture, [ICON_Gold] Gold, and [ICON_Faith] Faith earned by the target city that turn.</Text>
+		</Replace>
+		<Replace Tag="LOC_GOVERNOR_PROMOTION_OWLS_OF_MINERVA_4_DESCRIPTION" Language="en_US">
+			<Text>Unlocked in the Atomic Era. Every turn, earn 5% of the [ICON_Gold] Gold in your treasury as income.</Text>
+		</Replace>
+		<Replace Tag="LOC_GOVERNOR_PROMOTION_HERMETIC_ORDER_1_DESCRIPTION" Language="en_US">
+			<Text>Reveals Ley Lines. Ley Lines appear only on flat Grassland and Plains, provide +1 [ICON_Science] Science and +2 [ICON_Production] Production, and give a standard adjacency bonus to specialty districts. They may be harvested for 40 [ICON_Gold] Gold or improved with a Farm without removing the Ley Line.</Text>
+		</Replace>
+		<Replace Tag="LOC_GOVERNOR_PROMOTION_HERMETIC_ORDER_3_DESCRIPTION" Language="en_US">
+			<Text>Unlocked in the Renaissance Era. For every [ICON_GreatPerson] Great Person earned, Ley Lines receive +1 yield matching that Great Person's district type. [ICON_GreatMerchant] Great Merchants grant +2 [ICON_Gold] Gold, [ICON_GreatAdmiral] Great Admirals grant +1 [ICON_Food] Food, and [ICON_GreatGeneral] Great Generals grant +1 [ICON_Production] Production.</Text>
+		</Replace>
+		<Replace Tag="LOC_GOVERNOR_PROMOTION_VOIDSINGERS_2_DESCRIPTION" Language="en_US">
+			<Text>Unlocked in the Medieval Era. Cities earn [ICON_Gold] Gold equal to 1%, [ICON_Science] Science equal to 10%, and [ICON_Culture] Culture equal to 4% of their [ICON_Faith] Faith per turn.</Text>
+		</Replace>
+		<Replace Tag="LOC_GOVERNOR_PROMOTION_VOIDSINGERS_3_DESCRIPTION" Language="en_US">
+			<Text>Unlocked in the Renaissance Era. Unlocks the Cultist unit. All [ICON_GreatWork_Relic] Relics provide an additional +2 [ICON_Science] Science, +2 [ICON_Culture] Culture, and +1 [ICON_Production] Production.</Text>
+		</Replace>
+		<Replace Tag="LOC_UNIT_CULTIST_DESCRIPTION" Language="en_US">
+			<Text>Support unit unique to the Voidsingers. Costs 60 [ICON_Faith] Faith initially, has 6 [ICON_Movement] Movement and 1 charge; each subsequent copy costs 15% more. When it dies or expends its charge, it awards a Relic of the Void providing 2 [ICON_Faith] Faith. May enter foreign territory while not at war and expend its charge adjacent to a foreign city to reduce its Loyalty by 10.</Text>
+		</Replace>
+		<Replace Tag="LOC_UNIT_VAMPIRE_DESCRIPTION" Language="en_US">
+			<Text>Combat unit unique to the Sanguine Pact. Base [ICON_Strength] Combat Strength equals the strongest unit your cities have produced. Gains permanent [ICON_Strength] Combat Strength when non-Barbarian units die on adjacent tiles, to a maximum of +3; Barbarian deaths grant no Strength. When killed, retreats with 1 HP to the [ICON_Capital] Capital. Pillaging heals an additional 50 HP, but passive healing is reduced.</Text>
+		</Replace>
+		<Replace Tag="LOC_GOVERNOR_PROMOTION_SANGUINE_PACT_2_DESCRIPTION" Language="en_US">
+			<Text>Unlocked in the Medieval Era. Grants a Vampire in your [ICON_Capital] Capital and allows Vampires to construct Vampire Castles, to a maximum of 1 per empire.</Text>
+		</Replace>
+		<Replace Tag="LOC_GOVERNOR_PROMOTION_SANGUINE_PACT_3_DESCRIPTION" Language="en_US">
+			<Text>Unlocked in the Renaissance Era. Grants a Vampire in your [ICON_Capital] Capital and raises the Vampire Castle maximum to 3. Vampires Intimidate adjacent enemy units, reducing their [ICON_Strength] Combat Strength by 2. Pillaging costs Vampires 1 [ICON_Movement] Movement.</Text>
+		</Replace>
+		<Replace Tag="LOC_IMPROVEMENT_VAMPIRE_CASTLE_DESCRIPTION" Language="en_US">
+			<Text>May be built by a Vampire only in friendly territory. Provides Fortification and grants this tile's yields to the [ICON_Capital] Capital. Base yields: +9 [ICON_Food] Food and +5 [ICON_Production] Production. Gains +1 [ICON_Production] Production from each adjacent Hill, Woods, Rainforest, Bonus/Luxury/Strategic resource, Mine, Lumber Mill, Fishing Boats, Pasture, Plantation, Quarry, or Camp. Gains +1 matching yield from adjacent Holy Sites, Theater Squares, Industrial Zones, or Campuses and their unique replacements, and +2 [ICON_Gold] Gold from adjacent Harbors or Commercial Hubs and their unique replacements.</Text>
+		</Replace>
+		<Replace Tag="LOC_ABILITY_ZYL_TPVP_VAMPIRE_ANTI_ANTI_CAVALRY_NAME" Language="en_US">
+			<Text>Vampire versus Anti-Cavalry</Text>
+		</Replace>
+		<Replace Tag="LOC_ABILITY_ZYL_TPVP_VAMPIRE_ANTI_ANTI_CAVALRY_DESCRIPTION" Language="en_US">
+			<Text>-5 [ICON_Strength] Combat Strength against anti-cavalry units.</Text>
+		</Replace>
+		<Replace Tag="LOC_ABILITY_ZYL_TPVP_VAMPIRE_ANTI_ANTI_CAVALRY_MODIFIER" Language="en_US">
+			<Text>-5 [ICON_Strength] Combat Strength against anti-cavalry units.</Text>
+		</Replace>
+
+		<!-- Simplified Chinese -->
+		<Replace Tag="LOC_BUILDING_GILDED_Shipyard_NAME" Language="zh_Hans_CN"><Text>镀金船厂</Text></Replace>
+		<Replace Tag="LOC_BUILDING_GILDED_Shipyard_DESCRIPTION" Language="zh_Hans_CN">
+			<Text>弥涅耳瓦夜鹰专属，替代造船厂。+1 [ICON_Food] 食物、+1 [ICON_Production] 生产力，每回合+2 [ICON_GreatAdmiral] 海军统帅点数。此城训练的海军单位+25%战斗经验。获得等同于港口“基础” [ICON_Gold] 金币相邻加成的 [ICON_Production] 生产力，相邻翻倍政策不会翻倍这部分生产力。此城未改良的海岸和湖泊+1 [ICON_Production] 生产力；若没有镀金宝库则+3 [ICON_Culture] 文化值。若已解锁 [ICON_RESOURCE_COAL] 煤，每回合+1 [ICON_RESOURCE_COAL] 煤。</Text>
+		</Replace>
+		<Replace Tag="LOC_BUILDING_GILDED_VAULT_DESCRIPTION" Language="zh_Hans_CN"><Text>弥涅耳瓦夜鹰专属，替代银行。+3 [ICON_Culture] 文化值。若此城拥有港口，则+1 [ICON_TradeRoute] 贸易路线容量。</Text></Replace>
+		<Replace Tag="LOC_GOVERNOR_PROMOTION_OWLS_OF_MINERVA_2_DESCRIPTION" Language="zh_Hans_CN"><Text>在中世纪解锁。允许建造银行的强力替代品“镀金宝库”，以及造船厂的强力替代品“镀金船厂”。</Text></Replace>
+		<Replace Tag="LOC_GOVERNOR_PROMOTION_OWLS_OF_MINERVA_3_DESCRIPTION" Language="zh_Hans_CN"><Text>在文艺复兴时代解锁。+1个通配符政策槽位、+1点间谍容量。己方间谍位于城市领土时，该城每回合+4点忠诚度、+1 [ICON_Amenities] 宜居度。进攻型间谍任务成功后，还将获得目标城市该回合 [ICON_Science] 科技值、[ICON_Culture] 文化值、[ICON_Gold] 金币和 [ICON_Faith] 信仰值产出的150%。</Text></Replace>
+		<Replace Tag="LOC_GOVERNOR_PROMOTION_OWLS_OF_MINERVA_4_DESCRIPTION" Language="zh_Hans_CN"><Text>在原子能时代解锁。每回合获得相当于国库中 [ICON_Gold] 金币总额5%的 [ICON_Gold] 金币。</Text></Replace>
+		<Replace Tag="LOC_GOVERNOR_PROMOTION_HERMETIC_ORDER_1_DESCRIPTION" Language="zh_Hans_CN"><Text>显示地脉。地脉只出现在平坦草原和平原，自身+1 [ICON_Science] 科技值、+2 [ICON_Production] 生产力，并为特色区域提供标准相邻加成。地脉可收获为40 [ICON_Gold] 金币，也可在其上修建农场且不移除地脉。</Text></Replace>
+		<Replace Tag="LOC_GOVERNOR_PROMOTION_HERMETIC_ORDER_3_DESCRIPTION" Language="zh_Hans_CN"><Text>在文艺复兴时代解锁。每获得一名 [ICON_GreatPerson] 伟人，地脉便获得与该伟人区域类型相同的+1产出；[ICON_GreatMerchant] 大商人提供+2 [ICON_Gold] 金币，[ICON_GreatAdmiral] 海军统帅提供+1 [ICON_Food] 食物，[ICON_GreatGeneral] 大将军提供+1 [ICON_Production] 生产力。</Text></Replace>
+		<Replace Tag="LOC_GOVERNOR_PROMOTION_VOIDSINGERS_2_DESCRIPTION" Language="zh_Hans_CN"><Text>在中世纪解锁。城市每回合获得等同于其 [ICON_Faith] 信仰值产出的1% [ICON_Gold] 金币、10% [ICON_Science] 科技值和4% [ICON_Culture] 文化值。</Text></Replace>
+		<Replace Tag="LOC_GOVERNOR_PROMOTION_VOIDSINGERS_3_DESCRIPTION" Language="zh_Hans_CN"><Text>在文艺复兴时代解锁。解锁邪教徒。所有 [ICON_GreatWork_Relic] 遗物额外提供+2 [ICON_Science] 科技值、+2 [ICON_Culture] 文化值和+1 [ICON_Production] 生产力。</Text></Replace>
+		<Replace Tag="LOC_UNIT_CULTIST_DESCRIPTION" Language="zh_Hans_CN"><Text>虚空吟唱者特色支援单位。初始花费60 [ICON_Faith] 信仰值，拥有6 [ICON_Movement] 移动力和1次使用次数，此后每个单位的成本提高15%。死亡或耗尽次数后获得1个提供2 [ICON_Faith] 信仰值的虚空遗物。未交战时可进入外国领土，并可在外国城市旁消耗次数，使其损失10点忠诚度。</Text></Replace>
+		<Replace Tag="LOC_UNIT_VAMPIRE_DESCRIPTION" Language="zh_Hans_CN"><Text>血色契约特色战斗单位。基础 [ICON_Strength] 战斗力等于城市曾生产的最强单位。相邻非蛮族单位死亡时永久提升 [ICON_Strength] 战斗力，最高+3；蛮族死亡不再提供战斗力。被击杀时保留1点生命值并撤回 [ICON_Capital] 首都。掠夺额外恢复50点生命值，但被动恢复量减少。</Text></Replace>
+		<Replace Tag="LOC_GOVERNOR_PROMOTION_SANGUINE_PACT_2_DESCRIPTION" Language="zh_Hans_CN"><Text>在中世纪解锁。在 [ICON_Capital] 首都获得1个吸血鬼，并允许吸血鬼建造吸血鬼城堡，每个帝国最多1座。</Text></Replace>
+		<Replace Tag="LOC_GOVERNOR_PROMOTION_SANGUINE_PACT_3_DESCRIPTION" Language="zh_Hans_CN"><Text>在文艺复兴时代解锁。在 [ICON_Capital] 首都获得1个吸血鬼，并将吸血鬼城堡上限提高至3座。吸血鬼恐吓相邻敌军，使其 [ICON_Strength] 战斗力-2。吸血鬼掠夺消耗1 [ICON_Movement] 移动力。</Text></Replace>
+		<Replace Tag="LOC_IMPROVEMENT_VAMPIRE_CASTLE_DESCRIPTION" Language="zh_Hans_CN"><Text>只能由吸血鬼在己方领土建造。提供防御工事，并将本格产出提供给 [ICON_Capital] 首都。基础+9 [ICON_Food] 食物、+5 [ICON_Production] 生产力。每个相邻丘陵、树林、雨林、加成/奢侈/战略资源、矿山、伐木场、渔船、牧场、种植园、采石场或营地+1 [ICON_Production] 生产力；相邻圣地、剧院广场、工业区、学院及其特色替代区域+1对应产出；相邻港口、商业中心及其特色替代区域+2 [ICON_Gold] 金币。</Text></Replace>
+		<Replace Tag="LOC_ABILITY_ZYL_TPVP_VAMPIRE_ANTI_ANTI_CAVALRY_NAME" Language="zh_Hans_CN"><Text>吸血鬼对抗抗骑兵</Text></Replace>
+		<Replace Tag="LOC_ABILITY_ZYL_TPVP_VAMPIRE_ANTI_ANTI_CAVALRY_DESCRIPTION" Language="zh_Hans_CN"><Text>对抗抗骑兵单位时-5 [ICON_Strength] 战斗力。</Text></Replace>
+		<Replace Tag="LOC_ABILITY_ZYL_TPVP_VAMPIRE_ANTI_ANTI_CAVALRY_MODIFIER" Language="zh_Hans_CN"><Text>对抗抗骑兵单位时-5 [ICON_Strength] 战斗力。</Text></Replace>
+
+		<!-- Traditional Chinese -->
+		<Replace Tag="LOC_BUILDING_GILDED_Shipyard_NAME" Language="zh_Hant_HK"><Text>鍍金造船廠</Text></Replace>
+		<Replace Tag="LOC_BUILDING_GILDED_Shipyard_DESCRIPTION" Language="zh_Hant_HK"><Text>彌涅耳瓦夜鷹專屬，取代造船廠。+1 [ICON_Food] 食物、+1 [ICON_Production] 生產力，每回合+2 [ICON_GreatAdmiral] 海軍統帥點數。此城訓練的海軍單位+25%戰鬥經驗。獲得等同於港口「基礎」[ICON_Gold] 金幣相鄰加成的 [ICON_Production] 生產力，相鄰翻倍政策不會翻倍這部分生產力。此城未改良的海岸和湖泊+1 [ICON_Production] 生產力；若沒有鍍金寶庫則+3 [ICON_Culture] 文化。顯示 [ICON_RESOURCE_COAL] 煤後每回合提供1煤。</Text></Replace>
+		<Replace Tag="LOC_BUILDING_GILDED_VAULT_DESCRIPTION" Language="zh_Hant_HK"><Text>彌涅耳瓦夜鷹專屬，取代銀行。+3 [ICON_Culture] 文化。若此城擁有港口，則+1 [ICON_TradeRoute] 貿易路線容量。</Text></Replace>
+		<Replace Tag="LOC_GOVERNOR_PROMOTION_OWLS_OF_MINERVA_2_DESCRIPTION" Language="zh_Hant_HK"><Text>在中世紀解鎖。允許建造銀行的強力替代品「鍍金寶庫」，以及造船廠的強力替代品「鍍金造船廠」。</Text></Replace>
+		<Replace Tag="LOC_GOVERNOR_PROMOTION_OWLS_OF_MINERVA_3_DESCRIPTION" Language="zh_Hant_HK"><Text>在文藝復興時期解鎖。+1通配符政策槽位、+1間諜容量。己方間諜位於城市領土時，該城每回合+4忠誠度、+1 [ICON_Amenities] 宜居度。進攻型間諜任務成功後，還將獲得目標城市該回合 [ICON_Science] 科技、[ICON_Culture] 文化、[ICON_Gold] 金幣和 [ICON_Faith] 信仰產出的150%。</Text></Replace>
+		<Replace Tag="LOC_GOVERNOR_PROMOTION_OWLS_OF_MINERVA_4_DESCRIPTION" Language="zh_Hant_HK"><Text>在原子能時代解鎖。每回合獲得等同於國庫5%的 [ICON_Gold] 金幣收入。</Text></Replace>
+		<Replace Tag="LOC_GOVERNOR_PROMOTION_HERMETIC_ORDER_1_DESCRIPTION" Language="zh_Hant_HK"><Text>顯示地脈。地脈只出現在平坦草原和平原，自身+1 [ICON_Science] 科技、+2 [ICON_Production] 生產力，並為專業區域提供標準相鄰加成。地脈可收穫為40 [ICON_Gold] 金幣，也可在其上修建農場且不移除地脈。</Text></Replace>
+		<Replace Tag="LOC_GOVERNOR_PROMOTION_HERMETIC_ORDER_3_DESCRIPTION" Language="zh_Hant_HK"><Text>在文藝復興時期解鎖。每獲得一名 [ICON_GreatPerson] 偉人，地脈便獲得與該偉人區域類型相同的+1產出；[ICON_GreatMerchant] 大商人提供+2 [ICON_Gold] 金幣，[ICON_GreatAdmiral] 海軍統帥提供+1 [ICON_Food] 食物，[ICON_GreatGeneral] 大將軍提供+1 [ICON_Production] 生產力。</Text></Replace>
+		<Replace Tag="LOC_GOVERNOR_PROMOTION_VOIDSINGERS_2_DESCRIPTION" Language="zh_Hant_HK"><Text>在中世紀解鎖。城市每回合獲得等同於其 [ICON_Faith] 信仰產出的1% [ICON_Gold] 金幣、10% [ICON_Science] 科技和4% [ICON_Culture] 文化。</Text></Replace>
+		<Replace Tag="LOC_GOVERNOR_PROMOTION_VOIDSINGERS_3_DESCRIPTION" Language="zh_Hant_HK"><Text>在文藝復興時期解鎖。解鎖邪教徒。所有 [ICON_GreatWork_Relic] 遺物額外提供+2 [ICON_Science] 科技、+2 [ICON_Culture] 文化和+1 [ICON_Production] 生產力。</Text></Replace>
+		<Replace Tag="LOC_UNIT_CULTIST_DESCRIPTION" Language="zh_Hant_HK"><Text>虛空吟唱者特色支援單位。初始花費60 [ICON_Faith] 信仰，擁有6 [ICON_Movement] 移動力和1次使用次數，此後每個單位的成本提高15%。死亡或耗盡次數後獲得1個提供2 [ICON_Faith] 信仰的虛空遺物。未交戰時可進入外國領土，並可在外國城市旁消耗次數，使其損失10忠誠度。</Text></Replace>
+		<Replace Tag="LOC_UNIT_VAMPIRE_DESCRIPTION" Language="zh_Hant_HK"><Text>血色契約特色戰鬥單位。基礎 [ICON_Strength] 戰鬥力等於城市曾生產的最強單位。相鄰非蠻族單位死亡時永久提升 [ICON_Strength] 戰鬥力，最高+3；蠻族死亡不再提供戰鬥力。被擊殺時保留1生命並撤回 [ICON_Capital] 首都。掠奪額外恢復50生命，但被動恢復量減少。</Text></Replace>
+		<Replace Tag="LOC_GOVERNOR_PROMOTION_SANGUINE_PACT_2_DESCRIPTION" Language="zh_Hant_HK"><Text>在中世紀解鎖。在 [ICON_Capital] 首都獲得1個吸血鬼，並允許吸血鬼建造吸血鬼城堡，每個帝國最多1座。</Text></Replace>
+		<Replace Tag="LOC_GOVERNOR_PROMOTION_SANGUINE_PACT_3_DESCRIPTION" Language="zh_Hant_HK"><Text>在文藝復興時期解鎖。在 [ICON_Capital] 首都獲得1個吸血鬼，並將吸血鬼城堡上限提高至3座。吸血鬼恐嚇相鄰敵軍，使其 [ICON_Strength] 戰鬥力-2。吸血鬼掠奪消耗1 [ICON_Movement] 移動力。</Text></Replace>
+		<Replace Tag="LOC_IMPROVEMENT_VAMPIRE_CASTLE_DESCRIPTION" Language="zh_Hant_HK"><Text>只能由吸血鬼在己方領土建造。提供防禦工事，並將本格產出提供給 [ICON_Capital] 首都。基礎+9 [ICON_Food] 食物、+5 [ICON_Production] 生產力。每個相鄰丘陵、樹林、雨林、加成/奢侈/戰略資源、礦山、伐木場、漁船、牧場、種植園、採石場或營地+1 [ICON_Production] 生產力；相鄰聖地、劇院廣場、工業區、學院及其特色替代區域+1對應產出；相鄰港口、商業中心及其特色替代區域+2 [ICON_Gold] 金幣。</Text></Replace>
+		<Replace Tag="LOC_ABILITY_ZYL_TPVP_VAMPIRE_ANTI_ANTI_CAVALRY_NAME" Language="zh_Hant_HK"><Text>吸血鬼對抗反騎兵</Text></Replace>
+		<Replace Tag="LOC_ABILITY_ZYL_TPVP_VAMPIRE_ANTI_ANTI_CAVALRY_DESCRIPTION" Language="zh_Hant_HK"><Text>對抗反騎兵單位時-5 [ICON_Strength] 戰鬥力。</Text></Replace>
+		<Replace Tag="LOC_ABILITY_ZYL_TPVP_VAMPIRE_ANTI_ANTI_CAVALRY_MODIFIER" Language="zh_Hant_HK"><Text>對抗反騎兵單位時-5 [ICON_Strength] 戰鬥力。</Text></Replace>
+	</LocalizedText>
+</GameData>

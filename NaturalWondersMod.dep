@@ -9,6 +9,10 @@
 			<name text="Civ6"/>
 			<id text="cb2f71b7-843e-4af3-9ca7-992acda9c195"/>
 		</Element>
+		<Element>
+			<name text="Expansion1"/>
+			<id text="7446c8fe-29eb-44f8-801f-098f681cc5c5"/>
+		</Element>
 	</RequiredGameArtIDs>
 	<SystemDependencies>
 		<Element>
@@ -313,7 +317,9 @@
 		</Element>
 		<Element>
 			<ConsumerName text="Leaders"/>
-			<ArtDefDependencyPaths/>
+			<ArtDefDependencyPaths>
+				<Element text="ZYL_CoastLeaderVariants_Leaders.artdef"/>
+			</ArtDefDependencyPaths>
 			<LibraryDependencies>
 				<Element text="Leader"/>
 				<Element text="LeaderLighting"/>
@@ -323,7 +329,9 @@
 		</Element>
 		<Element>
 			<ConsumerName text="LeaderFallback"/>
-			<ArtDefDependencyPaths/>
+			<ArtDefDependencyPaths>
+				<Element text="ZYL_CoastLeaderVariants_FallbackLeaders.artdef"/>
+			</ArtDefDependencyPaths>
 			<LibraryDependencies>
 				<Element text="LeaderFallback"/>
 			</LibraryDependencies>
@@ -410,6 +418,14 @@
 		</Element>
 	</SystemDependencies>
 	<ArtDefDependencies>
+		<Element>
+			<ArtDefPath text="ZYL_CoastLeaderVariants_Leaders.artdef"/>
+			<ArtDefDependencyPaths/>
+		</Element>
+		<Element>
+			<ArtDefPath text="ZYL_CoastLeaderVariants_FallbackLeaders.artdef"/>
+			<ArtDefDependencyPaths/>
+		</Element>
 		<Element>
 			<ArtDefPath text="Clutter.artdef"/>
 			<ArtDefDependencyPaths>

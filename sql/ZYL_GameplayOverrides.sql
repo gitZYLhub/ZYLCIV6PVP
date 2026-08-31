@@ -1,0 +1,592 @@
+-------------------------------------------------------------------------------
+-- ZYLPVPMOD gameplay integration overrides
+--
+-- This file loads after every embedded BBG gameplay action.  It deliberately
+-- owns the requested Team PVP / Lightweight Balance hybrid rules so later
+-- upstream reordering cannot silently restore the BBG values.
+-------------------------------------------------------------------------------
+
+-------------------------------------------------------------------------------
+-- Restore vanilla unit obsolescence rules
+-------------------------------------------------------------------------------
+
+-- BBG advances the mandatory-obsolescence point of these official units.  The
+-- integrated ruleset keeps BBG's other unit balance changes, but restores all
+-- four obsolescence fields to their Firaxis values.  BBG Expanded units are
+-- intentionally excluded because they have no vanilla value to restore.
+UPDATE Units
+SET MandatoryObsoleteTech = NULL,
+	MandatoryObsoleteCivic = NULL,
+	ObsoleteTech = NULL,
+	ObsoleteCivic = NULL
+WHERE UnitType IN (
+	'UNIT_WARRIOR',
+	'UNIT_HEAVY_CHARIOT',
+	'UNIT_SWORDSMAN',
+	'UNIT_ROMAN_LEGION',
+	'UNIT_KONGO_SHIELD_BEARER',
+	'UNIT_JAPANESE_SAMURAI',
+	'UNIT_NORWEGIAN_BERSERKER',
+	'UNIT_KNIGHT',
+	'UNIT_ARABIAN_MAMLUK',
+	'UNIT_MUSKETMAN',
+	'UNIT_SPANISH_CONQUISTADOR',
+	'UNIT_MAN_AT_ARMS',
+	'UNIT_AZTEC_EAGLE_WARRIOR',
+	'UNIT_KHMER_DOMREY',
+	'UNIT_MACEDONIAN_HYPASPIST',
+	'UNIT_INDIAN_VARU',
+	'UNIT_MACEDONIAN_HETAIROI',
+	'UNIT_PERSIAN_IMMORTAL',
+	'UNIT_GEORGIAN_KHEVSURETI',
+	'UNIT_MALI_MANDEKALU_CAVALRY',
+	'UNIT_MAORI_TOA',
+	'UNIT_SULEIMAN_JANISSARY',
+	'UNIT_BYZANTINE_TAGMA',
+	'UNIT_GAUL_GAESATAE',
+	'UNIT_BABYLONIAN_SABUM_KIBITTUM',
+	'UNIT_MAPUCHE_MALON_RAIDER',
+	'UNIT_BATTERING_RAM',
+	'UNIT_SIEGE_TOWER'
+);
+
+UPDATE Units
+SET MandatoryObsoleteTech = 'TECH_GUNPOWDER'
+WHERE UnitType IN (
+	'UNIT_WARRIOR',
+	'UNIT_AZTEC_EAGLE_WARRIOR',
+	'UNIT_BABYLONIAN_SABUM_KIBITTUM'
+);
+
+UPDATE Units
+SET MandatoryObsoleteTech = 'TECH_REPLACEABLE_PARTS'
+WHERE UnitType IN (
+	'UNIT_SWORDSMAN',
+	'UNIT_ROMAN_LEGION',
+	'UNIT_KONGO_SHIELD_BEARER',
+	'UNIT_JAPANESE_SAMURAI',
+	'UNIT_NORWEGIAN_BERSERKER',
+	'UNIT_MAN_AT_ARMS',
+	'UNIT_MACEDONIAN_HYPASPIST',
+	'UNIT_MACEDONIAN_HETAIROI',
+	'UNIT_PERSIAN_IMMORTAL',
+	'UNIT_GEORGIAN_KHEVSURETI',
+	'UNIT_MAORI_TOA',
+	'UNIT_GAUL_GAESATAE'
+);
+
+UPDATE Units
+SET MandatoryObsoleteTech = 'TECH_COMBUSTION'
+WHERE UnitType IN (
+	'UNIT_HEAVY_CHARIOT',
+	'UNIT_INDIAN_VARU'
+);
+
+UPDATE Units
+SET MandatoryObsoleteTech = 'TECH_COMPOSITES'
+WHERE UnitType IN (
+	'UNIT_KNIGHT',
+	'UNIT_ARABIAN_MAMLUK',
+	'UNIT_MALI_MANDEKALU_CAVALRY',
+	'UNIT_BYZANTINE_TAGMA'
+);
+
+UPDATE Units
+SET MandatoryObsoleteTech = 'TECH_ADVANCED_BALLISTICS'
+WHERE UnitType IN (
+	'UNIT_MUSKETMAN',
+	'UNIT_SPANISH_CONQUISTADOR',
+	'UNIT_SULEIMAN_JANISSARY'
+);
+
+UPDATE Units
+SET MandatoryObsoleteTech = 'TECH_GUIDANCE_SYSTEMS'
+WHERE UnitType = 'UNIT_KHMER_DOMREY';
+
+UPDATE Units
+SET ObsoleteCivic = 'CIVIC_CIVIL_ENGINEERING'
+WHERE UnitType IN (
+	'UNIT_BATTERING_RAM',
+	'UNIT_SIEGE_TOWER'
+);
+
+-------------------------------------------------------------------------------
+-- City-founding Housing and Maya
+-------------------------------------------------------------------------------
+
+-- Team PVP / Lightweight Balance baseline: fresh-water cities stay at 5,
+-- while coast-only and no-water cities increase from 3/2 to 4/3.
+UPDATE GlobalParameters
+SET Value = '3'
+WHERE Name = 'CITY_POPULATION_NO_WATER';
+
+UPDATE GlobalParameters
+SET Value = '4'
+WHERE Name = 'CITY_POPULATION_COAST';
+
+-- Mayab ignores water-source Housing, so the 3-point no-water baseline applies
+-- to every Maya city.  Make BBG's existing +1 Housing modifier affect all
+-- cities instead of only the capital: Maya secondary cities therefore start
+-- with 4 Housing, while the Palace still gives the capital its normal +1.
+UPDATE Modifiers
+SET ModifierType = 'MODIFIER_PLAYER_CITIES_ADJUST_BUILDING_HOUSING'
+WHERE ModifierId = 'BBG_MAYA_CAPITAL_HOUSING';
+
+-------------------------------------------------------------------------------
+-- Technology era scaling and the early naval path
+-------------------------------------------------------------------------------
+
+-- Team PVP rule: technologies from an era earlier than the current game era
+-- cost 25% less.  BBG's +30% penalty for technologies ahead of the current
+-- era remains unchanged.
+UPDATE GlobalParameters
+SET Value = '-25'
+WHERE Name = 'TECH_COST_PERCENT_CHANGE_BEFORE_GAME_ERA';
+
+-- Celestial Navigation has Sailing as its sole prerequisite and unlocks
+-- embarkation for every land unit.
+DELETE FROM TechnologyPrereqs
+WHERE Technology = 'TECH_CELESTIAL_NAVIGATION';
+
+INSERT OR IGNORE INTO TechnologyPrereqs (Technology, PrereqTech) VALUES
+	('TECH_CELESTIAL_NAVIGATION', 'TECH_SAILING');
+
+UPDATE Technologies
+SET EmbarkAll = 1,
+	Description = 'LOC_TECH_ZYL_CELESTIAL_NAVIGATION_DESCRIPTION'
+WHERE TechnologyType = 'TECH_CELESTIAL_NAVIGATION';
+
+-------------------------------------------------------------------------------
+-- Eureka and Inspiration triggers
+-------------------------------------------------------------------------------
+
+-- Political Philosophy requires meeting two city-states.
+UPDATE Boosts
+SET NumItems = 2
+WHERE CivicType = 'CIVIC_POLITICAL_PHILOSOPHY';
+
+-- Lightweight Balance: Archery requires owning two Slingers.
+UPDATE Boosts
+SET BoostClass = 'BOOST_TRIGGER_OWN_X_UNITS_OF_TYPE',
+	Unit1Type = 'UNIT_SLINGER',
+	NumItems = 2,
+	Unit2Type = NULL,
+	BuildingType = NULL,
+	ImprovementType = NULL,
+	BoostingTechType = NULL,
+	ResourceType = NULL,
+	DistrictType = NULL,
+	RequiresResource = 0,
+	RequirementSetId = NULL,
+	GovernmentSlotType = NULL,
+	BoostingCivicType = NULL,
+	GovernmentTierType = NULL
+WHERE TechnologyType = 'TECH_ARCHERY';
+
+-- Lightweight Balance: Bronze Working requires three land combat units.
+UPDATE Boosts
+SET BoostClass = 'BOOST_TRIGGER_HAVE_X_LAND_UNITS',
+	Unit1Type = NULL,
+	Unit2Type = NULL,
+	BuildingType = NULL,
+	ImprovementType = NULL,
+	BoostingTechType = NULL,
+	ResourceType = NULL,
+	NumItems = 3,
+	DistrictType = NULL,
+	RequiresResource = 0,
+	RequirementSetId = NULL,
+	GovernmentSlotType = NULL,
+	BoostingCivicType = NULL,
+	GovernmentTierType = NULL
+WHERE TechnologyType = 'TECH_BRONZE_WORKING';
+
+-- Lightweight Balance: Games and Recreation requires Horseback Riding.
+UPDATE Boosts
+SET BoostClass = 'BOOST_TRIGGER_RESEARCH_TECH',
+	BoostingTechType = 'TECH_HORSEBACK_RIDING',
+	Unit1Type = NULL,
+	Unit2Type = NULL,
+	BuildingType = NULL,
+	ImprovementType = NULL,
+	ResourceType = NULL,
+	NumItems = 0,
+	DistrictType = NULL,
+	RequiresResource = 0,
+	RequirementSetId = NULL,
+	GovernmentSlotType = NULL,
+	BoostingCivicType = NULL,
+	GovernmentTierType = NULL
+WHERE CivicType = 'CIVIC_GAMES_RECREATION';
+
+-- Lightweight Balance: Recorded History requires one Library.
+UPDATE Boosts
+SET BoostClass = 'BOOST_TRIGGER_HAVE_X_BUILDINGS',
+	BuildingType = 'BUILDING_LIBRARY',
+	NumItems = 1,
+	Unit1Type = NULL,
+	Unit2Type = NULL,
+	ImprovementType = NULL,
+	BoostingTechType = NULL,
+	ResourceType = NULL,
+	DistrictType = NULL,
+	RequiresResource = 0,
+	RequirementSetId = NULL,
+	GovernmentSlotType = NULL,
+	BoostingCivicType = NULL,
+	GovernmentTierType = NULL
+WHERE CivicType = 'CIVIC_RECORDED_HISTORY';
+
+-- Lightweight Balance: Humanism requires one Amphitheater.
+UPDATE Boosts
+SET BoostClass = 'BOOST_TRIGGER_HAVE_X_BUILDINGS',
+	BuildingType = 'BUILDING_AMPHITHEATER',
+	NumItems = 1,
+	Unit1Type = NULL,
+	Unit2Type = NULL,
+	ImprovementType = NULL,
+	BoostingTechType = NULL,
+	ResourceType = NULL,
+	DistrictType = NULL,
+	RequiresResource = 0,
+	RequirementSetId = NULL,
+	GovernmentSlotType = NULL,
+	BoostingCivicType = NULL,
+	GovernmentTierType = NULL
+WHERE CivicType = 'CIVIC_HUMANISM';
+
+-- Team PVP: Military Tactics requires two Spearmen.
+UPDATE Boosts
+SET BoostClass = 'BOOST_TRIGGER_OWN_X_UNITS_OF_TYPE',
+	Unit1Type = 'UNIT_SPEARMAN',
+	NumItems = 2,
+	Unit2Type = NULL,
+	BuildingType = NULL,
+	ImprovementType = NULL,
+	BoostingTechType = NULL,
+	ResourceType = NULL,
+	DistrictType = NULL,
+	RequiresResource = 0,
+	RequirementSetId = NULL,
+	GovernmentSlotType = NULL,
+	BoostingCivicType = NULL,
+	GovernmentTierType = NULL
+WHERE TechnologyType = 'TECH_MILITARY_TACTICS';
+
+-- Team PVP: Naval Tradition requires two Quadriremes.
+UPDATE Boosts
+SET BoostClass = 'BOOST_TRIGGER_OWN_X_UNITS_OF_TYPE',
+	Unit1Type = 'UNIT_QUADRIREME',
+	NumItems = 2,
+	Unit2Type = NULL,
+	BuildingType = NULL,
+	ImprovementType = NULL,
+	BoostingTechType = NULL,
+	ResourceType = NULL,
+	DistrictType = NULL,
+	RequiresResource = 0,
+	RequirementSetId = NULL,
+	GovernmentSlotType = NULL,
+	BoostingCivicType = NULL,
+	GovernmentTierType = NULL
+WHERE CivicType = 'CIVIC_NAVAL_TRADITION';
+
+-- Team PVP: Feudalism requires five Farms.
+UPDATE Boosts
+SET BoostClass = 'BOOST_TRIGGER_HAVE_X_IMPROVEMENTS',
+	ImprovementType = 'IMPROVEMENT_FARM',
+	NumItems = 5,
+	RequiresResource = 0,
+	Unit1Type = NULL,
+	Unit2Type = NULL,
+	BuildingType = NULL,
+	BoostingTechType = NULL,
+	ResourceType = NULL,
+	DistrictType = NULL,
+	RequirementSetId = NULL,
+	GovernmentSlotType = NULL,
+	BoostingCivicType = NULL,
+	GovernmentTierType = NULL
+WHERE CivicType = 'CIVIC_FEUDALISM';
+
+-------------------------------------------------------------------------------
+-- Commercial Hub adjacency
+-------------------------------------------------------------------------------
+
+-- Each adjacent Luxury resource provides +1 Gold to a Commercial Hub or any
+-- unique district that replaces it.
+INSERT OR IGNORE INTO Adjacency_YieldChanges
+	(ID, Description, YieldType, YieldChange, TilesRequired, AdjacentResourceClass)
+VALUES
+	('ZYL_COMMERCIAL_HUB_LUXURY_GOLD', 'LOC_DISTRICT_ZYL_COMMERCIAL_HUB_LUXURY_GOLD', 'YIELD_GOLD', 1, 1, 'RESOURCECLASS_LUXURY');
+
+INSERT OR IGNORE INTO District_Adjacencies (DistrictType, YieldChangeId)
+	SELECT DistrictType, 'ZYL_COMMERCIAL_HUB_LUXURY_GOLD'
+	FROM Districts
+	WHERE DistrictType = 'DISTRICT_COMMERCIAL_HUB'
+	   OR DistrictType IN (
+			SELECT CivUniqueDistrictType
+			FROM DistrictReplaces
+			WHERE ReplacesDistrictType = 'DISTRICT_COMMERCIAL_HUB'
+	   );
+
+-------------------------------------------------------------------------------
+-- Mali: reliable Faith delivery for Desert-founded cities
+-------------------------------------------------------------------------------
+
+-- BBG 7.4.6 expresses these three bonuses as district-yield modifiers while
+-- their subject requirements inspect the City Center's plot.  That mixed
+-- district/plot context is accepted by the database but can fail to resolve at
+-- runtime.  A City Center's plot yield is part of its owning city's yield, so
+-- use the plot-yield collection that matches all three requirement sets.
+-- Foreign Trade remains the intended BBG unlock; this only repairs delivery.
+UPDATE Modifiers
+SET ModifierType = 'MODIFIER_PLAYER_ADJUST_PLOT_YIELD'
+WHERE ModifierId IN (
+	'BBG_MALI_FAITH_NEXT_DESERT',
+	'BBG_MALI_FAITH_NEXT_DESERT_HILLS',
+	'BBG_MALI_FAITH_NEXT_CAPITAL'
+);
+
+-------------------------------------------------------------------------------
+-- Scythia: remove a malformed duplicate ability grant
+-------------------------------------------------------------------------------
+
+-- The medieval +5 modifier is already attached to the existing
+-- ABILITY_TOMYRIS_BONUS_VS_WOUNDED_UNITS below.  BBG also left a
+-- MODIFIER_PLAYER_UNITS_GRANT_ABILITY row whose AbilityType was a ModifierId,
+-- not a UnitAbilityType; that row can never grant anything and is a runtime
+-- orphan.  Remove only the bad giver and keep the valid ability attachment.
+DELETE FROM ModifierArguments
+WHERE ModifierId = 'BBG_TOMYRIS_BONUS_VS_WOUNDED_UNITS_MEDIEVAL_GIVER';
+DELETE FROM Modifiers
+WHERE ModifierId = 'BBG_TOMYRIS_BONUS_VS_WOUNDED_UNITS_MEDIEVAL_GIVER';
+
+-------------------------------------------------------------------------------
+-- Spain: remove orphaned Mission modifier links
+-------------------------------------------------------------------------------
+
+-- BBG deletes these three legacy Modifiers, but its ImprovementModifiers
+-- cleanup compares ModifierId to IMPROVEMENT_MISSION instead of comparing
+-- ImprovementType.  Remove the dangling links with the intended predicate.
+DELETE FROM ImprovementModifiers
+WHERE ImprovementType = 'IMPROVEMENT_MISSION'
+  AND ModifierId IN (
+	'MISSION_NEWCONTINENT_FAITH',
+	'MISSION_NEWCONTINENT_FOOD',
+	'MISSION_NEWCONTINENT_PRODUCTION'
+  );
+
+-------------------------------------------------------------------------------
+-- Russia: faith on Tundra and Tundra Hills in cities with a Holy Site / Lavra
+-------------------------------------------------------------------------------
+
+INSERT OR IGNORE INTO RequirementSets (RequirementSetId, RequirementSetType) VALUES
+	('ZYL_RUSSIA_CITY_HAS_HOLY_SITE_OR_LAVRA', 'REQUIREMENTSET_TEST_ANY'),
+	('ZYL_RUSSIA_CITY_HAS_HOLY_SITE_FLAT_TUNDRA', 'REQUIREMENTSET_TEST_ALL'),
+	('ZYL_RUSSIA_CITY_HAS_HOLY_SITE_TUNDRA_HILLS', 'REQUIREMENTSET_TEST_ALL');
+
+INSERT OR IGNORE INTO Requirements (RequirementId, RequirementType) VALUES
+	('ZYL_RUSSIA_REQUIRES_CITY_HAS_HOLY_SITE_OR_LAVRA', 'REQUIREMENT_REQUIREMENTSET_IS_MET');
+
+INSERT OR IGNORE INTO RequirementArguments (RequirementId, Name, Value) VALUES
+	('ZYL_RUSSIA_REQUIRES_CITY_HAS_HOLY_SITE_OR_LAVRA', 'RequirementSetId', 'ZYL_RUSSIA_CITY_HAS_HOLY_SITE_OR_LAVRA');
+
+-- Remove the pre-1.2.1 direct Holy Site rows if this mod is upgraded while
+-- the game is reusing a debug/cache database.  Otherwise TEST_ALL would still
+-- require a normal Holy Site and Lavra-only cities would fail the OR branch.
+DELETE FROM RequirementSetRequirements
+WHERE RequirementSetId IN (
+	'ZYL_RUSSIA_CITY_HAS_HOLY_SITE_OR_LAVRA',
+	'ZYL_RUSSIA_CITY_HAS_HOLY_SITE_FLAT_TUNDRA',
+	'ZYL_RUSSIA_CITY_HAS_HOLY_SITE_TUNDRA_HILLS'
+);
+
+INSERT OR IGNORE INTO RequirementSetRequirements (RequirementSetId, RequirementId) VALUES
+	('ZYL_RUSSIA_CITY_HAS_HOLY_SITE_OR_LAVRA', 'REQUIRES_CITY_HAS_HOLY_SITE'),
+	('ZYL_RUSSIA_CITY_HAS_HOLY_SITE_OR_LAVRA', 'BBG_CITY_HAS_DISTRICT_LAVRA_REQUIREMENT'),
+	('ZYL_RUSSIA_CITY_HAS_HOLY_SITE_FLAT_TUNDRA', 'ZYL_RUSSIA_REQUIRES_CITY_HAS_HOLY_SITE_OR_LAVRA'),
+	('ZYL_RUSSIA_CITY_HAS_HOLY_SITE_FLAT_TUNDRA', 'REQUIRES_PLOT_HAS_TUNDRA'),
+	('ZYL_RUSSIA_CITY_HAS_HOLY_SITE_TUNDRA_HILLS', 'ZYL_RUSSIA_REQUIRES_CITY_HAS_HOLY_SITE_OR_LAVRA'),
+	('ZYL_RUSSIA_CITY_HAS_HOLY_SITE_TUNDRA_HILLS', 'REQUIRES_PLOT_HAS_TUNDRA_HILLS');
+
+UPDATE Modifiers
+SET SubjectRequirementSetId = 'ZYL_RUSSIA_CITY_HAS_HOLY_SITE_FLAT_TUNDRA'
+WHERE ModifierId = 'TRAIT_INCREASED_TUNDRA_FAITH';
+
+UPDATE Modifiers
+SET SubjectRequirementSetId = 'ZYL_RUSSIA_CITY_HAS_HOLY_SITE_TUNDRA_HILLS'
+WHERE ModifierId = 'TRAIT_INCREASED_TUNDRA_HILLS_FAITH';
+
+UPDATE ModifierArguments
+SET Value = '1'
+WHERE ModifierId = 'TRAIT_INCREASED_TUNDRA_FAITH'
+  AND Name = 'Amount';
+
+UPDATE ModifierArguments
+SET Value = '1'
+WHERE ModifierId = 'TRAIT_INCREASED_TUNDRA_HILLS_FAITH'
+  AND Name = 'Amount';
+
+INSERT OR IGNORE INTO TraitModifiers (TraitType, ModifierId) VALUES
+	('TRAIT_CIVILIZATION_MOTHER_RUSSIA', 'TRAIT_INCREASED_TUNDRA_FAITH'),
+	('TRAIT_CIVILIZATION_MOTHER_RUSSIA', 'TRAIT_INCREASED_TUNDRA_HILLS_FAITH');
+
+-------------------------------------------------------------------------------
+-- Suleiman (the Magnificent): keep the two combat modifiers mutually exclusive
+-------------------------------------------------------------------------------
+
+-- The base +4 modifier applies when the opponent is outside a Golden/Heroic
+-- Age.  BBG's separate +2 modifier is the complementary Golden/Heroic-Age
+-- case; applying the non-Golden requirement to both would incorrectly stack
+-- the two modifiers to +6 in Normal/Dark-Age matchups.
+UPDATE Modifiers
+SET SubjectRequirementSetId = 'OPPONENT_IS_IN_GOLDEN_AGE_REQUIREMENTS'
+WHERE ModifierId = 'BBG_SULEIMAN_COMBAT_BUFF';
+
+-------------------------------------------------------------------------------
+-- Repair malformed BBG ModifierArguments updates
+-------------------------------------------------------------------------------
+
+-- Moksha's local +2 Great Prophet points are already supplied by
+-- BBG_MOKSHA_PROPHET_POINTS.  A separate, unbound city-attach chain in the
+-- upstream governor file was dead code and has been removed there rather than
+-- being activated here (which would duplicate the promotion's intended bonus).
+
+-- Ambiorix's culture-on-training modifier stores its percentage in
+-- UnitProductionPercent, not Amount.  The upstream update therefore leaves
+-- the vanilla 20% value in place despite both BBG descriptions saying 25%.
+UPDATE ModifierArguments
+SET Value = '25'
+WHERE ModifierId = 'TRAIT_GRANT_CULTURE_UNIT_TRAINED'
+  AND Name = 'UnitProductionPercent';
+
+-- The Ferris Wheel, Aquatics Center, and Stadium statements compare Name to
+-- a ModifierId, so they update zero rows.  Address every modifier directly.
+UPDATE ModifierArguments
+SET Value = '6'
+WHERE ModifierId = 'FERRIS_WHEEL_TOURISM'
+  AND Name = 'Amount';
+
+UPDATE ModifierArguments
+SET Value = '6'
+WHERE ModifierId = 'AQUATICS_CENTER_WONDER_TOURISM'
+  AND Name = 'Amount';
+
+UPDATE ModifierArguments
+SET Value = '6'
+WHERE ModifierId = 'STADIUM_10_POPULATION_TOURISM'
+  AND Name = 'Amount';
+
+UPDATE ModifierArguments
+SET Value = '15'
+WHERE ModifierId = 'STADIUM_20_POPULATION_TOURISM'
+  AND Name = 'Amount';
+
+-- Clancy Fernando's Information-era Great Admiral movement aura is the only
+-- era copy whose grant-ability argument is mislabeled ModifierId instead of
+-- AbilityType.  The target value is a UnitAbility, so the typo leaves his
+-- passive +1 naval movement aura inactive.
+UPDATE ModifierArguments
+SET Name = 'AbilityType'
+WHERE ModifierId = 'GREATPERSON_MOVEMENT_AOE_INFORMATION_SEA'
+  AND Name = 'ModifierId'
+  AND Value = 'ABILITY_GREAT_ADMIRAL_MOVEMENT';
+
+-- Ngazargamu's three upstream statements omit the Name predicate and set both
+-- Amount and UnitDomain to 10.  Restore the land-domain selector while
+-- keeping the intended 10% discount per Encampment building.
+UPDATE ModifierArguments
+SET Value = '10'
+WHERE ModifierId IN (
+	'MINOR_CIV_CARTHAGE_BARRACKS_STABLE_PURCHASE_BONUS',
+	'MINOR_CIV_CARTHAGE_ARMORY_PURCHASE_BONUS',
+	'MINOR_CIV_CARTHAGE_MILITARY_ACADEMY_PURCHASE_BONUS'
+)
+  AND Name = 'Amount';
+
+UPDATE ModifierArguments
+SET Value = 'DOMAIN_LAND'
+WHERE ModifierId IN (
+	'MINOR_CIV_CARTHAGE_BARRACKS_STABLE_PURCHASE_BONUS',
+	'MINOR_CIV_CARTHAGE_ARMORY_PURCHASE_BONUS',
+	'MINOR_CIV_CARTHAGE_MILITARY_ACADEMY_PURCHASE_BONUS'
+)
+  AND Name = 'UnitDomain';
+
+-------------------------------------------------------------------------------
+-- Repair Golden-Age dedication modifiers missing their age requirement
+-------------------------------------------------------------------------------
+
+-- CommemorationModifiers are granted whenever the dedication is selected.
+-- Golden-Age rewards therefore need an explicit owner requirement; ordinary
+-- and Dark-Age selections should grant only their Era Score quests.
+UPDATE Modifiers
+SET OwnerRequirementSetId = 'PLAYER_HAS_GOLDEN_AGE'
+WHERE ModifierId IN (
+	'BBG_APPEAL_WYWH',
+	'BBG_AUTOMATON_GDR_PROD'
+);
+
+-------------------------------------------------------------------------------
+-- Johannesburg: put yield arguments on the modifiers that change city yields
+-------------------------------------------------------------------------------
+
+-- BBG's nine suzerain attach modifiers correctly point at their corresponding
+-- city-yield modifiers, but Amount and YieldType were accidentally inserted on
+-- the attach layer.  Attach modifiers consume only ModifierId; the inner
+-- MODIFIER_PLAYER_CITIES_ADJUST_CITY_YIELD_CHANGE rows need the yield arguments.
+DELETE FROM ModifierArguments
+WHERE ModifierId IN (
+	'BBG_MINOR_CIV_JOHANNESBURG_UNIQUE_INFLUENCE_BONUS_LUX',
+	'BBG_MINOR_CIV_JOHANNESBURG_UNIQUE_INFLUENCE_BONUS_BONUS',
+	'BBG_MINOR_CIV_JOHANNESBURG_UNIQUE_INFLUENCE_BONUS_STRAT',
+	'BBG_MINOR_CIV_JOHANNESBURG_UNIQUE_INFLUENCE_BONUS_LUX_BALLISTICS',
+	'BBG_MINOR_CIV_JOHANNESBURG_UNIQUE_INFLUENCE_BONUS_BONUS_BALLISTICS',
+	'BBG_MINOR_CIV_JOHANNESBURG_UNIQUE_INFLUENCE_BONUS_STRAT_BALLISTICS',
+	'BBG_MINOR_CIV_JOHANNESBURG_UNIQUE_INFLUENCE_BONUS_LUX_INDUS',
+	'BBG_MINOR_CIV_JOHANNESBURG_UNIQUE_INFLUENCE_BONUS_BONUS_INDUS',
+	'BBG_MINOR_CIV_JOHANNESBURG_UNIQUE_INFLUENCE_BONUS_STRAT_INDUS'
+)
+  AND Name IN ('Amount', 'YieldType');
+
+INSERT OR REPLACE INTO ModifierArguments (ModifierId, Name, Value) VALUES
+	('BBG_MINOR_CIV_JOHANNESBURG_PRODUCTION_LUX', 'Amount', '1'),
+	('BBG_MINOR_CIV_JOHANNESBURG_PRODUCTION_LUX', 'YieldType', 'YIELD_PRODUCTION'),
+	('BBG_MINOR_CIV_JOHANNESBURG_PRODUCTION_BONUS', 'Amount', '1'),
+	('BBG_MINOR_CIV_JOHANNESBURG_PRODUCTION_BONUS', 'YieldType', 'YIELD_PRODUCTION'),
+	('BBG_MINOR_CIV_JOHANNESBURG_PRODUCTION_STRAT', 'Amount', '1'),
+	('BBG_MINOR_CIV_JOHANNESBURG_PRODUCTION_STRAT', 'YieldType', 'YIELD_PRODUCTION'),
+	('BBG_MINOR_CIV_JOHANNESBURG_PRODUCTION_LUX_BALLISTICS', 'Amount', '1'),
+	('BBG_MINOR_CIV_JOHANNESBURG_PRODUCTION_LUX_BALLISTICS', 'YieldType', 'YIELD_PRODUCTION'),
+	('BBG_MINOR_CIV_JOHANNESBURG_PRODUCTION_BONUS_BALLISTICS', 'Amount', '1'),
+	('BBG_MINOR_CIV_JOHANNESBURG_PRODUCTION_BONUS_BALLISTICS', 'YieldType', 'YIELD_PRODUCTION'),
+	('BBG_MINOR_CIV_JOHANNESBURG_PRODUCTION_STRAT_BALLISTICS', 'Amount', '1'),
+	('BBG_MINOR_CIV_JOHANNESBURG_PRODUCTION_STRAT_BALLISTICS', 'YieldType', 'YIELD_PRODUCTION'),
+	('BBG_MINOR_CIV_JOHANNESBURG_PRODUCTION_LUX_INDUS', 'Amount', '1'),
+	('BBG_MINOR_CIV_JOHANNESBURG_PRODUCTION_LUX_INDUS', 'YieldType', 'YIELD_PRODUCTION'),
+	('BBG_MINOR_CIV_JOHANNESBURG_PRODUCTION_BONUS_INDUS', 'Amount', '1'),
+	('BBG_MINOR_CIV_JOHANNESBURG_PRODUCTION_BONUS_INDUS', 'YieldType', 'YIELD_PRODUCTION'),
+	('BBG_MINOR_CIV_JOHANNESBURG_PRODUCTION_STRAT_INDUS', 'Amount', '1'),
+	('BBG_MINOR_CIV_JOHANNESBURG_PRODUCTION_STRAT_INDUS', 'YieldType', 'YIELD_PRODUCTION');
+
+-------------------------------------------------------------------------------
+-- Remove stale arguments left behind after upstream ModifierType conversions
+-------------------------------------------------------------------------------
+
+-- France's civilization-wide spy promotion now attaches a per-city trained-
+-- unit modifier.  The -1 experience argument belongs to that child modifier;
+-- the attach layer consumes only ModifierId.
+DELETE FROM ModifierArguments
+WHERE ModifierId = 'UNIQUE_LEADER_SPIES_START_PROMOTED'
+  AND Name = 'Amount';
+
+-- BBG converted both Chichen Itza rows from attach modifiers into direct plot-
+-- yield modifiers.  Their direct Amount/YieldType arguments are valid, while
+-- the old ModifierId links are no longer part of the modifier signature.
+DELETE FROM ModifierArguments
+WHERE ModifierId IN (
+	'CHICHEN_ITZA_JUNGLE_CULTURE',
+	'CHICHEN_ITZA_JUNGLE_PRODUCTION'
+)
+  AND Name = 'ModifierId';

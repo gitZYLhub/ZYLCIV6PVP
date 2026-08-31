@@ -2,6 +2,13 @@
 <GameInfo>
 	<Parameters>
 		<Row ParameterId="TOOLS_COMMAND" Name="LOC_ZYL_TOOLS_COMMAND_NAME" Description="LOC_ZYL_TOOLS_COMMAND_DESC" Domain="bool" DefaultValue="1" ConfigurationGroup="Game" ConfigurationId="TOOLS_COMMAND" GroupId="GameOptions" ChangeableAfterGameStart="1" SortIndex="7" />
-		<Row ParameterId="TOOLS_15_TIME" Name="LOC_ZYL_TOOLS_15_TIME_NAME" Description="LOC_ZYL_TOOLS_15_TIME_DESC" Domain="bool" DefaultValue="0" ConfigurationGroup="Game" ConfigurationId="TOOLS_15_TIME" GroupId="GameOptions" ChangeableAfterGameStart="1" SortIndex="6" />
+		<Row ParameterId="TOOLS_15_TIME" Name="LOC_ZYL_TOOLS_15_TIME_NAME" Description="LOC_ZYL_TOOLS_15_TIME_DESC" Domain="bool" DefaultValue="1" ConfigurationGroup="Game" ConfigurationId="TOOLS_15_TIME" GroupId="GameOptions" ChangeableAfterGameStart="1" SortIndex="6" />
+		<Row Key1="Ruleset" Key2="RULESET_EXPANSION_1" ParameterId="ZYL_ERA_LENGTH_OPTIMIZATION" Name="LOC_ZYL_ERA_LENGTH_OPTIMIZATION_NAME" Description="LOC_ZYL_ERA_LENGTH_OPTIMIZATION_DESC" Domain="bool" DefaultValue="1" ConfigurationGroup="Game" ConfigurationId="ZYL_ERA_LENGTH_OPTIMIZATION" GroupId="GameOptions" SupportsSinglePlayer="1" SupportsPlayByCloud="1" SupportsHotSeat="1" SortIndex="2010" />
+		<Row Key1="Ruleset" Key2="RULESET_EXPANSION_2" ParameterId="ZYL_ERA_LENGTH_OPTIMIZATION" Name="LOC_ZYL_ERA_LENGTH_OPTIMIZATION_NAME" Description="LOC_ZYL_ERA_LENGTH_OPTIMIZATION_DESC" Domain="bool" DefaultValue="1" ConfigurationGroup="Game" ConfigurationId="ZYL_ERA_LENGTH_OPTIMIZATION" GroupId="GameOptions" SupportsSinglePlayer="1" SupportsPlayByCloud="1" SupportsHotSeat="1" SortIndex="2010" />
+		<Row Key1="Ruleset" Key2="RULESET_EXPANSION_2" ParameterId="ZYL_DIPLOMACY_RIBBON_MODE" Name="LOC_ZYL_DIPLOMACY_RIBBON_MODE_NAME" Description="LOC_ZYL_DIPLOMACY_RIBBON_MODE_DESC" Domain="ZylDiplomacyRibbonModes" DefaultValue="0" ConfigurationGroup="Game" ConfigurationId="ZYL_DIPLOMACY_RIBBON_MODE" GroupId="GameOptions" SupportsSinglePlayer="1" SupportsPlayByCloud="1" SupportsHotSeat="1" SortIndex="2020" />
 	</Parameters>
+	<DomainValues>
+		<Row Domain="ZylDiplomacyRibbonModes" Value="0" Name="LOC_ZYL_DIPLOMACY_RIBBON_MODE_FFA_NAME" Description="LOC_ZYL_DIPLOMACY_RIBBON_MODE_FFA_DESC" SortIndex="10" />
+		<Row Domain="ZylDiplomacyRibbonModes" Value="1" Name="LOC_ZYL_DIPLOMACY_RIBBON_MODE_TEAM_NAME" Description="LOC_ZYL_DIPLOMACY_RIBBON_MODE_TEAM_DESC" SortIndex="20" />
+	</DomainValues>
 </GameInfo>

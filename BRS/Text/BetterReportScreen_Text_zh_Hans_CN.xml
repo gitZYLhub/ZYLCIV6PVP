@@ -6,6 +6,12 @@
 
 <LocalizedText>
 	<!-- Tab names -->
+	<Replace Tag="LOC_HUD_REPORTS_TAB_CITIES" Language="zh_Hans_CN">
+		<Text>城市</Text>
+	</Replace>
+	<Replace Tag="LOC_HUD_REPORTS_TAB_CITIES2" Language="zh_Hans_CN">
+		<Text>[ICON_Power]城市</Text>
+	</Replace>
 	<Replace Tag="LOC_HUD_REPORTS_TAB_DEALS" Language="zh_Hans_CN">
 		<Text>外交协议</Text>
 	</Replace>
@@ -148,7 +154,16 @@
 		<Text>输入</Text>
     </Replace>
 	<!-- Other -->
-    <Replace Tag="LOC_BRS_SPECIALISTS" Language="zh_Hans_CN"> <!-- LOC_PEDIA_CONCEPTS_PAGE_CITIES_9_CHAPTER_CONTENT_TITLE -->
+	<Replace Tag="LOC_BRS_CO2" Language="zh_Hans_CN">
+		<Text>二氧化碳</Text>
+	</Replace>
+	<Replace Tag="LOC_BRS_BARRIER" Language="zh_Hans_CN">
+		<Text>拦洪坝</Text>
+	</Replace>
+	<Replace Tag="LOC_BRS_BARRIER_MAINTENANCE" Language="zh_Hans_CN">
+		<Text>拦洪坝维护费</Text>
+	</Replace>
+	<Replace Tag="LOC_BRS_SPECIALISTS" Language="zh_Hans_CN"> <!-- LOC_PEDIA_CONCEPTS_PAGE_CITIES_9_CHAPTER_CONTENT_TITLE -->
 		<Text>专家</Text>
     </Replace>
     <Replace Tag="LOC_BRS_FROM_MODIFIERS" Language="zh_Hans_CN">

@@ -1,11 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?> 
  <GameData>
 	<LocalizedText>
+		<Replace Tag="LOC_TPT_NOTIFICATION_NEW_HOTKEYS_MESSAGE" Language="en_US">
+			<Text>Additional hotkeys enabled</Text>
+		</Replace>
+		<Replace Tag="LOC_TPT_NOTIFICATION_NEW_HOTKEYS_SUMMARY" Language="en_US">
+			<Text>Promotion, random promotion, pillage, cancel and upgrade hotkeys are available. Bind them in the game options.</Text>
+		</Replace>
+		<Replace Tag="LOC_TPT_NOTIFICATION_NO_PINS_MESSAGE" Language="en_US">
+			<Text>Map tacks disabled</Text>
+		</Replace>
+		<Replace Tag="LOC_TPT_NOTIFICATION_NO_PINS_SUMMARY" Language="en_US">
+			<Text>This match does not allow creating or editing map tacks.</Text>
+		</Replace>
 		<Replace Tag="LOC_TPT_NOTIFICATION_NEW_HOTKEYS_MESSAGE" Language="zh_Hans_CN">
 			<Text>新快捷键可用</Text>
 		</Replace>
 		<Replace Tag="LOC_TPT_NOTIFICATION_NEW_HOTKEYS_SUMMARY" Language="zh_Hans_CN">
-			<Text>晋升、掠夺、取消、升级！请在游戏设置中绑定快捷键！</Text>
+			<Text>晋升、随机晋升、掠夺、取消、升级！请在游戏设置中绑定快捷键！</Text>
 		</Replace>
 		<Replace Tag="LOC_TPT_NOTIFICATION_NO_PINS_MESSAGE" Language="zh_Hans_CN">
 			<Text>地图钉已禁用</Text>

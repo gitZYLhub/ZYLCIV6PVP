@@ -197,7 +197,7 @@
             <Text>投票征召</Text>
         </Replace>
         <Replace Tag="BAN_FORMAT_VOTEDRAFT_DESC" language="zh_Hans_CN">
-            <Text>根据玩家投票决定征召模式。[未完成]</Text>
+            <Text>玩家通过多数投票决定游戏设置。</Text>
         </Replace>
 
         <Replace Tag="CPL_BAN_01_NAME" language="zh_Hans_CN">
@@ -249,7 +249,7 @@
             <Text>疯狂</Text>
         </Replace>
         <Replace Tag="TIMER_LEGE_DESC" language="zh_Hans_CN">
-            <Text>来自Lege的压力：前15回合时间为15秒，15-70回合为45秒，之后为75秒。</Text>
+            <Text>Lege的回合时间：第1–15回合15秒，第16–70回合45秒，第71回合起75秒。</Text>
         </Replace>
         <Replace Tag="TIMER_CIVLAN_NAME" language="zh_Hans_CN">
             <Text>CivLan / CWC 2025</Text>
@@ -269,11 +269,17 @@
         <Replace Tag="TIMER_CASUAL_DESC" language="zh_Hans_CN">
             <Text>适合新手和主播。</Text>
         </Replace>
+        <Replace Tag="TIMER_CASUAL_BALANCED_NAME" language="zh_Hans_CN">
+            <Text>休闲（均衡）</Text>
+        </Replace>
+        <Replace Tag="TIMER_CASUAL_BALANCED_DESC" language="zh_Hans_CN">
+            <Text>沿用休闲计时，并直接按所有真人玩家中的最高城市数和最高单位数计算负载。第45回合起额外增加40秒，第90回合起再增加20秒（合计60秒）。</Text>
+        </Replace>
         <Replace Tag="TIMER_PHYPHY_NAME" language="zh_Hans_CN">
             <Text>闪电</Text>
         </Replace>
         <Replace Tag="TIMER_PHYPHY_DESC" language="zh_Hans_CN">
-            <Text>起始15秒，每15/20回合增加几秒。</Text>
+            <Text>第1–15回合15秒，第16–30回合30秒，第31–49回合45秒，第50–69回合65秒，第70回合起80秒。</Text>
         </Replace>
         <Replace Tag="FC_NOTHING_NAME" language="zh_Hans_CN">
             <Text>无</Text>
@@ -311,7 +317,7 @@
             <Text>房主强制重随地图</Text>
         </Replace>
 		 <Replace Tag="LOC_MPH_VOTEPANEL_GAME_RANDOM_SEED" language="zh_Hans_CN">
-            <Text>游戏速度</Text>
+            <Text>游戏随机种子</Text>
         </Replace>
 		<Replace Tag="LOC_MPH_VOTEPANEL_MAP_RANDOM_SEED" language="zh_Hans_CN">
             <Text>地图随机种子</Text>
@@ -548,13 +554,13 @@
             <Text>禁止私聊</Text>
         </Replace>
         <Replace Tag="CPL_NO_PM_DESC" language="zh_Hans_CN">
-            <Text>[未完成]禁止玩家发送一对一信息进行私聊。</Text>
+            <Text>禁止玩家发送一对一信息进行私聊。</Text>
         </Replace>
         <Replace Tag="CPL_RESTRICTED_DRAFT_NAME" language="zh_Hans_CN">
             <Text>限制领袖池</Text>
         </Replace>
         <Replace Tag="CPL_RESTRICTED_DRAFT_DESC" language="zh_Hans_CN">
-            <Text>[未完成]每名玩家只能从5个领袖中选择，而不是全部领袖。</Text>
+            <Text>每名玩家只能从5个领袖中选择，而不是全部领袖。</Text>
         </Replace>
         <Replace Tag="LOC_MPH_OBSERVER_SPECTATOR_TOOLTIP" language="zh_Hans_CN">
             <Text>允许观察者参与游戏，适合解说比赛。</Text>
@@ -874,7 +880,7 @@
         <Replace Tag="MPH_PRESET_CPLSQUADRON_NAME" Language="zh_Hans_CN">
             <Text>CPL Premier League 超级联赛</Text>
         </Replace>
-        <Replace Tag="MPH_PRESET_1v1RR" Language="zh_Hans_CN">
+        <Replace Tag="MPH_PRESET_1v1RR_NAME" Language="zh_Hans_CN">
             <Text>1v1皇家混战</Text>
         </Replace>
 		<Replace Tag="MPH_PRESET_NONE_DESC" Language="zh_Hans_CN">
@@ -890,7 +896,7 @@
             <Text>CivFR组队战常用设置。</Text>
         </Replace>
         <Replace Tag="MPH_PRESET_1v1RR_DESC" Language="zh_Hans_CN">
-            <Text>1v1皇家混战的专用礼物。</Text>
+            <Text>1v1皇家混战的专用预设。</Text>
         </Replace>
         <Replace Tag="MPH_OFFICIAL_GAME_NAME" Language="zh_Hans_CN">
             <Text>[COLOR_RED]正式比赛[ENDCOLOR]</Text>
@@ -902,7 +908,7 @@
             <Text>2VI2 HOT</Text>
         </Replace>
         <Replace Tag="TIMER_2VI2_DESC" Language="zh_Hans_CN">
-            <Text>极短的回合时间，起始15秒，40回合前逐次陡增至60秒，然后线性增长。</Text>
+            <Text>第1–7回合20秒；第8–15回合30秒；第16–23回合40秒；第24–31回合50秒；第32–39回合60秒；第40–68回合每回合增加2秒（62–118秒）；第69–88回合120秒；第89回合起150秒。</Text>
         </Replace>
         <Replace Tag="MPH_PRESET_PPL_DUEL_NAME" Language="zh_Hans_CN">
             <Text>PPL Duel</Text>

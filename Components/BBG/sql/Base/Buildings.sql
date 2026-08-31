@@ -139,8 +139,8 @@ INSERT INTO ModifierArguments (ModifierId, Name, Value) VALUES
 INSERT INTO BuildingModifiers (BuildingType, ModifierId) VALUES
     ('BUILDING_ARENA', 'BBG_ARENA_TOURISM');
 -- 12/06/23 Stadium Tourism buff
-UPDATE ModifierArguments SET Value=6 WHERE Name='STADIUM_10_POPULATION_TOURISM';
-UPDATE ModifierArguments SET Value=15 WHERE Name='STADIUM_10_POPULATION_TOURISM';
+UPDATE ModifierArguments SET Value=6 WHERE ModifierId='STADIUM_10_POPULATION_TOURISM' AND Name='Amount';
+UPDATE ModifierArguments SET Value=15 WHERE ModifierId='STADIUM_20_POPULATION_TOURISM' AND Name='Amount';
 
 -- 16/15/25 Amphiteater production cost reduced to 60 (120 normal speed) from 75 (150)
 UPDATE Buildings SET Cost=120 WHERE BuildingType='BUILDING_AMPHITHEATER';

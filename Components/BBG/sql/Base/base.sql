@@ -1,6 +1,11 @@
 
 UPDATE GlobalParameters SET Value=75 WHERE Name='LOYALTY_AFTER_TRANSFERRED_BY_COMBAT_OWNER_BEFORE_OCCUPATION';
 
+-- ZYL: smoother city-founding Housing curve.
+-- Fresh-water cities remain at 5; coast-only and no-water cities become 4/3.
+UPDATE GlobalParameters SET Value=3 WHERE Name='CITY_POPULATION_NO_WATER';
+UPDATE GlobalParameters SET Value=4 WHERE Name='CITY_POPULATION_COAST';
+
 
 -- UPDATE GlobalParameters SET Value=2 WHERE Name='FORTIFY_BONUS_PER_TURN';
 -- 27/03/26  Change to 1 stack max that gives +4
@@ -303,7 +308,8 @@ UPDATE Technologies SET Cost=1370 WHERE TechnologyType='TECH_ADVANCED_BALLISTICS
 -- 02/07/24 Cost of tech ahead of actual game era are now +30% instead of +20%
 UPDATE GlobalParameters SET Value=30 WHERE Name='TECH_COST_PERCENT_CHANGE_AFTER_GAME_ERA';
 
-UPDATE Technologies SET Cost=Cost*1.05 WHERE EraType NOT IN ('ERA_ANCIENT', 'ERA_CLASSICAL');
+-- ZYLPVPMOD: keep BBG's individual technology balance changes, but do not
+-- apply BBG's blanket +5% base-cost multiplier from the Medieval era onward.
 
 -- 2022-06-04 -- Add Scientific Theory as Prereq for Steam Power
 INSERT INTO TechnologyPrereqs (Technology, PrereqTech) VALUES

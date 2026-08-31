@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GameData>
+	<IconDefinitions>
+		<Row Name="ICON_BUILDING_GILDED_Shipyard" Atlas="ICON_ATLAS_ETHIOPIA_BUILDINGS" Index="4"/>
+		<Row Name="ICON_BUILDING_GILDED_Shipyard_FOW" Atlas="ICON_ATLAS_ETHIOPIA_BUILDINGS_FOW" Index="4"/>
+	</IconDefinitions>
+</GameData>

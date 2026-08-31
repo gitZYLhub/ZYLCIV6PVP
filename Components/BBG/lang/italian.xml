@@ -1093,7 +1093,7 @@
 		<!-- == MAYA == -->
 		<!-- = civilization ability = -->
 		<Replace Tag="LOC_TRAIT_CIVILIZATION_MAYAB_DESCRIPTION" Language="it_IT">
-			<Text>Gli insediamenti adiacenti all'acqua dolce e alla costa non ricevono ulteriori [ICON_HOUSING] Abitazioni. Il Palazzo riceve +1 [ICON_HOUSING] Abitazioni. +1 [ICON_AMENITIES] Attrattiva per ogni risorsa di lusso adiacente al Centro cittadino.[NEWLINE][NEWLINE]Ogni Fattoria fornisce +1 [ICON_HOUSING] Abitazioni, +1 [ICON_PRODUCTION] Produzione per ogni Osservatorio adiacente e +1 [ICON_GOLD] Oro.[NEWLINE][NEWLINE]Le Piantagioni forniscono +1 [ICON_SCIENCE] Scienza per ogni Osservatorio adiacente e un ulteriore +1 [ICON_SCIENCE] Scienza con la scoperta dell'Istruzione.</Text>
+			<Text>Gli insediamenti adiacenti all'acqua dolce e alla costa non ricevono ulteriori [ICON_HOUSING] Abitazioni. Tutte le città ricevono +1 [ICON_HOUSING] Abitazioni. +1 [ICON_AMENITIES] Attrattiva per ogni risorsa di lusso adiacente al Centro cittadino.[NEWLINE][NEWLINE]Ogni Fattoria fornisce +1 [ICON_HOUSING] Abitazioni, +1 [ICON_PRODUCTION] Produzione per ogni Osservatorio adiacente e +1 [ICON_GOLD] Oro.[NEWLINE][NEWLINE]Le Piantagioni forniscono +1 [ICON_SCIENCE] Scienza per ogni Osservatorio adiacente e un ulteriore +1 [ICON_SCIENCE] Scienza con la scoperta dell'Istruzione.</Text>
 		</Replace>
 		<!-- = leader ability (Lady Six Sky) = -->
 		<Replace Tag="LOC_TRAIT_LEADER_MUTAL_DESCRIPTION" Language="it_IT">
@@ -2305,7 +2305,7 @@
 		</Replace>
 		<!-- == Sacred Path == -->
 		<Replace Tag="LOC_BELIEF_SACRED_PATH_DESCRIPTION" Language="it_IT">
-			<Text>I distretti Luogo Santo forniscono +1 [ICON_FAITH] Fede per ogni casella di foresta pluviale, bosco e palude adiacente.</Text>
+			<Text>I distretti Luogo Santo forniscono +1 [ICON_FAITH] Fede per ogni casella di foresta pluviale e palude adiacente.</Text>
 		</Replace>
 		<Replace Tag="LOC_DISTRICT_SACREDPATH_WOODS_FAITH" Language="it_IT">
 			<Text>+{1_num} [ICON_FAITH] Fede dai boschi adiacenti.</Text>

@@ -41,9 +41,9 @@ INSERT OR IGNORE INTO BuildingModifiers (BuildingType, ModifierId) VALUES
 
 -- 12/06/23 Water Park building buff
 -- Ferris wheel tourism from 2 to 6
-UPDATE ModifierArguments SET Value=6 WHERE Name='FERRIS_WHEEL_TOURISM';
+UPDATE ModifierArguments SET Value=6 WHERE ModifierId='FERRIS_WHEEL_TOURISM' AND Name='Amount';
 -- Aquatics Center: +6 Tourism for each wonder built in this city on or adjacent to coast (from +2)
-UPDATE ModifierArguments SET Value=6 WHERE Name='AQUATICS_CENTER_WONDER_TOURISM';
+UPDATE ModifierArguments SET Value=6 WHERE ModifierId='AQUATICS_CENTER_WONDER_TOURISM' AND Name='Amount';
 
 -- 18/12/23 Artemis -1 food/housing
 UPDATE Buildings SET Housing=2 WHERE BuildingType='BUILDING_TEMPLE_ARTEMIS';

@@ -5,6 +5,9 @@
     <Grid		Anchor="C,C"		Size="parent+9,parent+9"	Style="WindowFrameTopOnly" />
     <Button		ID="CloseButton"		Anchor="R,T"	Offset="-3,-1"	Size="44,44"	Texture="Controls_CloseLarge"  />
     <Image		Anchor="C,T"		Size="parent,44"	Color="61,112,154,255"	Texture="Controls_Gradient_HalfRadial"  />
+	<GridButton ID="CopyBlackListButton" Anchor="L,T" Offset="12,7" Size="112,30" Texture="Controls_ButtonControl" SliceCorner="12,12" SliceTextureSize="24,24" StateOffsetIncrement="0,24" ToolTip="LOC_COPY_BLACKLIST_NAME">
+		<Label Anchor="C,C" FontStyle="stroke" ColorSet="BodyTextCool" Style="FontNormal14" String="LOC_COPY_BLACKLIST_BUTTON" />
+	</GridButton>
     <Label		Anchor="C,T"	Offset="0,14"	Style="FontFlair24"			String="LOC_BLACKLIST_MANAGER" FontStyle="Glow" Color0="133,205,235,255" Color1="203,215,225,100" Color2="254,254,254,255" SmallCaps="28" SmallCapsType="EveryWord" />
     <Grid		Anchor="C,T"	Offset="0,44"		Size="parent-6,8"		Style="Divider3Grid" />
 	<Grid		Anchor="C,T"	Offset="0,88"		Size="parent-6,8"		Style="Divider3Grid" />

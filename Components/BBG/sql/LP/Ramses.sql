@@ -70,6 +70,17 @@ INSERT INTO ModifierArguments (ModifierId, Name, Value) VALUES
     ('BBG_RAMSES_FLOODPLAINS_RESOURCE_FOOD_ON_STRAT_RESOURCE', 'YieldType', 'YIELD_FOOD'),
     ('BBG_RAMSES_FLOODPLAINS_RESOURCE_FOOD_ON_STRAT_RESOURCE', 'Amount', 1);
 
+-- Bind all six floodplain-resource yield modifiers to Ramses.  The upstream
+-- file created the modifiers and their requirements but never attached them
+-- to the leader trait, so the documented Food/Faith bonuses did not run.
+INSERT OR IGNORE INTO TraitModifiers (TraitType, ModifierId) VALUES
+    ('TRAIT_LEADER_RAMSES', 'BBG_RAMSES_FLOODPLAINS_RESOURCE_FAITH_ON_BONUS_RESOURCE'),
+    ('TRAIT_LEADER_RAMSES', 'BBG_RAMSES_FLOODPLAINS_RESOURCE_FAITH_ON_LUX_RESOURCE'),
+    ('TRAIT_LEADER_RAMSES', 'BBG_RAMSES_FLOODPLAINS_RESOURCE_FAITH_ON_STRAT_RESOURCE'),
+    ('TRAIT_LEADER_RAMSES', 'BBG_RAMSES_FLOODPLAINS_RESOURCE_FOOD_ON_BONUS_RESOURCE'),
+    ('TRAIT_LEADER_RAMSES', 'BBG_RAMSES_FLOODPLAINS_RESOURCE_FOOD_ON_LUX_RESOURCE'),
+    ('TRAIT_LEADER_RAMSES', 'BBG_RAMSES_FLOODPLAINS_RESOURCE_FOOD_ON_STRAT_RESOURCE');
+
 -- 02/12/24 bonus production doubled when city is settled on river for HS and Theater
 INSERT INTO Modifiers (ModifierId, ModifierType, SubjectRequirementSetId) VALUES
     ('BBG_PTOLE_FASTER_IZ_RIVER', 'MODIFIER_PLAYER_CITIES_ADJUST_DISTRICT_PRODUCTION', 'PLOT_ADJACENT_TO_RIVER_REQUIREMENTS'),

@@ -34,6 +34,16 @@ local function SaveBlackList()
 	UserConfiguration.CommitToOptions()
 end
 
+local function CopyBlackListToClipboard()
+	local lines = { Locale.Lookup("{1_Time : datetime full}", os.time()), "", "SteamID\t" .. Locale.Lookup("LOC_TPT_INPUT_DESC_NAME") }
+	for _, data in ipairs(ReadBlackList()) do
+		table.insert(lines, data.SteamID .. "\t" .. (data.Desc or ""))
+	end
+	UIManager:SetClipboardString(table.concat(lines, "\n"))
+	Controls.CopyBlackListButton:SetToolTipString(Locale.Lookup("LOC_COPY_BLACKLIST_TITLE"))
+	UI.PlaySound("Play_UI_Click")
+end
+
 local function FindBlackListEntry(steamID)
 	for index, data in ipairs(g_localBlackList) do
 		if data.SteamID == steamID then return index, data end
@@ -147,6 +157,7 @@ function Initialize()
 	for _, playerID in ipairs(PlayerManager.GetAliveMajorIDs()) do AddPlayer(playerID) end
 	RefreshPlayerList()
 	Controls.CloseButton:RegisterCallback(Mouse.eLClick, Close)
+	Controls.CopyBlackListButton:RegisterCallback(Mouse.eLClick, CopyBlackListToClipboard)
 	Controls.CancelBindingButton:RegisterCallback(Mouse.eLClick, function() Controls.NameModGroupPopup:SetHide(true) end)
 	Controls.SteamIDInputEditBox:RegisterStringChangedCallback(function()
 		local value = Controls.SteamIDInputEditBox:GetText() or ""

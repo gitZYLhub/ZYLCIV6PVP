@@ -979,7 +979,7 @@
 		<!-- == MAYA == -->
     <!-- = civilization ability = -->
     <Replace Tag="LOC_TRAIT_CIVILIZATION_MAYAB_DESCRIPTION" Language="ja_JP">
-      <Text>真水や沿岸に隣接したタイルに都市を築いても追加の [ICON_HOUSING] 住宅を得られないが、各農場がさらに [ICON_HOUSING] 住宅+1、隣接する観測所ごとに [ICON_PRODUCTION] 生産力+1、 [ICON_GOLD] ゴールド+1をもたらす。都心に隣接する高級資源1つにつき [ICON_Amenities] 快適性+1。隣接する観測所1つにつきプランテーションの [ICON_Science] 科学力+1、教育の発明後は [ICON_Science] 科学力+2に強化される。宮殿の[ICON_HOUSING]住宅+1。</Text>
+      <Text>真水や沿岸に隣接したタイルに都市を築いても追加の [ICON_HOUSING] 住宅を得られないが、各農場がさらに [ICON_HOUSING] 住宅+1、隣接する観測所ごとに [ICON_PRODUCTION] 生産力+1、 [ICON_GOLD] ゴールド+1をもたらす。都心に隣接する高級資源1つにつき [ICON_Amenities] 快適性+1。隣接する観測所1つにつきプランテーションの [ICON_Science] 科学力+1、教育の発明後は [ICON_Science] 科学力+2に強化される。すべての都市に [ICON_HOUSING] 住宅+1。</Text>
     </Replace>
     <!-- = unique district = -->
     <Replace Tag="LOC_DISTRICT_OBSERVATORY_DESCRIPTION" Language="ja_JP">
@@ -1765,7 +1765,7 @@
 			<Text>湿地、オアシス、改善されたまたは都心直下の氾濫原に [ICON_Production] 生産力+1。</Text>
 		</Replace>
 		<Replace Tag="LOC_BELIEF_SACRED_PATH_DESCRIPTION" Language="ja_JP">
-			<Text>聖地が隣接する森林、熱帯雨林、湿地から [ICON_Faith] 信仰力+1を得る。</Text>
+			<Text>聖地が隣接する熱帯雨林と湿地から [ICON_Faith] 信仰力+1を得る。</Text>
 		</Replace>
 		<Row Tag="LOC_DISTRICT_SACREDPATH_WOODS_FAITH" Language="ja_JP">
 			<Text>隣接する森林タイルから [ICON_Faith] 信仰力+{1_num}。</Text>

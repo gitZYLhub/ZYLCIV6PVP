@@ -1030,7 +1030,7 @@
         <!-- == MAYA == -->
         <!-- = civilization ability = -->
         <Replace Tag="LOC_TRAIT_CIVILIZATION_MAYAB_DESCRIPTION" Language="ko_KR">
-            <Text>담수와 해안 근처에 정착해도 추가 [ICON_HOUSING] 주거공간을 제공하지 않습니다. 대신에 각 농장이 추가로 [ICON_HOUSING] 주거공간 +1, 인접한 천문대마다 [ICON_PRODuction] 생산력 +1, [ICON_GOLD] 금 +1을 제공합니다. 인접한 천문대마다 재배지가 [ICON_Science] 과학 +1을 제공하며, 교육 기술 연구시 [ICON_Science] 과학 +1을 추가로 제공합니다. 도심부에 인접한 사치 자원마다 [ICON_AMENITIES] 쾌적도 +1을 얻습니다. 궁전이 [ICON_HOUSING] 주거공간 +1을 얻습니다.[NEWLINE][NEWLINE][ICON_BULLET]시작지점: 3순위 재배지 사치 자원, 4순위 바나나. 해안 기피.</Text>
+            <Text>담수와 해안 근처에 정착해도 추가 [ICON_HOUSING] 주거공간을 제공하지 않습니다. 대신에 각 농장이 추가로 [ICON_HOUSING] 주거공간 +1, 인접한 천문대마다 [ICON_PRODuction] 생산력 +1, [ICON_GOLD] 금 +1을 제공합니다. 인접한 천문대마다 재배지가 [ICON_Science] 과학 +1을 제공하며, 교육 기술 연구시 [ICON_Science] 과학 +1을 추가로 제공합니다. 도심부에 인접한 사치 자원마다 [ICON_AMENITIES] 쾌적도 +1을 얻습니다. 모든 도시에 [ICON_HOUSING] 주거공간 +1을 얻습니다.[NEWLINE][NEWLINE][ICON_BULLET]시작지점: 3순위 재배지 사치 자원, 4순위 바나나. 해안 기피.</Text>
         </Replace>
         <!-- = unique district = -->
         <Replace Tag="LOC_DISTRICT_OBSERVATORY_DESCRIPTION" Language="ko_KR">
@@ -1928,7 +1928,7 @@
             <Text>강에 인접한 성지 특수지구에서 +2의 [ICON_FAITH] 신앙 인접 보너스를 제공합니다. 강에 인접한 성지 특수지구가 있는 도시에 [ICON_Amenities] 쾌적도 +1을 제공합니다.</Text>
         </Replace>
         <Replace Tag="LOC_BELIEF_SACRED_PATH_DESCRIPTION" Language="ko_KR">
-            <Text>성지 특수지구는 인접한 숲, 열대우림 및 습지 타일에서 [ICON_Faith] 신앙 +1을 획득합니다.</Text>
+            <Text>성지 특수지구는 인접한 열대우림 및 습지 타일에서 [ICON_Faith] 신앙 +1을 획득합니다.</Text>
         </Replace>
         <Row Tag="LOC_DISTRICT_SACREDPATH_WOODS_FAITH" Language="ko_KR">
             <Text>인접한 숲 {1_Num : plural 1?타일; other?타일;}에서 [ICON_Faith] 신앙 +{1_num}.</Text>

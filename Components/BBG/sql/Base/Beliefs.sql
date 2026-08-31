@@ -297,20 +297,12 @@ INSERT INTO BeliefModifiers (BeliefType, ModifierId) VALUES
 --==========================
 --*      SACRED PATH       *
 --==========================
--- Sacred Path +1 Faith Holy Site adjacency now applies to both Woods and Rainforest
--- 15/12/24 Marshes now also give +1 faith
+-- ZYL split: Sacred Path applies to Rainforest and Marsh; Woods moved to Druid.
 INSERT INTO BeliefModifiers (BeliefType, ModifierId) VALUES
-    ('BELIEF_SACRED_PATH', 'BBG_SACRED_PATH_WOODS_FAITH_ADJACENCY'),
     ('BELIEF_SACRED_PATH', 'BBG_SACRED_PATH_MARSHES_FAITH_ADJACENCY');
 INSERT INTO Modifiers (ModifierId, ModifierType, SubjectRequirementSetId) VALUES
-    ('BBG_SACRED_PATH_WOODS_FAITH_ADJACENCY', 'MODIFIER_ALL_CITIES_FEATURE_ADJACENCY', 'CITY_FOLLOWS_PANTHEON_REQUIREMENTS'),
     ('BBG_SACRED_PATH_MARSHES_FAITH_ADJACENCY', 'MODIFIER_ALL_CITIES_FEATURE_ADJACENCY', 'CITY_FOLLOWS_PANTHEON_REQUIREMENTS');
 INSERT INTO ModifierArguments (ModifierId, Name, Value) VALUES
-    ('BBG_SACRED_PATH_WOODS_FAITH_ADJACENCY', 'DistrictType', 'DISTRICT_HOLY_SITE'),
-    ('BBG_SACRED_PATH_WOODS_FAITH_ADJACENCY', 'FeatureType', 'FEATURE_FOREST'),
-    ('BBG_SACRED_PATH_WOODS_FAITH_ADJACENCY', 'YieldType', 'YIELD_FAITH'),
-    ('BBG_SACRED_PATH_WOODS_FAITH_ADJACENCY', 'Amount', '1'),
-    ('BBG_SACRED_PATH_WOODS_FAITH_ADJACENCY', 'Description', 'LOC_DISTRICT_SACREDPATH_WOODS_FAITH'),
     ('BBG_SACRED_PATH_MARSHES_FAITH_ADJACENCY', 'DistrictType', 'DISTRICT_HOLY_SITE'),
     ('BBG_SACRED_PATH_MARSHES_FAITH_ADJACENCY', 'FeatureType', 'FEATURE_MARSH'),
     ('BBG_SACRED_PATH_MARSHES_FAITH_ADJACENCY', 'YieldType', 'YIELD_FAITH'),

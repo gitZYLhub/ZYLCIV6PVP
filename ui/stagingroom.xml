@@ -77,7 +77,7 @@
 						<GridData Texture="Controls_DropDownControlLarge" StateOffsetIncrement="0,45"	SliceCorner="10,15" SliceTextureSize="45,45" />
 						<Container Size="62,62" Offset="0,0" Anchor="C,L">
 							<Image Texture="Controls_CircleBacking45" Size="51,51" Anchor="C,C" Offset="0,1"/>
-							<Image ID="BanPullDown_Icon" Icon="Leaders45" Offset="-84,-6" Size="45,45" Anchor="C,C"/>
+							<Image ID="BanPullDown_Icon" Texture="Leaders45" Icon="ICON_LEADER_DEFAULT" Offset="-84,-6" Size="45,45" Anchor="C,C"/>
 						</Container>
 					</GridButton>
 				</ButtonData>

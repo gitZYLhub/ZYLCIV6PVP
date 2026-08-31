@@ -21,7 +21,17 @@ function ZYL_RVC_GetNormalizedMapSize()
 		MAPSIZE_LARGE = 4,
 		MAPSIZE_HUGE = 5,
 	};
-	return normalizedSizes[mapSizeType] or 3;
+	if normalizedSizes[mapSizeType] ~= nil then return normalizedSizes[mapSizeType]; end
+	-- Custom FFA sizes are registered as real MapSize rows.  Their default
+	-- player count is the authoritative difficulty/plate scale, so map scripts
+	-- retain the nearest stock tier rather than silently falling back to standard.
+	local players = mapRow and tonumber(mapRow.DefaultPlayers) or 8;
+	if players <= 2 then return 0 end
+	if players <= 4 then return 1 end
+	if players <= 6 then return 2 end
+	if players <= 8 then return 3 end
+	if players <= 10 then return 4 end
+	return 5;
 end
 
 -- Computes IsAdjacentToLand from plotTypes table (when Map not yet filled in)

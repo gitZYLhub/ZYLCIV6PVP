@@ -242,7 +242,8 @@ function Initialize()
 	Events.InterfaceModeChanged.Add( OnInterfaceModeChanged );
 	Events.LocalPlayerChanged.Add( OnLocalPlayerChanged );
 	
-	if GameConfiguration.GetValue("CPL_NO_PINS") == true then
+	local noPinsValue = GameConfiguration.GetValue("CPL_NO_PINS")
+	if noPinsValue == true or noPinsValue == 1 or noPinsValue == "1" then
 		Controls.AddPinButton:SetDisabled(true)
 	end
 	BuildMapPinList();
