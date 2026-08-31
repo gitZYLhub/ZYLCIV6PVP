@@ -1,6 +1,15 @@
--------------------------------------------------------------------------------
--- ZYLPVPMOD Magnus tier-one promotions
+-- ZYLPVPMOD governor overrides
 -- Rise and Fall / Gathering Storm only.
+-------------------------------------------------------------------------------
+
+-- Liang establishes in three turns.  Governor establishment uses transition
+-- strength rather than a direct turn count; 150 is the game's three-turn value.
+UPDATE Governors
+SET TransitionStrength = 150
+WHERE GovernorType = 'GOVERNOR_THE_BUILDER';
+
+-------------------------------------------------------------------------------
+-- Magnus tier-one promotions
 -------------------------------------------------------------------------------
 
 -- Left I: remove +20% Growth and move the no-population-cost Settler effect

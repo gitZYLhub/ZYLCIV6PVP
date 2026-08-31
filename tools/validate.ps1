@@ -54,6 +54,161 @@ if ($modInfo.SelectSingleNode('/Mod/Properties/Name').InnerText -ne 'LOC_ZYLPVPM
     Add-ValidationError 'The ModInfo title is not the ZYLPVPMOD localization key.'
 }
 
+# Keep the Team PVP Balanced Industries/Corporations nerf complete. The
+# upstream balance file omitted four DLC products, and this package adds six
+# more products through its embedded BBG Expanded resources.
+$monopoliesBalancePath = Join-Path $modRoot 'sql\ZYL_MonopoliesBalance.sql'
+$monopoliesTextPath = Join-Path $modRoot 'lang\ZYL_MonopoliesBalance_Text.xml'
+$expectedMonopoliesAmounts = @{
+    'INDUSTRY_CITY_GROWTH' = 10
+    'INDUSTRY_MILITARY_UNIT_DISCOUNT' = 15
+    'INDUSTRY_CIVILIAN_UNIT_DISCOUNT' = 15
+    'INDUSTRY_BUILDING_DISCOUNT' = 15
+    'INDUSTRY_GOLD_YIELD_BONUS' = 15
+    'INDUSTRY_FAITH_YIELD_BONUS' = 20
+    'INDUSTRY_SCIENCE_YIELD_BONUS' = 7
+    'INDUSTRY_CULTURE_YIELD_BONUS' = 7
+    'CORPORATION_CITY_GROWTH' = 20
+    'CORPORATION_MILITARY_UNIT_DISCOUNT' = 30
+    'CORPORATION_CIVILIAN_UNIT_DISCOUNT' = 30
+    'CORPORATION_BUILDING_DISCOUNT' = 30
+    'CORPORATION_GOLD_YIELD_BONUS' = 30
+    'CORPORATION_FAITH_YIELD_BONUS' = 40
+    'CORPORATION_SCIENCE_YIELD_BONUS' = 15
+    'CORPORATION_CULTURE_YIELD_BONUS' = 15
+    'PRODUCT_BUILDING_DISCOUNT_GYPSUM' = 15
+    'PRODUCT_BUILDING_DISCOUNT_MARBLE' = 15
+    'PRODUCT_MILITARY_UNIT_DISCOUNT_CITRUS' = 15
+    'PRODUCT_MILITARY_UNIT_DISCOUNT_COTTON' = 15
+    'PRODUCT_MILITARY_UNIT_DISCOUNT_IVORY' = 15
+    'PRODUCT_MILITARY_UNIT_DISCOUNT_TOBACCO' = 15
+    'PRODUCT_MILITARY_UNIT_DISCOUNT_WHALES' = 15
+    'PRODUCT_CITY_GROWTH_COCOA' = 10
+    'PRODUCT_CITY_GROWTH_HONEY' = 10
+    'PRODUCT_CITY_GROWTH_SALT' = 10
+    'PRODUCT_CITY_GROWTH_SUGAR' = 10
+    'PRODUCT_CULTURE_YIELD_BONUS_COFFEE' = 7
+    'PRODUCT_CULTURE_YIELD_BONUS_SILK' = 7
+    'PRODUCT_CULTURE_YIELD_BONUS_SPICES' = 7
+    'PRODUCT_CULTURE_YIELD_BONUS_WINE' = 7
+    'PRODUCT_GOLD_YIELD_BONUS_DIAMONDS' = 15
+    'PRODUCT_GOLD_YIELD_BONUS_JADE' = 15
+    'PRODUCT_GOLD_YIELD_BONUS_SILVER' = 15
+    'PRODUCT_GOLD_YIELD_BONUS_TRUFFLES' = 15
+    'PRODUCT_FAITH_YIELD_BONUS_AMBER' = 20
+    'PRODUCT_FAITH_YIELD_BONUS_DYES' = 20
+    'PRODUCT_FAITH_YIELD_BONUS_INCENSE' = 20
+    'PRODUCT_FAITH_YIELD_BONUS_PEARLS' = 20
+    'PRODUCT_SCIENCE_YIELD_BONUS_MERCURY' = 7
+    'PRODUCT_SCIENCE_YIELD_BONUS_TEA' = 7
+    'PRODUCT_SCIENCE_YIELD_BONUS_TURTLES' = 7
+    'PRODUCT_CIVILIAN_UNIT_DISCOUNT_FURS' = 15
+    'PRODUCT_CIVILIAN_UNIT_DISCOUNT_OLIVES' = 15
+    'PRODUCT_SCIENCE_YIELD_BONUS_P0K_PENGUINS' = 7
+    'PRODUCT_FAITH_YIELD_BONUS_CVS_POMEGRANATES' = 20
+    'PRODUCT_SCIENCE_YIELD_BONUS_P0K_PAPYRUS' = 7
+    'PRODUCT_CITY_GROWTH_MAPLE' = 10
+    'PRODUCT_GOLD_YIELD_BONUS_P0K_OPAL' = 15
+    'PRODUCT_CULTURE_YIELD_BONUS_P0K_PLUMS' = 7
+}
+if (-not (Test-Path -LiteralPath $monopoliesBalancePath)) {
+    Add-ValidationError 'The Industries/Corporations balance SQL is missing.'
+}
+else {
+    $monopoliesBalanceSource = Get-Content -LiteralPath $monopoliesBalancePath -Raw
+    $amountPattern = @'
+UPDATE\s+ModifierArguments\s+SET\s+Value\s*=\s*'(?<Value>\d+)'\s+WHERE\s+ModifierId\s*=\s*'(?<Id>[^']+)'\s+AND\s+Name\s*=\s*'Amount'\s*;
+'@
+    $actualMonopoliesAmounts = @{}
+    foreach ($amountMatch in [regex]::Matches($monopoliesBalanceSource, $amountPattern, [System.Text.RegularExpressions.RegexOptions]::IgnoreCase)) {
+        $modifierId = $amountMatch.Groups['Id'].Value.ToUpperInvariant()
+        if ($actualMonopoliesAmounts.ContainsKey($modifierId)) {
+            Add-ValidationError "Duplicate Industries/Corporations balance assignment: $modifierId"
+        }
+        $actualMonopoliesAmounts[$modifierId] = [int]$amountMatch.Groups['Value'].Value
+    }
+    foreach ($entry in $expectedMonopoliesAmounts.GetEnumerator()) {
+        if (-not $actualMonopoliesAmounts.ContainsKey($entry.Key)) {
+            Add-ValidationError "Industries/Corporations balance assignment is missing: $($entry.Key)"
+        }
+        elseif ($actualMonopoliesAmounts[$entry.Key] -ne $entry.Value) {
+            Add-ValidationError "Industries/Corporations balance value is wrong for $($entry.Key): expected $($entry.Value), found $($actualMonopoliesAmounts[$entry.Key])"
+        }
+    }
+    if ($actualMonopoliesAmounts.Count -ne $expectedMonopoliesAmounts.Count) {
+        Add-ValidationError "Industries/Corporations balance assignment count is $($actualMonopoliesAmounts.Count), expected $($expectedMonopoliesAmounts.Count)."
+    }
+    if ($monopoliesBalanceSource.Contains('PRODUCT_CITY_GROWTH_HOUSING_MAPLE')) {
+        Add-ValidationError 'The Maple product housing bonus must remain +3 and must not be changed by the balance layer.'
+    }
+}
+
+$monopoliesDatabaseAction = $modInfo.SelectSingleNode('/Mod/InGameActions/UpdateDatabase[@id="ZYL_MonopoliesBalance" and Criteria="ZYL_MonopoliesMode"]')
+if ($null -eq $monopoliesDatabaseAction -or
+        $monopoliesDatabaseAction.SelectSingleNode('./File[.="sql/ZYL_MonopoliesBalance.sql"]') -eq $null -or
+        $monopoliesDatabaseAction.SelectSingleNode('./Properties/LoadOrder').InnerText -ne '260000015') {
+    Add-ValidationError 'The Industries/Corporations balance SQL is not registered as a late, Monopolies-only database action.'
+}
+$monopoliesTextAction = $modInfo.SelectSingleNode('/Mod/InGameActions/UpdateText[@id="ZYL_MonopoliesBalanceText" and Criteria="ZYL_MonopoliesMode"]')
+if ($null -eq $monopoliesTextAction -or
+        $monopoliesTextAction.SelectSingleNode('./File[.="lang/ZYL_MonopoliesBalance_Text.xml"]') -eq $null -or
+        $monopoliesTextAction.SelectSingleNode('./Properties/LoadOrder').InnerText -ne '260000025') {
+    Add-ValidationError 'The Industries/Corporations Chinese text is not registered as a late, Monopolies-only text action.'
+}
+if (-not (Test-Path -LiteralPath $monopoliesTextPath)) {
+    Add-ValidationError 'The Industries/Corporations Simplified Chinese text layer is missing.'
+}
+else {
+    $monopoliesText = Load-XmlDocument $monopoliesTextPath
+    $monopoliesTextRows = @($monopoliesText.SelectNodes('/GameData/LocalizedText/*[@Tag]'))
+    foreach ($row in $monopoliesTextRows) {
+        if ($row.GetAttribute('Language') -ne 'zh_Hans_CN') {
+            Add-ValidationError "Non-Simplified-Chinese row in Industries/Corporations text: $($row.GetAttribute('Tag'))"
+        }
+    }
+    $requiredMonopoliesChinese = @{
+        'LOC_INDUSTRY_CITY_GROWTH_DISCOUNT_DESCRIPTION' = @('+10%', '+3 [ICON_Housing]')
+        'LOC_INDUSTRY_MILITARY_UNIT_DISCOUNT_DESCRIPTION' = @('+15%')
+        'LOC_INDUSTRY_CIVILIAN_UNIT_DISCOUNT_DESCRIPTION' = @('+15%')
+        'LOC_INDUSTRY_BUILDING_DISCOUNT_DESCRIPTION' = @('+15%')
+        'LOC_INDUSTRY_GOLD_YIELD_BONUS_DESCRIPTION' = @('+15%')
+        'LOC_INDUSTRY_FAITH_YIELD_BONUS_DESCRIPTION' = @('+20%')
+        'LOC_INDUSTRY_SCIENCE_YIELD_BONUS_DESCRIPTION' = @('+7%')
+        'LOC_INDUSTRY_CULTURE_YIELD_BONUS_DESCRIPTION' = @('+7%')
+        'LOC_CORPORATION_CITY_GROWTH_DISCOUNT_DESCRIPTION' = @('+20%', '+6 [ICON_Housing]')
+        'LOC_CORPORATION_MILITARY_UNIT_DISCOUNT_DESCRIPTION' = @('+30%')
+        'LOC_CORPORATION_CIVILIAN_UNIT_DISCOUNT_DESCRIPTION' = @('+30%')
+        'LOC_CORPORATION_BUILDING_DISCOUNT_DESCRIPTION' = @('+30%')
+        'LOC_CORPORATION_GOLD_YIELD_BONUS_DESCRIPTION' = @('+30%')
+        'LOC_CORPORATION_FAITH_YIELD_BONUS_DESCRIPTION' = @('+40%')
+        'LOC_CORPORATION_SCIENCE_YIELD_BONUS_DESCRIPTION' = @('+15%')
+        'LOC_CORPORATION_CULTURE_YIELD_BONUS_DESCRIPTION' = @('+15%')
+        'LOC_P0K_RESOURCE_CITY_GROWTH_DISCOUNT_DESCRIPTION' = @('+10%', '+3 [ICON_HOUSING]')
+        'LOC_P0K_RESOURCE_GOLD_YIELD_BONUS_DESCRIPTION' = @('+15%')
+        'LOC_P0K_RESOURCE_FAITH_YIELD_BONUS_DESCRIPTION' = @('+20%')
+        'LOC_P0K_RESOURCE_SCIENCE_YIELD_BONUS_DESCRIPTION' = @('+7%')
+        'LOC_P0K_RESOURCE_CULTURE_YIELD_BONUS_DESCRIPTION' = @('+7%')
+    }
+    foreach ($entry in $requiredMonopoliesChinese.GetEnumerator()) {
+        $row = $monopoliesText.SelectSingleNode("/GameData/LocalizedText/*[@Tag='$($entry.Key)' and @Language='zh_Hans_CN']/Text")
+        if ($null -eq $row) {
+            Add-ValidationError "Industries/Corporations Chinese row is missing: $($entry.Key)"
+            continue
+        }
+        foreach ($fragment in $entry.Value) {
+            if (-not $row.InnerText.Contains($fragment)) {
+                Add-ValidationError "Industries/Corporations Chinese row $($entry.Key) is missing: $fragment"
+            }
+        }
+    }
+    $pediaRow = $monopoliesText.SelectSingleNode('/GameData/LocalizedText/*[@Tag="LOC_PEDIA_CONCEPTS_PAGE_MONOPOLIES_CHAPTER_INDUSTRIES_PARA_2" and @Language="zh_Hans_CN"]/Text')
+    foreach ($resourceName in @('琥珀', '蜂蜜', '橄榄', '海龟', '企鹅', '石榴', '莎草纸', '枫糖', '蛋白石', '李子')) {
+        if ($null -eq $pediaRow -or -not $pediaRow.InnerText.Contains("${resourceName}：")) {
+            Add-ValidationError "Industries Civilopedia text is missing the balanced resource: $resourceName"
+        }
+    }
+}
+
 # The upstream Simplified Chinese file stopped following BBG's gameplay
 # changes.  Keep the final 7.4.6 synchronization layer structurally safe and
 # make missing Chinese rows impossible to reintroduce silently.
@@ -897,6 +1052,8 @@ if (-not (Test-Path -LiteralPath $governorOverridePath)) {
 else {
     $governorOverrideSql = Get-Content -LiteralPath $governorOverridePath -Raw
     foreach ($requiredToken in @(
+		"GovernorType = 'GOVERNOR_THE_BUILDER'",
+		'SET TransitionStrength = 150',
         'SURPLUS_LOGISTICS_EXTRA_GROWTH',
         'EXPEDITION_ADJUST_SETTLERS_CONSUME_POPULATION',
         'BBG_GOVERNOR_MAGNUS_PROD_IZ',
@@ -1011,7 +1168,13 @@ if (Test-Path -LiteralPath $richMainlandAssignPath) {
         'ZYL_RVC_MINOR_DISTANCE_TIERS',
         'MinMajor = 6, MinMinor = 3',
         'bError_minor == false',
-        'Error Minor Player is still missing after relaxed fallback'
+        'Error Minor Player is still missing after relaxed fallback',
+        'CUSTOM_HYDROPHOBIC',
+        'ZYL_RVC_HYDROPHOBIC_MIN_WALKABLE_RATIO = 0.60',
+        'ZYL_RVC_HYDROPHOBIC_COAST_FREE_RANGE = 3',
+        'ZYL_RVC_HYDROPHOBIC_COAST_SCORE_RANGE = 5',
+        'ZYL_RVC_EvaluateHydrophobicStart',
+        'walkableRatio <= ZYL_RVC_HYDROPHOBIC_MIN_WALKABLE_RATIO'
     )) {
         if (-not $richMainlandAssignLua.Contains($requiredToken)) {
             Add-ValidationError "Rich Mainland city-state fallback is missing: $requiredToken"
@@ -2545,7 +2708,8 @@ foreach ($entry in $integratedUiContexts.GetEnumerator()) {
 
 foreach ($blockedId in @(
     'fbb7b86a-9ac9-4a8e-9439-9ded6aceda0e',
-    '4ecfcc62-5471-4435-b295-590df213e8d8'
+    '4ecfcc62-5471-4435-b295-590df213e8d8',
+    '8d4fa23a-ef43-440c-8422-2bec11f8f5d7'
 )) {
     if ($null -eq $modInfo.SelectSingleNode("/Mod/Blocks/Mod[@id='$blockedId']")) {
         Add-ValidationError "Integrated external UI Mod ID is not blocked: $blockedId"
@@ -2576,6 +2740,112 @@ foreach ($requiredFile in $requiredIntegratedUiFiles) {
     }
 }
 
+# Team PVP Tools Better Trade Screen Lite owns the complete trade UI chain.
+# Keep its configuration, sort controls and BBG yield-display compatibility
+# together, and prevent the old BBG TradeSupport/TradeOverview chain from
+# silently returning during a future ModInfo regeneration.
+$betterTradeScreenFiles = @(
+    'BTS\Settings\BTS_Settings.sql',
+    'BTS\Settings\BTS_SettingsPanel.lua',
+    'BTS\Settings\BTS_SettingsPanel.xml',
+    'BTS\Settings\BTS_SettingsSchema.sql',
+    'BTS\Text\BTS_Text_EN.xml',
+    'BTS\Text\BTS_Text_Hans_CN.xml',
+    'BTS\UI\BTS_Serialize.lua',
+    'BTS\UI\TradeOverview.lua',
+    'BTS\UI\TradeOverview.xml',
+    'BTS\UI\TradeSupport.lua',
+    'BTS\UI\Choosers\TradeOriginChooser.lua',
+    'BTS\UI\Choosers\TradeOriginChooser.xml',
+    'BTS\UI\Choosers\TradeRouteChooser.lua',
+    'BTS\UI\Choosers\TradeRouteChooser.xml'
+)
+foreach ($requiredFile in $betterTradeScreenFiles) {
+    $key = Normalize-RelativePath $requiredFile
+    if (-not (Test-Path -LiteralPath (Join-Path $modRoot $requiredFile))) {
+        Add-ValidationError "Better Trade Screen file is missing: $requiredFile"
+    }
+    elseif (-not $listedFileMap.ContainsKey($key) -or -not $actionReferenceMap.ContainsKey($key)) {
+        Add-ValidationError "Better Trade Screen file is not both published and active: $requiredFile"
+    }
+}
+
+$betterTradeCriterion = $criteriaMap['settings_ui_bettertradescreen']
+if ($null -eq $betterTradeCriterion -or
+        $betterTradeCriterion.GetAttribute('any') -ne '1' -or
+        $null -eq $betterTradeCriterion.SelectSingleNode("./ConfigurationValueMatches[ConfigurationId='SETTINGS_UI_BTS' and Value='1']") -or
+        $null -eq $betterTradeCriterion.SelectSingleNode("./ConfigurationValueMatches[ConfigurationId='SETTINGS_UI' and Value='SETTINGS_UI_ENABLE_ALL']")) {
+    Add-ValidationError 'Better Trade Screen is not enabled by its custom toggle and the master UI preset.'
+}
+
+$configUiPath = Join-Path $modRoot 'Config\Config_UI.xml'
+if (Test-Path -LiteralPath $configUiPath) {
+    $configUi = Load-XmlDocument $configUiPath
+    if ($null -eq $configUi.SelectSingleNode("/GameInfo/Parameters/Row[@ParameterId='SETTINGS_UI_BTS' and @ConfigurationId='SETTINGS_UI_BTS']")) {
+        Add-ValidationError 'The custom UI list is missing its Better Trade Screen toggle.'
+    }
+    if ($null -eq $configUi.SelectSingleNode("/GameInfo/ParameterDependencies/Row[@ParameterId='SETTINGS_UI_BTS' and @ConfigurationId='SETTINGS_UI' and @ConfigurationValue='SETTINGS_UI_CUSTOM']")) {
+        Add-ValidationError 'The Better Trade Screen toggle is not limited to custom UI mode.'
+    }
+}
+
+$expectedBetterTradeActions = @{
+    'zyl_bts_settingsschema' = @('UpdateDatabase', 'BTS/Settings/BTS_SettingsSchema.sql', '11008')
+    'zyl_bts_settings' = @('UpdateDatabase', 'BTS/Settings/BTS_Settings.sql', '11009')
+    'zyl_bts_settingspanel' = @('AddUserInterfaces', 'BTS/Settings/BTS_SettingsPanel.xml', '11010')
+    'zyl_bts_ui' = @('ImportFiles', 'BTS/UI/TradeSupport.lua', '11011')
+    'zyl_bts_text' = @('UpdateText', 'BTS/Text/BTS_Text_Hans_CN.xml', '11012')
+}
+foreach ($entry in $expectedBetterTradeActions.GetEnumerator()) {
+    $action = $actionIdMap[$entry.Key]
+    if ($null -eq $action -or
+            $action.LocalName -ne $entry.Value[0] -or
+            $null -eq $action.SelectSingleNode("./File[.='$($entry.Value[1])']") -or
+            $action.SelectSingleNode('./Properties/LoadOrder').InnerText.Trim() -ne $entry.Value[2] -or
+            $null -eq $action.SelectSingleNode("./Criteria[.='SETTINGS_UI_BetterTradeScreen']")) {
+        Add-ValidationError "Better Trade Screen action is missing or malformed: $($entry.Key)"
+    }
+}
+
+foreach ($oldBbgTradePath in @(
+    'Components\BBG\ui\replacements\tradesupport.lua',
+    'Components\BBG\ui\replacements\tradeoverview_bbg.lua',
+    'Components\BBG\ui\replacements\compatibility\tradeoverview.lua',
+    'Components\BBG\ui\replacements\compatibility\traderoutechooser.lua'
+)) {
+    if ($actionReferenceMap.ContainsKey((Normalize-RelativePath $oldBbgTradePath))) {
+        Add-ValidationError "BBG trade UI is active alongside BTS: $oldBbgTradePath"
+    }
+}
+
+$betterTradeSupportPath = Join-Path $modRoot 'BTS\UI\TradeSupport.lua'
+if (Test-Path -LiteralPath $betterTradeSupportPath) {
+    $betterTradeSupport = Get-Content -LiteralPath $betterTradeSupportPath -Raw
+    foreach ($requiredToken in @(
+        'include( "BTS_Serialize" )',
+        'GetBBGAmaniTradeRouteYieldBonus',
+        'LOC_GOVERNOR_THE_AMBASSADOR_NAME',
+        'GetBBGAmaniTradeRouteYieldBonus(routeInfo, FOOD_INDEX)',
+        'GetBBGAmaniTradeRouteYieldBonus(routeInfo, PRODUCTION_INDEX)',
+        'BTS_Serialize(m_LocalPlayerRunningRoutes)',
+        'BTS_Deserialize(dataDump)'
+    )) {
+        if (-not $betterTradeSupport.Contains($requiredToken)) {
+            Add-ValidationError "Better Trade Screen lost BBG/cache compatibility: $requiredToken"
+        }
+    }
+}
+
+$betterTradeChooserPath = Join-Path $modRoot 'BTS\UI\Choosers\TradeRouteChooser.lua'
+if (Test-Path -LiteralPath $betterTradeChooserPath) {
+    $betterTradeChooser = Get-Content -LiteralPath $betterTradeChooserPath -Raw
+    foreach ($sortHandler in @('OnSortByFood', 'OnSortByProduction', 'OnSortByGold', 'OnSortByScience', 'OnSortByCulture', 'OnSortByFaith', 'OnSortByTurnsToComplete')) {
+        if (-not $betterTradeChooser.Contains($sortHandler)) {
+            Add-ValidationError "Better Trade Screen route chooser is missing sort handler: $sortHandler"
+        }
+    }
+}
+
 $diplomacyRibbonPath = Join-Path $modRoot 'ui\Replacements\DiplomacyRibbon_ZYL.lua'
 $diplomacyRibbonLayoutPath = Join-Path $modRoot 'ui\Replacements\DiplomacyRibbon.xml'
 if (Test-Path -LiteralPath $diplomacyRibbonLayoutPath) {
@@ -2594,49 +2864,57 @@ if (Test-Path -LiteralPath $diplomacyRibbonLayoutPath) {
 	if ($null -ne $tptControl -and $tptControl.GetAttribute('Hidden') -eq '1') {
 		Add-ValidationError 'Diplomacy-ribbon page switch control is hidden.'
 	}
+	$playerNameControl = $diplomacyRibbonLayout.SelectSingleNode('//*[@ID="PlayerName"]')
+	if ($null -eq $playerNameControl -or $playerNameControl.LocalName -ne 'ScrollTextField') {
+		Add-ValidationError 'Diplomacy-ribbon PlayerName must retain the Team PVP Tools ScrollTextField control.'
+	}
+	$expectedStatOrder = @(
+		'PlayerName', 'PlayerNameLen', 'CivName', 'Score', 'Military', 'Cities',
+		'Science', 'Food_Total', 'Culture', 'Production_Total', 'Gold', 'GoldPerTurn',
+		'Faith', 'FaithperTurn', 'Favor', 'FavorperTurn', 'ScienceButton', 'ScienceText',
+		'ScienceTurnsLeft', 'CultureButton', 'CultureText', 'CultureTurnsLeft'
+	)
+	$actualStatOrder = @($diplomacyRibbonLayout.SelectNodes('//*[@ID="StatStack"]/*[@ID]') | ForEach-Object { $_.GetAttribute('ID') })
+	if (($actualStatOrder -join '|') -ne ($expectedStatOrder -join '|')) {
+		Add-ValidationError 'Diplomacy-ribbon StatStack control order no longer matches Team PVP Tools DPR.'
+	}
+	foreach ($hiddenControlId in @('Cities', 'Food_Total', 'Production_Total', 'GoldPerTurn', 'FaithperTurn', 'FavorperTurn', 'ScienceButton', 'ScienceText', 'ScienceTurnsLeft', 'CultureButton', 'CultureText', 'CultureTurnsLeft')) {
+		$hiddenControl = $diplomacyRibbonLayout.SelectSingleNode("//*[@ID='$hiddenControlId']")
+		if ($null -eq $hiddenControl -or $hiddenControl.GetAttribute('Hidden') -ne '1') {
+			Add-ValidationError "Diplomacy-ribbon control $hiddenControlId must retain the Team PVP Tools default hidden state."
+		}
+	}
 }
 if (Test-Path -LiteralPath $diplomacyRibbonPath) {
 	$diplomacyRibbonSource = Get-Content -Raw -LiteralPath $diplomacyRibbonPath
 	foreach ($requiredToken in @(
-		'include("DiplomacyRibbon_Expansion2.lua")',
-		'ZYL_XP2_FinishAddingLeader(playerID, uiLeader, kProps)',
-		'ZYL_XP2_UpdateStatValues(playerID, uiLeader)',
+		'include("InstanceManager")',
+		'include("LeaderIcon")',
+		'function LeaderIcon:GetToolTipString(playerID)',
+		'local uiPortraitButton  = oLeaderIcon.Controls.SelectButton',
 		'GameConfiguration.GetValue("ZYL_DIPLOMACY_RIBBON_MODE")',
-		'localDiplomacy:GetVisibilityOn(targetID)',
-		'Players[teammate]:GetTeam() == localTeam',
-		'diplomacy:GetVisibilityOn(targetID)',
-		'accessLevel >= 1',
-		'accessLevel >= 2',
-		'accessLevel >= 3',
-		'accessLevel >= 4',
-		'SetLocked(uiLeader.Military, "[ICON_Strength]")',
-		'SetLocked(uiLeader.Food_Total, "[ICON_Food]")',
-		'SetLocked(uiLeader.Production_Total, "[ICON_Production]")',
-		'SetLocked(uiLeader.GoldPerTurn, "[ICON_Gold]")',
-		'SetLocked(uiLeader.FaithperTurn, "[ICON_Faith]")',
-		'SetText(uiLeader.Gold, "[ICON_Gold]"',
-		'SetText(uiLeader.Faith, "[ICON_Faith]"',
-		'local showResearch = not m_TechCivisProgress',
-		'local showDefault = m_TechCivisProgress and m_Totalyield',
-		'local showTotalYield = m_TechCivisProgress and not m_Totalyield',
-		'SetHide(uiLeader.Gold, not (showDefault and revealTarget))',
-		'SetHide(uiLeader.Faith, not (showDefault and revealTarget))',
-		'SetHide(uiLeader.Food_Total, not (showTotalYield and revealTarget))',
-		'uiLeader.TPT_Control_1:RegisterCallback(Mouse.eLClick, OnMouseClick_TPT_Control_1L)',
-		'uiLeader.TPT_Control_1:RegisterCallback(Mouse.eRClick, OnMouseClick_TPT_Control_1R)',
-		'SetResearchCard(uiLeader, playerID, accessLevel >= 4, showResearch)',
-		'diplomacy:HasMet(playerID)',
-		'GameInfo.LeaderTraits',
-		'GameInfo.CivilizationTraits',
-		'GameInfo.Districts',
-		'GameInfo.Buildings',
-		'GameInfo.Improvements',
-		'GameInfo.Units',
-		'if kProps ~= nil and kProps.isMasked then',
-		'leaderContainer:SetToolTipString(tooltip or "")'
+		'localPlayerDiplomacy:GetVisibilityOn(playerID)',
+		'Model == 1 and not IsTeamPlayer[playerID]',
+		'iTeamAccessLevel = pPlayerDiplomacy:GetVisibilityOn(playerID)',
+		'playerID == localplayerID or (Model == 1 and IsTeamPlayer[playerID])',
+		'ZYLCanReveal(accessLevel, 1)',
+		'ZYLCanReveal(accessLevel, 2)',
+		'ZYLCanReveal(accessLevel, 3)',
+		'ZYLCanReveal(accessLevel, 4)',
+		'local Invisible = "?"',
+		'uiLeader.Gold:SetText("[ICON_Gold]"',
+		'uiLeader.Faith:SetText("[ICON_Faith]"',
+		'local CanHide = m_TechCivisProgress or isMasked',
+		'uiLeader.TPT_Control_1:RegisterCallback( Mouse.eLClick, OnMouseClick_TPT_Control_1L)',
+		'uiLeader.TPT_Control_1:RegisterCallback( Mouse.eRClick, OnMouseClick_TPT_Control_1R)',
+		'function ZYLSetResearchLocked',
+		'LOC_ZYL_DIPLOMACY_RIBBON_RESEARCH_LOCKED_TT',
+		'result = Locale.Lookup("LOC_DIPLOPANEL_UNMET_PLAYER");',
+		'local isMasked = false;',
+		'uiLeader.ActiveLeaderAndStats:SetSizeVal( pSize_LeaderContainer.x + LEADER_ART_OFFSET_X, pSize_StatStack.y + LEADER_ART_OFFSET_Y + 65 )'
 	)) {
 		if (-not $diplomacyRibbonSource.Contains($requiredToken)) {
-			Add-ValidationError "Diplomacy-ribbon ability tooltip is missing: $requiredToken"
+			Add-ValidationError "Diplomacy-ribbon TPT layout or visibility overlay is missing: $requiredToken"
 		}
 	}
 }
@@ -2645,7 +2923,7 @@ $ribbonImport = $modInfo.SelectSingleNode('/Mod/InGameActions/ImportFiles[@id="Z
 if ($null -eq $ribbonImport -or
 	$null -eq $ribbonImport.SelectSingleNode('./File[.="ui/Replacements/DiplomacyRibbon.xml"]') -or
 	$null -eq $ribbonImport.SelectSingleNode('./File[.="ui/Replacements/DiplomacyRibbon_ZYL.lua"]')) {
-	Add-ValidationError 'The XP2 diplomacy-ribbon layout and wrapper must be imported together.'
+	Add-ValidationError 'The XP2 Team PVP Tools diplomacy-ribbon layout and visibility-overlaid script must be imported together.'
 }
 
 $oldMphDealPath = Normalize-RelativePath 'ui\Replacements\diplomacydealview_MPH.lua'

@@ -25,8 +25,6 @@
 		<Replace Tag="LOC_BOOST_TRIGGER_LONGDESC_RECORDED_HISTORY" Language="en_US"><Text>Build 1 Library.</Text></Replace>
 		<Replace Tag="LOC_BOOST_TRIGGER_HUMANISM" Language="en_US"><Text>Build 1 Amphitheater.</Text></Replace>
 		<Replace Tag="LOC_BOOST_TRIGGER_LONGDESC_HUMANISM" Language="en_US"><Text>Build 1 Amphitheater.</Text></Replace>
-		<Replace Tag="LOC_BOOST_TRIGGER_MILITARY_TRAINING" Language="en_US"><Text>Build an Encampment or Harbor.</Text></Replace>
-		<Replace Tag="LOC_BOOST_TRIGGER_LONGDESC_MILITARY_TRAINING" Language="en_US"><Text>With an Encampment or Harbor now in place, we can formalize our military training.</Text></Replace>
 		<Replace Tag="LOC_BOOST_TRIGGER_MILITARY_TACTICS" Language="en_US"><Text>Own 2 Spearmen.</Text></Replace>
 		<Replace Tag="LOC_BOOST_TRIGGER_LONGDESC_MILITARY_TACTICS" Language="en_US"><Text>Own 2 Spearmen.</Text></Replace>
 		<Replace Tag="LOC_BOOST_TRIGGER_NAVAL_TRADITION" Language="en_US"><Text>Own 2 Quadriremes.</Text></Replace>
@@ -44,8 +42,6 @@
 		<Replace Tag="LOC_BOOST_TRIGGER_LONGDESC_RECORDED_HISTORY" Language="zh_Hans_CN"><Text>建造1座图书馆。</Text></Replace>
 		<Replace Tag="LOC_BOOST_TRIGGER_HUMANISM" Language="zh_Hans_CN"><Text>建造1座古罗马剧场。</Text></Replace>
 		<Replace Tag="LOC_BOOST_TRIGGER_LONGDESC_HUMANISM" Language="zh_Hans_CN"><Text>建造1座古罗马剧场。</Text></Replace>
-		<Replace Tag="LOC_BOOST_TRIGGER_MILITARY_TRAINING" Language="zh_Hans_CN"><Text>建造1座军营或港口。</Text></Replace>
-		<Replace Tag="LOC_BOOST_TRIGGER_LONGDESC_MILITARY_TRAINING" Language="zh_Hans_CN"><Text>随着一座军营或港口的竣工，我们的军事训练可以更加规范。</Text></Replace>
 		<Replace Tag="LOC_BOOST_TRIGGER_MILITARY_TACTICS" Language="zh_Hans_CN"><Text>拥有2名长矛兵。</Text></Replace>
 		<Replace Tag="LOC_BOOST_TRIGGER_LONGDESC_MILITARY_TACTICS" Language="zh_Hans_CN"><Text>拥有2名长矛兵。</Text></Replace>
 		<Replace Tag="LOC_BOOST_TRIGGER_NAVAL_TRADITION" Language="zh_Hans_CN"><Text>拥有2艘四段帆船。</Text></Replace>

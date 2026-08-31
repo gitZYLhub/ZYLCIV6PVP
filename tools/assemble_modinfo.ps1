@@ -338,6 +338,7 @@ $blockedMods = @(
     @('13E8BCDF-98EC-4C03-3641-72D519B0047C', 'Better City States (included)'),
     @('8446e6e9-7703-434d-ba10-0bd70a291d28', 'Tech Civic Progress Plus (included)'),
     @('c6477d9f-6bad-4d24-9e76-49cda4f0a966', 'Better Builder Charges Tracking (included)'),
+    @('8d4fa23a-ef43-440c-8422-2bec11f8f5d7', 'Better Trade Screen (included via Team PVP Tools)'),
     @('6a18ae19-df93-4322-a3d5-33c5a5087b36', 'Real Great People (conflicting UI)'),
     @('aa42d206-0aa1-4bbf-9ac0-27d338e2d91e', 'Real Stylish Great People (conflicting UI)'),
     @('4ecfcc62-5471-4435-b295-590df213e8d8', 'Detailed Map Tacks (integrated)'),
@@ -408,7 +409,15 @@ $bdwCriteria = Add-ComponentCriteria $target $bdw 'ZYLPVP_BDW_'
 $dmtCriteria = Add-ComponentCriteria $target $dmt 'ZYLPVP_DMT_'
 
 Add-ComponentActions $target $bbg 'BBG' 'Components/BBG' $bbgCriteria @(
-    'BBG_LoadLast'
+    'BBG_LoadLast',
+    # Team PVP Tools BTS is the single owner of all trade UI files below.
+    # Do not leave BBG's compatibility chain active: both chains define the
+    # same TradeOverview/TradeSupport symbols and the last-loaded one wins.
+    'bbg_tradesupport',
+    'bbg_basetradeui',
+    'base_tradeoverview',
+    'bbg_tradeoverview_import',
+    'bbg_tradeoverview'
 )
 Add-ComponentActions $target $bbm 'BBM' 'Components/BBM' $bbmCriteria
 Add-ComponentActions $target $bdw 'BetterDealWindow' 'Components/BetterDealWindow' $bdwCriteria @(
@@ -475,6 +484,7 @@ foreach ($criterionId in @(
     'ZYL_GatheringStorm',
 	'ZYL_EraLengthOptimization',
     'ZYL_NoMapPins',
+    'SETTINGS_UI_BetterTradeScreen',
     'ZYL_RichMainland',
     'ZYL_RichMainland_Team',
     'ZYL_RichMainland_FFA'
@@ -583,6 +593,28 @@ foreach ($configurationValue in @(
 }
 [void]$noMapPinsCriterion.AppendChild($noMapPinsMatch)
 [void]$zylCriteria.AppendChild($noMapPinsCriterion)
+
+# Enable BTS through either its custom toggle or the suite-wide UI preset.
+$betterTradeScreenCriterion = $target.CreateElement('Criteria')
+$betterTradeScreenCriterion.SetAttribute('id', 'SETTINGS_UI_BetterTradeScreen')
+$betterTradeScreenCriterion.SetAttribute('any', '1')
+foreach ($configurationValues in @(
+    @('SETTINGS_UI_BTS', '1'),
+    @('SETTINGS_UI', 'SETTINGS_UI_ENABLE_ALL')
+)) {
+    $betterTradeScreenMatch = $target.CreateElement('ConfigurationValueMatches')
+    foreach ($configurationValue in @(
+        @('Group', 'Game'),
+        @('ConfigurationId', $configurationValues[0]),
+        @('Value', $configurationValues[1])
+    )) {
+        $configurationNode = $target.CreateElement($configurationValue[0])
+        $configurationNode.InnerText = $configurationValue[1]
+        [void]$betterTradeScreenMatch.AppendChild($configurationNode)
+    }
+    [void]$betterTradeScreenCriterion.AppendChild($betterTradeScreenMatch)
+}
+[void]$zylCriteria.AppendChild($betterTradeScreenCriterion)
 
 # The two Rich Mainland maps share one generator but require different runtime
 # map-size databases.  Front-end registration is unconditional; these criteria
@@ -803,21 +835,54 @@ Add-ZylAction 'InGameActions' 'UpdateDatabase' 'ZYL_RichMainland_Common' 'Compon
 Add-ZylAction 'InGameActions' 'UpdateDatabase' 'ZYL_RichMainland_Team_Config' 'Components/BBM/Data/BBS Maps/ZYLRM/ConfigureTeam.sql' '1003' @('ZYL_RichMainland_Team')
 Add-ZylAction 'InGameActions' 'UpdateDatabase' 'ZYL_RichMainland_FFA_Config' 'Components/BBM/Data/BBS Maps/ZYLRM/ConfigureFFA.sql' '1003' @('ZYL_RichMainland_FFA')
 Add-ZylAction 'InGameActions' 'UpdateArt' 'ZYL_TPVP_SecretSocietiesArt' 'Components/TeamPVPSecretSocieties/TeamPVPSecretSocieties.dep' '250000000' @('ZYL_SecretSocietiesXP2')
+Add-ZylAction 'InGameActions' 'UpdateArt' 'ZYL_TPVP_TaoistArt' 'Components/TeamPVPSecretSocieties/Taoist/Taoist.dep' '250000001' @('ZYL_SecretSocietiesXP2')
+$taoistArtAction = [System.Xml.XmlElement]$target.SelectSingleNode('/Mod/InGameActions/UpdateArt[@id="ZYL_TPVP_TaoistArt"]')
+$taoistArtContext = $target.CreateElement('Context')
+$taoistArtContext.InnerText = 'InGame'
+[void]$taoistArtAction.SelectSingleNode('./Properties').AppendChild($taoistArtContext)
+Add-ZylAction 'InGameActions' 'UpdateDatabase' 'ZYL_TPVP_TaoistDatabase' 'Components/TeamPVPSecretSocieties/Taoist/Data/Taoist_unit.sql' '250000005' @('ZYL_SecretSocietiesXP2')
 Add-ZylAction 'InGameActions' 'UpdateDatabase' 'ZYL_TPVP_GildedShipyard' 'Components/TeamPVPSecretSocieties/Build_GildedShipyard.xml' '250000000' @('ZYL_SecretSocietiesXP2')
 Add-ZylAction 'InGameActions' 'UpdateDatabase' 'ZYL_TPVP_SecretSocietiesGameplay' 'Components/TeamPVPSecretSocieties/Gameplay.sql' '250000010' @('ZYL_SecretSocietiesXP2')
-Add-ZylAction 'InGameActions' 'UpdateText' 'ZYL_TPVP_SecretSocietiesText' 'Components/TeamPVPSecretSocieties/Text.xml' '250000020' @('ZYL_SecretSocietiesXP2')
-Add-ZylAction 'InGameActions' 'UpdateIcons' 'ZYL_TPVP_SecretSocietiesIcons' 'Components/TeamPVPSecretSocieties/Icons.xml' '250000020' @('ZYL_SecretSocietiesXP2')
+Add-ZylAction 'InGameActions' 'UpdateText' 'ZYL_TPVP_SecretSocietiesText' @(
+    'Components/TeamPVPSecretSocieties/Text.xml',
+    'Components/TeamPVPSecretSocieties/Taoist/Text/Taoist_text.xml'
+) '250000020' @('ZYL_SecretSocietiesXP2')
+Add-ZylAction 'InGameActions' 'UpdateIcons' 'ZYL_TPVP_SecretSocietiesIcons' @(
+    'Components/TeamPVPSecretSocieties/Icons.xml',
+    'Components/TeamPVPSecretSocieties/Taoist/Data/Taoist_icon.xml'
+) '250000020' @('ZYL_SecretSocietiesXP2')
+Add-ZylUserInterface 'ZYL_TPVP_TaoistUI' 'Components/TeamPVPSecretSocieties/Taoist/UI/Taoist_UI.xml' '250000030' @('ZYL_SecretSocietiesXP2')
+Add-ZylAction 'InGameActions' 'AddGameplayScripts' 'ZYL_TPVP_TaoistGameplay' 'Components/TeamPVPSecretSocieties/Taoist/Scripts/Taoist_Gameplay.lua' '250000030' @('ZYL_SecretSocietiesXP2')
 Add-ZylAction 'InGameActions' 'UpdateDatabase' 'ZYL_GameplayOverrides' 'sql/ZYL_GameplayOverrides.sql' '260000000'
 Add-ZylAction 'InGameActions' 'UpdateDatabase' 'ZYL_EraLengthOptimization' 'sql/ZYL_EraLengthOptimization.sql' '260000005' @('ZYL_EraLengthOptimization')
 Add-ZylAction 'InGameActions' 'UpdateDatabase' 'ZYL_GovernorOverrides' 'sql/ZYL_GovernorOverrides.sql' '260000010' @('ZYLPVP_BBG_XP1_OR_XP2')
 Add-ZylAction 'InGameActions' 'UpdateText' 'ZYL_GameplayOverridesText' 'lang/ZYL_GameplayOverrides_Text.xml' '260000020'
 Add-ZylAction 'InGameActions' 'UpdateText' 'ZYL_BBG74_ChineseText' 'lang/ZYL_BBG74_Chinese_Text.xml' '259999990'
 Add-ZylAction 'InGameActions' 'UpdateText' 'ZYL_BBGExpandedChineseText' 'lang/ZYL_BBGExpanded_Chinese.sql' '259999995'
-Add-ZylAction 'InGameActions' 'AddGameplayScripts' 'ZYL_BoostTriggers' 'scripts/ZYL_BoostTriggers.lua' '260000030'
 Add-ZylAction 'InGameActions' 'AddGameplayScripts' 'ZYL_GameFeatureNotices' 'NT/Notice.lua' '1000'
 Add-ZylAction 'InGameActions' 'UpdateText' 'ZYL_GameFeatureNoticesText' 'NT/Notice_Text.xml' '1000'
 Add-ZylAction 'InGameActions' 'UpdateText' 'ZYL_RandomPromotionHotkeyText' 'NHK/Config_NewUnitOperation_Text.xml' '1000'
 Add-ZylUserInterface 'ZYL_RandomPromotionHotkey' 'NHK/UI/NewUnitOperation.xml' '1100' @('TPT_NEW_HOTKEYS')
+# Team PVP Tools' Better Trade Screen Lite (BTS). Keep its proven import
+# pattern: Civ VI replaces the stock trade partial screens with same-named
+# imported XML/Lua files. BBG's conflicting trade chain is skipped above.
+Add-ZylAction 'InGameActions' 'UpdateDatabase' 'ZYL_BTS_SettingsSchema' 'BTS/Settings/BTS_SettingsSchema.sql' '11008' @('SETTINGS_UI_BetterTradeScreen')
+Add-ZylAction 'InGameActions' 'UpdateDatabase' 'ZYL_BTS_Settings' 'BTS/Settings/BTS_Settings.sql' '11009' @('SETTINGS_UI_BetterTradeScreen')
+Add-ZylUserInterface 'ZYL_BTS_SettingsPanel' 'BTS/Settings/BTS_SettingsPanel.xml' '11010' @('SETTINGS_UI_BetterTradeScreen')
+Add-ZylAction 'InGameActions' 'ImportFiles' 'ZYL_BTS_UI' @(
+    'BTS/UI/TradeOverview.xml',
+    'BTS/UI/TradeOverview.lua',
+    'BTS/UI/BTS_Serialize.lua',
+    'BTS/UI/TradeSupport.lua',
+    'BTS/UI/Choosers/TradeRouteChooser.xml',
+    'BTS/UI/Choosers/TradeRouteChooser.lua',
+    'BTS/UI/Choosers/TradeOriginChooser.xml',
+    'BTS/UI/Choosers/TradeOriginChooser.lua'
+) '11011' @('SETTINGS_UI_BetterTradeScreen')
+Add-ZylAction 'InGameActions' 'UpdateText' 'ZYL_BTS_Text' @(
+    'BTS/Text/BTS_Text_EN.xml',
+    'BTS/Text/BTS_Text_Hans_CN.xml'
+) '11012' @('SETTINGS_UI_BetterTradeScreen')
 Add-ZylReplaceUIScript 'ZYL_HideMapPinListPanel' 'MapPinListPanel' 'RMP/UI/MapPinListPanel.lua' '1100' @('ZYL_NoMapPins')
 Add-ZylAction 'InGameActions' 'ImportFiles' 'ZYL_HideMapPinListPanelFiles' @(
     'RMP/UI/MapPinListPanel.xml',
@@ -859,7 +924,6 @@ foreach ($newFile in @(
 	'lang/ZYL_GameplayOverrides_Text.xml',
 	'lang/ZYL_BBG74_Chinese_Text.xml',
 	'lang/ZYL_BBGExpanded_Chinese.sql',
-	'scripts/ZYL_BoostTriggers.lua',
 	'configuration/ZYL_DisasterRange.sql',
 	'configuration/ZYL_LobbyDefaults.xml',
     'icons/ZYL_Pantheon_Icons.xml',
@@ -870,6 +934,20 @@ foreach ($newFile in @(
 	'NHK/Config_NewUnitOperation_Text.xml',
 	'NHK/UI/NewUnitOperation.lua',
 	'NHK/UI/NewUnitOperation.xml',
+	'BTS/Settings/BTS_Settings.sql',
+	'BTS/Settings/BTS_SettingsPanel.lua',
+	'BTS/Settings/BTS_SettingsPanel.xml',
+	'BTS/Settings/BTS_SettingsSchema.sql',
+	'BTS/Text/BTS_Text_EN.xml',
+	'BTS/Text/BTS_Text_Hans_CN.xml',
+	'BTS/UI/TradeOverview.lua',
+	'BTS/UI/TradeOverview.xml',
+	'BTS/UI/BTS_Serialize.lua',
+	'BTS/UI/TradeSupport.lua',
+	'BTS/UI/Choosers/TradeOriginChooser.lua',
+	'BTS/UI/Choosers/TradeOriginChooser.xml',
+	'BTS/UI/Choosers/TradeRouteChooser.lua',
+	'BTS/UI/Choosers/TradeRouteChooser.xml',
 	'ui/Replacements/DiplomacyRibbon_ZYL.lua',
 	'ui/Replacements/DiplomacyRibbon.xml',
 	'RMP/UI/Hide_MapPinListButton.lua',
@@ -884,6 +962,16 @@ foreach ($newFile in @(
     'Components/TeamPVPSecretSocieties/Icons.xml',
     'Components/TeamPVPSecretSocieties/TeamPVPSecretSocieties.dep',
     'Components/TeamPVPSecretSocieties/Buildings.artdef',
+    'Components/TeamPVPSecretSocieties/Taoist/Taoist.dep',
+    'Components/TeamPVPSecretSocieties/Taoist/Artdefs/Units.artdef',
+    'Components/TeamPVPSecretSocieties/Taoist/Data/Taoist_icon.xml',
+    'Components/TeamPVPSecretSocieties/Taoist/Data/Taoist_unit.sql',
+    'Components/TeamPVPSecretSocieties/Taoist/Platforms/MacOS/BLPs/Taoist.blp',
+    'Components/TeamPVPSecretSocieties/Taoist/Platforms/Windows/BLPs/Taoist.blp',
+    'Components/TeamPVPSecretSocieties/Taoist/Scripts/Taoist_Gameplay.lua',
+    'Components/TeamPVPSecretSocieties/Taoist/Text/Taoist_text.xml',
+    'Components/TeamPVPSecretSocieties/Taoist/UI/Taoist_UI.lua',
+    'Components/TeamPVPSecretSocieties/Taoist/UI/Taoist_UI.xml',
     'Components/BetterDealWindow/DiplomacyDealView.lua',
     'Components/BetterDealWindow/DiplomacyDealView.xml',
     'Components/BetterDealWindow/DiplomacyDealView_Expansion2.lua',

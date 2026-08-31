@@ -29,6 +29,13 @@ local Teamers_Ref_team = nil
 local Teamers_Ref_team_overturn = nil
 local TEAM_WRONG_SIDE_PENALTY = 120000000
 
+local ZYL_RVC_HYDROPHOBIC_MIN_WALKABLE_RATIO = 0.60
+local ZYL_RVC_HYDROPHOBIC_COAST_FREE_RANGE = 3
+local ZYL_RVC_HYDROPHOBIC_COAST_SCORE_RANGE = 5
+local ZYL_RVC_HYDROPHOBIC_COAST_PENALTY_PER_RING = 100000
+local ZYL_RVC_HYDROPHOBIC_CIVILIZATIONS = nil
+local ZYL_RVC_HYDROPHOBIC_START_CACHE = {}
+
 local ZYL_INLAND_COAST_VARIANT = {
 	LEADER_HOJO_INLAND = true,
 	LEADER_PHILIP_II_INLAND = true,
@@ -42,6 +49,128 @@ end
 local function ZYL_IsInlandCoastVariantPlayer(playerID)
 	local playerConfig = playerID ~= nil and PlayerConfigurations[playerID] or nil;
 	return playerConfig ~= nil and ZYL_IsInlandCoastVariant(playerConfig:GetLeaderTypeName());
+end
+
+local function ZYL_RVC_GetHydrophobicCivilizations()
+	if ZYL_RVC_HYDROPHOBIC_CIVILIZATIONS ~= nil then
+		return ZYL_RVC_HYDROPHOBIC_CIVILIZATIONS;
+	end
+
+	ZYL_RVC_HYDROPHOBIC_CIVILIZATIONS = {};
+	local customBiasRows = DB.Query(
+		"SELECT CivilizationType FROM StartBiasCustom WHERE CustomPlacement = 'CUSTOM_HYDROPHOBIC'"
+	);
+	for _, row in pairs(customBiasRows) do
+		if row.CivilizationType ~= nil then
+			ZYL_RVC_HYDROPHOBIC_CIVILIZATIONS[row.CivilizationType] = true;
+		end
+	end
+	return ZYL_RVC_HYDROPHOBIC_CIVILIZATIONS;
+end
+
+local function ZYL_RVC_HasHydrophobicBias(biases)
+	for _, bias in ipairs(biases or {}) do
+		if bias.Type == "CUSTOM_HYDROPHOBIC" then
+			return true;
+		end
+	end
+	return false;
+end
+
+local function ZYL_RVC_IsWalkableLand(plot)
+	return plot ~= nil and not plot:IsWater() and not plot:IsImpassable();
+end
+
+-- Match BBM's hydrophobic intent while using the Plot objects owned by the
+-- Rich Mainland placer.  The ratio counts land reachable from the candidate
+-- within six rings, rather than counting isolated pockets behind water or
+-- mountains as usable space.
+local function ZYL_RVC_EvaluateHydrophobicStart(startPlot)
+	local startIndex = startPlot:GetIndex();
+	local cached = ZYL_RVC_HYDROPHOBIC_START_CACHE[startIndex];
+	if cached ~= nil then
+		return cached.IsValid, cached.CoastPenalty, cached.WalkableRatio,
+			cached.NearestCoastalLand;
+	end
+
+	local function cacheResult(isValid, coastPenalty, walkableRatio, nearestCoastalLand)
+		ZYL_RVC_HYDROPHOBIC_START_CACHE[startIndex] = {
+			IsValid = isValid,
+			CoastPenalty = coastPenalty,
+			WalkableRatio = walkableRatio,
+			NearestCoastalLand = nearestCoastalLand
+		};
+		return isValid, coastPenalty, walkableRatio, nearestCoastalLand;
+	end
+
+	local plotsInRange = {};
+	local plotsByIndex = {};
+	local startX = startPlot:GetX();
+	local startY = startPlot:GetY();
+	for dx = -6, 6 do
+		for dy = -6, 6 do
+			local plot = Map.GetPlotXYWithRangeCheck(startX, startY, dx, dy, 6);
+			if plot ~= nil and plotsByIndex[plot:GetIndex()] == nil then
+				plotsByIndex[plot:GetIndex()] = plot;
+				table.insert(plotsInRange, plot);
+			end
+		end
+	end
+
+	local reachable = {};
+	local queue = {};
+	local queueIndex = 1;
+	if ZYL_RVC_IsWalkableLand(startPlot) then
+		reachable[startPlot:GetIndex()] = true;
+		table.insert(queue, startPlot);
+	end
+	while queueIndex <= #queue do
+		local currentPlot = queue[queueIndex];
+		queueIndex = queueIndex + 1;
+		for direction = 0, DirectionTypes.NUM_DIRECTION_TYPES - 1 do
+			local adjacentPlot = Map.GetAdjacentPlot(
+				currentPlot:GetX(), currentPlot:GetY(), direction
+			);
+			if adjacentPlot ~= nil
+					and plotsByIndex[adjacentPlot:GetIndex()] ~= nil
+					and reachable[adjacentPlot:GetIndex()] == nil
+					and ZYL_RVC_IsWalkableLand(adjacentPlot) then
+				reachable[adjacentPlot:GetIndex()] = true;
+				table.insert(queue, adjacentPlot);
+			end
+		end
+	end
+
+	local reachableCount = 0;
+	for _ in pairs(reachable) do
+		reachableCount = reachableCount + 1;
+	end
+	local walkableRatio = #plotsInRange > 0 and reachableCount / #plotsInRange or 0;
+	if walkableRatio <= ZYL_RVC_HYDROPHOBIC_MIN_WALKABLE_RATIO then
+		return cacheResult(false, 0, walkableRatio, nil);
+	end
+
+	local nearestCoastalLand = nil;
+	for _, plot in ipairs(plotsInRange) do
+		if plot:IsCoastalLand() then
+			local distance = Map.GetPlotDistance(startPlot:GetIndex(), plot:GetIndex());
+			if distance <= ZYL_RVC_HYDROPHOBIC_COAST_SCORE_RANGE
+					and (nearestCoastalLand == nil or distance < nearestCoastalLand) then
+				nearestCoastalLand = distance;
+			end
+		end
+	end
+	if nearestCoastalLand ~= nil
+			and nearestCoastalLand <= ZYL_RVC_HYDROPHOBIC_COAST_FREE_RANGE then
+		return cacheResult(false, 0, walkableRatio, nearestCoastalLand);
+	end
+
+	local coastPenalty = 0;
+	if nearestCoastalLand ~= nil then
+		coastPenalty = (ZYL_RVC_HYDROPHOBIC_COAST_SCORE_RANGE + 1 - nearestCoastalLand)
+			* ZYL_RVC_HYDROPHOBIC_COAST_PENALTY_PER_RING;
+	end
+	return cacheResult(true, coastPenalty, walkableRatio, nearestCoastalLand);
 end
 
 -- Keep the inland choice intact when this map's custom placement is disabled
@@ -1290,6 +1419,15 @@ end
 ------------------------------------------------------------------------------
 function BBS_AssignStartingPlots:__FindBias(civilizationType, leaderType)
     local biases = {};
+	if ZYL_RVC_GetHydrophobicCivilizations()[civilizationType] then
+		table.insert(biases, {
+			Tier = 1,
+			Type = "CUSTOM_HYDROPHOBIC",
+			Value = nil
+		});
+		self:__Debug("BBS_AssignStartingPlots: Add Bias : Civilization", civilizationType,
+			"Bias Type: CUSTOM_HYDROPHOBIC Tier: 1");
+	end
     for row in GameInfo.StartBiasResources() do
         if(row.CivilizationType == civilizationType) then
             local bias = {};
@@ -1361,6 +1499,8 @@ function BBS_AssignStartingPlots:__RateBiasPlots(biases, startPlots, major, regi
 	local region_bonus = 0
 	 local gridWidth, gridHeight = Map.GetGridSize();
 	local isInlandCoastVariant = ZYL_IsInlandCoastVariantPlayer(iPlayer);
+	local hydrophobicCoastPenalties = {};
+	local hydrophobicMetrics = {};
 
     if distributionBand ~= nil then
         local filteredPlots = {};
@@ -1373,6 +1513,26 @@ function BBS_AssignStartingPlots:__RateBiasPlots(biases, startPlots, major, regi
         end
         startPlots = filteredPlots;
     end
+
+	if major and ZYL_RVC_HasHydrophobicBias(biases) then
+		local hydrophobicPlots = {};
+		local originalCandidateCount = #startPlots;
+		for _, plot in ipairs(startPlots) do
+			local isValid, coastPenalty, walkableRatio, nearestCoastalLand =
+				ZYL_RVC_EvaluateHydrophobicStart(plot);
+			if isValid then
+				hydrophobicCoastPenalties[plot:GetIndex()] = coastPenalty;
+				hydrophobicMetrics[plot:GetIndex()] = {
+					WalkableRatio = walkableRatio,
+					NearestCoastalLand = nearestCoastalLand
+				};
+				table.insert(hydrophobicPlots, plot);
+			end
+		end
+		startPlots = hydrophobicPlots;
+		print("ZYL RVC CUSTOM_HYDROPHOBIC candidates:", civilizationType,
+			#startPlots, "/", originalCandidateCount, "region", region_index);
+	end
 
 
 	if civilizationType == "CIVILIZATION_SPAIN" or civilizationType == "CIVILIZATION_AUSTRALIA" or civilizationType == "CIVILIZATION_BRAZIL" or civilizationType == "CIVILIZATION_INCA" or civilizationType == "CIVILIZATION_MAPUCHE" or civilizationType == "CIVILIZATION_EGYPT" then
@@ -1439,9 +1599,16 @@ function BBS_AssignStartingPlots:__RateBiasPlots(biases, startPlots, major, regi
         local foundBiasDesert = false;
         local foundBiasToundra = false;
 		local foundBiasFloodPlains = false;
-		local foundBiasCoast = false;
+        local foundBiasCoast = false;
         ratedPlot.Plot = plot;
-        ratedPlot.Score = 0 + region_bonus;
+        ratedPlot.Score = 0 + region_bonus
+			- (hydrophobicCoastPenalties[plot:GetIndex()] or 0);
+		if hydrophobicMetrics[plot:GetIndex()] ~= nil then
+			ratedPlot.HydrophobicWalkableRatio =
+				hydrophobicMetrics[plot:GetIndex()].WalkableRatio;
+			ratedPlot.HydrophobicNearestCoastalLand =
+				hydrophobicMetrics[plot:GetIndex()].NearestCoastalLand;
+		end
         ratedPlot.Index = i;
         if (biases ~= nil) then
             for j, bias in ipairs(biases) do
@@ -2088,6 +2255,12 @@ function BBS_AssignStartingPlots:__SettlePlot(ratedBiases, index, player, major,
                 if (self:__MajorCivBuffer(ratedBias.Plot,player:GetTeam())) then
                     self:__Debug("Settled plot :", ratedBias.Plot:GetX(), ":", ratedBias.Plot:GetY(), "Score :", ratedBias.Score, "Player:",player:GetID(),"Region:",regionIndex);
 					print("Settled Score :", ratedBias.Score, "Player:",player:GetID(),"Region:",regionIndex)
+					if ratedBias.HydrophobicWalkableRatio ~= nil then
+						print("ZYL RVC CUSTOM_HYDROPHOBIC selected:", civilizationType,
+							"walkable", ratedBias.HydrophobicWalkableRatio,
+							"nearest coastal land",
+							tostring(ratedBias.HydrophobicNearestCoastalLand));
+					end
 					if ratedBias.Score < - 500 then
 						bError_shit_settle = true
 					end
@@ -2124,7 +2297,12 @@ function BBS_AssignStartingPlots:__SettlePlot(ratedBiases, index, player, major,
                 end
             end
             if (regionIndex == -1 and settled) then
-                table.remove(self.fallbackPlots, ratedBias.Index)
+				for fallbackIndex, fallbackPlot in ipairs(self.fallbackPlots) do
+					if fallbackPlot:GetIndex() == ratedBias.Plot:GetIndex() then
+						table.remove(self.fallbackPlots, fallbackIndex);
+						break;
+					end
+				end
             end
         elseif (regionIndex ~= -1) then
             table.insert(self.fallbackPlots, ratedBias.Plot);

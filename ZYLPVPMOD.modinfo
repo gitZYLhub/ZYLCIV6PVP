@@ -32,6 +32,7 @@
 		<Mod id="13E8BCDF-98EC-4C03-3641-72D519B0047C" title="Better City States (included)" />
 		<Mod id="8446e6e9-7703-434d-ba10-0bd70a291d28" title="Tech Civic Progress Plus (included)" />
 		<Mod id="c6477d9f-6bad-4d24-9e76-49cda4f0a966" title="Better Builder Charges Tracking (included)" />
+		<Mod id="8d4fa23a-ef43-440c-8422-2bec11f8f5d7" title="Better Trade Screen (included via Team PVP Tools)" />
 		<Mod id="6a18ae19-df93-4322-a3d5-33c5a5087b36" title="Real Great People (conflicting UI)" />
 		<Mod id="aa42d206-0aa1-4bbf-9ac0-27d338e2d91e" title="Real Stylish Great People (conflicting UI)" />
 		<Mod id="4ecfcc62-5471-4435-b295-590df213e8d8" title="Detailed Map Tacks (integrated)" />
@@ -634,6 +635,18 @@
 				<Group>Game</Group>
 				<ConfigurationId>CPL_NO_PINS</ConfigurationId>
 				<Value>1</Value>
+			</ConfigurationValueMatches>
+		</Criteria>
+		<Criteria id="SETTINGS_UI_BetterTradeScreen" any="1">
+			<ConfigurationValueMatches>
+				<Group>Game</Group>
+				<ConfigurationId>SETTINGS_UI_BTS</ConfigurationId>
+				<Value>1</Value>
+			</ConfigurationValueMatches>
+			<ConfigurationValueMatches>
+				<Group>Game</Group>
+				<ConfigurationId>SETTINGS_UI</ConfigurationId>
+				<Value>SETTINGS_UI_ENABLE_ALL</Value>
 			</ConfigurationValueMatches>
 		</Criteria>
 		<Criteria id="ZYL_RichMainland_Team">
@@ -2197,45 +2210,7 @@
 		<ImportFiles id="ZYLPVP_BBG_IG_084_bbg_files">
 			<File>Components/BBG/ui/replacements/endgamemenu_bbg.lua</File>
 		</ImportFiles>
-		<ImportFiles id="ZYLPVP_BBG_IG_085_bbg_tradesupport">
-			<Properties>
-				<LoadOrder>300</LoadOrder>
-			</Properties>
-			<Criteria>ZYLPVP_BBG_NoConflictingUIMod</Criteria>
-			<File>Components/BBG/ui/replacements/tradesupport.lua</File>
-		</ImportFiles>
-		<ImportFiles id="ZYLPVP_BBG_IG_086_bbg_basetradeui">
-			<Properties>
-				<LoadOrder>301</LoadOrder>
-			</Properties>
-			<Criteria>ZYLPVP_BBG_NoConflictingUIMod</Criteria>
-			<File>Components/BBG/ui/replacements/compatibility/traderoutechooser.lua</File>
-			<File>Components/BBG/ui/replacements/compatibility/tradeoverview.lua</File>
-		</ImportFiles>
-		<ReplaceUIScript id="ZYLPVP_BBG_IG_087_base_tradeoverview">
-			<Properties>
-				<LoadOrder>302</LoadOrder>
-				<LuaContext>TradeOverview</LuaContext>
-				<LuaReplace>Components/BBG/ui/replacements/compatibility/tradeoverview.lua</LuaReplace>
-			</Properties>
-			<Criteria>ZYLPVP_BBG_NoConflictingUIMod</Criteria>
-		</ReplaceUIScript>
-		<ImportFiles id="ZYLPVP_BBG_IG_088_bbg_tradeoverview_import">
-			<Properties>
-				<LoadOrder>303</LoadOrder>
-			</Properties>
-			<Criteria>ZYLPVP_BBG_NoConflictingUIMod</Criteria>
-			<File>Components/BBG/ui/replacements/tradeoverview_bbg.lua</File>
-		</ImportFiles>
-		<ReplaceUIScript id="ZYLPVP_BBG_IG_089_bbg_tradeoverview">
-			<Properties>
-				<LoadOrder>304</LoadOrder>
-				<LuaContext>TradeOverview</LuaContext>
-				<LuaReplace>Components/BBG/ui/replacements/tradeoverview_bbg.lua</LuaReplace>
-			</Properties>
-			<Criteria>ZYLPVP_BBG_NoConflictingUIMod</Criteria>
-		</ReplaceUIScript>
-		<AddGameplayScripts id="ZYLPVP_BBG_IG_090_Lua">
+		<AddGameplayScripts id="ZYLPVP_BBG_IG_085_Lua">
 			<Criteria>ZYLPVP_BBG_BBGExpanded</Criteria>
 			<Criteria>ZYLPVP_BBG_XP1_AND_XP2</Criteria>
 			<Criteria>ZYLPVP_BBG_DLC_Aztec</Criteria>
@@ -2723,6 +2698,13 @@
 			<Criteria>ZYLPVP_BBG_XP1_OR_XP2</Criteria>
 			<File>sql/ZYL_GovernorOverrides.sql</File>
 		</UpdateDatabase>
+		<UpdateDatabase id="ZYL_MonopoliesBalance">
+			<Properties>
+				<LoadOrder>260000015</LoadOrder>
+			</Properties>
+			<Criteria>ZYL_MonopoliesMode</Criteria>
+			<File>sql/ZYL_MonopoliesBalance.sql</File>
+		</UpdateDatabase>
 		<UpdateText id="ZYL_GameplayOverridesText">
 			<Properties>
 				<LoadOrder>260000020</LoadOrder>
@@ -2741,12 +2723,13 @@
 			</Properties>
 			<File>lang/ZYL_BBGExpanded_Chinese.sql</File>
 		</UpdateText>
-		<AddGameplayScripts id="ZYL_BoostTriggers">
+		<UpdateText id="ZYL_MonopoliesBalanceText">
 			<Properties>
-				<LoadOrder>260000030</LoadOrder>
+				<LoadOrder>260000025</LoadOrder>
 			</Properties>
-			<File>scripts/ZYL_BoostTriggers.lua</File>
-		</AddGameplayScripts>
+			<Criteria>ZYL_MonopoliesMode</Criteria>
+			<File>lang/ZYL_MonopoliesBalance_Text.xml</File>
+		</UpdateText>
 		<AddGameplayScripts id="ZYL_GameFeatureNotices">
 			<Properties>
 				<LoadOrder>1000</LoadOrder>
@@ -2773,6 +2756,50 @@
 			<Criteria>TPT_NEW_HOTKEYS</Criteria>
 			<File>NHK/UI/NewUnitOperation.xml</File>
 		</AddUserInterfaces>
+		<UpdateDatabase id="ZYL_BTS_SettingsSchema">
+			<Properties>
+				<LoadOrder>11008</LoadOrder>
+			</Properties>
+			<Criteria>SETTINGS_UI_BetterTradeScreen</Criteria>
+			<File>BTS/Settings/BTS_SettingsSchema.sql</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="ZYL_BTS_Settings">
+			<Properties>
+				<LoadOrder>11009</LoadOrder>
+			</Properties>
+			<Criteria>SETTINGS_UI_BetterTradeScreen</Criteria>
+			<File>BTS/Settings/BTS_Settings.sql</File>
+		</UpdateDatabase>
+		<AddUserInterfaces id="ZYL_BTS_SettingsPanel">
+			<Properties>
+				<LoadOrder>11010</LoadOrder>
+				<Context>InGame</Context>
+			</Properties>
+			<Criteria>SETTINGS_UI_BetterTradeScreen</Criteria>
+			<File>BTS/Settings/BTS_SettingsPanel.xml</File>
+		</AddUserInterfaces>
+		<ImportFiles id="ZYL_BTS_UI">
+			<Properties>
+				<LoadOrder>11011</LoadOrder>
+			</Properties>
+			<Criteria>SETTINGS_UI_BetterTradeScreen</Criteria>
+			<File>BTS/UI/TradeOverview.xml</File>
+			<File>BTS/UI/TradeOverview.lua</File>
+			<File>BTS/UI/BTS_Serialize.lua</File>
+			<File>BTS/UI/TradeSupport.lua</File>
+			<File>BTS/UI/Choosers/TradeRouteChooser.xml</File>
+			<File>BTS/UI/Choosers/TradeRouteChooser.lua</File>
+			<File>BTS/UI/Choosers/TradeOriginChooser.xml</File>
+			<File>BTS/UI/Choosers/TradeOriginChooser.lua</File>
+		</ImportFiles>
+		<UpdateText id="ZYL_BTS_Text">
+			<Properties>
+				<LoadOrder>11012</LoadOrder>
+			</Properties>
+			<Criteria>SETTINGS_UI_BetterTradeScreen</Criteria>
+			<File>BTS/Text/BTS_Text_EN.xml</File>
+			<File>BTS/Text/BTS_Text_Hans_CN.xml</File>
+		</UpdateText>
 		<ReplaceUIScript id="ZYL_HideMapPinListPanel">
 			<Properties>
 				<LoadOrder>1100</LoadOrder>
@@ -3531,11 +3558,12 @@
 		<File>sql/ZYL_GameplayOverrides.sql</File>
 		<File>sql/ZYL_EraLengthOptimization.sql</File>
 		<File>sql/ZYL_GovernorOverrides.sql</File>
+		<File>sql/ZYL_MonopoliesBalance.sql</File>
 		<File>lang/ZYL_Pantheons_Text.xml</File>
 		<File>lang/ZYL_GameplayOverrides_Text.xml</File>
 		<File>lang/ZYL_BBG74_Chinese_Text.xml</File>
 		<File>lang/ZYL_BBGExpanded_Chinese.sql</File>
-		<File>scripts/ZYL_BoostTriggers.lua</File>
+		<File>lang/ZYL_MonopoliesBalance_Text.xml</File>
 		<File>configuration/ZYL_DisasterRange.sql</File>
 		<File>configuration/ZYL_LobbyDefaults.xml</File>
 		<File>icons/ZYL_Pantheon_Icons.xml</File>
@@ -3546,6 +3574,20 @@
 		<File>NHK/Config_NewUnitOperation_Text.xml</File>
 		<File>NHK/UI/NewUnitOperation.lua</File>
 		<File>NHK/UI/NewUnitOperation.xml</File>
+		<File>BTS/Settings/BTS_Settings.sql</File>
+		<File>BTS/Settings/BTS_SettingsPanel.lua</File>
+		<File>BTS/Settings/BTS_SettingsPanel.xml</File>
+		<File>BTS/Settings/BTS_SettingsSchema.sql</File>
+		<File>BTS/Text/BTS_Text_EN.xml</File>
+		<File>BTS/Text/BTS_Text_Hans_CN.xml</File>
+		<File>BTS/UI/TradeOverview.lua</File>
+		<File>BTS/UI/TradeOverview.xml</File>
+		<File>BTS/UI/BTS_Serialize.lua</File>
+		<File>BTS/UI/TradeSupport.lua</File>
+		<File>BTS/UI/Choosers/TradeOriginChooser.lua</File>
+		<File>BTS/UI/Choosers/TradeOriginChooser.xml</File>
+		<File>BTS/UI/Choosers/TradeRouteChooser.lua</File>
+		<File>BTS/UI/Choosers/TradeRouteChooser.xml</File>
 		<File>ui/Replacements/DiplomacyRibbon_ZYL.lua</File>
 		<File>ui/Replacements/DiplomacyRibbon.xml</File>
 		<File>RMP/UI/Hide_MapPinListButton.lua</File>

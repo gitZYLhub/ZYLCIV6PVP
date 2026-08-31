@@ -8,7 +8,7 @@
 		<Row Tag="LOC_ZYL_ERA_LENGTH_OPTIMIZATION_NAME" Language="zh_Hans_CN"><Text>时代长度优化</Text></Row>
 		<Row Tag="LOC_ZYL_ERA_LENGTH_OPTIMIZATION_DESC" Language="zh_Hans_CN"><Text>调整世界时代持续范围：标准速度下，远古时代40–50回合，古典和中世纪时代50–60回合；联机速度下，远古时代20–25回合，古典和中世纪时代25–30回合。其他时代保持原版。默认开启。</Text></Row>
 		<Row Tag="LOC_ZYL_DIPLOMACY_RIBBON_MODE_NAME" Language="zh_Hans_CN"><Text>外交栏情报模式</Text></Row>
-		<Row Tag="LOC_ZYL_DIPLOMACY_RIBBON_MODE_DESC" Language="zh_Hans_CN"><Text>设置右上角外交栏采用个人或团队外交能见度。科技值和文化值始终可见；有限、公开、秘密和绝密能见度依次解锁军力、粮食与生产力、每回合金币与信仰、当前研究的科技与市政。未解锁的情报显示为问号，未接触的玩家仍保持匿名。</Text></Row>
+		<Row Tag="LOC_ZYL_DIPLOMACY_RIBBON_MODE_DESC" Language="zh_Hans_CN"><Text>设置右上角外交栏采用个人或团队外交能见度。科技值、文化值以及积存金币和信仰始终可见；有限、公开、秘密和绝密能见度依次解锁军力、粮食与生产力、每回合金币与信仰、当前研究的科技与市政。未解锁的情报显示为问号，未接触的玩家仍保持匿名。</Text></Row>
 		<Row Tag="LOC_ZYL_DIPLOMACY_RIBBON_MODE_FFA_NAME" Language="zh_Hans_CN"><Text>FFA 模式</Text></Row>
 		<Row Tag="LOC_ZYL_DIPLOMACY_RIBBON_MODE_FFA_DESC" Language="zh_Hans_CN"><Text>只使用本地玩家对目标玩家的外交能见度。默认选项。</Text></Row>
 		<Row Tag="LOC_ZYL_DIPLOMACY_RIBBON_MODE_TEAM_NAME" Language="zh_Hans_CN"><Text>组队模式</Text></Row>
@@ -18,6 +18,12 @@
 		<Row Tag="LOC_ZYL_DIPLOMACY_RIBBON_GOLD_TT" Language="zh_Hans_CN"><Text>每回合金币</Text></Row>
 		<Row Tag="LOC_ZYL_DIPLOMACY_RIBBON_FAITH_TT" Language="zh_Hans_CN"><Text>每回合信仰</Text></Row>
 		<Row Tag="LOC_ZYL_DIPLOMACY_RIBBON_RESEARCH_LOCKED_TT" Language="zh_Hans_CN"><Text>达到绝密外交能见度后显示当前研究项目。</Text></Row>
+		<Row Tag="LOC_DPR_TOTAL_POPULATION" Language="zh_Hans_CN"><Text>总人口</Text></Row>
+		<Row Tag="LOC_DPR_FOOD_SURPLUS_YIELD" Language="zh_Hans_CN"><Text>每回合食物盈余</Text></Row>
+		<Row Tag="LOC_DPR_PRODUCTION_YIELD" Language="zh_Hans_CN"><Text>每回合生产力</Text></Row>
+		<Row Tag="LOC_DPR_GOLD_PERTURN" Language="zh_Hans_CN"><Text>每回合金币</Text></Row>
+		<Row Tag="LOC_DPR_FAITH_PERTURN" Language="zh_Hans_CN"><Text>每回合信仰</Text></Row>
+		<Row Tag="LOC_DPR_FAVOR_PERTURN" Language="zh_Hans_CN"><Text>每回合外交支持</Text></Row>
 		<Row Tag="LOC_ZYL_QUICK_ADD_TT" Language="zh_Hans_CN"><Text>公共聊天发送 p++：本回合每次加时 20 秒，每回合最多 3 次；不足 8 秒时每次加时 24 秒。</Text></Row>
 		<Row Tag="LOC_ZYL_QUICK_REDUCE_TT" Language="zh_Hans_CN"><Text>公共聊天发送 p--：本回合减时 10 秒，最低 40 秒，每回合限一次。</Text></Row>
 		<Row Tag="LOC_ZYL_RANDOM_TEAMS" Language="zh_Hans_CN"><Text>随机分队</Text></Row>
@@ -33,7 +39,7 @@
 		<Row Tag="LOC_ZYL_ERA_LENGTH_OPTIMIZATION_NAME" Language="en_US"><Text>Era Length Optimization</Text></Row>
 		<Row Tag="LOC_ZYL_ERA_LENGTH_OPTIMIZATION_DESC" Language="en_US"><Text>Adjusts World Era duration ranges: at Standard speed, Ancient lasts 40–50 turns and Classical and Medieval last 50–60; at Online speed, Ancient lasts 20–25 and Classical and Medieval last 25–30. Other eras retain their default ranges. Enabled by default.</Text></Row>
 		<Row Tag="LOC_ZYL_DIPLOMACY_RIBBON_MODE_NAME" Language="en_US"><Text>Diplomacy Ribbon Intelligence</Text></Row>
-		<Row Tag="LOC_ZYL_DIPLOMACY_RIBBON_MODE_DESC" Language="en_US"><Text>Sets whether the top-right diplomacy ribbon uses individual or team Diplomatic Visibility. Science and Culture yields are always visible; Limited, Open, Secret, and Top Secret visibility successively reveal Military Strength, Food and Production, Gold and Faith per turn, and current Technology and Civic research. Locked intelligence is shown as a question mark, while unmet players remain anonymous.</Text></Row>
+		<Row Tag="LOC_ZYL_DIPLOMACY_RIBBON_MODE_DESC" Language="en_US"><Text>Sets whether the top-right diplomacy ribbon uses individual or team Diplomatic Visibility. Science and Culture yields and stored Gold and Faith are always visible; Limited, Open, Secret, and Top Secret visibility successively reveal Military Strength, Food and Production, Gold and Faith per turn, and current Technology and Civic research. Locked intelligence is shown as a question mark, while unmet players remain anonymous.</Text></Row>
 		<Row Tag="LOC_ZYL_DIPLOMACY_RIBBON_MODE_FFA_NAME" Language="en_US"><Text>FFA Mode</Text></Row>
 		<Row Tag="LOC_ZYL_DIPLOMACY_RIBBON_MODE_FFA_DESC" Language="en_US"><Text>Uses only the local player's Diplomatic Visibility on each target. This is the default.</Text></Row>
 		<Row Tag="LOC_ZYL_DIPLOMACY_RIBBON_MODE_TEAM_NAME" Language="en_US"><Text>Team Mode</Text></Row>
@@ -43,6 +49,12 @@
 		<Row Tag="LOC_ZYL_DIPLOMACY_RIBBON_GOLD_TT" Language="en_US"><Text>Gold per turn</Text></Row>
 		<Row Tag="LOC_ZYL_DIPLOMACY_RIBBON_FAITH_TT" Language="en_US"><Text>Faith per turn</Text></Row>
 		<Row Tag="LOC_ZYL_DIPLOMACY_RIBBON_RESEARCH_LOCKED_TT" Language="en_US"><Text>Current research is shown at Top Secret Diplomatic Visibility.</Text></Row>
+		<Row Tag="LOC_DPR_TOTAL_POPULATION" Language="en_US"><Text>Total Population</Text></Row>
+		<Row Tag="LOC_DPR_FOOD_SURPLUS_YIELD" Language="en_US"><Text>Food Surplus per Turn</Text></Row>
+		<Row Tag="LOC_DPR_PRODUCTION_YIELD" Language="en_US"><Text>Production per Turn</Text></Row>
+		<Row Tag="LOC_DPR_GOLD_PERTURN" Language="en_US"><Text>Gold per Turn</Text></Row>
+		<Row Tag="LOC_DPR_FAITH_PERTURN" Language="en_US"><Text>Faith per Turn</Text></Row>
+		<Row Tag="LOC_DPR_FAVOR_PERTURN" Language="en_US"><Text>Diplomatic Favor per Turn</Text></Row>
 		<Row Tag="LOC_ZYL_QUICK_ADD_TT" Language="en_US"><Text>Send p++ publicly: add 20 seconds per use, up to 3 uses per turn; each use adds 24 seconds below 8 seconds.</Text></Row>
 		<Row Tag="LOC_ZYL_QUICK_REDUCE_TT" Language="en_US"><Text>Send p-- publicly: subtract 10 seconds once per turn, with a 40-second floor.</Text></Row>
 		<Row Tag="LOC_ZYL_RANDOM_TEAMS" Language="en_US"><Text>Random Teams</Text></Row>

@@ -8,7 +8,7 @@
 | Better Balanced Map | 1.39.1 | `D:\Steam\steamapps\workshop\content\289070\3179425402` | `Components\BBM`；美术依赖位于根目录 |
 | ZYL Multiplayer Suite | 1.0.0 | `D:\Civilization\Civ6mods\BBGZYL\ZYL_MultiplayerSuite` | 整合包根目录 |
 | Multiplayer Helper | 1.7.9 | `D:\Steam\steamapps\workshop\content\289070\3307282026` | 已在 ZYL Multiplayer Suite 中完成冲突处理 |
-| Team PVP Tools | 1.65 | `D:\Steam\steamapps\workshop\content\289070\3693899014` | 已在 ZYL Multiplayer Suite 中择取 UI/QoL |
+| Team PVP Tools | 1.65 | `D:\Steam\steamapps\workshop\content\289070\3693899014` | 已在 ZYL Multiplayer Suite 中择取 UI/QoL；Better Trade Screen Lite 位于 `BTS` |
 | Team PVP Balanced mod 结社 | 3.93 | `D:\Civilization\Civ6mods\BBGZYL\steamcmd\steamapps\workshop\content\289070\3475173328` | `Components\TeamPVPSecretSocieties`；移植结社平衡、镀金船厂及配套文本/美术 |
 | ZYL Lightweight Balance | 0.10.2 | `D:\Civilization\Civ6mods\BBGZYL\ZYL_LightweightBalance` | 择取结社头衔免费化、村庄统一发现结社、初始移民移动、资源便利、13 个精选万神殿、地热裂缝矿山机制与可选世界时代长度；另由 ZYL 新增德鲁伊万神殿 |
 | BBG Expanded | 201 | `D:\Steam\steamapps\workshop\content\289070\3533091092` | 择取 `CIVITASResources` 六种奢侈资源本体、美术、本地化及公司模式支持；不内嵌其文明/领袖 |
@@ -36,7 +36,8 @@
 - 工具箱：恢复 TPT `DD/DD_Config.sql` 的灾害强度 `-1` 档，使用命名后的独立 SQL 前端动作，不引入 TPT 的交易/和解规则。
 - 工具箱：不加载社区伟人冠名 `GPN/GreatPersonNames.sql`；其最终写入以完整 Team PVP Balanced 文本中的“号码菌”标记为条件，而本包按需求只移植该模组的秘密结社平衡。
 - 工具箱：大厅默认值改由最后加载的 `ZYL_LobbyDefaults.xml` 统一覆盖，避免原先在 MPH/BBG 参数创建前执行 `Update` 而命中零行；新建房间、恢复默认和把 MPH 预设切回“无”都会恢复 BCY 全城市+最大值、休闲（均衡）计时、FFA 外交栏情报、时代长度优化、无蛮族、公司、秘密结社和两项 TPT 计时开关。`休闲（均衡）` 直接按真人玩家中的最高城市数和最高单位数计算负载；第 45 回合起增加 40 秒，第 90 回合起再增加 20 秒（合计 60 秒）。
-- 工具箱：从 BSM 完整外交条中移植头像下方扩展栏的布局和研究卡片，并保留领袖头像能力提示；FFA 按本地外交能见度分级，组队模式取本队最高能见度，未接触玩家保持匿名。
+- 工具箱：普通玩家外交栏直接采用 Team PVP Tools 1.65 DPR 的 XML/Lua 布局、左右键分页、研究卡片和头像能力提示命中区；只在数据赋值层叠加 ZYL 的 FFA/组队外交能见度遮罩，未接触玩家保持匿名。
+- 工具箱：完整移植 Team PVP Tools 1.65 的 Better Trade Screen Lite，以 BTS 独占贸易总览、商路选择与出发城市选择界面，恢复按六类收益和完成回合数排序；停用 BBG 的冲突商路 UI 动作，并把其阿玛妮城邦商路收益显示修正迁入 BTS。BTS 玩家配置缓存改用长度前缀序列化，旧 `loadstring` 缓存不会执行。
 - 构建：校验器反向检查磁盘文件与 `<Files>`；仅允许显式登记的旧模式、冲突 replacement、已合并源文件和上游未发布文件保持休眠，其他漏列文件直接失败。
 - LightweightBalance：只在建立首都前为初始移民提供 +1 移动力、无视地形/河流及上下船移动消耗；建立宫殿后失效，不影响后续移民。
 - Team PVP 结社：重写上游易产生主键冲突的裸 `INSERT`，为新数据库 ID 加 `ZYL_TPVP_` 命名空间，并只在秘密结社模式实际开启时加载；四结社三级统一在文艺复兴时代解锁，四级统一提前至工业时代；地卜师按“上古维序者 2.3”移植到黄金黎明，保留地脉移动 UI/Gameplay，并删除被捕获转为地球工程师的规则、改为伟人式撤回首都；源文件中混放的波兰、阿玛尼和宗教政策修改不属于结社平衡，未带入。

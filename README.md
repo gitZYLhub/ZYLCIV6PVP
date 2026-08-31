@@ -7,6 +7,7 @@
 - BBG Expanded 201 的六种奢侈资源（仅资源内容）
 - ZYL Multiplayer Suite 1.0.0：以 Multiplayer Helper（MPH）1.7.9 为比赛控制框架，合入经筛选和修复的 Team PVP Tools 1.65 UI/QoL
 - Better Deal Window：更大的交易界面、奢侈品来源提示和交易历史；已合并 MPH 的交易类别限制
+- Team PVP Tools Better Trade Screen Lite：贸易路线总览、筛选和按粮食/生产力/金币/科技/文化/信仰/完成回合数排序
 - Detailed Map Tacks：地图钉产出/相邻计算器、可放置检查和地图钉快捷键
 
 统一 Mod ID：`4dd01931-9d44-4a8a-8e74-712cba0f0072`
@@ -20,7 +21,7 @@ Steam Workshop 原件没有被修改。BBG 和 BBM 保留在 `Components` 命名
 3. 只启用 `ZYLPVPMOD 1.2.4`，然后完全退出并重启文明 VI。
 4. 所有联机玩家必须使用内容完全相同的整合包；不能只看文件夹名称或 ModInfo 版本号。
 
-本包通过 `<Blocks>` 阻止已知原组件同时启用，包括 BBG release/beta/WIP、BBM、BBS、CCB Maps、MPH、TPT、旧 ZYL 工具箱、独立 CIVITAS Resources，以及已经内嵌或争夺同一上下文的 Better Report Screen、Better City States、Tech Civic Progress Plus、Better Builder Charges、Real Great People、Better Deal Window 和 Detailed Map Tacks。完整 BBG Expanded 仍可单独启用：检测到后内建六资源层自动让位，保留 Expanded 文明/领袖而不重复插入资源。未知分支、改版和其他替换型 UI Mod 仍需人工排除。
+本包通过 `<Blocks>` 阻止已知原组件同时启用，包括 BBG release/beta/WIP、BBM、BBS、CCB Maps、MPH、TPT、旧 ZYL 工具箱、独立 CIVITAS Resources，以及已经内嵌或争夺同一上下文的 Better Report Screen、Better Trade Screen、Better City States、Tech Civic Progress Plus、Better Builder Charges、Real Great People、Better Deal Window 和 Detailed Map Tacks。完整 BBG Expanded 仍可单独启用：检测到后内建六资源层自动让位，保留 Expanded 文明/领袖而不重复插入资源。未知分支、改版和其他替换型 UI Mod 仍需人工排除。
 
 本包依赖《迭起兴衰》和《风云变幻》，沿用 BBG 7.4.6 的依赖要求。
 
@@ -28,17 +29,17 @@ Steam Workshop 原件没有被修改。BBG 和 BBM 保留在 `Components` 命名
 
 MPH/ZYL 工具箱负责准备房间、版本握手、赛事预设、Ban/Pick、投票、计时、掉线暂停、重连、Resync、Remap/Restart、投降、观察者、匿名模式、Sudden Death 和强制结束回合。TPT 的右下角强制结束回合按钮也已保留，并改成与 MPH 快捷键一致的单次请求。
 
-BBG 负责规则平衡、文明/领袖调整及其专用 `WorldRankings`、`UnitPanel`、`TradeOverview`。结束游戏界面由 MPH 提供完整 XML，BBG 只追加传统征服胜利逻辑。
+BBG 负责规则平衡、文明/领袖调整及其专用 `WorldRankings`、`UnitPanel`。结束游戏界面由 MPH 提供完整 XML，BBG 只追加传统征服胜利逻辑。
 
 BBM 负责地图脚本、出生点分配、地形/资源/奇观生成和相关美术依赖。
 
 BBG Expanded 的资源层提供企鹅、石榴、莎草、枫树、蛋白石和李子六种奢侈品，包含完整地图模型、图标、百科文本、改良方式、万神殿资源标签，以及公司模式的产业、公司、产品和项目。企鹅使用 BBG 的海洋生成规则，莎草使用 BBG 的额外生产力调整；六种资源也会进入本包的奢侈资源移除机制。
 
-TPT 来源的代码只保留不争夺上述所有权的 UI/QoL，例如 Better Report Screen、万神殿/伟人/城邦界面、顶部栏、科技市政进度、通知清理、开局功能提示、队友资源、聊天地图钉快捷键、带剪贴板导出的黑名单、本地设置、自然灾害完全关闭档，以及把局域网玩家名长度上限从 22 提升到 128。TPT 的“坐城免确认”已直接并入 BBG 的唯一 `UnitPanel`；安全版随机晋升快捷键也已恢复，但不包含原脚本的反作弊探测和 Workshop 更新路径。地图钉的普通新增/删除/显隐快捷键由 DMT 统一监听。
+TPT 来源的代码只保留已明确分配所有权的 UI/QoL，例如 Better Report Screen、Better Trade Screen Lite、万神殿/伟人/城邦界面、顶部栏、科技市政进度、通知清理、开局功能提示、队友资源、聊天地图钉快捷键、带剪贴板导出的黑名单、本地设置、自然灾害完全关闭档，以及把局域网玩家名长度上限从 22 提升到 128。BTS 独占 `TradeOverview`、`TradeRouteChooser` 和 `TradeOriginChooser`，可筛选、分组并按各类收益或完成回合数排序；其收益计算保留 BBG 对阿玛妮城邦商路的 +2 食物/+2 生产力显示修正。BTS 的本地缓存改为不执行 Lua 字符串的长度前缀格式，旧缓存会安全失效并从当前商路重建。TPT 的“坐城免确认”已直接并入 BBG 的唯一 `UnitPanel`；安全版随机晋升快捷键也已恢复，但不包含原脚本的反作弊探测和 Workshop 更新路径。地图钉的普通新增/删除/显隐快捷键由 DMT 统一监听。
 
 Better Deal Window 只在《风云变幻》界面中作为唯一 `DiplomacyDealView` replacement 生效；其公司模式产品图标已内联。MPH 的 `DIPLOMATIC_DEAL`、金币、外交 favor、战略资源、奢侈资源、城市、俘虏、伟人作品和外交协议限制在 BDW 的可用物品列表上继续生效。禁交易时会隐藏对应空分类，不会留下可点击的空面板。
 
-外交栏采用 BSM 风格的头像下方扩展栏。大厅“外交栏情报模式”默认为 FFA，只按本地玩家对目标的外交能见度解锁信息；组队模式则取本队对目标的最高能见度。科技/文化每回合产出始终显示，有限、公开、秘密、绝密能见度依次解锁军力、全帝国粮食/生产力、回合金币/信仰和当前科技/市政研究；未接触玩家保持匿名，未解锁字段显示问号。
+外交栏直接采用 Team PVP Tools 1.65 普通玩家 DPR 的原布局、控件顺序、尺寸、左右键分页和头像悬停命中区，不再另行改写视觉结构；本包只叠加外交能见度遮罩。大厅“外交栏情报模式”默认为 FFA，只按本地玩家对目标的外交能见度解锁信息；组队模式则取本队对目标的最高能见度。科技/文化每回合产出以及积存金币/信仰始终显示，有限、公开、秘密、绝密能见度依次解锁军力、全帝国粮食/生产力、回合金币/信仰和当前科技/市政研究；未接触玩家保持匿名，未解锁字段显示问号。
 
 Detailed Map Tacks 只在 `MapPinManager`、`MapPinPopup` 两个上下文中接管 DMT 扩展，导入其产出计算器、修建合法性提示、双击快速确认和自动删除偏好。现有 NHK 仅保留 `AddMapMessage` 聊天地图钉；`AddMapTack`、`DeleteMapTack`、`ToggleMapTackVisibility` 不再由两个脚本重复响应。`CPL_NO_PINS` 会同时阻止 DMT、NHK 的地图钉输入，并按 TPT 原设计隐藏地图钉按钮、用空实现替换地图钉列表。旧 DMT 的可执行源码缓存已改成不执行 Lua 字符串的长度前缀序列化。
 
@@ -86,7 +87,7 @@ LightweightBalance 的 13 个精选万神殿已加入：月亮女神、商业女
 
 - TPT BSR 准备房间、TimerPro、NetHelper、Poker/21 点、AutoUpdate。
 - TPT BSR 专属的领袖池禁选，以及 TPT DDV 的禁止和解/强制允许和解规则；前者依赖被 MPH 替代的准备房间校验，后者会建立第二套外交规则。本包继续由 MPH 管理准备房间和外交限制。
-- TPT `WorldRankings`、`UnitPanel`、`TradeOverview` 和重复 UnitFlag replacements。
+- TPT `WorldRankings`、`UnitPanel` 和重复 UnitFlag replacements；`TradeOverview` 已改由 BTS 正式接管。
 - TPT TOM、EGM、DDV、DPR 等会争夺现有界面的模块；RCT 只提取“坐城免确认”并入 BBG `UnitPanel`。
 - TPT `NewUnitOperation` 的高误报反作弊/自动更新路径；仅保留无副作用的随机晋升快捷键。
 - TPT `GPN/GreatPersonNames.sql` 社区赛事冠名文本；它依赖完整 Team PVP Balanced 文本中的“号码菌”标记，本包只移植结社平衡，条件在本包中不成立。

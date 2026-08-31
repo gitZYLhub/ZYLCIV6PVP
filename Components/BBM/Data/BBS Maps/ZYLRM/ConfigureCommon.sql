@@ -16,6 +16,11 @@ CREATE TABLE IF NOT EXISTS NW_StartBias
 INSERT OR IGNORE INTO NW_StartBias(Type, Flag)
 SELECT CivilizationType, 1 FROM StartBiasTerrains
 WHERE TerrainType IN ('TERRAIN_TUNDRA','TERRAIN_TUNDRA_HILLS') AND Tier = 1;
+-- BBG promotes Russia's vanilla tier-3 tundra biases to tier 1 after this
+-- map-specific lookup is built.  Keep Russia explicit so both Rich Mainland
+-- maps always run the tundra-civilization balancing pass.
+INSERT OR REPLACE INTO NW_StartBias(Type, Flag) VALUES
+('CIVILIZATION_RUSSIA', 1);
 INSERT OR IGNORE INTO NW_StartBias(Type, Flag)
 SELECT CivilizationType, 2 FROM StartBiasTerrains
 WHERE TerrainType IN ('TERRAIN_DESERT','TERRAIN_DESERT_HILLS') AND Tier = 1;

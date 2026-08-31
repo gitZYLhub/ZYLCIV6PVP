@@ -338,7 +338,7 @@
 		<Replace Tag="LOC_BUILDING_JEBEL_BARKAL_EXPANSION2_DESCRIPTION" Language="zh_Hans_CN"><Text>每回合奖励6 [ICON_RESOURCE_IRON] 铁。此奇观4单元格范围内的已改良战略资源均+1 [ICON_AMENITIES] 宜居度。[NEWLINE][NEWLINE]必须建在与铁矿相邻的丘陵上。</Text></Replace>
 		<Replace Tag="LOC_GOVERNOR_PROMOTION_PASHA_DESCRIPTION" Language="zh_Hans_CN"><Text>在己方城市就职时，该城市生产所有军事单位时+25% [ICON_PRODUCTION] 生产力。在外国盟友的首都就职时，提高与该文明的同盟升级速度。3回合就职。</Text></Replace>
 		<Replace Tag="LOC_GOVERNOR_PROMOTION_AMBASSADOR_MESSENGER_DESCRIPTION" Language="zh_Hans_CN"><Text>可派驻城邦，在该城邦中视为2名 [ICON_ENVOY] 使者。在城邦就职时，拥有通往该城邦 [ICON_TRADEROUTE] 贸易路线的己方城市+2 [ICON_FOOD] 食物和+2 [ICON_PRODUCTION] 生产力。5回合就职。</Text></Replace>
-		<Replace Tag="LOC_GOVERNOR_PROMOTION_BUILDER_GUILDMASTER_DESCRIPTION" Language="zh_Hans_CN"><Text>此城市训练的所有建造者+1 [ICON_CHARGES] 建造次数。4回合就职。</Text></Replace>
+		<Replace Tag="LOC_GOVERNOR_PROMOTION_BUILDER_GUILDMASTER_DESCRIPTION" Language="zh_Hans_CN"><Text>此城市训练的所有建造者+1 [ICON_CHARGES] 建造次数。3回合就职。</Text></Replace>
 		<Replace Tag="LOC_GOVERNOR_PROMOTION_CARDINAL_BISHOP_DESCRIPTION" Language="zh_Hans_CN"><Text>此城市产出的 [ICON_CULTURE] 文化值+15%，对相邻城市施加的宗教压力+100%。每个区域+2 [ICON_FAITH] 信仰值。4回合就职。</Text></Replace>
 		<Replace Tag="LOC_GOVERNOR_PROMOTION_EDUCATOR_LIBRARIAN_DESCRIPTION" Language="zh_Hans_CN"><Text>此城市产出的 [ICON_SCIENCE] 科技值+15%。4回合就职。</Text></Replace>
 		<Replace Tag="LOC_GOVERNOR_PROMOTION_REDOUBT_DESCRIPTION" Language="zh_Hans_CN"><Text>城市驻军 [ICON_STRENGTH] 战斗力+5，并为此城市额外提供+6忠诚度。3回合就职。</Text></Replace>

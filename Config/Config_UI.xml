@@ -6,6 +6,7 @@
 		<Row ParameterId="SETTINGS_UI_BGP" Name="LOC_SETTINGS_UI_BGP_NAME" Description="LOC_SETTINGS_UI_BGP_DESC" Domain="bool" DefaultValue="0" ConfigurationGroup="Game" ConfigurationId="SETTINGS_UI_BGP" GroupId="AdvancedOptions" ChangeableAfterGameStart="0" SortIndex="1905" />
 		<Row ParameterId="SETTINGS_UI_TPE" Name="LOC_SETTINGS_UI_TPE_NAME" Description="LOC_SETTINGS_UI_TPE_DESC" Domain="bool" DefaultValue="0" ConfigurationGroup="Game" ConfigurationId="SETTINGS_UI_TPE" GroupId="AdvancedOptions" ChangeableAfterGameStart="0" SortIndex="1906" />
 		<Row ParameterId="SETTINGS_UI_BCS" Name="LOC_SETTINGS_UI_BCS_NAME" Description="LOC_SETTINGS_UI_BCS_DESC" Domain="bool" DefaultValue="0" ConfigurationGroup="Game" ConfigurationId="SETTINGS_UI_BCS" GroupId="AdvancedOptions" ChangeableAfterGameStart="0" SortIndex="1907" />
+		<Row ParameterId="SETTINGS_UI_BTS" Name="LOC_SETTINGS_UI_BTS_NAME" Description="LOC_SETTINGS_UI_BTS_DESC" Domain="bool" DefaultValue="0" ConfigurationGroup="Game" ConfigurationId="SETTINGS_UI_BTS" GroupId="AdvancedOptions" ChangeableAfterGameStart="0" SortIndex="1908" />
 		<Row ParameterId="SETTINGS_UI_TCP" Name="LOC_SETTINGS_UI_TCP_NAME" Description="LOC_SETTINGS_UI_TCP_DESC" Domain="bool" DefaultValue="0" ConfigurationGroup="Game" ConfigurationId="SETTINGS_UI_TCP" GroupId="AdvancedOptions" ChangeableAfterGameStart="0" SortIndex="1909" />
 
 	</Parameters>
@@ -18,6 +19,7 @@
 		<Row ParameterId="SETTINGS_UI_BGP" ConfigurationGroup="Game" ConfigurationId="SETTINGS_UI" Operator="Equals" ConfigurationValue="SETTINGS_UI_CUSTOM"/>
 		<Row ParameterId="SETTINGS_UI_TPE" ConfigurationGroup="Game" ConfigurationId="SETTINGS_UI" Operator="Equals" ConfigurationValue="SETTINGS_UI_CUSTOM"/>
 		<Row ParameterId="SETTINGS_UI_BCS" ConfigurationGroup="Game" ConfigurationId="SETTINGS_UI" Operator="Equals" ConfigurationValue="SETTINGS_UI_CUSTOM"/>
+		<Row ParameterId="SETTINGS_UI_BTS" ConfigurationGroup="Game" ConfigurationId="SETTINGS_UI" Operator="Equals" ConfigurationValue="SETTINGS_UI_CUSTOM"/>
 		<Row ParameterId="SETTINGS_UI_TCP" ConfigurationGroup="Game" ConfigurationId="SETTINGS_UI" Operator="Equals" ConfigurationValue="SETTINGS_UI_CUSTOM"/>
 	</ParameterDependencies>
 </GameInfo>

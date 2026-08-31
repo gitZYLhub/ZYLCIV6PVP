@@ -18,11 +18,12 @@
 | StagingRoom、HostGame、MainMenu | MPH/ZYL | 不加载 TPT BSR |
 | ChatPanel、DiplomacyActionView、InGameTopOptionsMenu | MPH/ZYL | 保留比赛协议和权限边界；TPT 黑名单导出拆到独立 `BlacklistPanel`，不再替换聊天面板 |
 | EndGameMenu 完整布局 | MPH/ZYL | BBG 只加载传统胜利 Lua 扩展 |
-| WorldRankings、UnitPanel、TradeOverview | BBG | 不加载 TPT 同类 replacement；RCT 的坐城免确认函数直接并入 BBG `UnitPanel` |
+| WorldRankings、UnitPanel | BBG | 不加载 TPT 同类 replacement；RCT 的坐城免确认函数直接并入 BBG `UnitPanel` |
+| TradeOverview、TradeRouteChooser、TradeOriginChooser | ZYL/TPT 的 BTS | BTS 独占三个商路上下文；不加载 BBG 的 `TradeSupport`/`TradeOverview` 链，并把其阿玛妮收益显示修正迁入 BTS |
 | ReportScreen | ZYL/TPT 的 BRS | 按 XP1/XP2 条件加载同一实现 |
 | TopPanel、Tech/Civic、Pantheon、CityStates、GreatPeople | ZYL/TPT UI | 保留配置条件，避免重复实现 |
 | DiplomacyDealView | Better Deal Window + MPH 兼容层 | 只加载一个 XP2 入口；BDW 提供界面，`ZYLPVP_BDW_MPH_Compatibility.lua` 隐藏 MPH 禁用的交易类别 |
-| DiplomacyRibbon | 原版 XP2 + ZYL BSM 风格包装 | 保留 XP2 控件 ID 和事件链；增加 BSM 风格头像下方扩展栏、能见度分级情报与领袖/文明能力提示，不加载 BSM 旧脚本 |
+| DiplomacyRibbon | ZYL/TPT DPR | 直接采用 Team PVP Tools 1.65 普通玩家 DPR 的布局、分页和头像悬停区；仅叠加 FFA/组队外交能见度遮罩，不加载 BSM 旧脚本 |
 | MapPinManager、MapPinPopup | Detailed Map Tacks | 只加载 DMT replacement；NHK 不再重复监听 Add/Delete/Toggle，仍提供聊天地图钉 |
 | MapPinListPanel | MPH（正常）/TPT RMP（禁钉） | `CPL_NO_PINS=1` 时用空列表替换并隐藏小地图入口 |
 
@@ -31,6 +32,8 @@
 校验器按 `LuaContext` 统计所有 `ReplaceUIScript`；同一组件内部的有序 include 链可以共存，跨组件抢占同一上下文会失败。
 
 - Better Deal Window 保留 XP2 主界面和本地化；上游 Base/XP2/Monopolies 四个 replacement 不直接装载，避免同一 `DiplomacyDealView` 上下文互相覆盖。公司模式只在统一入口中替换产品图标。
+- Better Trade Screen Lite 以原 TPT 的同名 XML/Lua 导入方式接管三个商路界面；大厅“全部启用”默认加载，自定义 UI 时可用“商路UI增强”单独控制。BBG 的五个冲突商路动作不进入生成的 ModInfo，相关阿玛妮收益补正由 BTS `TradeSupport` 负责。
+- BTS 的路线追踪与自动商路设置不再用 `loadstring` 读取玩家配置；长度前缀序列化只接受 nil、布尔、数值、字符串和表，旧版可执行源码缓存直接忽略。
 - MPH 的 `DIPLOMATIC_DEAL` 及各项 `NO_TRADING_*` 选项在 BDW 可用物品函数上做后置包装；禁用类别返回 0 并隐藏分类根控件，避免空列表仍可交互。
 - Detailed Map Tacks 使用上游 `mappinmanager_dmt.lua`、`mappinpopup_dmt.lua` 和计算器，但不装载重复的 `dmt_config.xml`；NHK 的聊天地图钉独占 `AddMapMessage`，DMT 独占普通地图钉三键。
 - DMT 缓存序列化移除执行 Lua 字符串的路径。旧格式缓存会安全失效，加载时从实际地图钉自动重建。
@@ -76,7 +79,7 @@
 
 - BBG 的文明、单位、建筑和科技树单项平衡继续完整加载；其 `base.sql` 中对中世纪及以后所有科技统一乘 1.05 的语句在内嵌副本中停用，避免后置除法误改 BBG 后续显式设定的未来科技成本。
 - `sql/ZYL_GameplayOverrides.sql` 在全部 BBG/BBM 数据库动作之后统一拥有科技时代折扣、天文导航、八项尤里卡/鼓舞、商业中心奢侈相邻和俄罗斯冻土/冻土丘陵信仰规则。
-- `sql/ZYL_GovernorOverrides.sql` 只在迭起兴衰/风云变幻总督表存在时加载，最后移除马格努斯左一增长、移动免人口移民效果，并把右一工业区建筑加成覆盖到 40%。
+- `sql/ZYL_GovernorOverrides.sql` 只在迭起兴衰/风云变幻总督表存在时加载，最后把梁的就职时间覆盖为 3 回合，移除马格努斯左一增长、移动免人口移民效果，并把右一工业区建筑加成覆盖到 40%。
 
 ## 初始移民
 
