@@ -28,15 +28,96 @@ local VARIANT_ID = tostring(ZYL_RICH_MAINLAND_VARIANT.id or "UNKNOWN");
 local LOG_PREFIX = "ZYLRM[" .. VARIANT_ID .. "]";
 
 local g_iW, g_iH;
+local g_iBaseW, g_iContentOffsetX, g_iAddedOceanWidth;
 local g_iFlags = {};
 local g_continentsFrac = nil;
 local featureGen = nil;
 local world_age_new = 5;
 local world_age_normal = 3;
 local world_age_old = 2;
+-- Plot generation guarantees the outermost row at each pole is water; use
+-- exactly that row for the mainland's shallow polar bypass.
+local MAINLAND_POLAR_COAST_DEPTH = 1;
 local RichNum;
 local CompetitionMode = false;
 local Remove_South_Sea_Resource_Plots = {}		-- 需要移除资源的远洋单元格（来自竖向大陆海陆生成）
+
+-------------------------------------------------------------------------------
+-- Both Rich Mainland variants use horizontal wrapping.  Their extra width is
+-- split between the physical left/right edges, which meet at the wrap seam and
+-- therefore form one central ocean between the mainland's eastern and western
+-- sides.
+function GetMapInitData(MapSize)
+	local width = 0;
+	local height = 0;
+	for row in GameInfo.Maps() do
+		if MapSize == row.Hash then
+			width = row.GridWidth;
+			height = row.GridHeight;
+			break;
+		end
+	end
+	return {Width = width, Height = height, WrapX = true,};
+end
+
+local function ZYL_InitializeExpandedOceanCanvas()
+	local baseWidths = ZYL_RICH_MAINLAND_VARIANT.baseWidthsByHeight or {};
+	g_iBaseW = math.min(g_iW, tonumber(baseWidths[g_iH]) or g_iW);
+	g_iAddedOceanWidth = math.max(0, g_iW - g_iBaseW);
+	g_iContentOffsetX = math.floor(g_iAddedOceanWidth / 2);
+	print(string.format("%s: expanded ocean canvas actual=%dx%d legacy=%dx%d offset=%d added=%d wrapX=%s",
+		LOG_PREFIX, g_iW, g_iH, g_iBaseW, g_iH, g_iContentOffsetX,
+		g_iAddedOceanWidth, tostring(Map:IsWrapX())));
+end
+
+local function ZYL_IsAddedCentralOceanColumn(x)
+	return x < g_iContentOffsetX or x >= g_iContentOffsetX + g_iBaseW;
+end
+
+-- Keep a continuous deep-water barrier along the wrap seam from pole to pole.
+-- Water in the north/south polar bands inside the legacy content canvas is
+-- Coast, so ships can follow the mainland's polar shore between its east and
+-- west coasts.  Those shallow routes stop at the added central ocean: its
+-- columns remain Ocean even at the poles and cannot connect across the seam.
+function ZYL_EnforceCentralOceanBarrier(terrainTypes)
+	if not g_iBaseW or g_iAddedOceanWidth <= 0 then return end
+	local deepCount = 0;
+	local polarCount = 0;
+	local polarIceRemoved = 0;
+	for y = 0, g_iH - 1 do
+		for x = 0, g_iW - 1 do
+			local isCentralOcean = ZYL_IsAddedCentralOceanColumn(x);
+			local index = y * g_iW + x;
+			local isPolarBand = y < MAINLAND_POLAR_COAST_DEPTH or y >= g_iH - MAINLAND_POLAR_COAST_DEPTH;
+			local isMainlandPolarRoute = not isCentralOcean and isPolarBand
+				and plotTypes[index] == g_PLOT_TYPE_OCEAN;
+			if isCentralOcean or isMainlandPolarRoute then
+				local terrainType = isMainlandPolarRoute and g_TERRAIN_TYPE_COAST or g_TERRAIN_TYPE_OCEAN;
+				plotTypes[index] = g_PLOT_TYPE_OCEAN;
+				if terrainTypes ~= nil then
+					terrainTypes[index] = terrainType;
+				else
+					local plot = Map.GetPlot(x, y);
+					if plot ~= nil and plot:GetTerrainType() ~= terrainType then
+						TerrainBuilder.SetTerrainType(plot, terrainType);
+					end
+					if isMainlandPolarRoute and plot ~= nil and plot:GetFeatureType() == g_FEATURE_ICE then
+						TerrainBuilder.SetFeatureType(plot, -1);
+						polarIceRemoved = polarIceRemoved + 1;
+					end
+				end
+				if isMainlandPolarRoute then polarCount = polarCount + 1 else deepCount = deepCount + 1 end
+			end
+		end
+	end
+	if terrainTypes == nil then
+		Game:SetProperty("ZYLRM_CENTRAL_DEEP_OCEAN_TILES", deepCount);
+		Game:SetProperty("ZYLRM_POLAR_SHALLOW_ROUTE_TILES", polarCount);
+		Game:SetProperty("ZYLRM_POLAR_ROUTE_ICE_REMOVED", polarIceRemoved);
+		print(string.format("%s: central ocean enforced (%d pole-to-pole deep-water, %d mainland polar Coast tiles, %d route Ice removed)",
+			LOG_PREFIX, deepCount, polarCount, polarIceRemoved));
+	end
+end
 
 -------------------------------------------------------------------------------
 function BBS_Assign(args)
@@ -60,6 +141,7 @@ function GenerateMap()
 	--【温度】
 	-- 温度将影响地图中草原和平原的比例
 	g_iW, g_iH = Map.GetGridSize();
+	ZYL_InitializeExpandedOceanCanvas();
 	g_iFlags = TerrainBuilder.GetFractalFlags();
 	local temperature = MapConfiguration.GetValue("temperature");
 	if temperature == 4 then
@@ -95,6 +177,7 @@ function GenerateMap()
 	print("划分海陆");
 	plotTypes = TeamPVPGeneratePlotTypes(world_age);
 	terrainTypes = TeamPVPGenerateTerrainTypes(plotTypes, g_iW, g_iH, g_iFlags, true, temperature);
+	ZYL_EnforceCentralOceanBarrier(terrainTypes);
 	ApplyBaseTerrain(plotTypes, terrainTypes, g_iW, g_iH);
 
 	-- 分配大陆
@@ -182,6 +265,7 @@ function GenerateMap()
 	ZYL_EnsureRussiaFoodTiles();
 	ZYL_RVC_EnforceSeaResourceRules();
 	ZYL_EnsureCoastalStartReefResource();
+	ZYL_EnforceCentralOceanBarrier();
 	--[[ Corrupted legacy log text retained only as a comment.
 
 	print("开始生成道路");
@@ -1656,10 +1740,10 @@ function TeamPVPGeneratePlotTypes(world_age)
 	plotTypes = table.fill(g_PLOT_TYPE_LAND, g_iW * g_iH);
 
 	-- 竖向大陆海陆生成：不对称水域裁剪（东西宽海 d_water_W=15 / 南北窄海 d_water_H=6）
-	local variationFrac1 = Fractal.Create(g_iH, g_iW, 3, g_iFlags, -1, -1);
-	local variationFrac2 = Fractal.Create(g_iH, g_iW, 3, g_iFlags, -1, -1);
-	local variationFrac3 = Fractal.Create(g_iW, g_iH, 3, g_iFlags, -1, -1);
-	local variationFrac4 = Fractal.Create(g_iW, g_iH, 3, g_iFlags, -1, -1);
+	local variationFrac1 = Fractal.Create(g_iH, g_iBaseW, 3, g_iFlags, -1, -1);
+	local variationFrac2 = Fractal.Create(g_iH, g_iBaseW, 3, g_iFlags, -1, -1);
+	local variationFrac3 = Fractal.Create(g_iBaseW, g_iH, 3, g_iFlags, -1, -1);
+	local variationFrac4 = Fractal.Create(g_iBaseW, g_iH, 3, g_iFlags, -1, -1);
 
 	local d_water_W = IS_FFA and 12 or 15
 	local d_water_H = 6
@@ -1670,30 +1754,36 @@ function TeamPVPGeneratePlotTypes(world_age)
 		for x = 0, g_iW - 1 do
 			local i = y * g_iW + x
 			local pPlot = Map.GetPlotByIndex(i);
-			if x > g_iW - g_iH / 2 then
-				local lat = GetLatitudeAtPlot(variationFrac1, y, g_iW - x);
+			local baseX = x - g_iContentOffsetX;
+			if baseX < 0 or baseX >= g_iBaseW then
+				plotTypes[i] = g_PLOT_TYPE_OCEAN;
+				TerrainBuilder.SetTerrainType(pPlot, g_TERRAIN_TYPE_OCEAN);
+			elseif baseX > g_iBaseW - g_iH / 2 then
+				local lat = GetLatitudeAtPlot(variationFrac1, y, g_iBaseW - baseX);
 				if lat >= waterlatitude_W then
 					plotTypes[i] = g_PLOT_TYPE_OCEAN
 					TerrainBuilder.SetTerrainType(pPlot, g_TERRAIN_TYPE_OCEAN);
 				end
-			elseif x < g_iH / 2 then
-				local lat = GetLatitudeAtPlot(variationFrac2, y, x);
+			elseif baseX < g_iH / 2 then
+				local lat = GetLatitudeAtPlot(variationFrac2, y, baseX);
 				if lat >= waterlatitude_W then
 					plotTypes[i] = g_PLOT_TYPE_OCEAN
 					TerrainBuilder.SetTerrainType(pPlot, g_TERRAIN_TYPE_OCEAN);
 				end
 			end
-			if y > g_iH / 2 then
-				local lat = GetLatitudeAtPlot(variationFrac3, x, g_iH - y);
-				if lat >= waterlatitude_H then
-					plotTypes[i] = g_PLOT_TYPE_OCEAN
-					TerrainBuilder.SetTerrainType(pPlot, g_TERRAIN_TYPE_OCEAN);
-				end
-			else
-				local lat = GetLatitudeAtPlot(variationFrac3, x, y);
-				if lat >= waterlatitude_H then
-					plotTypes[i] = g_PLOT_TYPE_OCEAN
-					TerrainBuilder.SetTerrainType(pPlot, g_TERRAIN_TYPE_OCEAN);
+			if baseX >= 0 and baseX < g_iBaseW then
+				if y > g_iH / 2 then
+					local lat = GetLatitudeAtPlot(variationFrac3, baseX, g_iH - y);
+					if lat >= waterlatitude_H then
+						plotTypes[i] = g_PLOT_TYPE_OCEAN
+						TerrainBuilder.SetTerrainType(pPlot, g_TERRAIN_TYPE_OCEAN);
+					end
+				else
+					local lat = GetLatitudeAtPlot(variationFrac3, baseX, y);
+					if lat >= waterlatitude_H then
+						plotTypes[i] = g_PLOT_TYPE_OCEAN
+						TerrainBuilder.SetTerrainType(pPlot, g_TERRAIN_TYPE_OCEAN);
+					end
 				end
 			end
 			if y <= 1 or y >= g_iH - 1 then
@@ -1709,7 +1799,9 @@ function TeamPVPGeneratePlotTypes(world_age)
 		for y = 0, g_iH - 1 do
 			local i = y * g_iW + x;
 			local pPlot = Map.GetPlotByIndex(i);
-			if(plotTypes[i] == g_PLOT_TYPE_LAND and pPlot:GetArea() ~= biggest_area) or x <= 1 or x >= g_iW - 2 then
+			local baseX = x - g_iContentOffsetX;
+			if(plotTypes[i] == g_PLOT_TYPE_LAND and pPlot:GetArea() ~= biggest_area)
+				or baseX <= 1 or baseX >= g_iBaseW - 2 then
 				plotTypes[i] = g_PLOT_TYPE_OCEAN;
 				TerrainBuilder.SetTerrainType(pPlot, g_TERRAIN_TYPE_OCEAN);
 			end
@@ -1738,7 +1830,7 @@ function TeamPVPGeneratePlotTypes(world_age)
 
 	local args = args or {};
 	args.iWaterPercent = 67;
-	args.iRegionWidth = math.ceil(g_iW);
+	args.iRegionWidth = math.ceil(g_iBaseW);
 	args.iRegionHeight = math.ceil(g_iH);
 	args.iRegionWestX = math.floor(0);
 	args.iRegionSouthY = math.floor(0);
@@ -1762,31 +1854,34 @@ function TeamPVPGeneratePlotTypes(world_age)
 
 	local regionContinentsFrac;
 	if(iRiftGrain > 0 and iRiftGrain < 4) then
-		local riftsFrac = Fractal.Create(g_iW, g_iH, rift_grain, {}, iRegionFracXExp, iRegionFracYExp);
-		regionContinentsFrac = Fractal.CreateRifts(g_iW, g_iH, iRegionGrain, iRegionPlotFlags, riftsFrac, iRegionFracXExp, iRegionFracYExp);
+		local riftsFrac = Fractal.Create(g_iBaseW, g_iH, rift_grain, {}, iRegionFracXExp, iRegionFracYExp);
+		regionContinentsFrac = Fractal.CreateRifts(g_iBaseW, g_iH, iRegionGrain, iRegionPlotFlags, riftsFrac, iRegionFracXExp, iRegionFracYExp);
 	else
-		regionContinentsFrac = Fractal.Create(g_iW, g_iH, iRegionGrain, iRegionPlotFlags, iRegionFracXExp, iRegionFracYExp);
+		regionContinentsFrac = Fractal.Create(g_iBaseW, g_iH, iRegionGrain, iRegionPlotFlags, iRegionFracXExp, iRegionFracYExp);
 	end
 	local iWaterThreshold = regionContinentsFrac:GetHeight(iWaterPercent);
 
 	for y = 0, g_iH -1 do
 		for x = 0, g_iW - 1 do
+			local baseX = x - g_iContentOffsetX;
 			if y > d_water_H and y < g_iH - d_water_H then
 				local i = y * g_iW + x
 				local pPlot = Map.GetPlotByIndex(i);
-				local val = regionContinentsFrac:GetHeight(x,y);
-				if val >= iWaterThreshold then
-					if x > g_iW - g_iH / 2 then
-						local lat = GetLatitudeAtPlot(variationFrac1, y, g_iW - x);
-						if lat >= Islandlatitude_W and lat <= Islandlatitude_W_2 then
-							plotTypes[i] = g_PLOT_TYPE_LAND
-							TerrainBuilder.SetTerrainType(pPlot, g_TERRAIN_TYPE_DESERT);
-						end
-					elseif x < g_iH / 2 then
-						local lat = GetLatitudeAtPlot(variationFrac2, y, x);
-						if lat >= Islandlatitude_W and lat <= Islandlatitude_W_2 then
-							plotTypes[i] = g_PLOT_TYPE_LAND
-							TerrainBuilder.SetTerrainType(pPlot, g_TERRAIN_TYPE_DESERT);
+				if baseX >= 0 and baseX < g_iBaseW then
+					local val = regionContinentsFrac:GetHeight(baseX,y);
+					if val >= iWaterThreshold then
+						if baseX > g_iBaseW - g_iH / 2 then
+							local lat = GetLatitudeAtPlot(variationFrac1, y, g_iBaseW - baseX);
+							if lat >= Islandlatitude_W and lat <= Islandlatitude_W_2 then
+								plotTypes[i] = g_PLOT_TYPE_LAND
+								TerrainBuilder.SetTerrainType(pPlot, g_TERRAIN_TYPE_DESERT);
+							end
+						elseif baseX < g_iH / 2 then
+							local lat = GetLatitudeAtPlot(variationFrac2, y, baseX);
+							if lat >= Islandlatitude_W and lat <= Islandlatitude_W_2 then
+								plotTypes[i] = g_PLOT_TYPE_LAND
+								TerrainBuilder.SetTerrainType(pPlot, g_TERRAIN_TYPE_DESERT);
+							end
 						end
 					end
 				end
@@ -2021,7 +2116,7 @@ function AddFeatures()
 	-- 绿洲比例
 	args.iOasisPercent = 1;
 	-- 礁石比例
-	args.iReefPercent = 10 + RichNum / 1.5;
+	args.iReefPercent = 8 + RichNum / 1.5;
 	
 	featureGen = DW_FeatureGenerator.Create(args);
 	featureGen:AddFeatures(true, true, {

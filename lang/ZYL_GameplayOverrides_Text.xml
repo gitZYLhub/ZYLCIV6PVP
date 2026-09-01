@@ -51,16 +51,16 @@
 		<Replace Tag="LOC_BOOST_TRIGGER_POLITICAL_PHILOSOPHY" Language="zh_Hans_CN"><Text>会晤2个城邦。</Text></Replace>
 
 		<Replace Tag="LOC_TRAIT_CIVILIZATION_MOTHER_RUSSIA_DESCRIPTION" Language="en_US">
-			<Text>Extra territory upon founding cities. +1 [ICON_PRODUCTION] Production from Tundra tiles. Tundra and Tundra Hills tiles belonging to a city with a Holy Site or Lavra provide +1 [ICON_FAITH] Faith. A city founded on Tundra with a Lavra and Shrine receives +1 [ICON_FOOD] Food in its City Center.[NEWLINE]Units do not receive damage from Blizzards. Civilizations at war with Russia receive +100% unit damage from Blizzards in Russian territory.[NEWLINE][NEWLINE][ICON_BULLET]Bias: T1 Tundra.</Text>
+			<Text>Extra territory upon founding cities. +1 [ICON_PRODUCTION] Production from Tundra tiles. Tundra and Tundra Hills tiles adjacent to a Holy Site or Lavra provide +1 [ICON_FAITH] Faith. A city founded on Tundra with a Lavra and Shrine receives +1 [ICON_FOOD] Food in its City Center.[NEWLINE]Units do not receive damage from Blizzards. Civilizations at war with Russia receive +100% unit damage from Blizzards in Russian territory.[NEWLINE][NEWLINE][ICON_BULLET]Bias: T1 Tundra.</Text>
 		</Replace>
 		<Replace Tag="LOC_TRAIT_CIVILIZATION_MOTHER_RUSSIA_EXPANSION2_DESCRIPTION" Language="en_US">
-			<Text>Extra territory upon founding cities. +1 [ICON_PRODUCTION] Production from Tundra tiles. Tundra and Tundra Hills tiles belonging to a city with a Holy Site or Lavra provide +1 [ICON_FAITH] Faith. A city founded on Tundra with a Lavra and Shrine receives +1 [ICON_FOOD] Food in its City Center.[NEWLINE]Units do not receive damage from Blizzards. Civilizations at war with Russia receive +100% unit damage from Blizzards in Russian territory.[NEWLINE][NEWLINE][ICON_BULLET]Bias: T1 Tundra.</Text>
+			<Text>Extra territory upon founding cities. +1 [ICON_PRODUCTION] Production from Tundra tiles. Tundra and Tundra Hills tiles adjacent to a Holy Site or Lavra provide +1 [ICON_FAITH] Faith. A city founded on Tundra with a Lavra and Shrine receives +1 [ICON_FOOD] Food in its City Center.[NEWLINE]Units do not receive damage from Blizzards. Civilizations at war with Russia receive +100% unit damage from Blizzards in Russian territory.[NEWLINE][NEWLINE][ICON_BULLET]Bias: T1 Tundra.</Text>
 		</Replace>
 		<Replace Tag="LOC_TRAIT_CIVILIZATION_MOTHER_RUSSIA_DESCRIPTION" Language="zh_Hans_CN">
-			<Text>建立城市可获得额外领土。冻土提供+1 [ICON_PRODUCTION] 生产力。拥有圣地或拉夫拉修道院的城市，其冻土和冻土丘陵均提供+1 [ICON_FAITH] 信仰值。建在冻土上的城市若拥有拉夫拉修道院和神社，其市中心+1 [ICON_FOOD] 食物。[NEWLINE]单位不会因暴风雪受损。与俄罗斯交战的文明，其单位在俄罗斯领土中遭遇暴风雪时受到的伤害+100%。[NEWLINE][NEWLINE][ICON_BULLET]出生地关联：T1冻土。</Text>
+			<Text>建立城市可获得额外领土。冻土提供+1 [ICON_PRODUCTION] 生产力。与圣地或拉夫拉修道院相邻的冻土和冻土丘陵提供+1 [ICON_FAITH] 信仰值。建在冻土上的城市若拥有拉夫拉修道院和神社，其市中心+1 [ICON_FOOD] 食物。[NEWLINE]单位不会因暴风雪受损。与俄罗斯交战的文明，其单位在俄罗斯领土中遭遇暴风雪时受到的伤害+100%。[NEWLINE][NEWLINE][ICON_BULLET]出生地关联：T1冻土。</Text>
 		</Replace>
 		<Replace Tag="LOC_TRAIT_CIVILIZATION_MOTHER_RUSSIA_EXPANSION2_DESCRIPTION" Language="zh_Hans_CN">
-			<Text>建立城市可获得额外领土。冻土提供+1 [ICON_PRODUCTION] 生产力。拥有圣地或拉夫拉修道院的城市，其冻土和冻土丘陵均提供+1 [ICON_FAITH] 信仰值。建在冻土上的城市若拥有拉夫拉修道院和神社，其市中心+1 [ICON_FOOD] 食物。[NEWLINE]单位不会因暴风雪受损。与俄罗斯交战的文明，其单位在俄罗斯领土中遭遇暴风雪时受到的伤害+100%。[NEWLINE][NEWLINE][ICON_BULLET]出生地关联：T1冻土。</Text>
+			<Text>建立城市可获得额外领土。冻土提供+1 [ICON_PRODUCTION] 生产力。与圣地或拉夫拉修道院相邻的冻土和冻土丘陵提供+1 [ICON_FAITH] 信仰值。建在冻土上的城市若拥有拉夫拉修道院和神社，其市中心+1 [ICON_FOOD] 食物。[NEWLINE]单位不会因暴风雪受损。与俄罗斯交战的文明，其单位在俄罗斯领土中遭遇暴风雪时受到的伤害+100%。[NEWLINE][NEWLINE][ICON_BULLET]出生地关联：T1冻土。</Text>
 		</Replace>
 
 		<Replace Tag="LOC_GOVERNOR_PROMOTION_RESOURCE_MANAGER_EXPEDITION_DESCRIPTION" Language="en_US">
@@ -76,12 +76,24 @@
 			<Text>城市建造工业区建筑时+40% [ICON_PRODUCTION] 生产力。</Text>
 		</Replace>
 
-		<!-- Civilizations/leaders: late BBG rules that still had obsolete Simplified Chinese text. -->
+		<!-- Civilizations/leaders: final ZYLPVP rules applied after BBG localization. -->
+		<Replace Tag="LOC_TRAIT_CIVILIZATION_MALI_GOLD_DESERT_DESCRIPTION" Language="en_US">
+			<Text>Featureless Desert and Desert Hills tiles other than City Centers gain +2 [ICON_FOOD] Food, +1 [ICON_PRODUCTION] Production, and +1 [ICON_FAITH] Faith.[NEWLINE]Farms can be constructed on Desert; after Civil Engineering is unlocked, Farms can also be built on Desert Hills.[NEWLINE]Mines on Desert or Desert Hills grant +2 [ICON_GOLD] Gold.[NEWLINE][NEWLINE]Can purchase Suguba buildings with [ICON_FAITH] Faith.[NEWLINE][ICON_BULLET]Bias: T1 Desert, T5 Minable Resources.</Text>
+		</Replace>
+		<Replace Tag="LOC_TRAIT_LEADER_SAHEL_MERCHANTS_DESCRIPTION" Language="en_US">
+			<Text>Receive +1 permanent [ICON_TRADEROUTE] Trade Route capacity each time you enter a Golden Age. Holy Sites grant +2 [ICON_GOLD] Gold adjacency to Sugubas instead of the standard +1 adjacency. +15% [ICON_PRODUCTION] Production toward Holy Sites and their buildings.</Text>
+		</Replace>
+		<Replace Tag="LOC_DISTRICT_SUGUBA_DESCRIPTION" Language="en_US">
+			<Text>A district unique to Mali that replaces the Commercial Hub. Units, buildings, and districts are 10% cheaper to purchase with [ICON_GOLD] Gold or [ICON_FAITH] Faith in this city.[NEWLINE][NEWLINE]Each adjacent Holy Site grants +1 [ICON_GOLD] Gold; each adjacent City Center, River Edge, or Oasis grants +1 [ICON_GOLD] Gold; every two adjacent districts grant +1 [ICON_GOLD] Gold.</Text>
+		</Replace>
 		<Replace Tag="LOC_TRAIT_CIVILIZATION_MALI_GOLD_DESERT_DESCRIPTION" Language="zh_Hans_CN">
-			<Text>所有城市-5% [ICON_PRODUCTION] 生产力。[NEWLINE]除市中心外，无地貌的沙漠单元格+2 [ICON_FOOD] 食物。[NEWLINE]完成“对外贸易”市政后，首都以及市中心位于沙漠或沙漠丘陵的城市+2 [ICON_FAITH] 信仰值。[NEWLINE]可在沙漠上建造农场；解锁“土木工程”市政后也可在沙漠丘陵上建造农场。[NEWLINE]沙漠或沙漠丘陵上的矿山+2 [ICON_GOLD] 金币。[NEWLINE][NEWLINE]可使用 [ICON_FAITH] 信仰值购买曼丁哥市场建筑。[NEWLINE][ICON_BULLET]出生地关联：T1沙漠、T5可开采资源。</Text>
+			<Text>除市中心外，无地貌的沙漠和沙漠丘陵单元格+2 [ICON_FOOD] 食物、+1 [ICON_PRODUCTION] 生产力和+1 [ICON_FAITH] 信仰值。[NEWLINE]可在沙漠上建造农场；解锁“土木工程”市政后也可在沙漠丘陵上建造农场。[NEWLINE]沙漠或沙漠丘陵上的矿山+2 [ICON_GOLD] 金币。[NEWLINE][NEWLINE]可使用 [ICON_FAITH] 信仰值购买曼丁哥市场建筑。[NEWLINE][ICON_BULLET]出生地关联：T1沙漠、T5可开采资源。</Text>
 		</Replace>
 		<Replace Tag="LOC_TRAIT_LEADER_SAHEL_MERCHANTS_DESCRIPTION" Language="zh_Hans_CN">
-			<Text>解锁“银行业”科技后+1 [ICON_TRADEROUTE] 贸易路线容量。圣地为曼丁哥市场提供+2 [ICON_GOLD] 金币相邻加成，替代标准的+1相邻加成。建造圣地及其中的建筑时+15% [ICON_PRODUCTION] 生产力。</Text>
+			<Text>每次进入黄金时代时，永久+1 [ICON_TRADEROUTE] 贸易路线容量。圣地为曼丁哥市场提供+2 [ICON_GOLD] 金币相邻加成，替代标准的+1相邻加成。建造圣地及其中的建筑时+15% [ICON_PRODUCTION] 生产力。</Text>
+		</Replace>
+		<Replace Tag="LOC_DISTRICT_SUGUBA_DESCRIPTION" Language="zh_Hans_CN">
+			<Text>取代商业中心的马里特色区域。在此城市使用 [ICON_GOLD] 金币或 [ICON_FAITH] 信仰值购买单位、建筑和区域时，费用-10%。[NEWLINE][NEWLINE]每与一座圣地相邻，+1 [ICON_GOLD] 金币；每与一座市中心、一条河流边或一处绿洲相邻，+1 [ICON_GOLD] 金币；每相邻2座区域，+1 [ICON_GOLD] 金币。</Text>
 		</Replace>
 		<Replace Tag="LOC_TRAIT_LEADER_SUNDIATA_KEITA_DESCRIPTION" Language="zh_Hans_CN">
 			<Text>使用 [ICON_GOLD] 金币赞助 [ICON_GREATPERSON] 伟人的费用降低30%。[NEWLINE][NEWLINE]剧院广场为曼丁哥市场提供标准相邻加成。同时拥有剧院广场和曼丁哥市场的城市每回合+1 [ICON_GreatWriter] 大作家点数。由松迪亚塔建立的城市，其市场获得2个 [ICON_GREATWORK_WRITING] 著作槽位。 [ICON_GREATWORK_WRITING] 著作+2 [ICON_CULTURE] 文化值和+4 [ICON_GOLD] 金币。</Text>
@@ -128,8 +140,17 @@
 		<Replace Tag="LOC_TRAIT_LEADER_RAMSES_DESCRIPTION" Language="zh_Hans_CN">
 			<Text>建筑建成时，获得等同于建筑花费10%的 [ICON_CULTURE] 文化值（若城市中已拥有奇观则提升至20%）；奇观建成时获得等同于奇观花费25%的 [ICON_CULTURE] 文化值。位于泛滥平原上的已改良加成、奢侈和战略资源各+1 [ICON_FOOD] 食物和+1 [ICON_FAITH] 信仰值。相邻河流的圣地获得+1 [ICON_PRODUCTION] 生产力。[NEWLINE][NEWLINE]城市若建立在河流旁，建造圣地和工业区时+15% [ICON_PRODUCTION] 生产力。</Text>
 		</Replace>
+		<Replace Tag="LOC_TRAIT_CIVILIZATION_WONDER_TOURISM_DESCRIPTION" Language="en_US">
+			<Text>Receives a free Spy (and extra spy capacity) at Castles. All spies start with a [ICON_PROMOTION] free promotion. +20% [ICON_PRODUCTION] Production toward Medieval, Renaissance, and Industrial era Wonders. +50% [ICON_TOURISM] Tourism from Wonders of any era.[NEWLINE][ICON_BULLET]Bias: T4 Rivers, T4 Luxury resources.</Text>
+		</Replace>
+		<Replace Tag="LOC_TRAIT_CIVILIZATION_WONDER_TOURISM_DESCRIPTION" Language="zh_Hans_CN">
+			<Text>解锁“城堡”科技后获得1名免费间谍并增加1点间谍容量。所有间谍初始获得一次免费 [ICON_PROMOTION] 晋升。建造中世纪、文艺复兴和工业时代奇观时+20% [ICON_PRODUCTION] 生产力。所有时代的奇观+50% [ICON_TOURISM] 旅游业绩。[NEWLINE][ICON_BULLET]出生地关联：T4河流、T4奢侈资源。</Text>
+		</Replace>
+		<Replace Tag="LOC_TRAIT_LEADER_MAGNIFICENCES_DESCRIPTION" Language="en_US">
+			<Text>Improved resources provide additional yields:[NEWLINE][ICON_BULLET]Luxury resources gain +1 [ICON_CULTURE] Culture after unlocking Craftsmanship;[NEWLINE][ICON_BULLET]Bonus resources gain +1 [ICON_CULTURE] Culture after unlocking Feudalism;[NEWLINE][ICON_BULLET]Strategic resources gain +1 [ICON_CULTURE] Culture after unlocking Castles;[NEWLINE][ICON_BULLET]Improved resources adjacent to a Theater Square gain +1 [ICON_CULTURE] Culture;[NEWLINE][ICON_BULLET]Improved Luxury resources adjacent to a Chateau provide +1 [ICON_AMENITIES] Amenity to their city.[NEWLINE][NEWLINE]Happy cities gain +5% [ICON_CULTURE] Culture, doubled if the city is Ecstatic and tripled if it is Euphoric (+8 Amenities). Cities with a Theater Square gain Great Person points based on happiness: +1 [ICON_GreatWriter] Great Writer point when Happy, an additional +1 [ICON_GreatArtist] Great Artist point when Ecstatic, and an additional +1 [ICON_GreatMusician] Great Musician point when Euphoric.[NEWLINE][NEWLINE]May initiate the Court Festival unique project in cities with a Theater Square.</Text>
+		</Replace>
 		<Replace Tag="LOC_TRAIT_LEADER_MAGNIFICENCES_DESCRIPTION" Language="zh_Hans_CN">
-			<Text>已改良资源获得额外产出：[NEWLINE][ICON_BULLET]解锁“技艺”市政后+1 [ICON_CULTURE] 文化值；[NEWLINE][ICON_BULLET]与剧院广场相邻时+1 [ICON_CULTURE] 文化值；[NEWLINE][ICON_BULLET]若是奢侈资源且与城堡相邻，则为城市+1 [ICON_AMENITIES] 宜居度。[NEWLINE][NEWLINE]快乐城市+5% [ICON_CULTURE] 文化值，欣喜若狂时加成翻倍，宜居度达到+8时加成变为三倍。拥有剧院广场的城市按幸福度获得伟人点数：快乐时+1 [ICON_GreatWriter] 大作家点数，欣喜若狂时再+1 [ICON_GreatArtist] 大艺术家点数，宜居度达到+8时再+1 [ICON_GreatMusician] 大音乐家点数。[NEWLINE][NEWLINE]拥有剧院广场的城市可以开展特色“宫廷盛会”项目。</Text>
+			<Text>已改良资源获得额外产出：[NEWLINE][ICON_BULLET]解锁“技艺”市政后，奢侈资源+1 [ICON_CULTURE] 文化值；[NEWLINE][ICON_BULLET]解锁“封建主义”市政后，加成资源+1 [ICON_CULTURE] 文化值；[NEWLINE][ICON_BULLET]解锁“城堡”科技后，战略资源+1 [ICON_CULTURE] 文化值；[NEWLINE][ICON_BULLET]与剧院广场相邻时+1 [ICON_CULTURE] 文化值；[NEWLINE][ICON_BULLET]若是奢侈资源且与城堡相邻，则为城市+1 [ICON_AMENITIES] 宜居度。[NEWLINE][NEWLINE]快乐城市+5% [ICON_CULTURE] 文化值，欣喜若狂时加成翻倍，宜居度达到+8时加成变为三倍。拥有剧院广场的城市按幸福度获得伟人点数：快乐时+1 [ICON_GreatWriter] 大作家点数，欣喜若狂时再+1 [ICON_GreatArtist] 大艺术家点数，宜居度达到+8时再+1 [ICON_GreatMusician] 大音乐家点数。[NEWLINE][NEWLINE]拥有剧院广场的城市可以开展特色“宫廷盛会”项目。</Text>
 		</Replace>
 		<Replace Tag="LOC_TRAIT_LEADER_SUK_GALLIC_WAR_DESCRIPTION" Language="zh_Hans_CN">
 			<Text>解锁“铸铜术”科技后，矿山+1 [ICON_CULTURE] 文化值。[NEWLINE][NEWLINE]工作坊每回合+1 [ICON_InfluencePerTurn] 影响力点数。</Text>

@@ -5,19 +5,10 @@
 --===========================================================================
 UPDATE Units SET Combat=53 WHERE UnitType='UNIT_MALI_MANDEKALU_CAVALRY';
 
--- 25/10/23 Remove 30% prod malus for units/buildings, add global 15% prod malus
--- 19/12/25 Malus prod removed
--- 18/01/26 Malus to 5%
+-- Remove the original unit/building Production penalties.  ZYLPVP does not
+-- replace them with a city-wide Production penalty.
 DELETE FROM TraitModifiers WHERE TraitType = 'TRAIT_CIVILIZATION_MALI_GOLD_DESERT' AND ModifierId = 'TRAIT_LESS_UNIT_PRODUCTION';
 DELETE FROM TraitModifiers WHERE TraitType = 'TRAIT_CIVILIZATION_MALI_GOLD_DESERT' AND ModifierId = 'TRAIT_LESS_BUILDING_PRODUCTION';
-
-INSERT INTO TraitModifiers(TraitType, ModifierId) VALUES
-    ('TRAIT_CIVILIZATION_MALI_GOLD_DESERT', 'BBG_TRAIT_MALI_LESS_CITY_PRODUCTION');
-INSERT INTO Modifiers(ModifierId, ModifierType) VALUES
-    ('BBG_TRAIT_MALI_LESS_CITY_PRODUCTION', 'MODIFIER_PLAYER_CITIES_ADJUST_CITY_YIELD_MODIFIER');
-INSERT INTO ModifierArguments(ModifierId, Name, Value) VALUES
-    ('BBG_TRAIT_MALI_LESS_CITY_PRODUCTION', 'YieldType', 'YIELD_PRODUCTION'),
-    ('BBG_TRAIT_MALI_LESS_CITY_PRODUCTION', 'Amount', -5);
 
 -- Faith on cities removed
 DELETE FROM TraitModifiers WHERE TraitType = 'TRAIT_CIVILIZATION_MALI_GOLD_DESERT' AND ModifierId = 'TRAIT_DESERT_CITY_CENTER_FAITH';
@@ -25,41 +16,6 @@ DELETE FROM TraitModifiers WHERE TraitType = 'TRAIT_CIVILIZATION_MALI_GOLD_DESER
 
 -- 30/06/25 No longer get food from city center adjacency to desert, - prod and +4 golds
 DELETE FROM TraitModifiers WHERE ModifierId IN ('TRAIT_DESERT_CITY_CENTER_FOOD', 'TRAIT_DESERT_HILLS_CITY_CENTER_FOOD', 'TRAIT_MALI_MINES_PRODUCTION', 'TRAIT_MALI_MINES_GOLD');
-
--- 30/06/25 +2 faith per city center if on desert tile (or if capital)
-INSERT INTO Modifiers (ModifierId, ModifierType, OwnerRequirementSetId, SubjectRequirementSetId) VALUES
-    ('BBG_MALI_FAITH_NEXT_DESERT', 'MODIFIER_PLAYER_DISTRICTS_ADJUST_YIELD_CHANGE', 'BBG_UTILS_PLAYER_HAS_CIVIC_FOREIGN_TRADE_REQSET', 'BBG_CITY_CENTER_DESERT_REQSET'),
-    ('BBG_MALI_FAITH_NEXT_DESERT_HILLS', 'MODIFIER_PLAYER_DISTRICTS_ADJUST_YIELD_CHANGE', 'BBG_UTILS_PLAYER_HAS_CIVIC_FOREIGN_TRADE_REQSET', 'BBG_CITY_CENTER_DESERT_HILLS_REQSET'),
-    ('BBG_MALI_FAITH_NEXT_CAPITAL', 'MODIFIER_PLAYER_DISTRICTS_ADJUST_YIELD_CHANGE', 'BBG_UTILS_PLAYER_HAS_CIVIC_FOREIGN_TRADE_REQSET', 'BBG_CITY_CENTER_CAPITAL_NO_DESERT_REQSET');
-INSERT INTO ModifierArguments (ModifierId, Name, Value) VALUES
-    ('BBG_MALI_FAITH_NEXT_DESERT', 'YieldType', 'YIELD_FAITH'),
-    ('BBG_MALI_FAITH_NEXT_DESERT', 'Amount', 2),
-    ('BBG_MALI_FAITH_NEXT_DESERT_HILLS', 'YieldType', 'YIELD_FAITH'),
-    ('BBG_MALI_FAITH_NEXT_DESERT_HILLS', 'Amount', 2),
-    ('BBG_MALI_FAITH_NEXT_CAPITAL', 'YieldType', 'YIELD_FAITH'),
-    ('BBG_MALI_FAITH_NEXT_CAPITAL', 'Amount', 2);
-INSERT INTO Requirements (RequirementId, RequirementType, Inverse) VALUES
-    ('BBG_REQUIRES_PLOT_NO_DESERT', 'REQUIREMENT_PLOT_TERRAIN_TYPE_MATCHES', 1),
-    ('BBG_REQUIRES_PLOT_NO_DESERT_HILLS', 'REQUIREMENT_PLOT_TERRAIN_TYPE_MATCHES', 1);
-INSERT INTO RequirementArguments (RequirementId, Name, Value) VALUES
-    ('BBG_REQUIRES_PLOT_NO_DESERT', 'TerrainType', 'TERRAIN_DESERT'),
-    ('BBG_REQUIRES_PLOT_NO_DESERT_HILLS', 'TerrainType', 'TERRAIN_DESERT_HILLS');
-INSERT INTO RequirementSets (RequirementSetId, RequirementSetType) VALUES
-    ('BBG_CITY_CENTER_DESERT_REQSET', 'REQUIREMENTSET_TEST_ALL'),
-    ('BBG_CITY_CENTER_DESERT_HILLS_REQSET', 'REQUIREMENTSET_TEST_ALL'),
-    ('BBG_CITY_CENTER_CAPITAL_NO_DESERT_REQSET', 'REQUIREMENTSET_TEST_ALL');
-INSERT INTO RequirementSetRequirements (RequirementSetId, RequirementId) VALUES
-    ('BBG_CITY_CENTER_DESERT_REQSET', 'REQUIRES_PLOT_HAS_DESERT'),
-    ('BBG_CITY_CENTER_DESERT_REQSET', 'BBG_REQUIRES_PLOT_IS_CITY_CENTER'),
-    ('BBG_CITY_CENTER_DESERT_HILLS_REQSET', 'REQUIRES_PLOT_HAS_DESERT_HILLS'),
-    ('BBG_CITY_CENTER_DESERT_HILLS_REQSET', 'BBG_REQUIRES_PLOT_IS_CITY_CENTER'),
-    ('BBG_CITY_CENTER_CAPITAL_NO_DESERT_REQSET', 'REQUIRES_PLOT_IS_CAPITAL'),
-    ('BBG_CITY_CENTER_CAPITAL_NO_DESERT_REQSET', 'BBG_REQUIRES_PLOT_NO_DESERT'),
-    ('BBG_CITY_CENTER_CAPITAL_NO_DESERT_REQSET', 'BBG_REQUIRES_PLOT_NO_DESERT_HILLS');
-INSERT INTO TraitModifiers (TraitType, ModifierId) VALUES
-    ('TRAIT_CIVILIZATION_MALI_GOLD_DESERT', 'BBG_MALI_FAITH_NEXT_DESERT'),
-    ('TRAIT_CIVILIZATION_MALI_GOLD_DESERT', 'BBG_MALI_FAITH_NEXT_DESERT_HILLS'),
-    ('TRAIT_CIVILIZATION_MALI_GOLD_DESERT', 'BBG_MALI_FAITH_NEXT_CAPITAL');
 
 -- 30/06/25 Ability to build farms in desert
 INSERT INTO Modifiers (ModifierId, ModifierType, SubjectRequirementSetId) VALUES
@@ -74,7 +30,9 @@ INSERT INTO TraitModifiers (TraitType, ModifierId) VALUES
     ('TRAIT_CIVILIZATION_MALI_GOLD_DESERT', 'BBG_MALI_FARM_DESERT'),
     ('TRAIT_CIVILIZATION_MALI_GOLD_DESERT', 'BBG_MALI_FARM_DESERT_HILL');
 
--- 30/06/25 Desert tiles got 2 food (grassland equivalent) apart from oasis tile
+-- Featureless Desert and Desert Hills tiles outside City Centers gain
+-- +2 Food, +1 Production and +1 Faith.  Flat Desert excludes Floodplains and
+-- Oases; those are the only ordinary features valid on that terrain.
 -- BBG_REQUIRES_DISTRICT_IS_NOT_CITY_CENTER doesn't work, so creating a -2 for city center
 INSERT INTO RequirementSets (RequirementSetId, RequirementSetType) VALUES
     ('BBG_PLOT_IS_DESERT_NO_CITY_CENTER_REQSET', 'REQUIREMENTSET_TEST_ALL'),
@@ -92,15 +50,31 @@ INSERT INTO RequirementArguments (RequirementId, Name, Value) VALUES
     ('BBG_PLOT_HAS_NO_OASIS', 'FeatureType', 'FEATURE_OASIS');
 INSERT INTO Modifiers (ModifierId, ModifierType, SubjectRequirementSetId) VALUES
     ('BBG_MALI_FOOD_DESERT', 'MODIFIER_PLAYER_ADJUST_PLOT_YIELD', 'BBG_PLOT_IS_DESERT_NO_CITY_CENTER_REQSET'),
-    ('BBG_MALI_FOOD_DESERT_HILLS', 'MODIFIER_PLAYER_ADJUST_PLOT_YIELD', 'BBG_PLOT_IS_DESERT_HILLS_NO_CITY_CENTER_REQSET');
+    ('BBG_MALI_FOOD_DESERT_HILLS', 'MODIFIER_PLAYER_ADJUST_PLOT_YIELD', 'BBG_PLOT_IS_DESERT_HILLS_NO_CITY_CENTER_REQSET'),
+    ('ZYL_MALI_PRODUCTION_DESERT', 'MODIFIER_PLAYER_ADJUST_PLOT_YIELD', 'BBG_PLOT_IS_DESERT_NO_CITY_CENTER_REQSET'),
+    ('ZYL_MALI_PRODUCTION_DESERT_HILLS', 'MODIFIER_PLAYER_ADJUST_PLOT_YIELD', 'BBG_PLOT_IS_DESERT_HILLS_NO_CITY_CENTER_REQSET'),
+    ('ZYL_MALI_FAITH_DESERT', 'MODIFIER_PLAYER_ADJUST_PLOT_YIELD', 'BBG_PLOT_IS_DESERT_NO_CITY_CENTER_REQSET'),
+    ('ZYL_MALI_FAITH_DESERT_HILLS', 'MODIFIER_PLAYER_ADJUST_PLOT_YIELD', 'BBG_PLOT_IS_DESERT_HILLS_NO_CITY_CENTER_REQSET');
 INSERT INTO ModifierArguments (ModifierId, Name, Value) VALUES
     ('BBG_MALI_FOOD_DESERT', 'YieldType', 'YIELD_FOOD'),
     ('BBG_MALI_FOOD_DESERT', 'Amount', 2),
     ('BBG_MALI_FOOD_DESERT_HILLS', 'YieldType', 'YIELD_FOOD'),
-    ('BBG_MALI_FOOD_DESERT_HILLS', 'Amount', 2);
+    ('BBG_MALI_FOOD_DESERT_HILLS', 'Amount', 2),
+    ('ZYL_MALI_PRODUCTION_DESERT', 'YieldType', 'YIELD_PRODUCTION'),
+    ('ZYL_MALI_PRODUCTION_DESERT', 'Amount', 1),
+    ('ZYL_MALI_PRODUCTION_DESERT_HILLS', 'YieldType', 'YIELD_PRODUCTION'),
+    ('ZYL_MALI_PRODUCTION_DESERT_HILLS', 'Amount', 1),
+    ('ZYL_MALI_FAITH_DESERT', 'YieldType', 'YIELD_FAITH'),
+    ('ZYL_MALI_FAITH_DESERT', 'Amount', 1),
+    ('ZYL_MALI_FAITH_DESERT_HILLS', 'YieldType', 'YIELD_FAITH'),
+    ('ZYL_MALI_FAITH_DESERT_HILLS', 'Amount', 1);
 INSERT INTO TraitModifiers (TraitType, ModifierId) VALUES
     ('TRAIT_CIVILIZATION_MALI_GOLD_DESERT', 'BBG_MALI_FOOD_DESERT'),
-    ('TRAIT_CIVILIZATION_MALI_GOLD_DESERT', 'BBG_MALI_FOOD_DESERT_HILLS');
+    ('TRAIT_CIVILIZATION_MALI_GOLD_DESERT', 'BBG_MALI_FOOD_DESERT_HILLS'),
+    ('TRAIT_CIVILIZATION_MALI_GOLD_DESERT', 'ZYL_MALI_PRODUCTION_DESERT'),
+    ('TRAIT_CIVILIZATION_MALI_GOLD_DESERT', 'ZYL_MALI_PRODUCTION_DESERT_HILLS'),
+    ('TRAIT_CIVILIZATION_MALI_GOLD_DESERT', 'ZYL_MALI_FAITH_DESERT'),
+    ('TRAIT_CIVILIZATION_MALI_GOLD_DESERT', 'ZYL_MALI_FAITH_DESERT_HILLS');
 
 -- 30/06/25 +2 Gold on mines only on desert tiles
 INSERT INTO RequirementSets (RequirementSetId, RequirementSetType) VALUES
@@ -128,9 +102,9 @@ INSERT INTO TraitModifiers (TraitType, ModifierId) VALUES
 --===========================================================================
 
 -- Cheaper purchase
--- 30/06/25 20% discount, from 10
-UPDATE ModifierArguments SET Value=20 WHERE ModifierId IN ('SUGUBA_CHEAPER_BUILDING_PURCHASE', 'SUGUBA_CHEAPER_DISTRICT_PURCHASE');
-UPDATE ModifierArguments SET Value=20 WHERE ModifierId='SUGUBA_CHEAPER_UNIT_PURCHASE' AND Name='Amount';
+-- Restore the original 10% purchase discount.
+UPDATE ModifierArguments SET Value=10 WHERE ModifierId IN ('SUGUBA_CHEAPER_BUILDING_PURCHASE', 'SUGUBA_CHEAPER_DISTRICT_PURCHASE');
+UPDATE ModifierArguments SET Value=10 WHERE ModifierId='SUGUBA_CHEAPER_UNIT_PURCHASE' AND Name='Amount';
 
 -- Normal adj from HS, City center, Rivers, Oasis and Gov Plaza
 INSERT INTO Adjacency_YieldChanges(ID, Description, YieldType, YieldChange, AdjacentFeature) VALUES
@@ -155,18 +129,8 @@ UPDATE Adjacency_YieldChanges SET YieldChange=1 WHERE ID='Holy_Site_Gold';
 -- Delete gold from traderoute based on number of desert tile in origin
 DELETE FROM TraitModifiers WHERE ModifierId='TRADE_ROUTE_GOLD_DESERT_ORIGIN';
 
--- 19/03/24 Remove free trader per golden Mansa
--- Moved to 1 traderoute at Banking
-DELETE FROM TraitModifiers WHERE ModifierId='GOLDEN_AGE_TRADE_ROUTE';
-DELETE FROM Modifiers WHERE ModifierId='GOLDEN_AGE_TRADE_ROUTE';
-DELETE FROM ModifierArguments WHERE ModifierId='GOLDEN_AGE_TRADE_ROUTE';
-
-INSERT INTO Modifiers (ModifierId, ModifierType, SubjectRequirementSetId) VALUES
-    ('TRAIT_BBG_MANSA_FREE_TRADER_BANKS', 'MODIFIER_PLAYER_ADJUST_TRADE_ROUTE_CAPACITY', 'BBG_UTILS_PLAYER_HAS_TECH_BANKING');
-INSERT INTO ModifierArguments (ModifierId, Name, Value) VALUES
-    ('TRAIT_BBG_MANSA_FREE_TRADER_BANKS', 'Amount', 1);
-INSERT INTO TraitModifiers (TraitType, ModifierId) VALUES
-    ('TRAIT_LEADER_SAHEL_MERCHANTS', 'TRAIT_BBG_MANSA_FREE_TRADER_BANKS');
+-- Keep Firaxis' original GOLDEN_AGE_TRADE_ROUTE modifier: Mansa Musa gains
+-- one permanent Trade Route capacity each time he enters a Golden Age.
 
 -- Holy site +1 to Suguba / Sundiata is excluded in LP/Sundiata.sql
 -- remove the classic +1 and give +2 on the Mansa one

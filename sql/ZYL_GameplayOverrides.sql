@@ -143,13 +143,14 @@ UPDATE GlobalParameters
 SET Value = '-25'
 WHERE Name = 'TECH_COST_PERCENT_CHANGE_BEFORE_GAME_ERA';
 
--- Celestial Navigation has Sailing as its sole prerequisite and unlocks
--- embarkation for every land unit.
+-- Restore Celestial Navigation's Sailing + Astrology prerequisite pair while
+-- keeping this mod's embarkation unlock for every land unit.
 DELETE FROM TechnologyPrereqs
 WHERE Technology = 'TECH_CELESTIAL_NAVIGATION';
 
 INSERT OR IGNORE INTO TechnologyPrereqs (Technology, PrereqTech) VALUES
-	('TECH_CELESTIAL_NAVIGATION', 'TECH_SAILING');
+	('TECH_CELESTIAL_NAVIGATION', 'TECH_SAILING'),
+	('TECH_CELESTIAL_NAVIGATION', 'TECH_ASTROLOGY');
 
 UPDATE Technologies
 SET EmbarkAll = 1,
@@ -331,22 +332,56 @@ INSERT OR IGNORE INTO District_Adjacencies (DistrictType, YieldChangeId)
 	   );
 
 -------------------------------------------------------------------------------
--- Mali: reliable Faith delivery for Desert-founded cities
+-- Mali: final removals and Suguba purchase discount
 -------------------------------------------------------------------------------
 
--- BBG 7.4.6 expresses these three bonuses as district-yield modifiers while
--- their subject requirements inspect the City Center's plot.  That mixed
--- district/plot context is accepted by the database but can fail to resolve at
--- runtime.  A City Center's plot yield is part of its owning city's yield, so
--- use the plot-yield collection that matches all three requirement sets.
--- Foreign Trade remains the intended BBG unlock; this only repairs delivery.
-UPDATE Modifiers
-SET ModifierType = 'MODIFIER_PLAYER_ADJUST_PLOT_YIELD'
-WHERE ModifierId IN (
+-- Do not restore either the original -30% unit/building penalties or BBG's
+-- replacement -5% city-wide Production penalty.  The Foreign Trade city-center
+-- Faith package and Banking trade-route replacement are also intentionally
+-- disabled by the final rules.
+DELETE FROM TraitModifiers
+WHERE TraitType = 'TRAIT_CIVILIZATION_MALI_GOLD_DESERT'
+  AND ModifierId IN (
+	'TRAIT_LESS_UNIT_PRODUCTION',
+	'TRAIT_LESS_BUILDING_PRODUCTION',
+	'BBG_TRAIT_MALI_LESS_CITY_PRODUCTION',
 	'BBG_MALI_FAITH_NEXT_DESERT',
 	'BBG_MALI_FAITH_NEXT_DESERT_HILLS',
 	'BBG_MALI_FAITH_NEXT_CAPITAL'
-);
+  );
+
+DELETE FROM TraitModifiers
+WHERE TraitType = 'TRAIT_LEADER_SAHEL_MERCHANTS'
+  AND ModifierId = 'TRAIT_BBG_MANSA_FREE_TRADER_BANKS';
+
+UPDATE ModifierArguments
+SET Value = 10
+WHERE ModifierId IN (
+	'SUGUBA_CHEAPER_BUILDING_PURCHASE',
+	'SUGUBA_CHEAPER_DISTRICT_PURCHASE',
+	'SUGUBA_CHEAPER_UNIT_PURCHASE'
+  )
+  AND Name = 'Amount';
+
+-------------------------------------------------------------------------------
+-- Global Oasis yield
+-------------------------------------------------------------------------------
+
+-- This is a base feature yield for every civilization, not part of Mali's
+-- trait.  Keep Gold at 1 and raise Food from the Firaxis value of 3 to 4.
+INSERT OR IGNORE INTO Feature_YieldChanges (FeatureType, YieldType, YieldChange) VALUES
+	('FEATURE_OASIS', 'YIELD_FOOD', 4),
+	('FEATURE_OASIS', 'YIELD_GOLD', 1);
+
+UPDATE Feature_YieldChanges
+SET YieldChange = 4
+WHERE FeatureType = 'FEATURE_OASIS'
+  AND YieldType = 'YIELD_FOOD';
+
+UPDATE Feature_YieldChanges
+SET YieldChange = 1
+WHERE FeatureType = 'FEATURE_OASIS'
+  AND YieldType = 'YIELD_GOLD';
 
 -------------------------------------------------------------------------------
 -- Scythia: remove a malformed duplicate ability grant
@@ -378,44 +413,50 @@ WHERE ImprovementType = 'IMPROVEMENT_MISSION'
   );
 
 -------------------------------------------------------------------------------
--- Russia: faith on Tundra and Tundra Hills in cities with a Holy Site / Lavra
+-- Russia: faith on Tundra adjacent to a Holy Site / Lavra
 -------------------------------------------------------------------------------
 
+-- The Lavra replaces the Holy Site, so the adjacency branch must accept both
+-- district types.  A wrapper requirement lets each terrain-specific TEST_ALL
+-- set consume that OR condition without broadening the bonus to the whole city.
 INSERT OR IGNORE INTO RequirementSets (RequirementSetId, RequirementSetType) VALUES
-	('ZYL_RUSSIA_CITY_HAS_HOLY_SITE_OR_LAVRA', 'REQUIREMENTSET_TEST_ANY'),
-	('ZYL_RUSSIA_CITY_HAS_HOLY_SITE_FLAT_TUNDRA', 'REQUIREMENTSET_TEST_ALL'),
-	('ZYL_RUSSIA_CITY_HAS_HOLY_SITE_TUNDRA_HILLS', 'REQUIREMENTSET_TEST_ALL');
+	('ZYL_RUSSIA_PLOT_ADJACENT_HOLY_SITE_OR_LAVRA', 'REQUIREMENTSET_TEST_ANY'),
+	('ZYL_RUSSIA_FLAT_TUNDRA_ADJACENT_HOLY_SITE_OR_LAVRA', 'REQUIREMENTSET_TEST_ALL'),
+	('ZYL_RUSSIA_TUNDRA_HILLS_ADJACENT_HOLY_SITE_OR_LAVRA', 'REQUIREMENTSET_TEST_ALL');
 
 INSERT OR IGNORE INTO Requirements (RequirementId, RequirementType) VALUES
-	('ZYL_RUSSIA_REQUIRES_CITY_HAS_HOLY_SITE_OR_LAVRA', 'REQUIREMENT_REQUIREMENTSET_IS_MET');
+	('ZYL_RUSSIA_REQUIRES_PLOT_ADJACENT_HOLY_SITE', 'REQUIREMENT_PLOT_ADJACENT_DISTRICT_TYPE_MATCHES'),
+	('ZYL_RUSSIA_REQUIRES_PLOT_ADJACENT_LAVRA', 'REQUIREMENT_PLOT_ADJACENT_DISTRICT_TYPE_MATCHES'),
+	('ZYL_RUSSIA_REQUIRES_PLOT_ADJACENT_HOLY_SITE_OR_LAVRA', 'REQUIREMENT_REQUIREMENTSET_IS_MET');
 
 INSERT OR IGNORE INTO RequirementArguments (RequirementId, Name, Value) VALUES
-	('ZYL_RUSSIA_REQUIRES_CITY_HAS_HOLY_SITE_OR_LAVRA', 'RequirementSetId', 'ZYL_RUSSIA_CITY_HAS_HOLY_SITE_OR_LAVRA');
+	('ZYL_RUSSIA_REQUIRES_PLOT_ADJACENT_HOLY_SITE', 'DistrictType', 'DISTRICT_HOLY_SITE'),
+	('ZYL_RUSSIA_REQUIRES_PLOT_ADJACENT_LAVRA', 'DistrictType', 'DISTRICT_LAVRA'),
+	('ZYL_RUSSIA_REQUIRES_PLOT_ADJACENT_HOLY_SITE_OR_LAVRA', 'RequirementSetId', 'ZYL_RUSSIA_PLOT_ADJACENT_HOLY_SITE_OR_LAVRA');
 
--- Remove the pre-1.2.1 direct Holy Site rows if this mod is upgraded while
--- the game is reusing a debug/cache database.  Otherwise TEST_ALL would still
--- require a normal Holy Site and Lavra-only cities would fail the OR branch.
+-- Make repeated debug/cache loads deterministic if a prior local build used
+-- these identifiers with different members.
 DELETE FROM RequirementSetRequirements
 WHERE RequirementSetId IN (
-	'ZYL_RUSSIA_CITY_HAS_HOLY_SITE_OR_LAVRA',
-	'ZYL_RUSSIA_CITY_HAS_HOLY_SITE_FLAT_TUNDRA',
-	'ZYL_RUSSIA_CITY_HAS_HOLY_SITE_TUNDRA_HILLS'
+	'ZYL_RUSSIA_PLOT_ADJACENT_HOLY_SITE_OR_LAVRA',
+	'ZYL_RUSSIA_FLAT_TUNDRA_ADJACENT_HOLY_SITE_OR_LAVRA',
+	'ZYL_RUSSIA_TUNDRA_HILLS_ADJACENT_HOLY_SITE_OR_LAVRA'
 );
 
 INSERT OR IGNORE INTO RequirementSetRequirements (RequirementSetId, RequirementId) VALUES
-	('ZYL_RUSSIA_CITY_HAS_HOLY_SITE_OR_LAVRA', 'REQUIRES_CITY_HAS_HOLY_SITE'),
-	('ZYL_RUSSIA_CITY_HAS_HOLY_SITE_OR_LAVRA', 'BBG_CITY_HAS_DISTRICT_LAVRA_REQUIREMENT'),
-	('ZYL_RUSSIA_CITY_HAS_HOLY_SITE_FLAT_TUNDRA', 'ZYL_RUSSIA_REQUIRES_CITY_HAS_HOLY_SITE_OR_LAVRA'),
-	('ZYL_RUSSIA_CITY_HAS_HOLY_SITE_FLAT_TUNDRA', 'REQUIRES_PLOT_HAS_TUNDRA'),
-	('ZYL_RUSSIA_CITY_HAS_HOLY_SITE_TUNDRA_HILLS', 'ZYL_RUSSIA_REQUIRES_CITY_HAS_HOLY_SITE_OR_LAVRA'),
-	('ZYL_RUSSIA_CITY_HAS_HOLY_SITE_TUNDRA_HILLS', 'REQUIRES_PLOT_HAS_TUNDRA_HILLS');
+	('ZYL_RUSSIA_PLOT_ADJACENT_HOLY_SITE_OR_LAVRA', 'ZYL_RUSSIA_REQUIRES_PLOT_ADJACENT_HOLY_SITE'),
+	('ZYL_RUSSIA_PLOT_ADJACENT_HOLY_SITE_OR_LAVRA', 'ZYL_RUSSIA_REQUIRES_PLOT_ADJACENT_LAVRA'),
+	('ZYL_RUSSIA_FLAT_TUNDRA_ADJACENT_HOLY_SITE_OR_LAVRA', 'ZYL_RUSSIA_REQUIRES_PLOT_ADJACENT_HOLY_SITE_OR_LAVRA'),
+	('ZYL_RUSSIA_FLAT_TUNDRA_ADJACENT_HOLY_SITE_OR_LAVRA', 'REQUIRES_PLOT_HAS_TUNDRA'),
+	('ZYL_RUSSIA_TUNDRA_HILLS_ADJACENT_HOLY_SITE_OR_LAVRA', 'ZYL_RUSSIA_REQUIRES_PLOT_ADJACENT_HOLY_SITE_OR_LAVRA'),
+	('ZYL_RUSSIA_TUNDRA_HILLS_ADJACENT_HOLY_SITE_OR_LAVRA', 'REQUIRES_PLOT_HAS_TUNDRA_HILLS');
 
 UPDATE Modifiers
-SET SubjectRequirementSetId = 'ZYL_RUSSIA_CITY_HAS_HOLY_SITE_FLAT_TUNDRA'
+SET SubjectRequirementSetId = 'ZYL_RUSSIA_FLAT_TUNDRA_ADJACENT_HOLY_SITE_OR_LAVRA'
 WHERE ModifierId = 'TRAIT_INCREASED_TUNDRA_FAITH';
 
 UPDATE Modifiers
-SET SubjectRequirementSetId = 'ZYL_RUSSIA_CITY_HAS_HOLY_SITE_TUNDRA_HILLS'
+SET SubjectRequirementSetId = 'ZYL_RUSSIA_TUNDRA_HILLS_ADJACENT_HOLY_SITE_OR_LAVRA'
 WHERE ModifierId = 'TRAIT_INCREASED_TUNDRA_HILLS_FAITH';
 
 UPDATE ModifierArguments
@@ -431,6 +472,69 @@ WHERE ModifierId = 'TRAIT_INCREASED_TUNDRA_HILLS_FAITH'
 INSERT OR IGNORE INTO TraitModifiers (TraitType, ModifierId) VALUES
 	('TRAIT_CIVILIZATION_MOTHER_RUSSIA', 'TRAIT_INCREASED_TUNDRA_FAITH'),
 	('TRAIT_CIVILIZATION_MOTHER_RUSSIA', 'TRAIT_INCREASED_TUNDRA_HILLS_FAITH');
+
+-------------------------------------------------------------------------------
+-- France: T4 preference for every active Luxury resource
+-------------------------------------------------------------------------------
+
+-- StartBiasResources is civilization-scoped, so every French leader inherits
+-- this preference.  Rebuild the Luxury rows to keep all enabled resource packs
+-- at exactly T4 while preserving France's separate T4 River preference.
+DELETE FROM StartBiasResources
+WHERE CivilizationType = 'CIVILIZATION_FRANCE'
+	AND ResourceType IN (
+		SELECT ResourceType
+		FROM Resources
+		WHERE ResourceClassType = 'RESOURCECLASS_LUXURY'
+	);
+
+INSERT INTO StartBiasResources (CivilizationType, ResourceType, Tier)
+SELECT 'CIVILIZATION_FRANCE', ResourceType, 4
+FROM Resources
+WHERE ResourceClassType = 'RESOURCECLASS_LUXURY';
+
+-------------------------------------------------------------------------------
+-- Catherine de Medici (Magnificence): stagger resource Culture unlocks
+-------------------------------------------------------------------------------
+
+-- BBG grants +1 Culture to all three improved resource classes at
+-- Craftsmanship.  Keep that timing for Luxuries, but move Bonus resources to
+-- Feudalism and Strategic resources to Castles.  Dedicated ZYL requirement
+-- sets make the final ownership explicit without changing the separate
+-- Theater Square adjacency bonus.
+INSERT OR IGNORE INTO RequirementSets (RequirementSetId, RequirementSetType) VALUES
+	('ZYL_MAGNIFICENCE_IMPROVED_LUXURY_CRAFTSMANSHIP', 'REQUIREMENTSET_TEST_ALL'),
+	('ZYL_MAGNIFICENCE_IMPROVED_BONUS_FEUDALISM', 'REQUIREMENTSET_TEST_ALL'),
+	('ZYL_MAGNIFICENCE_IMPROVED_STRATEGIC_CASTLES', 'REQUIREMENTSET_TEST_ALL');
+
+-- Make repeated debug/cache loads deterministic if an older local build used
+-- one of these identifiers with different members.
+DELETE FROM RequirementSetRequirements
+WHERE RequirementSetId IN (
+	'ZYL_MAGNIFICENCE_IMPROVED_LUXURY_CRAFTSMANSHIP',
+	'ZYL_MAGNIFICENCE_IMPROVED_BONUS_FEUDALISM',
+	'ZYL_MAGNIFICENCE_IMPROVED_STRATEGIC_CASTLES'
+);
+
+INSERT OR IGNORE INTO RequirementSetRequirements (RequirementSetId, RequirementId) VALUES
+	('ZYL_MAGNIFICENCE_IMPROVED_LUXURY_CRAFTSMANSHIP', 'BBG_REQUIRES_PLOT_HAS_IMPROVED_LUXURY'),
+	('ZYL_MAGNIFICENCE_IMPROVED_LUXURY_CRAFTSMANSHIP', 'BBG_UTILS_PLAYER_HAS_CIVIC_CRAFTSMANSHIP_REQUIREMENT'),
+	('ZYL_MAGNIFICENCE_IMPROVED_BONUS_FEUDALISM', 'BBG_REQUIRES_PLOT_HAS_IMPROVED_BONUS'),
+	('ZYL_MAGNIFICENCE_IMPROVED_BONUS_FEUDALISM', 'BBG_UTILS_PLAYER_HAS_CIVIC_FEUDALISM_REQUIREMENT'),
+	('ZYL_MAGNIFICENCE_IMPROVED_STRATEGIC_CASTLES', 'REQUIRES_PLOT_HAS_IMPROVED_STRATEGIC'),
+	('ZYL_MAGNIFICENCE_IMPROVED_STRATEGIC_CASTLES', 'BBG_UTILS_PLAYER_HAS_TECH_CASTLES_REQUIREMENT');
+
+UPDATE Modifiers
+SET SubjectRequirementSetId = 'ZYL_MAGNIFICENCE_IMPROVED_LUXURY_CRAFTSMANSHIP'
+WHERE ModifierId = 'BBG_MAGNIFICENCE_CULTURE_ON_LUX';
+
+UPDATE Modifiers
+SET SubjectRequirementSetId = 'ZYL_MAGNIFICENCE_IMPROVED_BONUS_FEUDALISM'
+WHERE ModifierId = 'BBG_MAGNIFICENCE_CULTURE_ON_BONUS';
+
+UPDATE Modifiers
+SET SubjectRequirementSetId = 'ZYL_MAGNIFICENCE_IMPROVED_STRATEGIC_CASTLES'
+WHERE ModifierId = 'BBG_MAGNIFICENCE_CULTURE_ON_STRAT';
 
 -------------------------------------------------------------------------------
 -- Suleiman (the Magnificent): keep the two combat modifiers mutually exclusive

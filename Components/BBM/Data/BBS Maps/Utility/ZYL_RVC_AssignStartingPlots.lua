@@ -283,11 +283,96 @@ for row in GameInfo.StartBiasTerrains() do
     end
 end
 
+-- This uses the final gameplay database rather than Firaxis' original leader
+-- behavior.  In the embedded BBG rules Kupe no longer has OceanStart and the
+-- Maori instead have a T1 Coast bias, so they are intentionally included here
+-- and receive the same east/west mainland-shore preference as other coastal
+-- civilizations.
+
+-- Rich Mainland has a deliberately wide east/west ocean and a narrow
+-- north/south ocean.  The former is the intended side for coastal starts
+-- because it is closer to the offshore islands and their resources.  Keep
+-- this as a score bonus (rather than a hard filter): once all east/west
+-- candidates are occupied or fail normal start checks, north/south coast
+-- candidates remain available as the fallback.
+local ZYL_RVC_EW_COAST_START_BONUS = 50000000
+local ZYL_RVC_COAST_ORIENTATION_CACHE = {}
+local ZYL_RVC_MAINLAND_AREA_ID = nil
+
+local function ZYL_RVC_GetCoastOrientation(plot)
+    if plot == nil or not plot:IsCoastalLand() then
+        return nil
+    end
+
+    if ZYL_RVC_MAINLAND_AREA_ID == nil then
+        local mainland = Areas.FindBiggestArea(false)
+        ZYL_RVC_MAINLAND_AREA_ID = mainland ~= nil and mainland:GetID() or -1
+    end
+    local plotArea = plot:GetArea()
+    if plotArea == nil or plotArea:GetID() ~= ZYL_RVC_MAINLAND_AREA_ID then
+        -- Offshore islands are destinations, not privileged major-civilization
+        -- starts.  Only the mainland's east/west shore receives the bonus.
+        return nil
+    end
+
+    local plotIndex = plot:GetIndex()
+    local cached = ZYL_RVC_COAST_ORIENTATION_CACHE[plotIndex]
+    if cached ~= nil then
+        return cached
+    end
+
+    local gridWidth, gridHeight = Map.GetGridSize()
+    local eastWest = 0
+    local northSouth = 0
+    for direction = 0, DirectionTypes.NUM_DIRECTION_TYPES - 1 do
+        local adjacentPlot = Map.GetAdjacentPlot(plot:GetX(), plot:GetY(), direction)
+        if adjacentPlot ~= nil and adjacentPlot:IsWater() and not adjacentPlot:IsLake() then
+            -- Classify the exposed ocean by the map edge it is closest to.
+            -- This is stable on the irregular coastline and avoids relying
+            -- on row-parity-specific hex coordinate offsets.
+            local horizontalEdgeDistance = math.min(
+                adjacentPlot:GetX(), gridWidth - 1 - adjacentPlot:GetX()
+            )
+            local verticalEdgeDistance = math.min(
+                adjacentPlot:GetY(), gridHeight - 1 - adjacentPlot:GetY()
+            )
+            -- Compare depth beyond the generated sea margins, not raw edge
+            -- distance: east/west water is intentionally 12 (FFA) or 15
+            -- (team) tiles wide while north/south water is 6 tiles wide.
+            local eastWestSeaMargin =
+                ZYL_RICH_MAINLAND_VARIANT.ffa == true and 12 or 15
+            local northSouthSeaMargin = 6
+            local eastWestDepth = horizontalEdgeDistance - eastWestSeaMargin
+            local northSouthDepth = verticalEdgeDistance - northSouthSeaMargin
+            if eastWestDepth <= northSouthDepth then
+                eastWest = eastWest + 1
+            else
+                northSouth = northSouth + 1
+            end
+        end
+    end
+
+    local orientation = nil
+    if eastWest > 0 or northSouth > 0 then
+        -- A corner/coastal pocket that exposes both directions is treated as
+        -- east/west so the preferred side wins ties deterministically.
+        orientation = eastWest >= northSouth and "EW" or "NS"
+    end
+    ZYL_RVC_COAST_ORIENTATION_CACHE[plotIndex] = orientation
+    return orientation
+end
+
 ------------------------------------------------------------------------------
 local BBS_AssignStartingPlots = {};
 ZYL_RVC_AssignStartingPlots = BBS_AssignStartingPlots;
 ------------------------------------------------------------------------------
 function BBS_AssignStartingPlots.Create(args)
+	-- Candidate maps can be regenerated several times by the BBS placer.  The
+	-- coastline itself is unchanged during a placement attempt, but resetting
+	-- this cache keeps fallback/debug runs deterministic if a map script alters
+	-- a coast before invoking the placer again.
+	ZYL_RVC_COAST_ORIENTATION_CACHE = {}
+	ZYL_RVC_MAINLAND_AREA_ID = nil
 	if (GameConfiguration.GetValue("SpawnRecalculation") == nil) then
 		print("BBS_AssignStartingPlots: Map Type Not Supported!")
 		Game:SetProperty("BBS_RESPAWN",false)
@@ -1279,10 +1364,11 @@ function BBS_AssignStartingPlots:__SetStartBias(startPlots, iNumberCiv, playersL
         end
         table.insert(civs, civ);
     end
-    local categoryOrder = { "ALL" };
-    if major == true and (self.iTeamPlacement == 1 or self.iTeamPlacement == 2) then
-        categoryOrder = { "COAST", "INLAND" };
-    end
+    -- Place every land-start coastal civilization (including BBG's land-start
+    -- Maori) before inland civilizations on both team and FFA variants,
+    -- reserving the preferred side-coast slots before an inland bias can
+    -- consume them.
+    local categoryOrder = major == true and { "COAST", "INLAND" } or { "ALL" };
     for _, category in ipairs(categoryOrder) do
         for i = -4, self.tierMax + 1 do
             tierOrder = {};
@@ -2216,6 +2302,15 @@ function BBS_AssignStartingPlots:__RateBiasPlots(biases, startPlots, major, regi
 				ratedPlot.Score = ratedPlot.Score + 25;
 			end
 		end
+		local isCoastalStartCivilization = SEAS_CIVILIZATION[civilizationType]
+			or (self.oceanStartFallbackPlayers ~= nil
+				and self.oceanStartFallbackPlayers[iPlayer] == true)
+		if major and isCoastalStartCivilization and not isInlandCoastVariant then
+			ratedPlot.CoastOrientation = ZYL_RVC_GetCoastOrientation(plot)
+			if ratedPlot.CoastOrientation == "EW" then
+				ratedPlot.Score = ratedPlot.Score + ZYL_RVC_EW_COAST_START_BONUS
+			end
+		end
 		if Players[iPlayer] ~= nil then
 			if self:__MajorCivBuffer(plot,Players[iPlayer]:GetTeam()) == false then
 				ratedPlot.Score = ratedPlot.Score - 90000000;
@@ -2260,6 +2355,12 @@ function BBS_AssignStartingPlots:__SettlePlot(ratedBiases, index, player, major,
 							"walkable", ratedBias.HydrophobicWalkableRatio,
 							"nearest coastal land",
 							tostring(ratedBias.HydrophobicNearestCoastalLand));
+					end
+					if ratedBias.CoastOrientation ~= nil then
+						Game:SetProperty("ZYLRM_COAST_ORIENTATION_" .. player:GetID(),
+							ratedBias.CoastOrientation)
+						print("ZYL RVC coastal start orientation:", civilizationType,
+							ratedBias.CoastOrientation, ratedBias.Plot:GetX(), ratedBias.Plot:GetY())
 					end
 					if ratedBias.Score < - 500 then
 						bError_shit_settle = true

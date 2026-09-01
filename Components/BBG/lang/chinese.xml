@@ -928,11 +928,11 @@
 		<!-- == MALI == -->
 		<!-- = civilization ability = -->
 		<Replace Tag="LOC_TRAIT_CIVILIZATION_MALI_GOLD_DESERT_DESCRIPTION" Language="zh_Hans_CN">
-			<Text>首都或市中心位于沙漠单元格的城市每回合获得+2 [ICON_Faith] 信仰值。可在沙漠单元格中建造农场。沙漠单元格+2 [ICON_FOOD] 食物，改良的矿提供+2 [ICON_GOLD] 金币。可用 [ICON_Faith] 信仰值购买商业中心区域建筑。所有城市-15% [ICON_PRODUCTION] 生产力。[NEWLINE][NEWLINE][ICON_BULLET]出生地关联：T1沙漠、T5矿山资源。</Text>
+			<Text>除市中心外，无地貌的沙漠和沙漠丘陵单元格+2 [ICON_FOOD] 食物、+1 [ICON_PRODUCTION] 生产力和+1 [ICON_FAITH] 信仰值。可在沙漠单元格中建造农场；解锁“土木工程”市政后也可在沙漠丘陵上建造农场。沙漠或沙漠丘陵上的矿山+2 [ICON_GOLD] 金币。可用 [ICON_Faith] 信仰值购买曼丁哥市场建筑。[NEWLINE][NEWLINE][ICON_BULLET]出生地关联：T1沙漠、T5矿山资源。</Text>
 		</Replace>
 		<!-- = leader ability (Mansa Musa) = -->
 		<Replace Tag="LOC_TRAIT_LEADER_SAHEL_MERCHANTS_DESCRIPTION" Language="zh_Hans_CN">
-			<Text>若城市拥有至少两个沙漠单元格则+1 [ICON_Faith] 信仰值。“银行业”科技后获得+1 [ICON_TradeRoute] 贸易路线容量。圣地从曼丁哥市场获得标准相邻加成，建造圣地及其中的建筑时+15% [ICON_PRODUCTION] 生产力。</Text>
+			<Text>每次进入黄金时代时永久+1 [ICON_TradeRoute] 贸易路线容量。圣地为曼丁哥市场提供+2 [ICON_GOLD] 金币相邻加成，建造圣地及其中的建筑时+15% [ICON_PRODUCTION] 生产力。</Text>
 		</Replace>
 		<Replace Tag="LOC_BBG_SUGUBA_HOLY_SITE_MANSA" Language="zh_Hans_CN">
 			<Text>+{1_num} [ICON_GOLD] 金币，来自相邻圣地。</Text>
@@ -959,7 +959,7 @@
 		</Replace>
 		<!-- = unique district = -->
 		<Replace Tag="LOC_DISTRICT_SUGUBA_DESCRIPTION" Language="zh_Hans_CN">
-			<Text>马里特色区域，专精于经济与贸易，取代商业中心。使用 [ICON_GOLD] 金币和 [ICON_FAITH] 信仰值在此城中购买单位、建筑和区域时，费用减少10%。[NEWLINE][NEWLINE]每个相邻市中心、圣地、河流、绿洲、市政广场获得+1 [ICON_Gold] 金币加成。每两个相邻区域单元格获得+1 [ICON_Gold] 金币加成。</Text>
+			<Text>马里特色区域，专精于经济与贸易，取代商业中心。使用 [ICON_GOLD] 金币和 [ICON_FAITH] 信仰值在此城中购买单位、建筑和区域时，费用减少10%。[NEWLINE][NEWLINE]每个相邻市中心、圣地、河流、绿洲获得+1 [ICON_Gold] 金币加成。每两个相邻区域单元格获得+1 [ICON_Gold] 金币加成。</Text>
 		</Replace>
 		<Replace Tag="LOC_SUGUBA_RIVER_GOLD" Language="zh_Hans_CN">
 			<Text>+{1_num} [ICON_GOLD] 金币来自相邻河流。</Text>

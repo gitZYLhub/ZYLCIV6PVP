@@ -46,12 +46,19 @@ $modInfo = Load-XmlDocument $modInfoPath
 if ($modInfo.DocumentElement.GetAttribute('id') -ne $expectedModId) {
     Add-ValidationError "Unexpected Mod ID: $($modInfo.DocumentElement.GetAttribute('id'))"
 }
-if ($modInfo.DocumentElement.GetAttribute('version') -ne '124' -or
-		$modInfo.SelectSingleNode('/Mod/Properties/ToolboxVersion').InnerText -ne '1.2.4') {
-	Add-ValidationError 'The integrated package version must be 1.2.4 / ModInfo 124.'
+if ($modInfo.DocumentElement.GetAttribute('version') -ne '125' -or
+		$modInfo.SelectSingleNode('/Mod/Properties/Version').InnerText -ne '125' -or
+		$modInfo.SelectSingleNode('/Mod/Properties/ToolboxVersion').InnerText -ne '1.2.5') {
+	Add-ValidationError 'The integrated package version must be 1.2.5 / ModInfo 125.'
 }
 if ($modInfo.SelectSingleNode('/Mod/Properties/Name').InnerText -ne 'LOC_ZYLPVPMOD_TITLE') {
     Add-ValidationError 'The ModInfo title is not the ZYLPVPMOD localization key.'
+}
+$workshopTitleEnglish = $modInfo.SelectSingleNode("/Mod/LocalizedText/Text[@id='LOC_ZYLPVPMOD_TITLE']/en_US")
+$workshopTitleChinese = $modInfo.SelectSingleNode("/Mod/LocalizedText/Text[@id='LOC_ZYLPVPMOD_TITLE']/zh_Hans_CN")
+if ($null -eq $workshopTitleEnglish -or $workshopTitleEnglish.InnerText -ne 'ZYLPVPMOD 1.2.5' -or
+		$null -eq $workshopTitleChinese -or $workshopTitleChinese.InnerText -ne 'ZYLPVPMOD 1.2.5') {
+	Add-ValidationError 'The localized ModInfo / Steam Workshop title must be ZYLPVPMOD 1.2.5.'
 }
 
 # Keep the Team PVP Balanced Industries/Corporations nerf complete. The
@@ -639,8 +646,70 @@ else {
     }
 }
 
+$bbgMaliPath = Join-Path $modRoot 'Components\BBG\sql\XP2\Mali.sql'
+if (-not (Test-Path -LiteralPath $bbgMaliPath)) {
+	Add-ValidationError 'BBG Mali gameplay SQL is missing.'
+}
+else {
+	$bbgMaliSql = Get-Content -LiteralPath $bbgMaliPath -Raw
+	foreach ($removedMaliToken in @(
+		'BBG_TRAIT_MALI_LESS_CITY_PRODUCTION',
+		'BBG_MALI_FAITH_NEXT_DESERT',
+		'BBG_MALI_FAITH_NEXT_DESERT_HILLS',
+		'BBG_MALI_FAITH_NEXT_CAPITAL',
+		'TRAIT_BBG_MANSA_FREE_TRADER_BANKS'
+	)) {
+		if ($bbgMaliSql.Contains($removedMaliToken)) {
+			Add-ValidationError "Mali source still defines a removed modifier: $removedMaliToken"
+		}
+	}
+	if ($bbgMaliSql -match "(?is)DELETE\s+FROM\s+(?:TraitModifiers|Modifiers|ModifierArguments)\b[^;]*GOLDEN_AGE_TRADE_ROUTE[^;]*;") {
+		Add-ValidationError 'Mansa Musa source still deletes the original Golden Age Trade Route modifier.'
+	}
+	if (-not $bbgMaliSql.Contains('GOLDEN_AGE_TRADE_ROUTE')) {
+		Add-ValidationError 'Mansa Musa source does not document preservation of the original Golden Age Trade Route modifier.'
+	}
+	foreach ($maliYieldBinding in @(
+		@('ZYL_MALI_PRODUCTION_DESERT', 'YIELD_PRODUCTION', 'BBG_PLOT_IS_DESERT_NO_CITY_CENTER_REQSET'),
+		@('ZYL_MALI_PRODUCTION_DESERT_HILLS', 'YIELD_PRODUCTION', 'BBG_PLOT_IS_DESERT_HILLS_NO_CITY_CENTER_REQSET'),
+		@('ZYL_MALI_FAITH_DESERT', 'YIELD_FAITH', 'BBG_PLOT_IS_DESERT_NO_CITY_CENTER_REQSET'),
+		@('ZYL_MALI_FAITH_DESERT_HILLS', 'YIELD_FAITH', 'BBG_PLOT_IS_DESERT_HILLS_NO_CITY_CENTER_REQSET')
+	)) {
+		$modifierId = [regex]::Escape($maliYieldBinding[0])
+		$yieldType = [regex]::Escape($maliYieldBinding[1])
+		$requirementSetId = [regex]::Escape($maliYieldBinding[2])
+		if ($bbgMaliSql -notmatch "(?s)\('$modifierId'\s*,\s*'MODIFIER_PLAYER_ADJUST_PLOT_YIELD'\s*,\s*'$requirementSetId'\).*?\('$modifierId'\s*,\s*'YieldType'\s*,\s*'$yieldType'\).*?\('$modifierId'\s*,\s*'Amount'\s*,\s*1\)") {
+			Add-ValidationError "Mali featureless Desert yield modifier is incomplete: $($maliYieldBinding[0])"
+		}
+		if ($bbgMaliSql -notmatch "\('TRAIT_CIVILIZATION_MALI_GOLD_DESERT'\s*,\s*'$modifierId'\)") {
+			Add-ValidationError "Mali featureless Desert yield modifier is not attached to the civilization trait: $($maliYieldBinding[0])"
+		}
+	}
+	if ($bbgMaliSql -notmatch "(?s)SET\s+Value\s*=\s*10\s+WHERE\s+ModifierId\s+IN\s*\(\s*'SUGUBA_CHEAPER_BUILDING_PURCHASE'\s*,\s*'SUGUBA_CHEAPER_DISTRICT_PURCHASE'\s*\)") {
+		Add-ValidationError 'Suguba building/district purchase discount is not locked to 10%.'
+	}
+	if ($bbgMaliSql -notmatch "(?s)SET\s+Value\s*=\s*10\s+WHERE\s+ModifierId\s*=\s*'SUGUBA_CHEAPER_UNIT_PURCHASE'") {
+		Add-ValidationError 'Suguba unit purchase discount is not locked to 10%.'
+	}
+}
+
 $gameplayOverridePath = Join-Path $modRoot 'sql\ZYL_GameplayOverrides.sql'
 $governorOverridePath = Join-Path $modRoot 'sql\ZYL_GovernorOverrides.sql'
+
+$bbgMaoriPath = Join-Path $modRoot 'Components\BBG\sql\XP2\Maori.sql'
+if (-not (Test-Path -LiteralPath $bbgMaoriPath)) {
+	Add-ValidationError 'BBG Maori gameplay SQL is missing.'
+}
+else {
+	$bbgMaoriSql = Get-Content -LiteralPath $bbgMaoriPath -Raw
+	if ($bbgMaoriSql -notmatch "(?s)UPDATE\s+Leaders_XP2\s+SET\s+OceanStart\s*=\s*0\s+WHERE\s+LeaderType\s*=\s*'LEADER_KUPE'") {
+		Add-ValidationError 'Kupe is no longer locked to BBG land-based starting behavior.'
+	}
+	if ($bbgMaoriSql -notmatch "(?s)INSERT\s+INTO\s+StartBiasTerrains.*?'CIVILIZATION_MAORI'\s*,\s*'TERRAIN_COAST'\s*,\s*'1'") {
+		Add-ValidationError 'Maori no longer have the T1 Coast bias required by Rich Mainland shore placement.'
+	}
+}
+
 if (-not (Test-Path -LiteralPath $gameplayOverridePath)) {
     Add-ValidationError 'ZYL gameplay override SQL is missing.'
 }
@@ -653,6 +722,7 @@ else {
         'MODIFIER_PLAYER_CITIES_ADJUST_BUILDING_HOUSING',
         'TECH_COST_PERCENT_CHANGE_BEFORE_GAME_ERA',
         "('TECH_CELESTIAL_NAVIGATION', 'TECH_SAILING')",
+        "('TECH_CELESTIAL_NAVIGATION', 'TECH_ASTROLOGY')",
         "WHERE TechnologyType = 'TECH_ARCHERY'",
         "WHERE TechnologyType = 'TECH_BRONZE_WORKING'",
         "WHERE TechnologyType = 'TECH_MILITARY_TACTICS'",
@@ -665,23 +735,30 @@ else {
 		'BBG_MALI_FAITH_NEXT_DESERT',
 		'BBG_MALI_FAITH_NEXT_DESERT_HILLS',
 		'BBG_MALI_FAITH_NEXT_CAPITAL',
-		'MODIFIER_PLAYER_ADJUST_PLOT_YIELD',
+		'BBG_TRAIT_MALI_LESS_CITY_PRODUCTION',
+		'TRAIT_BBG_MANSA_FREE_TRADER_BANKS',
+		'SUGUBA_CHEAPER_BUILDING_PURCHASE',
+		'SUGUBA_CHEAPER_DISTRICT_PURCHASE',
+		'SUGUBA_CHEAPER_UNIT_PURCHASE',
+		'FEATURE_OASIS',
+		'Feature_YieldChanges',
 		'BBG_TOMYRIS_BONUS_VS_WOUNDED_UNITS_MEDIEVAL_GIVER',
 		'MISSION_NEWCONTINENT_FAITH',
 		'MISSION_NEWCONTINENT_FOOD',
 		'MISSION_NEWCONTINENT_PRODUCTION',
-		'ZYL_RUSSIA_CITY_HAS_HOLY_SITE_OR_LAVRA',
-		'ZYL_RUSSIA_REQUIRES_CITY_HAS_HOLY_SITE_OR_LAVRA',
-		'BBG_CITY_HAS_DISTRICT_LAVRA_REQUIREMENT',
+		'ZYL_RUSSIA_PLOT_ADJACENT_HOLY_SITE_OR_LAVRA',
+		'ZYL_RUSSIA_REQUIRES_PLOT_ADJACENT_HOLY_SITE',
+		'ZYL_RUSSIA_REQUIRES_PLOT_ADJACENT_LAVRA',
+		'ZYL_RUSSIA_REQUIRES_PLOT_ADJACENT_HOLY_SITE_OR_LAVRA',
+		'ZYL_RUSSIA_FLAT_TUNDRA_ADJACENT_HOLY_SITE_OR_LAVRA',
+		'ZYL_RUSSIA_TUNDRA_HILLS_ADJACENT_HOLY_SITE_OR_LAVRA',
 		'BBG_SULEIMAN_COMBAT_BUFF',
 		'OPPONENT_IS_IN_GOLDEN_AGE_REQUIREMENTS',
         'BBG_APPEAL_WYWH',
-        'BBG_AUTOMATON_GDR_PROD',
+		'BBG_AUTOMATON_GDR_PROD',
 		'BBG_MINOR_CIV_JOHANNESBURG_UNIQUE_INFLUENCE_BONUS_LUX',
 		'BBG_MINOR_CIV_JOHANNESBURG_PRODUCTION_LUX',
-        'ZYL_RUSSIA_CITY_HAS_HOLY_SITE_FLAT_TUNDRA',
-        'ZYL_RUSSIA_CITY_HAS_HOLY_SITE_TUNDRA_HILLS',
-        'TRAIT_INCREASED_TUNDRA_HILLS_FAITH'
+		'TRAIT_INCREASED_TUNDRA_HILLS_FAITH'
     )) {
         if (-not $gameplayOverrideSql.Contains($requiredToken)) {
             Add-ValidationError "Gameplay override SQL is missing invariant: $requiredToken"
@@ -697,11 +774,65 @@ else {
     if ($gameplayOverrideSql -notmatch "(?s)SET\s+ModifierType\s*=\s*'MODIFIER_PLAYER_CITIES_ADJUST_BUILDING_HOUSING'\s+WHERE\s+ModifierId\s*=\s*'BBG_MAYA_CAPITAL_HOUSING'") {
         Add-ValidationError 'Maya Housing modifier is not scoped to all cities.'
     }
-	if ($gameplayOverrideSql -notmatch "(?s)SET\s+ModifierType\s*=\s*'MODIFIER_PLAYER_ADJUST_PLOT_YIELD'\s+WHERE\s+ModifierId\s+IN\s*\(\s*'BBG_MALI_FAITH_NEXT_DESERT'.*?'BBG_MALI_FAITH_NEXT_DESERT_HILLS'.*?'BBG_MALI_FAITH_NEXT_CAPITAL'\s*\)") {
-		Add-ValidationError 'Mali Desert-founded city Faith is not using the plot-yield collection.'
+	if ($gameplayOverrideSql -notmatch "(?s)DELETE\s+FROM\s+TraitModifiers\s+WHERE\s+TraitType\s*=\s*'TRAIT_CIVILIZATION_MALI_GOLD_DESERT'.*?'BBG_TRAIT_MALI_LESS_CITY_PRODUCTION'.*?'BBG_MALI_FAITH_NEXT_DESERT'.*?'BBG_MALI_FAITH_NEXT_DESERT_HILLS'.*?'BBG_MALI_FAITH_NEXT_CAPITAL'") {
+		Add-ValidationError 'Final Mali override does not remove the Production penalty and Foreign Trade city Faith package.'
 	}
-	if ($gameplayOverrideSql -notmatch "(?s)'ZYL_RUSSIA_CITY_HAS_HOLY_SITE_OR_LAVRA'\s*,\s*'REQUIREMENTSET_TEST_ANY'.*?'REQUIRES_CITY_HAS_HOLY_SITE'.*?'BBG_CITY_HAS_DISTRICT_LAVRA_REQUIREMENT'") {
-		Add-ValidationError 'Russia Tundra Faith no longer accepts both Holy Sites and Lavras.'
+	if ($gameplayOverrideSql -notmatch "(?s)DELETE\s+FROM\s+TraitModifiers\s+WHERE\s+TraitType\s*=\s*'TRAIT_LEADER_SAHEL_MERCHANTS'.*?ModifierId\s*=\s*'TRAIT_BBG_MANSA_FREE_TRADER_BANKS'") {
+		Add-ValidationError 'Final Mansa Musa override does not remove the Banking Trade Route modifier.'
+	}
+	if ($gameplayOverrideSql -notmatch "(?s)SET\s+Value\s*=\s*10\s+WHERE\s+ModifierId\s+IN\s*\(.*?'SUGUBA_CHEAPER_BUILDING_PURCHASE'.*?'SUGUBA_CHEAPER_DISTRICT_PURCHASE'.*?'SUGUBA_CHEAPER_UNIT_PURCHASE'.*?\)\s+AND\s+Name\s*=\s*'Amount'") {
+		Add-ValidationError 'Final Suguba purchase discount override is not locked to 10%.'
+	}
+	if ($gameplayOverrideSql -notmatch "(?s)Feature_YieldChanges\s*\(\s*FeatureType\s*,\s*YieldType\s*,\s*YieldChange\s*\).*?'FEATURE_OASIS'\s*,\s*'YIELD_FOOD'\s*,\s*4.*?'FEATURE_OASIS'\s*,\s*'YIELD_GOLD'\s*,\s*1") {
+		Add-ValidationError 'Global Oasis feature yields do not seed the required 4 Food / 1 Gold values.'
+	}
+	if ($gameplayOverrideSql -notmatch "(?s)SET\s+YieldChange\s*=\s*4\s+WHERE\s+FeatureType\s*=\s*'FEATURE_OASIS'\s+AND\s+YieldType\s*=\s*'YIELD_FOOD'.*?SET\s+YieldChange\s*=\s*1\s+WHERE\s+FeatureType\s*=\s*'FEATURE_OASIS'\s+AND\s+YieldType\s*=\s*'YIELD_GOLD'") {
+		Add-ValidationError 'Global Oasis feature yields are not forced to exactly 4 Food / 1 Gold.'
+	}
+	if ($gameplayOverrideSql -notmatch "(?s)'ZYL_RUSSIA_REQUIRES_PLOT_ADJACENT_HOLY_SITE'\s*,\s*'REQUIREMENT_PLOT_ADJACENT_DISTRICT_TYPE_MATCHES'.*?'ZYL_RUSSIA_REQUIRES_PLOT_ADJACENT_LAVRA'\s*,\s*'REQUIREMENT_PLOT_ADJACENT_DISTRICT_TYPE_MATCHES'.*?'ZYL_RUSSIA_REQUIRES_PLOT_ADJACENT_HOLY_SITE'\s*,\s*'DistrictType'\s*,\s*'DISTRICT_HOLY_SITE'.*?'ZYL_RUSSIA_REQUIRES_PLOT_ADJACENT_LAVRA'\s*,\s*'DistrictType'\s*,\s*'DISTRICT_LAVRA'") {
+		Add-ValidationError 'Russia Tundra Faith adjacency must accept both Holy Sites and Lavras.'
+	}
+	if ($gameplayOverrideSql -notmatch "(?s)'ZYL_RUSSIA_FLAT_TUNDRA_ADJACENT_HOLY_SITE_OR_LAVRA'.*?'ZYL_RUSSIA_REQUIRES_PLOT_ADJACENT_HOLY_SITE_OR_LAVRA'.*?'REQUIRES_PLOT_HAS_TUNDRA'.*?'ZYL_RUSSIA_TUNDRA_HILLS_ADJACENT_HOLY_SITE_OR_LAVRA'.*?'REQUIRES_PLOT_HAS_TUNDRA_HILLS'") {
+		Add-ValidationError 'Russia Tundra Faith terrain requirement sets are not limited to adjacent Tundra/Tundra Hills.'
+	}
+	if ($gameplayOverrideSql -notmatch "(?s)SET\s+SubjectRequirementSetId\s*=\s*'ZYL_RUSSIA_FLAT_TUNDRA_ADJACENT_HOLY_SITE_OR_LAVRA'\s+WHERE\s+ModifierId\s*=\s*'TRAIT_INCREASED_TUNDRA_FAITH'.*?SET\s+SubjectRequirementSetId\s*=\s*'ZYL_RUSSIA_TUNDRA_HILLS_ADJACENT_HOLY_SITE_OR_LAVRA'\s+WHERE\s+ModifierId\s*=\s*'TRAIT_INCREASED_TUNDRA_HILLS_FAITH'") {
+		Add-ValidationError 'Russia Tundra Faith modifiers are not bound to the adjacency-aware terrain sets.'
+	}
+	if ($gameplayOverrideSql.Contains('ZYL_RUSSIA_CITY_HAS_HOLY_SITE')) {
+		Add-ValidationError 'Russia Tundra Faith still contains the obsolete city-wide Holy Site requirement.'
+	}
+	if ($gameplayOverrideSql -notmatch "(?s)DELETE\s+FROM\s+StartBiasResources\s+WHERE\s+CivilizationType\s*=\s*'CIVILIZATION_FRANCE'.*?ResourceClassType\s*=\s*'RESOURCECLASS_LUXURY'") {
+		Add-ValidationError 'France does not clear its existing Luxury resource biases before rebuilding them.'
+	}
+	if ($gameplayOverrideSql -notmatch "(?s)INSERT\s+INTO\s+StartBiasResources\s*\(\s*CivilizationType\s*,\s*ResourceType\s*,\s*Tier\s*\)\s*SELECT\s*'CIVILIZATION_FRANCE'\s*,\s*ResourceType\s*,\s*4\s+FROM\s+Resources\s+WHERE\s+ResourceClassType\s*=\s*'RESOURCECLASS_LUXURY'") {
+		Add-ValidationError 'France does not receive a civilization-wide T4 bias for every active Luxury resource.'
+	}
+	$magnificenceRequirements = @(
+		@('ZYL_MAGNIFICENCE_IMPROVED_LUXURY_CRAFTSMANSHIP', 'BBG_REQUIRES_PLOT_HAS_IMPROVED_LUXURY'),
+		@('ZYL_MAGNIFICENCE_IMPROVED_LUXURY_CRAFTSMANSHIP', 'BBG_UTILS_PLAYER_HAS_CIVIC_CRAFTSMANSHIP_REQUIREMENT'),
+		@('ZYL_MAGNIFICENCE_IMPROVED_BONUS_FEUDALISM', 'BBG_REQUIRES_PLOT_HAS_IMPROVED_BONUS'),
+		@('ZYL_MAGNIFICENCE_IMPROVED_BONUS_FEUDALISM', 'BBG_UTILS_PLAYER_HAS_CIVIC_FEUDALISM_REQUIREMENT'),
+		@('ZYL_MAGNIFICENCE_IMPROVED_STRATEGIC_CASTLES', 'REQUIRES_PLOT_HAS_IMPROVED_STRATEGIC'),
+		@('ZYL_MAGNIFICENCE_IMPROVED_STRATEGIC_CASTLES', 'BBG_UTILS_PLAYER_HAS_TECH_CASTLES_REQUIREMENT')
+	)
+	foreach ($binding in $magnificenceRequirements) {
+		$requirementSetId = [regex]::Escape($binding[0])
+		$requirementId = [regex]::Escape($binding[1])
+		if ($gameplayOverrideSql -notmatch "\('$requirementSetId'\s*,\s*'$requirementId'\)") {
+			Add-ValidationError "Magnificence resource Culture requirement is missing: $($binding[0]) -> $($binding[1])"
+		}
+	}
+	$magnificenceModifiers = @(
+		@('BBG_MAGNIFICENCE_CULTURE_ON_LUX', 'ZYL_MAGNIFICENCE_IMPROVED_LUXURY_CRAFTSMANSHIP'),
+		@('BBG_MAGNIFICENCE_CULTURE_ON_BONUS', 'ZYL_MAGNIFICENCE_IMPROVED_BONUS_FEUDALISM'),
+		@('BBG_MAGNIFICENCE_CULTURE_ON_STRAT', 'ZYL_MAGNIFICENCE_IMPROVED_STRATEGIC_CASTLES')
+	)
+	foreach ($binding in $magnificenceModifiers) {
+		$modifierId = [regex]::Escape($binding[0])
+		$requirementSetId = [regex]::Escape($binding[1])
+		if ($gameplayOverrideSql -notmatch "(?s)SET\s+SubjectRequirementSetId\s*=\s*'$requirementSetId'\s+WHERE\s+ModifierId\s*=\s*'$modifierId'") {
+			Add-ValidationError "Magnificence resource Culture modifier has the wrong unlock: $($binding[0])"
+		}
 	}
 	if ($gameplayOverrideSql -notmatch "(?s)DELETE\s+FROM\s+ModifierArguments\s+WHERE\s+ModifierId\s*=\s*'BBG_TOMYRIS_BONUS_VS_WOUNDED_UNITS_MEDIEVAL_GIVER'.*?DELETE\s+FROM\s+Modifiers\s+WHERE\s+ModifierId\s*=\s*'BBG_TOMYRIS_BONUS_VS_WOUNDED_UNITS_MEDIEVAL_GIVER'") {
 		Add-ValidationError 'Malformed Scythia medieval ability giver is not removed.'
@@ -847,26 +978,44 @@ else {
 		'LOC_BBG_TOMYRIS_BONUS_VS_WOUNDED_UNITS_MEDIEVAL_MODIFIER_DESC',
 		'LOC_TRAIT_CIVILIZATION_NOBEL_PRIZE_DESCRIPTION',
 		'LOC_TRAIT_LEADER_KRISTINA_AUTO_THEME_DESCRIPTION',
-		'LOC_TRAIT_LEADER_RAMSES_DESCRIPTION'
+		'LOC_TRAIT_LEADER_RAMSES_DESCRIPTION',
+		'LOC_TRAIT_CIVILIZATION_WONDER_TOURISM_DESCRIPTION',
+		'LOC_TRAIT_LEADER_MAGNIFICENCES_DESCRIPTION',
+		'LOC_TRAIT_CIVILIZATION_MOTHER_RUSSIA_DESCRIPTION',
+		'LOC_TRAIT_CIVILIZATION_MOTHER_RUSSIA_EXPANSION2_DESCRIPTION'
 	)) {
 		if (-not $gameplayOverrideText.Contains($requiredTextToken)) {
 			Add-ValidationError "Gameplay override localization is missing invariant: $requiredTextToken"
 		}
 	}
 	$maliText = $gameplayOverrideTextXml.SelectSingleNode("/GameData/LocalizedText/*[@Tag='LOC_TRAIT_CIVILIZATION_MALI_GOLD_DESERT_DESCRIPTION' and @Language='zh_Hans_CN']/Text").InnerText
-	foreach ($requiredFragment in @('+2 [ICON_FAITH]', '+2 [ICON_FOOD]', '+2 [ICON_GOLD]')) {
+	foreach ($requiredFragment in @('+2 [ICON_FOOD]', '+1 [ICON_PRODUCTION]', '+1 [ICON_FAITH]', '+2 [ICON_GOLD]')) {
 		if (-not $maliText.Contains($requiredFragment)) {
 			Add-ValidationError "Mali Chinese text is missing: $requiredFragment"
 		}
 	}
+	foreach ($removedFragment in @('-5%', '−5%', '对外贸易', '4 [ICON_FOOD]')) {
+		if ($maliText.Contains($removedFragment)) {
+			Add-ValidationError "Mali Chinese text still claims a removed or global-only rule: $removedFragment"
+		}
+	}
 	$sahelText = $gameplayOverrideTextXml.SelectSingleNode("/GameData/LocalizedText/*[@Tag='LOC_TRAIT_LEADER_SAHEL_MERCHANTS_DESCRIPTION' and @Language='zh_Hans_CN']/Text").InnerText
-	foreach ($requiredFragment in @('+1 [ICON_TRADEROUTE]', '+2 [ICON_GOLD]', '曼丁哥市场', '+15%')) {
+	foreach ($requiredFragment in @('黄金时代', '永久+1 [ICON_TRADEROUTE]', '+2 [ICON_GOLD]', '曼丁哥市场', '+15%')) {
 		if (-not $sahelText.Contains($requiredFragment)) {
 			Add-ValidationError "Mansa Musa Chinese text is missing: $requiredFragment"
 		}
 	}
+	if ($sahelText.Contains('银行业')) {
+		Add-ValidationError 'Mansa Musa Chinese text still claims the removed Banking unlock.'
+	}
 	if ($sahelText.Contains('大量相邻加成')) {
 		Add-ValidationError 'Mansa Musa Chinese text still uses a qualitative adjacency value instead of the final +2 Gold.'
+	}
+	foreach ($language in @('zh_Hans_CN', 'en_US')) {
+		$sugubaNode = $gameplayOverrideTextXml.SelectSingleNode("/GameData/LocalizedText/*[@Tag='LOC_DISTRICT_SUGUBA_DESCRIPTION' and @Language='$language']/Text")
+		if ($null -eq $sugubaNode -or -not $sugubaNode.InnerText.Contains('10%') -or $sugubaNode.InnerText.Contains('20%')) {
+			Add-ValidationError "Suguba $language text must describe a 10% purchase discount and no obsolete 20% discount."
+		}
 	}
 
 	$vizierText = $gameplayOverrideTextXml.SelectSingleNode("/GameData/LocalizedText/*[@Tag='LOC_TRAIT_LEADER_RIGHTEOUSNESS_OF_FAITH_DESCRIPTION' and @Language='zh_Hans_CN']/Text").InnerText
@@ -917,6 +1066,41 @@ else {
 	foreach ($requiredFragment in @('泛滥平原', '已改良', '+1 [ICON_FOOD]', '+1 [ICON_FAITH]', '+1 [ICON_PRODUCTION]', '+15%')) {
 		if (-not $ramsesText.Contains($requiredFragment)) {
 			Add-ValidationError "Ramses II Chinese text is missing: $requiredFragment"
+		}
+	}
+	$magnificenceChineseNode = $gameplayOverrideTextXml.SelectSingleNode("/GameData/LocalizedText/*[@Tag='LOC_TRAIT_LEADER_MAGNIFICENCES_DESCRIPTION' and @Language='zh_Hans_CN']/Text")
+	$magnificenceEnglishNode = $gameplayOverrideTextXml.SelectSingleNode("/GameData/LocalizedText/*[@Tag='LOC_TRAIT_LEADER_MAGNIFICENCES_DESCRIPTION' and @Language='en_US']/Text")
+	if ($null -eq $magnificenceChineseNode -or
+			-not $magnificenceChineseNode.InnerText.Contains('“技艺”市政后，奢侈资源+1') -or
+			-not $magnificenceChineseNode.InnerText.Contains('“封建主义”市政后，加成资源+1') -or
+			-not $magnificenceChineseNode.InnerText.Contains('“城堡”科技后，战略资源+1')) {
+		Add-ValidationError 'Magnificence Chinese text does not describe the Luxury/Bonus/Strategic staggered Culture unlocks.'
+	}
+	if ($null -eq $magnificenceEnglishNode -or
+			-not $magnificenceEnglishNode.InnerText.Contains('Luxury resources gain +1') -or
+			-not $magnificenceEnglishNode.InnerText.Contains('Bonus resources gain +1') -or
+			-not $magnificenceEnglishNode.InnerText.Contains('Strategic resources gain +1')) {
+		Add-ValidationError 'Magnificence English text does not describe the Luxury/Bonus/Strategic staggered Culture unlocks.'
+	}
+	$franceChineseNode = $gameplayOverrideTextXml.SelectSingleNode("/GameData/LocalizedText/*[@Tag='LOC_TRAIT_CIVILIZATION_WONDER_TOURISM_DESCRIPTION' and @Language='zh_Hans_CN']/Text")
+	$franceEnglishNode = $gameplayOverrideTextXml.SelectSingleNode("/GameData/LocalizedText/*[@Tag='LOC_TRAIT_CIVILIZATION_WONDER_TOURISM_DESCRIPTION' and @Language='en_US']/Text")
+	if ($null -eq $franceChineseNode -or -not $franceChineseNode.InnerText.Contains('出生地关联：T4河流、T4奢侈资源')) {
+		Add-ValidationError 'France Chinese civilization text does not describe its T4 River and Luxury resource biases.'
+	}
+	if ($null -eq $franceEnglishNode -or -not $franceEnglishNode.InnerText.Contains('Bias: T4 Rivers, T4 Luxury resources')) {
+		Add-ValidationError 'France English civilization text does not describe its T4 River and Luxury resource biases.'
+	}
+	if ($magnificenceChineseNode.InnerText.Contains('出生地关联') -or $magnificenceEnglishNode.InnerText.Contains('Bias:')) {
+		Add-ValidationError 'France Luxury resource bias is still presented as a Magnificence-only leader rule.'
+	}
+	foreach ($russiaTag in @('LOC_TRAIT_CIVILIZATION_MOTHER_RUSSIA_DESCRIPTION', 'LOC_TRAIT_CIVILIZATION_MOTHER_RUSSIA_EXPANSION2_DESCRIPTION')) {
+		$russiaEnglishNode = $gameplayOverrideTextXml.SelectSingleNode("/GameData/LocalizedText/*[@Tag='$russiaTag' and @Language='en_US']/Text")
+		$russiaChineseNode = $gameplayOverrideTextXml.SelectSingleNode("/GameData/LocalizedText/*[@Tag='$russiaTag' and @Language='zh_Hans_CN']/Text")
+		if ($null -eq $russiaEnglishNode -or -not $russiaEnglishNode.InnerText.Contains('tiles adjacent to a Holy Site or Lavra')) {
+			Add-ValidationError "Russia English text does not describe Holy Site/Lavra adjacency: $russiaTag"
+		}
+		if ($null -eq $russiaChineseNode -or -not $russiaChineseNode.InnerText.Contains('与圣地或拉夫拉修道院相邻的冻土和冻土丘陵')) {
+			Add-ValidationError "Russia Chinese text does not describe Holy Site/Lavra adjacency: $russiaTag"
 		}
 	}
 }
@@ -1174,7 +1358,19 @@ if (Test-Path -LiteralPath $richMainlandAssignPath) {
         'ZYL_RVC_HYDROPHOBIC_COAST_FREE_RANGE = 3',
         'ZYL_RVC_HYDROPHOBIC_COAST_SCORE_RANGE = 5',
         'ZYL_RVC_EvaluateHydrophobicStart',
-        'walkableRatio <= ZYL_RVC_HYDROPHOBIC_MIN_WALKABLE_RATIO'
+        'walkableRatio <= ZYL_RVC_HYDROPHOBIC_MIN_WALKABLE_RATIO',
+        'ZYL_RVC_EW_COAST_START_BONUS = 50000000',
+        'ZYL_RVC_GetCoastOrientation',
+		"SEAS_CIVILIZATION[row.CivilizationType] = true",
+		"including BBG's land-start",
+        'Areas.FindBiggestArea(false)',
+        'plotArea:GetID() ~= ZYL_RVC_MAINLAND_AREA_ID',
+        'eastWestSeaMargin',
+        'northSouthSeaMargin = 6',
+        'ratedPlot.CoastOrientation == "EW"',
+        'self.oceanStartFallbackPlayers[iPlayer] == true',
+        'ZYLRM_COAST_ORIENTATION_',
+        'local categoryOrder = major == true and { "COAST", "INLAND" } or { "ALL" };'
     )) {
         if (-not $richMainlandAssignLua.Contains($requiredToken)) {
             Add-ValidationError "Rich Mainland city-state fallback is missing: $requiredToken"
@@ -2594,6 +2790,20 @@ if (Test-Path -LiteralPath $coastBiasLuaPaths[1]) {
     if (-not $richMapCoastBiasLua.Contains('and not ZYL_IsInlandCoastVariantPlayer(playerID)') -or
             -not $richMapCoastBiasLua.Contains('and not ZYL_IsInlandCoastVariant(civ.LeaderType)')) {
         Add-ValidationError 'Rich Mainland coast/inland distribution categories ignore the leader variant choice.'
+    }
+}
+
+foreach ($coastBiasLuaPath in $coastBiasLuaPaths) {
+    if (-not (Test-Path -LiteralPath $coastBiasLuaPath)) { continue }
+    $coastBiasLua = Get-Content -LiteralPath $coastBiasLuaPath -Raw
+    foreach ($obsoleteToken in @(
+        'ZYL_MAGNIFICENCE_LUXURY_BIAS_TIER',
+        'ZYL_FilterMagnificenceLuxuryStarts',
+        'g_ZYL_MagnificenceLuxuryBiasPatchInstalled'
+    )) {
+        if ($coastBiasLua.Contains($obsoleteToken)) {
+            Add-ValidationError "Obsolete leader-only France Luxury bias remains in $([System.IO.Path]::GetFileName($coastBiasLuaPath)): $obsoleteToken"
+        }
     }
 }
 
