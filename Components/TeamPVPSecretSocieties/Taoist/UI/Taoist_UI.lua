@@ -303,7 +303,7 @@ function Refresh()
 			
 			--local disabled, reason = IsButtonTurnDisabled(pPlot)
 			
-			if	not ifOutBorder and IsPlotOutBorder(pPlot) then--由于先前代码，会对无奢侈资源格输出nil，所以不能直接not disabled
+			if	ifOutBorder or IsPlotOutBorder(pPlot) then--由于先前代码，会对无奢侈资源格输出nil，所以不能直接not disabled
 				Controls.TaoistButton:SetToolTipString(tooltip)
 				Controls.TaoistButton:SetDisabled(false)
 			else

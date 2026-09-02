@@ -50,7 +50,7 @@
 - BBG Mod Manager 过滤表：把被内嵌的 BBM/MPH 条目替换为统一 Mod ID。
 - Better Deal Window：跳过其四个独立 `DiplomacyDealView` replacement，改由 `DiplomacyDealView_ZYLPVP_Expansion2.lua` 统一接管；公司模式产品图标内联，MPH 交易限制作为后置 wrapper 应用。
 - Detailed Map Tacks：跳过重复的 `dmt_config.xml`，沿用 NHK 的 `AddMapMessage` 定义和 Shift+M 显隐键；`MapPinManager`/`MapPinPopup` 各保留一个 DMT replacement，NHK 不再重复监听三项普通地图钉动作。DMT 的 `dmt_serialize.lua` 改为长度前缀序列化，避免运行 `loadstring`。
-- BBG / Team PVP / LightweightBalance 规则覆盖：新增默认开启的大厅时代长度选项，开启时标准速度为远古 40–50、古典和中世纪 50–60（联机速度分别为 20–25、25–30）；取消 BBG 中世纪以后科技统一 +5% 基础成本，落后时代科技改为 -25%；天文导航恢复航海术+占星术双前置并保留所有陆地单位上船解锁，同时按用户指定来源覆盖八项尤里卡/鼓舞。
+- BBG / Team PVP / LightweightBalance 规则覆盖：新增默认开启的大厅时代长度选项，开启时标准速度下远古固定为 54 回合、古典和中世纪固定为 50 回合（联机速度分别为 27、25、25 回合）；取消 BBG 中世纪以后科技统一 +5% 基础成本，落后时代科技改为 -25%；天文导航恢复航海术+占星术双前置并保留所有陆地单位上船解锁，同时按用户指定来源覆盖八项尤里卡/鼓舞。
 - 地图与文明规则覆盖：富饶大陆的海岸出生关联文明先于内陆文明放置并优先东西岸、南北岸仅作无可用位置时的后备；奢侈资源为商业中心及特色替代区域提供 +1 金币相邻；俄罗斯与圣地/拉夫拉相邻的冻土和冻土丘陵 +1 信仰；法国文明全体领袖拥有覆盖全部已启用奢侈资源的 T4 出生关联，寻欢作乐凯瑟琳的已改良奢侈/加成/战略资源 +1 文化分别在技艺/封建主义/城堡解锁；马里移除城市生产力惩罚及对外贸易城市信仰，非市中心无地貌沙漠/沙漠丘陵改为 +2 食物、+1 生产力、+1 信仰，曼丁哥市场购买折扣调回 10%，曼萨·穆萨恢复每次进入黄金时代永久 +1 贸易路线容量；普通绿洲全局调整为 4 食物、1 金币；马格努斯左一移除增长并接收免人口移民，右一工业区建筑加成改为 40%。最终 Gameplay 数据库另经文明/领袖 Trait、Modifier、Requirement、特色单位/建筑/改良和简中描述反向审计，过时文本由后置本地化覆盖层校正，并清理斯基泰无效能力授予项及西班牙传教团的三条孤儿 Modifier 引用。
 
 `tools\assemble_modinfo.ps1` 可从固定的上游 ModInfo 重新生成统一 ModInfo。脚本不会写入 Steam Workshop 目录。

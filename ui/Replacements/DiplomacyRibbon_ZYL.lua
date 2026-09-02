@@ -220,7 +220,7 @@ end
 -- ===========================================================================
 --	获取当前外交能见度模式类型
 -- ===========================================================================
-local Model = tonumber(GameConfiguration.GetValue("ZYL_DIPLOMACY_RIBBON_MODE")) == 1 and 1 or 0
+local Model = tonumber(GameConfiguration.GetValue("ZYL_DIPLOMACY_RIBBON_MODE") or 0) == 1 and 1 or 0
 --[[		规则说明
 模式0
 

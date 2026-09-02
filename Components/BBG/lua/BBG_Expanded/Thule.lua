@@ -40,16 +40,19 @@ local whaleResource		= GameInfo.Resources['RESOURCE_WHALES'].Index
 function LimeThule_SpawnWhale(PlotX, PlotY, ImprovementID, PlayerID, ResourceID, Unknown1, Unknown2)
 	if (ImprovementID == whaleSperm) then									-- not restricted to player, just needs to be able to make the dummy improvement
 		local whaleplot = Map.GetPlot(PlotX, PlotY)
+		local purchaseCity = whaleplot ~= nil and Cities.GetPlotPurchaseCity(whaleplot) or nil
 		--print("The Whalesperm improvement has been made! It is at grid X" .. PlotX .. ",Y" .. PlotY)
-		if (Cities.GetPlotPurchaseCity(whaleplot:GetIndex()):GetPopulation() >= 2) then
-			Cities.GetPlotPurchaseCity(whaleplot:GetIndex()):ChangePopulation(-1)
+		if (purchaseCity ~= nil and purchaseCity:GetPopulation() >= 2) then
+			purchaseCity:ChangePopulation(-1)
 			--print("The necessary population has been sacrificed")
 			ImprovementBuilder.SetImprovementType(whaleplot, -1, 0)
 			--print("Whalesperm has been removed to make way for whales...")
 			ResourceBuilder.SetResourceType(whaleplot, whaleResource, 1)
 			--print("Whales successfully sperminated!")
 			else
-			ImprovementBuilder.SetImprovementType(whaleplot, -1, 0) -- formerly necessary, now a failsafe
+			if whaleplot ~= nil then
+				ImprovementBuilder.SetImprovementType(whaleplot, -1, 0) -- formerly necessary, now a failsafe
+			end
 			--print("url city is 2 shit for whales git fukt")
 		end
 	end

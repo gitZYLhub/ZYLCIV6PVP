@@ -179,7 +179,7 @@ function GeneratePlotTypes(world_age)
 		-- and the second pass will add tiny islands using high sea level.  The detail pass will
 		-- bring the total number of land tiles back in line.		
 		
-		InitFractal{continent_grain = grain_dice, rift_grain = rift_dice, false, false};
+		InitFractal{continent_grain = grain_dice, rift_grain = rift_dice, invert_heights = false, polar = false};
 		iWaterThreshold = g_continentsFrac:GetHeight(water_percent);
 		
 		for x = 0, g_iW - 1 do
@@ -579,7 +579,8 @@ function InitFractal(args)
 	local continent_grain = args.continent_grain or 2;
 	local rift_grain = args.rift_grain or -1; -- Default no rifts. Set grain to between 1 and 3 to add rifts. - Bob
 	local invert_heights = args.invert_heights or false;
-	local polar = args.polar or true;
+	local polar = args.polar;
+	if polar == nil then polar = true; end
 	local ridge_flags = args.ridge_flags or g_iFlags;
 
 	local fracFlags = {};
@@ -681,7 +682,8 @@ function GenerateWaterLayer (args, plotTypes)
 	local iRegionFracXExp = args.iRegionFracXExp or 6;
 	local iRegionFracYExp = args.iRegionFracYExp or 5;
 	local iRiftGrain = args.iRiftGrain or -1;
-	local bShift = args.bShift or true;
+	local bShift = args.bShift;
+	if bShift == nil then bShift = true; end
 
 	-- Init the plot types array for this region's plot data. Redone for each new layer.
 	-- Compare to self.wholeworldPlotTypes, which contains the sum of all layers.

@@ -1902,9 +1902,13 @@ function CheckOneRequirement(tReq:table, tSubject:table, sSubjectType:string)
 		bIsValidSubject = tSubject.Plot:IsRiver();
 	
 	elseif tReq.ReqType == "REQUIREMENT_PLOT_DISTRICT_TYPE_MATCHES" then
-		if CheckForMismatchError(SubjectTypes.District) then return false; end
+		if CheckForMismatchError(SubjectTypes.District, SubjectTypes.Plot) then return false; end
 		local districtType:string = tSubject.DistrictType;
-		if GameInfo.DistrictReplaces[ districtType ] then districtType = GameInfo.DistrictReplaces[ districtType ].ReplacesDistrictType; end
+		if tSubject.SubjectType == SubjectTypes.Plot then
+			local districtInfo:table = GameInfo.Districts[ tSubject.Plot:GetDistrictType() ];
+			if districtInfo ~= nil then districtType = districtInfo.DistrictType; end
+		end
+		if districtType ~= nil and GameInfo.DistrictReplaces[ districtType ] then districtType = GameInfo.DistrictReplaces[ districtType ].ReplacesDistrictType; end
 		bIsValidSubject = ( districtType == tReq.Arguments.DistrictType ); -- DISTRICT_THEATER, etc.
 
 	-- 2019-04-15 Support for Real Balance Pantheons

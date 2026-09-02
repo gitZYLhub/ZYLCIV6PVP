@@ -24,7 +24,7 @@
 			<Text>Reveals Ley Lines. Ley Lines appear only on flat Grassland and Plains, provide +1 [ICON_Science] Science and +2 [ICON_Production] Production, and give a standard adjacency bonus to specialty districts. They may be harvested for 40 [ICON_Gold] Gold or improved with a Farm without removing the Ley Line. After Foreign Trade, gain a Ley Line Detector in your capital.</Text>
 		</Replace>
 		<Replace Tag="LOC_GOVERNOR_PROMOTION_HERMETIC_ORDER_2_DESCRIPTION" Language="en_US">
-			<Text>Unlocked in the Medieval Era. Allows construction of the Alchemical Society and grants a second Ley Line Detector when your first Alchemical Society is completed.</Text>
+			<Text>Unlocked in the Medieval Era. Allows construction of the Alchemical Society. Upon reaching this rank, gain a Ley Line Detector in your capital; completing your first Alchemical Society grants another.</Text>
 		</Replace>
 		<Replace Tag="LOC_GOVERNOR_PROMOTION_HERMETIC_ORDER_3_DESCRIPTION" Language="en_US">
 			<Text>Unlocked in the Renaissance Era. For every [ICON_GreatPerson] Great Person earned, Ley Lines receive +1 yield matching that Great Person's district type. [ICON_GreatMerchant] Great Merchants grant +2 [ICON_Gold] Gold, [ICON_GreatAdmiral] Great Admirals grant +1 [ICON_Food] Food, and [ICON_GreatGeneral] Great Generals grant +1 [ICON_Production] Production.</Text>
@@ -82,7 +82,7 @@
 		<Replace Tag="LOC_GOVERNOR_PROMOTION_OWLS_OF_MINERVA_3_DESCRIPTION" Language="zh_Hans_CN"><Text>在文艺复兴时代解锁。+1个通配符政策槽位、+1点间谍容量。己方间谍位于城市领土时，该城每回合+4点忠诚度、+1 [ICON_Amenities] 宜居度。进攻型间谍任务成功后，还将获得目标城市该回合 [ICON_Science] 科技值、[ICON_Culture] 文化值、[ICON_Gold] 金币和 [ICON_Faith] 信仰值产出的150%。</Text></Replace>
 		<Replace Tag="LOC_GOVERNOR_PROMOTION_OWLS_OF_MINERVA_4_DESCRIPTION" Language="zh_Hans_CN"><Text>在工业时代解锁。每回合获得相当于国库中 [ICON_Gold] 金币总额5%的 [ICON_Gold] 金币。</Text></Replace>
 		<Replace Tag="LOC_GOVERNOR_PROMOTION_HERMETIC_ORDER_1_DESCRIPTION" Language="zh_Hans_CN"><Text>显示地脉。地脉只出现在平坦草原和平原，自身+1 [ICON_Science] 科技值、+2 [ICON_Production] 生产力，并为特色区域提供标准相邻加成。地脉可收获为40 [ICON_Gold] 金币，也可在其上修建农场且不移除地脉。解锁“对外贸易”后，在首都获得1名地卜师。</Text></Replace>
-		<Replace Tag="LOC_GOVERNOR_PROMOTION_HERMETIC_ORDER_2_DESCRIPTION" Language="zh_Hans_CN"><Text>在中世纪解锁。允许建造炼金术会所；首次建成炼金术会所后，在首都再获得1名地卜师。</Text></Replace>
+		<Replace Tag="LOC_GOVERNOR_PROMOTION_HERMETIC_ORDER_2_DESCRIPTION" Language="zh_Hans_CN"><Text>在中世纪解锁。允许建造炼金术会所。达到此等级时，在首都获得1名地卜师；首次建成炼金术会所后，再获得1名地卜师。</Text></Replace>
 		<Replace Tag="LOC_GOVERNOR_PROMOTION_HERMETIC_ORDER_3_DESCRIPTION" Language="zh_Hans_CN"><Text>在文艺复兴时代解锁。每获得一名 [ICON_GreatPerson] 伟人，地脉便获得与该伟人区域类型相同的+1产出；[ICON_GreatMerchant] 大商人提供+2 [ICON_Gold] 金币，[ICON_GreatAdmiral] 海军统帅提供+1 [ICON_Food] 食物，[ICON_GreatGeneral] 大将军提供+1 [ICON_Production] 生产力。</Text></Replace>
 		<Replace Tag="LOC_GOVERNOR_PROMOTION_HERMETIC_ORDER_4_DESCRIPTION" Language="zh_Hans_CN"><Text>在工业时代解锁。解锁“秘术研究”。此城市项目进行时提供 [ICON_Gold] 金币；完成时根据城市中的地脉数量提供 [ICON_GreatPerson] 伟人点数和 [ICON_Science] 科技值。</Text></Replace>
 		<Replace Tag="LOC_GOVERNOR_PROMOTION_VOIDSINGERS_2_DESCRIPTION" Language="zh_Hans_CN"><Text>在中世纪解锁。城市每回合获得等同于其 [ICON_Faith] 信仰值产出的10% [ICON_Gold] 金币、10% [ICON_Science] 科技值和10% [ICON_Culture] 文化值。</Text></Replace>
@@ -107,7 +107,7 @@
 		<Replace Tag="LOC_GOVERNOR_PROMOTION_OWLS_OF_MINERVA_3_DESCRIPTION" Language="zh_Hant_HK"><Text>在文藝復興時期解鎖。+1通配符政策槽位、+1間諜容量。己方間諜位於城市領土時，該城每回合+4忠誠度、+1 [ICON_Amenities] 宜居度。進攻型間諜任務成功後，還將獲得目標城市該回合 [ICON_Science] 科技、[ICON_Culture] 文化、[ICON_Gold] 金幣和 [ICON_Faith] 信仰產出的150%。</Text></Replace>
 		<Replace Tag="LOC_GOVERNOR_PROMOTION_OWLS_OF_MINERVA_4_DESCRIPTION" Language="zh_Hant_HK"><Text>在工業時代解鎖。每回合獲得等同於國庫5%的 [ICON_Gold] 金幣收入。</Text></Replace>
 		<Replace Tag="LOC_GOVERNOR_PROMOTION_HERMETIC_ORDER_1_DESCRIPTION" Language="zh_Hant_HK"><Text>顯示地脈。地脈只出現在平坦草原和平原，自身+1 [ICON_Science] 科技、+2 [ICON_Production] 生產力，並為專業區域提供標準相鄰加成。地脈可收穫為40 [ICON_Gold] 金幣，也可在其上修建農場且不移除地脈。解鎖「對外貿易」後，在首都獲得1名地卜師。</Text></Replace>
-		<Replace Tag="LOC_GOVERNOR_PROMOTION_HERMETIC_ORDER_2_DESCRIPTION" Language="zh_Hant_HK"><Text>在中世紀解鎖。允許建造煉金術會所；首次建成煉金術會所後，在首都再獲得1名地卜師。</Text></Replace>
+		<Replace Tag="LOC_GOVERNOR_PROMOTION_HERMETIC_ORDER_2_DESCRIPTION" Language="zh_Hant_HK"><Text>在中世紀解鎖。允許建造煉金術會所。達到此等級時，在首都獲得1名地卜師；首次建成煉金術會所後，再獲得1名地卜師。</Text></Replace>
 		<Replace Tag="LOC_GOVERNOR_PROMOTION_HERMETIC_ORDER_3_DESCRIPTION" Language="zh_Hant_HK"><Text>在文藝復興時期解鎖。每獲得一名 [ICON_GreatPerson] 偉人，地脈便獲得與該偉人區域類型相同的+1產出；[ICON_GreatMerchant] 大商人提供+2 [ICON_Gold] 金幣，[ICON_GreatAdmiral] 海軍統帥提供+1 [ICON_Food] 食物，[ICON_GreatGeneral] 大將軍提供+1 [ICON_Production] 生產力。</Text></Replace>
 		<Replace Tag="LOC_GOVERNOR_PROMOTION_HERMETIC_ORDER_4_DESCRIPTION" Language="zh_Hant_HK"><Text>在工業時代解鎖。解鎖「秘術研究」。此城市項目進行時提供 [ICON_Gold] 金幣；完成時根據城市中的地脈數量提供 [ICON_GreatPerson] 偉人點數和 [ICON_Science] 科技。</Text></Replace>
 		<Replace Tag="LOC_GOVERNOR_PROMOTION_VOIDSINGERS_2_DESCRIPTION" Language="zh_Hant_HK"><Text>在中世紀解鎖。城市每回合獲得等同於其 [ICON_Faith] 信仰產出的10% [ICON_Gold] 金幣、10% [ICON_Science] 科技和10% [ICON_Culture] 文化。</Text></Replace>

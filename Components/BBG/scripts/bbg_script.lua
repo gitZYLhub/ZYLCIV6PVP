@@ -154,15 +154,13 @@ end
 
 function InitCapitals()
 	print("InitCapitals: Called")
-	local nMajCount = PlayerManager.GetAliveMajorsCount()
-	print("nMajCount", nMajCount)
 	local tCapitals = {}
-	for i=1, nMajCount do
+	for _, iPlayerID in ipairs(PlayerManager.GetAliveMajorIDs()) do
 		local row = {}
 		row["iCityID"] = -1
 		row["iX"] = -9999
 		row["iY"] = -9999
-		tCapitals[i-1] = row
+		tCapitals[iPlayerID] = row
 	end
 	Game.SetProperty("P_CAPITALS", tCapitals)
 end
@@ -298,7 +296,7 @@ function OnGilgaCombatOccurred(attackerPlayerID :number, attackerUnitID :number,
 		
 	for _, iPlayerID in ipairs(PlayerManager.GetAliveMajorIDs()) do
 		local pCheckedPlayer = Players[iPlayerID]
-		if iPlayerID ~= attackerUnitID and iPlayerID ~= defenderPlayerID then
+		if iPlayerID ~= attackerPlayerID and iPlayerID ~= defenderPlayerID then
 			if PlayerConfigurations[iPlayerID]:GetLeaderTypeName() == "LEADER_GILGAMESH" then
 				-- Attacker is allied with Gilgamesh
 				if pDiplomacyAttacker:HasAllied(iPlayerID) == true and pAttackingUnit ~= nil then
@@ -1094,7 +1092,7 @@ function ApplySumeriaTrait()
 				playerUnits = Players[iPlayerID]:GetUnits();
 				for k, unit in playerUnits:Members() do
 					local unitTypeName = UnitManager.GetTypeName(unit)
-					if "LOC_UNIT_WARRIOR_NAME" == unitTypeName then
+					if "UNIT_WARRIOR" == unitTypeName then
 						local unitX = unit:GetX()
 						local unitY = unit:GetY()
 						playerUnits:Destroy(unit)
@@ -2627,14 +2625,16 @@ function OnGameplayPlayerDefeat(iPlayerID, kParameters)
 	end	
 	local pPlayer = Players[iPlayerID]
 	local bRemove = false
+	local pPlayerCities = nil
 	if pPlayer == nil then
 		bRemove = true
+	else
+		pPlayerCities = pPlayer:GetCities()
 	end
-	local pPlayerCities = pPlayer:GetCities()
 	if pPlayerCities == nil then
 		bRemove = true
 	end
-	if pPlayerCities:GetCount() == 0 then
+	if pPlayerCities ~= nil and pPlayerCities:GetCount() == 0 then
 		bRemove = true
 	end
 	if not bRemove then
@@ -2670,7 +2670,7 @@ function OnGameplayPlayerDefeat(iPlayerID, kParameters)
 	end
 	--nil exodus if player died
 	local pPlotOldCap = Map.GetPlot(iOldX, iOldY)
-	pPlotOldCap("EXODUS_ON", nil)
+	pPlotOldCap:SetProperty("EXODUS_ON", nil)
 end
 function UpdateBeliefRow(tRow, iBeliefID)
 	print("UpdateBeliefRow: Called change")
@@ -3073,7 +3073,7 @@ function BCY_RecalculateMapYield(iX, iY)
 		if nYieldDiff > 0 then
 			pPlot:SetProperty(ExtraYieldPropertyDictionary(i), nYieldDiff + nExtraYield)
 			--print("BCY no RNG: Plot with iX,iY: "..tostring(iX)..","..tostring(iY).." Property set: "..tostring(ExtraYieldPropertyDictionary(i)).." amount: "..tostring(nYieldDiff+nExtraYield))
-			if GameEvents.GameplayFixIncaBug.Count()==0 or PlayerConfiguration[pCity:GetOwner()]:GetCivilizationTypeName()~="CIVILIZATION_INCA" then
+			if GameEvents.GameplayFixIncaBug.Count()==0 or PlayerConfigurations[pCity:GetOwner()]:GetCivilizationTypeName()~="CIVILIZATION_INCA" then
 				--print("Not Inca City or No Inca Special Treatement")
 				for j=1, nYieldDiff do
 					local sModifierStringID = "MODIFIER_CITY_REMOVE_"..tostring(nExtraYield+j).."_"..ExtraYieldPropertyDictionary(i).."_BBG"
@@ -4224,7 +4224,7 @@ function Initialize()
 	--print("BBG - relevant Bug wonders populated")
 	-- turn checked effects:
 
-	Events.LoadGameViewStateDone.Add(InitializeMacedonTraitTurnTracker);
+	InitializeMacedonTraitTurnTracker();
 
 	GameEvents.OnGameTurnStarted.Add(OnGameTurnStarted);
 	--print("BBG Barb Hooks Added")

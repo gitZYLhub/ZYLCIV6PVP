@@ -4,7 +4,7 @@ local firstTechBoosted = nil;
 
 function ShowWorldViewText()
 	if m_PendingGoodyHut ~= nil then
-		Game.AddWorldViewText(0, m_PendingGoodyHut.InfoText, m_PendingGoodyHut.PlotX, m_PendingGoodyHut.PlotY);
+		Game.AddWorldViewText(Game.GetLocalPlayer(), m_PendingGoodyHut.InfoText, m_PendingGoodyHut.PlotX, m_PendingGoodyHut.PlotY);
 		m_PendingGoodyHut = nil
 	end
 end
@@ -97,6 +97,7 @@ function OnCivicBoostTriggered(playerId, boostedCivic)
 		else
 			local Text = m_PendingGoodyHut.InfoText .. "&" .. civicName;
 			m_PendingGoodyHut.InfoText = Locale.Lookup("LOC_NOTIFICATION_CIVIC_BOOST_SUMMARY", Text)
+			firstCivicBoosted = nil;
 			
 			ShowWorldViewText()
 		end

@@ -39,6 +39,7 @@ local game_sd = 0
 function OnVoteRemap()
 	-- Preparing the panel
 	m_votetype = 0
+	b_remap_passed = false
 	g_cached_playerIDs = {}
 	m_forced = false
 	ContextPtr:SetHide(false);
@@ -419,7 +420,7 @@ function OnNoRestart( )
 end
 
 
-function OnHostReceiveVote(text)
+function OnHostReceiveVote(text, fromPlayer)
 	print("OnHostReceiveVote")
 	hostID = Network.GetGameHostPlayerID()
 	localID = Network.GetLocalPlayerID()
@@ -440,6 +441,12 @@ function OnHostReceiveVote(text)
 		end
 		sender_id = tonumber(sender_id)
 		sender_vote = tonumber(sender_vote)
+		if sender_id == nil or (sender_vote ~= 0 and sender_vote ~= 1 and sender_vote ~= 66) then
+			return
+		end
+		if fromPlayer ~= nil and sender_id ~= fromPlayer then
+			return
+		end
 		for i, player in ipairs(g_cached_playerIDs) do
 			if player.ID == sender_id then
 				player.Vote = sender_vote
@@ -479,7 +486,7 @@ function OnHostReceiveVote(text)
 			end
 			
 			local b_pass = false
-			if (sum_votes == total_votes / 2 or sum_votes > total_votes / 2) and total_votes > 0 then
+			if sum_votes > total_votes / 2 and total_votes > 0 then
 				b_pass = true
 			end
 			for i, player in ipairs(g_cached_playerIDs) do 
@@ -611,7 +618,7 @@ function StopCountdown()
 			for i, player in ipairs(g_cached_playerIDs) do
 				if player.Status == 0 then
 					player.Status = -5
-					OnHostReceiveVote(".mph_ui_vote_remap_"..localID.."_66")
+					OnHostReceiveVote(".mph_ui_vote_remap_"..player.ID.."_66")
 				end
 			end		
 		end
@@ -681,7 +688,7 @@ function OnMultiplayerChat( fromPlayer, toPlayer, text, eTargetType )
 	end
 	
 	if string.lower(string.sub(text,1,13)) == ".mph_ui_vote_" and hostID == localID then
-		OnHostReceiveVote(text)
+		OnHostReceiveVote(text, fromPlayer)
 		return
 	end
 		

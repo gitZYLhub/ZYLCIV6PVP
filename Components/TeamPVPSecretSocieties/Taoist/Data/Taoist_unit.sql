@@ -41,12 +41,16 @@ insert or replace into GovernorPromotionModifiers
 (GovernorPromotionType,					ModifierId)
 values
 ('GOVERNOR_PROMOTION_HERMETIC_ORDER_2',	'HERMETIC_BUILDING_GAIN_TAOIST'),
+-- This immediate rank-up grant is intentionally separate from the existing
+-- first-Alchemical-Society grant above, so both rewards can fire once.
+('GOVERNOR_PROMOTION_HERMETIC_ORDER_2',	'HERMETIC_ORDER_2_GAIN_TAOIST'),
 ('GOVERNOR_PROMOTION_HERMETIC_ORDER_1',	'HERMETIC_GAIN_TAOIST');
 
 insert or replace into Modifiers
 (ModifierId,							ModifierType,									RunOnce,	Permanent,	SubjectRequirementSetId,			OwnerStackLimit,	SubjectStackLimit)
 values
 ('HERMETIC_BUILDING_GAIN_TAOIST',		'MODIFIER_PLAYER_GRANT_UNIT_IN_CAPITAL',		1,			1,			'TAOIST_HAS_BUILDING_REQUIREMENTS',	1,					1),
+('HERMETIC_ORDER_2_GAIN_TAOIST',		'MODIFIER_PLAYER_GRANT_UNIT_IN_CAPITAL',		1,			1,			null,							1,					1),
 ('HERMETIC_GAIN_TAOIST',				'MODIFIER_PLAYER_GRANT_UNIT_IN_CAPITAL',		1,			1,			'TAOIST_HAS_CIVIC_REQUIREMENTS',	1,					1);
 
 insert or replace into ModifierArguments
@@ -55,6 +59,9 @@ values
 ('HERMETIC_BUILDING_GAIN_TAOIST',		'UnitType',				'UNIT_TAOIST'),
 ('HERMETIC_BUILDING_GAIN_TAOIST',		'Amount',				1),
 ('HERMETIC_BUILDING_GAIN_TAOIST',		'AllowUniqueOverride',	0),
+('HERMETIC_ORDER_2_GAIN_TAOIST',		'UnitType',				'UNIT_TAOIST'),
+('HERMETIC_ORDER_2_GAIN_TAOIST',		'Amount',				1),
+('HERMETIC_ORDER_2_GAIN_TAOIST',		'AllowUniqueOverride',	0),
 ('HERMETIC_GAIN_TAOIST',				'UnitType',				'UNIT_TAOIST'),
 ('HERMETIC_GAIN_TAOIST',				'Amount',				1),
 ('HERMETIC_GAIN_TAOIST',				'AllowUniqueOverride',	0);

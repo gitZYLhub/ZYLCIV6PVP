@@ -50,10 +50,51 @@ INSERT INTO TraitModifiers(TraitType, ModifierId) VALUES
 
 -- Hockey rink at Civil Service
 UPDATE Improvements SET PrereqCivic='CIVIC_DIPLOMATIC_SERVICE' WHERE ImprovementType='IMPROVEMENT_ICE_HOCKEY_RINK';
+-- Move the existing +2 Food and +2 Production bonus from Professional Sports to Conservation.
+UPDATE Improvement_BonusYieldChanges
+SET PrereqCivic='CIVIC_CONSERVATION'
+WHERE ImprovementType='IMPROVEMENT_ICE_HOCKEY_RINK'
+  AND YieldType IN ('YIELD_FOOD', 'YIELD_PRODUCTION')
+  AND PrereqCivic='CIVIC_PROFESSIONAL_SPORTS';
 -- Mounties get a base combat buff and combat buff from nearby parks radius increased
 UPDATE Units SET Combat=70, Cost=360 WHERE UnitType='UNIT_CANADA_MOUNTIE';
 UPDATE RequirementArguments SET Value='4' WHERE RequirementId='UNIT_PARK_REQUIREMENT'       AND Name='MaxDistance';
 UPDATE RequirementArguments SET Value='4' WHERE RequirementId='UNIT_OWNER_PARK_REQUIREMENT' AND Name='MaxDistance';
+
+-- Mounties replace Cavalry, retain the Cavalry upgrade path, and can be purchased with Faith.
+INSERT OR REPLACE INTO UnitReplaces (CivUniqueUnitType, ReplacesUnitType) VALUES
+    ('UNIT_CANADA_MOUNTIE', 'UNIT_CAVALRY');
+INSERT OR REPLACE INTO UnitUpgrades (Unit, UpgradeUnit) VALUES
+    ('UNIT_CANADA_MOUNTIE', 'UNIT_HELICOPTER');
+INSERT OR IGNORE INTO Modifiers (ModifierId, ModifierType) VALUES
+    ('ZYL_CANADA_MOUNTIE_FAITH_PURCHASE', 'MODIFIER_PLAYER_CITIES_ENABLE_UNIT_FAITH_PURCHASE');
+INSERT OR IGNORE INTO ModifierArguments (ModifierId, Name, Value) VALUES
+    ('ZYL_CANADA_MOUNTIE_FAITH_PURCHASE', 'Tag', 'CLASS_MOUNTIE');
+INSERT OR IGNORE INTO TraitModifiers (TraitType, ModifierId) VALUES
+    ('TRAIT_CIVILIZATION_UNIT_CANADA_MOUNTIE', 'ZYL_CANADA_MOUNTIE_FAITH_PURCHASE');
+
+-- Four tiles belonging to a National Park each receive +2 Food and +2 Production.
+-- The matching plot property is maintained by canada_national_park_yields.lua.
+INSERT OR IGNORE INTO Requirements (RequirementId, RequirementType) VALUES
+    ('ZYL_CANADA_REQUIRES_NATIONAL_PARK_PLOT', 'REQUIREMENT_PLOT_PROPERTY_MATCHES');
+INSERT OR IGNORE INTO RequirementArguments (RequirementId, Name, Value) VALUES
+    ('ZYL_CANADA_REQUIRES_NATIONAL_PARK_PLOT', 'PropertyName', 'ZYL_CANADA_NATIONAL_PARK'),
+    ('ZYL_CANADA_REQUIRES_NATIONAL_PARK_PLOT', 'PropertyMinimum', '1');
+INSERT OR IGNORE INTO RequirementSets (RequirementSetId, RequirementSetType) VALUES
+    ('ZYL_CANADA_NATIONAL_PARK_PLOT_REQUIREMENTS', 'REQUIREMENTSET_TEST_ALL');
+INSERT OR IGNORE INTO RequirementSetRequirements (RequirementSetId, RequirementId) VALUES
+    ('ZYL_CANADA_NATIONAL_PARK_PLOT_REQUIREMENTS', 'ZYL_CANADA_REQUIRES_NATIONAL_PARK_PLOT');
+INSERT OR IGNORE INTO Modifiers (ModifierId, ModifierType, SubjectRequirementSetId) VALUES
+    ('ZYL_CANADA_NATIONAL_PARK_FOOD', 'MODIFIER_PLAYER_ADJUST_PLOT_YIELD', 'ZYL_CANADA_NATIONAL_PARK_PLOT_REQUIREMENTS'),
+    ('ZYL_CANADA_NATIONAL_PARK_PRODUCTION', 'MODIFIER_PLAYER_ADJUST_PLOT_YIELD', 'ZYL_CANADA_NATIONAL_PARK_PLOT_REQUIREMENTS');
+INSERT OR IGNORE INTO ModifierArguments (ModifierId, Name, Value) VALUES
+    ('ZYL_CANADA_NATIONAL_PARK_FOOD', 'YieldType', 'YIELD_FOOD'),
+    ('ZYL_CANADA_NATIONAL_PARK_FOOD', 'Amount', '2'),
+    ('ZYL_CANADA_NATIONAL_PARK_PRODUCTION', 'YieldType', 'YIELD_PRODUCTION'),
+    ('ZYL_CANADA_NATIONAL_PARK_PRODUCTION', 'Amount', '2');
+INSERT OR IGNORE INTO TraitModifiers (TraitType, ModifierId) VALUES
+    ('TRAIT_CIVILIZATION_FACES_OF_PEACE', 'ZYL_CANADA_NATIONAL_PARK_FOOD'),
+    ('TRAIT_CIVILIZATION_FACES_OF_PEACE', 'ZYL_CANADA_NATIONAL_PARK_PRODUCTION');
 
 
 -- 18/12/25 Canada : Pastures in Tundra receive +1 Food.

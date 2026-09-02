@@ -1765,18 +1765,20 @@ if (-not (Test-Path -LiteralPath $eraLengthSqlPath)) {
 }
 else {
     $eraLengthSource = Get-Content -Raw -LiteralPath $eraLengthSqlPath
-    foreach ($requiredEraDurationFragment in @(
-        "WHEN 'ERA_ANCIENT' THEN 40",
-        "WHEN 'ERA_CLASSICAL' THEN 50",
-        "WHEN 'ERA_MEDIEVAL' THEN 50",
-        "WHEN 'ERA_ANCIENT' THEN 50",
-        "WHEN 'ERA_CLASSICAL' THEN 60",
-        "WHEN 'ERA_MEDIEVAL' THEN 60"
-    )) {
-        if (-not $eraLengthSource.Contains($requiredEraDurationFragment)) {
-            Add-ValidationError "Optional world-era duration override is missing: $requiredEraDurationFragment"
-        }
-    }
+	$fixedEraDurations = @{
+		'ERA_ANCIENT' = 54
+		'ERA_CLASSICAL' = 50
+		'ERA_MEDIEVAL' = 50
+	}
+	foreach ($fixedEraDuration in $fixedEraDurations.GetEnumerator()) {
+		$durationPattern = "WHEN\s+'$([regex]::Escape($fixedEraDuration.Key))'\s+THEN\s+$($fixedEraDuration.Value)"
+		if ([regex]::Matches($eraLengthSource, $durationPattern, [System.Text.RegularExpressions.RegexOptions]::IgnoreCase).Count -ne 2) {
+			Add-ValidationError "Optional world-era duration must set both minimum and maximum for $($fixedEraDuration.Key) to $($fixedEraDuration.Value)."
+		}
+	}
+	if ($eraLengthSource -notmatch 'GameEraMinimumTurns' -or $eraLengthSource -notmatch 'GameEraMaximumTurns') {
+		Add-ValidationError 'Optional world-era duration override must set both the minimum and maximum duration columns.'
+	}
 }
 
 if (Test-Path -LiteralPath $zylConfigPath) {

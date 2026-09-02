@@ -47,9 +47,9 @@ function OnShow()
 	m_active = true
 	ContextPtr:SetHide(false);
 	
-	if hostID == localID then
+	b_admin = (hostID == localID)
+	if b_admin then
 		Controls.WindowTitle:SetText(Locale.Lookup("LOC_MPH_ADMIN_OPTIONS"))
-		b_admin  = true
 		else
 		Controls.WindowTitle:SetText(Locale.Lookup("LOC_MPH_PLAYER_OPTIONS"))
 	end
@@ -122,11 +122,17 @@ function OnLocalUIRefreshValidate()
 end
 
 function OnHostRemap()
+	if Network.GetLocalPlayerID() ~= Network.GetGameHostPlayerID() then
+		return
+	end
 	LuaEvents.MPHMenu_OnHostRemap()
 	OnReturn()
 end
 
 function OnHostForceEnd()
+	if Network.GetLocalPlayerID() ~= Network.GetGameHostPlayerID() then
+		return
+	end
 		_kPopupDialog:Close();
 		_kPopupDialog:AddTitle(	  Locale.Lookup("LOC_GAME_MENU_FORCEEND_TITLE"));
 		_kPopupDialog:AddText(	  Locale.Lookup("LOC_GAME_MENU_FORCEEND_LABEL"));
@@ -138,6 +144,9 @@ end
 function OnHostForceEndValidate()
 	local hostID = Network.GetGameHostPlayerID()
 	local localID = Network.GetLocalPlayerID()
+	if localID ~= hostID then
+		return
+	end
 	local player_ids = GameConfiguration.GetMultiplayerPlayerIDs()
 	for i, iPlayer in ipairs(player_ids) do
 		if Network.IsPlayerConnected(iPlayer) == true and iPlayer ~= hostID then
@@ -159,6 +168,9 @@ function OnRequestHostForceEnd()
 end
 
 function OnHostResync()
+	if Network.GetLocalPlayerID() ~= Network.GetGameHostPlayerID() then
+		return
+	end
 		_kPopupDialog:Close();
 		_kPopupDialog:AddTitle(	  Locale.Lookup("LOC_GAME_MENU_RESYNC_TITLE"));
 		_kPopupDialog:AddText(	  Locale.Lookup("LOC_GAME_MENU_RESYNC_LABEL"));
@@ -245,6 +257,9 @@ function OnRequestHostResyncSeed()
 end
 
 function OnHostRetime()
+	if Network.GetLocalPlayerID() ~= Network.GetGameHostPlayerID() then
+		return
+	end
 		_kPopupDialog:Close();
 		_kPopupDialog:AddTitle(	  Locale.Lookup("LOC_GAME_MENU_RETIME_TITLE"));
 		_kPopupDialog:AddText(	  Locale.Lookup("LOC_GAME_MENU_RETIME_LABEL"));
@@ -261,6 +276,9 @@ end
 function OnHostRetimeValidate()
 	print("OnHostRetimeValidate")
 	print(m_extraTime)
+	if Network.GetLocalPlayerID() ~= Network.GetGameHostPlayerID() then
+		return
+	end
 	if tonumber(m_extraTime) ~= nil then
 		if tonumber(m_extraTime) > 0 then
 			LuaEvents.MPHMenu_OnHostRetime(tonumber(m_extraTime))
@@ -384,7 +402,10 @@ function ComputeMapFingerprint()
 	table.sort(majorIDs)
 	for _, playerID in ipairs(majorIDs) do
 		local player = Players[playerID]
-		local startPlot = player ~= nil and player:GetStartingPlot() or nil
+		local startPlot = nil
+		if player ~= nil and player.GetStartingPlot ~= nil then
+			startPlot = player:GetStartingPlot()
+		end
 		local startIndex = startPlot ~= nil and startPlot:GetIndex() or -1
 		hash = (hash * 65599 + playerID * 257 + startIndex + 2) % modulus
 	end
@@ -437,7 +458,7 @@ function OnMultiplayerChat( fromPlayer, toPlayer, text, eTargetType )
 	end
 	
 	-- Requesting a VoteMap
-	if (string.lower(text) == ".mph_ui_vote_remap_request" and localID == hostID and fromPlayer == hostID)  then
+	if (string.lower(text) == ".mph_ui_vote_remap_request" and localID == hostID)  then
 		OnRequestHostVoteRemap()
 		return
 	end

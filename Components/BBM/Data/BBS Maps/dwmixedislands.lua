@@ -183,7 +183,7 @@ function GeneratePlotTypes(world_age)
 		
 		-- 705: Adding arg to disable polar land (2nd false below)
 		-- InitFractal{continent_grain = grain_dice, rift_grain = rift_dice};
-		InitFractal{continent_grain = grain_dice, rift_grain = rift_dice, false, false};
+		InitFractal{continent_grain = grain_dice, rift_grain = rift_dice, invert_heights = false, polar = false};
 		-- 705: Always create the initial continents using the normal sea level, when the water
 		-- layer is added below that will correct the amount of water.
 		iWaterThreshold = g_continentsFrac:GetHeight(sea_level_normal);
@@ -531,7 +531,8 @@ function InitFractal(args)
 	local continent_grain = args.continent_grain or 2;
 	local rift_grain = args.rift_grain or -1; -- Default no rifts. Set grain to between 1 and 3 to add rifts. - Bob
 	local invert_heights = args.invert_heights or false;
-	local polar = args.polar or true;
+	local polar = args.polar;
+	if polar == nil then polar = true; end
 	local ridge_flags = args.ridge_flags or g_iFlags;
 
 	local fracFlags = {};

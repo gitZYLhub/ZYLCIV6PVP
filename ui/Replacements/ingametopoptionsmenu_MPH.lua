@@ -91,6 +91,7 @@ end
 
 -- ===========================================================================
 function CreateTeamList()
+	g_cached_playerIDs = {}
 	local bIsMultiplayer = GameConfiguration.IsAnyMultiplayer();
 	
 	if bIsMultiplayer == false then
@@ -203,6 +204,7 @@ function HostConcedeControl(losingID:number)
 	local localID = Network.GetLocalPlayerID()
 	local losingTeam = Players[losingID]:GetTeam()
 	if hostID == localID then
+		CreateTeamList()
 		for i, player in ipairs(g_cached_playerIDs) do
 			if Players[player.ID] ~= nil then
 				if player.Status > -1 and player.ID ~= hostID and player.Team == losingTeam then

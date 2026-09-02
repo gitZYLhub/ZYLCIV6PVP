@@ -1875,7 +1875,7 @@ function OnConfirmValid(playerID:number,valid:number)
 	Controls.StartLabel:SetText("THANKS!")
 end
 
-function OnValidReceived(text,teamer:boolean)
+function OnValidReceived(text,teamer:boolean,fromPlayer:number)
 	local localID = Network.GetLocalPlayerID()
 	local hostID = Network.GetGameHostPlayerID()
 	if g_debug == true then
@@ -1906,6 +1906,9 @@ function OnValidReceived(text,teamer:boolean)
 	end
 	if g_debug == true then
 		print("OnValidReceived - Valid Player ID",valid_playerID)
+	end
+	if valid_playerID == nil or (fromPlayer ~= nil and fromPlayer ~= valid_playerID and fromPlayer ~= hostID) then
+		return
 	end
 	g_valid_count = g_valid_count + 1
 	if g_valid_count < 5 and tonumber(valid_playerID) ~= nil then
@@ -2008,22 +2011,18 @@ function OnValidReceived(text,teamer:boolean)
 	end
 end
 
-function OnBanMapReceived(text,teamer:boolean)
+function OnBanMapReceived(text,teamer:boolean,fromPlayer:number)
 	local localID = Network.GetLocalPlayerID()
 	local hostID = Network.GetGameHostPlayerID()
 	if g_debug == true then
 		print("OnBanMapReceived - teamer?",b_teamer)
 	end
-	local ban_number = string.sub(text,6,6)
-	local ban_map = ""
-	local ban_ID = ""
+	local ban_number, ban_ID, ban_map = string.match(text, "^%.mapban_(%d+)_(%d+)_(%d+)$")
 	ban_number = tonumber(ban_number)
-	if string.sub(text,12,12) == "_" then
-		ban_map = tonumber(string.sub(text,13))
-		ban_ID = tonumber(string.sub(text,11,11))
-		else
-		ban_map = tonumber(string.sub(text,14))
-		ban_ID = tonumber(string.sub(text,11,12)	)	
+	ban_ID = tonumber(ban_ID)
+	ban_map = tonumber(ban_map)
+	if ban_ID == nil or (fromPlayer ~= nil and fromPlayer ~= ban_ID and fromPlayer ~= hostID) then
+		return
 	end
 	if g_debug == true then
 		print("OnBanMapReceived - ban_map",ban_map)
@@ -2097,7 +2096,7 @@ function OnPhaseChanged(text)
 end
 
 
-function OnReceiveBanVote(text:string) -- .mapvote_0_2_LEADER_PERICLES
+function OnReceiveBanVote(text:string, fromPlayer:number) -- .mapvote_0_2_LEADER_PERICLES
 	local localID = Network.GetLocalPlayerID()
 	local hostID = Network.GetGameHostPlayerID()
 	local voter_ID = nil
@@ -2112,6 +2111,9 @@ function OnReceiveBanVote(text:string) -- .mapvote_0_2_LEADER_PERICLES
 		voter_ID = tonumber(string.sub(text,10,11))
 		ban_number = tonumber(string.sub(text,13,13))
 		leader = string.sub(text,15)
+	end
+	if voter_ID == nil or (fromPlayer ~= nil and fromPlayer ~= voter_ID and fromPlayer ~= hostID) then
+		return
 	end
 	
 	local keep_waiting = false
@@ -2191,7 +2193,7 @@ function OnReceiveBanVote(text:string) -- .mapvote_0_2_LEADER_PERICLES
 	end
 end
 
-function OnReceiveMapVote(text:string) -- .mapvote_0_2_1_5
+function OnReceiveMapVote(text:string, fromPlayer:number) -- .mapvote_0_2_1_5
 	local localID = Network.GetLocalPlayerID()
 	local hostID = Network.GetGameHostPlayerID()
 	local voter_ID = nil
@@ -2209,6 +2211,9 @@ function OnReceiveMapVote(text:string) -- .mapvote_0_2_1_5
 		temp = tonumber(string.sub(text,13,13))
 		age = tonumber(string.sub(text,15,15))
 		script = tonumber(string.sub(text,17))
+	end
+	if voter_ID == nil or (fromPlayer ~= nil and fromPlayer ~= voter_ID and fromPlayer ~= hostID) then
+		return
 	end
 	local keep_waiting = false
 	for i, player in ipairs(g_cached_playerIDs) do	
@@ -2286,7 +2291,7 @@ function OnReceiveMapVote(text:string) -- .mapvote_0_2_1_5
 	end
 end
 
-function OnBanReceived(text,teamer:boolean)
+function OnBanReceived(text,teamer:boolean,fromPlayer:number)
 	print("OnBanReceived",text)
 	local localID = Network.GetLocalPlayerID()
 	local hostID = Network.GetGameHostPlayerID()
@@ -2314,8 +2319,11 @@ function OnBanReceived(text,teamer:boolean)
 		ban_ID = tonumber(string.sub(text,9,9))
 		else
 		ban_leader = string.sub(text,12)
-		ban_ID = tonumber(string.sub(text,9,10)	)	
+			ban_ID = tonumber(string.sub(text,9,10))
 		end		
+	end
+	if ban_ID == nil or (fromPlayer ~= nil and fromPlayer ~= ban_ID and fromPlayer ~= hostID) then
+		return
 	end
 	GameConfiguration.SetValue("BAN_"..ban_number,ban_leader)
 	if ban_number == 1 then
@@ -4233,7 +4241,7 @@ function OnMultiplayerChat( fromPlayer, toPlayer, text, eTargetType )
 	end
 	
 	if string.sub(text,1,8) == ".mapvote" then
-		OnReceiveMapVote(text)
+		OnReceiveMapVote(text, fromPlayer)
 		if g_debug == false then
 			return
 		end
@@ -4241,7 +4249,7 @@ function OnMultiplayerChat( fromPlayer, toPlayer, text, eTargetType )
 	
 	
 	if string.sub(text,1,8) == ".banvote" then
-		OnReceiveBanVote(text)
+		OnReceiveBanVote(text, fromPlayer)
 		if g_debug == false then
 			return
 		end
@@ -4364,21 +4372,21 @@ function OnMultiplayerChat( fromPlayer, toPlayer, text, eTargetType )
 	end
 
 	if (b_isnext == true or b_ishost == true) and string.sub(text,1,4) == ".ban" then
-		OnBanReceived(text)
+		OnBanReceived(text, b_teamer, fromPlayer)
 		if g_debug == false then
 			return
 		end
 	end
 	
 	if (b_isnext == true or b_ishost == true) and string.sub(text,1,7) == ".mapban" then
-		OnBanMapReceived(text)
+		OnBanMapReceived(text, b_teamer, fromPlayer)
 		if g_debug == false then
 			return
 		end
 	end
 
 	if (b_isnext == true or b_ishost == true) and string.sub(text,1,6) == ".valid" then
-		OnValidReceived(text)
+		OnValidReceived(text, b_teamer, fromPlayer)
 		if g_debug == false then
 			return
 		end

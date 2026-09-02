@@ -272,7 +272,10 @@ function OnTradeRouteActivityChanged(iPlayerID, iOriginPlayerID, iOriginCityID, 
 			table.insert(tBufferedParams["CSBufferedParams"], kParameters)
 		else
 			print("PlayerTurnActive")
-			tBufferedParams["CSBufferedParams"] = {}	
+			for _, bufferedParameters in ipairs(tBufferedParams["CSBufferedParams"]) do
+				UI.RequestPlayerOperation(bufferedParameters["iOriginPlayerID"], PlayerOperations.EXECUTE_SCRIPT, bufferedParameters)
+			end
+			tBufferedParams["CSBufferedParams"] = {}
 			UI.RequestPlayerOperation(iOriginPlayerID, PlayerOperations.EXECUTE_SCRIPT, kParameters);
 			--UIEvents.UISetCSTrader(iOriginPlayerID, iOriginCityID, 0-iTargetPlayerID)
 		end
@@ -293,8 +296,8 @@ function OnLocalPlayerTurnBegin()
 			print(k,v)
 		end
 		UI.RequestPlayerOperation(kParameters["iOriginPlayerID"], PlayerOperations.EXECUTE_SCRIPT, kParameters)
-		table.remove(tBufferedParams["CSBufferedParams"], i)
 	end
+	tBufferedParams["CSBufferedParams"] = {}
 end
 
 function OnGovernorChanged(iGovernorOwnerID, iGovernorID)

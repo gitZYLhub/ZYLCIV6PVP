@@ -6,7 +6,7 @@
 		<Row Tag="LOC_ZYL_TOOLS_15_TIME_NAME" Language="zh_Hans_CN"><Text>[COLOR:ResGoldLabelCS]15 秒计时提醒[ENDCOLOR]</Text></Row>
 		<Row Tag="LOC_ZYL_TOOLS_15_TIME_DESC" Language="zh_Hans_CN"><Text>在剩余 15 至 8 秒时播放逐秒提示音。</Text></Row>
 		<Row Tag="LOC_ZYL_ERA_LENGTH_OPTIMIZATION_NAME" Language="zh_Hans_CN"><Text>时代长度优化</Text></Row>
-		<Row Tag="LOC_ZYL_ERA_LENGTH_OPTIMIZATION_DESC" Language="zh_Hans_CN"><Text>调整世界时代持续范围：标准速度下，远古时代40–50回合，古典和中世纪时代50–60回合；联机速度下，远古时代20–25回合，古典和中世纪时代25–30回合。其他时代保持原版。默认开启。</Text></Row>
+		<Row Tag="LOC_ZYL_ERA_LENGTH_OPTIMIZATION_DESC" Language="zh_Hans_CN"><Text>调整世界时代持续时间：标准速度下，远古时代固定为54回合，古典和中世纪时代固定为50回合；联机速度下，远古时代固定为27回合，古典和中世纪时代固定为25回合。其他时代保持原版。默认开启。</Text></Row>
 		<Row Tag="LOC_ZYL_DIPLOMACY_RIBBON_MODE_NAME" Language="zh_Hans_CN"><Text>外交栏情报模式</Text></Row>
 		<Row Tag="LOC_ZYL_DIPLOMACY_RIBBON_MODE_DESC" Language="zh_Hans_CN"><Text>设置右上角外交栏采用个人或团队外交能见度。科技值、文化值以及积存金币和信仰始终可见；有限、公开、秘密和绝密能见度依次解锁军力、粮食与生产力、每回合金币与信仰、当前研究的科技与市政。未解锁的情报显示为问号，未接触的玩家仍保持匿名。</Text></Row>
 		<Row Tag="LOC_ZYL_DIPLOMACY_RIBBON_MODE_FFA_NAME" Language="zh_Hans_CN"><Text>FFA 模式</Text></Row>
@@ -37,7 +37,7 @@
 		<Row Tag="LOC_ZYL_TOOLS_15_TIME_NAME" Language="en_US"><Text>[COLOR:ResGoldLabelCS]15-second warning[ENDCOLOR]</Text></Row>
 		<Row Tag="LOC_ZYL_TOOLS_15_TIME_DESC" Language="en_US"><Text>Plays a countdown sound from 15 through 8 seconds remaining.</Text></Row>
 		<Row Tag="LOC_ZYL_ERA_LENGTH_OPTIMIZATION_NAME" Language="en_US"><Text>Era Length Optimization</Text></Row>
-		<Row Tag="LOC_ZYL_ERA_LENGTH_OPTIMIZATION_DESC" Language="en_US"><Text>Adjusts World Era duration ranges: at Standard speed, Ancient lasts 40–50 turns and Classical and Medieval last 50–60; at Online speed, Ancient lasts 20–25 and Classical and Medieval last 25–30. Other eras retain their default ranges. Enabled by default.</Text></Row>
+		<Row Tag="LOC_ZYL_ERA_LENGTH_OPTIMIZATION_DESC" Language="en_US"><Text>Sets fixed World Era durations: at Standard speed, Ancient lasts 54 turns and Classical and Medieval last 50; at Online speed, Ancient lasts 27 turns and Classical and Medieval last 25. Other eras retain their default ranges. Enabled by default.</Text></Row>
 		<Row Tag="LOC_ZYL_DIPLOMACY_RIBBON_MODE_NAME" Language="en_US"><Text>Diplomacy Ribbon Intelligence</Text></Row>
 		<Row Tag="LOC_ZYL_DIPLOMACY_RIBBON_MODE_DESC" Language="en_US"><Text>Sets whether the top-right diplomacy ribbon uses individual or team Diplomatic Visibility. Science and Culture yields and stored Gold and Faith are always visible; Limited, Open, Secret, and Top Secret visibility successively reveal Military Strength, Food and Production, Gold and Faith per turn, and current Technology and Civic research. Locked intelligence is shown as a question mark, while unmet players remain anonymous.</Text></Row>
 		<Row Tag="LOC_ZYL_DIPLOMACY_RIBBON_MODE_FFA_NAME" Language="en_US"><Text>FFA Mode</Text></Row>

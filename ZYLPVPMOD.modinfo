@@ -1460,6 +1460,10 @@
 			<Criteria>ZYLPVP_BBG_NO_BBGTS</Criteria>
 			<File>Components/BBG/scripts/bbg_script.lua</File>
 		</AddGameplayScripts>
+		<AddGameplayScripts id="ZYL_CanadaNationalParkYields">
+			<Criteria>ZYLPVP_BBG_XP2</Criteria>
+			<File>Components/BBG/scripts/canada_national_park_yields.lua</File>
+		</AddGameplayScripts>
 		<AddUserInterfaces id="ZYLPVP_BBG_IG_002_bbg_uitogameplay_dummy_xml">
 			<Properties>
 				<Context>InGame</Context>
@@ -2382,13 +2386,13 @@
 				<LoadOrder>1001</LoadOrder>
 			</Properties>
 			<File>Components/BBM/Data/BBS Maps/perfectworld6.lua</File>
-			<File>Components/BBM/Data/BBS Maps/DWArchipelago.lua</File>
-			<File>Components/BBM/Data/BBS Maps/DWContinents.lua</File>
-			<File>Components/BBM/Data/BBS Maps/DWFractal.lua</File>
-			<File>Components/BBM/Data/BBS Maps/DWPangaea.lua</File>
-			<File>Components/BBM/Data/BBS Maps/DWSmallContinents.lua</File>
-			<File>Components/BBM/Data/BBS Maps/DWMixedLand.lua</File>
-			<File>Components/BBM/Data/BBS Maps/DWMixedIslands.lua</File>
+			<File>Components/BBM/Data/BBS Maps/dwarchipelago.lua</File>
+			<File>Components/BBM/Data/BBS Maps/dwcontinents.lua</File>
+			<File>Components/BBM/Data/BBS Maps/dwfractal.lua</File>
+			<File>Components/BBM/Data/BBS Maps/dwpangaea.lua</File>
+			<File>Components/BBM/Data/BBS Maps/dwsmallcontinents.lua</File>
+			<File>Components/BBM/Data/BBS Maps/dwmixedland.lua</File>
+			<File>Components/BBM/Data/BBS Maps/dwmixedislands.lua</File>
 		</ImportFiles>
 		<AddUserInterfaces id="ZYLPVP_BBM_IG_020_BBM_UI">
 			<Properties>
@@ -3046,6 +3050,7 @@
 		<File>Components/BBG/scripts/bbg_uitogameplay.xml</File>
 		<File>Components/BBG/scripts/bbg_uitogameplay.lua</File>
 		<File>Components/BBG/scripts/bbg_script.lua</File>
+		<File>Components/BBG/scripts/canada_national_park_yields.lua</File>
 		<File>Components/BBG/lang/english.xml</File>
 		<File>Components/BBG/lang/korean.xml</File>
 		<File>Components/BBG/lang/russian.xml</File>
@@ -3286,13 +3291,13 @@
 		<File>Components/BBM/Data/BBS Maps/Utility/BBM_MapUtils.lua</File>
 		<File>Components/BBM/Data/BBS Maps/Utility/BBM_SpawnBalancing.lua</File>
 		<File>Components/BBM/Data/BBS Maps/Utility/BBM_CivilizationAssign.lua</File>
-		<File>Components/BBM/Data/BBS Maps/DWArchipelago.lua</File>
-		<File>Components/BBM/Data/BBS Maps/DWContinents.lua</File>
-		<File>Components/BBM/Data/BBS Maps/DWFractal.lua</File>
-		<File>Components/BBM/Data/BBS Maps/DWPangaea.lua</File>
-		<File>Components/BBM/Data/BBS Maps/DWSmallContinents.lua</File>
-		<File>Components/BBM/Data/BBS Maps/DWMixedLand.lua</File>
-		<File>Components/BBM/Data/BBS Maps/DWMixedIslands.lua</File>
+		<File>Components/BBM/Data/BBS Maps/dwarchipelago.lua</File>
+		<File>Components/BBM/Data/BBS Maps/dwcontinents.lua</File>
+		<File>Components/BBM/Data/BBS Maps/dwfractal.lua</File>
+		<File>Components/BBM/Data/BBS Maps/dwpangaea.lua</File>
+		<File>Components/BBM/Data/BBS Maps/dwsmallcontinents.lua</File>
+		<File>Components/BBM/Data/BBS Maps/dwmixedland.lua</File>
+		<File>Components/BBM/Data/BBS Maps/dwmixedislands.lua</File>
 		<File>Components/BBM/Configuration/Config.xml</File>
 		<File>Components/BBM/Configuration/Config.sql</File>
 		<File>Components/BBM/Configuration/Config_minor_bias.sql</File>

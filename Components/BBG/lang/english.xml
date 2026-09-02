@@ -278,7 +278,7 @@
 		<!-- == CANADA == -->
 		<!-- = civilization ability = -->
 		<Replace Tag="LOC_TRAIT_CIVILIZATION_FACES_OF_PEACE_DESCRIPTION" Language="en_US">
-			<Text>Cannot declare war on City-states or surprise wars. Surprise wars cannot be declared on Canada.[NEWLINE][NEWLINE]For every 100 [ICON_TOURISM] Tourism per turn earn 1 [ICON_FAVOR] Diplomatic Favor per turn. Receive +100% [ICON_FAVOR] Diplomatic Favor from successfully completing an Emergency or Scored Competition.[NEWLINE][ICON_BULLET]Bias: T1 Tundra.</Text>
+			<Text>Cannot declare war on City-states or surprise wars. Surprise wars cannot be declared on Canada. Each of the four tiles in a National Park receives +2 [ICON_FOOD] Food and +2 [ICON_PRODUCTION] Production.[NEWLINE][NEWLINE]For every 100 [ICON_TOURISM] Tourism per turn earn 1 [ICON_FAVOR] Diplomatic Favor per turn. Receive +100% [ICON_FAVOR] Diplomatic Favor from successfully completing an Emergency or Scored Competition.[NEWLINE][ICON_BULLET]Bias: T1 Tundra.</Text>
 		</Replace>
 		<!-- = leader ability = -->
 		<Replace Tag="LOC_TRAIT_LEADER_LAST_BEST_WEST_DESCRIPTION" Language="en_US">
@@ -286,7 +286,7 @@
 		</Replace>
 		<!-- = unique unit = -->
 		<Replace Tag="LOC_UNIT_CANADA_MOUNTIE_DESCRIPTION" Language="en_US">
-			<Text>Canadian unique Modern era unit. Has Sight of 4. Can create 2 National Parks. +5 [ICON_STRENGTH] Combat Strength when fighting within 4 tiles of a National Park. Additional +5 [ICON_STRENGTH] Combat Strength when fighting within 4 tiles of an Owned National Park.</Text>
+			<Text>Canadian unique Modern era unit that replaces Cavalry and can be purchased with [ICON_FAITH] Faith. Has Sight of 4. Can create 2 National Parks. +5 [ICON_STRENGTH] Combat Strength when fighting within 4 tiles of a National Park. Additional +5 [ICON_STRENGTH] Combat Strength when fighting within 4 tiles of an Owned National Park.</Text>
 		</Replace>
 		<Replace Tag="LOC_ALL_PARK_COMBAT_BONUS_DESCRIPTION" Language="en_US">
 			<Text>+{1_Amount} Combat Strength when within 4 tiles of a National Park</Text>
@@ -296,7 +296,7 @@
 		</Replace>
 		<!-- = unique improvement = -->
 		<Replace Tag="LOC_IMPROVEMENT_ICE_HOCKEY_RINK_DESCRIPTION" Language="en_US">
-			<Text>Canadian unique Builder improvement unlocked with Diplomatic Service. Can be built on Tundra, Tundra Hills, Snow, and Snow Hills. One per city.[NEWLINE][NEWLINE]+1 [ICON_CULTURE] Culture for each adjacent Tundra, Tundra Hills, Snow, and Snow Hills tile.[NEWLINE]+1 [ICON_AMENITIES] Amenity and +2 Appeal to adjacent tiles.[NEWLINE]+2 [ICON_FOOD] Food and [ICON_PRODUCTION] Production with Professional Sports.[NEWLINE]+4 [ICON_CULTURE] Culture if adjacent to a Stadium building.[NEWLINE][NEWLINE]Provides [ICON_TOURISM] Tourism from Culture once Flight is unlocked.</Text>
+			<Text>Canadian unique Builder improvement unlocked with Diplomatic Service. Can be built on Tundra, Tundra Hills, Snow, and Snow Hills. One per city.[NEWLINE][NEWLINE]+1 [ICON_CULTURE] Culture for each adjacent Tundra, Tundra Hills, Snow, and Snow Hills tile.[NEWLINE]+1 [ICON_AMENITIES] Amenity and +2 Appeal to adjacent tiles.[NEWLINE]+2 [ICON_FOOD] Food and +2 [ICON_PRODUCTION] Production with Conservation.[NEWLINE]+4 [ICON_CULTURE] Culture if adjacent to a Stadium building.[NEWLINE][NEWLINE]Provides [ICON_TOURISM] Tourism from Culture once Flight is unlocked.</Text>
 		</Replace>
 
 

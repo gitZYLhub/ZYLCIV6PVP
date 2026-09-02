@@ -131,10 +131,7 @@ function OnHostTimerExpires(playerID:number)
 	--
 	local  count = 0
 	for i, player in ipairs(g_cached_playerIDs) do
-		if player.Status == 0 then
-			count = count + 1
-		end
-		if player.Status == -2 and GameConfiguration.IsAnyMultiplayer() == false then
+		if player.Status == 0 or player.Status == -2 then
 			count = count + 1
 		end
 	end

@@ -72,6 +72,7 @@ function OnCountdownPauseSend()
 		if Players[iPlayer] ~= nil then
 			if Network.IsPlayerConnected(iPlayer) == true and iPlayer ~= localID then
 				Network.SendChat(".mph_ui_start_pause_coundown", -2,-1)
+				break
 			end
 		end
 	end	
