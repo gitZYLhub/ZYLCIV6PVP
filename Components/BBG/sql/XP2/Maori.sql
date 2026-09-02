@@ -44,6 +44,12 @@ UPDATE Modifiers SET SubjectRequirementSetId='BBG_PLOT_HAS_JUNGLE_EARLY_EMPIRE' 
 UPDATE Leaders_XP2 SET OceanStart=0 WHERE LeaderType='LEADER_KUPE';
 INSERT INTO StartBiasTerrains (CivilizationType, TerrainType, Tier) VALUES
     ('CIVILIZATION_MAORI', 'TERRAIN_COAST', '1');
+DELETE FROM StartBiasFeatures
+WHERE CivilizationType='CIVILIZATION_MAORI'
+    AND FeatureType IN ('FEATURE_FOREST', 'FEATURE_JUNGLE');
+INSERT INTO StartBiasFeatures (CivilizationType, FeatureType, Tier) VALUES
+    ('CIVILIZATION_MAORI', 'FEATURE_FOREST', 4),
+    ('CIVILIZATION_MAORI', 'FEATURE_JUNGLE', 4);
 
 -- 15/10/23 no pop/builder on settle
 DELETE FROM TraitModifiers WHERE TraitType='TRAIT_LEADER_KUPES_VOYAGE' AND ModifierId='POPULATION_PRESETTLEMENT';

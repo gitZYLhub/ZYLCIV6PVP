@@ -46,19 +46,24 @@ $modInfo = Load-XmlDocument $modInfoPath
 if ($modInfo.DocumentElement.GetAttribute('id') -ne $expectedModId) {
     Add-ValidationError "Unexpected Mod ID: $($modInfo.DocumentElement.GetAttribute('id'))"
 }
-if ($modInfo.DocumentElement.GetAttribute('version') -ne '125' -or
-		$modInfo.SelectSingleNode('/Mod/Properties/Version').InnerText -ne '125' -or
-		$modInfo.SelectSingleNode('/Mod/Properties/ToolboxVersion').InnerText -ne '1.2.5') {
-	Add-ValidationError 'The integrated package version must be 1.2.5 / ModInfo 125.'
+if ($modInfo.DocumentElement.GetAttribute('version') -ne '126' -or
+		$modInfo.SelectSingleNode('/Mod/Properties/Version').InnerText -ne '126' -or
+		$modInfo.SelectSingleNode('/Mod/Properties/ToolboxVersion').InnerText -ne '1.2.6') {
+	Add-ValidationError 'The integrated package version must be 1.2.6 / ModInfo 126.'
 }
 if ($modInfo.SelectSingleNode('/Mod/Properties/Name').InnerText -ne 'LOC_ZYLPVPMOD_TITLE') {
     Add-ValidationError 'The ModInfo title is not the ZYLPVPMOD localization key.'
 }
 $workshopTitleEnglish = $modInfo.SelectSingleNode("/Mod/LocalizedText/Text[@id='LOC_ZYLPVPMOD_TITLE']/en_US")
 $workshopTitleChinese = $modInfo.SelectSingleNode("/Mod/LocalizedText/Text[@id='LOC_ZYLPVPMOD_TITLE']/zh_Hans_CN")
-if ($null -eq $workshopTitleEnglish -or $workshopTitleEnglish.InnerText -ne 'ZYLPVPMOD 1.2.5' -or
-		$null -eq $workshopTitleChinese -or $workshopTitleChinese.InnerText -ne 'ZYLPVPMOD 1.2.5') {
-	Add-ValidationError 'The localized ModInfo / Steam Workshop title must be ZYLPVPMOD 1.2.5.'
+if ($null -eq $workshopTitleEnglish -or $workshopTitleEnglish.InnerText -ne 'ZYLPVPMOD 1.2.6' -or
+		$null -eq $workshopTitleChinese -or $workshopTitleChinese.InnerText -ne 'ZYLPVPMOD 1.2.6') {
+	Add-ValidationError 'The localized ModInfo / Steam Workshop title must be ZYLPVPMOD 1.2.6.'
+}
+$multiplayerHelperPath = Join-Path $modRoot 'data\MP_helper.lua'
+if (-not (Test-Path -LiteralPath $multiplayerHelperPath) -or
+		-not (Get-Content -LiteralPath $multiplayerHelperPath -Raw).Contains('local g_version = "ZYLPVPMOD v1.2.6"')) {
+	Add-ValidationError 'The multiplayer version handshake must identify ZYLPVPMOD v1.2.6.'
 }
 
 # Keep the Team PVP Balanced Industries/Corporations nerf complete. The
@@ -282,7 +287,7 @@ else {
 		'LOC_DISTRICT_ROYAL_NAVY_DOCKYARD_DESCRIPTION' = @('+1 [ICON_HOUSING]', '+1 [ICON_TRADEROUTE]', '+2 [ICON_GOLD]', '+4忠诚度')
 		'LOC_DISTRICT_ROYAL_NAVY_DOCKYARD_EXPANSION1_DESCRIPTION' = @('+1 [ICON_HOUSING]', '+2 [ICON_GOLD]', '+4忠诚度')
         'LOC_DISTRICT_SEOWON_DESCRIPTION_ADJACENCY' = @('+2 [ICON_SCIENCE]', '+2 [ICON_CULTURE]')
-        'LOC_BELIEF_INITIATION_RITES_EXPANSION2_DESCRIPTION' = @('25%', '[ICON_FAITH]')
+        'LOC_BELIEF_INITIATION_RITES_EXPANSION2_DESCRIPTION' = @('40%', '[ICON_GOLD]')
 		'LOC_BELIEF_RELIGIOUS_COMMUNITY_DESCRIPTION' = @('+5 [ICON_GOLD]', '+10 [ICON_GOLD]')
 		'LOC_BELIEF_RELIGIOUS_COMMUNITY_EXPANSION2_DESCRIPTION' = @('+5 [ICON_GOLD]', '+10 [ICON_GOLD]')
 		'LOC_BUILDING_ELECTRONICS_FACTORY_EXPANSION2_DESCRIPTION' = @('+4 [ICON_CULTURE]', '+3', '+5 [ICON_PRODUCTION]', '6')
@@ -332,7 +337,7 @@ else {
 		'LOC_FEATURE_EYJAFJALLAJOKULL_XP2_DESCRIPTION' = @('为相邻单元格')
 		'LOC_BUILDING_ELECTRONICS_FACTORY_DESCRIPTION' = @('+4 [ICON_PRODUCTION]')
 		'LOC_TRAIT_CIVILIZATION_NOBEL_PRIZE_DESCRIPTION' = @('市政广场建筑分别每回合', '市政广场建筑每提升一级')
-        'LOC_BELIEF_INITIATION_RITES_EXPANSION2_DESCRIPTION' = @('30%')
+        'LOC_BELIEF_INITIATION_RITES_EXPANSION2_DESCRIPTION' = @('25%', '30%', '[ICON_FAITH]')
         'LOC_BUILDING_TSIKHE_DESCRIPTION_XP2' = @('+1 [ICON_TOURISM]', '[ICON_TOURISM] 旅游业绩+100%')
         'LOC_CIVILIZATION_JERUSALEM_BONUS_EXPANSION' = @('10')
         'LOC_LEADER_TRAIT_JERUSALEM_DESCRIPTION_EXPANSION' = @('10')
@@ -707,6 +712,22 @@ else {
 	}
 	if ($bbgMaoriSql -notmatch "(?s)INSERT\s+INTO\s+StartBiasTerrains.*?'CIVILIZATION_MAORI'\s*,\s*'TERRAIN_COAST'\s*,\s*'1'") {
 		Add-ValidationError 'Maori no longer have the T1 Coast bias required by Rich Mainland shore placement.'
+	}
+	foreach ($maoriFeature in @('FEATURE_FOREST', 'FEATURE_JUNGLE')) {
+		if ($bbgMaoriSql -notmatch "(?s)INSERT\s+INTO\s+StartBiasFeatures.*?'CIVILIZATION_MAORI'\s*,\s*'$maoriFeature'\s*,\s*4") {
+			Add-ValidationError "Maori are missing their T4 $maoriFeature start bias."
+		}
+	}
+}
+
+$bbgGermanyPath = Join-Path $modRoot 'Components\BBG\sql\Base\Germany.sql'
+if (-not (Test-Path -LiteralPath $bbgGermanyPath)) {
+	Add-ValidationError 'BBG Germany gameplay SQL is missing.'
+}
+else {
+	$bbgGermanySql = Get-Content -LiteralPath $bbgGermanyPath -Raw
+	if ($bbgGermanySql -notmatch "(?s)UPDATE\s+Modifiers\s+SET\s+SubjectRequirementSetId\s*=\s*'BBG_UTILS_PLAYER_HAS_CIVIC_EARLY_EMPIRE_REQSET'\s+WHERE\s+ModifierId\s*=\s*'TRAIT_EXTRA_DISTRICT_EACH_CITY'") {
+		Add-ValidationError 'Germany extra district capacity is not unlocked at Early Empire.'
 	}
 }
 

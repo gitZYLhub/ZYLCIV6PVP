@@ -216,19 +216,25 @@
 		</Replace>
 
 		<!-- == CANADA == -->
+		<Replace Tag="LOC_TRAIT_CIVILIZATION_FACES_OF_PEACE_DESCRIPTION" Language="es_ES">
+			<Text>No se pueden declarar guerras por sorpresa ni guerras a ciudades-estado. No se pueden declarar guerras por sorpresa contra Canadá. Cada una de las cuatro casillas de un Parque nacional recibe +2 [ICON_FOOD] Alimentos y +2 [ICON_PRODUCTION] Producción. Por cada 100 de Turismo [ICON_TOURISM] por turno se obtiene 1 de Favor diplomático [ICON_Favor] por turno. Recibe +100% de Favor diplomático [ICON_Favor] al completar con éxito una Emergencia o una Competición por puntos.</Text>
+		</Replace>
 		<!-- = leader ability = -->
 		<Replace Tag="LOC_TRAIT_LEADER_LAST_BEST_WEST_DESCRIPTION" Language="es_ES">
 			<Text>Los Centros urbanos en Tundra reciben +1 a Alimentos [ICON_Food].NEWLINE][NEWLINE]Permite que las Granjas se construyan en terreno de Tundra. Después de desbloquear Ingeniería civil, las Granjas se pueden construir en Tundra con colinas. En Nieve y Tundra, las Minas y Aserraderos reciben +2 a la Producción [ICON_PRODUCTION], los Campamentos y Granjas reciben +2 a Alimentos [ICON_FOOD] y el límite de acumulación de recursos se duplica para recursos trabajados en tundra y nieve. Reduce en un 50% el costo de adquisición de las casillas en estos tipos de terreno.[NEWLINE][ICON_BULLET]Sesgo: T1 Tundra.</Text>
 		</Replace>
 		<!-- = unique unit = -->
 		<Replace Tag="LOC_UNIT_CANADA_MOUNTIE_DESCRIPTION" Language="es_ES">
-			<Text>Unidad exclusiva canadiense de la Época Moderna. Tiene 4 de visión. Puede crear 2 Parques nacionales. +5 a la Fuerza de combate [ICON_Strength] al luchar a 4 casillas de un Parque nacional. +5 a la Fuerza de combate [ICON_Strength] al luchar a 4 casillas de un Parque nacional. +5 a la Fuerza de combate [ICON_Strength] adicional al luchar a 4 casillas de un Parque nacional que te pertenezca.</Text>
+			<Text>Unidad exclusiva canadiense de la Época Moderna que sustituye a la Caballería. Puede obtenerse al mejorar un Corcel y comprarse con Fe [ICON_FAITH]. Tiene 4 de visión. Puede crear 2 Parques nacionales. +5 a la Fuerza de combate [ICON_Strength] al luchar a 4 casillas de un Parque nacional. +5 a la Fuerza de combate [ICON_Strength] adicional al luchar a 4 casillas de un Parque nacional que te pertenezca.</Text>
 		</Replace>
 		<Replace Tag="LOC_ALL_PARK_COMBAT_BONUS_DESCRIPTION" Language="es_ES">
 			<Text>+{1_Amount}a la Fuerza de combate al luchar a 4 casilas de un Parque nacional.</Text>
 		</Replace>
 		<Replace Tag="LOC_OWNER_PARK_COMBAT_BONUS_DESCRIPTION" Language="es_ES">
 			<Text>+{1_Amount} a la Fuerza de combate al luchar a 4 casillas de un Parque nacional de tu propiedad.</Text>
+		</Replace>
+		<Replace Tag="LOC_IMPROVEMENT_ICE_HOCKEY_RINK_DESCRIPTION" Language="es_ES">
+			<Text>Desbloquea la habilidad del Constructor para erigir una Pista de hockey, exclusiva de Canadá.[NEWLINE][NEWLINE]+1 a Servicios [ICON_AMENITIES]. +1 a Cultura [ICON_CULTURE] por cada casilla de Tundra, Colinas con tundra, Nieve y Colinas nevadas adyacentes. Al desbloquear Vuelo, proporciona Turismo [ICON_TOURISM] por Cultura. +2 a Alimentos [ICON_FOOD] y a la Producción [ICON_PRODUCTION] cuando se desbloquea el principio Conservación. +4 a la Cultura [ICON_CULTURE] si está adyacente a un Estadio. Se puede construir en casillas de Tundra, Colinas con tundra, Nieve y Colinas nevadas. Una vez por ciudad. +2 de Atractivo.</Text>
 		</Replace>
 
 		<!-- == CHINA == -->
@@ -555,7 +561,7 @@
 		<!-- == GERMANY == -->
 		<!-- = civilization ability = -->
 		<Replace Tag="LOC_TRAIT_CIVILIZATION_IMPERIAL_FREE_CITIES_DESCRIPTION" Language="es_ES">
-			<Text>Tras desbloquear el principio de Gremios cada ciudad puede construir un distrito más de lo habitual (excediendo el límite normal basado en Población [ICON_Citizen]). Bombardea culturalmente las casillas adyacentes al completar un Centro Comercial.[NEWLINE][ICON_BULLET]Sesgo: T3 Ríos.</Text>
+			<Text>Tras desbloquear el principio de Imperio Inicial cada ciudad puede construir un distrito más de lo habitual (excediendo el límite normal basado en Población [ICON_Citizen]). Bombardea culturalmente las casillas adyacentes al completar un Centro Comercial.[NEWLINE][ICON_BULLET]Sesgo: T3 Ríos.</Text>
 		</Replace>
 		<!-- = leader ability (Frederick Barbarossa) = -->
 		<Replace Tag="LOC_TRAIT_LEADER_HOLY_ROMAN_EMPEROR_DESCRIPTION" Language="es_ES"> <!-- add icon -->
@@ -928,7 +934,7 @@
 		<!-- == MAORI == -->
 		<!-- = civilization ability = -->
 		<Replace Tag="LOC_TRAIT_CIVILIZATION_MAORI_MANA_DESCRIPTION" Language="es_ES">
-			<Text>Las Unidades Embarcadas ganan +2 Movimiento [ICON_Movement] tras investigar Construcción Naval. Las casillas sin trabajar de Selva y Bosque ganan +1 Producción [ICON_PRODUCTION] al descubrir Imperio Inicial. +1 de Producción [ICON_PRODUCTION] adicional con Mercantilismo y +2 Producción [ICON_PRODUCTION] por Conservación. Los Barcos Pesqueros bombardean culturalmente las casillas adyacentes y otorgan +1 a Alimentos [ICON_FOOD] tras investigar Navegación Celeste. Los Recursos no se pueden recolectar. No se puede reclutar Grandes Escritores [ICON_GreatWriter].[NEWLINE][NEWLINE][ICON_BULLET]Sesgo: T1 Costa.</Text>
+			<Text>Las Unidades Embarcadas ganan +2 Movimiento [ICON_Movement] tras investigar Construcción Naval. Las casillas sin trabajar de Selva y Bosque ganan +1 Producción [ICON_PRODUCTION] al descubrir Imperio Inicial. +1 de Producción [ICON_PRODUCTION] adicional con Mercantilismo y +2 Producción [ICON_PRODUCTION] por Conservación. Los Barcos Pesqueros bombardean culturalmente las casillas adyacentes y otorgan +1 a Alimentos [ICON_FOOD] tras investigar Navegación Celeste. Los Recursos no se pueden recolectar. No se puede reclutar Grandes Escritores [ICON_GreatWriter].[NEWLINE][NEWLINE][ICON_BULLET]Sesgo: T1 Costa, T4 Bosques y Selvas.</Text>
 		</Replace>
 		<!-- = leader ability = -->
 		<Replace Tag="LOC_TRAIT_LEADER_KUPES_VOYAGE_DESCRIPTION" Language="es_ES">
@@ -1756,10 +1762,10 @@
 			<Text>+1 [ICON_FOOD] Alimentos y +2 [ICON_GOLD] Oro de los Campamentos.</Text>
 		</Replace>
 		<Replace Tag="LOC_BELIEF_INITIATION_RITES_DESCRIPTION" Language="es_ES">
-			<Text>Se obtiene Fe [ICON_FAITH] igual al 25% de la Producción [ICON_PRODUCTION] de unidades militares terrestres cuando se entrenan.[NEWLINE]Tu capital obtiene 1 Guerreros.</Text>
+			<Text>Al producir una unidad no civil, se obtiene [ICON_GOLD] Oro equivalente al 40% de su coste de [ICON_PRODUCTION] Producción.[NEWLINE]Tu capital obtiene 1 Guerrero.</Text>
 		</Replace>
 		<Replace Tag="LOC_BELIEF_INITIATION_RITES_EXPANSION2_DESCRIPTION" Language="es_ES">
-			<Text>Se obtiene Fe [ICON_FAITH] igual al 30% de la Producción [ICON_PRODUCTION] de unidades militares terrestres cuando se entrenan.[NEWLINE]Tu capital obtiene 1 Guerreros.</Text>
+			<Text>Al producir una unidad no civil, se obtiene [ICON_GOLD] Oro equivalente al 40% de su coste de [ICON_PRODUCTION] Producción.[NEWLINE]Tu capital obtiene 1 Guerrero.</Text>
 		</Replace>
 		<Replace Tag="LOC_BELIEF_LADY_OF_THE_REEDS_AND_MARSHES_EXPANSION2_DESCRIPTION" Language="es_ES">
 		    <Text>+1 a la Producción [ICON_Production] en Pantanos, Oasis y Terrenos de aluvión mejorados o Centros de Ciudad fundados sobre estos terrenos.</Text>

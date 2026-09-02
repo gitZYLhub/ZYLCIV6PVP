@@ -64,5 +64,8 @@
 		<Replace Tag="LOC_UNIT_SETTLER_DESCRIPTION" Language="en_US"><Text>May create new cities. Reduces the city's [ICON_Citizen] Population by 1 when completed.[NEWLINE][NEWLINE]Before the first city is founded, Settlers have +1 [ICON_Movement] Movement, ignore terrain and river movement costs, and pay no [ICON_Movement] Movement to embark or disembark.</Text></Replace>
 
 		<Replace Tag="LOC_UNIT_SETTLER_DESCRIPTION" Language="zh_Hant_HK"><Text>可以創建新城市。完成時，城市 [ICON_Citizen] 人口減1。[NEWLINE][NEWLINE]建立首座城市前，開拓者+1 [ICON_Movement] 移動力，忽略地形和過河移動力消耗，上船和下船不消耗 [ICON_Movement] 移動力。</Text></Replace>
+		<Replace Tag="LOC_TRAIT_CIVILIZATION_FACES_OF_PEACE_DESCRIPTION" Language="zh_Hant_HK"><Text>無法向城邦宣戰或發動突襲戰爭。無法向加拿大發動突襲戰爭。國家公園的四個單元格各+2 [ICON_FOOD] 食物和+2 [ICON_PRODUCTION] 生產力。[NEWLINE][NEWLINE]每回合每獲得100 [ICON_TOURISM] 旅遊業績，便每回合獲得1點 [ICON_FAVOR] 外交支持。成功完成緊急事件或計分競賽後獲得的 [ICON_FAVOR] 外交支持+100%。</Text></Replace>
+		<Replace Tag="LOC_UNIT_CANADA_MOUNTIE_DESCRIPTION" Language="zh_Hant_HK"><Text>加拿大特色現代單位，取代騎兵，可由追獵者升級獲得，也可使用 [ICON_FAITH] 信仰值購買。擁有4點視野，能建立兩座國家公園。在任意國家公園附近的4個單元格內戰鬥時+5 [ICON_STRENGTH] 戰鬥力。如果是己方的國家公園，則在加成基礎上再額外+5 [ICON_STRENGTH] 戰鬥力。</Text></Replace>
+		<Replace Tag="LOC_IMPROVEMENT_ICE_HOCKEY_RINK_DESCRIPTION" Language="zh_Hant_HK"><Text>加拿大特色建造者改良設施，「外交部門」市政解鎖。可建在凍土、凍土丘陵、雪地和雪地丘陵上，每座城市限建1座。[NEWLINE][NEWLINE]每個相鄰凍土、凍土丘陵、雪地或雪地丘陵單元格+1 [ICON_CULTURE] 文化值。[NEWLINE]相鄰單元格+1 [ICON_AMENITIES] 滿意度和+2魅力。[NEWLINE]解鎖「保藏」市政後+2 [ICON_FOOD] 食物和+2 [ICON_PRODUCTION] 生產力。[NEWLINE]與體育場建築相鄰時+4 [ICON_CULTURE] 文化值。[NEWLINE][NEWLINE]解鎖「飛行」科技後，將文化值轉化為 [ICON_TOURISM] 旅遊業績。</Text></Replace>
 	</LocalizedText>
 </GameData>

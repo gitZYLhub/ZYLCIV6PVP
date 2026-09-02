@@ -821,6 +821,7 @@ function ZYL_EnsureRussiaFoodTiles()
 					local candidates = {};
 					for _, plot in ipairs(ringPlots) do
 						if plot:GetYield(g_YIELD_FOOD) < 2 and plot:GetResourceType() == -1
+							and plot:GetFeatureType() ~= g_FEATURE_GEOTHERMAL_FISSURE
 							and not plot:IsNaturalWonder() then
 							local terrain = plot:GetTerrainType();
 							local priority = 4;
@@ -1628,7 +1629,7 @@ function RichNSBalance()
 	-- 修正：RichNum * RichNum/150的空雨林将变为香蕉
 	-- 修正：RichNum * RichNum/150的空沼泽将变为大米
 	-- 修正：RichNum * RichNum/200的空树林将变为鹿
-	-- 修正：RichNum * RichNum/400的空地将变为地脉
+	-- 修正：RichNum^3/1500 的空地将变为地脉
 	-- 修正：RichNum * RichNum/300的绿地将变为牛
 	-- 修正：RichNum * RichNum/300的鱼将变为礁石
 	-- 修正：RichNum * RichNum/300的沙漠将变为绿洲
@@ -1667,7 +1668,10 @@ function RichNSBalance()
 				if resourceDeer ~= -1 and pPlot:GetFeatureType() == g_FEATURE_FOREST and pPlot:GetResourceType() == -1 and TerrainBuilder.GetRandomNumber(200, "Resource Placement Score Adjust") < RichNum * RichNum then
 					ResourceBuilder.SetResourceType(pPlot, resourceDeer, 1);
 				end
-				if not CompetitionMode and CanHaveLeyLine and (pPlot:GetTerrainType() == terrainGrass or pPlot:GetTerrainType() == terrainPlains) and pPlot:GetResourceType() == -1 and pPlot:GetFeatureType() == -1 and TerrainBuilder.GetRandomNumber(2000, "Resource Placement Score Adjust") < RichNum * RichNum * RichNum then
+				if not CompetitionMode and CanHaveLeyLine
+					and pPlot:GetResourceType() == -1 and pPlot:GetFeatureType() == -1
+					and ResourceBuilder.CanHaveResource(pPlot, CanHaveLeyLineIndex)
+					and TerrainBuilder.GetRandomNumber(1500, "Resource Placement Score Adjust") < RichNum * RichNum * RichNum then
 					ResourceBuilder.SetResourceType(pPlot,CanHaveLeyLineIndex,1);
 				end
 			end

@@ -216,19 +216,27 @@
 		</Replace>
 
 		<!-- == CANADA == -->
+		<!-- = civilization ability = -->
+		<Replace Tag="LOC_TRAIT_CIVILIZATION_FACES_OF_PEACE_DESCRIPTION" Language="zh_Hans_CN">
+			<Text>无法向城邦宣战或发动突袭战争。无法向加拿大发动突袭战争。国家公园的四个单元格各+2 [ICON_FOOD] 食物和+2 [ICON_PRODUCTION] 生产力。[NEWLINE][NEWLINE]每回合每获得100 [ICON_TOURISM] 旅游业绩，便每回合获得1点 [ICON_FAVOR] 外交支持。成功完成紧急事件或计分竞赛后获得的 [ICON_FAVOR] 外交支持+100%。[NEWLINE][ICON_BULLET]出生地关联：T1冻土。</Text>
+		</Replace>
 		<!-- = leader ability = -->
 		<Replace Tag="LOC_TRAIT_LEADER_LAST_BEST_WEST_DESCRIPTION" Language="zh_Hans_CN">
 			<Text>冻土城市的市中心获得+1 [ICON_Food] 食物。[NEWLINE] 允许在冻土地貌上建造农场。解锁“土木工程”市政后，即可在冻土丘陵上建造农场。在冻土、冻土丘陵、雪地、雪地丘陵上的矿山和伐木场额外+2 [ICON_PRODUCTION] 生产力，农场和营地额外+2 [ICON_FOOD] 食物，战略资源积累速度+100%。这些地形上的单元格购买费用降低50%。[NEWLINE][NEWLINE][ICON_BULLET]出生地关联：T1冻土。</Text>
 		</Replace>
 		<!-- = unique unit = -->
 		<Replace Tag="LOC_UNIT_CANADA_MOUNTIE_DESCRIPTION" Language="zh_Hans_CN">
-			<Text>加拿大特色现代单位，替代骑兵，可由升级获得，也可使用 [ICON_FAITH] 信仰值购买。拥有4点视野，能创建两座国家公园。在任意国家公园附近的4个单元格内战斗时+5 [ICON_Strength] 战斗力。如果是己方的国家公园，则在加成基础上再额外+5 [ICON_Strength] 战斗力。</Text>
+			<Text>加拿大特色现代单位，替代骑兵，可由追猎者升级获得，也可使用 [ICON_FAITH] 信仰值购买。拥有4点视野，能创建两座国家公园。在任意国家公园附近的4个单元格内战斗时+5 [ICON_Strength] 战斗力。如果是己方的国家公园，则在加成基础上再额外+5 [ICON_Strength] 战斗力。</Text>
 		</Replace>
 		<Replace Tag="LOC_ALL_PARK_COMBAT_BONUS_DESCRIPTION" Language="zh_Hans_CN">
 			<Text>+{1_Amount} 战斗力，国家公园4单元格之内</Text>
 		</Replace>
 		<Replace Tag="LOC_OWNER_PARK_COMBAT_BONUS_DESCRIPTION" Language="zh_Hans_CN">
 			<Text>+{1_Amount} 战斗力，在自己拥有的国家公园4单元格之内</Text>
+		</Replace>
+		<!-- = unique improvement = -->
+		<Replace Tag="LOC_IMPROVEMENT_ICE_HOCKEY_RINK_DESCRIPTION" Language="zh_Hans_CN">
+			<Text>加拿大特色建造者改良设施，“外交部门”市政解锁。可建在冻土、冻土丘陵、雪地和雪地丘陵上，每座城市限建1座。[NEWLINE][NEWLINE]每个相邻冻土、冻土丘陵、雪地或雪地丘陵单元格+1 [ICON_CULTURE] 文化值。[NEWLINE]相邻单元格+1 [ICON_AMENITIES] 宜居度和+2魅力。[NEWLINE]解锁“保护地球”市政后+2 [ICON_FOOD] 食物和+2 [ICON_PRODUCTION] 生产力。[NEWLINE]与体育场建筑相邻时+4 [ICON_CULTURE] 文化值。[NEWLINE][NEWLINE]解锁“飞行”科技后，将文化值转化为 [ICON_TOURISM] 旅游业绩。</Text>
 		</Replace>
 
 		<!-- == CHINA == -->
@@ -602,7 +610,7 @@
 		<!-- == GERMANY == -->
 		<!-- = civilization ability = -->
 		<Replace Tag="LOC_TRAIT_CIVILIZATION_IMPERIAL_FREE_CITIES_DESCRIPTION" Language="zh_Hans_CN">
-			<Text>获得“公会”市政后，每座城市都能建造比平常多一个 [ICON_DISTRICT] 区域（无视 [ICON_Citizen] 人口数量限制）。建成商业中心后对相邻单元格施放文化炸弹。[NEWLINE][NEWLINE][ICON_BULLET]出生地关联：T3河流。</Text>
+			<Text>获得“帝国初期”市政后，每座城市都能建造比平常多一个 [ICON_DISTRICT] 区域（无视 [ICON_Citizen] 人口数量限制）。建成商业中心后对相邻单元格施放文化炸弹。[NEWLINE][NEWLINE][ICON_BULLET]出生地关联：T3河流。</Text>
 		</Replace>
 		<!-- = leader ability (Frederick Barbarossa) = -->
 		<Replace Tag="LOC_TRAIT_LEADER_HOLY_ROMAN_EMPEROR_DESCRIPTION" Language="zh_Hans_CN"> <!-- add icon -->
@@ -971,7 +979,7 @@
 		<!-- == MAORI == -->
 		<!-- = civilization ability = -->
 		<Replace Tag="LOC_TRAIT_CIVILIZATION_MAORI_MANA_DESCRIPTION" Language="zh_Hans_CN">
-			<Text>“造船术”科技后，水运单位+2 [ICON_Movement] 移动力。“帝国初期”后未改良的树林与雨林提供+1 [ICON_PRODUCTION] 生产力。“重商主义”额外提供+1 [ICON_PRODUCTION] 生产力、“保护地球”额外+2 [ICON_PRODUCTION] 生产力。渔船向相邻单元格投放文化炸弹，并在“天文导航”科技后提供+1 [ICON_FOOD] 食物。无法收获资源；无法获得 [ICON_GreatWriter] 大作家。[NEWLINE][NEWLINE][ICON_BULLET]出生地关联：T1海岸。</Text>
+			<Text>“造船术”科技后，水运单位+2 [ICON_Movement] 移动力。“帝国初期”后未改良的树林与雨林提供+1 [ICON_PRODUCTION] 生产力。“重商主义”额外提供+1 [ICON_PRODUCTION] 生产力、“保护地球”额外+2 [ICON_PRODUCTION] 生产力。渔船向相邻单元格投放文化炸弹，并在“天文导航”科技后提供+1 [ICON_FOOD] 食物。无法收获资源；无法获得 [ICON_GreatWriter] 大作家。[NEWLINE][NEWLINE][ICON_BULLET]出生地关联：T1海岸、T4树林和雨林。</Text>
 		</Replace>
 		<!-- = leader ability = -->
 		<Replace Tag="LOC_TRAIT_LEADER_KUPES_VOYAGE_DESCRIPTION" Language="zh_Hans_CN">
@@ -1807,10 +1815,10 @@
 			<Text>地热裂缝和火山土提供+3 [ICON_FAITH] 信仰值。</Text>
 		</Replace>
 		<Replace Tag="LOC_BELIEF_INITIATION_RITES_DESCRIPTION" Language="zh_Hans_CN">
-			<Text>在首都 [ICON_Capital] 中获得一个勇士。生产非平民单位时获得相当于该单位生产力25%的 [ICON_FAITH] 信仰值。</Text>
+			<Text>在首都 [ICON_Capital] 中获得一个勇士。生产非平民单位时获得相当于该单位生产力费用40%的 [ICON_GOLD] 金币。</Text>
 		</Replace>
 		<Replace Tag="LOC_BELIEF_INITIATION_RITES_EXPANSION2_DESCRIPTION" Language="zh_Hans_CN">
-			<Text>在首都 [ICON_Capital] 中获得一个勇士。生产非平民单位时获得相当于该单位生产力25%的 [ICON_FAITH] 信仰值。</Text>
+			<Text>在首都 [ICON_Capital] 中获得一个勇士。生产非平民单位时获得相当于该单位生产力费用40%的 [ICON_GOLD] 金币。</Text>
 		</Replace>
 		<Replace Tag="LOC_BELIEF_LADY_OF_THE_REEDS_AND_MARSHES_EXPANSION2_DESCRIPTION" Language="zh_Hans_CN">
 			<Text>沼泽、绿洲、位于市中心或已改良的泛滥平原提供+1 [ICON_Production] 生产力。</Text>

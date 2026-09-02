@@ -15,7 +15,7 @@
 | Better Deal Window | 12 | `D:\Civilization\Civ6mods\BBGZYL\referencemods\Better Deal Window` | `Components\BetterDealWindow`；XP2 交易界面、奢侈品来源/交易历史、公司模式产品图标；入口叠加 MPH 交易限制 |
 | Detailed Map Tacks | 1 | `D:\Civilization\Civ6mods\BBGZYL\referencemods\DetailedMapTacks` | `Components\DetailedMapTacks`；产出/相邻计算器、可放置检查、自动删除和地图钉 UI；跳过重复 `dmt_config.xml` |
 
-生成的统一 Mod ID 为 `4dd01931-9d44-4a8a-8e74-712cba0f0072`，ModInfo 版本为 `125`，用户可见版本为 `1.2.5`。
+生成的统一 Mod ID 为 `4dd01931-9d44-4a8a-8e74-712cba0f0072`，ModInfo 版本为 `126`，用户可见版本为 `1.2.6`。
 
 ## 整合副本中的确定性修复
 

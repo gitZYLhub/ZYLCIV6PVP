@@ -275,7 +275,7 @@
 		<!-- == CANADA - KANADA == -->
 		<!-- = Civilization ability - Zivilisationsfähigkeit (Vier Gesichter des Friedens) = -->
 		<Replace Tag="LOC_TRAIT_CIVILIZATION_FACES_OF_PEACE_DESCRIPTION" Language="de_DE">
-			<Text>Kann anderen Zivilisationen keinen Überraschungskrieg erklären.[NEWLINE][NEWLINE]Keine Zivilisation kann Kanada einen Überraschungskrieg erklären.[NEWLINE][NEWLINE]Kann Stadtstaaten keinen Krieg erklären.[NEWLINE][NEWLINE]+1 [ICON_Favor] Diplomatische Gunst-Punkte pro [ICON_TURN] Runde, durch jeweils 100 [ICON_TOURISM] Tourismus pro [ICON_TURN] Runde.[NEWLINE][NEWLINE]+100% [ICON_Favor] Diplomatische Gunst-Punkte, durch jeden erfolgreich abgeschlossenen Wettbewerb  oder Notfall.[NEWLINE][NEWLINE][ICON_BULLETGLOW] Startbedingungen: T1 Tundrafelder, Tundrahügelfelder.</Text>
+			<Text>Kann anderen Zivilisationen keinen Überraschungskrieg erklären.[NEWLINE][NEWLINE]Keine Zivilisation kann Kanada einen Überraschungskrieg erklären.[NEWLINE][NEWLINE]Kann Stadtstaaten keinen Krieg erklären.[NEWLINE][NEWLINE]Jedes der vier Geländefelder eines Nationalparks erhält +2 [ICON_FOOD] Nahrung und +2 [ICON_PRODUCTION] Produktion.[NEWLINE][NEWLINE]+1 [ICON_Favor] Diplomatische Gunst-Punkte pro [ICON_TURN] Runde, durch jeweils 100 [ICON_TOURISM] Tourismus pro [ICON_TURN] Runde.[NEWLINE][NEWLINE]+100% [ICON_Favor] Diplomatische Gunst-Punkte, durch jeden erfolgreich abgeschlossenen Wettbewerb  oder Notfall.[NEWLINE][NEWLINE][ICON_BULLETGLOW] Startbedingungen: T1 Tundrafelder, Tundrahügelfelder.</Text>
 		</Replace>
 		<!-- = Leader ability - Führerfähigkeit (Wilfrid Laurier - Letzter bester Westen) = -->
 		<Replace Tag="LOC_TRAIT_LEADER_LAST_BEST_WEST_DESCRIPTION" Language="de_DE">
@@ -283,7 +283,7 @@
 		</Replace>
 		<!-- = Unique unit - Einzigartige Einheit (Mounty) = -->
 		<Replace Tag="LOC_UNIT_CANADA_MOUNTIE_DESCRIPTION" Language="de_DE">
-			<Text>Diese Leichte-Kavallerie-[ICON_UNIT] Einheit der Moderne ist einzigartig für Kanada, wird nach Erforschung der Ausrichtung "Naturschutz" freigeschaltet und ersetzt keine [ICON_UNIT] Einheit:[NEWLINE][NEWLINE]• 70 [ICON_STRENGTH] Kampfstärke.[NEWLINE]• 5 [ICON_MOVEMENT] Bewegung.[NEWLINE]• 4 [ICON_VisSecret] Sicht.[NEWLINE]• 2 [ICON_CHARGES] Ladungen um "Nationalparks" zu bauen.[NEWLINE]• +5 [ICON_STRENGTH] Kampfstärke bei Kämpfen im Umkreis von 4 Feldern eines "Nationalparks" (erhöht sich auf +10 [ICON_STRENGTH] Kampfstärke, wenn der "Nationalpark" dir gehört).[NEWLINE]• Ignoriert die gegnerische Kontrollzone.[NEWLINE][NEWLINE]Grundkosten:[NEWLINE]360 [ICON_PRODUCTION] Produktion und 1440 [ICON_GOLD] Gold (Standart-Geschwindigkeit).[NEWLINE]3 [ICON_GOLD] Gold Unterhaltskosten.</Text>
+			<Text>Diese Leichte-Kavallerie-[ICON_UNIT] Einheit der Moderne ist einzigartig für Kanada, wird nach Erforschung der Ausrichtung "Naturschutz" freigeschaltet, ersetzt die Kavallerie, kann aus einem Renner modernisiert und mit [ICON_FAITH] Glauben gekauft werden:[NEWLINE][NEWLINE]• 70 [ICON_STRENGTH] Kampfstärke.[NEWLINE]• 5 [ICON_MOVEMENT] Bewegung.[NEWLINE]• 4 [ICON_VisSecret] Sicht.[NEWLINE]• 2 [ICON_CHARGES] Ladungen um "Nationalparks" zu bauen.[NEWLINE]• +5 [ICON_STRENGTH] Kampfstärke bei Kämpfen im Umkreis von 4 Feldern eines "Nationalparks" (erhöht sich auf +10 [ICON_STRENGTH] Kampfstärke, wenn der "Nationalpark" dir gehört).[NEWLINE]• Ignoriert die gegnerische Kontrollzone.[NEWLINE][NEWLINE]Grundkosten:[NEWLINE]360 [ICON_PRODUCTION] Produktion und 1440 [ICON_GOLD] Gold (Standart-Geschwindigkeit).[NEWLINE]3 [ICON_GOLD] Gold Unterhaltskosten.</Text>
 		</Replace>
 		<Replace Tag="LOC_ALL_PARK_COMBAT_BONUS_DESCRIPTION" Language="de_DE">
 			<Text>+{1_Amount} [ICON_STRENGTH] Kampfstärke, wenn sie sich innerhalb von 4 Feldern eines "Nationalparks" befindet.</Text>
@@ -293,7 +293,7 @@
 		</Replace>
 		<!-- = Unique improvement - Einzigartige Verbesserung (Eissporthalle) = -->
 		<Replace Tag="LOC_IMPROVEMENT_ICE_HOCKEY_RINK_DESCRIPTION" Language="de_DE">
-			<Text>Diese Verbesserung ist einzigartig für Kanada und deine Handwerker können sie durch den Verbrauch einer [ICON_CHARGES] Ladung, nach Erforschung der Ausrichtung "Diplomatischer Dienst" bauen:[NEWLINE][NEWLINE]• +1 [ICON_AMENITIES] Annehmlichkeit.[NEWLINE]• +1 [ICON_CULTURE] Kultur durch jedes angrenzende Tundra-,Tundrahügel-, Schnee- und Schneehügelfeld.[NEWLINE]• +2 [ICON_FOOD] Nahrung und +2 [ICON_PRODUCTION] Produktion nach Erforschung der Ausrichtung "Profisport".[NEWLINE]• +4 [ICON_CULTURE] Kultur durch ein angrenzendes [ICON_DISTRICT_ENTERTAINMENT] Unterhaltungskomplex-Bezirk mit einem "Stadion".[NEWLINE]• Gewährt [ICON_TOURISM] Tourismus entsprechend 100% der erzeugten [ICON_CULTURE] Kultur, nach Erforschung der Technologie "Luftfahrt".[NEWLINE]• +2 Anziehungskraft für angrenzende Felder.[NEWLINE][NEWLINE]Es kann nur eine "Eissporthalle" pro [ICON_DISTRICT_CITY_CENTER] Stadt gebaut werden.[NEWLINE][NEWLINE]Kann nur auf Tundra-, Tundrahügel-, Schnee-, oder Schneehügelfeldern gebaut werden.</Text>
+			<Text>Diese Verbesserung ist einzigartig für Kanada und deine Handwerker können sie durch den Verbrauch einer [ICON_CHARGES] Ladung, nach Erforschung der Ausrichtung "Diplomatischer Dienst" bauen:[NEWLINE][NEWLINE]• +1 [ICON_AMENITIES] Annehmlichkeit.[NEWLINE]• +1 [ICON_CULTURE] Kultur durch jedes angrenzende Tundra-,Tundrahügel-, Schnee- und Schneehügelfeld.[NEWLINE]• +2 [ICON_FOOD] Nahrung und +2 [ICON_PRODUCTION] Produktion nach Erforschung der Ausrichtung "Naturschutz".[NEWLINE]• +4 [ICON_CULTURE] Kultur durch ein angrenzendes [ICON_DISTRICT_ENTERTAINMENT] Unterhaltungskomplex-Bezirk mit einem "Stadion".[NEWLINE]• Gewährt [ICON_TOURISM] Tourismus entsprechend 100% der erzeugten [ICON_CULTURE] Kultur, nach Erforschung der Technologie "Luftfahrt".[NEWLINE]• +2 Anziehungskraft für angrenzende Felder.[NEWLINE][NEWLINE]Es kann nur eine "Eissporthalle" pro [ICON_DISTRICT_CITY_CENTER] Stadt gebaut werden.[NEWLINE][NEWLINE]Kann nur auf Tundra-, Tundrahügel-, Schnee-, oder Schneehügelfeldern gebaut werden.</Text>
 		</Replace>
 		
 		<!-- == CHINA - CHINA == -->
@@ -627,7 +627,7 @@
 		<!-- == GERMANY - DEUTSCHLAND == -->
 		<!-- = Civilization ability - Zivilisationsfähigkeit (Freie und Reichsstädte) = -->
 		<Replace Tag="LOC_TRAIT_CIVILIZATION_IMPERIAL_FREE_CITIES_DESCRIPTION" Language="de_DE">
-			<Text>Nach Erforschung der Ausrichtung "Gilden" kann jede [ICON_DISTRICT_CITY_CENTER] Stadt einen Spezial-[ICON_DISTRICT] Bezirk mehr bauen (Überschreitung des normalen Limits basierend auf der Anzahl der [ICON_CITIZEN] Bürger der [ICON_DISTRICT_CITY_CENTER] Stadt).[NEWLINE][NEWLINE][ICON_BULLETGLOW] Startbedingungen: T3 Flüsse.</Text>
+			<Text>Nach Erforschung der Ausrichtung "Frühes Reich" kann jede [ICON_DISTRICT_CITY_CENTER] Stadt einen Spezial-[ICON_DISTRICT] Bezirk mehr bauen (Überschreitung des normalen Limits basierend auf der Anzahl der [ICON_CITIZEN] Bürger der [ICON_DISTRICT_CITY_CENTER] Stadt).[NEWLINE][NEWLINE][ICON_BULLETGLOW] Startbedingungen: T3 Flüsse.</Text>
 		</Replace>
 		<!-- = Leader ability - Führerfähigkeit (Friedrich Barbarossa - Kaiser des Heiligen Römischen Reiches) = -->
 		<Replace Tag="LOC_TRAIT_LEADER_HOLY_ROMAN_EMPEROR_DESCRIPTION" Language="de_DE">
@@ -1041,7 +1041,7 @@
 		<!-- == MAORI - MAORI == -->
 		<!-- = Civilization ability - Zivilisationsfähigkeit (Mana) = -->
 		<Replace Tag="LOC_TRAIT_CIVILIZATION_MAORI_MANA_DESCRIPTION" Language="de_DE">
-			<Text>+1 [ICON_FOOD] Nahrung für "Fischerboote" nach Erforschung der Technologie "Astronomische Navigation".[NEWLINE][NEWLINE]Kulturschock für angrenzende Felder, wenn Fischerboote fertiggestellt wurden.[NEWLINE][NEWLINE]+1 [ICON_PRODUCTION] Produktion für Wald- und Regenwaldfelder, wenn keine Verbesserungen auf ihnen gebaut wurden, nach der Erforschung der Ausrichtung "Frühes Reich" (zusätzlich +1 [ICON_PRODUCTION] Produktion nach Erforschung der Ausrichtung "Merkantilismus" und +2 [ICON_PRODUCTION] Produktion nach Erforschung der Ausrichtung "Naturschutz").[NEWLINE][NEWLINE][ICON_UNIT] Einheiten die eingeschifft sind, erhalten +2 [ICON_MOVEMENT] Bewegung nach Erforschung der Technologie "Schiffsbau".[NEWLINE][NEWLINE]Es ist nicht möglich:[NEWLINE][NEWLINE]• Ressourcen zu ernten.[NEWLINE]• [ICON_GreatWriter] Große Schriftsteller zu erhalten.[NEWLINE][NEWLINE][ICON_BULLETGLOW] Startbedingungen: T1 Küstenfelder.</Text>
+			<Text>+1 [ICON_FOOD] Nahrung für "Fischerboote" nach Erforschung der Technologie "Astronomische Navigation".[NEWLINE][NEWLINE]Kulturschock für angrenzende Felder, wenn Fischerboote fertiggestellt wurden.[NEWLINE][NEWLINE]+1 [ICON_PRODUCTION] Produktion für Wald- und Regenwaldfelder, wenn keine Verbesserungen auf ihnen gebaut wurden, nach der Erforschung der Ausrichtung "Frühes Reich" (zusätzlich +1 [ICON_PRODUCTION] Produktion nach Erforschung der Ausrichtung "Merkantilismus" und +2 [ICON_PRODUCTION] Produktion nach Erforschung der Ausrichtung "Naturschutz").[NEWLINE][NEWLINE][ICON_UNIT] Einheiten die eingeschifft sind, erhalten +2 [ICON_MOVEMENT] Bewegung nach Erforschung der Technologie "Schiffsbau".[NEWLINE][NEWLINE]Es ist nicht möglich:[NEWLINE][NEWLINE]• Ressourcen zu ernten.[NEWLINE]• [ICON_GreatWriter] Große Schriftsteller zu erhalten.[NEWLINE][NEWLINE][ICON_BULLETGLOW] Startbedingungen: T1 Küstenfelder, T4 Wälder und Regenwälder.</Text>
 		</Replace>
 		<!-- = Leader ability - Führerfähigkeit (Kupe - Kupes Reise) = -->
 		<Replace Tag="LOC_TRAIT_LEADER_KUPES_VOYAGE_DESCRIPTION" Language="de_DE">
@@ -2995,7 +2995,7 @@
 		</Replace>
 		<!-- == Initiation Rites == -->
 		<Replace Tag="LOC_BELIEF_INITIATION_RITES_EXPANSION2_DESCRIPTION" Language="de_DE">
-			<Text>Erhalte [ICON_FAITH] Glauben entsprechend 25%  der [ICON_PRODUCTION] Produktions-Kosten einer Militär-[ICON_UNIT] Einheit; Erhalte einmalig einen "Krieger" in deiner [ICON_Capital] Hauptstadt.</Text>
+			<Text>Erhalte [ICON_GOLD] Gold entsprechend 40 % der [ICON_PRODUCTION] Produktionskosten einer nicht-zivilen Einheit, wenn sie produziert wird. Erhalte einmalig einen Krieger in deiner [ICON_Capital] Hauptstadt.</Text>
 		</Replace>
 		<!-- == Lady of the Reeds and Marshes == -->
 		<Replace Tag="LOC_BELIEF_LADY_OF_THE_REEDS_AND_MARSHES_EXPANSION2_DESCRIPTION" Language="de_DE">

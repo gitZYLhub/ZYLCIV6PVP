@@ -277,7 +277,7 @@
         <!-- == CANADA - Канада == -->
         <!-- = civilization ability = -->
         <Replace Tag="LOC_TRAIT_CIVILIZATION_FACES_OF_PEACE_DESCRIPTION" Language="ru_RU">
-            <Text>Не может объявлять войну городам-государствам и внезапную войну. Нельзя объявлять внезапную войну Канаде. [NEWLINE][NEWLINE]За каждые 100 [ICON_TOURISM] ед. туризма за ход получает 1ед. [ICON_FAVOR] мирового влияния за ход. Получает +100% [ICON_FAVOR] мирового влияния после успешного завершения критической ситуации или конкурсного соревнования.[NEWLINE][ICON_BULLET]Привязка: Т1 тундра.</Text>
+            <Text>Не может объявлять войну городам-государствам и внезапную войну. Нельзя объявлять внезапную войну Канаде. Каждая из четырех клеток национального парка получает +2 [ICON_FOOD] пищи и +2 [ICON_PRODUCTION] производства.[NEWLINE][NEWLINE]За каждые 100 [ICON_TOURISM] ед. туризма за ход получает 1ед. [ICON_FAVOR] мирового влияния за ход. Получает +100% [ICON_FAVOR] мирового влияния после успешного завершения критической ситуации или конкурсного соревнования.[NEWLINE][ICON_BULLET]Привязка: Т1 тундра.</Text>
         </Replace>
         <!-- = leader ability = -->
         <Replace Tag="LOC_TRAIT_LEADER_LAST_BEST_WEST_DESCRIPTION" Language="ru_RU">
@@ -285,13 +285,16 @@
         </Replace>
         <!-- = unique unit - Кэшик= -->
         <Replace Tag="LOC_UNIT_CANADA_MOUNTIE_DESCRIPTION" Language="ru_RU">
-            <Text>Канадский уникальный юнит эпохи Современности. Может создать 2 национальных парка. +5 к [ICON_Strength] боевой мощи в 4 клетках от нац. парка. Ещё +5 к [ICON_Strength] боевой мощи в 4 клетках от собственного нац. парка. Имеет повышенный обзор на 4 клетки.</Text>
+            <Text>Канадский уникальный юнит эпохи Современности, заменяющий кавалерию. Можно получить улучшением летучего отряда и купить за [ICON_FAITH] веру. Может создать 2 национальных парка. +5 к [ICON_Strength] боевой мощи в 4 клетках от нац. парка. Ещё +5 к [ICON_Strength] боевой мощи в 4 клетках от собственного нац. парка. Имеет повышенный обзор на 4 клетки.</Text>
         </Replace>
         <Replace Tag="LOC_ALL_PARK_COMBAT_BONUS_DESCRIPTION" Language="ru_RU">
             <Text>+{1_Amount} к боевой мощи в 4 клетках от Национального Парка</Text>
         </Replace>
         <Replace Tag="LOC_OWNER_PARK_COMBAT_BONUS_DESCRIPTION" Language="ru_RU">
             <Text>+{1_Amount} к боевой мощи в 4 клетках от своего Национального Парка</Text>
+        </Replace>
+        <Replace Tag="LOC_IMPROVEMENT_ICE_HOCKEY_RINK_DESCRIPTION" Language="ru_RU">
+            <Text>Позволяет строителям строить хоккейный каток (уникально для Канады).[NEWLINE][NEWLINE]+1 [ICON_AMENITIES] к довольству. +1 [ICON_CULTURE] к культуре за каждую соседнюю клетку тундры, тундровых холмов, снега и заснеженных холмов. Приносит [ICON_TOURISM] туризм от культуры после открытия технологии «Авиация». +2 [ICON_FOOD] к пище и [ICON_PRODUCTION] производству после открытия социального института «Охрана природы». +4 [ICON_CULTURE] к культуре при соседстве со стадионом. Можно построить в тундре, на тундровых холмах, на снегу и заснеженных холмах. Одна постройка на город. +2 к престижу.</Text>
         </Replace>
 
         <!-- == CHINA - Китай == -->
@@ -683,7 +686,7 @@
         <!-- == GERMANY - Германия == -->
         <!-- = civilization ability = -->
         <Replace Tag="LOC_TRAIT_CIVILIZATION_IMPERIAL_FREE_CITIES_DESCRIPTION" Language="ru_RU">
-            <Text>После получения социального института "Гильдии" в каждом городе можно будет построить на один [ICON_DISTRICT] район больше, чем обычно (сверх предела, определяемого численностью [ICON_Citizen] населения).[NEWLINE][ICON_BULLET]Привязка: Т3 реки.</Text>
+            <Text>После получения социального института "Ранняя империя" в каждом городе можно будет построить на один [ICON_DISTRICT] район больше, чем обычно (сверх предела, определяемого численностью [ICON_Citizen] населения).[NEWLINE][ICON_BULLET]Привязка: Т3 реки.</Text>
         </Replace>
         <!-- = leader ability (Frederick Barbarossa) - Фридрих Барбаросса = -->
         <Replace Tag="LOC_TRAIT_LEADER_HOLY_ROMAN_EMPEROR_DESCRIPTION" Language="ru_RU"><!-- add icon -->
@@ -1063,7 +1066,7 @@
         <!-- == MAORI - Маори == -->
         <!-- = civilization ability = -->
         <Replace Tag="LOC_TRAIT_CIVILIZATION_MAORI_MANA_DESCRIPTION" Language="ru_RU">
-            <Text>Леса и Джунгли без улучшений получают +1 [ICON_PRODUCTION] Производства после открытия Ранней Империи. Дополнительные +1 [ICON_PRODUCTION] Производства после открытия Меркантилизма и +2 [ICON_PRODUCTION] Производства после открытия Охраны Природы.[NEWLINE][NEWLINE]Нельзя собирать бонусные ресурсы.[NEWLINE]Не может нанимать [ICON_GreatWriter] великих писателей.[NEWLINE][ICON_BULLET]Привязка: Т1 побережье.</Text>
+            <Text>Леса и Джунгли без улучшений получают +1 [ICON_PRODUCTION] Производства после открытия Ранней Империи. Дополнительные +1 [ICON_PRODUCTION] Производства после открытия Меркантилизма и +2 [ICON_PRODUCTION] Производства после открытия Охраны Природы.[NEWLINE][NEWLINE]Нельзя собирать бонусные ресурсы.[NEWLINE]Не может нанимать [ICON_GreatWriter] великих писателей.[NEWLINE][ICON_BULLET]Привязка: Т1 побережье, Т4 леса и джунгли.</Text>
         </Replace>
         <!-- = leader ability - Купе = -->
         <Replace Tag="LOC_TRAIT_LEADER_KUPES_VOYAGE_DESCRIPTION" Language="ru_RU">
@@ -4890,10 +4893,10 @@
         </Replace>
         <!-- == Initiation Rites - Обряды посвящения == -->
         <Replace Tag="LOC_BELIEF_INITIATION_RITES_DESCRIPTION" Language="ru_RU">
-            <Text>При постройке военного юнита вы получаете [ICON_FAITH] веру в размере 25% от его стоимости.[NEWLINE]В [ICON_Capital] столице появляется 1 воин.</Text>
+            <Text>При создании не-гражданского юнита вы получаете [ICON_GOLD] золото в размере 40% от его стоимости в [ICON_PRODUCTION] производстве.[NEWLINE]В [ICON_Capital] столице появляется 1 воин.</Text>
         </Replace>
         <Replace Tag="LOC_BELIEF_INITIATION_RITES_EXPANSION2_DESCRIPTION" Language="ru_RU">
-            <Text>При постройке военного юнита вы получаете [ICON_FAITH] веру в размере 25% от его стоимости.[NEWLINE]В [ICON_Capital] столице появляется 1 воин.</Text>
+            <Text>При создании не-гражданского юнита вы получаете [ICON_GOLD] золото в размере 40% от его стоимости в [ICON_PRODUCTION] производстве.[NEWLINE]В [ICON_Capital] столице появляется 1 воин.</Text>
         </Replace>
         <!-- == Lady of the Reeds and Marshes - Госпожа тростника и топей == -->
         <Replace Tag="LOC_BELIEF_LADY_OF_THE_REEDS_AND_MARSHES_EXPANSION2_DESCRIPTION" Language="ru_RU">

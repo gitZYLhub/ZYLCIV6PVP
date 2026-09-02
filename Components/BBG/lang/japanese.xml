@@ -212,19 +212,25 @@
 		</Replace>
 
 		<!-- == CANADA == -->
+		<Replace Tag="LOC_TRAIT_CIVILIZATION_FACES_OF_PEACE_DESCRIPTION" Language="ja_JP">
+			<Text>都市国家に戦争を宣言できない。奇襲戦争を宣言できないが、他文明もカナダに奇襲戦争を宣言できない。国立公園を構成する4タイルはそれぞれ [ICON_FOOD] 食料+2、[ICON_PRODUCTION] 生産力+2。ターンごとの [ICON_TOURISM] 観光力100ポイントにつき、ターンごとの [ICON_Favor] 外交的支持+1。緊急事態かスコア型コンペが成功すると [ICON_Favor] 外交的支持+100%。</Text>
+		</Replace>
 		<!-- = leader ability = -->
 		<Replace Tag="LOC_TRAIT_LEADER_LAST_BEST_WEST_DESCRIPTION" Language="ja_JP">
 			<Text>ツンドラにある都心タイルが[ICON_FOOD]食料+1を得る。[NEWLINE]ツンドラおよび雪原タイルでは鉱山や製材所が [ICON_PRODUCTION] 生産力+2、農場やキャンプが [ICON_FOOD] 食料+2、牧草地が [ICON_FOOD] 食料+1を追加で算出し、戦略資源の産出量が+100%となる。[NEWLINE]ツンドラおよび雪原タイルに農場を建設できる。土木工学の解禁でそれらタイルの丘陵にも建設できるようになる。[NEWLINE]丘陵を含むツンドラおよび雪原タイルの購入費用-50%。</Text>
 		</Replace>
 		<!-- = unique unit = -->
 		<Replace Tag="LOC_UNIT_CANADA_MOUNTIE_DESCRIPTION" Language="ja_JP">
-			<Text>カナダ固有の近代陸上ユニット。国立公園を2つ建設できる。[NEWLINE]国立公園から4タイル以内での戦闘において[ICON_STRENGTH]戦闘力+5。[NEWLINE]その国立公園がカナダのものである場合には[ICON_STRENGTH]戦闘力さらに+5。</Text>
+			<Text>カナダ固有の近代陸上ユニット。騎兵を代替し、コーサーからアップグレードでき、[ICON_FAITH] 信仰力で購入できる。国立公園を2つ建設できる。[NEWLINE]国立公園から4タイル以内での戦闘において[ICON_STRENGTH]戦闘力+5。[NEWLINE]その国立公園がカナダのものである場合には[ICON_STRENGTH]戦闘力さらに+5。</Text>
 		</Replace>
 		<Replace Tag="LOC_ALL_PARK_COMBAT_BONUS_DESCRIPTION" Language="ja_JP">
 			<Text>国立公園から4タイル以内で戦闘を行う際の戦闘力+{1_Amount}</Text>
 		</Replace>
 		<Replace Tag="LOC_OWNER_PARK_COMBAT_BONUS_DESCRIPTION" Language="ja_JP">
 			<Text>カナダの保有する国立公園から4タイル以内で戦闘を行う際の戦闘力+{1_Amount}</Text>
+		</Replace>
+		<Replace Tag="LOC_IMPROVEMENT_ICE_HOCKEY_RINK_DESCRIPTION" Language="ja_JP">
+			<Text>労働者がカナダ固有の施設であるホッケーリンクを建設できるようになる。[NEWLINE][NEWLINE][ICON_AMENITIES] 快適性+1。隣接するツンドラ、ツンドラ丘陵、雪原、雪原丘陵タイル1つにつき [ICON_CULTURE] 文化力+1。「航空技術」の解除後は、文化力から [ICON_TOURISM] 観光力を得られる。社会制度「自然保護」の解除後は、[ICON_FOOD] 食料+2、[ICON_PRODUCTION] 生産力+2。建造物「スタジアム」に隣接している場合、[ICON_CULTURE] 文化力+4。ツンドラ、ツンドラ丘陵、雪原、雪原丘陵にのみ建設可能。1都市につき1つしか建設できない。アピール+2。</Text>
 		</Replace>
 
 		<!-- == CHINA == -->
@@ -570,7 +576,7 @@
 		<!-- == GERMANY == -->
 		<!-- = civilization ability = -->
 		<Replace Tag="LOC_TRAIT_CIVILIZATION_IMPERIAL_FREE_CITIES_DESCRIPTION" Language="ja_JP">
-			<Text>ギルドの社会制度を解禁すると、([ICON_Citizen] 人口にもとづく通常の制限を超えて)各都市に1つ多く区域を建設できるようになる。</Text>
+			<Text>古代の帝国の社会制度を解禁すると、([ICON_Citizen] 人口にもとづく通常の制限を超えて)各都市に1つ多く区域を建設できるようになる。</Text>
 		</Replace>
     <!-- = leader ability (Frederick Barbarossa) = -->
     <Replace Tag="LOC_TRAIT_LEADER_HOLY_ROMAN_EMPEROR_DESCRIPTION" Language="ja_JP">
@@ -945,7 +951,7 @@
 		<!-- == MAORI == -->
 		<!-- = civilization ability = -->
 		<Replace Tag="LOC_TRAIT_CIVILIZATION_MAORI_MANA_DESCRIPTION" Language="ja_JP">
-			<Text>「造船」の技術を研究すると、乗船したユニットの[ICON_Movement]移動力+2。古代の帝国の社会制度を完了すると、未開発の森と熱帯雨林の [ICON_PRODUCTION] 生産力+1。重商主義により [ICON_PRODUCTION] 生産力+1、自然保護により [ICON_PRODUCTION] 生産力+2がさらに追加される。漁船を建設すると文化爆弾が発動する。天文航法の研究後、漁船の [ICON_FOOD] 食料+1。資源を収穫できない。 [ICON_GreatWriter] 大著述家を獲得できない。</Text>
+			<Text>「造船」の技術を研究すると、乗船したユニットの[ICON_Movement]移動力+2。古代の帝国の社会制度を完了すると、未開発の森と熱帯雨林の [ICON_PRODUCTION] 生産力+1。重商主義により [ICON_PRODUCTION] 生産力+1、自然保護により [ICON_PRODUCTION] 生産力+2がさらに追加される。漁船を建設すると文化爆弾が発動する。天文航法の研究後、漁船の [ICON_FOOD] 食料+1。資源を収穫できない。 [ICON_GreatWriter] 大著述家を獲得できない。[NEWLINE][NEWLINE][ICON_BULLET]開始位置：T1沿岸、T4森・熱帯雨林。</Text>
 		</Replace>
 		<!-- = leader ability = -->
 		<Replace Tag="LOC_TRAIT_LEADER_KUPES_VOYAGE_DESCRIPTION" Language="ja_JP">
@@ -1756,10 +1762,10 @@
 			<Text>火山に隣接するタイルの [ICON_Faith] 信仰力+2、火山性土タイルの [ICON_Faith] 信仰力+1、地熱孔の [ICON_Faith] 信仰力+3。</Text>
 		</Replace>
 		<Replace Tag="LOC_BELIEF_INITIATION_RITES_DESCRIPTION" Language="ja_JP">
-			<Text>陸上戦闘ユニットを生産した際、そのコストの25%に相当する[ICON_FAITH]信仰力を得る。[NEWLINE]首都で戦士を1体得る。</Text>
+			<Text>非民間ユニットを生産した際、その[ICON_PRODUCTION]生産コストの40%に相当する[ICON_GOLD]ゴールドを得る。[NEWLINE]首都で戦士を1体得る。</Text>
 		</Replace>
 		<Replace Tag="LOC_BELIEF_INITIATION_RITES_EXPANSION2_DESCRIPTION" Language="ja_JP">
-			<Text>陸上戦闘ユニットを生産した際、そのコストの25%に相当する[ICON_FAITH]信仰力を得る。[NEWLINE]首都で戦士を1体得る。</Text>
+			<Text>非民間ユニットを生産した際、その[ICON_PRODUCTION]生産コストの40%に相当する[ICON_GOLD]ゴールドを得る。[NEWLINE]首都で戦士を1体得る。</Text>
 		</Replace>
 		<Replace Tag="LOC_BELIEF_LADY_OF_THE_REEDS_AND_MARSHES_EXPANSION2_DESCRIPTION" Language="ja_JP">
 			<Text>湿地、オアシス、改善されたまたは都心直下の氾濫原に [ICON_Production] 生産力+1。</Text>

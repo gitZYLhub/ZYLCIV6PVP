@@ -76,8 +76,14 @@
 		<Replace Tag="LOC_TRAIT_LEADER_LAST_BEST_WEST_DESCRIPTION" Language="pl_PL">
 			<Text>Miasta założone na tundrze otrzymują +1 [ICON_Food] żywności.[NEWLINE][NEWLINE] Farmy mogą być zakładane na tundrze. Po odblokowaniu inżynierii cywilnej, farmy mogą być zakładane na wzgórach tundry. Ulepszenia w tundrze i na śniegu otrzymują podane bonusy: Kopalnie i Tartaki otrzymują +2 [ICON_PRODUCTION] produkcji, Farmy i obozy otrzymują +2 [ICON_FOOD] żywności. Podwaja wydobycie strategicznych zasobów w tundrze i śniegu. Koszt zakupu pól na tundrze i śniegu zmniejszony o 50%.  </Text>
 		</Replace>
+		<Replace Tag="LOC_TRAIT_CIVILIZATION_FACES_OF_PEACE_DESCRIPTION" Language="pl_PL">
+			<Text>Nie może wypowiadać wojny miastom-państwom ani wojen z zaskoczenia. Wojny z zaskoczenia nie mogą być wypowiadane Kanadzie. Każde z czterech pól parku narodowego zapewnia +2 [ICON_FOOD] żywności i +2 [ICON_PRODUCTION] produkcji. Za każde 100 [ICON_TOURISM] turystyki na turę zyskuje +1 do [ICON_Favor] względów dyplomatycznych na turę. Otrzymuje +100% [ICON_Favor] względów dyplomatycznych za ukończenie interwencji kryzysowej lub punktowanej rywalizacji.</Text>
+		</Replace>
 		<Replace Tag="LOC_UNIT_CANADA_MOUNTIE_DESCRIPTION" Language="pl_PL">
-			<Text>Unikalna kanadyjska jednostka współczesna. Może stworzyć park narodowy. +5 do [ICON_STRENGTH] siły bojowej podczas walki w promieniu 4 pól od parku narodowego. Dodatkowe +5 do [ICON_STRENGTH] siły bojowej podczas walki w promieniu 4 pól od parku narodowego należącego do ciebie.</Text>
+			<Text>Unikalna kanadyjska jednostka współczesna, zastępująca kawalerię. Można ją uzyskać przez ulepszenie kawalerii courserskiej i kupić za [ICON_FAITH] wiarę. Może stworzyć 2 parki narodowe. +5 do [ICON_STRENGTH] siły bojowej podczas walki w promieniu 4 pól od parku narodowego. Dodatkowe +5 do [ICON_STRENGTH] siły bojowej podczas walki w promieniu 4 pól od parku narodowego należącego do ciebie.</Text>
+		</Replace>
+		<Replace Tag="LOC_IMPROVEMENT_ICE_HOCKEY_RINK_DESCRIPTION" Language="pl_PL">
+			<Text>Odblokowuje zdolność budowniczych pozwalającą tworzyć unikalne dla Kanady lodowiska hokejowe.[NEWLINE][NEWLINE]+1 [ICON_AMENITIES] udogodnienie. +1 do [ICON_CULTURE] kultury za każde sąsiadujące pole z tundrą, tundrą ze wzgórzami, śniegiem oraz ze wzgórzami ze śniegiem. Zapewnia [ICON_TOURISM] turystykę z kultury po odblokowaniu technologii lotu. +2 do [ICON_FOOD] żywności i [ICON_PRODUCTION] produkcji po odblokowaniu idei ochrony przyrody. +4 do [ICON_CULTURE] kultury, jeśli sąsiaduje ze stadionem. Można zbudować na polu z tundrą, wzgórzach z tundrą, śniegiem i wzgórzami ze śniegiem. Jedno lodowisko na miasto. +2 do atrakcyjności.</Text>
 		</Replace>
 		<Replace Tag="LOC_TRAIT_CIVILIZATION_DYNASTIC_CYCLE_DESCRIPTION" Language="pl_PL">
 			<Text>[ICON_TechBoosted] Eureki i [ICON_CivicBoosted] inspiracje zapewniają 60% idei oraz technologii (zamiast 50%). Po ukończeniu cudu zapewnia losową [ICON_TECHBOOSTED] eurekę i [ICON_CIVICBOOSTED] inspirację z epoki wzniesionego cudu.[NEWLINE]Cud wzniesiony w mieście daje dodatkowo +1 do [ICON_FOOD] żywności i +1 do [ICON_PRODUCTION] produkcji.</Text>
@@ -158,7 +164,7 @@
 			<Text>Pokonywanie jednostki zapewnia [ICON_FAITH] wiarę równą 50% [ICON_STRENGTH] siły bojowej pokonanej jednostki (na prędkości sieciowej). Każdy [ICON_ENVOY] emisariusz, którego wysyłasz do państwa-miasta, w którym dominująca religia jest również twoją dominującą religią liczy się podwójnie. </Text>
 		</Replace>
 		<Replace Tag="LOC_TRAIT_CIVILIZATION_IMPERIAL_FREE_CITIES_DESCRIPTION" Language="pl_PL">
-			<Text>Po odblokowaniu idei gildii, każde miasto może budować o jedną dzielnicę więcej niż zwykle (powyżej zwykłego limitu wynikającego z wielkości [ICON_Citizen] populacji).</Text>
+			<Text>Po odblokowaniu idei wczesnego imperium, każde miasto może budować o jedną dzielnicę więcej niż zwykle (powyżej zwykłego limitu wynikającego z wielkości [ICON_Citizen] populacji).</Text>
 		</Replace>
 		<Replace Tag="LOC_ABILITY_EJERCITO_PATRIOTA_EXTRA_MOVEMENT_DESCRIPTION" Language="pl_PL">
 			<Text>+1 do zasięgu widzenia wszystkich jednostek (Ejército Patriota)</Text>
@@ -626,10 +632,10 @@
 			<Text>Bóg wojny|Boga wojny|Bogowi wojny|Boga wojny|Bogiem wojny|Bogu wojny</Text>
 		</Replace>
 		<Replace Tag="LOC_BELIEF_INITIATION_RITES_DESCRIPTION" Language="pl_PL">
-			<Text>Za każdą wyprodukowaną naziemną jednostkę wojskową nagradza [ICON_FAITH] wiarą równą 40% kosztu produkcji jednostki. Twoja stolica otrzymuje 2 wojowników.</Text>
+			<Text>Za każdą wyprodukowaną jednostkę niecywilną otrzymujesz [ICON_GOLD] złoto równe 40% jej kosztu [ICON_PRODUCTION] produkcji. Twoja stolica otrzymuje 1 wojownika.</Text>
 		</Replace>
 		<Replace Tag="LOC_BELIEF_INITIATION_RITES_EXPANSION2_DESCRIPTION" Language="pl_PL">
-			<Text>Za każdą wyprodukowaną naziemną jednostkę wojskową nagradza [ICON_FAITH] wiarą równą 40% kosztu produkcji jednostki. Twoja stolica otrzymuje 2 wojowników.</Text>
+			<Text>Za każdą wyprodukowaną jednostkę niecywilną otrzymujesz [ICON_GOLD] złoto równe 40% jej kosztu [ICON_PRODUCTION] produkcji. Twoja stolica otrzymuje 1 wojownika.</Text>
 		</Replace>
 		<Replace Tag="LOC_BELIEF_LADY_OF_THE_REEDS_AND_MARSHES_EXPANSION2_DESCRIPTION" Language="pl_PL">
 			<Text>+1 do [ICON_PRODUCTION] produkcji dzięki mokradłom, oazom i pustynnym równinom zalewowym.</Text>
@@ -1247,7 +1253,7 @@
 			<Text>Odblokowuje zdolność budowniczych pozwalającą tworzyć kampung dostępny wyłącznie dla Indonezji.[NEWLINE][NEWLINE]+1 do [ICON_PRODUCTION] produkcji i +1 do [ICON_Housing] obszarów mieszkalnych. +1 do [ICON_FOOD] żywności i +1 do [ICON_FAITH] wiary za każdą sąsiadującą łódź rybacką. Dodatkowa [ICON_PRODUCTION] produkcja, [ICON_Housing] obszary mieszkalne i [ICON_TOURISM] turystyka wraz z postępami na drzewie technologii i idei. Można zbudować go wyłącznie na polu wybrzeża lub jeziora w sąsiedztwie morskiego zasobu.</Text>
 		</Replace>
 		<Replace Tag="LOC_TRAIT_CIVILIZATION_MAORI_MANA_DESCRIPTION" Language="pl_PL">
-			<Text>Rozpoczyna grę z odblokowaną technologią żeglugi i szkutnictwa oraz z możliwością wpływania na pola oceanu. Zaokrętowane jednostki zyskują +2 do [ICON_Movement] ruchu. Premia +1 do [ICON_PRODUCTION] produkcji z nieulepszonych lasów i lasów deszczowych. Dodatkowe +1 do [ICON_PRODUCTION] produkcji dzięki merkantylizmowi i +2 do [ICON_PRODUCTION] produkcji dzięki idei ochrony przyrody. Łodzie rybackie zapewniają +1 do [ICON_FOOD] żywności oraz bombę kulturową obejmującą swym działaniem sąsiadujące pola. Nie może pozyskiwać zasobów. Nie możne zdobywać [ICON_GreatWriter] wielkich pisarzy.</Text>
+			<Text>Rozpoczyna grę z odblokowaną technologią żeglugi i szkutnictwa oraz z możliwością wpływania na pola oceanu. Zaokrętowane jednostki zyskują +2 do [ICON_Movement] ruchu. Premia +1 do [ICON_PRODUCTION] produkcji z nieulepszonych lasów i lasów deszczowych. Dodatkowe +1 do [ICON_PRODUCTION] produkcji dzięki merkantylizmowi i +2 do [ICON_PRODUCTION] produkcji dzięki idei ochrony przyrody. Łodzie rybackie zapewniają +1 do [ICON_FOOD] żywności oraz bombę kulturową obejmującą swym działaniem sąsiadujące pola. Nie może pozyskiwać zasobów. Nie możne zdobywać [ICON_GreatWriter] wielkich pisarzy.[NEWLINE][NEWLINE][ICON_BULLET]Preferencje startowe: T1 wybrzeże, T4 lasy i lasy deszczowe.</Text>
 		</Replace>
 		<Replace Tag="LOC_IMPROVEMENT_FEITORIA_DESCRIPTION" Language="pl_PL">
 			<Text>Odblokowuje zdolność nau pozwalającą wznieść faktorię, dostępną tylko dla Portugalii.[NEWLINE][NEWLINE]Zapewnia +4 [ICON_Gold] złota i +1 do [ICON_Production] produkcji. Szlaki handlowe prowadzące do tego miasta z Portugalii zyskują +2 [ICON_GOLD] złota i +1 do [ICON_PRODUCTION] produkcji. Można wznieść wyłącznie w sąsiedztwie zasobów luksusowych lub dodatkowych znajdujących się na terytorium innej cywilizacji bądź miasta-państwa, z którymi zawarto porozumienie o otwartych granicach. Można wznieść tylko na polu wybrzeża lub jeziora sąsiadującym z lądem. Nie można wznieść w sąsiedztwie faktorii. Faktorie są nieusuwalne.</Text>

@@ -262,7 +262,7 @@
 		<!-- == CANADA == -->
 		<!-- = civilization ability = -->
 		<Replace Tag="LOC_TRAIT_CIVILIZATION_FACES_OF_PEACE_DESCRIPTION" Language="it_IT">
-			<Text>Non può dichiarare guerra alle città-stato o guerre a sorpresa. Non è possibile dichiarare una guerra a sorpresa contro il Canada.[NEWLINE][NEWLINE]Per ogni 100 [ICON_TOURISM] Turismo per turno guadagna 1 [ICON_FAVOR] Supporto diplomatico per turno. Riceve +100% [ICON_FAVOR] Supporto diplomatico quando completa con successo un'Emergenza o una Competizione a punti. I Pascoli costruiti sulle caselle di tundra forniscono +1 [ICON_FOOD] Cibo.</Text>
+			<Text>Non può dichiarare guerra alle città-stato o guerre a sorpresa. Non è possibile dichiarare una guerra a sorpresa contro il Canada. Ognuna delle quattro caselle di un Parco nazionale fornisce +2 [ICON_FOOD] Cibo e +2 [ICON_PRODUCTION] Produzione.[NEWLINE][NEWLINE]Per ogni 100 [ICON_TOURISM] Turismo per turno guadagna 1 [ICON_FAVOR] Supporto diplomatico per turno. Riceve +100% [ICON_FAVOR] Supporto diplomatico quando completa con successo un'Emergenza o una Competizione a punti. I Pascoli costruiti sulle caselle di tundra forniscono +1 [ICON_FOOD] Cibo.</Text>
 		</Replace>
 		<!-- = leader ability = -->
 		<Replace Tag="LOC_TRAIT_LEADER_LAST_BEST_WEST_DESCRIPTION" Language="it_IT">
@@ -270,7 +270,7 @@
 		</Replace>
 		<!-- = unique unit = -->
 		<Replace Tag="LOC_UNIT_CANADA_MOUNTIE_DESCRIPTION" Language="it_IT">
-			<Text>Unità esclusiva canadese di epoca moderna con un raggio Visivo 4 caselle. Può creare 2 Parchi Nazionali. +5 [ICON_Strength] Forza di Combattimento quando combatte entro 4 caselle da un Parco Nazionale, e un ulteriore +5 alla [ICON_Strength] Forza di Combattimento quando combatte entro 4 caselle da un Parco Nazionale che ti appartiene.</Text>
+			<Text>Unità esclusiva canadese di epoca moderna che sostituisce la Cavalleria, può essere ottenuta potenziando un Corsiero e acquistata con [ICON_FAITH] Fede. Ha un raggio visivo di 4 caselle. Può creare 2 Parchi Nazionali. +5 [ICON_Strength] Forza di Combattimento quando combatte entro 4 caselle da un Parco Nazionale, e un ulteriore +5 alla [ICON_Strength] Forza di Combattimento quando combatte entro 4 caselle da un Parco Nazionale che ti appartiene.</Text>
 		</Replace>
 		<Replace Tag="LOC_ALL_PARK_COMBAT_BONUS_DESCRIPTION" Language="it_IT">
 			<Text>+{1_Amount} alla Forza di Combattimento quando combatte entro 4 caselle da un Parco Nazionale.</Text>
@@ -280,7 +280,7 @@
 		</Replace>
 		<!-- = unique improvement = -->
 		<Replace Tag="LOC_IMPROVEMENT_ICE_HOCKEY_RINK_DESCRIPTION" Language="it_IT">
-			<Text>Un edificio esclusivo del Canada, sbloccato con l'acquisizione del Progresso Civico Corpo Diplomatico. [NEWLINE][NEWLINE]+1 [ICON_CULTURE] Cultura per ogni casella adiacente di tundra, tundra con colline, neve e neve con colline.[NEWLINE]+1 [ICON_AMENITIES] Attrattiva e +2 Appeal alle caselle adiacenti.[NEWLINE]+2 [ICON_FOOD] Cibo e [ICON_PRODUCTION] Produzione dopo l'acquisizione del Progresso Civico Sport Professionistico.[NEWLINE]+4 [ICON_CULTURE] Cultura se adiacente a un edificio Stadio.[NEWLINE][NEWLINE]Dopo la scoperta della tecnologia Volo fornisce [ICON_TOURISM] Turismo dalla Cultura.[NEWLINE][NEWLINE]Si può costruire solo su tundra, tundra con colline, neve e neve con colline. Max uno per città.</Text>
+			<Text>Un edificio esclusivo del Canada, sbloccato con l'acquisizione del Progresso Civico Corpo Diplomatico. [NEWLINE][NEWLINE]+1 [ICON_CULTURE] Cultura per ogni casella adiacente di tundra, tundra con colline, neve e neve con colline.[NEWLINE]+1 [ICON_AMENITIES] Attrattiva e +2 Appeal alle caselle adiacenti.[NEWLINE]+2 [ICON_FOOD] Cibo e [ICON_PRODUCTION] Produzione dopo l'acquisizione del Progresso Civico Conservazione.[NEWLINE]+4 [ICON_CULTURE] Cultura se adiacente a un edificio Stadio.[NEWLINE][NEWLINE]Dopo la scoperta della tecnologia Volo fornisce [ICON_TOURISM] Turismo dalla Cultura.[NEWLINE][NEWLINE]Si può costruire solo su tundra, tundra con colline, neve e neve con colline. Max uno per città.</Text>
 		</Replace>
 		
 
@@ -654,7 +654,7 @@
 		<!-- == GERMANY == -->
 		<!-- = civilization ability = -->
 		<Replace Tag="LOC_TRAIT_CIVILIZATION_IMPERIAL_FREE_CITIES_DESCRIPTION" Language="it_IT">
-			<Text>Dopo l'acquisizione del Progresso Civico Gilde ogni città può costruire un [ICON_DISTRICT] distretto in più del normale (superando il limite imposto dalla [ICON_CITIZEN] popolazione).</Text>
+			<Text>Dopo l'acquisizione del Progresso Civico Primo Impero ogni città può costruire un [ICON_DISTRICT] distretto in più del normale (superando il limite imposto dalla [ICON_CITIZEN] popolazione).</Text>
 		</Replace>
 		<!-- = leader ability (Frederick Barbarossa) = -->
 		<Replace Tag="LOC_TRAIT_LEADER_HOLY_ROMAN_EMPEROR_DESCRIPTION" Language="it_IT">
@@ -1050,7 +1050,7 @@
 		<!-- == MAORI == -->
 		<!-- = civilization ability = -->
 		<Replace Tag="LOC_TRAIT_CIVILIZATION_MAORI_MANA_DESCRIPTION" Language="it_IT">
-			<Text>Le unità imbarcate ottengono +2 [ICON_MOVEMENT] movimento con la scoperta della Costruzione Navale. La realizzazione di Pescherecci fa scattare una Bomba culturale nelle caselle adiacenti. I Pescherecci forniscono +1 [ICON_FOOD] Cibo con la scoperta della Navigazione Astronomica. Non è possibile raccogliere le risorse rimuovendole dalla mappa. Non è possibile ottenere [ICON_GreatWriter] Grandi Scrittori.[NEWLINE][NEWLINE]+1 alla [ICON_PRODUCTION] Produzione da foreste pluviali e boschi non migliorati. +1 Produzione aggiuntiva dal Primo Impero, +1 [ICON_PRODUCTION] Produzione dal Mercantilismo e +2 dalla Conservazione.</Text>
+			<Text>Le unità imbarcate ottengono +2 [ICON_MOVEMENT] movimento con la scoperta della Costruzione Navale. La realizzazione di Pescherecci fa scattare una Bomba culturale nelle caselle adiacenti. I Pescherecci forniscono +1 [ICON_FOOD] Cibo con la scoperta della Navigazione Astronomica. Non è possibile raccogliere le risorse rimuovendole dalla mappa. Non è possibile ottenere [ICON_GreatWriter] Grandi Scrittori.[NEWLINE][NEWLINE]+1 alla [ICON_PRODUCTION] Produzione da foreste pluviali e boschi non migliorati. +1 Produzione aggiuntiva dal Primo Impero, +1 [ICON_PRODUCTION] Produzione dal Mercantilismo e +2 dalla Conservazione.[NEWLINE][NEWLINE][ICON_BULLET]Posizione iniziale: T1 Costa, T4 Boschi e Foreste pluviali.</Text>
 		</Replace>
 		<!-- = leader ability = -->
 		<Replace Tag="LOC_TRAIT_LEADER_KUPES_VOYAGE_DESCRIPTION" Language="it_IT">
@@ -2275,7 +2275,7 @@
 		</Replace>
 		<!-- == Initiation Rites == -->
 		<Replace Tag="LOC_BELIEF_INITIATION_RITES_EXPANSION2_DESCRIPTION" Language="it_IT">
-			<Text>Ottieni immediatamente un unità Guerriero nella tua [ICON_CAPITAL] capitale. Ottieni [ICON_FAITH] Fede pari al 30% del costo di produzione di qualsiasi unità non civile quando la produci.</Text>
+			<Text>Ottieni immediatamente un'unità Guerriero nella tua [ICON_CAPITAL] capitale. Quando produci un'unità non civile, ottieni [ICON_GOLD] Oro pari al 40% del suo costo in [ICON_PRODUCTION] Produzione.</Text>
 		</Replace>
 		<!-- == Lady of the Reeds and Marshes == -->
 		<Replace Tag="LOC_BELIEF_LADY_OF_THE_REEDS_AND_MARSHES_EXPANSION2_DESCRIPTION" Language="it_IT">

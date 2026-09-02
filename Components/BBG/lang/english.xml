@@ -286,7 +286,7 @@
 		</Replace>
 		<!-- = unique unit = -->
 		<Replace Tag="LOC_UNIT_CANADA_MOUNTIE_DESCRIPTION" Language="en_US">
-			<Text>Canadian unique Modern era unit that replaces Cavalry and can be purchased with [ICON_FAITH] Faith. Has Sight of 4. Can create 2 National Parks. +5 [ICON_STRENGTH] Combat Strength when fighting within 4 tiles of a National Park. Additional +5 [ICON_STRENGTH] Combat Strength when fighting within 4 tiles of an Owned National Park.</Text>
+			<Text>Canadian unique Modern era unit that replaces Cavalry, upgrades from the Courser, and can be purchased with [ICON_FAITH] Faith. Has Sight of 4. Can create 2 National Parks. +5 [ICON_STRENGTH] Combat Strength when fighting within 4 tiles of a National Park. Additional +5 [ICON_STRENGTH] Combat Strength when fighting within 4 tiles of an Owned National Park.</Text>
 		</Replace>
 		<Replace Tag="LOC_ALL_PARK_COMBAT_BONUS_DESCRIPTION" Language="en_US">
 			<Text>+{1_Amount} Combat Strength when within 4 tiles of a National Park</Text>
@@ -670,7 +670,7 @@
 		<!-- == GERMANY == -->
 		<!-- = civilization ability = -->
 		<Replace Tag="LOC_TRAIT_CIVILIZATION_IMPERIAL_FREE_CITIES_DESCRIPTION" Language="en_US">
-			<Text>After unlocking Guilds, each city can build one more [ICON_DISTRICT] District than usual (exceeding the normal limit based on [ICON_CITIZEN] Population). [NEWLINE][ICON_BULLET]Bias: T3 Rivers.</Text>
+			<Text>After unlocking Early Empire, each city can build one more [ICON_DISTRICT] District than usual (exceeding the normal limit based on [ICON_CITIZEN] Population). [NEWLINE][ICON_BULLET]Bias: T3 Rivers.</Text>
 		</Replace>
 		<!-- = leader ability (Frederick Barbarossa) = -->
 		<Replace Tag="LOC_TRAIT_LEADER_HOLY_ROMAN_EMPEROR_DESCRIPTION" Language="en_US"> <!-- add icon -->
@@ -1084,7 +1084,7 @@
 		<!-- == MAORI == -->
 		<!-- = civilization ability = -->
 		<Replace Tag="LOC_TRAIT_CIVILIZATION_MAORI_MANA_DESCRIPTION" Language="en_US">
-			<Text>Embarked units gain +2 [ICON_MOVEMENT] Movement with Ship Building. Fishing Boats Culture Bomb adjacent tiles and provide +1 [ICON_FOOD] Food with Celestial Navigation. Resources cannot be harvested. [ICON_GreatWriter] Great Writers cannot be earned.[NEWLINE][NEWLINE]Unimproved Woods and Rainforest tiles gain:[NEWLINE]+1 [ICON_PRODUCTION] Production with Early Empire.[NEWLINE]+1 [ICON_PRODUCTION] Production with Mercantilism.[NEWLINE]+2 [ICON_PRODUCTION] Production with Conservation.[NEWLINE][NEWLINE][ICON_BULLET]Bias: T1 Coast.</Text>
+			<Text>Embarked units gain +2 [ICON_MOVEMENT] Movement with Ship Building. Fishing Boats Culture Bomb adjacent tiles and provide +1 [ICON_FOOD] Food with Celestial Navigation. Resources cannot be harvested. [ICON_GreatWriter] Great Writers cannot be earned.[NEWLINE][NEWLINE]Unimproved Woods and Rainforest tiles gain:[NEWLINE]+1 [ICON_PRODUCTION] Production with Early Empire.[NEWLINE]+1 [ICON_PRODUCTION] Production with Mercantilism.[NEWLINE]+2 [ICON_PRODUCTION] Production with Conservation.[NEWLINE][NEWLINE][ICON_BULLET]Bias: T1 Coast, T4 Woods and Rainforest.</Text>
 		</Replace>
 		<!-- = leader ability = -->
 		<Replace Tag="LOC_TRAIT_LEADER_KUPES_VOYAGE_DESCRIPTION" Language="en_US">
@@ -2348,7 +2348,7 @@
 		</Replace>
 		<!-- == Initiation Rites == -->
 		<Replace Tag="LOC_BELIEF_INITIATION_RITES_EXPANSION2_DESCRIPTION" Language="en_US">
-			<Text>When chosen receive a Warrior in your [ICON_CAPITAL] Capital. Receive 25% of a non-civilian unit's production value in [ICON_FAITH] Faith when produced.</Text>
+			<Text>When chosen receive a Warrior in your [ICON_CAPITAL] Capital. Receive 40% of a non-civilian unit's production cost in [ICON_GOLD] Gold when produced.</Text>
 		</Replace>
 		<!-- == Lady of the Reeds and Marshes == -->
 		<Replace Tag="LOC_BELIEF_LADY_OF_THE_REEDS_AND_MARSHES_EXPANSION2_DESCRIPTION" Language="en_US">

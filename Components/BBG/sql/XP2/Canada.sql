@@ -61,7 +61,8 @@ UPDATE Units SET Combat=70, Cost=360 WHERE UnitType='UNIT_CANADA_MOUNTIE';
 UPDATE RequirementArguments SET Value='4' WHERE RequirementId='UNIT_PARK_REQUIREMENT'       AND Name='MaxDistance';
 UPDATE RequirementArguments SET Value='4' WHERE RequirementId='UNIT_OWNER_PARK_REQUIREMENT' AND Name='MaxDistance';
 
--- Mounties replace Cavalry, retain the Cavalry upgrade path, and can be purchased with Faith.
+-- Mounties replace Cavalry, so Canada's existing Courser-to-Cavalry upgrade is redirected
+-- to the Mountie by the unique-unit replacement system. Mounties then upgrade to Helicopters.
 INSERT OR REPLACE INTO UnitReplaces (CivUniqueUnitType, ReplacesUnitType) VALUES
     ('UNIT_CANADA_MOUNTIE', 'UNIT_CAVALRY');
 INSERT OR REPLACE INTO UnitUpgrades (Unit, UpgradeUnit) VALUES

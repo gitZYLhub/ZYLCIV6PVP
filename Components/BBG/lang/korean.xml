@@ -220,7 +220,7 @@
         <!-- == CANADA == -->
         <!-- = civilization ability = for add bias -->
         <Replace Tag="LOC_TRAIT_CIVILIZATION_FACES_OF_PEACE_DESCRIPTION" Language="ko_KR">
-            <Text>도시 국가에 대한 전쟁에나 기습 전쟁을 선포할 수 없습니다. 캐나다에 기습 전쟁을 선포할 수 없습니다. 턴당 [ICON_TOURISM] 관광 100을 획득할 때마다 턴당 [ICON_Favor] 외교적 환심 1을 얻습니다. 비상 또는 점수 경쟁을 성공적으로 완료하면 [ICON_Favor] 외교적 환심 +100%를 얻습니다.[NEWLINE][NEWLINE][ICON_BULLET]시작지점: 1순위 툰드라.</Text>
+            <Text>도시 국가에 대한 전쟁에나 기습 전쟁을 선포할 수 없습니다. 캐나다에 기습 전쟁을 선포할 수 없습니다. 국립공원을 구성하는 네 타일은 각각 [ICON_FOOD] 식량 +2 및 [ICON_PRODUCTION] 생산력 +2를 제공합니다. 턴당 [ICON_TOURISM] 관광 100을 획득할 때마다 턴당 [ICON_Favor] 외교적 환심 1을 얻습니다. 비상 또는 점수 경쟁을 성공적으로 완료하면 [ICON_Favor] 외교적 환심 +100%를 얻습니다.[NEWLINE][NEWLINE][ICON_BULLET]시작지점: 1순위 툰드라.</Text>
         </Replace>
         <!-- = leader ability = -->
         <Replace Tag="LOC_TRAIT_LEADER_LAST_BEST_WEST_DESCRIPTION" Language="ko_KR">
@@ -228,13 +228,16 @@
         </Replace>
         <!-- = unique unit = -->
         <Replace Tag="LOC_UNIT_CANADA_MOUNTIE_DESCRIPTION" Language="ko_KR">
-            <Text>캐나다 특유의 현대 시대 유닛입니다. 4의 시야를 보유합니다. 국립공원 2곳을 설립할 수 있습니다. 국립공원 4타일 이내에서 전투 시 [ICON_Strength] 전투력 +5를 획득합니다. 본인이 소유한 국립공원 4타일 이내에서 전투 시 추가 [ICON_Strength] 전투력 +5를 획득합니다.</Text>
+            <Text>캐나다 특유의 현대 시대 유닛으로 기병대를 대체합니다. 군마에서 업그레이드할 수 있으며 [ICON_FAITH] 신앙으로 구매할 수 있습니다. 4의 시야를 보유합니다. 국립공원 2곳을 설립할 수 있습니다. 국립공원 4타일 이내에서 전투 시 [ICON_Strength] 전투력 +5를 획득합니다. 본인이 소유한 국립공원 4타일 이내에서 전투 시 추가 [ICON_Strength] 전투력 +5를 획득합니다.</Text>
         </Replace>
         <Replace Tag="LOC_ALL_PARK_COMBAT_BONUS_DESCRIPTION" Language="ko_KR">
             <Text>국립공원에서 4타일 이내에 있는 경우 전투력 +{1_Amount}</Text>
         </Replace>
         <Replace Tag="LOC_OWNER_PARK_COMBAT_BONUS_DESCRIPTION" Language="ko_KR">
             <Text>플레이어가 소유한 국립공원에서 4타일 이내에 있는 경우 전투력 +{1_Amount}</Text>
+        </Replace>
+        <Replace Tag="LOC_IMPROVEMENT_ICE_HOCKEY_RINK_DESCRIPTION" Language="ko_KR">
+            <Text>캐나다 특유의 아이스하키 링크 건설을 위한 건설자 능력을 잠금 해제합니다.[NEWLINE][NEWLINE][ICON_AMENITIES] 쾌적도 +1을 제공합니다. 인접한 각 툰드라, 툰드라 언덕, 설원 및 설원 언덕 타일마다 [ICON_CULTURE] 문화 +1을 제공합니다. 비행 기술이 잠금 해제되면 문화에서 [ICON_TOURISM] 관광을 제공합니다. 보존 사회 제도가 잠금 해제되면 [ICON_FOOD] 식량과 [ICON_PRODUCTION] 생산력 +2를 제공합니다. 경기장 건물에 인접한 경우 [ICON_CULTURE] 문화 +4를 제공합니다. 툰드라, 툰드라 언덕, 설원 및 설원 언덕 타일에 건설할 수 있습니다. 도시당 1회만 건설 가능합니다. 매력도 +2를 제공합니다.</Text>
         </Replace>
 
         <!-- == CHINA == -->
@@ -595,7 +598,7 @@
         <!-- == GERMANY == -->
         <!-- = civilization ability = -->
         <Replace Tag="LOC_TRAIT_CIVILIZATION_IMPERIAL_FREE_CITIES_DESCRIPTION" Language="ko_KR">
-            <Text>길드 사회 제도를 획득하면, 각 도시는 일반적( [ICON_Citizen] 인구 기반 보통 허용치 이상) 허용치보다 1개 더 많은 [ICON_DISTRICT] 특수지구를 지을 수 있습니다. [NEWLINE][NEWLINE][ICON_BULLET]시작지점: 3순위 강.</Text>
+            <Text>초기 제국 사회 제도를 획득하면, 각 도시는 일반적( [ICON_Citizen] 인구 기반 보통 허용치 이상) 허용치보다 1개 더 많은 [ICON_DISTRICT] 특수지구를 지을 수 있습니다. [NEWLINE][NEWLINE][ICON_BULLET]시작지점: 3순위 강.</Text>
         </Replace>
         <!-- = leader ability (Frederick Barbarossa) = -->
         <Replace Tag="LOC_TRAIT_LEADER_HOLY_ROMAN_EMPEROR_DESCRIPTION" Language="ko_KR">
@@ -985,7 +988,7 @@
         <!-- == MAORI == -->
         <!-- = civilization ability = -->
         <Replace Tag="LOC_TRAIT_CIVILIZATION_MAORI_MANA_DESCRIPTION" Language="ko_KR">
-            <Text>항해 기술을 완료하면 개척자 유닛이 승선할 수 있습니다. 조선 기술을 완료하면 승선한 유닛이 [ICON_Movement] 이동력 +2를 얻습니다. [NEWLINE]초기 제국 사회 제도를 보유하면 미개발 숲과 열대우림에서 [ICON_PRODUCTION] 생산력 +1을 얻습니다. 중상주의로부터 [ICON_PRODUCTION] 생산력 +1, 보존 사회 제도로부터 [ICON_PRODUCTION] 생산력 +2를 추가로 얻습니다. [NEWLINE]천문 항법 기술을 연구하면 어선이 인접 타일에 [ICON_FOOD] 식량 +1과 문화 폭탄을 제공합니다. [NEWLINE][NEWLINE]자원을 채집할 수 없습니다. [ICON_GreatWriter] 위대한 작가를 획득할 수 없습니다.[NEWLINE][NEWLINE][ICON_BULLET]시작지점: 1순위 해안가.</Text>
+            <Text>항해 기술을 완료하면 개척자 유닛이 승선할 수 있습니다. 조선 기술을 완료하면 승선한 유닛이 [ICON_Movement] 이동력 +2를 얻습니다. [NEWLINE]초기 제국 사회 제도를 보유하면 미개발 숲과 열대우림에서 [ICON_PRODUCTION] 생산력 +1을 얻습니다. 중상주의로부터 [ICON_PRODUCTION] 생산력 +1, 보존 사회 제도로부터 [ICON_PRODUCTION] 생산력 +2를 추가로 얻습니다. [NEWLINE]천문 항법 기술을 연구하면 어선이 인접 타일에 [ICON_FOOD] 식량 +1과 문화 폭탄을 제공합니다. [NEWLINE][NEWLINE]자원을 채집할 수 없습니다. [ICON_GreatWriter] 위대한 작가를 획득할 수 없습니다.[NEWLINE][NEWLINE][ICON_BULLET]시작지점: 1순위 해안가, 4순위 숲과 열대우림.</Text>
         </Replace>
         <!-- = leader ability = -->
         <Replace Tag="LOC_TRAIT_LEADER_KUPES_VOYAGE_DESCRIPTION" Language="ko_KR">
@@ -1901,10 +1904,10 @@
             <Text>야영지에서 [ICON_FOOD] 식량 +1, [ICON_Gold] 금 +2를 제공합니다.</Text>
         </Replace>
         <Replace Tag="LOC_BELIEF_INITIATION_RITES_DESCRIPTION" Language="ko_KR">
-            <Text>군사 유닛이 생산되면 해당 유닛 비용의 30%에 준하는 [ICON_FAITH] 신앙이 제공됩니다. 이 교리를 채택하면 수도에 전사 유닛 1기를 제공합니다.</Text>
+            <Text>비민간 유닛을 생산하면 해당 유닛의 [ICON_PRODUCTION] 생산 비용의 40%에 준하는 [ICON_GOLD] 금을 얻습니다. 이 교리를 채택하면 수도에 전사 유닛 1기를 제공합니다.</Text>
         </Replace>
         <Replace Tag="LOC_BELIEF_INITIATION_RITES_EXPANSION2_DESCRIPTION" Language="ko_KR">
-            <Text>군사 유닛이 생산되면 해당 유닛 비용의 30%에 준하는 [ICON_FAITH] 신앙이 제공됩니다. 이 교리를 채택하면 수도에 전사 유닛 1기를 제공합니다.</Text>
+            <Text>비민간 유닛을 생산하면 해당 유닛의 [ICON_PRODUCTION] 생산 비용의 40%에 준하는 [ICON_GOLD] 금을 얻습니다. 이 교리를 채택하면 수도에 전사 유닛 1기를 제공합니다.</Text>
         </Replace>
         <Replace Tag="LOC_BELIEF_LADY_OF_THE_REEDS_AND_MARSHES_EXPANSION2_DESCRIPTION" Language="ko_KR">
             <Text>습지, 오아시스 및 도심부가 위치하거나 개발된 범람원 타일에서 [ICON_Production] 생산력 +1.</Text>

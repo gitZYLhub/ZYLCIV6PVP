@@ -267,7 +267,7 @@
 		<!-- == CANADA == -->
 		<!-- = Civilization - Civilisation = -->
 		<Replace Tag="LOC_TRAIT_CIVILIZATION_FACES_OF_PEACE_DESCRIPTION" Language="fr_FR">
-			<Text>Impossible de déclarer ou de subir une guerre surprise, ni de déclarer la guerre aux Cités-états.[NEWLINE][NEWLINE][ICON_FAVOR] Faveurs diplomatiques +1 tous les 100 de [ICON_TOURISM] Tourisme.[NEWLINE][ICON_FAVOR] Faveurs diplomatiques des urgences et compétitions +100%.</Text>
+			<Text>Impossible de déclarer ou de subir une guerre surprise, ni de déclarer la guerre aux Cités-états. Chacune des quatre cases d'un parc national fournit +2 [ICON_FOOD] Nourriture et +2 [ICON_PRODUCTION] Production.[NEWLINE][NEWLINE][ICON_FAVOR] Faveurs diplomatiques +1 tous les 100 de [ICON_TOURISM] Tourisme.[NEWLINE][ICON_FAVOR] Faveurs diplomatiques des urgences et compétitions +100%.</Text>
 		</Replace>
 		<!-- = Leader - Dirigeant = -->
 		<Replace Tag="LOC_TRAIT_LEADER_LAST_BEST_WEST_DESCRIPTION" Language="fr_FR">
@@ -275,7 +275,7 @@
 		</Replace>
 		<!-- = Unique unit - Unité unique = -->
 		<Replace Tag="LOC_UNIT_CANADA_MOUNTIE_DESCRIPTION" Language="fr_FR">
-			<Text>Unité de cavalerie légère de l'ère moderne exclusive au Canada.[NEWLINE][NEWLINE][ICON_STRENGTH] Puissance de combat +5 dans un rayon de 4 cases autour d'un parc national (passe à +10 s'il vous appartient).[NEWLINE]Peut créer un parc national.</Text>
+			<Text>Unité de cavalerie légère de l'ère moderne exclusive au Canada, remplaçant la Cavalerie. Peut être obtenue en améliorant un Coursier et achetée avec de la [ICON_FAITH] Foi.[NEWLINE][NEWLINE][ICON_STRENGTH] Puissance de combat +5 dans un rayon de 4 cases autour d'un parc national (passe à +10 s'il vous appartient).[NEWLINE]Possède une portée de vision de 4 et peut créer 2 parcs nationaux.</Text>
 		</Replace>
 		<Replace Tag="LOC_ALL_PARK_COMBAT_BONUS_DESCRIPTION" Language="fr_FR">
 			<Text>[ICON_STRENGTH] Puissance de combat +{1_Amount} (Police montée)</Text>
@@ -285,7 +285,7 @@
 		</Replace>
 		<!-- = Unique improvement - Aménagement unique = -->
 		<Replace Tag="LOC_IMPROVEMENT_ICE_HOCKEY_RINK_DESCRIPTION" Language="fr_FR">
-			<Text>Aménagement exclusif au Canada, débloqué au [COLOR:212,115,212,255]Service Diplomatique[ENDCOLOR].[NEWLINE][NEWLINE][ICON_AMENITIES] Activités +1.[NEWLINE][ICON_FOOD] Nourriture +2 et [ICON_PRODUCTION] Production +2 au [COLOR:212,115,212,255]Sport Professionnel[ENDCOLOR].[NEWLINE][ICON_CULTURE] Culture +1 pour chaque case de toundra et de neige adjacente.[NEWLINE][ICON_CULTURE] Culture +4 si adjacent à un stade.[NEWLINE][NEWLINE]Attrait +2 pour les cases adjacentes.[NEWLINE]Génère du [ICON_TOURISM] Tourisme par le biais de la [ICON_CULTURE] Culture à l'[COLOR_FLOAT_SCIENCE]Aviation[ENDCOLOR].[NEWLINE][NEWLINE]Peut être construit sur une case de toundra ou de neige. Un par ville.</Text>
+			<Text>Aménagement exclusif au Canada, débloqué au [COLOR:212,115,212,255]Service Diplomatique[ENDCOLOR].[NEWLINE][NEWLINE][ICON_AMENITIES] Activités +1.[NEWLINE][ICON_FOOD] Nourriture +2 et [ICON_PRODUCTION] Production +2 à la [COLOR:212,115,212,255]Conservation[ENDCOLOR].[NEWLINE][ICON_CULTURE] Culture +1 pour chaque case de toundra et de neige adjacente.[NEWLINE][ICON_CULTURE] Culture +4 si adjacent à un stade.[NEWLINE][NEWLINE]Attrait +2 pour les cases adjacentes.[NEWLINE]Génère du [ICON_TOURISM] Tourisme par le biais de la [ICON_CULTURE] Culture à l'[COLOR_FLOAT_SCIENCE]Aviation[ENDCOLOR].[NEWLINE][NEWLINE]Peut être construit sur une case de toundra ou de neige. Un par ville.</Text>
 		</Replace>
 
 		<!-- == CHINA - CHINE == -->
@@ -615,7 +615,7 @@
 		<!-- == GERMANY - ALLEMAGNE == -->
 		<!-- = Civilization - Civilisation = -->
 		<Replace Tag="LOC_TRAIT_CIVILIZATION_IMPERIAL_FREE_CITIES_DESCRIPTION" Language="fr_FR">
-			<Text>Aux [COLOR:212,115,212,255]Guildes[ENDCOLOR], les villes ont un emplacement de [ICON_DISTRICT] quartier spécialisé supplémentaire.[NEWLINE][NEWLINE]Bias : T3 Rivières.</Text>
+			<Text>Au [COLOR:212,115,212,255]Premier Empire[ENDCOLOR], les villes ont un emplacement de [ICON_DISTRICT] quartier spécialisé supplémentaire.[NEWLINE][NEWLINE]Bias : T3 Rivières.</Text>
 		</Replace>
 		<!-- = Leader (Frederick Barbarossa) - Dirigeant (Frédéric Barberousse) = -->
 		<Replace Tag="LOC_TRAIT_LEADER_HOLY_ROMAN_EMPEROR_DESCRIPTION" Language="fr_FR">
@@ -1029,7 +1029,7 @@
 		<!-- == MAORI == -->
 		<!-- = Civilization - Civilisation = -->
 		<Replace Tag="LOC_TRAIT_CIVILIZATION_MAORI_MANA_DESCRIPTION" Language="fr_FR">
-			<Text>[ICON_FOOD] Nourriture +1 pour les bateaux de pêche à la [COLOR_FLOAT_SCIENCE]Navigation Astronomique[ENDCOLOR].[NEWLINE]Les bateaux de pêche déclenchent une bombe culturelle sur les cases adjacentes.[NEWLINE][NEWLINE][ICON_PRODUCTION] Production +1 pour les cases de bois et de forêt tropicale non aménagées au [COLOR:212,115,212,255]Premier Empire[ENDCOLOR] (passe à +2 au [COLOR:212,115,212,255]Mercantilisme[ENDCOLOR] et à +4 à la [COLOR:212,115,212,255]Conservation[ENDCOLOR]).[NEWLINE][NEWLINE][ICON_MOVEMENT] PM +2 pour les unités embarquées à la [COLOR_FLOAT_SCIENCE]Construction Navale[ENDCOLOR].[NEWLINE][NEWLINE]Impossible de récolter les ressources, ni d'obtenir [ICON_GREATWRITER] d'Écrivain illustre.[NEWLINE][NEWLINE]Bias : T1 Côte.</Text>
+			<Text>[ICON_FOOD] Nourriture +1 pour les bateaux de pêche à la [COLOR_FLOAT_SCIENCE]Navigation Astronomique[ENDCOLOR].[NEWLINE]Les bateaux de pêche déclenchent une bombe culturelle sur les cases adjacentes.[NEWLINE][NEWLINE][ICON_PRODUCTION] Production +1 pour les cases de bois et de forêt tropicale non aménagées au [COLOR:212,115,212,255]Premier Empire[ENDCOLOR] (passe à +2 au [COLOR:212,115,212,255]Mercantilisme[ENDCOLOR] et à +4 à la [COLOR:212,115,212,255]Conservation[ENDCOLOR]).[NEWLINE][NEWLINE][ICON_MOVEMENT] PM +2 pour les unités embarquées à la [COLOR_FLOAT_SCIENCE]Construction Navale[ENDCOLOR].[NEWLINE][NEWLINE]Impossible de récolter les ressources, ni d'obtenir [ICON_GREATWRITER] d'Écrivain illustre.[NEWLINE][NEWLINE]Bias : T1 Côte, T4 Bois et Forêts tropicales.</Text>
 		</Replace>
 		<!-- = Leader - Dirigeant = -->
 		<Replace Tag="LOC_TRAIT_LEADER_KUPES_VOYAGE_DESCRIPTION" Language="fr_FR">
@@ -2817,7 +2817,7 @@
 			<Text>[ICON_FAITH] Foi +3 pour les fissures géothermiques. [ICON_FAITH] Foi +2 pour les cases adjacentes à un volcan. [ICON_FAITH] Foi +1 pour les cases de sols volcaniques.</Text>
 		</Replace>
 		<Replace Tag="LOC_BELIEF_INITIATION_RITES_EXPANSION2_DESCRIPTION" Language="fr_FR">
-			<Text>Produire une unité militaire octroie 25% de son coût en [ICON_PRODUCTION] Production en [ICON_FAITH] Foi.[NEWLINE]Un Guerrier apparaît dans votre [ICON_CAPITAL] Capitale.</Text>
+			<Text>Produire une unité non civile octroie 40 % de son coût en [ICON_PRODUCTION] Production en [ICON_GOLD] Or.[NEWLINE]Un Guerrier apparaît dans votre [ICON_CAPITAL] Capitale.</Text>
 		</Replace>
 		<Replace Tag="LOC_BELIEF_LADY_OF_THE_REEDS_AND_MARSHES_EXPANSION2_DESCRIPTION" Language="fr_FR">
 			<Text>[ICON_PRODUCTION] Production +1 pour les cases de plaines inondables travaillées ou sous un Centre-ville, et les cases de marais et d'oasis. </Text>

@@ -268,7 +268,7 @@
 		<!-- == CANADA == -->
 		<!-- = civilization avility = -->
 		<Replace Tag="LOC_TRAIT_CIVILIZATION_FACES_OF_PEACE_DESCRIPTION" Language="pt_BR">
-			<Text>Impossível declarar ou sofrer uma guerra surpresa, nem declarar guerra às Cidades-Estado.[NEWLINE][NEWLINE][ICON_FAVOR] +1 de Favores diplomáticos a cada 100 de [ICON_TOURISM] Turismo.[NEWLINE][ICON_FAVOR] Favores diplomáticos de emergências e competições +100%.[NEWLINE][NEWLINE]Tendência de Nascimento: T1 Tundra.</Text>
+			<Text>Impossível declarar ou sofrer uma guerra surpresa, nem declarar guerra às Cidades-Estado. Cada um dos quatro painéis de um Parque Nacional fornece +2 de [ICON_FOOD] Alimento e +2 de [ICON_PRODUCTION] Produção.[NEWLINE][NEWLINE][ICON_FAVOR] +1 de Favores diplomáticos a cada 100 de [ICON_TOURISM] Turismo.[NEWLINE][ICON_FAVOR] Favores diplomáticos de emergências e competições +100%.[NEWLINE][NEWLINE]Tendência de Nascimento: T1 Tundra.</Text>
 		</Replace>
 		<!-- = leader ability = -->
 		<Replace Tag="LOC_TRAIT_LEADER_LAST_BEST_WEST_DESCRIPTION" Language="pt_BR">
@@ -276,7 +276,7 @@
 		</Replace>
 		<!-- = unique unit = -->
 		<Replace Tag="LOC_UNIT_CANADA_MOUNTIE_DESCRIPTION" Language="pt_BR">
-			<Text>Unidade de cavalaria leve da Era Moderna exclusiva do Canadá.[NEWLINE][NEWLINE][ICON_STRENGTH] +5 de Força de combate em um raio de 4 painéis ao redor de um Parque Nacional (aumenta para +10 se for seu).[NEWLINE]Pode criar um Parque Nacional.</Text>
+			<Text>Unidade de cavalaria leve da Era Moderna exclusiva do Canadá que substitui a Cavalaria. Pode ser obtida ao aprimorar uma Cavalaria Especial e comprada com [ICON_FAITH] Fé.[NEWLINE][NEWLINE][ICON_STRENGTH] +5 de Força de combate em um raio de 4 painéis ao redor de um Parque Nacional (aumenta para +10 se for seu).[NEWLINE]Tem alcance de visão 4 e pode criar 2 Parques Nacionais.</Text>
 		</Replace>
 		<Replace Tag="LOC_ALL_PARK_COMBAT_BONUS_DESCRIPTION" Language="pt_BR">
 			<Text>[ICON_STRENGTH] +{1_Amount} de Força de combate (Polícia Montada)</Text>
@@ -286,7 +286,7 @@
 		</Replace>
 		<!-- = unique improvement = -->
 		<Replace Tag="LOC_IMPROVEMENT_ICE_HOCKEY_RINK_DESCRIPTION" Language="pt_BR">
-			<Text>Exclusivo do Canadá, esta melhoria é desbloqueada com Serviço Diplomático.[NEWLINE][NEWLINE][ICON_AMENITIES] Serviços +1. Atração +2 para os Paineis adjacentes.[NEWLINE][ICON_FOOD] Comida +2 e [ICON_PRODUCTION] Produção +2 com Esportes Profissionais.[NEWLINE][ICON_CULTURE] Cultura +1 para cada Paineil adjacente de tundra ou neve.[NEWLINE][ICON_CULTURE] Cultura +4 se adjacente a um estádio.[NEWLINE]Gera [ICON_TOURISM] Turismo por meio da [ICON_CULTURE] Cultura após descobrir Aviação.[NEWLINE][NEWLINE]Pode ser construída em um terreno de tundra, colina de tundra, neve ou colina nevada. Uma por cidade.</Text>
+			<Text>Exclusivo do Canadá, esta melhoria é desbloqueada com Serviço Diplomático.[NEWLINE][NEWLINE][ICON_AMENITIES] Serviços +1. Atração +2 para os Paineis adjacentes.[NEWLINE][ICON_FOOD] Comida +2 e [ICON_PRODUCTION] Produção +2 com Preservação.[NEWLINE][ICON_CULTURE] Cultura +1 para cada Paineil adjacente de tundra ou neve.[NEWLINE][ICON_CULTURE] Cultura +4 se adjacente a um estádio.[NEWLINE]Gera [ICON_TOURISM] Turismo por meio da [ICON_CULTURE] Cultura após descobrir Aviação.[NEWLINE][NEWLINE]Pode ser construída em um terreno de tundra, colina de tundra, neve ou colina nevada. Uma por cidade.</Text>
 		</Replace>
 
 		<!-- == CHINA == -->
@@ -610,7 +610,7 @@
 		<!-- == GERMANY - GERMÂNIA - ALEMANHA == -->
 		<!-- = civilization ability = -->
 		<Replace Tag="LOC_TRAIT_CIVILIZATION_IMPERIAL_FREE_CITIES_DESCRIPTION" Language="pt_BR">
-			<Text>Nas Guildas, as cidades têm um espaço adicional para [ICON_DISTRICT] distrito especializado.[NEWLINE][NEWLINE]Concluir um Centro Comercial desencadeia uma explosão cultural.[NEWLINE][NEWLINE]Tendência de Nascimento: T3 Rios.</Text>
+			<Text>No Primeiro Império, as cidades têm um espaço adicional para [ICON_DISTRICT] distrito especializado.[NEWLINE][NEWLINE]Concluir um Centro Comercial desencadeia uma explosão cultural.[NEWLINE][NEWLINE]Tendência de Nascimento: T3 Rios.</Text>
 		</Replace>
 		<!-- = leader ability (Frederick Barbarossa - Frédéric Barberousse) = -->
 		<Replace Tag="LOC_TRAIT_LEADER_HOLY_ROMAN_EMPEROR_DESCRIPTION" Language="pt_BR">
@@ -1011,7 +1011,7 @@
 		<!-- == MAORI == -->
 		<!-- = civilization ability = -->
 		<Replace Tag="LOC_TRAIT_CIVILIZATION_MAORI_MANA_DESCRIPTION" Language="pt_BR">
-			<Text>+1 de [ICON_FOOD] Comida para os barcos de pesca com Navegação Astronômica.[NEWLINE]Os barcos de pesca causam uma explosão cultural nos painéis adjacentes.[NEWLINE][NEWLINE][ICON_PRODUCTION] Produção +1 para painéis de madeira e floresta tropical não melhorados no Primeiro Império (aumenta para +2 no Mercantilismo e +4 na Conservação).[NEWLINE][NEWLINE][ICON_MOVEMENT] PM +2 para unidades embarcadas na Construção Naval.[NEWLINE][NEWLINE]Não é possível colher recursos, nem obter pontos de [ICON_GREATWRITER] Escritor ilustre.[NEWLINE][NEWLINE]Tendência de Nascimento: T1 Costa.</Text>
+			<Text>+1 de [ICON_FOOD] Comida para os barcos de pesca com Navegação Astronômica.[NEWLINE]Os barcos de pesca causam uma explosão cultural nos painéis adjacentes.[NEWLINE][NEWLINE][ICON_PRODUCTION] Produção +1 para painéis de madeira e floresta tropical não melhorados no Primeiro Império (aumenta para +2 no Mercantilismo e +4 na Conservação).[NEWLINE][NEWLINE][ICON_MOVEMENT] PM +2 para unidades embarcadas na Construção Naval.[NEWLINE][NEWLINE]Não é possível colher recursos, nem obter pontos de [ICON_GREATWRITER] Escritor ilustre.[NEWLINE][NEWLINE]Tendência de Nascimento: T1 Costa, T4 Bosques e Florestas Tropicais.</Text>
 		</Replace>
 		<!-- = leader ability = -->
 		<Replace Tag="LOC_TRAIT_LEADER_KUPES_VOYAGE_DESCRIPTION" Language="pt_BR">
@@ -2760,7 +2760,7 @@
 			<Text>+2 de [ICON_FAITH] Fé para painéis adjacêntes a um vulcão e +1 adicional em solo vulcânico. +3 de [ICON_FAITH] Fé para fissuras geotérmicas.</Text>
 		</Replace>
 		<Replace Tag="LOC_BELIEF_INITIATION_RITES_EXPANSION2_DESCRIPTION" Language="pt_BR">
-			<Text>Produzir uma unidade militar concede 25% do seu custo em [ICON_PRODUCTION] Produção em [ICON_FAITH] Fé.[NEWLINE]Um Guerreiro aparece em sua [ICON_CAPITAL] Capital.</Text>
+			<Text>Produzir uma unidade não civil concede 40% do seu custo em [ICON_PRODUCTION] Produção em [ICON_GOLD] Ouro.[NEWLINE]Um Guerreiro aparece em sua [ICON_CAPITAL] Capital.</Text>
 		</Replace>
 		<Replace Tag="LOC_BELIEF_LADY_OF_THE_REEDS_AND_MARSHES_EXPANSION2_DESCRIPTION" Language="pt_BR">
 			<Text>[ICON_PRODUCTION] Produção +1 para os paineis de planícies alagadas trabalhadas ou sob um Centro da Cidade, e para os paineis de pântanos e oásis.</Text>

@@ -106,6 +106,12 @@ local function ZYL_RVC_IsLeyLine(resourceIndex)
     return RESOURCE_LEY_LINE_INDEX >= 0 and resourceIndex == RESOURCE_LEY_LINE_INDEX;
 end
 
+local function ZYL_RVC_IsLeyLineOrGeothermal(plot)
+    return plot ~= nil
+        and (ZYL_RVC_IsLeyLine(plot:GetResourceType())
+            or plot:GetFeatureType() == g_FEATURE_GEOTHERMAL_FISSURE);
+end
+
 local function ZYL_RVC_IsBonusResource(resourceIndex)
     if resourceIndex == nil or resourceIndex < 0 then
         return false;
@@ -292,7 +298,8 @@ local function ZYL_RVC_IsPreservedTundraResource(resourceIndex)
     return resourceIndex == RESOURCE_DEER_INDEX
         or resourceIndex == RESOURCE_FURS_INDEX
         or resourceIndex == RESOURCE_TRUFFLES_INDEX
-        or resourceIndex == RESOURCE_IVORY_INDEX;
+        or resourceIndex == RESOURCE_IVORY_INDEX
+        or resourceIndex == RESOURCE_LEY_LINE_INDEX;
 end
 
 local function ZYL_RVC_TundraResourceRequiresForest(resourceIndex)
@@ -306,14 +313,19 @@ local function ZYL_RVC_RestoreTundraResource(plot, originalResourceIndex, resour
         return;
     end
 
-    local preserveOriginal = ZYL_RVC_IsPreservedTundraResource(originalResourceIndex);
+    local preserveFissure = plot:GetFeatureType() == g_FEATURE_GEOTHERMAL_FISSURE;
+    local preserveOriginal = ZYL_RVC_IsPreservedTundraResource(originalResourceIndex)
+        and (not ZYL_RVC_IsLeyLine(originalResourceIndex) or plot:GetTerrainType() == TERRAIN_TUNDRA_INDEX);
     local resourceIndex = originalResourceIndex;
     if not preserveOriginal then
         resourceIndex = resourcePool[TerrainBuilder.GetRandomNumber(#resourcePool, "Get Random Resource") + 1];
     end
 
     ResourceBuilder.SetResourceType(plot, -1);
-    if preserveOriginal and ZYL_RVC_TundraResourceRequiresForest(resourceIndex) then
+    if preserveFissure then
+        -- A geothermal fissure is a valid tundra feature on Rich Mainland;
+        -- keep it even when the resource on the same tile is remapped.
+    elseif preserveOriginal and ZYL_RVC_TundraResourceRequiresForest(resourceIndex) then
         TerrainBuilder.SetFeatureType(plot, g_FEATURE_FOREST);
     elseif not preserveOriginal and resourceIndex ~= RESOURCE_DEER_INDEX and resourceIndex ~= RESOURCE_FURS_INDEX then
         TerrainBuilder.SetFeatureType(plot, -1);
@@ -353,6 +365,40 @@ local function ZYL_RVC_GetPlotsAtRadius(startPlot, targetRadius)
     return frontier;
 end
 
+local function ZYL_RVC_CollectGeothermalFissures(startPlot, maxRadius)
+    local fissurePlots = {};
+    local registeredPlots = {};
+    local function RegisterFissure(plot)
+        if plot ~= nil
+            and plot:GetFeatureType() == g_FEATURE_GEOTHERMAL_FISSURE
+            and not registeredPlots[plot:GetIndex()] then
+            registeredPlots[plot:GetIndex()] = true;
+            table.insert(fissurePlots, plot:GetIndex());
+        end
+    end
+
+    RegisterFissure(startPlot);
+    for radius = 1, maxRadius do
+        for _, plot in ipairs(ZYL_RVC_GetPlotsAtRadius(startPlot, radius)) do
+            RegisterFissure(plot);
+        end
+    end
+    return fissurePlots;
+end
+
+local function ZYL_RVC_RestoreMaliGeothermalFissures(fissurePlots)
+    for _, plotIndex in ipairs(fissurePlots or {}) do
+        local plot = Map.GetPlotByIndex(plotIndex);
+        if plot ~= nil
+            and (plot:GetTerrainType() == TERRAIN_DESERT_INDEX
+                or plot:GetTerrainType() == TERRAIN_DESERT_HILLS_INDEX)
+            and plot:GetFeatureType() ~= g_FEATURE_GEOTHERMAL_FISSURE then
+            TerrainBuilder.SetFeatureType(plot, -1);
+            TerrainBuilder.SetFeatureType(plot, g_FEATURE_GEOTHERMAL_FISSURE);
+        end
+    end
+end
+
 local function ZYL_RVC_ConvertPlotToDesert(plot)
     if plot == nil or plot:IsWater() or plot:IsNaturalWonder() then
         return false;
@@ -368,9 +414,12 @@ local function ZYL_RVC_ConvertPlotToDesert(plot)
     end
 
     local preserveVolcano = plot:GetFeatureType() == g_FEATURE_VOLCANO;
+    local preserveGeothermal = plot:GetFeatureType() == g_FEATURE_GEOTHERMAL_FISSURE;
     ResourceBuilder.SetResourceType(plot, -1);
     TerrainBuilder.SetTerrainType(plot, desertTerrainType);
-    if not preserveVolcano then
+    if preserveGeothermal then
+        TerrainBuilder.SetFeatureType(plot, g_FEATURE_GEOTHERMAL_FISSURE);
+    elseif not preserveVolcano then
         TerrainBuilder.SetFeatureType(plot, -1);
         if desertTerrainType == TERRAIN_DESERT_INDEX
             and plot:IsRiver()
@@ -451,6 +500,7 @@ local function ZYL_RVC_PlaceMaliResource(startPlot, resourceIndex, targetCount, 
     for _, plot in ipairs(scopePlots) do
         if plot:GetIndex() ~= startPlot:GetIndex()
             and plot:GetResourceType() == -1
+            and plot:GetFeatureType() ~= g_FEATURE_GEOTHERMAL_FISSURE
             and not plot:IsNaturalWonder()
             and (predicate == nil or predicate(plot))
             and ResourceBuilder.CanHaveResource(plot, resourceIndex) then
@@ -476,6 +526,7 @@ local function ZYL_RVC_PrepareMaliStart(startPlot, maliPlots)
     for _, plot in ipairs(maliPlots) do
         if plot:GetTerrainType() == TERRAIN_DESERT_INDEX
             and plot:IsRiver()
+            and plot:GetFeatureType() ~= g_FEATURE_GEOTHERMAL_FISSURE
             and not plot:IsNaturalWonder() then
             ResourceBuilder.SetResourceType(plot, -1);
             TerrainBuilder.SetFeatureType(plot, -1);
@@ -486,7 +537,10 @@ local function ZYL_RVC_PrepareMaliStart(startPlot, maliPlots)
         end
     end
 
-    local smallResourceCount = math.max(1, math.floor((RichNum + 3) / 5));
+    -- Richness 5+ guarantees two oases and two desert-hill sheep.  Wheat
+    -- keeps the original scaling so Richness 5-6 still targets one tile.
+    local oasisSheepCount = RichNum >= 5 and 2 or 1;
+    local wheatCount = math.max(1, math.floor((RichNum + 3) / 5));
     local oasisCandidates = {};
     for _, plot in ipairs(maliPlots) do
         if plot:GetIndex() ~= startPlot:GetIndex()
@@ -502,7 +556,7 @@ local function ZYL_RVC_PrepareMaliStart(startPlot, maliPlots)
     ZYL_RVC_ShufflePlots(oasisCandidates, "ZYL RVC Mali Oasis");
     local oasesPlaced = 0;
     for _, plot in ipairs(oasisCandidates) do
-        if oasesPlaced >= smallResourceCount then
+        if oasesPlaced >= oasisSheepCount then
             break;
         end
         if TerrainBuilder.CanHaveFeature(plot, g_FEATURE_OASIS) then
@@ -514,7 +568,7 @@ local function ZYL_RVC_PrepareMaliStart(startPlot, maliPlots)
     local sheepPlaced = ZYL_RVC_PlaceMaliResource(
         startPlot,
         RESOURCE_SHEEP_INDEX,
-        smallResourceCount,
+        oasisSheepCount,
         "ZYL RVC Mali Sheep",
         function(plot)
             return plot:GetTerrainType() == TERRAIN_DESERT_HILLS_INDEX
@@ -525,7 +579,7 @@ local function ZYL_RVC_PrepareMaliStart(startPlot, maliPlots)
     local wheatPlaced = ZYL_RVC_PlaceMaliResource(
         startPlot,
         RESOURCE_WHEAT_INDEX,
-        smallResourceCount,
+        wheatCount,
         "ZYL RVC Mali Wheat",
         function(plot)
             return plot:GetTerrainType() == TERRAIN_DESERT_INDEX
@@ -534,7 +588,8 @@ local function ZYL_RVC_PrepareMaliStart(startPlot, maliPlots)
         maliPlots
     );
 
-    local luxuryCopies = math.max(1, math.ceil((RichNum - 1) / 3));
+    -- Richness 5+ targets three copies of each selected desert luxury.
+    local luxuryCopies = RichNum >= 5 and 3 or 1;
     local luxuryPool = {};
     for _, resourceIndex in ipairs(MALI_DESERT_LUXURIES) do
         table.insert(luxuryPool, resourceIndex);
@@ -583,14 +638,20 @@ local addBonusOneRingIsDeleteResource = false;
 local TERRAIN_TUNDRA_RESOURCE = {}
 for row in GameInfo.Resource_ValidTerrains() do
     if row.TerrainType == 'TERRAIN_TUNDRA' then
-        table.insert(TERRAIN_TUNDRA_RESOURCE, GameInfo.Resources[row.ResourceType].Index)
+        local resourceIndex = GameInfo.Resources[row.ResourceType].Index;
+        if resourceIndex ~= RESOURCE_LEY_LINE_INDEX then
+            table.insert(TERRAIN_TUNDRA_RESOURCE, resourceIndex)
+        end
         --print('TERRAIN_TUNDRA_RESOURCE',GameInfo.Resources[row.ResourceType].Index)
     end
 end
 local TERRAIN_TUNDRA_HILLS_RESOURCE = {}
 for row in GameInfo.Resource_ValidTerrains() do
     if row.TerrainType == 'TERRAIN_TUNDRA_HILLS' then
-        table.insert(TERRAIN_TUNDRA_HILLS_RESOURCE, GameInfo.Resources[row.ResourceType].Index)
+        local resourceIndex = GameInfo.Resources[row.ResourceType].Index;
+        if resourceIndex ~= RESOURCE_LEY_LINE_INDEX then
+            table.insert(TERRAIN_TUNDRA_HILLS_RESOURCE, resourceIndex)
+        end
         --print('TERRAIN_TUNDRA_HILLS_RESOURCE',GameInfo.Resources[row.ResourceType].Index)
     end
 end
@@ -1012,9 +1073,14 @@ function ZYL_RVC_Balance(args)
                                 -- 现在强制改造沙漠文明以平衡地图上沙漠数量较少的问题
                                 print("TeamPVP 沙漠化 Start X: ", majList[i].plotX, "Start Y: ", majList[i].plotY, "Player: ", i, " ", majList[i].leader, majList[i].civ);
                                 local desertStartPlot = Map.GetPlot(majList[i].plotX, majList[i].plotY);
+                                local maliGeothermalFissures = nil;
+                                if majList[i].civ == MALI_CIVILIZATION_TYPE then
+                                    maliGeothermalFissures = ZYL_RVC_CollectGeothermalFissures(desertStartPlot, 6);
+                                end
                                 Terraforming(desertStartPlot, iBalancingThree, 2);
                                 if majList[i].civ == MALI_CIVILIZATION_TYPE then
                                     local desertScopePlots = ZYL_RVC_ExpandMaliDesertStart(desertStartPlot);
+                                    ZYL_RVC_RestoreMaliGeothermalFissures(maliGeothermalFissures);
                                     ZYL_RVC_PrepareMaliStart(desertStartPlot, desertScopePlots);
                                 end
                             elseif (IsTundraCiv(majList[i].civ) == true) then
@@ -1509,11 +1575,17 @@ function ZYL_RVC_Balance(args)
                         local wplot = Map.GetPlot(majList[i].plotX, majList[i].plotY)
                         if (wplot:IsCoastalLand() == false and wplot:IsWater() == false and wplot:IsRiver() == false and wplot:IsFreshWater() == false) then
                             print("添加淡水 Start X: ", majList[i].plotX, "Start Y: ", majList[i].plotY, "Player: ", i, " ", majList[i].leader, majList[i].civ);
-                            Terraforming_Water(Map.GetPlot(majList[i].plotX, majList[i].plotY));
+                            Terraforming_Water(
+                                Map.GetPlot(majList[i].plotX, majList[i].plotY),
+                                majList[i].civ == MALI_CIVILIZATION_TYPE
+                            );
                             -- 富饶系数如果大于5，所有人开局获得淡水
                         elseif (RichNum >= 5 and wplot:IsWater() == false and wplot:IsRiver() == false) then
                             print("TeamPVP 添加淡水 Start X: ", majList[i].plotX, "Start Y: ", majList[i].plotY, "Player: ", i, " ", majList[i].leader, majList[i].civ); -- put a print to catch the error in non debug mode
-                            Terraforming_Water(Map.GetPlot(majList[i].plotX, majList[i].plotY));
+                            Terraforming_Water(
+                                Map.GetPlot(majList[i].plotX, majList[i].plotY),
+                                majList[i].civ == MALI_CIVILIZATION_TYPE
+                            );
                         end
                     end
                 end
@@ -3812,7 +3884,11 @@ function Terraforming_Best(plot, avg_best, avg_best_2, missing_amount, flag)
 
     for i = 0, 17 do
         adjacentPlot = GetAdjacentTiles(plot, i)
-        if (adjacentPlot ~= nil and adjacentPlot:IsWater() == false and adjacentPlot:GetFeatureType() ~= g_FEATURE_VOLCANO) and adjacentPlot:IsNaturalWonder() == false then
+        if (adjacentPlot ~= nil
+                and adjacentPlot:IsWater() == false
+                and adjacentPlot:GetFeatureType() ~= g_FEATURE_VOLCANO
+                and adjacentPlot:IsNaturalWonder() == false
+                and not ZYL_RVC_IsLeyLineOrGeothermal(adjacentPlot)) then
             temp_tile = 0;
             temp_tile = adjacentPlot:GetYield(g_YIELD_FOOD) + adjacentPlot:GetYield(g_YIELD_PRODUCTION) * 1.5 + adjacentPlot:GetYield(g_YIELD_GOLD) * 0.5;
             -- Best Plot: No Ressources, No Floodplains, Low Score, Inner Circle
@@ -4730,7 +4806,7 @@ end
 
 ------------------------------------------------------------------------------
 
-function Terraforming_Water(plot)
+function Terraforming_Water(plot, preserveGeothermal)
     if plot == nil or plot:IsWater() then
         return;
     end
@@ -4755,7 +4831,7 @@ function Terraforming_Water(plot)
                     adjacentWater = true;
                 end
             end
-            if (adjacentPlot:GetResourceCount() < 1 and adjacentPlot:IsUnit() == false and adjacentWater == false and adjacentPlot:GetFeatureType() ~= g_FEATURE_FLOODPLAINS and adjacentPlot:GetFeatureType() ~= g_FEATURE_VOLCANO and adjacentPlot:GetFeatureType() ~= g_FEATURE_FLOODPLAINS_PLAINS and adjacentPlot:GetFeatureType() ~= g_FEATURE_FLOODPLAINS_GRASSLAND) then
+            if (adjacentPlot:GetResourceCount() < 1 and adjacentPlot:IsUnit() == false and adjacentWater == false and adjacentPlot:GetFeatureType() ~= g_FEATURE_FLOODPLAINS and adjacentPlot:GetFeatureType() ~= g_FEATURE_VOLCANO and (not preserveGeothermal or adjacentPlot:GetFeatureType() ~= g_FEATURE_GEOTHERMAL_FISSURE) and adjacentPlot:GetFeatureType() ~= g_FEATURE_FLOODPLAINS_PLAINS and adjacentPlot:GetFeatureType() ~= g_FEATURE_FLOODPLAINS_GRASSLAND) then
                 __Debug("Terraforming Water X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Added: Water Lake");
                 TerrainBuilder.SetFeatureType(adjacentPlot, -1);
                 TerrainBuilder.SetTerrainType(adjacentPlot, 15);
@@ -4775,7 +4851,7 @@ function Terraforming_Water(plot)
                     adjacentWater = true;
                 end
             end
-            if (adjacentPlot:GetResourceCount() < 1 and adjacentWater == false and adjacentPlot:GetFeatureType() ~= g_FEATURE_FLOODPLAINS and adjacentPlot:GetFeatureType() ~= g_FEATURE_VOLCANO and adjacentPlot:GetFeatureType() ~= g_FEATURE_FLOODPLAINS_PLAINS and adjacentPlot:GetFeatureType() ~= g_FEATURE_FLOODPLAINS_GRASSLAND) then
+            if (adjacentPlot:GetResourceCount() < 1 and adjacentWater == false and adjacentPlot:GetFeatureType() ~= g_FEATURE_FLOODPLAINS and adjacentPlot:GetFeatureType() ~= g_FEATURE_VOLCANO and (not preserveGeothermal or adjacentPlot:GetFeatureType() ~= g_FEATURE_GEOTHERMAL_FISSURE) and adjacentPlot:GetFeatureType() ~= g_FEATURE_FLOODPLAINS_PLAINS and adjacentPlot:GetFeatureType() ~= g_FEATURE_FLOODPLAINS_GRASSLAND) then
                 __Debug("Terraforming Water X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Added: Water Lake but unit was on the way");
                 TerrainBuilder.SetFeatureType(adjacentPlot, -1);
                 TerrainBuilder.SetTerrainType(adjacentPlot, 15);
@@ -4795,7 +4871,7 @@ function Terraforming_Water(plot)
                     adjacentWater = true;
                 end
             end
-            if (adjacentWater == false and adjacentPlot:GetFeatureType() ~= g_FEATURE_FLOODPLAINS and adjacentPlot:GetFeatureType() ~= g_FEATURE_VOLCANO and adjacentPlot:GetFeatureType() ~= g_FEATURE_FLOODPLAINS_PLAINS and adjacentPlot:GetFeatureType() ~= g_FEATURE_FLOODPLAINS_GRASSLAND) then
+            if (adjacentWater == false and adjacentPlot:GetFeatureType() ~= g_FEATURE_FLOODPLAINS and adjacentPlot:GetFeatureType() ~= g_FEATURE_VOLCANO and (not preserveGeothermal or adjacentPlot:GetFeatureType() ~= g_FEATURE_GEOTHERMAL_FISSURE) and adjacentPlot:GetFeatureType() ~= g_FEATURE_FLOODPLAINS_PLAINS and adjacentPlot:GetFeatureType() ~= g_FEATURE_FLOODPLAINS_GRASSLAND) then
                 __Debug("Terraforming Water X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Added: Water Lake but unit was on the way");
                 ResourceBuilder.SetResourceType(adjacentPlot, -1);
                 TerrainBuilder.SetFeatureType(adjacentPlot, -1);
@@ -5316,7 +5392,9 @@ function Terraforming(plot, intensity, flag)
                         local originalResourceIndex = adjacentPlot:GetResourceType();
                         __Debug("Terraforming X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Changing to Tundra tile", i);
                         TerrainBuilder.SetTerrainType(adjacentPlot, 9);
-                        if (adjacentPlot:GetFeatureType() ~= g_FEATURE_FOREST and adjacentPlot:GetFeatureType() ~= -1) then
+                        if (adjacentPlot:GetFeatureType() ~= g_FEATURE_FOREST
+                                and adjacentPlot:GetFeatureType() ~= g_FEATURE_GEOTHERMAL_FISSURE
+                                and adjacentPlot:GetFeatureType() ~= -1) then
                             TerrainBuilder.SetFeatureType(adjacentPlot, g_FEATURE_FOREST);
                         end
                         if originalResourceIndex ~= -1 then
@@ -5328,12 +5406,20 @@ function Terraforming(plot, intensity, flag)
                     if (i < 89) then
                         local originalResourceIndex = adjacentPlot:GetResourceType();
                         __Debug("Terraforming X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Changing to Tundra tile", i);
-                        TerrainBuilder.SetTerrainType(adjacentPlot, 10);
-                        if (adjacentPlot:GetFeatureType() ~= g_FEATURE_FOREST and adjacentPlot:GetFeatureType() ~= -1) then
+                        -- Ley Lines remain preserved, but are valid only on flat tundra.
+                        -- Other plains-family plots retain the original tundra-hills conversion.
+                        local targetTerrain = ZYL_RVC_IsLeyLine(originalResourceIndex)
+                            and TERRAIN_TUNDRA_INDEX or TERRAIN_TUNDRA_HILLS_INDEX;
+                        local targetResourcePool = targetTerrain == TERRAIN_TUNDRA_INDEX
+                            and TERRAIN_TUNDRA_RESOURCE or TERRAIN_TUNDRA_HILLS_RESOURCE;
+                        TerrainBuilder.SetTerrainType(adjacentPlot, targetTerrain);
+                        if (adjacentPlot:GetFeatureType() ~= g_FEATURE_FOREST
+                                and adjacentPlot:GetFeatureType() ~= g_FEATURE_GEOTHERMAL_FISSURE
+                                and adjacentPlot:GetFeatureType() ~= -1) then
                             TerrainBuilder.SetFeatureType(adjacentPlot, g_FEATURE_FOREST);
                         end
                         if originalResourceIndex ~= -1 then
-                            ZYL_RVC_RestoreTundraResource(adjacentPlot, originalResourceIndex, TERRAIN_TUNDRA_HILLS_RESOURCE);
+                            ZYL_RVC_RestoreTundraResource(adjacentPlot, originalResourceIndex, targetResourcePool);
                         end
                     end
                 end
@@ -6245,7 +6331,9 @@ function AddLuxuryStarting(plot, s_type, flag, majListCiv)
             adjacentPlot = GetAdjacentTiles(plot, i);
             if (adjacentPlot ~= nil) then
                 for j = 1, count do
-                    if ((adjacentPlot:GetTerrainType() == eAddLux_Terrain[j]) and (adjacentPlot:GetResourceType() == -1)) and adjacentPlot:IsNaturalWonder() == false then
+                    if ((adjacentPlot:GetTerrainType() == eAddLux_Terrain[j]) and (adjacentPlot:GetResourceType() == -1))
+                            and adjacentPlot:IsNaturalWonder() == false
+                            and not ZYL_RVC_IsLeyLineOrGeothermal(adjacentPlot) then
                         TerrainBuilder.SetFeatureType(adjacentPlot, eAddLux_Feature[j]);
                         __Debug("Balancing X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Added a Luxury:", eAddLux[j]);
                         ResourceBuilder.SetResourceType(adjacentPlot, eAddLux[j], 1);
@@ -7595,7 +7683,10 @@ function civAddStrategyTeamPVP(eResourceType, startPlot, isForce)
                     end
                 else
                     --强制设置战略资源马
-                    if (adjacentPlot:GetResourceCount() == 0) and adjacentPlot:IsNaturalWonder() == false and adjacentPlot:IsImpassable() == false and eResourceType == RESOURCE_HORSES_INDEX then
+                    if (adjacentPlot:GetResourceCount() == 0) and adjacentPlot:IsNaturalWonder() == false
+                            and adjacentPlot:IsImpassable() == false
+                            and not ZYL_RVC_IsLeyLineOrGeothermal(adjacentPlot)
+                            and eResourceType == RESOURCE_HORSES_INDEX then
                         if (terrainType == 4 or terrainType == 1 or terrainType == 0 or terrainType == 3) then
                             --移除地貌
                             TerrainBuilder.SetFeatureType(adjacentPlot, -1);
@@ -7611,7 +7702,10 @@ function civAddStrategyTeamPVP(eResourceType, startPlot, isForce)
                         end
                     end
                     --强制设置战略资源铁
-                    if (adjacentPlot:GetResourceCount() == 0) and adjacentPlot:IsNaturalWonder() == false and adjacentPlot:IsImpassable() == false and eResourceType == RESOURCE_IRON_INDEX then
+                    if (adjacentPlot:GetResourceCount() == 0) and adjacentPlot:IsNaturalWonder() == false
+                            and adjacentPlot:IsImpassable() == false
+                            and not ZYL_RVC_IsLeyLineOrGeothermal(adjacentPlot)
+                            and eResourceType == RESOURCE_IRON_INDEX then
                         if (terrainType == 10 or terrainType == 7 or terrainType == 4 or terrainType == 1
                                 or terrainType == 0 or terrainType == 3 or terrainType == 6 or terrainType == 9) then
                             --移除地貌

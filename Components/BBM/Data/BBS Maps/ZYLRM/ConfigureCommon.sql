@@ -13,6 +13,14 @@ CREATE TABLE IF NOT EXISTS NW_StartBias
 	NegativeResources TEXT
 );
 
+-- Rich Mainland keeps geothermal fissures that are converted into tundra
+-- valid on the resulting tundra terrain.  Scope this to the two Rich Mainland
+-- maps instead of changing the global feature distribution.
+INSERT OR IGNORE INTO Feature_ValidTerrains (FeatureType, TerrainType)
+VALUES
+	('FEATURE_GEOTHERMAL_FISSURE', 'TERRAIN_TUNDRA'),
+	('FEATURE_GEOTHERMAL_FISSURE', 'TERRAIN_TUNDRA_HILLS');
+
 INSERT OR IGNORE INTO NW_StartBias(Type, Flag)
 SELECT CivilizationType, 1 FROM StartBiasTerrains
 WHERE TerrainType IN ('TERRAIN_TUNDRA','TERRAIN_TUNDRA_HILLS') AND Tier = 1;
