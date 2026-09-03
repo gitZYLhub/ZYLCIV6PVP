@@ -332,7 +332,99 @@ INSERT OR IGNORE INTO District_Adjacencies (DistrictType, YieldChangeId)
 	   );
 
 -------------------------------------------------------------------------------
--- Mali: final removals and Suguba purchase discount
+-- Gaul: move the existing Mine Culture bonus to the civilization
+-------------------------------------------------------------------------------
+
+-- BBG gives GAUL_MINE_CULTURE to Vercingetorix at Bronze Working.  Reuse that
+-- modifier as a Gaul civilization ability at the same technology so there is only
+-- one +1 Culture bonus, regardless of which leader commands Gaul.
+DELETE FROM TraitModifiers
+WHERE TraitType = 'TRAIT_LEADER_SUK_GALLIC_WAR'
+  AND ModifierId = 'GAUL_MINE_CULTURE';
+
+UPDATE Modifiers
+SET ModifierType = 'MODIFIER_PLAYER_ADJUST_PLOT_YIELD',
+	OwnerRequirementSetId = 'BBG_UTILS_PLAYER_HAS_TECH_BRONZE_WORKING',
+	SubjectRequirementSetId = 'PLOT_HAS_MINE_REQUIREMENTS'
+WHERE ModifierId = 'GAUL_MINE_CULTURE';
+
+INSERT OR REPLACE INTO ModifierArguments (ModifierId, Name, Value) VALUES
+	('GAUL_MINE_CULTURE', 'YieldType', 'YIELD_CULTURE'),
+	('GAUL_MINE_CULTURE', 'Amount', 1);
+
+INSERT OR IGNORE INTO TraitModifiers (TraitType, ModifierId) VALUES
+	('TRAIT_CIVILIZATION_GAUL', 'GAUL_MINE_CULTURE');
+
+-------------------------------------------------------------------------------
+-- Trajan: grant the free City Center building after Foreign Trade
+-------------------------------------------------------------------------------
+
+-- BBG 7.4.6 delays Trajan's Column until Early Empire.  Move the existing
+-- Firaxis modifier back to the earlier BBG-generated Foreign Trade requirement.
+UPDATE Modifiers
+SET SubjectRequirementSetId = 'BBG_UTILS_PLAYER_HAS_CIVIC_FOREIGN_TRADE_REQSET'
+WHERE ModifierId = 'TRAIT_ADJUST_NON_CAPITAL_FREE_CHEAPEST_BUILDING';
+
+-------------------------------------------------------------------------------
+-- Gran Colombia: restore the original all-unit movement bonus
+-------------------------------------------------------------------------------
+
+-- BBG replaced Ejército Patriota with a military-only modifier gated behind
+-- Political Philosophy.  The Firaxis grant-ability chain already exists in
+-- the Gran Colombia DLC database, so only its civilization-trait attachment
+-- needs to be restored.
+DELETE FROM TraitModifiers
+WHERE TraitType = 'TRAIT_CIVILIZATION_EJERCITO_PATRIOTA'
+  AND ModifierId = 'BBG_COLUMBIA_MOVEMENT_BONUS';
+
+INSERT OR IGNORE INTO TraitModifiers (TraitType, ModifierId) VALUES
+	('TRAIT_CIVILIZATION_EJERCITO_PATRIOTA', 'TRAIT_EJERCITO_PATRIOTA_EXTRA_MOVEMENT');
+
+-------------------------------------------------------------------------------
+-- Khmer: standard Holy Site adjacency from Rivers
+-------------------------------------------------------------------------------
+
+-- BBG removes Jayavarman's river-Faith adjacency.  Restore a standard +1
+-- Faith version on the Khmer civilization trait so every Khmer leader shares
+-- it and the old leader modifier cannot stack with it.
+DELETE FROM TraitModifiers
+WHERE TraitType = 'TRAIT_LEADER_MONASTERIES_KING'
+  AND ModifierId = 'TRAIT_MONASTERIES_KING_HOLY_SITE_RIVER_ADJACENCY';
+
+INSERT OR IGNORE INTO Modifiers (ModifierId, ModifierType) VALUES
+	('ZYL_KHMER_HOLY_SITE_RIVER_FAITH', 'MODIFIER_PLAYER_CITIES_RIVER_ADJACENCY');
+
+UPDATE Modifiers
+SET ModifierType = 'MODIFIER_PLAYER_CITIES_RIVER_ADJACENCY',
+	OwnerRequirementSetId = NULL,
+	SubjectRequirementSetId = NULL
+WHERE ModifierId = 'ZYL_KHMER_HOLY_SITE_RIVER_FAITH';
+
+INSERT OR REPLACE INTO ModifierArguments (ModifierId, Name, Value) VALUES
+	('ZYL_KHMER_HOLY_SITE_RIVER_FAITH', 'Amount', 1),
+	('ZYL_KHMER_HOLY_SITE_RIVER_FAITH', 'Description', 'LOC_DISTRICT_RIVER_FAITH'),
+	('ZYL_KHMER_HOLY_SITE_RIVER_FAITH', 'DistrictType', 'DISTRICT_HOLY_SITE'),
+	('ZYL_KHMER_HOLY_SITE_RIVER_FAITH', 'YieldType', 'YIELD_FAITH');
+
+INSERT OR IGNORE INTO TraitModifiers (TraitType, ModifierId) VALUES
+	('TRAIT_CIVILIZATION_KHMER_BARAYS', 'ZYL_KHMER_HOLY_SITE_RIVER_FAITH');
+
+-------------------------------------------------------------------------------
+-- Poundmaker: reduce outgoing Camp/Pasture Food
+-------------------------------------------------------------------------------
+
+-- The two Food modifiers use Origin=true; the separate Destination=true Gold
+-- modifiers intentionally remain at +1.
+UPDATE ModifierArguments
+SET Value = 0.5
+WHERE ModifierId IN (
+	'TRAIT_TRADE_FOOD_FROM_CAMPS',
+	'TRAIT_TRADE_FOOD_FROM_PASTURES'
+  )
+  AND Name = 'Amount';
+
+-------------------------------------------------------------------------------
+-- Mali: final civilization and leader rules
 -------------------------------------------------------------------------------
 
 -- Do not restore either the original -30% unit/building penalties or BBG's
@@ -353,6 +445,83 @@ WHERE TraitType = 'TRAIT_CIVILIZATION_MALI_GOLD_DESERT'
 DELETE FROM TraitModifiers
 WHERE TraitType = 'TRAIT_LEADER_SAHEL_MERCHANTS'
   AND ModifierId = 'TRAIT_BBG_MANSA_FREE_TRADER_BANKS';
+
+-- Remove the superseded featureless-Desert Faith, Desert-only Mine Gold and
+-- Mansa Musa Holy Site Production modifiers if an upstream source restores
+-- any of them.  The final Mine modifiers below use the Firaxis all-Mines scope.
+DELETE FROM TraitModifiers
+WHERE TraitType = 'TRAIT_CIVILIZATION_MALI_GOLD_DESERT'
+  AND ModifierId IN (
+	'TRAIT_DESERT_CITY_CENTER_FAITH',
+	'TRAIT_DESERT_HILLS_CITY_CENTER_FAITH',
+	'ZYL_MALI_FAITH_DESERT',
+	'ZYL_MALI_FAITH_DESERT_HILLS',
+	'BBG_MALI_GOLD_DESERT_MINES',
+	'BBG_MALI_GOLD_DESERT_HILLS_MINES'
+  );
+
+DELETE FROM TraitModifiers
+WHERE TraitType = 'TRAIT_LEADER_SAHEL_MERCHANTS'
+  AND ModifierId IN (
+	'BBG_MANSA_HOLY_SITE_BONUS_PRODUCTION',
+	'BBG_MANSA_HOLY_SITE_BONUS_PRODUCTION_BUILDING'
+  );
+
+-- A City Center founded directly on flat Desert or Desert Hills gains a flat
+-- +2 Faith.  This is deliberately not the original per-adjacent-Desert rule.
+INSERT OR IGNORE INTO RequirementSets (RequirementSetId, RequirementSetType) VALUES
+	('ZYL_MALI_DESERT_CITY_CENTER_REQUIREMENTS', 'REQUIREMENTSET_TEST_ALL'),
+	('ZYL_MALI_DESERT_HILLS_CITY_CENTER_REQUIREMENTS', 'REQUIREMENTSET_TEST_ALL');
+
+INSERT OR IGNORE INTO Requirements (RequirementId, RequirementType) VALUES
+	('ZYL_MALI_REQUIRES_PLOT_IS_CITY_CENTER', 'REQUIREMENT_PLOT_DISTRICT_TYPE_MATCHES');
+
+INSERT OR IGNORE INTO RequirementArguments (RequirementId, Name, Value) VALUES
+	('ZYL_MALI_REQUIRES_PLOT_IS_CITY_CENTER', 'DistrictType', 'DISTRICT_CITY_CENTER');
+
+INSERT OR IGNORE INTO RequirementSetRequirements (RequirementSetId, RequirementId) VALUES
+	('ZYL_MALI_DESERT_CITY_CENTER_REQUIREMENTS', 'REQUIRES_PLOT_HAS_DESERT'),
+	('ZYL_MALI_DESERT_CITY_CENTER_REQUIREMENTS', 'ZYL_MALI_REQUIRES_PLOT_IS_CITY_CENTER'),
+	('ZYL_MALI_DESERT_HILLS_CITY_CENTER_REQUIREMENTS', 'REQUIRES_PLOT_HAS_DESERT_HILLS'),
+	('ZYL_MALI_DESERT_HILLS_CITY_CENTER_REQUIREMENTS', 'ZYL_MALI_REQUIRES_PLOT_IS_CITY_CENTER');
+
+INSERT OR IGNORE INTO Modifiers (ModifierId, ModifierType, SubjectRequirementSetId) VALUES
+	('ZYL_MALI_DESERT_CITY_CENTER_FAITH', 'MODIFIER_PLAYER_ADJUST_PLOT_YIELD', 'ZYL_MALI_DESERT_CITY_CENTER_REQUIREMENTS'),
+	('ZYL_MALI_DESERT_HILLS_CITY_CENTER_FAITH', 'MODIFIER_PLAYER_ADJUST_PLOT_YIELD', 'ZYL_MALI_DESERT_HILLS_CITY_CENTER_REQUIREMENTS');
+
+INSERT OR IGNORE INTO ModifierArguments (ModifierId, Name, Value) VALUES
+	('ZYL_MALI_DESERT_CITY_CENTER_FAITH', 'YieldType', 'YIELD_FAITH'),
+	('ZYL_MALI_DESERT_CITY_CENTER_FAITH', 'Amount', 2),
+	('ZYL_MALI_DESERT_HILLS_CITY_CENTER_FAITH', 'YieldType', 'YIELD_FAITH'),
+	('ZYL_MALI_DESERT_HILLS_CITY_CENTER_FAITH', 'Amount', 2);
+
+INSERT OR IGNORE INTO TraitModifiers (TraitType, ModifierId) VALUES
+	('TRAIT_CIVILIZATION_MALI_GOLD_DESERT', 'ZYL_MALI_DESERT_CITY_CENTER_FAITH'),
+	('TRAIT_CIVILIZATION_MALI_GOLD_DESERT', 'ZYL_MALI_DESERT_HILLS_CITY_CENTER_FAITH'),
+	('TRAIT_CIVILIZATION_MALI_GOLD_DESERT', 'TRAIT_MALI_MINES_PRODUCTION'),
+	('TRAIT_CIVILIZATION_MALI_GOLD_DESERT', 'TRAIT_MALI_MINES_GOLD');
+
+UPDATE Modifiers
+SET SubjectRequirementSetId = 'PLOT_HAS_MINE_REQUIREMENTS'
+WHERE ModifierId IN ('TRAIT_MALI_MINES_PRODUCTION', 'TRAIT_MALI_MINES_GOLD');
+
+UPDATE ModifierArguments
+SET Value = -1
+WHERE ModifierId = 'TRAIT_MALI_MINES_PRODUCTION'
+  AND Name = 'Amount';
+
+UPDATE ModifierArguments
+SET Value = 4
+WHERE ModifierId = 'TRAIT_MALI_MINES_GOLD'
+  AND Name = 'Amount';
+
+-- Seed the Firaxis values as well as updating them.  The base XML contains
+-- inconsistent trailing whitespace on these IDs in some game builds.
+INSERT OR REPLACE INTO ModifierArguments (ModifierId, Name, Value) VALUES
+	('TRAIT_MALI_MINES_PRODUCTION', 'YieldType', 'YIELD_PRODUCTION'),
+	('TRAIT_MALI_MINES_PRODUCTION', 'Amount', -1),
+	('TRAIT_MALI_MINES_GOLD', 'YieldType', 'YIELD_GOLD'),
+	('TRAIT_MALI_MINES_GOLD', 'Amount', 4);
 
 UPDATE ModifierArguments
 SET Value = 10

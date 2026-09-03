@@ -2,14 +2,12 @@
 -- =                           VERCINGETORIX                              =
 -- ========================================================================
 
--- 30/07/25 Vercingetorix gets the culture on mine
-INSERT INTO TraitModifiers (TraitType, ModifierId) VALUES
-    ('TRAIT_LEADER_SUK_GALLIC_WAR', 'GAUL_MINE_CULTURE');
+-- Mine Culture is now a Gaul civilization ability unlocked at Bronze Working.
+-- Vercingetorix no longer receives a separate copy at Bronze Working.
+DELETE FROM TraitModifiers
+WHERE TraitType='TRAIT_LEADER_SUK_GALLIC_WAR'
+  AND ModifierId='GAUL_MINE_CULTURE';
 
--- Delay culture to bronze working
-UPDATE Modifiers SET OwnerRequirementSetId='BBG_UTILS_PLAYER_HAS_TECH_BRONZE_WORKING' WHERE ModifierId='GAUL_MINE_CULTURE';
-
-    
 -- 30/07/25 envoy from great engineer
 INSERT INTO Requirements (RequirementId, RequirementType) VALUES
     ('BBG_UNIT_IS_GREAT_ENGINEER', 'REQUIREMENT_GREAT_PERSON_TYPE_MATCHES');

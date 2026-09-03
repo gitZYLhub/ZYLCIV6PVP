@@ -81,6 +81,7 @@
 - BBG 的文明、单位、建筑和科技树单项平衡继续完整加载；其 `base.sql` 中对中世纪及以后所有科技统一乘 1.05 的语句在内嵌副本中停用，避免后置除法误改 BBG 后续显式设定的未来科技成本。
 - `sql/ZYL_GameplayOverrides.sql` 在全部 BBG/BBM 数据库动作之后统一拥有科技时代折扣、天文导航的航海术+占星术双前置及上船解锁、八项尤里卡/鼓舞、商业中心奢侈相邻和俄罗斯冻土邻接圣地/拉夫拉信仰规则。
 - 同一后置层还重绑定寻欢作乐凯瑟琳的资源文化 Modifier：已改良奢侈、加成、战略资源分别检查技艺、封建主义和城堡；与剧院广场相邻的三类资源文化加成保持独立不变。法国的 T4 奢侈资源出生关联直接写入文明级 `StartBiasResources`，因此所有法国领袖共同继承，并覆盖当前启用的全部奢侈资源。
+- 高棉沿河圣地的 +1 信仰使用独立 `ZYL_KHMER_HOLY_SITE_RIVER_FAITH` Modifier 并只挂到文明 Trait；Firaxis 原有的同类领袖 Modifier 继续从阇耶跋摩七世移除，避免两份相邻加成叠加。克里的后置覆盖只修改两个 `TRAIT_TRADE_FOOD_FROM_*` Amount，两个 `TRAIT_TRADE_GOLD_FROM_*` Modifier 保持 +1。
 - `sql/ZYL_GovernorOverrides.sql` 只在迭起兴衰/风云变幻总督表存在时加载，最后把梁的就职时间覆盖为 3 回合，移除马格努斯左一增长、移动免人口移民效果，并把右一工业区建筑加成覆盖到 40%。
 
 ## 初始移民
@@ -94,7 +95,7 @@
 
 - Team PVP Balanced mod 结社 3.93 的四结社平衡、镀金船厂、文本、图标和建筑美术已内嵌；独立原模组 ID 被阻止同时加载。
 - 结社建筑美术由 `TeamPVPSecretSocieties.dep` 声明 Ethiopia GameArt 依赖并路由给 Landmarks/战略视图消费者；`UpdateArt` 不直接引用 `.artdef`，避免 `Unknown extension`。
-- Team PVP 源 SQL 中的波兰遗物、阿玛尼使者和 `SIMULTANEUM` 政策属于同文件内混放的非结社改动，因此不进入整合层；注释方案与数值为 0 的吸血鬼移动 Modifier 同样不加载。
+- Team PVP 源 SQL 中的波兰遗物、阿玛尼使者和 `SIMULTANEUM` 政策属于同文件内混放的非结社改动，因此不进入整合层；注释方案与上游数值为 0 的吸血鬼移动 Modifier 同样不加载。本整合层另以 `ZYL_TPVP_` Modifier 在血色契约 2 级为吸血鬼提供有效的 +1 移动力。
 - 免费结社头衔只由 `Components\BBG\sql\Secret_Societies.sql` 插入一次；该动作与 Team PVP 结社层都要求《风云变幻》、埃塞俄比亚包和已开启的秘密结社模式。
 - 调查任意部落村庄时，对四个结社分别使用 `DiscoverAtGoodyHutBaseChance = 100000` 发起发现判定；Team PVP 原有的四结社城邦发现来源及各结社其他原有来源不删除。
 - Team PVP 新增对象全部使用 `ZYL_TPVP_` 命名空间，重复加载敏感表使用 `INSERT OR IGNORE` / `INSERT OR REPLACE`，避免裸主键插入导致整个 SQL 文件回滚。

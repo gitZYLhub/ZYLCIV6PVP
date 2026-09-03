@@ -6,6 +6,7 @@ $modRoot = Split-Path -Parent $PSScriptRoot
 $modInfoPath = Join-Path $modRoot 'ZYLPVPMOD.modinfo'
 $expectedModId = '4dd01931-9d44-4a8a-8e74-712cba0f0072'
 $validationErrors = [System.Collections.Generic.List[string]]::new()
+$referenceArchiveRoot = Join-Path $modRoot 'BBG'
 
 function Add-ValidationError {
     param([string]$Message)
@@ -29,9 +30,13 @@ if (-not (Test-Path -LiteralPath $modInfoPath)) {
     throw "ModInfo not found: $modInfoPath"
 }
 
-# Validate every XML-bearing artifact, including the BBM art dependency.
+# Validate every runtime XML-bearing artifact, including the BBM art
+# dependency. The top-level BBG directory is an audit/reference archive and
+# is deliberately not part of the assembled ModInfo, so do not treat its
+# upstream language files as runtime package files.
 $xmlFiles = @(Get-ChildItem -LiteralPath $modRoot -Recurse -File | Where-Object {
-    $_.Extension -in @('.xml', '.modinfo', '.dep')
+    $_.FullName -notlike "$referenceArchiveRoot\*" -and
+        $_.Extension -in @('.xml', '.modinfo', '.dep')
 })
 foreach ($xmlFile in $xmlFiles) {
     try {
@@ -521,7 +526,9 @@ $intentionallyUnlistedMap = @{}
 foreach ($relativePath in $intentionallyUnlistedFiles) {
     $intentionallyUnlistedMap[(Normalize-RelativePath $relativePath)] = $relativePath
 }
-$diskFiles = @(Get-ChildItem -LiteralPath $modRoot -Recurse -File)
+$diskFiles = @(Get-ChildItem -LiteralPath $modRoot -Recurse -File | Where-Object {
+    $_.FullName -notlike "$referenceArchiveRoot\*"
+})
 foreach ($diskFile in $diskFiles) {
     if ($diskFile.FullName -eq $modInfoPath) { continue }
     $relativePath = $diskFile.FullName.Substring($modRoot.Length + 1)
@@ -662,7 +669,13 @@ else {
 		'BBG_MALI_FAITH_NEXT_DESERT',
 		'BBG_MALI_FAITH_NEXT_DESERT_HILLS',
 		'BBG_MALI_FAITH_NEXT_CAPITAL',
-		'TRAIT_BBG_MANSA_FREE_TRADER_BANKS'
+		'TRAIT_BBG_MANSA_FREE_TRADER_BANKS',
+		'ZYL_MALI_FAITH_DESERT',
+		'ZYL_MALI_FAITH_DESERT_HILLS',
+		'BBG_MALI_GOLD_DESERT_MINES',
+		'BBG_MALI_GOLD_DESERT_HILLS_MINES',
+		'BBG_MANSA_HOLY_SITE_BONUS_PRODUCTION',
+		'BBG_MANSA_HOLY_SITE_BONUS_PRODUCTION_BUILDING'
 	)) {
 		if ($bbgMaliSql.Contains($removedMaliToken)) {
 			Add-ValidationError "Mali source still defines a removed modifier: $removedMaliToken"
@@ -676,9 +689,7 @@ else {
 	}
 	foreach ($maliYieldBinding in @(
 		@('ZYL_MALI_PRODUCTION_DESERT', 'YIELD_PRODUCTION', 'BBG_PLOT_IS_DESERT_NO_CITY_CENTER_REQSET'),
-		@('ZYL_MALI_PRODUCTION_DESERT_HILLS', 'YIELD_PRODUCTION', 'BBG_PLOT_IS_DESERT_HILLS_NO_CITY_CENTER_REQSET'),
-		@('ZYL_MALI_FAITH_DESERT', 'YIELD_FAITH', 'BBG_PLOT_IS_DESERT_NO_CITY_CENTER_REQSET'),
-		@('ZYL_MALI_FAITH_DESERT_HILLS', 'YIELD_FAITH', 'BBG_PLOT_IS_DESERT_HILLS_NO_CITY_CENTER_REQSET')
+		@('ZYL_MALI_PRODUCTION_DESERT_HILLS', 'YIELD_PRODUCTION', 'BBG_PLOT_IS_DESERT_HILLS_NO_CITY_CENTER_REQSET')
 	)) {
 		$modifierId = [regex]::Escape($maliYieldBinding[0])
 		$yieldType = [regex]::Escape($maliYieldBinding[1])
@@ -695,6 +706,192 @@ else {
 	}
 	if ($bbgMaliSql -notmatch "(?s)SET\s+Value\s*=\s*10\s+WHERE\s+ModifierId\s*=\s*'SUGUBA_CHEAPER_UNIT_PURCHASE'") {
 		Add-ValidationError 'Suguba unit purchase discount is not locked to 10%.'
+	}
+}
+
+$bbgKhmerPath = Join-Path $modRoot 'Components\BBG\sql\DLC_Indonesia_Khmer\Khmer.sql'
+if (-not (Test-Path -LiteralPath $bbgKhmerPath)) {
+	Add-ValidationError 'BBG Khmer gameplay SQL is missing.'
+}
+else {
+	$bbgKhmerSql = Get-Content -LiteralPath $bbgKhmerPath -Raw
+	if ($bbgKhmerSql -notmatch "(?s)DELETE\s+from\s+TraitModifiers\s+where\s+TraitType\s*=\s*'TRAIT_LEADER_MONASTERIES_KING'\s+and\s+ModifierId\s*=\s*'TRAIT_MONASTERIES_KING_HOLY_SITE_RIVER_ADJACENCY'") {
+		Add-ValidationError "Khmer source does not remove the old Jayavarman-only river Holy Site Faith modifier."
+	}
+	if ($bbgKhmerSql -notmatch "(?s)\('ZYL_KHMER_HOLY_SITE_RIVER_FAITH'\s*,\s*'MODIFIER_PLAYER_CITIES_RIVER_ADJACENCY'\).*?\('ZYL_KHMER_HOLY_SITE_RIVER_FAITH'\s*,\s*'Amount'\s*,\s*1\).*?\('ZYL_KHMER_HOLY_SITE_RIVER_FAITH'\s*,\s*'DistrictType'\s*,\s*'DISTRICT_HOLY_SITE'\).*?\('ZYL_KHMER_HOLY_SITE_RIVER_FAITH'\s*,\s*'YieldType'\s*,\s*'YIELD_FAITH'\).*?\('TRAIT_CIVILIZATION_KHMER_BARAYS'\s*,\s*'ZYL_KHMER_HOLY_SITE_RIVER_FAITH'\)") {
+		Add-ValidationError 'Khmer source does not attach the standard +1 river Holy Site Faith bonus to the civilization trait.'
+	}
+	if ($bbgKhmerSql -match "INSERT\s+(?:OR\s+IGNORE\s+)?INTO\s+TraitModifiers[^;]*TRAIT_MONASTERIES_KING_HOLY_SITE_RIVER_ADJACENCY") {
+		Add-ValidationError 'Khmer source still grants the river Holy Site Faith modifier to Jayavarman.'
+	}
+}
+
+$bbgCreePath = Join-Path $modRoot 'Components\BBG\sql\XP1\Cree.sql'
+if (-not (Test-Path -LiteralPath $bbgCreePath)) {
+	Add-ValidationError 'BBG Cree gameplay SQL is missing.'
+}
+else {
+	$bbgCreeSql = Get-Content -LiteralPath $bbgCreePath -Raw
+	if ($bbgCreeSql -notmatch "(?s)UPDATE\s+ModifierArguments\s+SET\s+Value\s*=\s*0\.5\s+WHERE\s+ModifierId\s+IN\s*\(\s*'TRAIT_TRADE_FOOD_FROM_CAMPS'\s*,\s*'TRAIT_TRADE_FOOD_FROM_PASTURES'\s*\)\s+AND\s+Name\s*=\s*'Amount'") {
+		Add-ValidationError 'Cree source does not reduce outgoing Camp/Pasture Trade Route Food to 0.5.'
+	}
+}
+
+$bbgGranColombiaPath = Join-Path $modRoot 'Components\BBG\sql\NFP\GranColombia.sql'
+if (-not (Test-Path -LiteralPath $bbgGranColombiaPath)) {
+	Add-ValidationError 'BBG Gran Colombia gameplay SQL is missing.'
+}
+else {
+	$bbgGranColombiaSql = Get-Content -LiteralPath $bbgGranColombiaPath -Raw
+	if ($bbgGranColombiaSql -notmatch "(?s)DELETE\s+FROM\s+TraitModifiers\s+WHERE\s+TraitType\s*=\s*'TRAIT_CIVILIZATION_EJERCITO_PATRIOTA'\s+AND\s+ModifierId\s*=\s*'BBG_COLUMBIA_MOVEMENT_BONUS'.*?INSERT\s+OR\s+IGNORE\s+INTO\s+TraitModifiers\s*\(\s*TraitType\s*,\s*ModifierId\s*\)\s+VALUES\s*\(\s*'TRAIT_CIVILIZATION_EJERCITO_PATRIOTA'\s*,\s*'TRAIT_EJERCITO_PATRIOTA_EXTRA_MOVEMENT'\s*\)") {
+		Add-ValidationError 'Gran Colombia source does not restore the original all-unit movement trait attachment.'
+	}
+	if ($bbgGranColombiaSql -match "BBG_UTILS_PLAYER_HAS_CIVIC_POLITICAL_PHILOSOPHY_REQSET|BBG_REQUIREMENT_UNIT_IS_NAVAL_OR_LAND|BBG_COLUMBIA_MOVEMENT_BONUS_MODIFIER") {
+		Add-ValidationError 'Gran Colombia source still defines the Political Philosophy military-only movement replacement.'
+	}
+	if ($bbgGranColombiaSql -notmatch "(?s)UPDATE\s+Modifiers\s+SET\s+SubjectRequirementSetId\s*=\s*'BBG_COLOMBIA_UNIT_IS_CAV_SPY_PLANE_REQSET'\s+WHERE\s+ModifierId\s*=\s*'TRAIT_PROMOTE_NO_FINISH_MOVES'") {
+		Add-ValidationError 'Gran Colombia no longer preserves the Cavalry/Air/Spy promote-and-move restriction.'
+	}
+}
+
+$bbgGaulPath = Join-Path $modRoot 'Components\BBG\sql\NFP\Gaul.sql'
+if (-not (Test-Path -LiteralPath $bbgGaulPath)) {
+	Add-ValidationError 'BBG Gaul gameplay SQL is missing.'
+}
+else {
+	$bbgGaulSql = Get-Content -LiteralPath $bbgGaulPath -Raw
+	if ($bbgGaulSql -notmatch "(?s)DELETE\s+FROM\s+TraitModifiers\s+WHERE\s+TraitType\s*=\s*'TRAIT_LEADER_SUK_GALLIC_WAR'.*?ModifierId\s*=\s*'GAUL_MINE_CULTURE'.*?INSERT\s+OR\s+IGNORE\s+INTO\s+TraitModifiers\s*\(\s*TraitType\s*,\s*ModifierId\s*\)\s+VALUES\s*\(\s*'TRAIT_CIVILIZATION_GAUL'\s*,\s*'GAUL_MINE_CULTURE'\s*\).*?UPDATE\s+Modifiers\s+SET\s+OwnerRequirementSetId\s*=\s*'BBG_UTILS_PLAYER_HAS_TECH_BRONZE_WORKING'\s*,\s*SubjectRequirementSetId\s*=\s*'PLOT_HAS_MINE_REQUIREMENTS'\s+WHERE\s+ModifierId\s*=\s*'GAUL_MINE_CULTURE'") {
+		Add-ValidationError 'Gaul source does not move GAUL_MINE_CULTURE to the civilization trait with the Bronze Working/Mine requirements.'
+	}
+	if ($bbgGaulSql -match "ZYL_GAUL_MINE_CULTURE_CRAFTSMANSHIP|BBG_UTILS_PLAYER_HAS_CIVIC_CRAFTSMANSHIP_REQSET") {
+		Add-ValidationError 'Gaul source still contains the superseded standalone Craftsmanship Mine Culture modifier.'
+	}
+}
+
+$bbgVercingetorixPath = Join-Path $modRoot 'Components\BBG\sql\BBG_Expanded\Vercingetorix.sql'
+if (-not (Test-Path -LiteralPath $bbgVercingetorixPath)) {
+	Add-ValidationError 'BBG Vercingetorix gameplay SQL is missing.'
+}
+else {
+	$bbgVercingetorixSql = Get-Content -LiteralPath $bbgVercingetorixPath -Raw
+	if ($bbgVercingetorixSql -match "INSERT\s+INTO\s+TraitModifiers[^;]*GAUL_MINE_CULTURE|OwnerRequirementSetId\s*=\s*'BBG_UTILS_PLAYER_HAS_TECH_BRONZE_WORKING'[^;]*GAUL_MINE_CULTURE") {
+		Add-ValidationError 'Vercingetorix source still grants GAUL_MINE_CULTURE as a separate leader ability.'
+	}
+}
+
+$bbgRomePath = Join-Path $modRoot 'Components\BBG\sql\Base\Rome.sql'
+if (-not (Test-Path -LiteralPath $bbgRomePath)) {
+	Add-ValidationError 'BBG Rome gameplay SQL is missing.'
+}
+else {
+	$bbgRomeSql = Get-Content -LiteralPath $bbgRomePath -Raw
+	if ($bbgRomeSql -notmatch "(?m)^\s*UPDATE\s+Modifiers\s+SET\s+SubjectRequirementSetId\s*=\s*'BBG_UTILS_PLAYER_HAS_CIVIC_FOREIGN_TRADE_REQSET'\s+WHERE\s+ModifierId\s*=\s*'TRAIT_ADJUST_NON_CAPITAL_FREE_CHEAPEST_BUILDING'\s*;") {
+		Add-ValidationError 'Trajan free City Center building is not unlocked by Foreign Trade in the Rome source SQL.'
+	}
+	if ($bbgRomeSql -match "(?m)^\s*UPDATE\s+Modifiers\s+SET\s+SubjectRequirementSetId\s*=\s*'BBG_UTILS_PLAYER_HAS_CIVIC_EARLY_EMPIRE_REQSET'") {
+		Add-ValidationError "Rome source SQL still unlocks Trajan's free building at Early Empire."
+	}
+}
+
+foreach ($gaulTextSpec in @(
+	@('Components\BBG\lang\english.xml', 'en_US', 'Bronze Working', '+1 [ICON_CULTURE] Culture'),
+	@('Components\BBG\lang\chinese.xml', 'zh_Hans_CN', '铸铜术', '+1 [ICON_CULTURE] 文化'),
+	@('lang\ZYL_BBG74_Chinese_Text.xml', 'zh_Hans_CN', '铸铜术', '+1 [ICON_CULTURE] 文化'),
+	@('lang\ZYL_GameplayOverrides_Text.xml', 'en_US', 'Bronze Working', '+1 [ICON_CULTURE] Culture'),
+	@('lang\ZYL_GameplayOverrides_Text.xml', 'zh_Hans_CN', '铸铜术', '+1 [ICON_CULTURE] 文化')
+)) {
+	$gaulTextPath = Join-Path $modRoot $gaulTextSpec[0]
+	if (-not (Test-Path -LiteralPath $gaulTextPath)) {
+		Add-ValidationError "Gaul localization file is missing: $($gaulTextSpec[0])"
+		continue
+	}
+	$gaulTextXml = Load-XmlDocument $gaulTextPath
+	$gaulTextNode = $gaulTextXml.SelectSingleNode("/GameData/LocalizedText/*[@Tag='LOC_TRAIT_CIVILIZATION_GAUL_DESCRIPTION' and @Language='$($gaulTextSpec[1])']/Text")
+	if ($null -eq $gaulTextNode -or
+		-not $gaulTextNode.InnerText.Contains($gaulTextSpec[2]) -or
+		-not $gaulTextNode.InnerText.Contains($gaulTextSpec[3])) {
+		Add-ValidationError "Gaul $($gaulTextSpec[1]) text does not describe the Bronze Working Mine +1 Culture bonus: $($gaulTextSpec[0])"
+	}
+}
+
+foreach ($vercingetorixTextSpec in @(
+	@('Components\BBG\lang\english.xml', 'en_US', 'Workshops grant'),
+	@('Components\BBG\lang\chinese.xml', 'zh_Hans_CN', '工作坊'),
+	@('lang\ZYL_BBG74_Chinese_Text.xml', 'zh_Hans_CN', '工作坊'),
+	@('lang\ZYL_GameplayOverrides_Text.xml', 'zh_Hans_CN', '工作坊'),
+	@('lang\ZYL_GameplayOverrides_Text.xml', 'en_US', 'Workshops grant')
+)) {
+	$vercingetorixTextPath = Join-Path $modRoot $vercingetorixTextSpec[0]
+	if (-not (Test-Path -LiteralPath $vercingetorixTextPath)) {
+		Add-ValidationError "Vercingetorix localization file is missing: $($vercingetorixTextSpec[0])"
+		continue
+	}
+	$vercingetorixTextXml = Load-XmlDocument $vercingetorixTextPath
+	foreach ($vercingetorixTag in @(
+		'LOC_TRAIT_LEADER_SUK_GALLIC_WAR_DESCRIPTION',
+		'LOC_TRAIT_LEADER_SUK_GALLIC_WAR_DESCRIPTION_DLC'
+	)) {
+		$vercingetorixTextNode = $vercingetorixTextXml.SelectSingleNode("/GameData/LocalizedText/*[@Tag='$vercingetorixTag' and @Language='$($vercingetorixTextSpec[1])']/Text")
+		if ($null -eq $vercingetorixTextNode -or -not $vercingetorixTextNode.InnerText.Contains($vercingetorixTextSpec[2])) {
+			Add-ValidationError "Vercingetorix $($vercingetorixTextSpec[1]) text does not retain the Workshop Influence ability: $vercingetorixTag"
+			continue
+		}
+		foreach ($removedFragment in @('Bronze Working', '铸铜术', 'mines', '矿山', '[ICON_CULTURE]')) {
+			if ($vercingetorixTextNode.InnerText.Contains($removedFragment)) {
+				Add-ValidationError "Vercingetorix $($vercingetorixTextSpec[1]) text still claims the transferred Mine Culture ability: $vercingetorixTag"
+				break
+			}
+		}
+	}
+}
+
+foreach ($trajanTextSpec in @(
+	@('Components\BBG\lang\english.xml', 'en_US', 'Foreign Trade', 'Early Empire'),
+	@('Components\BBG\lang\chinese.xml', 'zh_Hans_CN', '对外贸易', '帝国初期'),
+	@('lang\ZYL_BBG74_Chinese_Text.xml', 'zh_Hans_CN', '对外贸易', '帝国初期'),
+	@('lang\ZYL_GameplayOverrides_Text.xml', 'en_US', 'Foreign Trade', 'Early Empire'),
+	@('lang\ZYL_GameplayOverrides_Text.xml', 'zh_Hans_CN', '对外贸易', '帝国初期')
+)) {
+	$trajanTextPath = Join-Path $modRoot $trajanTextSpec[0]
+	if (-not (Test-Path -LiteralPath $trajanTextPath)) {
+		Add-ValidationError "Trajan localization file is missing: $($trajanTextSpec[0])"
+		continue
+	}
+	$trajanTextXml = Load-XmlDocument $trajanTextPath
+	$trajanTextNode = $trajanTextXml.SelectSingleNode("/GameData/LocalizedText/*[@Tag='LOC_TRAIT_LEADER_TRAJANS_COLUMN_DESCRIPTION' and @Language='$($trajanTextSpec[1])']/Text")
+	if ($null -eq $trajanTextNode -or -not $trajanTextNode.InnerText.Contains($trajanTextSpec[2])) {
+		Add-ValidationError "Trajan $($trajanTextSpec[1]) text does not mention Foreign Trade: $($trajanTextSpec[0])"
+		continue
+	}
+	if ($trajanTextNode.InnerText.Contains($trajanTextSpec[3])) {
+		Add-ValidationError "Trajan $($trajanTextSpec[1]) text still claims Early Empire: $($trajanTextSpec[0])"
+	}
+}
+
+foreach ($granColombiaTextSpec in @(
+	@('Components\BBG\lang\english.xml', 'en_US', 'all units', 'military units', 'Political Philosophy'),
+	@('Components\BBG\lang\chinese.xml', 'zh_Hans_CN', '所有单位+1', '所有军事单位', '政治哲学')
+)) {
+	$granColombiaTextPath = Join-Path $modRoot $granColombiaTextSpec[0]
+	if (-not (Test-Path -LiteralPath $granColombiaTextPath)) {
+		Add-ValidationError "Gran Colombia localization file is missing: $($granColombiaTextSpec[0])"
+		continue
+	}
+	$granColombiaTextXml = Load-XmlDocument $granColombiaTextPath
+	foreach ($granColombiaTag in @(
+		'LOC_TRAIT_CIVILIZATION_EJERCITO_PATRIOTA_DESCRIPTION',
+		'LOC_ABILITY_EJERCITO_PATRIOTA_EXTRA_MOVEMENT_DESCRIPTION'
+	)) {
+		$granColombiaTextNode = $granColombiaTextXml.SelectSingleNode("/GameData/LocalizedText/*[@Tag='$granColombiaTag' and @Language='$($granColombiaTextSpec[1])']/Text")
+		if ($null -eq $granColombiaTextNode -or -not $granColombiaTextNode.InnerText.Contains($granColombiaTextSpec[2])) {
+			Add-ValidationError "Gran Colombia $($granColombiaTextSpec[1]) text does not say all units receive the movement bonus: $granColombiaTag"
+			continue
+		}
+		foreach ($removedFragment in @($granColombiaTextSpec[3], $granColombiaTextSpec[4])) {
+			if ($granColombiaTextNode.InnerText.Contains($removedFragment)) {
+				Add-ValidationError "Gran Colombia $($granColombiaTextSpec[1]) text still claims the removed military/Political Philosophy restriction: $granColombiaTag"
+			}
+		}
 	}
 }
 
@@ -758,6 +955,24 @@ else {
 		'BBG_MALI_FAITH_NEXT_CAPITAL',
 		'BBG_TRAIT_MALI_LESS_CITY_PRODUCTION',
 		'TRAIT_BBG_MANSA_FREE_TRADER_BANKS',
+		'ZYL_MALI_DESERT_CITY_CENTER_REQUIREMENTS',
+		'ZYL_MALI_DESERT_HILLS_CITY_CENTER_REQUIREMENTS',
+		'ZYL_MALI_REQUIRES_PLOT_IS_CITY_CENTER',
+		'ZYL_MALI_DESERT_CITY_CENTER_FAITH',
+		'ZYL_MALI_DESERT_HILLS_CITY_CENTER_FAITH',
+		'TRAIT_MALI_MINES_PRODUCTION',
+		'TRAIT_MALI_MINES_GOLD',
+		'TRAIT_DESERT_CITY_CENTER_FAITH',
+		'TRAIT_DESERT_HILLS_CITY_CENTER_FAITH',
+		'BBG_MANSA_HOLY_SITE_BONUS_PRODUCTION',
+		'BBG_MANSA_HOLY_SITE_BONUS_PRODUCTION_BUILDING',
+		'BBG_COLUMBIA_MOVEMENT_BONUS',
+		'TRAIT_EJERCITO_PATRIOTA_EXTRA_MOVEMENT',
+		'TRAIT_ADJUST_NON_CAPITAL_FREE_CHEAPEST_BUILDING',
+		'BBG_UTILS_PLAYER_HAS_CIVIC_FOREIGN_TRADE_REQSET',
+		'GAUL_MINE_CULTURE',
+		'BBG_UTILS_PLAYER_HAS_TECH_BRONZE_WORKING',
+		'PLOT_HAS_MINE_REQUIREMENTS',
 		'SUGUBA_CHEAPER_BUILDING_PURCHASE',
 		'SUGUBA_CHEAPER_DISTRICT_PURCHASE',
 		'SUGUBA_CHEAPER_UNIT_PURCHASE',
@@ -800,6 +1015,56 @@ else {
 	}
 	if ($gameplayOverrideSql -notmatch "(?s)DELETE\s+FROM\s+TraitModifiers\s+WHERE\s+TraitType\s*=\s*'TRAIT_LEADER_SAHEL_MERCHANTS'.*?ModifierId\s*=\s*'TRAIT_BBG_MANSA_FREE_TRADER_BANKS'") {
 		Add-ValidationError 'Final Mansa Musa override does not remove the Banking Trade Route modifier.'
+	}
+	if ($gameplayOverrideSql -notmatch "(?s)DELETE\s+FROM\s+TraitModifiers\s+WHERE\s+TraitType\s*=\s*'TRAIT_CIVILIZATION_MALI_GOLD_DESERT'.*?'ZYL_MALI_FAITH_DESERT'.*?'ZYL_MALI_FAITH_DESERT_HILLS'.*?'BBG_MALI_GOLD_DESERT_MINES'.*?'BBG_MALI_GOLD_DESERT_HILLS_MINES'") {
+		Add-ValidationError 'Final Mali override does not detach the superseded Desert Faith and Desert-only Mine modifiers.'
+	}
+	if ($gameplayOverrideSql -notmatch "(?s)DELETE\s+FROM\s+TraitModifiers\s+WHERE\s+TraitType\s*=\s*'TRAIT_LEADER_SAHEL_MERCHANTS'.*?'BBG_MANSA_HOLY_SITE_BONUS_PRODUCTION'.*?'BBG_MANSA_HOLY_SITE_BONUS_PRODUCTION_BUILDING'") {
+		Add-ValidationError 'Final Mansa Musa override does not remove both Holy Site Production modifiers.'
+	}
+	if ($gameplayOverrideSql -notmatch "(?s)DELETE\s+FROM\s+TraitModifiers\s+WHERE\s+TraitType\s*=\s*'TRAIT_CIVILIZATION_EJERCITO_PATRIOTA'\s+AND\s+ModifierId\s*=\s*'BBG_COLUMBIA_MOVEMENT_BONUS'.*?INSERT\s+OR\s+IGNORE\s+INTO\s+TraitModifiers\s*\(\s*TraitType\s*,\s*ModifierId\s*\)\s+VALUES\s*\(\s*'TRAIT_CIVILIZATION_EJERCITO_PATRIOTA'\s*,\s*'TRAIT_EJERCITO_PATRIOTA_EXTRA_MOVEMENT'\s*\)") {
+		Add-ValidationError 'Final Gran Colombia override does not restore the original all-unit movement trait attachment.'
+	}
+	if ($gameplayOverrideSql -notmatch "(?m)^\s*UPDATE\s+Modifiers\s+SET\s+SubjectRequirementSetId\s*=\s*'BBG_UTILS_PLAYER_HAS_CIVIC_FOREIGN_TRADE_REQSET'\s+WHERE\s+ModifierId\s*=\s*'TRAIT_ADJUST_NON_CAPITAL_FREE_CHEAPEST_BUILDING'\s*;") {
+		Add-ValidationError 'Final Trajan override does not unlock the free City Center building at Foreign Trade.'
+	}
+	if ($gameplayOverrideSql -match "(?m)^\s*UPDATE\s+Modifiers\s+SET\s+SubjectRequirementSetId\s*=\s*'BBG_UTILS_PLAYER_HAS_CIVIC_EARLY_EMPIRE_REQSET'\s+WHERE\s+ModifierId\s*=\s*'TRAIT_ADJUST_NON_CAPITAL_FREE_CHEAPEST_BUILDING'") {
+		Add-ValidationError 'Final Trajan override still unlocks the free City Center building at Early Empire.'
+	}
+	if ($gameplayOverrideSql -notmatch "(?s)DELETE\s+FROM\s+TraitModifiers\s+WHERE\s+TraitType\s*=\s*'TRAIT_LEADER_SUK_GALLIC_WAR'\s+AND\s+ModifierId\s*=\s*'GAUL_MINE_CULTURE'") {
+		Add-ValidationError 'Final Gaul override does not detach GAUL_MINE_CULTURE from Vercingetorix.'
+	}
+	if ($gameplayOverrideSql -notmatch "(?s)UPDATE\s+Modifiers\s+SET\s+ModifierType\s*=\s*'MODIFIER_PLAYER_ADJUST_PLOT_YIELD'\s*,\s*OwnerRequirementSetId\s*=\s*'BBG_UTILS_PLAYER_HAS_TECH_BRONZE_WORKING'\s*,\s*SubjectRequirementSetId\s*=\s*'PLOT_HAS_MINE_REQUIREMENTS'\s+WHERE\s+ModifierId\s*=\s*'GAUL_MINE_CULTURE'") {
+		Add-ValidationError 'Final Gaul override does not lock GAUL_MINE_CULTURE to Bronze Working and Mine plots.'
+	}
+	if ($gameplayOverrideSql -notmatch "(?s)\('GAUL_MINE_CULTURE'\s*,\s*'YieldType'\s*,\s*'YIELD_CULTURE'\).*?\('GAUL_MINE_CULTURE'\s*,\s*'Amount'\s*,\s*1\).*?\('TRAIT_CIVILIZATION_GAUL'\s*,\s*'GAUL_MINE_CULTURE'\)") {
+		Add-ValidationError 'Final Gaul override does not lock the +1 Culture argument and civilization-trait attachment.'
+	}
+	if ($gameplayOverrideSql -notmatch "(?s)DELETE\s+FROM\s+TraitModifiers\s+WHERE\s+TraitType\s*=\s*'TRAIT_LEADER_MONASTERIES_KING'.*?ModifierId\s*=\s*'TRAIT_MONASTERIES_KING_HOLY_SITE_RIVER_ADJACENCY'.*?\('ZYL_KHMER_HOLY_SITE_RIVER_FAITH'\s*,\s*'MODIFIER_PLAYER_CITIES_RIVER_ADJACENCY'\).*?\('ZYL_KHMER_HOLY_SITE_RIVER_FAITH'\s*,\s*'Amount'\s*,\s*1\).*?\('ZYL_KHMER_HOLY_SITE_RIVER_FAITH'\s*,\s*'DistrictType'\s*,\s*'DISTRICT_HOLY_SITE'\).*?\('ZYL_KHMER_HOLY_SITE_RIVER_FAITH'\s*,\s*'YieldType'\s*,\s*'YIELD_FAITH'\).*?\('TRAIT_CIVILIZATION_KHMER_BARAYS'\s*,\s*'ZYL_KHMER_HOLY_SITE_RIVER_FAITH'\)") {
+		Add-ValidationError 'Final Khmer override does not provide the standard +1 river Holy Site Faith bonus on the civilization trait.'
+	}
+	if ($gameplayOverrideSql -match "(?s)\('TRAIT_LEADER_MONASTERIES_KING'\s*,\s*'TRAIT_MONASTERIES_KING_HOLY_SITE_RIVER_ADJACENCY'\)") {
+		Add-ValidationError 'Final Khmer override still attaches the old river Holy Site Faith modifier to Jayavarman.'
+	}
+	if ($gameplayOverrideSql -notmatch "(?s)UPDATE\s+ModifierArguments\s+SET\s+Value\s*=\s*0\.5\s+WHERE\s+ModifierId\s+IN\s*\(\s*'TRAIT_TRADE_FOOD_FROM_CAMPS'\s*,\s*'TRAIT_TRADE_FOOD_FROM_PASTURES'\s*\)\s+AND\s+Name\s*=\s*'Amount'") {
+		Add-ValidationError 'Final Cree override does not reduce outgoing Camp/Pasture Trade Route Food to 0.5.'
+	}
+	foreach ($maliCityFaithBinding in @(
+		@('ZYL_MALI_DESERT_CITY_CENTER_FAITH', 'ZYL_MALI_DESERT_CITY_CENTER_REQUIREMENTS', 'REQUIRES_PLOT_HAS_DESERT'),
+		@('ZYL_MALI_DESERT_HILLS_CITY_CENTER_FAITH', 'ZYL_MALI_DESERT_HILLS_CITY_CENTER_REQUIREMENTS', 'REQUIRES_PLOT_HAS_DESERT_HILLS')
+	)) {
+		$modifierId = [regex]::Escape($maliCityFaithBinding[0])
+		$requirementSetId = [regex]::Escape($maliCityFaithBinding[1])
+		$terrainRequirementId = [regex]::Escape($maliCityFaithBinding[2])
+		if ($gameplayOverrideSql -notmatch "(?s)\('ZYL_MALI_REQUIRES_PLOT_IS_CITY_CENTER'\s*,\s*'REQUIREMENT_PLOT_DISTRICT_TYPE_MATCHES'\).*?\('ZYL_MALI_REQUIRES_PLOT_IS_CITY_CENTER'\s*,\s*'DistrictType'\s*,\s*'DISTRICT_CITY_CENTER'\).*?\('$requirementSetId'\s*,\s*'$terrainRequirementId'\).*?\('$requirementSetId'\s*,\s*'ZYL_MALI_REQUIRES_PLOT_IS_CITY_CENTER'\).*?\('$modifierId'\s*,\s*'MODIFIER_PLAYER_ADJUST_PLOT_YIELD'\s*,\s*'$requirementSetId'\).*?\('$modifierId'\s*,\s*'YieldType'\s*,\s*'YIELD_FAITH'\).*?\('$modifierId'\s*,\s*'Amount'\s*,\s*2\).*?\('TRAIT_CIVILIZATION_MALI_GOLD_DESERT'\s*,\s*'$modifierId'\)") {
+			Add-ValidationError "Mali Desert City Center +2 Faith binding is incomplete: $($maliCityFaithBinding[0])"
+		}
+	}
+	if ($gameplayOverrideSql -notmatch "(?s)\('TRAIT_CIVILIZATION_MALI_GOLD_DESERT'\s*,\s*'TRAIT_MALI_MINES_PRODUCTION'\).*?\('TRAIT_CIVILIZATION_MALI_GOLD_DESERT'\s*,\s*'TRAIT_MALI_MINES_GOLD'\).*?SET\s+SubjectRequirementSetId\s*=\s*'PLOT_HAS_MINE_REQUIREMENTS'.*?WHERE\s+ModifierId\s+IN\s*\(\s*'TRAIT_MALI_MINES_PRODUCTION'\s*,\s*'TRAIT_MALI_MINES_GOLD'\s*\)") {
+		Add-ValidationError 'Mali original Mine modifiers are not attached with an all-Mines scope.'
+	}
+	if ($gameplayOverrideSql -notmatch "(?s)ModifierArguments\s*\(\s*ModifierId\s*,\s*Name\s*,\s*Value\s*\).*?'TRAIT_MALI_MINES_PRODUCTION'\s*,\s*'YieldType'\s*,\s*'YIELD_PRODUCTION'.*?'TRAIT_MALI_MINES_PRODUCTION'\s*,\s*'Amount'\s*,\s*-1.*?'TRAIT_MALI_MINES_GOLD'\s*,\s*'YieldType'\s*,\s*'YIELD_GOLD'.*?'TRAIT_MALI_MINES_GOLD'\s*,\s*'Amount'\s*,\s*4") {
+		Add-ValidationError 'Mali Mine yields are not locked to -1 Production / +4 Gold.'
 	}
 	if ($gameplayOverrideSql -notmatch "(?s)SET\s+Value\s*=\s*10\s+WHERE\s+ModifierId\s+IN\s*\(.*?'SUGUBA_CHEAPER_BUILDING_PURCHASE'.*?'SUGUBA_CHEAPER_DISTRICT_PURCHASE'.*?'SUGUBA_CHEAPER_UNIT_PURCHASE'.*?\)\s+AND\s+Name\s*=\s*'Amount'") {
 		Add-ValidationError 'Final Suguba purchase discount override is not locked to 10%.'
@@ -1003,25 +1268,29 @@ else {
 		'LOC_TRAIT_CIVILIZATION_WONDER_TOURISM_DESCRIPTION',
 		'LOC_TRAIT_LEADER_MAGNIFICENCES_DESCRIPTION',
 		'LOC_TRAIT_CIVILIZATION_MOTHER_RUSSIA_DESCRIPTION',
-		'LOC_TRAIT_CIVILIZATION_MOTHER_RUSSIA_EXPANSION2_DESCRIPTION'
+		'LOC_TRAIT_CIVILIZATION_MOTHER_RUSSIA_EXPANSION2_DESCRIPTION',
+		'LOC_TRAIT_LEADER_TRAJANS_COLUMN_DESCRIPTION',
+		'LOC_TRAIT_CIVILIZATION_GAUL_DESCRIPTION',
+		'LOC_TRAIT_CIVILIZATION_KHMER_BARAYS_EXPANSION2_DESCRIPTION',
+		'LOC_LEADER_POUNDMAKER_ABILITY_DESCRIPTION'
 	)) {
 		if (-not $gameplayOverrideText.Contains($requiredTextToken)) {
 			Add-ValidationError "Gameplay override localization is missing invariant: $requiredTextToken"
 		}
 	}
 	$maliText = $gameplayOverrideTextXml.SelectSingleNode("/GameData/LocalizedText/*[@Tag='LOC_TRAIT_CIVILIZATION_MALI_GOLD_DESERT_DESCRIPTION' and @Language='zh_Hans_CN']/Text").InnerText
-	foreach ($requiredFragment in @('+2 [ICON_FOOD]', '+1 [ICON_PRODUCTION]', '+1 [ICON_FAITH]', '+2 [ICON_GOLD]')) {
+	foreach ($requiredFragment in @('+2 [ICON_FOOD]', '+1 [ICON_PRODUCTION]', '市中心+2 [ICON_FAITH]', '所有矿山-1 [ICON_PRODUCTION]', '+4 [ICON_GOLD]')) {
 		if (-not $maliText.Contains($requiredFragment)) {
 			Add-ValidationError "Mali Chinese text is missing: $requiredFragment"
 		}
 	}
-	foreach ($removedFragment in @('-5%', '−5%', '对外贸易', '4 [ICON_FOOD]')) {
+	foreach ($removedFragment in @('-5%', '−5%', '对外贸易', '4 [ICON_FOOD]', '生产力和+1 [ICON_FAITH]', '沙漠或沙漠丘陵上的矿山+2')) {
 		if ($maliText.Contains($removedFragment)) {
 			Add-ValidationError "Mali Chinese text still claims a removed or global-only rule: $removedFragment"
 		}
 	}
 	$sahelText = $gameplayOverrideTextXml.SelectSingleNode("/GameData/LocalizedText/*[@Tag='LOC_TRAIT_LEADER_SAHEL_MERCHANTS_DESCRIPTION' and @Language='zh_Hans_CN']/Text").InnerText
-	foreach ($requiredFragment in @('黄金时代', '永久+1 [ICON_TRADEROUTE]', '+2 [ICON_GOLD]', '曼丁哥市场', '+15%')) {
+	foreach ($requiredFragment in @('黄金时代', '永久+1 [ICON_TRADEROUTE]', '+2 [ICON_GOLD]', '曼丁哥市场')) {
 		if (-not $sahelText.Contains($requiredFragment)) {
 			Add-ValidationError "Mansa Musa Chinese text is missing: $requiredFragment"
 		}
@@ -1031,6 +1300,55 @@ else {
 	}
 	if ($sahelText.Contains('大量相邻加成')) {
 		Add-ValidationError 'Mansa Musa Chinese text still uses a qualitative adjacency value instead of the final +2 Gold.'
+	}
+	if ($sahelText.Contains('+15%') -or $sahelText.Contains('建造圣地')) {
+		Add-ValidationError 'Mansa Musa Chinese text still claims the removed Holy Site Production bonus.'
+	}
+
+	foreach ($khmerTextSpec in @(
+		@('Components\BBG\lang\english.xml', 'en_US', 'standard +1 [ICON_FAITH] Faith adjacency bonus from Rivers'),
+		@('Components\BBG\lang\chinese.xml', 'zh_Hans_CN', '标准+1 [ICON_FAITH] 信仰值相邻加成'),
+		@('lang\ZYL_BBG74_Chinese_Text.xml', 'zh_Hans_CN', '标准+1 [ICON_FAITH] 信仰值相邻加成'),
+		@('lang\ZYL_GameplayOverrides_Text.xml', 'en_US', 'standard +1 [ICON_FAITH] Faith adjacency bonus from Rivers'),
+		@('lang\ZYL_GameplayOverrides_Text.xml', 'zh_Hans_CN', '标准+1 [ICON_FAITH] 信仰值相邻加成'),
+		@('lang\ZYL_GameplayOverrides_Text.xml', 'zh_Hant_HK', '標準+1 [ICON_FAITH] 信仰值相鄰加成')
+	)) {
+		$khmerTextPath = Join-Path $modRoot $khmerTextSpec[0]
+		if (-not (Test-Path -LiteralPath $khmerTextPath)) {
+			Add-ValidationError "Khmer localization file is missing: $($khmerTextSpec[0])"
+			continue
+		}
+		$khmerTextXml = Load-XmlDocument $khmerTextPath
+		$khmerTextNode = $khmerTextXml.SelectSingleNode("/GameData/LocalizedText/*[@Tag='LOC_TRAIT_CIVILIZATION_KHMER_BARAYS_EXPANSION2_DESCRIPTION' and @Language='$($khmerTextSpec[1])']/Text")
+		if ($null -eq $khmerTextNode -or -not $khmerTextNode.InnerText.Contains($khmerTextSpec[2])) {
+			Add-ValidationError "Khmer $($khmerTextSpec[1]) text does not describe the standard river adjacency bonus: $($khmerTextSpec[0])"
+			continue
+		}
+	}
+
+	foreach ($creeperTextSpec in @(
+		@('Components\BBG\lang\english.xml', 'en_US', '+0.5 [ICON_FOOD] Food', '+1 [ICON_GOLD] Gold'),
+		@('Components\BBG\lang\chinese.xml', 'zh_Hans_CN', '+0.5 [ICON_FOOD] 食物', '+1 [ICON_GOLD] 金币'),
+		@('lang\ZYL_BBG74_Chinese_Text.xml', 'zh_Hans_CN', '+0.5 [ICON_FOOD] 食物', '+1 [ICON_GOLD] 金币'),
+		@('lang\ZYL_GameplayOverrides_Text.xml', 'en_US', '+0.5 [ICON_FOOD] Food', '+1 [ICON_GOLD] Gold'),
+		@('lang\ZYL_GameplayOverrides_Text.xml', 'zh_Hans_CN', '+0.5 [ICON_FOOD] 食物', '+1 [ICON_GOLD] 金币'),
+		@('lang\ZYL_GameplayOverrides_Text.xml', 'zh_Hant_HK', '+0.5 [ICON_FOOD] 食物', '+1 [ICON_GOLD] 金幣')
+	)) {
+		$creeperTextPath = Join-Path $modRoot $creeperTextSpec[0]
+		if (-not (Test-Path -LiteralPath $creeperTextPath)) {
+			Add-ValidationError "Cree localization file is missing: $($creeperTextSpec[0])"
+			continue
+		}
+		$creeperTextXml = Load-XmlDocument $creeperTextPath
+		$creeperTextNode = $creeperTextXml.SelectSingleNode("/GameData/LocalizedText/*[@Tag='LOC_LEADER_POUNDMAKER_ABILITY_DESCRIPTION' and @Language='$($creeperTextSpec[1])']/Text")
+		if ($null -eq $creeperTextNode -or -not $creeperTextNode.InnerText.Contains($creeperTextSpec[2]) -or -not $creeperTextNode.InnerText.Contains($creeperTextSpec[3])) {
+			Add-ValidationError "Cree $($creeperTextSpec[1]) text does not describe +0.5 outgoing Food and +1 incoming Gold: $($creeperTextSpec[0])"
+			continue
+		}
+		$oldCreeFood = if ($creeperTextSpec[1] -eq 'en_US') { '+1 [ICON_FOOD] Food' } else { '+1 [ICON_FOOD] 食物' }
+		if ($creeperTextNode.InnerText.Contains($oldCreeFood)) {
+			Add-ValidationError "Cree $($creeperTextSpec[1]) text still claims +1 outgoing Food: $($creeperTextSpec[0])"
+		}
 	}
 	foreach ($language in @('zh_Hans_CN', 'en_US')) {
 		$sugubaNode = $gameplayOverrideTextXml.SelectSingleNode("/GameData/LocalizedText/*[@Tag='LOC_DISTRICT_SUGUBA_DESCRIPTION' and @Language='$language']/Text")
@@ -2002,7 +2320,9 @@ if (Test-Path -LiteralPath $teamPvpSocietyPaths.Gameplay) {
         'DiscoverAtCityStateBaseChance = 100000',
         'DiscoverAtGoodyHutBaseChance = 100000',
         "WHERE GovernorPromotionType = 'GOVERNOR_PROMOTION_SANGUINE_PACT_2'",
-        "SET BaseMoves = 3",
+        "SET BaseMoves = 2",
+        "DELETE FROM GovernorPromotionModifiers",
+        "WHERE ModifierId = 'SECRET_SOCIETY_VAMPIRE_ADDMOVE_TEAMPVP'",
         "('ROUTE_ANCIENT_ROAD', 'UNIT_VAMPIRE')",
         "('ROUTE_MEDIEVAL_ROAD', 'UNIT_VAMPIRE')",
         "('ROUTE_INDUSTRIAL_ROAD', 'UNIT_VAMPIRE')",
@@ -2018,6 +2338,7 @@ if (Test-Path -LiteralPath $teamPvpSocietyPaths.Gameplay) {
         "'ZYL_TPVP_SANGUINE_ARMORY_PRODUCTION', 'Amount', 2",
         "'ZYL_TPVP_SANGUINE_MILITARY_ACADEMY_PRODUCTION', 'Amount', 4",
         "'ZYL_TPVP_SANGUINE_MILITARY_POLICY_SLOT', 'GovernmentSlotType', 'SLOT_MILITARY'",
+        "'ZYL_TPVP_SANGUINE_VAMPIRE_MOVEMENT', 'Amount', 1",
         "('GOVERNOR_PROMOTION_SANGUINE_PACT_1', 'SECRET_SOCIETY_VAMPIRES_ADVANCED_PILLAGING')",
         "('GOVERNOR_PROMOTION_SANGUINE_PACT_2', 'SECRET_SOCIETY_GRANT_TWO_VAMPIRE_BUILDS')",
         "('GOVERNOR_PROMOTION_SANGUINE_PACT_3', 'SECRET_SOCIETY_GRANT_ONE_VAMPIRE_BUILD')",
@@ -2076,12 +2397,24 @@ if (Test-Path -LiteralPath $teamPvpSocietyPaths.Gameplay) {
         @{ Promotion = '1'; Modifier = 'ZYL_TPVP_SANGUINE_STABLE_PRODUCTION' },
         @{ Promotion = '2'; Modifier = 'ZYL_TPVP_SANGUINE_ARMORY_PRODUCTION' },
         @{ Promotion = '2'; Modifier = 'ZYL_TPVP_SANGUINE_MILITARY_POLICY_SLOT' },
+        @{ Promotion = '2'; Modifier = 'ZYL_TPVP_SANGUINE_VAMPIRE_MOVEMENT' },
         @{ Promotion = '3'; Modifier = 'ZYL_TPVP_SANGUINE_MILITARY_ACADEMY_PRODUCTION' }
     )) {
         $sanguineBindingPattern = "(?is)\('GOVERNOR_PROMOTION_SANGUINE_PACT_$($sanguinePromotion.Promotion)',\s*'$([regex]::Escape($sanguinePromotion.Modifier))'\)"
         if ($teamPvpSocietySql -notmatch $sanguineBindingPattern) {
             Add-ValidationError "Sanguine Pact tier $($sanguinePromotion.Promotion) is missing $($sanguinePromotion.Modifier)."
         }
+    }
+    if ($teamPvpSocietySql -notmatch "(?is)\('ZYL_TPVP_SANGUINE_VAMPIRE_MOVEMENT',\s*'MODIFIER_PLAYER_UNITS_ADJUST_MOVEMENT',\s*'THIS_UNIT_IS_A_VAMPIRE'\)") {
+        Add-ValidationError 'Sanguine Pact vampire movement is not restricted to Vampire units.'
+    }
+    foreach ($otherSanguineTier in @('1', '3', '4')) {
+        if ($teamPvpSocietySql -match "(?is)\('GOVERNOR_PROMOTION_SANGUINE_PACT_$otherSanguineTier',\s*'ZYL_TPVP_SANGUINE_VAMPIRE_MOVEMENT'\)") {
+            Add-ValidationError "Sanguine Pact vampire movement must not be attached to tier $otherSanguineTier."
+        }
+    }
+    if ($teamPvpSocietySql -match "(?is)\('GOVERNOR_PROMOTION_SANGUINE_PACT_[1234]',\s*'SECRET_SOCIETY_VAMPIRE_ADDMOVE_TEAMPVP'\)") {
+        Add-ValidationError 'The upstream zero-value Vampire movement placeholder must not remain attached.'
     }
     foreach ($buildingType in @('BUILDING_GILDED_VAULT', 'BUILDING_GILDED_Shipyard')) {
         $goldPurchasePattern = "(?is)UPDATE\s+Buildings\s+SET(?:(?!;).)*PurchaseYield\s*=\s*'YIELD_GOLD'(?:(?!;).)*WHERE\s+BuildingType\s*=\s*'$([regex]::Escape($buildingType))'\s*;"
@@ -2144,16 +2477,19 @@ if (Test-Path -LiteralPath $teamPvpSocietyPaths.Text) {
         }
     }
     $sanguineTextChecks = @(
-    [pscustomobject]@{ Language = 'en_US'; Tag = 'LOC_GOVERNOR_PROMOTION_SANGUINE_PACT_1_DESCRIPTION'; Tokens = @('3 [ICON_Movement]', '10 HP', '50 HP', '1 [ICON_Movement]', '+50% [ICON_Production]') },
-        [pscustomobject]@{ Language = 'en_US'; Tag = 'LOC_GOVERNOR_PROMOTION_SANGUINE_PACT_2_DESCRIPTION'; Tokens = @('maximum of 2', '+2 [ICON_Production]', 'Military policy') },
+        [pscustomobject]@{ Language = 'en_US'; Tag = 'LOC_UNIT_VAMPIRE_DESCRIPTION'; Tokens = @('2 [ICON_Movement]') },
+        [pscustomobject]@{ Language = 'en_US'; Tag = 'LOC_GOVERNOR_PROMOTION_SANGUINE_PACT_1_DESCRIPTION'; Tokens = @('2 [ICON_Movement]', '10 HP', '50 HP', '1 [ICON_Movement]', '+50% [ICON_Production]') },
+        [pscustomobject]@{ Language = 'en_US'; Tag = 'LOC_GOVERNOR_PROMOTION_SANGUINE_PACT_2_DESCRIPTION'; Tokens = @('maximum of 2', '+1 [ICON_Movement]', '+2 [ICON_Production]', 'Military policy') },
         [pscustomobject]@{ Language = 'en_US'; Tag = 'LOC_GOVERNOR_PROMOTION_SANGUINE_PACT_3_DESCRIPTION'; Tokens = @('maximum to 3', '+4 [ICON_Production]') },
         [pscustomobject]@{ Language = 'en_US'; Tag = 'LOC_GOVERNOR_PROMOTION_SANGUINE_PACT_4_DESCRIPTION'; Tokens = @('Industrial Era', 'maximum to 4') },
-        [pscustomobject]@{ Language = 'zh_Hans_CN'; Tag = 'LOC_GOVERNOR_PROMOTION_SANGUINE_PACT_1_DESCRIPTION'; Tokens = @('3 [ICON_Movement]', '10点生命值', '50点生命值', '1 [ICON_Movement]', '+50%') },
-        [pscustomobject]@{ Language = 'zh_Hans_CN'; Tag = 'LOC_GOVERNOR_PROMOTION_SANGUINE_PACT_2_DESCRIPTION'; Tokens = @('最多2座', '兵工厂+2', '军事政策槽位') },
+        [pscustomobject]@{ Language = 'zh_Hans_CN'; Tag = 'LOC_UNIT_VAMPIRE_DESCRIPTION'; Tokens = @('2 [ICON_Movement]') },
+        [pscustomobject]@{ Language = 'zh_Hans_CN'; Tag = 'LOC_GOVERNOR_PROMOTION_SANGUINE_PACT_1_DESCRIPTION'; Tokens = @('2 [ICON_Movement]', '10点生命值', '50点生命值', '1 [ICON_Movement]', '+50%') },
+        [pscustomobject]@{ Language = 'zh_Hans_CN'; Tag = 'LOC_GOVERNOR_PROMOTION_SANGUINE_PACT_2_DESCRIPTION'; Tokens = @('最多2座', '+1 [ICON_Movement]', '兵工厂+2', '军事政策槽位') },
         [pscustomobject]@{ Language = 'zh_Hans_CN'; Tag = 'LOC_GOVERNOR_PROMOTION_SANGUINE_PACT_3_DESCRIPTION'; Tokens = @('上限提高至3座', '军事学院+4') },
         [pscustomobject]@{ Language = 'zh_Hans_CN'; Tag = 'LOC_GOVERNOR_PROMOTION_SANGUINE_PACT_4_DESCRIPTION'; Tokens = @('工业时代', '上限提高至4座') },
-        [pscustomobject]@{ Language = 'zh_Hant_HK'; Tag = 'LOC_GOVERNOR_PROMOTION_SANGUINE_PACT_1_DESCRIPTION'; Tokens = @('3 [ICON_Movement]', '10生命', '50生命', '1 [ICON_Movement]', '+50%') },
-        [pscustomobject]@{ Language = 'zh_Hant_HK'; Tag = 'LOC_GOVERNOR_PROMOTION_SANGUINE_PACT_2_DESCRIPTION'; Tokens = @('最多2座', '兵工廠+2', '軍事政策槽位') },
+        [pscustomobject]@{ Language = 'zh_Hant_HK'; Tag = 'LOC_UNIT_VAMPIRE_DESCRIPTION'; Tokens = @('2 [ICON_Movement]') },
+        [pscustomobject]@{ Language = 'zh_Hant_HK'; Tag = 'LOC_GOVERNOR_PROMOTION_SANGUINE_PACT_1_DESCRIPTION'; Tokens = @('2 [ICON_Movement]', '10生命', '50生命', '1 [ICON_Movement]', '+50%') },
+        [pscustomobject]@{ Language = 'zh_Hant_HK'; Tag = 'LOC_GOVERNOR_PROMOTION_SANGUINE_PACT_2_DESCRIPTION'; Tokens = @('最多2座', '+1 [ICON_Movement]', '兵工廠+2', '軍事政策槽位') },
         [pscustomobject]@{ Language = 'zh_Hant_HK'; Tag = 'LOC_GOVERNOR_PROMOTION_SANGUINE_PACT_3_DESCRIPTION'; Tokens = @('上限提高至3座', '軍事學院+4') },
         [pscustomobject]@{ Language = 'zh_Hant_HK'; Tag = 'LOC_GOVERNOR_PROMOTION_SANGUINE_PACT_4_DESCRIPTION'; Tokens = @('工業時代', '上限提高至4座') }
     )
@@ -2168,6 +2504,22 @@ if (Test-Path -LiteralPath $teamPvpSocietyPaths.Text) {
                     Add-ValidationError "Sanguine Pact localization $($sanguineTextCheck.Tag) for $($sanguineTextCheck.Language) is missing: $sanguineTextToken"
                 }
             }
+        }
+    }
+    foreach ($legacyMovementTextSpec in @(
+        @('en_US', 'LOC_UNIT_VAMPIRE_DESCRIPTION'),
+        @('en_US', 'LOC_GOVERNOR_PROMOTION_SANGUINE_PACT_1_DESCRIPTION'),
+        @('en_US', 'LOC_GOVERNOR_PROMOTION_SANGUINE_PACT_2_DESCRIPTION'),
+        @('zh_Hans_CN', 'LOC_UNIT_VAMPIRE_DESCRIPTION'),
+        @('zh_Hans_CN', 'LOC_GOVERNOR_PROMOTION_SANGUINE_PACT_1_DESCRIPTION'),
+        @('zh_Hans_CN', 'LOC_GOVERNOR_PROMOTION_SANGUINE_PACT_2_DESCRIPTION'),
+        @('zh_Hant_HK', 'LOC_UNIT_VAMPIRE_DESCRIPTION'),
+        @('zh_Hant_HK', 'LOC_GOVERNOR_PROMOTION_SANGUINE_PACT_1_DESCRIPTION'),
+        @('zh_Hant_HK', 'LOC_GOVERNOR_PROMOTION_SANGUINE_PACT_2_DESCRIPTION')
+    )) {
+        $legacyMovementTextNode = $teamPvpSocietyText.SelectSingleNode("/GameData/LocalizedText/Replace[@Tag='$($legacyMovementTextSpec[1])' and @Language='$($legacyMovementTextSpec[0])']/Text")
+        if ($null -ne $legacyMovementTextNode -and $legacyMovementTextNode.InnerText.Contains('3 [ICON_Movement]')) {
+            Add-ValidationError "Sanguine Pact localization still claims 3 base movement: $($legacyMovementTextSpec[1]) for $($legacyMovementTextSpec[0])."
         }
     }
     foreach ($entry in @{

@@ -606,10 +606,22 @@ VALUES
 ------------------------------------------------------------------------------
 -- Sanguine Pact
 ------------------------------------------------------------------------------
--- Tier 1 vampire mobility and road-building.
+-- Tier 1 vampire mobility and road-building. Vampires return to their
+-- original 2 base movement; Sanguine Pact tier 2 adds the extra point.
 UPDATE Units
-SET BaseMoves = 3
+SET BaseMoves = 2
 WHERE UnitType = 'UNIT_VAMPIRE';
+
+-- Do not inherit the upstream placeholder (+0 at tier 3) if another copy of
+-- that source was loaded before this integration layer.
+DELETE FROM GovernorPromotionModifiers
+WHERE ModifierId = 'SECRET_SOCIETY_VAMPIRE_ADDMOVE_TEAMPVP';
+
+DELETE FROM ModifierArguments
+WHERE ModifierId = 'SECRET_SOCIETY_VAMPIRE_ADDMOVE_TEAMPVP';
+
+DELETE FROM Modifiers
+WHERE ModifierId = 'SECRET_SOCIETY_VAMPIRE_ADDMOVE_TEAMPVP';
 
 INSERT OR IGNORE INTO Route_ValidBuildUnits (RouteType, UnitType)
 VALUES
@@ -691,6 +703,11 @@ VALUES
 	('ZYL_TPVP_SANGUINE_MILITARY_ACADEMY_PRODUCTION', 'MODIFIER_PLAYER_CITIES_ADJUST_BUILDING_YIELD_CHANGE'),
 	('ZYL_TPVP_SANGUINE_MILITARY_POLICY_SLOT', 'MODIFIER_PLAYER_CULTURE_ADJUST_GOVERNMENT_SLOTS_MODIFIER');
 
+INSERT OR IGNORE INTO Modifiers
+	(ModifierId, ModifierType, SubjectRequirementSetId)
+VALUES
+	('ZYL_TPVP_SANGUINE_VAMPIRE_MOVEMENT', 'MODIFIER_PLAYER_UNITS_ADJUST_MOVEMENT', 'THIS_UNIT_IS_A_VAMPIRE');
+
 INSERT OR REPLACE INTO ModifierArguments (ModifierId, Name, Value)
 VALUES
 	('ZYL_TPVP_SANGUINE_ENCAMPMENT_PRODUCTION', 'DistrictType', 'DISTRICT_ENCAMPMENT'),
@@ -707,7 +724,8 @@ VALUES
 	('ZYL_TPVP_SANGUINE_MILITARY_ACADEMY_PRODUCTION', 'BuildingType', 'BUILDING_MILITARY_ACADEMY'),
 	('ZYL_TPVP_SANGUINE_MILITARY_ACADEMY_PRODUCTION', 'YieldType', 'YIELD_PRODUCTION'),
 	('ZYL_TPVP_SANGUINE_MILITARY_ACADEMY_PRODUCTION', 'Amount', 4),
-	('ZYL_TPVP_SANGUINE_MILITARY_POLICY_SLOT', 'GovernmentSlotType', 'SLOT_MILITARY');
+	('ZYL_TPVP_SANGUINE_MILITARY_POLICY_SLOT', 'GovernmentSlotType', 'SLOT_MILITARY'),
+	('ZYL_TPVP_SANGUINE_VAMPIRE_MOVEMENT', 'Amount', 1);
 
 INSERT OR IGNORE INTO GovernorPromotionModifiers
 	(GovernorPromotionType, ModifierId)
@@ -717,6 +735,7 @@ VALUES
 	('GOVERNOR_PROMOTION_SANGUINE_PACT_1', 'ZYL_TPVP_SANGUINE_STABLE_PRODUCTION'),
 	('GOVERNOR_PROMOTION_SANGUINE_PACT_2', 'ZYL_TPVP_SANGUINE_ARMORY_PRODUCTION'),
 	('GOVERNOR_PROMOTION_SANGUINE_PACT_2', 'ZYL_TPVP_SANGUINE_MILITARY_POLICY_SLOT'),
+	('GOVERNOR_PROMOTION_SANGUINE_PACT_2', 'ZYL_TPVP_SANGUINE_VAMPIRE_MOVEMENT'),
 	('GOVERNOR_PROMOTION_SANGUINE_PACT_3', 'ZYL_TPVP_SANGUINE_MILITARY_ACADEMY_PRODUCTION');
 
 INSERT OR IGNORE INTO ModifierArguments

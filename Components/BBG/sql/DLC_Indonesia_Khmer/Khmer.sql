@@ -26,6 +26,19 @@ UPDATE ModifierArguments SET Value=0.3 WHERE ModifierId='PRASAT_CULTURE_POPULATI
 -- 16/03/26 Holy site gain 1 less faith adjacency for river.
 DELETE from TraitModifiers where TraitType='TRAIT_LEADER_MONASTERIES_KING' and ModifierId='TRAIT_MONASTERIES_KING_HOLY_SITE_RIVER_ADJACENCY';
 
+-- 03/09/26 Khmer civilization ability: Holy Sites adjacent to Rivers receive
+-- the standard river adjacency bonus (+1 Faith).  This belongs to the
+-- civilization trait rather than Jayavarman's leader trait.
+INSERT OR IGNORE INTO Modifiers (ModifierId, ModifierType) VALUES
+    ('ZYL_KHMER_HOLY_SITE_RIVER_FAITH', 'MODIFIER_PLAYER_CITIES_RIVER_ADJACENCY');
+INSERT OR REPLACE INTO ModifierArguments (ModifierId, Name, Value) VALUES
+    ('ZYL_KHMER_HOLY_SITE_RIVER_FAITH', 'Amount', 1),
+    ('ZYL_KHMER_HOLY_SITE_RIVER_FAITH', 'Description', 'LOC_DISTRICT_RIVER_FAITH'),
+    ('ZYL_KHMER_HOLY_SITE_RIVER_FAITH', 'DistrictType', 'DISTRICT_HOLY_SITE'),
+    ('ZYL_KHMER_HOLY_SITE_RIVER_FAITH', 'YieldType', 'YIELD_FAITH');
+INSERT OR IGNORE INTO TraitModifiers (TraitType, ModifierId) VALUES
+    ('TRAIT_CIVILIZATION_KHMER_BARAYS', 'ZYL_KHMER_HOLY_SITE_RIVER_FAITH');
+
 -- 12/07/22: no more culture bomb on holy site
 -- 17/04/23 Revert
 -- DELETE FROM TraitModifiers WHERE TraitType='TRAIT_LEADER_MONASTERIES_KING' AND ModifierId='TRAIT_HOLY_SITE_CULTURE_BOMB';

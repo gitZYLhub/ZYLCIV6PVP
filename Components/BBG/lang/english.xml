@@ -376,10 +376,10 @@
 		<!-- == COLOMBIA == -->
 		<!-- = civilization ability = -->
 		<Replace Tag="LOC_TRAIT_CIVILIZATION_EJERCITO_PATRIOTA_DESCRIPTION" Language="en_US">
-			<Text>+1 [ICON_MOVEMENT] Movement for all military units after researching Political Philosophy. Promoting Cavalry units, Air units and Spies does not end these units' turn.[NEWLINE][ICON_BULLET]Bias: T5 Plantation Resources.</Text>
+			<Text>+1 [ICON_MOVEMENT] Movement for all units. Promoting Cavalry units, Air units and Spies does not end these units' turn.[NEWLINE][ICON_BULLET]Bias: T5 Plantation Resources.</Text>
 		</Replace>
 		<Replace Tag="LOC_ABILITY_EJERCITO_PATRIOTA_EXTRA_MOVEMENT_DESCRIPTION" Language="en_US">
-			<Text>+1 Movement for all military units (Ejército Patriota)</Text>
+			<Text>+1 [ICON_MOVEMENT] Movement for all units (Ejército Patriota)</Text>
 		</Replace>
 		<!-- = leader ability = -->
 		<Replace Tag="LOC_TRAIT_LEADER_CAMPANA_ADMIRABLE_DESCRIPTION" Language="en_US">
@@ -408,7 +408,7 @@
 		</Replace>
 		<!-- = leader ability = -->
 		<Replace Tag="LOC_LEADER_POUNDMAKER_ABILITY_DESCRIPTION" Language="en_US">
-			<Text>All Alliance types provide Shared Visibility.[NEWLINE]Your outgoing [ICON_TRADEROUTE] Trade Routes grant +1 [ICON_FOOD] Food to Poundmaker per Camp or Pasture at the destination. [ICON_TRADEROUTE] Trade Routes sent to your cities grant +1 [ICON_GOLD] Gold to Poundmaker per Camp or Pasture at the destination.</Text>
+			<Text>All Alliance types provide Shared Visibility.[NEWLINE]Your outgoing [ICON_TRADEROUTE] Trade Routes grant +0.5 [ICON_FOOD] Food to Poundmaker per Camp or Pasture at the destination. [ICON_TRADEROUTE] Trade Routes sent to your cities grant +1 [ICON_GOLD] Gold to Poundmaker per Camp or Pasture at the destination.</Text>
 		</Replace>
 		<!-- = unique unit = -->
 		<Replace Tag="LOC_UNIT_CREE_OKIHTCITAW_DESCRIPTION" Language="en_US">
@@ -608,7 +608,7 @@
 		<!-- == GAUL == -->
 		<!-- = civilization ability = -->
 		<Replace Tag="LOC_TRAIT_CIVILIZATION_GAUL_DESCRIPTION" Language="en_US">
-			<Text>Quarries grant a standard adjacency bonus for all [ICON_DISTRICT] districts (doubled for the Oppidum) and Mines grant a minor adjacency bonus for all [ICON_DISTRICT] districts. Specialty [ICON_DISTRICT] districts do not receive a minor adjacency for being adjacent to another district and these districts cannot be built adjacent to the City Center.[NEWLINE][ICON_BULLET]Bias: T3 Iron, T4 Quarry Resources, T5 Minable Resources.</Text>
+			<Text>After unlocking Bronze Working, Mines provide +1 [ICON_CULTURE] Culture. Quarries grant a standard adjacency bonus for all [ICON_DISTRICT] districts (doubled for the Oppidum) and Mines grant a minor adjacency bonus for all [ICON_DISTRICT] districts. Specialty [ICON_DISTRICT] districts do not receive a minor adjacency for being adjacent to another district and these districts cannot be built adjacent to the City Center.[NEWLINE][ICON_BULLET]Bias: T3 Iron, T4 Quarry Resources, T5 Minable Resources.</Text>
 		</Replace>
 		<!-- = leader ability (Ambiorix) = -->
 		<Replace Tag="LOC_TRAIT_LEADER_AMBIORIX_DESCRIPTION" Language="en_US">
@@ -622,10 +622,10 @@
 			<Text>Gallic Confederation</Text>
 		</Replace>
 		<Replace Tag="LOC_TRAIT_LEADER_SUK_GALLIC_WAR_DESCRIPTION" Language="en_US">
-			<Text>+1 [ICON_CULTURE] Culture on mines after unlocking Bronze Working.[NEWLINE][NEWLINE]Workshops grant +1 [ICON_INFLUENCEPERTURN] Influence per turn.</Text>
+			<Text>Workshops grant +1 [ICON_INFLUENCEPERTURN] Influence per turn.</Text>
 		</Replace>
 		<Replace Tag="LOC_TRAIT_LEADER_SUK_GALLIC_WAR_DESCRIPTION_DLC" Language="en_US">
-			<Text>+1 [ICON_CULTURE] Culture on mines with Bronze Working.[NEWLINE][NEWLINE]+1 [ICON_INFLUENCEPERTURN] Influence per turn per Workshop and Recruiting a [ICON_GREATENGINEER] Great Engineer grants 1 [ICON_ENVOY] envoy.</Text>
+			<Text>Workshops grant +1 [ICON_INFLUENCEPERTURN] Influence per turn.</Text>
 		</Replace>
 		<Replace Tag="LOC_ABILITY_SUK_GALLIC_WAR_COMBAT_DESCRIPTION" Language="en_US">
 			<Text>[ICON_STRENGTH] Combat Strength +1 per type of City-state you are suzerain of.</Text>
@@ -901,7 +901,7 @@
 		<!-- == KHMER == -->
 		<!-- = civilization ability = -->
 		<Replace Tag="LOC_TRAIT_CIVILIZATION_KHMER_BARAYS_EXPANSION2_DESCRIPTION" Language="en_US">
-			<Text>Cities with an Aqueduct receive +1 [ICON_AMENITIES] Amenity. Farms provide +2 [ICON_FOOD] Food if adjacent to an Aqueduct and +1 [ICON_FAITH] Faith if adjacent to a Holy Site.[NEWLINE][ICON_BULLET]Bias: T3 Rivers.</Text>
+			<Text>Cities with an Aqueduct receive +1 [ICON_AMENITIES] Amenity. Farms provide +2 [ICON_FOOD] Food if adjacent to an Aqueduct and +1 [ICON_FAITH] Faith if adjacent to a Holy Site. Holy Sites receive the standard +1 [ICON_FAITH] Faith adjacency bonus from Rivers.[NEWLINE][ICON_BULLET]Bias: T3 Rivers.</Text>
 		</Replace>
 		<!-- = leader ability = -->
 		<Replace Tag="LOC_TRAIT_LEADER_MONASTERIES_KING_EXPANSION2_DESCRIPTION" Language="en_US">
@@ -1391,7 +1391,7 @@
 		</Replace>
 		<!-- = leader ability (Trajan) = -->
 		<Replace Tag="LOC_TRAIT_LEADER_TRAJANS_COLUMN_DESCRIPTION" Language="en_US">
-			<Text>All founded cities receive a free building in the City Center after unlocking Early Empire.</Text>
+			<Text>All founded cities receive a free building in the City Center after unlocking Foreign Trade.</Text>
 		</Replace>
 		<!-- = leader ability (Julius Caesar) = -->
 		<Replace Tag="LOC_TRAIT_LEADER_CAESAR_DESCRIPTION" Language="en_US">

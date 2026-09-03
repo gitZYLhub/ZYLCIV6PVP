@@ -16,8 +16,16 @@ UPDATE District_CitizenYieldChanges SET YieldChange=3 WHERE YieldType='YIELD_PRO
 DELETE FROM DistrictModifiers WHERE DistrictType='DISTRICT_OPPIDUM' AND ModifierId='OPPIDUM_GRANT_TECH_APPRENTICESHIP';
 
     
--- Moved to Vercingetorix, so deleted here
-DELETE FROM TraitModifiers WHERE TraitType='TRAIT_CIVILIZATION_GAUL' AND ModifierId='GAUL_MINE_CULTURE';
+-- Keep the original Mine Culture modifier unlocked at Bronze Working, but
+-- move it from Vercingetorix to the Gaul civilization.  Reusing the modifier
+-- prevents the two bonuses from stacking.
+DELETE FROM TraitModifiers WHERE TraitType='TRAIT_LEADER_SUK_GALLIC_WAR' AND ModifierId='GAUL_MINE_CULTURE';
+INSERT OR IGNORE INTO TraitModifiers (TraitType, ModifierId) VALUES
+    ('TRAIT_CIVILIZATION_GAUL', 'GAUL_MINE_CULTURE');
+UPDATE Modifiers
+SET OwnerRequirementSetId='BBG_UTILS_PLAYER_HAS_TECH_BRONZE_WORKING',
+    SubjectRequirementSetId='PLOT_HAS_MINE_REQUIREMENTS'
+WHERE ModifierId='GAUL_MINE_CULTURE';
 
 -- 16/04/23 move culture bomb from mine to oppidum
 DELETE FROM TraitModifiers WHERE ModifierId='GAUL_MINE_CULTURE_BOMB';

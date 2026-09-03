@@ -1,5 +1,12 @@
 -- Created by iElden
 
+-- 03/09/26 Poundmaker: outgoing Trade Routes grant +0.5 Food per
+-- destination Camp/Pasture instead of +1.  Incoming-route Gold remains +1.
+UPDATE ModifierArguments
+SET Value = 0.5
+WHERE ModifierId IN ('TRAIT_TRADE_FOOD_FROM_CAMPS', 'TRAIT_TRADE_FOOD_FROM_PASTURES')
+  AND Name = 'Amount';
+
 -- Add Ressource Bias
 INSERT INTO StartBiasResources(CivilizationType, ResourceType, Tier) VALUES
     ('CIVILIZATION_CREE', 'RESOURCE_CATTLE', '4'),

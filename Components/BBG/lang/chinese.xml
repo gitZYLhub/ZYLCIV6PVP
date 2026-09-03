@@ -323,10 +323,10 @@
 		<!-- == COLOMBIA == -->
 		<!-- = civilization ability = -->
 		<Replace Tag="LOC_TRAIT_CIVILIZATION_EJERCITO_PATRIOTA_DESCRIPTION" Language="zh_Hans_CN">
-			<Text>获得“政治哲学”市政后，所有军事单位+1 [ICON_Movement] 移动力。[ICON_PROMOTION] 升级骑兵、间谍、空军单位时不会结束其回合。[NEWLINE][NEWLINE][ICON_BULLET]出生地关联：T5种植园资源。</Text>
+			<Text>所有单位+1 [ICON_Movement] 移动力。[ICON_PROMOTION] 升级骑兵、间谍、空军单位时不会结束其回合。[NEWLINE][NEWLINE][ICON_BULLET]出生地关联：T5种植园资源。</Text>
 		</Replace>
 		<Replace Tag="LOC_ABILITY_EJERCITO_PATRIOTA_EXTRA_MOVEMENT_DESCRIPTION" Language="zh_Hans_CN">
-			<Text>所有军事单位+1 [ICON_Movement] 移动力（爱国军）</Text>
+			<Text>所有单位+1 [ICON_Movement] 移动力（爱国军）</Text>
 		</Replace>
 		<!-- = leader ability = -->
 		<Replace Tag="LOC_TRAIT_LEADER_CAMPANA_ADMIRABLE_DESCRIPTION" Language="zh_Hans_CN">
@@ -358,6 +358,9 @@
 		<!-- = civilization ability = -->
 		<Replace Tag="LOC_TRAIT_CIVILIZATION_CREE_TRADE_GAIN_TILES_DESCRIPTION" Language="zh_Hans_CN">
 			<Text>解锁“制陶术”科技后+1 [ICON_TradeRoute] 贸易路线容量。商人首次进入克里城市3个单元格内的无主单元格后，这些单元格将划入克里领土中。[NEWLINE][NEWLINE][ICON_BULLET]出生地关联：T4牧场资源、T4鹿。</Text>
+		</Replace>
+		<Replace Tag="LOC_LEADER_POUNDMAKER_ABILITY_DESCRIPTION" Language="zh_Hans_CN">
+			<Text>所有同盟类型均提供共享视野。[NEWLINE]您派出的 [ICON_TRADEROUTE] 贸易路线目的地每有一座营地或牧场，便为庞德梅克提供+0.5 [ICON_FOOD] 食物。发往您城市的 [ICON_TRADEROUTE] 贸易路线目的地每有一座营地或牧场，便为庞德梅克提供+1 [ICON_GOLD] 金币。</Text>
 		</Replace>
 		<!-- = unique unit = -->
 		<Replace Tag="LOC_UNIT_CREE_OKIHTCITAW_DESCRIPTION" Language="zh_Hans_CN">
@@ -562,7 +565,7 @@
 		<!-- == GAUL == -->
 		<!-- = civilization ability = -->
 		<Replace Tag="LOC_TRAIT_CIVILIZATION_GAUL_DESCRIPTION" Language="zh_Hans_CN">
-			<Text>矿山为所有区域提供少量相邻加成。采石场为所有区域提供标准相邻加成。特色区域与其他区域相邻时不会获得少量相邻加成；特色区域也无法建在市中心旁。[NEWLINE][NEWLINE][ICON_BULLET]出生地关联：T3铁、T5采石场资源、T5矿山奢侈品与加成资源。</Text>
+			<Text>解锁“铸铜术”科技后，矿山+1 [ICON_CULTURE] 文化值。矿山为所有区域提供少量相邻加成。采石场为所有区域提供标准相邻加成。特色区域与其他区域相邻时不会获得少量相邻加成；特色区域也无法建在市中心旁。[NEWLINE][NEWLINE][ICON_BULLET]出生地关联：T3铁、T5采石场资源、T5矿山奢侈品与加成资源。</Text>
 		</Replace>
 		<!-- = leader ability = -->
 		<Replace Tag="LOC_TRAIT_LEADER_AMBIORIX_DESCRIPTION" Language="zh_Hans_CN">
@@ -815,11 +818,11 @@
 		<!-- == KHMER == -->
 		<!-- = civilization ability = -->
 		<Replace Tag="LOC_TRAIT_CIVILIZATION_KHMER_BARAYS_EXPANSION2_DESCRIPTION" Language="zh_Hans_CN">
-			<Text>拥有“水渠”的城市从娱乐设施获得的 [ICON_AMENITIES] 宜居度+1。农场与水渠相邻时，提供的 [ICON_FOOD] 食物+2； 与圣地相邻时，提供+1 [ICON_FAITH] 信仰值。[NEWLINE][NEWLINE][ICON_BULLET]出生地关联：T3河流。</Text>
+			<Text>拥有“水渠”的城市从娱乐设施获得的 [ICON_AMENITIES] 宜居度+1。农场与水渠相邻时，提供的 [ICON_FOOD] 食物+2；与圣地相邻时，提供+1 [ICON_FAITH] 信仰值。圣地与河流相邻时获得标准+1 [ICON_FAITH] 信仰值相邻加成。[NEWLINE][NEWLINE][ICON_BULLET]出生地关联：T3河流。</Text>
 		</Replace>
 		<!-- = leader ability = -->
 		<Replace Tag="LOC_TRAIT_LEADER_MONASTERIES_KING_EXPANSION2_DESCRIPTION" Language="zh_Hans_CN">
-			<Text>若与河流相邻，圣地将获得+1 [ICON_FAITH] 信仰值相邻加成，+1 [ICON_FOOD] 食物，和+2 [ICON_Housing] 住房。圣地可施放文化炸弹。</Text>
+			<Text>与河流相邻建造的圣地+1 [ICON_FOOD] 食物和+2 [ICON_HOUSING] 住房，并在完成时触发文化炸弹。</Text>
 		</Replace>
 		<Row Tag="LOC_DISTRICT_HOLY_SITE_RIVER_FAITH" Language="zh_Hans_CN">
 			<Text>+{1_num} [ICON_Faith] 信仰值，来自相邻河流。</Text>
@@ -1228,7 +1231,7 @@
 		</Replace>
 		<!-- = leader ability (Trajan) = -->
 		<Replace Tag="LOC_TRAIT_LEADER_TRAJANS_COLUMN_DESCRIPTION" Language="zh_Hans_CN">
-			<Text>“帝国初期”市政后，所有城市获得一个额外的市中心建筑。（远古时代是纪念碑）</Text>
+			<Text>“对外贸易”市政后，所有城市获得一个额外的市中心建筑。（远古时代是纪念碑）</Text>
 		</Replace>
 		<!-- = leader ability (Julius Caesar) = -->
 		<Replace Tag="LOC_TRAIT_LEADER_CAESAR_DESCRIPTION" Language="zh_Hans_CN">
@@ -3633,10 +3636,10 @@
 			<Text>高卢邦联</Text>
 		</Replace>
 		<Replace Tag="LOC_TRAIT_LEADER_SUK_GALLIC_WAR_DESCRIPTION" Language="zh_Hans_CN">
-			<Text>解锁“铸铜术”科技后，矿山+1 [ICON_CULTURE] 文化值。每个工作坊+1 [ICON_InfluencePerTurn] 影响力，招募 [ICON_GreatEngineer] 大工程师时获得1 [ICON_ENVOY] 使者。每宗主一个城邦，所有军事单位获得+1 [ICON_Strength] 战斗力。</Text>
+			<Text>每座工作坊每回合+1 [ICON_INFLUENCEPERTURN] 影响力点数。</Text>
 		</Replace>
 		<Replace Tag="LOC_TRAIT_LEADER_SUK_GALLIC_WAR_DESCRIPTION_DLC" Language="zh_Hans_CN">
-			<Text>解锁“铸铜术”科技后，矿山+1 [ICON_CULTURE] 文化值。每个工作坊+1 [ICON_InfluencePerTurn] 影响力，招募 [ICON_GreatEngineer] 大工程师时获得1 [ICON_ENVOY] 使者。</Text>
+			<Text>每座工作坊每回合+1 [ICON_INFLUENCEPERTURN] 影响力点数。</Text>
 		</Replace>
 		<Replace Tag="LOC_ABILITY_SUK_GALLIC_WAR_COMBAT_DESCRIPTION" Language="zh_Hans_CN">
 			<Text>每宗主一个城邦，所有军事单位获得+1 [ICON_Strength] 战斗力。</Text>
