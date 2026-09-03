@@ -51,24 +51,24 @@ $modInfo = Load-XmlDocument $modInfoPath
 if ($modInfo.DocumentElement.GetAttribute('id') -ne $expectedModId) {
     Add-ValidationError "Unexpected Mod ID: $($modInfo.DocumentElement.GetAttribute('id'))"
 }
-if ($modInfo.DocumentElement.GetAttribute('version') -ne '126' -or
-		$modInfo.SelectSingleNode('/Mod/Properties/Version').InnerText -ne '126' -or
-		$modInfo.SelectSingleNode('/Mod/Properties/ToolboxVersion').InnerText -ne '1.2.6') {
-	Add-ValidationError 'The integrated package version must be 1.2.6 / ModInfo 126.'
+if ($modInfo.DocumentElement.GetAttribute('version') -ne '127' -or
+		$modInfo.SelectSingleNode('/Mod/Properties/Version').InnerText -ne '127' -or
+		$modInfo.SelectSingleNode('/Mod/Properties/ToolboxVersion').InnerText -ne '1.2.7') {
+	Add-ValidationError 'The integrated package version must be 1.2.7 / ModInfo 127.'
 }
 if ($modInfo.SelectSingleNode('/Mod/Properties/Name').InnerText -ne 'LOC_ZYLPVPMOD_TITLE') {
     Add-ValidationError 'The ModInfo title is not the ZYLPVPMOD localization key.'
 }
 $workshopTitleEnglish = $modInfo.SelectSingleNode("/Mod/LocalizedText/Text[@id='LOC_ZYLPVPMOD_TITLE']/en_US")
 $workshopTitleChinese = $modInfo.SelectSingleNode("/Mod/LocalizedText/Text[@id='LOC_ZYLPVPMOD_TITLE']/zh_Hans_CN")
-if ($null -eq $workshopTitleEnglish -or $workshopTitleEnglish.InnerText -ne 'ZYLPVPMOD 1.2.6' -or
-		$null -eq $workshopTitleChinese -or $workshopTitleChinese.InnerText -ne 'ZYLPVPMOD 1.2.6') {
-	Add-ValidationError 'The localized ModInfo / Steam Workshop title must be ZYLPVPMOD 1.2.6.'
+if ($null -eq $workshopTitleEnglish -or $workshopTitleEnglish.InnerText -ne 'ZYLPVPMOD 1.2.7' -or
+		$null -eq $workshopTitleChinese -or $workshopTitleChinese.InnerText -ne 'ZYLPVPMOD 1.2.7') {
+	Add-ValidationError 'The localized ModInfo / Steam Workshop title must be ZYLPVPMOD 1.2.7.'
 }
 $multiplayerHelperPath = Join-Path $modRoot 'data\MP_helper.lua'
 if (-not (Test-Path -LiteralPath $multiplayerHelperPath) -or
-		-not (Get-Content -LiteralPath $multiplayerHelperPath -Raw).Contains('local g_version = "ZYLPVPMOD v1.2.6"')) {
-	Add-ValidationError 'The multiplayer version handshake must identify ZYLPVPMOD v1.2.6.'
+		-not (Get-Content -LiteralPath $multiplayerHelperPath -Raw).Contains('local g_version = "ZYLPVPMOD v1.2.7"')) {
+	Add-ValidationError 'The multiplayer version handshake must identify ZYLPVPMOD v1.2.7.'
 }
 
 # Keep the Team PVP Balanced Industries/Corporations nerf complete. The
@@ -941,6 +941,9 @@ else {
         'TECH_COST_PERCENT_CHANGE_BEFORE_GAME_ERA',
         "('TECH_CELESTIAL_NAVIGATION', 'TECH_SAILING')",
         "('TECH_CELESTIAL_NAVIGATION', 'TECH_ASTROLOGY')",
+		'TRAIT_MAORI_EMBARKED_ABILITY',
+		'ZYL_MAORI_PLOT_HAS_FOREST_FOREIGN_TRADE',
+		'ZYL_MAORI_PLOT_HAS_JUNGLE_FOREIGN_TRADE',
         "WHERE TechnologyType = 'TECH_ARCHERY'",
         "WHERE TechnologyType = 'TECH_BRONZE_WORKING'",
         "WHERE TechnologyType = 'TECH_MILITARY_TACTICS'",
@@ -1010,7 +1013,25 @@ else {
     if ($gameplayOverrideSql -notmatch "(?s)SET\s+ModifierType\s*=\s*'MODIFIER_PLAYER_CITIES_ADJUST_BUILDING_HOUSING'\s+WHERE\s+ModifierId\s*=\s*'BBG_MAYA_CAPITAL_HOUSING'") {
         Add-ValidationError 'Maya Housing modifier is not scoped to all cities.'
     }
-	if ($gameplayOverrideSql -notmatch "(?s)DELETE\s+FROM\s+TraitModifiers\s+WHERE\s+TraitType\s*=\s*'TRAIT_CIVILIZATION_MALI_GOLD_DESERT'.*?'BBG_TRAIT_MALI_LESS_CITY_PRODUCTION'.*?'BBG_MALI_FAITH_NEXT_DESERT'.*?'BBG_MALI_FAITH_NEXT_DESERT_HILLS'.*?'BBG_MALI_FAITH_NEXT_CAPITAL'") {
+	if ($gameplayOverrideSql -notmatch "(?s)SET\s+OwnerRequirementSetId\s*=\s*'BBG_UTILS_PLAYER_HAS_TECH_SAILING'\s+WHERE\s+ModifierId\s*=\s*'TRAIT_MAORI_EMBARKED_ABILITY'") {
+		Add-ValidationError 'Final Maori embarked-unit +2 Movement bonus is not unlocked at Sailing.'
+	}
+	$maoriProductionBindings = @(
+		@('ZYL_MAORI_PLOT_HAS_FOREST_FOREIGN_TRADE', 'PLOT_IS_FOREST_REQUIREMENT', 'TRAIT_MAORI_PRODUCTION_WOODS'),
+		@('ZYL_MAORI_PLOT_HAS_JUNGLE_FOREIGN_TRADE', 'PLOT_IS_JUNGLE_REQUIREMENT', 'TRAIT_MAORI_PRODUCTION_RAINFOREST')
+	)
+	foreach ($binding in $maoriProductionBindings) {
+		$requirementSetId = [regex]::Escape($binding[0])
+		$featureRequirementId = [regex]::Escape($binding[1])
+		$modifierId = [regex]::Escape($binding[2])
+		if ($gameplayOverrideSql -notmatch "(?s)\('$requirementSetId'\s*,\s*'BBG_UTILS_PLAYER_HAS_CIVIC_FOREIGN_TRADE_REQUIREMENT'\).*?\('$requirementSetId'\s*,\s*'$featureRequirementId'\).*?\('$requirementSetId'\s*,\s*'REQUIRES_PLOT_HAS_NO_IMPROVEMENT'\)") {
+			Add-ValidationError "Maori Foreign Trade Production requirements are incomplete: $($binding[0])"
+		}
+		if ($gameplayOverrideSql -notmatch "(?s)SET\s+SubjectRequirementSetId\s*=\s*'$requirementSetId'\s+WHERE\s+ModifierId\s*=\s*'$modifierId'") {
+			Add-ValidationError "Maori +1 Production modifier has the wrong unlock or feature scope: $($binding[2])"
+		}
+	}
+    if ($gameplayOverrideSql -notmatch "(?s)DELETE\s+FROM\s+TraitModifiers\s+WHERE\s+TraitType\s*=\s*'TRAIT_CIVILIZATION_MALI_GOLD_DESERT'.*?'BBG_TRAIT_MALI_LESS_CITY_PRODUCTION'.*?'BBG_MALI_FAITH_NEXT_DESERT'.*?'BBG_MALI_FAITH_NEXT_DESERT_HILLS'.*?'BBG_MALI_FAITH_NEXT_CAPITAL'") {
 		Add-ValidationError 'Final Mali override does not remove the Production penalty and Foreign Trade city Faith package.'
 	}
 	if ($gameplayOverrideSql -notmatch "(?s)DELETE\s+FROM\s+TraitModifiers\s+WHERE\s+TraitType\s*=\s*'TRAIT_LEADER_SAHEL_MERCHANTS'.*?ModifierId\s*=\s*'TRAIT_BBG_MANSA_FREE_TRADER_BANKS'") {
@@ -1269,6 +1290,7 @@ else {
 		'LOC_TRAIT_LEADER_MAGNIFICENCES_DESCRIPTION',
 		'LOC_TRAIT_CIVILIZATION_MOTHER_RUSSIA_DESCRIPTION',
 		'LOC_TRAIT_CIVILIZATION_MOTHER_RUSSIA_EXPANSION2_DESCRIPTION',
+		'LOC_TRAIT_CIVILIZATION_MAORI_MANA_DESCRIPTION',
 		'LOC_TRAIT_LEADER_TRAJANS_COLUMN_DESCRIPTION',
 		'LOC_TRAIT_CIVILIZATION_GAUL_DESCRIPTION',
 		'LOC_TRAIT_CIVILIZATION_KHMER_BARAYS_EXPANSION2_DESCRIPTION',
@@ -1276,6 +1298,23 @@ else {
 	)) {
 		if (-not $gameplayOverrideText.Contains($requiredTextToken)) {
 			Add-ValidationError "Gameplay override localization is missing invariant: $requiredTextToken"
+		}
+	}
+	foreach ($maoriTextSpec in @(
+		@('en_US', 'with Sailing', 'with Foreign Trade', 'with Ship Building', 'with Early Empire'),
+		@('zh_Hans_CN', '“航海术”科技后', '“对外贸易”市政后', '“造船术”科技后', '“帝国初期”后')
+	)) {
+		$maoriTextNode = $gameplayOverrideTextXml.SelectSingleNode("/GameData/LocalizedText/*[@Tag='LOC_TRAIT_CIVILIZATION_MAORI_MANA_DESCRIPTION' and @Language='$($maoriTextSpec[0])']/Text")
+		if ($null -eq $maoriTextNode -or
+				-not $maoriTextNode.InnerText.Contains($maoriTextSpec[1]) -or
+				-not $maoriTextNode.InnerText.Contains($maoriTextSpec[2])) {
+			Add-ValidationError "Maori $($maoriTextSpec[0]) text does not describe the Sailing / Foreign Trade unlocks."
+			continue
+		}
+		foreach ($obsoleteFragment in @($maoriTextSpec[3], $maoriTextSpec[4])) {
+			if ($maoriTextNode.InnerText.Contains($obsoleteFragment)) {
+				Add-ValidationError "Maori $($maoriTextSpec[0]) text still contains obsolete unlock text: $obsoleteFragment"
+			}
 		}
 	}
 	$maliText = $gameplayOverrideTextXml.SelectSingleNode("/GameData/LocalizedText/*[@Tag='LOC_TRAIT_CIVILIZATION_MALI_GOLD_DESERT_DESCRIPTION' and @Language='zh_Hans_CN']/Text").InnerText
@@ -2332,7 +2371,8 @@ if (Test-Path -LiteralPath $teamPvpSocietyPaths.Gameplay) {
         "'SECRET_SOCIETIES_ENABLE_VAMPIRE_PILLAGE_HEALING', 'Key', 'HEAL_ON_PILLAGE'",
         "'ZYL_TPVP_SANGUINE_VAMPIRE_HEAL_FROM_COMBAT'",
         "'ZYL_TPVP_SANGUINE_VAMPIRE_HEAL_FROM_COMBAT', 'Amount', 10",
-        "'ZYL_TPVP_SANGUINE_ENCAMPMENT_PRODUCTION', 'Amount', 50",
+        "'ZYL_TPVP_SANGUINE_ENCAMPMENT_PRODUCTION', 'Amount', 15",
+        "'ZYL_TPVP_SANGUINE_ENCAMPMENT_BUILDING_PRODUCTION', 'Amount', 15",
         "'ZYL_TPVP_SANGUINE_BARRACKS_PRODUCTION', 'Amount', 1",
         "'ZYL_TPVP_SANGUINE_STABLE_PRODUCTION', 'Amount', 1",
         "'ZYL_TPVP_SANGUINE_ARMORY_PRODUCTION', 'Amount', 2",
@@ -2393,6 +2433,7 @@ if (Test-Path -LiteralPath $teamPvpSocietyPaths.Gameplay) {
     }
     foreach ($sanguinePromotion in @(
         @{ Promotion = '1'; Modifier = 'ZYL_TPVP_SANGUINE_ENCAMPMENT_PRODUCTION' },
+        @{ Promotion = '1'; Modifier = 'ZYL_TPVP_SANGUINE_ENCAMPMENT_BUILDING_PRODUCTION' },
         @{ Promotion = '1'; Modifier = 'ZYL_TPVP_SANGUINE_BARRACKS_PRODUCTION' },
         @{ Promotion = '1'; Modifier = 'ZYL_TPVP_SANGUINE_STABLE_PRODUCTION' },
         @{ Promotion = '2'; Modifier = 'ZYL_TPVP_SANGUINE_ARMORY_PRODUCTION' },
@@ -2404,6 +2445,12 @@ if (Test-Path -LiteralPath $teamPvpSocietyPaths.Gameplay) {
         if ($teamPvpSocietySql -notmatch $sanguineBindingPattern) {
             Add-ValidationError "Sanguine Pact tier $($sanguinePromotion.Promotion) is missing $($sanguinePromotion.Modifier)."
         }
+    }
+    if ($teamPvpSocietySql -notmatch "(?is)\('ZYL_TPVP_SANGUINE_ENCAMPMENT_BUILDING_PRODUCTION',\s*'MODIFIER_PLAYER_CITIES_ADJUST_BUILDING_PRODUCTION'\)") {
+        Add-ValidationError 'Sanguine Pact tier 1 does not use the building-production modifier for Encampment buildings.'
+    }
+    if ($teamPvpSocietySql -notmatch "(?is)\('ZYL_TPVP_SANGUINE_ENCAMPMENT_BUILDING_PRODUCTION',\s*'DistrictType',\s*'DISTRICT_ENCAMPMENT'\).*?\('ZYL_TPVP_SANGUINE_ENCAMPMENT_BUILDING_PRODUCTION',\s*'Amount',\s*15\)") {
+        Add-ValidationError 'Sanguine Pact Encampment-building Production bonus is not scoped to Encampments at +15%.'
     }
     if ($teamPvpSocietySql -notmatch "(?is)\('ZYL_TPVP_SANGUINE_VAMPIRE_MOVEMENT',\s*'MODIFIER_PLAYER_UNITS_ADJUST_MOVEMENT',\s*'THIS_UNIT_IS_A_VAMPIRE'\)") {
         Add-ValidationError 'Sanguine Pact vampire movement is not restricted to Vampire units.'
@@ -2478,17 +2525,17 @@ if (Test-Path -LiteralPath $teamPvpSocietyPaths.Text) {
     }
     $sanguineTextChecks = @(
         [pscustomobject]@{ Language = 'en_US'; Tag = 'LOC_UNIT_VAMPIRE_DESCRIPTION'; Tokens = @('2 [ICON_Movement]') },
-        [pscustomobject]@{ Language = 'en_US'; Tag = 'LOC_GOVERNOR_PROMOTION_SANGUINE_PACT_1_DESCRIPTION'; Tokens = @('2 [ICON_Movement]', '10 HP', '50 HP', '1 [ICON_Movement]', '+50% [ICON_Production]') },
+        [pscustomobject]@{ Language = 'en_US'; Tag = 'LOC_GOVERNOR_PROMOTION_SANGUINE_PACT_1_DESCRIPTION'; Tokens = @('2 [ICON_Movement]', '10 HP', '50 HP', '1 [ICON_Movement]', '+15% [ICON_Production]', 'buildings in Encampments') },
         [pscustomobject]@{ Language = 'en_US'; Tag = 'LOC_GOVERNOR_PROMOTION_SANGUINE_PACT_2_DESCRIPTION'; Tokens = @('maximum of 2', '+1 [ICON_Movement]', '+2 [ICON_Production]', 'Military policy') },
         [pscustomobject]@{ Language = 'en_US'; Tag = 'LOC_GOVERNOR_PROMOTION_SANGUINE_PACT_3_DESCRIPTION'; Tokens = @('maximum to 3', '+4 [ICON_Production]') },
         [pscustomobject]@{ Language = 'en_US'; Tag = 'LOC_GOVERNOR_PROMOTION_SANGUINE_PACT_4_DESCRIPTION'; Tokens = @('Industrial Era', 'maximum to 4') },
         [pscustomobject]@{ Language = 'zh_Hans_CN'; Tag = 'LOC_UNIT_VAMPIRE_DESCRIPTION'; Tokens = @('2 [ICON_Movement]') },
-        [pscustomobject]@{ Language = 'zh_Hans_CN'; Tag = 'LOC_GOVERNOR_PROMOTION_SANGUINE_PACT_1_DESCRIPTION'; Tokens = @('2 [ICON_Movement]', '10点生命值', '50点生命值', '1 [ICON_Movement]', '+50%') },
+        [pscustomobject]@{ Language = 'zh_Hans_CN'; Tag = 'LOC_GOVERNOR_PROMOTION_SANGUINE_PACT_1_DESCRIPTION'; Tokens = @('2 [ICON_Movement]', '10点生命值', '50点生命值', '1 [ICON_Movement]', '军营及其中建筑时+15%') },
         [pscustomobject]@{ Language = 'zh_Hans_CN'; Tag = 'LOC_GOVERNOR_PROMOTION_SANGUINE_PACT_2_DESCRIPTION'; Tokens = @('最多2座', '+1 [ICON_Movement]', '兵工厂+2', '军事政策槽位') },
         [pscustomobject]@{ Language = 'zh_Hans_CN'; Tag = 'LOC_GOVERNOR_PROMOTION_SANGUINE_PACT_3_DESCRIPTION'; Tokens = @('上限提高至3座', '军事学院+4') },
         [pscustomobject]@{ Language = 'zh_Hans_CN'; Tag = 'LOC_GOVERNOR_PROMOTION_SANGUINE_PACT_4_DESCRIPTION'; Tokens = @('工业时代', '上限提高至4座') },
         [pscustomobject]@{ Language = 'zh_Hant_HK'; Tag = 'LOC_UNIT_VAMPIRE_DESCRIPTION'; Tokens = @('2 [ICON_Movement]') },
-        [pscustomobject]@{ Language = 'zh_Hant_HK'; Tag = 'LOC_GOVERNOR_PROMOTION_SANGUINE_PACT_1_DESCRIPTION'; Tokens = @('2 [ICON_Movement]', '10生命', '50生命', '1 [ICON_Movement]', '+50%') },
+        [pscustomobject]@{ Language = 'zh_Hant_HK'; Tag = 'LOC_GOVERNOR_PROMOTION_SANGUINE_PACT_1_DESCRIPTION'; Tokens = @('2 [ICON_Movement]', '10生命', '50生命', '1 [ICON_Movement]', '軍營及其中建築時+15%') },
         [pscustomobject]@{ Language = 'zh_Hant_HK'; Tag = 'LOC_GOVERNOR_PROMOTION_SANGUINE_PACT_2_DESCRIPTION'; Tokens = @('最多2座', '+1 [ICON_Movement]', '兵工廠+2', '軍事政策槽位') },
         [pscustomobject]@{ Language = 'zh_Hant_HK'; Tag = 'LOC_GOVERNOR_PROMOTION_SANGUINE_PACT_3_DESCRIPTION'; Tokens = @('上限提高至3座', '軍事學院+4') },
         [pscustomobject]@{ Language = 'zh_Hant_HK'; Tag = 'LOC_GOVERNOR_PROMOTION_SANGUINE_PACT_4_DESCRIPTION'; Tokens = @('工業時代', '上限提高至4座') }

@@ -54,7 +54,6 @@ UPDATE Units
 SET MandatoryObsoleteTech = 'TECH_GUNPOWDER'
 WHERE UnitType IN (
 	'UNIT_WARRIOR',
-	'UNIT_AZTEC_EAGLE_WARRIOR',
 	'UNIT_BABYLONIAN_SABUM_KIBITTUM'
 );
 
@@ -156,6 +155,141 @@ UPDATE Technologies
 SET EmbarkAll = 1,
 	Description = 'LOC_TECH_ZYL_CELESTIAL_NAVIGATION_DESCRIPTION'
 WHERE TechnologyType = 'TECH_CELESTIAL_NAVIGATION';
+
+-------------------------------------------------------------------------------
+-- Maori: move the early Mana bonuses to Sailing / Foreign Trade
+-------------------------------------------------------------------------------
+
+-- BBG's embarked-unit movement modifier is still the correct +2 bonus; only
+-- its unlock is moved forward from Shipbuilding to Sailing.
+UPDATE Modifiers
+SET OwnerRequirementSetId = 'BBG_UTILS_PLAYER_HAS_TECH_SAILING'
+WHERE ModifierId = 'TRAIT_MAORI_EMBARKED_ABILITY';
+
+-- Keep the existing "unimproved Woods / Rainforest" scope, but move its first
+-- production tier from Early Empire to Foreign Trade.  These dedicated sets
+-- avoid retaining the misleading BBG *_EARLY_EMPIRE names in the final layer.
+INSERT OR IGNORE INTO RequirementSets (RequirementSetId, RequirementSetType) VALUES
+	('ZYL_MAORI_PLOT_HAS_FOREST_FOREIGN_TRADE', 'REQUIREMENTSET_TEST_ALL'),
+	('ZYL_MAORI_PLOT_HAS_JUNGLE_FOREIGN_TRADE', 'REQUIREMENTSET_TEST_ALL');
+
+DELETE FROM RequirementSetRequirements
+WHERE RequirementSetId IN (
+	'ZYL_MAORI_PLOT_HAS_FOREST_FOREIGN_TRADE',
+	'ZYL_MAORI_PLOT_HAS_JUNGLE_FOREIGN_TRADE'
+);
+
+INSERT OR IGNORE INTO RequirementSetRequirements (RequirementSetId, RequirementId) VALUES
+	('ZYL_MAORI_PLOT_HAS_FOREST_FOREIGN_TRADE', 'BBG_UTILS_PLAYER_HAS_CIVIC_FOREIGN_TRADE_REQUIREMENT'),
+	('ZYL_MAORI_PLOT_HAS_FOREST_FOREIGN_TRADE', 'PLOT_IS_FOREST_REQUIREMENT'),
+	('ZYL_MAORI_PLOT_HAS_FOREST_FOREIGN_TRADE', 'REQUIRES_PLOT_HAS_NO_IMPROVEMENT'),
+	('ZYL_MAORI_PLOT_HAS_JUNGLE_FOREIGN_TRADE', 'BBG_UTILS_PLAYER_HAS_CIVIC_FOREIGN_TRADE_REQUIREMENT'),
+	('ZYL_MAORI_PLOT_HAS_JUNGLE_FOREIGN_TRADE', 'PLOT_IS_JUNGLE_REQUIREMENT'),
+	('ZYL_MAORI_PLOT_HAS_JUNGLE_FOREIGN_TRADE', 'REQUIRES_PLOT_HAS_NO_IMPROVEMENT');
+
+UPDATE Modifiers
+SET SubjectRequirementSetId = 'ZYL_MAORI_PLOT_HAS_FOREST_FOREIGN_TRADE'
+WHERE ModifierId = 'TRAIT_MAORI_PRODUCTION_WOODS';
+
+UPDATE Modifiers
+SET SubjectRequirementSetId = 'ZYL_MAORI_PLOT_HAS_JUNGLE_FOREIGN_TRADE'
+WHERE ModifierId = 'TRAIT_MAORI_PRODUCTION_RAINFOREST';
+
+-------------------------------------------------------------------------------
+-- Melee unit production and iron costs
+-------------------------------------------------------------------------------
+
+-- Swordsmen and their unique replacements are 10 Production cheaper and use
+-- 5 fewer Iron.  The Maori Toa is handled separately: it keeps its no-Iron
+-- rule and receives the requested additional 20 Production reduction.
+UPDATE Units
+SET Cost = 80
+WHERE UnitType = 'UNIT_SWORDSMAN';
+
+UPDATE Units
+SET Cost = 100
+WHERE UnitType IN (
+	'UNIT_ROMAN_LEGION',
+	'UNIT_KONGO_SHIELD_BEARER'
+);
+
+UPDATE Units
+SET Cost = 90
+WHERE UnitType IN (
+	'UNIT_MACEDONIAN_HYPASPIST',
+	'UNIT_PERSIAN_IMMORTAL'
+);
+
+UPDATE Units_XP2
+SET ResourceCost = 10
+WHERE UnitType = 'UNIT_SWORDSMAN';
+
+UPDATE Units_XP2
+SET ResourceCost = 5
+WHERE UnitType IN (
+	'UNIT_ROMAN_LEGION',
+	'UNIT_KONGO_SHIELD_BEARER',
+	'UNIT_MACEDONIAN_HYPASPIST',
+	'UNIT_PERSIAN_IMMORTAL'
+);
+
+-------------------------------------------------------------------------------
+-- Aztec Eagle Warrior: Swordsman unique replacement
+-------------------------------------------------------------------------------
+
+UPDATE Units
+SET PrereqTech = 'TECH_IRON_WORKING',
+	PrereqCivic = NULL,
+	Cost = 100,
+	Maintenance = 2,
+	Combat = 38,
+	StrategicResource = 'RESOURCE_IRON',
+	MandatoryObsoleteTech = 'TECH_REPLACEABLE_PARTS'
+WHERE UnitType = 'UNIT_AZTEC_EAGLE_WARRIOR';
+
+INSERT OR IGNORE INTO Units_XP2 (UnitType, ResourceCost)
+SELECT UnitType, 5
+FROM Units
+WHERE UnitType = 'UNIT_AZTEC_EAGLE_WARRIOR';
+
+UPDATE Units_XP2
+SET ResourceCost = 5
+WHERE UnitType = 'UNIT_AZTEC_EAGLE_WARRIOR';
+
+UPDATE UnitReplaces
+SET ReplacesUnitType = 'UNIT_SWORDSMAN'
+WHERE CivUniqueUnitType = 'UNIT_AZTEC_EAGLE_WARRIOR';
+
+UPDATE UnitUpgrades
+SET UpgradeUnit = 'UNIT_MAN_AT_ARMS'
+WHERE Unit = 'UNIT_AZTEC_EAGLE_WARRIOR';
+
+-- This BBG tag applies only to Ancient-era units.  CLASS_CAPTURE_WORKER is
+-- deliberately retained so defeated military units can still become Builders.
+DELETE FROM TypeTags
+WHERE Type = 'UNIT_AZTEC_EAGLE_WARRIOR'
+  AND Tag = 'CLASS_MALUS_CITY_CENTER';
+
+INSERT OR IGNORE INTO TypeTags (Type, Tag)
+SELECT UnitType, 'CLASS_CAPTURE_WORKER'
+FROM Units
+WHERE UnitType = 'UNIT_AZTEC_EAGLE_WARRIOR';
+
+-- Toa is handled separately: it has no strategic-resource cost, and its
+-- production cost is reduced by 20.
+UPDATE Units
+SET Cost = 100
+WHERE UnitType = 'UNIT_MAORI_TOA';
+
+-- Man-at-Arms and all of its unique replacements are 10 Production cheaper.
+UPDATE Units
+SET Cost = 150
+WHERE UnitType IN (
+	'UNIT_MAN_AT_ARMS',
+	'UNIT_JAPANESE_SAMURAI',
+	'UNIT_NORWEGIAN_BERSERKER',
+	'UNIT_GEORGIAN_KHEVSURETI'
+);
 
 -------------------------------------------------------------------------------
 -- Eureka and Inspiration triggers
@@ -863,3 +997,17 @@ WHERE ModifierId IN (
 	'CHICHEN_ITZA_JUNGLE_PRODUCTION'
 )
   AND Name = 'ModifierId';
+
+-------------------------------------------------------------------------------
+-- Work Ethic: increase Shrine and Temple Production
+-------------------------------------------------------------------------------
+
+UPDATE ModifierArguments
+SET Value = '3'
+WHERE ModifierId = 'WORK_ETHIC_SHRINE_PRODUCTION_MODIFIER'
+  AND Name = 'Amount';
+
+UPDATE ModifierArguments
+SET Value = '5'
+WHERE ModifierId = 'WORK_ETHIC_TEMPLE_PRODUCTION_MODIFIER'
+  AND Name = 'Amount';

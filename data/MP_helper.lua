@@ -76,6 +76,8 @@
 --		Congress no longer can be skipped on lag
 -- v1.2.6
 --		Germany extra district moved to Early Empire; Maori T4 Woods/Rainforest bias
+-- v1.2.7
+--		Gameplay balance update and multiplayer version bump
 -- v1.3.2
 -- 		Random leader picked
 --		ConfigurationUpdate changes for CWC
@@ -93,7 +95,7 @@
 --	NEW VARIABLES
 -- ===========================================================================
 ExposedMembers.LuaEvents = LuaEvents
-local g_version = "ZYLPVPMOD v1.2.6"
+local g_version = "ZYLPVPMOD v1.2.7"
 local Drop_Data = {};
 local b_debug = false
 

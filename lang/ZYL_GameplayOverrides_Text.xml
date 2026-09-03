@@ -76,6 +76,13 @@
 			<Text>城市建造工业区建筑时+40% [ICON_PRODUCTION] 生产力。</Text>
 		</Replace>
 
+		<Replace Tag="LOC_TRAIT_CIVILIZATION_MAORI_MANA_DESCRIPTION" Language="en_US">
+			<Text>Embarked units gain +2 [ICON_MOVEMENT] Movement with Sailing. Fishing Boats Culture Bomb adjacent tiles and provide +1 [ICON_FOOD] Food with Celestial Navigation. Resources cannot be harvested. [ICON_GreatWriter] Great Writers cannot be earned.[NEWLINE][NEWLINE]Unimproved Woods and Rainforest tiles gain:[NEWLINE]+1 [ICON_PRODUCTION] Production with Foreign Trade.[NEWLINE]+1 [ICON_PRODUCTION] Production with Mercantilism.[NEWLINE]+2 [ICON_PRODUCTION] Production with Conservation.[NEWLINE][NEWLINE][ICON_BULLET]Bias: T1 Coast, T4 Woods and Rainforest.</Text>
+		</Replace>
+		<Replace Tag="LOC_TRAIT_CIVILIZATION_MAORI_MANA_DESCRIPTION" Language="zh_Hans_CN">
+			<Text>“航海术”科技后，水运单位+2 [ICON_Movement] 移动力。“对外贸易”市政后未改良的树林与雨林提供+1 [ICON_PRODUCTION] 生产力。“重商主义”额外提供+1 [ICON_PRODUCTION] 生产力、“保护地球”额外+2 [ICON_PRODUCTION] 生产力。渔船向相邻单元格投放文化炸弹，并在“天文导航”科技后提供+1 [ICON_FOOD] 食物。无法收获资源；无法获得 [ICON_GreatWriter] 大作家。[NEWLINE][NEWLINE][ICON_BULLET]出生地关联：T1海岸、T4树林和雨林。</Text>
+		</Replace>
+
 		<!-- Civilizations/leaders: final ZYLPVP rules applied after BBG localization. -->
 		<Replace Tag="LOC_TRAIT_LEADER_TRAJANS_COLUMN_DESCRIPTION" Language="en_US">
 			<Text>All founded cities receive a free building in the City Center after unlocking Foreign Trade.</Text>
@@ -253,6 +260,20 @@
 		</Replace>
 		<Replace Tag="LOC_TRAIT_LEADER_KRISTINA_AUTO_THEME_DESCRIPTION" Language="zh_Hans_CN">
 			<Text>拥有至少3个巨作槽位的建筑，以及拥有至少2个巨作槽位的世界奇观，在填满所有槽位时自动获得主题加成。可以在市政广场中建造特色建筑女王图书馆。[NEWLINE][NEWLINE]一级、二级、三级市政广场建筑分别每回合+2 [ICON_GreatWriter] 大作家、+2 [ICON_GreatArtist] 大艺术家、+2 [ICON_GreatMusician] 大音乐家点数；每座市政广场建筑还每回合+2 [ICON_GreatScientist] 大科学家和+2 [ICON_GreatEngineer] 大工程师点数。</Text>
+		</Replace>
+
+		<Replace Tag="LOC_BELIEF_WORK_ETHIC_DESCRIPTION" Language="en_US">
+			<Text>Shrines provide +3 [ICON_PRODUCTION] Production. Temples provide +5 [ICON_PRODUCTION] Production.</Text>
+		</Replace>
+		<Replace Tag="LOC_BELIEF_WORK_ETHIC_DESCRIPTION" Language="zh_Hans_CN">
+			<Text>神社提供+3 [ICON_PRODUCTION] 生产力。寺庙提供+5 [ICON_PRODUCTION] 生产力。</Text>
+		</Replace>
+
+		<Replace Tag="LOC_UNIT_AZTEC_EAGLE_WARRIOR_DESCRIPTION" Language="en_US">
+			<Text>Aztec unique Classical era melee unit that replaces the Swordsman. Has a chance to capture other civilizations' military units by turning them into Builders.</Text>
+		</Replace>
+		<Replace Tag="LOC_UNIT_AZTEC_EAGLE_WARRIOR_DESCRIPTION" Language="zh_Hans_CN">
+			<Text>替代剑客的阿兹特克古典时代特色近战单位。击杀其他文明的军事单位时，有几率将其转化为建造者并俘获。</Text>
 		</Replace>
 
 		<!-- Correct preview key used by the Medieval-era Scythia combat modifier. -->

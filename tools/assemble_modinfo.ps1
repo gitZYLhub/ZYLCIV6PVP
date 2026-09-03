@@ -311,7 +311,7 @@ $bbg = Load-XmlDocument $BBGModInfo
 $bbm = Load-XmlDocument $BBMModInfo
 
 $target.DocumentElement.SetAttribute('id', $unifiedId)
-$target.DocumentElement.SetAttribute('version', '126')
+$target.DocumentElement.SetAttribute('version', '127')
 
 $properties = [System.Xml.XmlElement]$target.SelectSingleNode('/Mod/Properties')
 Add-Property $target $properties 'Name' 'LOC_ZYLPVPMOD_TITLE'
@@ -319,10 +319,10 @@ Add-Property $target $properties 'Description' 'LOC_ZYLPVPMOD_DESCRIPTION'
 Add-Property $target $properties 'Teaser' 'LOC_ZYLPVPMOD_TEASER'
 Add-Property $target $properties 'Authors' 'BBG Team, BBM Team, BBG Expanded and CIVITAS Resources contributors, Cisco, D. / Jack The Narrator, Team PVP Tools contributors, ~Venom~, wltk, DeepLogic and JamieNyanchi; integrated by ZYL'
 Add-Property $target $properties 'SpecialThanks' 'Civilization VI BBG, BBM, BBG Expanded, CIVITAS, CPL, MPH, Team PVP, Better Deal Window and Detailed Map Tacks communities'
-Add-Property $target $properties 'Version' '126'
+Add-Property $target $properties 'Version' '127'
 Add-Property $target $properties 'BBGVersion' '7.4.6'
 Add-Property $target $properties 'BBMVersion' '1.39.1'
-Add-Property $target $properties 'ToolboxVersion' '1.2.6'
+Add-Property $target $properties 'ToolboxVersion' '1.2.7'
 Add-Property $target $properties 'AffectsSavedGames' '1'
 
 $blocks = [System.Xml.XmlElement]$target.SelectSingleNode('/Mod/Blocks')
@@ -368,7 +368,7 @@ $localizedUpdates = @{}
 $utf8 = [System.Text.Encoding]::UTF8
 $teaserZh = $utf8.GetString([System.Convert]::FromBase64String('QkJHIDcuNC42ICsgQkJNIDEuMzkuMSArIEJldHRlciBEZWFsIFdpbmRvdyArIERldGFpbGVkIE1hcCBUYWNrcyArIFpZTCDogZTmnLrmr5TotZvmjqfliLbkuI4gVUkg5bel5YW3566x44CC'))
 $descriptionZh = $utf8.GetString([System.Convert]::FromBase64String('5LiA5L2T5YyW6IGU5py65YyF77yaQmV0dGVyIEJhbGFuY2VkIEdhbWUgNy40LjbjgIFCZXR0ZXIgQmFsYW5jZWQgTWFwIDEuMzkuMeOAgUJCRyBFeHBhbmRlZCDlha3np43lpaLkvojotYTmupDjgIHnsr7pgIkgTGlnaHR3ZWlnaHRCYWxhbmNlIOS4h+elnuauv+S4jiBaWUwg5b636bKB5LyK44CBQmV0dGVyIERlYWwgV2luZG9344CBRGV0YWlsZWQgTWFwIFRhY2tz44CBTVBIIOavlOi1m+aOp+WItuWSjOeyvumAiSBUZWFtIFBWUCBVSS9Rb0zjgILkuqTmmJPnlYzpnaLkv53nlZkgTVBIIOeahOemgeS6pOaYk+inhOWIme+8m+WcsOWbvumSieeDremUruS/neeVmSBNUEgg56aB6ZKJ6KeE5YiZ5LiOIE5ISyDogYrlpKnlnLDlm77pkonjgILpmLvmraLlt7LmlbTlkIjmiJblhrLnqoHnu4Tku7bph43lpI3liqDovb3vvJvnp5HmioDkuI7luILmlL/kv53mjIHljp/niYjlj6/loIbnp6/ooYzkuLrjgII='))
-$localizedUpdates['LOC_ZYL_MPS_TITLE'] = @('LOC_ZYLPVPMOD_TITLE', 'ZYLPVPMOD 1.2.6', 'ZYLPVPMOD 1.2.6')
+$localizedUpdates['LOC_ZYL_MPS_TITLE'] = @('LOC_ZYLPVPMOD_TITLE', 'ZYLPVPMOD 1.2.7', 'ZYLPVPMOD 1.2.7')
 $localizedUpdates['LOC_ZYL_MPS_TEASER'] = @('LOC_ZYLPVPMOD_TEASER', 'BBG 7.4.6 + BBM 1.39.1 + Better Deal Window + Detailed Map Tacks + ZYL multiplayer tournament and quality-of-life suite.', $teaserZh)
 $localizedUpdates['LOC_ZYL_MPS_DESCRIPTION'] = @('LOC_ZYLPVPMOD_DESCRIPTION', 'One self-contained multiplayer package: Better Balanced Game 7.4.6, Better Balanced Map 1.39.1, six BBG Expanded luxury resources, selected Lightweight Balance pantheons plus ZYL Druid, Better Deal Window, Detailed Map Tacks, MPH tournament controls and selected Team PVP UI/QoL. The deal window preserves MPH trade restrictions; map-tack hotkeys preserve the MPH no-pins rule and NHK chat pins. Conflicting component Mod IDs are blocked to prevent double loading. Science and culture stacking remain enabled.', $descriptionZh)
 foreach ($oldId in $localizedUpdates.Keys) {
