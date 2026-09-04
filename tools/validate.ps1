@@ -484,6 +484,7 @@ $intentionallyUnlistedFiles = @(
     'BSM\UI\diplomacyribbon_spec.lua',
     'Components\BBG\LICENSE',
     'Components\BBG\scripts\bbg_stateutils.lua',
+	'tools\build_workshop_release.ps1',
     'Components\BBG\scripts\bbg_unitcommanddefs.lua',
     'Components\BBG\scripts\bbg_unitcommands.lua',
     'Components\BBG\sql\beta\ban_trade_treaty.sql',
@@ -940,10 +941,11 @@ else {
         'MODIFIER_PLAYER_CITIES_ADJUST_BUILDING_HOUSING',
         'TECH_COST_PERCENT_CHANGE_BEFORE_GAME_ERA',
         "('TECH_CELESTIAL_NAVIGATION', 'TECH_SAILING')",
-        "('TECH_CELESTIAL_NAVIGATION', 'TECH_ASTROLOGY')",
+		"('TECH_CELESTIAL_NAVIGATION', 'TECH_ASTROLOGY')",
 		'TRAIT_MAORI_EMBARKED_ABILITY',
-		'ZYL_MAORI_PLOT_HAS_FOREST_FOREIGN_TRADE',
-		'ZYL_MAORI_PLOT_HAS_JUNGLE_FOREIGN_TRADE',
+		'BBG_PLOT_HAS_FOREST_EARLY_EMPIRE',
+		'BBG_PLOT_HAS_JUNGLE_EARLY_EMPIRE',
+		'TRAIT_MAORI_PREVENT_HARVEST',
         "WHERE TechnologyType = 'TECH_ARCHERY'",
         "WHERE TechnologyType = 'TECH_BRONZE_WORKING'",
         "WHERE TechnologyType = 'TECH_MILITARY_TACTICS'",
@@ -1017,19 +1019,18 @@ else {
 		Add-ValidationError 'Final Maori embarked-unit +2 Movement bonus is not unlocked at Sailing.'
 	}
 	$maoriProductionBindings = @(
-		@('ZYL_MAORI_PLOT_HAS_FOREST_FOREIGN_TRADE', 'PLOT_IS_FOREST_REQUIREMENT', 'TRAIT_MAORI_PRODUCTION_WOODS'),
-		@('ZYL_MAORI_PLOT_HAS_JUNGLE_FOREIGN_TRADE', 'PLOT_IS_JUNGLE_REQUIREMENT', 'TRAIT_MAORI_PRODUCTION_RAINFOREST')
+		@('BBG_PLOT_HAS_FOREST_EARLY_EMPIRE', 'TRAIT_MAORI_PRODUCTION_WOODS'),
+		@('BBG_PLOT_HAS_JUNGLE_EARLY_EMPIRE', 'TRAIT_MAORI_PRODUCTION_RAINFOREST')
 	)
 	foreach ($binding in $maoriProductionBindings) {
 		$requirementSetId = [regex]::Escape($binding[0])
-		$featureRequirementId = [regex]::Escape($binding[1])
-		$modifierId = [regex]::Escape($binding[2])
-		if ($gameplayOverrideSql -notmatch "(?s)\('$requirementSetId'\s*,\s*'BBG_UTILS_PLAYER_HAS_CIVIC_FOREIGN_TRADE_REQUIREMENT'\).*?\('$requirementSetId'\s*,\s*'$featureRequirementId'\).*?\('$requirementSetId'\s*,\s*'REQUIRES_PLOT_HAS_NO_IMPROVEMENT'\)") {
-			Add-ValidationError "Maori Foreign Trade Production requirements are incomplete: $($binding[0])"
-		}
+		$modifierId = [regex]::Escape($binding[1])
 		if ($gameplayOverrideSql -notmatch "(?s)SET\s+SubjectRequirementSetId\s*=\s*'$requirementSetId'\s+WHERE\s+ModifierId\s*=\s*'$modifierId'") {
-			Add-ValidationError "Maori +1 Production modifier has the wrong unlock or feature scope: $($binding[2])"
+			Add-ValidationError "Maori +1 Production modifier is not unlocked at Early Empire: $($binding[1])"
 		}
+	}
+	if ($gameplayOverrideSql -notmatch "(?s)DELETE\s+FROM\s+TraitModifiers\s+WHERE\s+TraitType\s*=\s*'TRAIT_CIVILIZATION_MAORI_MANA'\s+AND\s+ModifierId\s*=\s*'TRAIT_MAORI_PREVENT_HARVEST'") {
+		Add-ValidationError 'Final Maori override does not remove the resource-harvesting restriction.'
 	}
     if ($gameplayOverrideSql -notmatch "(?s)DELETE\s+FROM\s+TraitModifiers\s+WHERE\s+TraitType\s*=\s*'TRAIT_CIVILIZATION_MALI_GOLD_DESERT'.*?'BBG_TRAIT_MALI_LESS_CITY_PRODUCTION'.*?'BBG_MALI_FAITH_NEXT_DESERT'.*?'BBG_MALI_FAITH_NEXT_DESERT_HILLS'.*?'BBG_MALI_FAITH_NEXT_CAPITAL'") {
 		Add-ValidationError 'Final Mali override does not remove the Production penalty and Foreign Trade city Faith package.'
@@ -1301,17 +1302,17 @@ else {
 		}
 	}
 	foreach ($maoriTextSpec in @(
-		@('en_US', 'with Sailing', 'with Foreign Trade', 'with Ship Building', 'with Early Empire'),
-		@('zh_Hans_CN', '“航海术”科技后', '“对外贸易”市政后', '“造船术”科技后', '“帝国初期”后')
+		@('en_US', 'with Sailing', 'with Early Empire', 'with Foreign Trade', 'with Ship Building', 'Resources cannot be harvested'),
+		@('zh_Hans_CN', '“航海术”科技后', '“帝国初期”市政后', '“对外贸易”市政后', '“造船术”科技后', '无法收获资源')
 	)) {
 		$maoriTextNode = $gameplayOverrideTextXml.SelectSingleNode("/GameData/LocalizedText/*[@Tag='LOC_TRAIT_CIVILIZATION_MAORI_MANA_DESCRIPTION' and @Language='$($maoriTextSpec[0])']/Text")
 		if ($null -eq $maoriTextNode -or
 				-not $maoriTextNode.InnerText.Contains($maoriTextSpec[1]) -or
 				-not $maoriTextNode.InnerText.Contains($maoriTextSpec[2])) {
-			Add-ValidationError "Maori $($maoriTextSpec[0]) text does not describe the Sailing / Foreign Trade unlocks."
+			Add-ValidationError "Maori $($maoriTextSpec[0]) text does not describe the Sailing / Early Empire unlocks."
 			continue
 		}
-		foreach ($obsoleteFragment in @($maoriTextSpec[3], $maoriTextSpec[4])) {
+		foreach ($obsoleteFragment in @($maoriTextSpec[3], $maoriTextSpec[4], $maoriTextSpec[5])) {
 			if ($maoriTextNode.InnerText.Contains($obsoleteFragment)) {
 				Add-ValidationError "Maori $($maoriTextSpec[0]) text still contains obsolete unlock text: $obsoleteFragment"
 			}

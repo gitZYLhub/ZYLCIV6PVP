@@ -156,8 +156,7 @@ SET EmbarkAll = 1,
 	Description = 'LOC_TECH_ZYL_CELESTIAL_NAVIGATION_DESCRIPTION'
 WHERE TechnologyType = 'TECH_CELESTIAL_NAVIGATION';
 
--------------------------------------------------------------------------------
--- Maori: move the early Mana bonuses to Sailing / Foreign Trade
+-- Maori: early Mana bonuses and resource harvesting
 -------------------------------------------------------------------------------
 
 -- BBG's embarked-unit movement modifier is still the correct +2 bonus; only
@@ -166,34 +165,22 @@ UPDATE Modifiers
 SET OwnerRequirementSetId = 'BBG_UTILS_PLAYER_HAS_TECH_SAILING'
 WHERE ModifierId = 'TRAIT_MAORI_EMBARKED_ABILITY';
 
--- Keep the existing "unimproved Woods / Rainforest" scope, but move its first
--- production tier from Early Empire to Foreign Trade.  These dedicated sets
--- avoid retaining the misleading BBG *_EARLY_EMPIRE names in the final layer.
-INSERT OR IGNORE INTO RequirementSets (RequirementSetId, RequirementSetType) VALUES
-	('ZYL_MAORI_PLOT_HAS_FOREST_FOREIGN_TRADE', 'REQUIREMENTSET_TEST_ALL'),
-	('ZYL_MAORI_PLOT_HAS_JUNGLE_FOREIGN_TRADE', 'REQUIREMENTSET_TEST_ALL');
-
-DELETE FROM RequirementSetRequirements
-WHERE RequirementSetId IN (
-	'ZYL_MAORI_PLOT_HAS_FOREST_FOREIGN_TRADE',
-	'ZYL_MAORI_PLOT_HAS_JUNGLE_FOREIGN_TRADE'
-);
-
-INSERT OR IGNORE INTO RequirementSetRequirements (RequirementSetId, RequirementId) VALUES
-	('ZYL_MAORI_PLOT_HAS_FOREST_FOREIGN_TRADE', 'BBG_UTILS_PLAYER_HAS_CIVIC_FOREIGN_TRADE_REQUIREMENT'),
-	('ZYL_MAORI_PLOT_HAS_FOREST_FOREIGN_TRADE', 'PLOT_IS_FOREST_REQUIREMENT'),
-	('ZYL_MAORI_PLOT_HAS_FOREST_FOREIGN_TRADE', 'REQUIRES_PLOT_HAS_NO_IMPROVEMENT'),
-	('ZYL_MAORI_PLOT_HAS_JUNGLE_FOREIGN_TRADE', 'BBG_UTILS_PLAYER_HAS_CIVIC_FOREIGN_TRADE_REQUIREMENT'),
-	('ZYL_MAORI_PLOT_HAS_JUNGLE_FOREIGN_TRADE', 'PLOT_IS_JUNGLE_REQUIREMENT'),
-	('ZYL_MAORI_PLOT_HAS_JUNGLE_FOREIGN_TRADE', 'REQUIRES_PLOT_HAS_NO_IMPROVEMENT');
-
+-- Keep BBG's "unimproved Woods / Rainforest" scope and unlock its first
+-- +1 Production tier at Early Empire.
 UPDATE Modifiers
-SET SubjectRequirementSetId = 'ZYL_MAORI_PLOT_HAS_FOREST_FOREIGN_TRADE'
+SET SubjectRequirementSetId = 'BBG_PLOT_HAS_FOREST_EARLY_EMPIRE'
 WHERE ModifierId = 'TRAIT_MAORI_PRODUCTION_WOODS';
 
 UPDATE Modifiers
-SET SubjectRequirementSetId = 'ZYL_MAORI_PLOT_HAS_JUNGLE_FOREIGN_TRADE'
+SET SubjectRequirementSetId = 'BBG_PLOT_HAS_JUNGLE_EARLY_EMPIRE'
 WHERE ModifierId = 'TRAIT_MAORI_PRODUCTION_RAINFOREST';
+
+-- Remove Mana's vanilla ban on harvesting bonus resources.  Deleting only
+-- the trait attachment leaves the shared modifier definition intact and
+-- restores the normal Builder harvest actions for Maori players.
+DELETE FROM TraitModifiers
+WHERE TraitType = 'TRAIT_CIVILIZATION_MAORI_MANA'
+	AND ModifierId = 'TRAIT_MAORI_PREVENT_HARVEST';
 
 -------------------------------------------------------------------------------
 -- Melee unit production and iron costs
