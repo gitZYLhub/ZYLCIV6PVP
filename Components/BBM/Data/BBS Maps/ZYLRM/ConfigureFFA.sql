@@ -1,6 +1,9 @@
 -- FFA Rich Mainland: explicit dimensions for every player count from 2 to 12.
--- Standard size identifiers are reused for even counts; odd counts are real
--- gameplay MapSize rows registered only while this map is selected.
+-- Widths are even-number roundings of roughly 110% of the legacy canvases
+-- (52/54/56/58/60/62/64/66/68/70/72).  The full width participates in map
+-- generation; no part of it is reserved as a forced central ocean.  Standard
+-- size identifiers are reused for even counts; odd counts are real gameplay
+-- MapSize rows registered only while this map is selected.
 UPDATE Maps SET GridWidth=58, GridHeight=34, DefaultPlayers=2, NumNaturalWonders=3, Continents=1 WHERE MapSizeType='MAPSIZE_DUEL';
 UPDATE Maps SET GridWidth=62, GridHeight=48, DefaultPlayers=4, NumNaturalWonders=3, Continents=2 WHERE MapSizeType='MAPSIZE_TINY';
 UPDATE Maps SET GridWidth=66, GridHeight=62, DefaultPlayers=6, NumNaturalWonders=4, Continents=3 WHERE MapSizeType='MAPSIZE_SMALL';

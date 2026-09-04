@@ -5,8 +5,9 @@ ZYL_RICH_MAINLAND_VARIANT = {
 	id = "FFA",
 	team = false,
 	ffa = true,
-	-- Preserve the pre-expansion land/island canvas at each map height.  The
-	-- shared core centers this canvas and uses all added columns as ocean.
+	-- Original canvas widths, used only as the denominator for each size's
+	-- horizontal scale.  FFA generates land, islands and east/west sea across
+	-- the full runtime width instead of reserving the added columns as ocean.
 	baseWidthsByHeight = {
 		[34] = 52,
 		[42] = 54,

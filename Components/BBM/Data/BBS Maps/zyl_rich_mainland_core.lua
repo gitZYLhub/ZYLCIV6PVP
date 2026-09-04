@@ -28,25 +28,30 @@ local VARIANT_ID = tostring(ZYL_RICH_MAINLAND_VARIANT.id or "UNKNOWN");
 local LOG_PREFIX = "ZYLRM[" .. VARIANT_ID .. "]";
 
 local g_iW, g_iH;
-local g_iBaseW, g_iContentOffsetX, g_iAddedOceanWidth;
+local g_iBaseW, g_iLegacyW, g_iContentOffsetX, g_iAddedOceanWidth;
+local g_fHorizontalScale = 1;
 local g_iFlags = {};
 local g_continentsFrac = nil;
 local featureGen = nil;
 local world_age_new = 5;
 local world_age_normal = 3;
 local world_age_old = 2;
--- Plot generation guarantees the outermost row at each pole is water; use
--- exactly that row for the mainland's shallow polar bypass.
-local MAINLAND_POLAR_COAST_DEPTH = 1;
+-- Grain 4 produces larger, more coherent islands than the former grain-5
+-- layer.  The old layer used water percentile 67 (about 33% candidate land).
+-- Its target is now +20% final island land; FFA accounts for its independently
+-- widened generation canvas so width growth is not counted twice.
+local ZYL_RICH_MAINLAND_ISLAND_BASE_WATER_PERCENT = 67;
+local ZYL_RICH_MAINLAND_ISLAND_LAND_MULTIPLIER = 1.20;
+local ZYL_RICH_MAINLAND_ISLAND_GRAIN = 4;
 local RichNum;
 local CompetitionMode = false;
 local Remove_South_Sea_Resource_Plots = {}		-- 需要移除资源的远洋单元格（来自竖向大陆海陆生成）
 
 -------------------------------------------------------------------------------
--- Both Rich Mainland variants use horizontal wrapping.  Their extra width is
--- split between the physical left/right edges, which meet at the wrap seam and
--- therefore form one central ocean between the mainland's eastern and western
--- sides.
+-- Both Rich Mainland variants use horizontal wrapping.  Team mode retains its
+-- legacy content canvas and turns the added width into a central ocean at the
+-- wrap seam.  FFA instead generates across the complete widened canvas and
+-- scales its east/west sea and mainland together.
 function GetMapInitData(MapSize)
 	local width = 0;
 	local height = 0;
@@ -62,60 +67,89 @@ end
 
 local function ZYL_InitializeExpandedOceanCanvas()
 	local baseWidths = ZYL_RICH_MAINLAND_VARIANT.baseWidthsByHeight or {};
-	g_iBaseW = math.min(g_iW, tonumber(baseWidths[g_iH]) or g_iW);
-	g_iAddedOceanWidth = math.max(0, g_iW - g_iBaseW);
-	g_iContentOffsetX = math.floor(g_iAddedOceanWidth / 2);
-	print(string.format("%s: expanded ocean canvas actual=%dx%d legacy=%dx%d offset=%d added=%d wrapX=%s",
-		LOG_PREFIX, g_iW, g_iH, g_iBaseW, g_iH, g_iContentOffsetX,
-		g_iAddedOceanWidth, tostring(Map:IsWrapX())));
+	g_iLegacyW = math.min(g_iW, tonumber(baseWidths[g_iH]) or g_iW);
+	if IS_FFA then
+		g_iBaseW = g_iW;
+		g_iAddedOceanWidth = 0;
+		g_iContentOffsetX = 0;
+		g_fHorizontalScale = g_iLegacyW > 0 and g_iW / g_iLegacyW or 1;
+	else
+		g_iBaseW = g_iLegacyW;
+		g_iAddedOceanWidth = math.max(0, g_iW - g_iBaseW);
+		g_iContentOffsetX = math.floor(g_iAddedOceanWidth / 2);
+		g_fHorizontalScale = 1;
+	end
+	print(string.format("%s: horizontal canvas actual=%dx%d legacy=%dx%d generation=%dx%d offset=%d addedOcean=%d scale=%.4f wrapX=%s",
+		LOG_PREFIX, g_iW, g_iH, g_iLegacyW, g_iH, g_iBaseW, g_iH,
+		g_iContentOffsetX, g_iAddedOceanWidth, g_fHorizontalScale,
+		tostring(Map:IsWrapX())));
 end
 
 local function ZYL_IsAddedCentralOceanColumn(x)
 	return x < g_iContentOffsetX or x >= g_iContentOffsetX + g_iBaseW;
 end
 
--- Keep a continuous deep-water barrier along the wrap seam from pole to pole.
--- Water in the north/south polar bands inside the legacy content canvas is
--- Coast, so ships can follow the mainland's polar shore between its east and
--- west coasts.  Those shallow routes stop at the added central ocean: its
--- columns remain Ocean even at the poles and cannot connect across the seam.
+-- Team mode keeps a continuous deep-water barrier along the wrap seam.  FFA
+-- has no added central-ocean columns and never runs this enforcement pass.
+-- Do not manufacture a shallow-water strip at either pole: the forced boundary
+-- rows are kept deep by ZYL_RemovePolarShallowSea after all terrain passes.
 function ZYL_EnforceCentralOceanBarrier(terrainTypes)
-	if not g_iBaseW or g_iAddedOceanWidth <= 0 then return end
+	if not IS_TEAM or not g_iBaseW or g_iAddedOceanWidth <= 0 then return end
 	local deepCount = 0;
-	local polarCount = 0;
-	local polarIceRemoved = 0;
 	for y = 0, g_iH - 1 do
 		for x = 0, g_iW - 1 do
 			local isCentralOcean = ZYL_IsAddedCentralOceanColumn(x);
 			local index = y * g_iW + x;
-			local isPolarBand = y < MAINLAND_POLAR_COAST_DEPTH or y >= g_iH - MAINLAND_POLAR_COAST_DEPTH;
-			local isMainlandPolarRoute = not isCentralOcean and isPolarBand
-				and plotTypes[index] == g_PLOT_TYPE_OCEAN;
-			if isCentralOcean or isMainlandPolarRoute then
-				local terrainType = isMainlandPolarRoute and g_TERRAIN_TYPE_COAST or g_TERRAIN_TYPE_OCEAN;
+			if isCentralOcean then
 				plotTypes[index] = g_PLOT_TYPE_OCEAN;
 				if terrainTypes ~= nil then
-					terrainTypes[index] = terrainType;
+					terrainTypes[index] = g_TERRAIN_TYPE_OCEAN;
 				else
 					local plot = Map.GetPlot(x, y);
-					if plot ~= nil and plot:GetTerrainType() ~= terrainType then
-						TerrainBuilder.SetTerrainType(plot, terrainType);
-					end
-					if isMainlandPolarRoute and plot ~= nil and plot:GetFeatureType() == g_FEATURE_ICE then
-						TerrainBuilder.SetFeatureType(plot, -1);
-						polarIceRemoved = polarIceRemoved + 1;
+					if plot ~= nil and plot:GetTerrainType() ~= g_TERRAIN_TYPE_OCEAN then
+						TerrainBuilder.SetTerrainType(plot, g_TERRAIN_TYPE_OCEAN);
 					end
 				end
-				if isMainlandPolarRoute then polarCount = polarCount + 1 else deepCount = deepCount + 1 end
+				deepCount = deepCount + 1;
 			end
 		end
 	end
 	if terrainTypes == nil then
 		Game:SetProperty("ZYLRM_CENTRAL_DEEP_OCEAN_TILES", deepCount);
-		Game:SetProperty("ZYLRM_POLAR_SHALLOW_ROUTE_TILES", polarCount);
-		Game:SetProperty("ZYLRM_POLAR_ROUTE_ICE_REMOVED", polarIceRemoved);
-		print(string.format("%s: central ocean enforced (%d pole-to-pole deep-water, %d mainland polar Coast tiles, %d route Ice removed)",
-			LOG_PREFIX, deepCount, polarCount, polarIceRemoved));
+		Game:SetProperty("ZYLRM_POLAR_SHALLOW_ROUTE_TILES", 0);
+		print(string.format("%s: team central ocean enforced (%d pole-to-pole deep-water tiles; no forced polar shallows)",
+			LOG_PREFIX, deepCount));
+	end
+end
+
+-- The legacy generator forces y=0/y=1 at the south edge and y=height-1 at the
+-- north edge to water.  The terrain/shelf passes could then turn those entire
+-- rows into Coast, creating conspicuous horizontal shallow-sea stripes.  Keep
+-- every forced boundary row as deep ocean for both variants; interior Coast
+-- produced by the normal adjacency/shelf rules remains untouched.
+local function ZYL_RemovePolarShallowSea(terrainTypes)
+	if g_iH == nil or g_iH < 2 then return end
+	local deepCount = 0;
+	for _, y in ipairs({ 0, 1, g_iH - 1 }) do
+		for x = 0, g_iW - 1 do
+			local index = y * g_iW + x;
+			if plotTypes[index] == g_PLOT_TYPE_OCEAN then
+				if terrainTypes ~= nil then
+					terrainTypes[index] = g_TERRAIN_TYPE_OCEAN;
+				else
+					local plot = Map.GetPlot(x, y);
+					if plot ~= nil and plot:GetTerrainType() ~= g_TERRAIN_TYPE_OCEAN then
+						TerrainBuilder.SetTerrainType(plot, g_TERRAIN_TYPE_OCEAN);
+					end
+				end
+				deepCount = deepCount + 1;
+			end
+		end
+	end
+	if terrainTypes == nil then
+		Game:SetProperty("ZYLRM_POLAR_SHALLOW_ROUTE_TILES", 0);
+		print(string.format("%s: polar forced-water rows kept deep (%d tiles; no horizontal shallow-sea stripe)",
+			LOG_PREFIX, deepCount));
 	end
 end
 
@@ -177,7 +211,8 @@ function GenerateMap()
 	print("划分海陆");
 	plotTypes = TeamPVPGeneratePlotTypes(world_age);
 	terrainTypes = TeamPVPGenerateTerrainTypes(plotTypes, g_iW, g_iH, g_iFlags, true, temperature);
-	ZYL_EnforceCentralOceanBarrier(terrainTypes);
+	ZYL_RemovePolarShallowSea(terrainTypes);
+	if IS_TEAM then ZYL_EnforceCentralOceanBarrier(terrainTypes); end
 	ApplyBaseTerrain(plotTypes, terrainTypes, g_iW, g_iH);
 
 	-- 分配大陆
@@ -205,8 +240,11 @@ function GenerateMap()
 
 	print("增加自然奇观");
 	local mapRow = ZYL_RVC_GetMapRow();
+	local wonderScale = IS_FFA and g_fHorizontalScale or 1;
+	local baseWonderTarget = math.floor((mapRow and mapRow.NumNaturalWonders or 4) + RichNum / 3);
+	local wonderTarget = baseWonderTarget * wonderScale;
 	local nwGen = NaturalWonderGenerator.Create({
-		numberToPlace = math.max(0, math.floor((mapRow and mapRow.NumNaturalWonders or 4) + RichNum / 3)),
+		numberToPlace = math.max(0, math.floor(wonderTarget + 0.5)),
 	});
 
 	print("增加大陆边界地貌");
@@ -265,7 +303,8 @@ function GenerateMap()
 	ZYL_EnsureRussiaFoodTiles();
 	ZYL_RVC_EnforceSeaResourceRules();
 	ZYL_EnsureCoastalStartReefResource();
-	ZYL_EnforceCentralOceanBarrier();
+	ZYL_RemovePolarShallowSea();
+	if IS_TEAM then ZYL_EnforceCentralOceanBarrier(); end
 	--[[ Corrupted legacy log text retained only as a comment.
 
 	print("开始生成道路");
@@ -339,6 +378,8 @@ function ZYLRM_LogFinalStatistics()
 	Game:SetProperty("ZYLRM_MOUNTAIN_TILES", mountainCount);
 	Game:SetProperty("ZYLRM_ISLAND_LAND_TILES", islandLandCount);
 	Game:SetProperty("ZYLRM_CONTINENT_MODE", IS_TEAM and "HORIZONTAL_STRIPES" or "STAMPED");
+	Game:SetProperty("ZYLRM_HORIZONTAL_SCALE", g_fHorizontalScale);
+	Game:SetProperty("ZYLRM_GENERATION_WIDTH", g_iBaseW);
 	Game:SetProperty("ZYLRM_MAP_FINGERPRINT", mapFingerprint);
 	print(string.format("%s mountains: %d / %d land tiles (%.2f%%)", LOG_PREFIX, mountainCount, landCount, mountainPercent));
 	print(LOG_PREFIX .. " offshore island land:", islandLandCount, "tiles");
@@ -1743,16 +1784,20 @@ end
 function TeamPVPGeneratePlotTypes(world_age)
 	plotTypes = table.fill(g_PLOT_TYPE_LAND, g_iW * g_iH);
 
-	-- 竖向大陆海陆生成：不对称水域裁剪（东西宽海 d_water_W=15 / 南北窄海 d_water_H=6）
+	-- 竖向大陆海陆生成：不对称水域裁剪。组队图保持原来的15格东西海；
+	-- FFA的12格东西海与大陆一起按每档实际宽度/原画布宽度等比放大。
 	local variationFrac1 = Fractal.Create(g_iH, g_iBaseW, 3, g_iFlags, -1, -1);
 	local variationFrac2 = Fractal.Create(g_iH, g_iBaseW, 3, g_iFlags, -1, -1);
 	local variationFrac3 = Fractal.Create(g_iBaseW, g_iH, 3, g_iFlags, -1, -1);
 	local variationFrac4 = Fractal.Create(g_iBaseW, g_iH, 3, g_iFlags, -1, -1);
 
-	local d_water_W = IS_FFA and 12 or 15
+	local base_water_W = IS_FFA and 12 or 15
+	local d_water_W = base_water_W * g_fHorizontalScale
 	local d_water_H = 6
 	local waterlatitude_W = 1 - (d_water_W * 2 / g_iH)
 	local waterlatitude_H = 1 - (d_water_H * 2 / g_iH)
+	print(string.format("%s: proportional east/west sea width %.2f (base %d, horizontal scale %.4f)",
+		LOG_PREFIX, d_water_W, base_water_W, g_fHorizontalScale));
 
 	for y = 0, g_iH -1 do
 		for x = 0, g_iW - 1 do
@@ -1825,20 +1870,27 @@ function TeamPVPGeneratePlotTypes(world_age)
 		end
 	end
 
-	-- 添加岛屿
-	local d_island = d_water_W - 4
+	-- 添加岛屿。岛带的内外边界与东西宽度一起等比缩放。
+	local d_island = (base_water_W - 4) * g_fHorizontalScale
 	local Islandlatitude_W = 1 - (d_island * 2 / g_iH)
 
-	local d_island_2 = d_water_W - 9
+	local d_island_2 = (base_water_W - 9) * g_fHorizontalScale
 	local Islandlatitude_W_2 = 1 - (d_island_2 * 2 / g_iH)
 
 	local args = args or {};
-	args.iWaterPercent = 67;
+	local oldIslandLandPercent = 100 - ZYL_RICH_MAINLAND_ISLAND_BASE_WATER_PERCENT;
+	local islandAreaScale = IS_FFA and g_fHorizontalScale or 1;
+	local targetIslandLandPercent = oldIslandLandPercent
+		* ZYL_RICH_MAINLAND_ISLAND_LAND_MULTIPLIER / islandAreaScale;
+	-- Fractal:GetHeight consumes an integer percentile.  Nearest-integer
+	-- rounding keeps the total target within roughly 1-2% of the requested
+	-- +20% on every FFA width and avoids relying on implicit C/Lua coercion.
+	args.iWaterPercent = math.clamp(math.floor(100 - targetIslandLandPercent + 0.5), 0, 100);
 	args.iRegionWidth = math.ceil(g_iBaseW);
 	args.iRegionHeight = math.ceil(g_iH);
 	args.iRegionWestX = math.floor(0);
 	args.iRegionSouthY = math.floor(0);
-	args.iRegionGrain = 5;
+	args.iRegionGrain = ZYL_RICH_MAINLAND_ISLAND_GRAIN;
 	args.iRegionHillsGrain = 6;
 	args.iRegionPlotFlags = g_iFlags;
 	args.iRegionFracXExp = 6;
@@ -1855,6 +1907,8 @@ function TeamPVPGeneratePlotTypes(world_age)
 	local iRegionFracXExp = args.iRegionFracXExp or 6;
 	local iRegionFracYExp = args.iRegionFracYExp or 5;
 	local iRiftGrain = args.iRiftGrain or -1;
+	print(string.format("%s: island layer waterPercent=%d grain=%d areaScale=%.4f (target +20%% island land, larger clusters)",
+		LOG_PREFIX, iWaterPercent, iRegionGrain, islandAreaScale));
 
 	local regionContinentsFrac;
 	if(iRiftGrain > 0 and iRiftGrain < 4) then
@@ -2105,9 +2159,10 @@ function AddFeatures()
 	
 	-- 湖泊会干扰河流，导致河流停止，如果再早一点建起来，就无法流入海洋。
 	local mapRow = ZYL_RVC_GetMapRow();
-	local numLargeLakes = mapRow and mapRow.Continents or 1;
-	-- 705：通过降雨调整大湖
-	numLargeLakes = numLargeLakes + rainfall - 4;
+	local lakeScale = IS_FFA and g_fHorizontalScale or 1;
+	local numLargeLakes = (mapRow and mapRow.Continents or 1) * lakeScale;
+	-- 705：通过降雨调整大湖；FFA 横向扩宽时按面积等比增加定额。
+	numLargeLakes = math.floor(numLargeLakes + rainfall - 4 + 0.5);
 
 	AddLakes(math.max(0, numLargeLakes));
 

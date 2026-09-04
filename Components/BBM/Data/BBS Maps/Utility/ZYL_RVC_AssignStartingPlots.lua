@@ -29,6 +29,219 @@ local Teamers_Ref_team = nil
 local Teamers_Ref_team_overturn = nil
 local TEAM_WRONG_SIDE_PENALTY = 120000000
 
+-- The experimental FFA-only option is deliberately read here, at the start
+-- placement boundary.  A missing value is treated as enabled for the FFA map
+-- (the XML default is also 1), while every non-FFA caller remains untouched.
+local function ZYL_RVC_IsFFAUniformDistributionEnabled()
+    if type(ZYL_RICH_MAINLAND_VARIANT) ~= "table"
+            or ZYL_RICH_MAINLAND_VARIANT.ffa ~= true then
+        return false;
+    end
+    local configured = MapConfiguration.GetValue("ZYL_RVC_UniformDistribution");
+    if configured == nil then
+        return true;
+    end
+    if configured == false then
+        return false;
+    end
+    if tonumber(configured) ~= nil then
+        return tonumber(configured) ~= 0;
+    end
+    return configured == true or configured == "true" or configured == "TRUE";
+end
+
+local ZYL_RVC_FFA_UNIFORM_ROW_CACHE = nil;
+
+-- Return a quantile-like north/south distribution for the land starts.  The
+-- rows are weighted by the amount of usable land, so a barren polar tail or a
+-- narrow island cannot consume an entire zone merely because it occupies a
+-- few coordinate rows.  This is intentionally a placement check, not a map
+-- regeneration: the existing Create retry loop can safely redraw starts on
+-- the already-generated terrain/resources.
+local function ZYL_RVC_ValidateFFAUniformDistribution(instance)
+    if instance == nil or instance.ffaUniformDistributionEnabled ~= true then
+        return true, 0, "disabled";
+    end
+
+	local majorStarts = {};
+	local seenPlayerIDs = {};
+	local mainland = Areas.FindBiggestArea(false);
+	local mainlandAreaID = mainland ~= nil and mainland:GetID() or -1;
+	local function addMajorStart(playerID)
+		if seenPlayerIDs[playerID] then return end
+		seenPlayerIDs[playerID] = true;
+		local player = Players[playerID];
+		local plot = player ~= nil and player:GetStartingPlot() or nil;
+		-- Direct ocean starts keep their own safety rules.  Every land-start major
+		-- counts, including one placed on an offshore island; the mainland's usable
+		-- land distribution remains the reference for its north/south zone.
+		if plot ~= nil and not plot:IsWater() and not plot:IsImpassable() then
+			table.insert(majorStarts, { PlayerID = playerID, Plot = plot });
+		end
+	end
+	for _, playerID in ipairs(instance.majorList or {}) do addMajorStart(playerID) end
+
+	local playerCount = #majorStarts;
+	if playerCount < (instance.iNumMajorCivs or 0) then
+		instance.uniformDistributionScore = 1000 + (instance.iNumMajorCivs - playerCount);
+		Game:SetProperty("ZYLRM_FFA_UNIFORM_DISTRIBUTION", false);
+		Game:SetProperty("ZYLRM_FFA_UNIFORM_PLAYERS", playerCount);
+		print("ZYL RVC FFA uniform distribution: RETRY, missing land major starts",
+			playerCount, "/", instance.iNumMajorCivs);
+		return false, instance.uniformDistributionScore, "missing-land-start";
+	end
+    if playerCount <= 1 then
+        instance.uniformDistributionScore = 0;
+        instance.uniformDistributionCoverage = 1;
+        instance.uniformDistributionZones = 1;
+        Game:SetProperty("ZYLRM_FFA_UNIFORM_DISTRIBUTION", true);
+		Game:SetProperty("ZYLRM_FFA_UNIFORM_PLAYERS", playerCount);
+        return true, 0, "one-or-fewer-land-starts";
+    end
+
+	local gridWidth, gridHeight = Map.GetGridSize();
+	local rowLandCounts;
+	local minY;
+	local maxY;
+	local totalLand;
+	if ZYL_RVC_FFA_UNIFORM_ROW_CACHE ~= nil
+			and ZYL_RVC_FFA_UNIFORM_ROW_CACHE.Width == gridWidth
+			and ZYL_RVC_FFA_UNIFORM_ROW_CACHE.Height == gridHeight
+			and ZYL_RVC_FFA_UNIFORM_ROW_CACHE.MainlandAreaID == mainlandAreaID then
+		rowLandCounts = ZYL_RVC_FFA_UNIFORM_ROW_CACHE.RowLandCounts;
+		minY = ZYL_RVC_FFA_UNIFORM_ROW_CACHE.MinY;
+		maxY = ZYL_RVC_FFA_UNIFORM_ROW_CACHE.MaxY;
+		totalLand = ZYL_RVC_FFA_UNIFORM_ROW_CACHE.TotalLand;
+	else
+		rowLandCounts = {};
+		minY = gridHeight;
+		maxY = -1;
+		totalLand = 0;
+		for y = 0, gridHeight - 1 do
+			rowLandCounts[y] = 0;
+			for x = 0, gridWidth - 1 do
+				local plot = Map.GetPlot(x, y);
+				local plotArea = plot ~= nil and plot:GetArea() or nil;
+				if plot ~= nil and not plot:IsWater() and not plot:IsImpassable()
+						and plotArea ~= nil and plotArea:GetID() == mainlandAreaID
+						and instance:__GetValidAdjacent(plot, true) then
+					rowLandCounts[y] = rowLandCounts[y] + 1;
+					totalLand = totalLand + 1;
+					minY = math.min(minY, y);
+					maxY = math.max(maxY, y);
+				end
+			end
+		end
+		ZYL_RVC_FFA_UNIFORM_ROW_CACHE = {
+			Width = gridWidth,
+			Height = gridHeight,
+			MainlandAreaID = mainlandAreaID,
+			RowLandCounts = rowLandCounts,
+			MinY = minY,
+			MaxY = maxY,
+			TotalLand = totalLand,
+		};
+	end
+    if totalLand <= 0 or maxY <= minY then
+        instance.uniformDistributionScore = 0;
+        instance.uniformDistributionCoverage = 1;
+        instance.uniformDistributionZones = 1;
+        Game:SetProperty("ZYLRM_FFA_UNIFORM_DISTRIBUTION", true);
+        return true, 0, "no-north-south-range";
+    end
+
+    local zoneCount;
+    if playerCount <= 3 then
+        zoneCount = playerCount;
+    elseif playerCount <= 7 then
+        zoneCount = 3;
+    else
+        zoneCount = 4;
+    end
+    zoneCount = math.max(2, math.min(zoneCount, playerCount));
+
+    local zoneBounds = {};
+    zoneBounds[1] = minY;
+    local cumulative = 0;
+    local boundaryIndex = 1;
+    for y = minY, maxY do
+        cumulative = cumulative + (rowLandCounts[y] or 0);
+        while boundaryIndex < zoneCount and cumulative >= (totalLand * boundaryIndex / zoneCount) do
+            zoneBounds[boundaryIndex + 1] = y + 1;
+            boundaryIndex = boundaryIndex + 1;
+        end
+    end
+    for zone = 2, zoneCount do
+        if zoneBounds[zone] == nil then
+            zoneBounds[zone] = maxY + 1;
+        end
+    end
+    zoneBounds[zoneCount + 1] = maxY + 1;
+
+    local zoneCounts = table.fill(0, zoneCount);
+    local lowestStartY = maxY;
+    local highestStartY = minY;
+	for _, startData in ipairs(majorStarts) do
+		local y = startData.Plot:GetY();
+		lowestStartY = math.min(lowestStartY, y);
+		highestStartY = math.max(highestStartY, y);
+		local zoneIndex = y < minY and 1 or zoneCount;
+		if y >= minY and y <= maxY then
+			for zone = 1, zoneCount do
+				if y >= zoneBounds[zone] and y < zoneBounds[zone + 1] then
+					zoneIndex = zone;
+					break
+				end
+			end
+		end
+		zoneCounts[zoneIndex] = zoneCounts[zoneIndex] + 1;
+	end
+
+    local largestZone = 0;
+    local smallestZone = playerCount;
+    local balancePenalty = 0;
+    local targetPerZone = playerCount / zoneCount;
+    for zone = 1, zoneCount do
+        largestZone = math.max(largestZone, zoneCounts[zone]);
+        smallestZone = math.min(smallestZone, zoneCounts[zone]);
+        balancePenalty = balancePenalty + math.abs(zoneCounts[zone] - targetPerZone);
+    end
+
+    local landRange = math.max(1, maxY - minY);
+	local coverage = math.min(1, (highestStartY - lowestStartY) / landRange);
+    local requiredCoverage = playerCount <= 2 and 0.45
+        or (playerCount <= 3 and 0.55 or 0.65);
+    -- The last few attempts are a bounded safety valve for unusually biased
+    -- terrain.  They still require multiple occupied zones and broad coverage.
+    if instance.iPlacementAttempt >= 17 then
+        requiredCoverage = math.max(0.35, requiredCoverage - 0.10);
+    end
+    local allowedBalance = instance.iPlacementAttempt >= 17 and 2 or 1;
+    local valid = (largestZone - smallestZone <= allowedBalance)
+        and coverage >= requiredCoverage
+        and smallestZone > 0;
+	-- A stable, attempt-independent score is used only for the bounded fallback:
+	-- occupied zones dominate, then even headcounts, then wider coverage.
+	local emptyZonePenalty = smallestZone == 0 and 100 or 0;
+	local score = emptyZonePenalty + balancePenalty * 10 + (1 - coverage);
+
+    instance.uniformDistributionScore = score;
+    instance.uniformDistributionCoverage = coverage;
+    instance.uniformDistributionZones = zoneCount;
+    instance.uniformDistributionZoneCounts = zoneCounts;
+    Game:SetProperty("ZYLRM_FFA_UNIFORM_DISTRIBUTION", valid);
+	Game:SetProperty("ZYLRM_FFA_UNIFORM_PLAYERS", playerCount);
+    Game:SetProperty("ZYLRM_FFA_UNIFORM_ZONES", zoneCount);
+    Game:SetProperty("ZYLRM_FFA_UNIFORM_COVERAGE", coverage);
+    Game:SetProperty("ZYLRM_FFA_UNIFORM_ATTEMPT", instance.iPlacementAttempt);
+	Game:SetProperty("ZYLRM_FFA_UNIFORM_SCORE", score);
+    print("ZYL RVC FFA uniform distribution:", valid and "PASS" or "RETRY",
+		"players", playerCount, "zones", zoneCount,
+        "counts", table.concat(zoneCounts, ","), "coverage", coverage,
+        "required", requiredCoverage, "score", score);
+    return valid, score, valid and "balanced" or "concentrated";
+end
+
 local ZYL_RVC_HYDROPHOBIC_MIN_WALKABLE_RATIO = 0.60
 local ZYL_RVC_HYDROPHOBIC_COAST_FREE_RANGE = 3
 local ZYL_RVC_HYDROPHOBIC_COAST_SCORE_RANGE = 5
@@ -337,10 +550,15 @@ local function ZYL_RVC_GetCoastOrientation(plot)
                 adjacentPlot:GetY(), gridHeight - 1 - adjacentPlot:GetY()
             )
             -- Compare depth beyond the generated sea margins, not raw edge
-            -- distance: east/west water is intentionally 12 (FFA) or 15
-            -- (team) tiles wide while north/south water is 6 tiles wide.
+            -- distance.  FFA widens its original canvas by roughly 10%, so its
+            -- 12-tile east/west margin is scaled by the exact size ratio;
+            -- Team retains the original 15-tile margin.
+            local legacyWidths = ZYL_RICH_MAINLAND_VARIANT.baseWidthsByHeight or {}
+            local legacyWidth = tonumber(legacyWidths[gridHeight]) or gridWidth
+            local horizontalScale = ZYL_RICH_MAINLAND_VARIANT.ffa == true
+                and gridWidth / math.max(1, legacyWidth) or 1
             local eastWestSeaMargin =
-                ZYL_RICH_MAINLAND_VARIANT.ffa == true and 12 or 15
+                (ZYL_RICH_MAINLAND_VARIANT.ffa == true and 12 or 15) * horizontalScale
             local northSouthSeaMargin = 6
             local eastWestDepth = horizontalEdgeDistance - eastWestSeaMargin
             local northSouthDepth = verticalEdgeDistance - northSouthSeaMargin
@@ -373,6 +591,7 @@ function BBS_AssignStartingPlots.Create(args)
 	-- a coast before invoking the placer again.
 	ZYL_RVC_COAST_ORIENTATION_CACHE = {}
 	ZYL_RVC_MAINLAND_AREA_ID = nil
+	ZYL_RVC_FFA_UNIFORM_ROW_CACHE = nil
 	if (GameConfiguration.GetValue("SpawnRecalculation") == nil) then
 		print("BBS_AssignStartingPlots: Map Type Not Supported!")
 		Game:SetProperty("BBS_RESPAWN",false)
@@ -390,10 +609,51 @@ function BBS_AssignStartingPlots.Create(args)
 	end
 	local cityStatePlacement = tonumber(MapConfiguration.GetValue("ZYL_RVC_CityStatePlacement")) or 1
 	Game:SetProperty("ZYL_RVC_CITY_STATE_PLACEMENT", cityStatePlacement)
+	local ffaUniformDistributionEnabled = ZYL_RVC_IsFFAUniformDistributionEnabled()
+	Game:SetProperty("ZYLRM_FFA_UNIFORM_DISTRIBUTION_ENABLED", ffaUniformDistributionEnabled)
+	Game:SetProperty("ZYLRM_FFA_UNIFORM_FALLBACK", false)
+	Game:SetProperty("ZYLRM_FFA_UNIFORM_DISTRIBUTION", not ffaUniformDistributionEnabled)
+	if ffaUniformDistributionEnabled then
+		print("ZYL RVC FFA uniform civilization distribution: enabled (placement retries only)")
+	end
 	
 
 	local Major_Distance_Target = 17
 	local instance = {}
+	local bestUniformInstance = nil
+	local bestUniformScore = nil
+	local bestUniformAttempt = nil
+	local bestUniformStarts = {}
+	local function RestoreUniformCandidateResources(candidate)
+		for _, removed in ipairs(candidate and candidate.uniformRemovedBonusResources or {}) do
+			local plot = Map.GetPlotByIndex(removed.PlotIndex)
+			if plot ~= nil and plot:GetResourceType() == -1 then
+				ResourceBuilder.SetResourceType(plot, removed.ResourceType, removed.ResourceCount)
+			end
+		end
+	end
+	local function CaptureUniformCandidate(candidate)
+		if candidate == nil or candidate.uniformDistributionScore == nil then return end
+		if bestUniformScore ~= nil and candidate.uniformDistributionScore >= bestUniformScore then
+			return
+		end
+		bestUniformInstance = candidate
+		bestUniformScore = candidate.uniformDistributionScore
+		bestUniformAttempt = candidate.iPlacementAttempt
+		bestUniformStarts = {}
+		for _, playerID in ipairs(PlayerManager.GetAliveMajorIDs()) do
+			local player = Players[playerID]
+			local plot = player ~= nil and player:GetStartingPlot() or nil
+			if plot ~= nil then bestUniformStarts[playerID] = plot:GetIndex() end
+		end
+		for _, playerID in ipairs(PlayerManager.GetAliveMinorIDs()) do
+			local player = Players[playerID]
+			local plot = player ~= nil and player:GetStartingPlot() or nil
+			if plot ~= nil then bestUniformStarts[playerID] = plot:GetIndex() end
+		end
+		print("ZYL RVC FFA uniform distribution saved candidate attempt", bestUniformAttempt,
+			"score", bestUniformScore)
+	end
 	if Teamers_Config == 0 then
 		Major_Distance_Target = Major_Distance_Target - 3 
 	end
@@ -474,6 +734,7 @@ function BBS_AssignStartingPlots.Create(args)
 		__GetKupeNorthSouthMargin          = BBS_AssignStartingPlots.__GetKupeNorthSouthMargin,
 		__FindKupeInteriorOceanStart       = BBS_AssignStartingPlots.__FindKupeInteriorOceanStart,
 		__PlaceOceanStartCivsWithKupeMargin = BBS_AssignStartingPlots.__PlaceOceanStartCivsWithKupeMargin,
+		__ValidateFFAUniformDistribution = ZYL_RVC_ValidateFFAUniformDistribution,
 		__ValidateMajorDistribution        = BBS_AssignStartingPlots.__ValidateMajorDistribution,
         __CountAdjacentTerrainsInRange      = BBS_AssignStartingPlots.__CountAdjacentTerrainsInRange,
         __CountAdjacentTerrainsInOneRangeTMP= BBS_AssignStartingPlots.__CountAdjacentTerrainsInOneRangeTMP,
@@ -557,7 +818,12 @@ function BBS_AssignStartingPlots.Create(args)
 		distributionGroups = {},
 		playerDistributionGroup = {},
 		playerDistributionBands = {},
-		oceanStartFallbackPlayers = {},
+        oceanStartFallbackPlayers = {},
+		ffaUniformDistributionEnabled = ffaUniformDistributionEnabled,
+		uniformDistributionScore = 0,
+		uniformDistributionCoverage = 0,
+		uniformDistributionZones = 0,
+		uniformRemovedBonusResources = {},
         -- Team info variables (not used in the core process, but necessary to many Multiplayer map scripts)
     }
     print("TeamPVP __InitStartingData i:",i);
@@ -571,7 +837,23 @@ function BBS_AssignStartingPlots.Create(args)
 			Game:SetProperty("BBS_RESPAWN",true)
 			return instance
 		else
-			Major_Distance_Target = Major_Distance_Target - 1
+			local uniformDistributionOnlyFailure = ffaUniformDistributionEnabled
+				and bError_distribution == true
+				and bError_major == false and bError_proximity == false
+				and bError_shit_settle == false and bError_minor == false
+			if uniformDistributionOnlyFailure then
+				CaptureUniformCandidate(instance)
+			end
+			if ffaUniformDistributionEnabled then
+				-- A discarded placement attempt must not permanently strip bonus
+				-- resources from its temporary major starts.
+				RestoreUniformCandidateResources(instance)
+			end
+			if not uniformDistributionOnlyFailure then
+				Major_Distance_Target = Major_Distance_Target - 1
+			else
+				print("ZYL RVC FFA uniform retry keeps major-civilization distance at", Major_Distance_Target)
+			end
 			if Major_Distance_Target < 9 then
 				Major_Distance_Target = 9
 				bRepeatPlacement = true
@@ -589,6 +871,28 @@ function BBS_AssignStartingPlots.Create(args)
 		end
 	end
 	
+	if ffaUniformDistributionEnabled and bestUniformInstance ~= nil then
+		for playerID, plotIndex in pairs(bestUniformStarts) do
+			local player = Players[playerID]
+			local plot = Map.GetPlotByIndex(plotIndex)
+			if player ~= nil and plot ~= nil then
+				player:SetStartingPlot(plot)
+			end
+		end
+		for _, majorStartPlot in ipairs(bestUniformInstance.majorStartPlots or {}) do
+			bestUniformInstance:__TryToRemoveBonusResource(majorStartPlot)
+		end
+		Game:SetProperty("ZYLRM_FFA_UNIFORM_FALLBACK", true)
+		Game:SetProperty("ZYLRM_FFA_UNIFORM_ATTEMPT", bestUniformAttempt or 20)
+		Game:SetProperty("ZYLRM_FFA_UNIFORM_SCORE", bestUniformScore)
+		Game:SetProperty("ZYLRM_FFA_UNIFORM_COVERAGE", bestUniformInstance.uniformDistributionCoverage)
+		Game:SetProperty("ZYLRM_FFA_UNIFORM_ZONES", bestUniformInstance.uniformDistributionZones)
+		print("ZYL RVC FFA uniform distribution: 20 attempts exhausted; using best saved placement",
+			"attempt", bestUniformAttempt, "score", bestUniformScore)
+		Game:SetProperty("BBS_RESPAWN", true)
+		return bestUniformInstance
+	end
+
 	
 	print("BBS_AssignStartingPlots: To Many Attempts Failed - Go to Firaxis Placement")
 	Game:SetProperty("BBS_RESPAWN",false)
@@ -843,6 +1147,12 @@ function BBS_AssignStartingPlots:__PlaceOceanStartCivsWithKupeMargin()
 end
 ------------------------------------------------------------------------------
 function BBS_AssignStartingPlots:__ValidateMajorDistribution()
+	-- FFA's experimental option is independent of the team-direction bands.
+	-- Check it first so a manually changed BBS_Team_Spawn value cannot disable
+	-- the FFA uniformity guard (and Team PVP never reaches this branch).
+	if self.ffaUniformDistributionEnabled == true then
+		return self:__ValidateFFAUniformDistribution();
+	end
     if self.iTeamPlacement ~= 1 and self.iTeamPlacement ~= 2 then
         return true;
     end
@@ -1005,6 +1315,12 @@ function BBS_AssignStartingPlots:__InitStartingData()
     self.playerStarts = {};
     self.aMajorStartPlotIndices = {};
     self:__SetStartBias(majorStartPlots, self.iNumMajorCivs, self.majorList,true);
+	if self.ffaUniformDistributionEnabled == true
+			and not self:__ValidateMajorDistribution() then
+		bError_distribution = true;
+		-- Keep placing city-states so a rejected candidate remains a complete,
+		-- recoverable starting layout if all twenty attempts are exhausted.
+	end
 
     if(self.uiStartConfig == -999 ) then
         --self:__AddResourcesBalanced();
@@ -1123,10 +1439,15 @@ function BBS_AssignStartingPlots:__InitStartingData()
 		end
 	end
 
-	if not self:__ValidateMajorDistribution() then
+	Game:SetProperty("BBS_MINOR_FAILING_TOTAL",count)
+
+	-- Team PVP retains its existing band validation at the original point in
+	-- the pipeline.  FFA was checked earlier so a rejected attempt can skip
+	-- city-state placement and immediately use the finite retry loop.
+	if self.ffaUniformDistributionEnabled ~= true
+			and not self:__ValidateMajorDistribution() then
 		bError_distribution = true;
 	end
-	Game:SetProperty("BBS_MINOR_FAILING_TOTAL",count)
 
     print("BBS_AssignStartingPlots: Completed", os.date("%c"));
 end
@@ -1458,6 +1779,7 @@ function BBS_AssignStartingPlots:__BiasRoutine(civilizationType, startPlots, ind
                     ratedBiases = self:__RateBiasPlots(biases, self.fallbackPlots, major, -1, civilizationType, playersList[index], selectedBand);
                     if self:__TableSize(ratedBiases) > 0 then
                         settled = self:__SettlePlot(ratedBiases, index, Players[playersList[index]], major, -1,civilizationType);
+						if settled then regionIndex = -1 end
                     end
                     if (settled == false) then
                         print("Failed to place",playersList[index],civilizationType)
@@ -1501,6 +1823,15 @@ function BBS_AssignStartingPlots:__BiasRoutine(civilizationType, startPlots, ind
     if settled == true and major == true and selectedBand ~= nil then
         self:__ClaimDistributionBand(playersList[index], selectedBand);
     end
+	-- StartPositioner creates one major region per land civilization.  Reserving
+	-- a successfully used region prevents a later civilization from selecting
+	-- the same region while this FFA-only experiment is active.  Turning the
+	-- lobby option off preserves the legacy region-reuse behavior exactly.
+	if settled == true and major == true
+			and self.ffaUniformDistributionEnabled == true and regionIndex > 0 then
+		self.regionTracker[regionIndex] = -1;
+		print("ZYL RVC FFA uniform distribution reserved major region", regionIndex);
+	end
 end
 ------------------------------------------------------------------------------
 function BBS_AssignStartingPlots:__FindBias(civilizationType, leaderType)
@@ -2370,7 +2701,18 @@ function BBS_AssignStartingPlots:__SettlePlot(ratedBiases, index, player, major,
                     table.insert(self.majorStartPlots, ratedBias.Plot);
 					table.insert(self.majorStartPlotsTeam, player:GetTeam());
                     table.insert(self.aMajorStartPlotIndices, ratedBias.Plot:GetIndex());
-                    self:__TryToRemoveBonusResource(ratedBias.Plot);
+					local removedResourceType = ratedBias.Plot:GetResourceType();
+					local removedResourceCount = ratedBias.Plot:GetResourceCount();
+					self:__TryToRemoveBonusResource(ratedBias.Plot);
+					if self.ffaUniformDistributionEnabled == true
+							and removedResourceType ~= nil and removedResourceType >= 0
+							and ratedBias.Plot:GetResourceType() == -1 then
+						table.insert(self.uniformRemovedBonusResources, {
+							PlotIndex = ratedBias.Plot:GetIndex(),
+							ResourceType = removedResourceType,
+							ResourceCount = math.max(1, removedResourceCount or 1),
+						});
+					end
                     player:SetStartingPlot(ratedBias.Plot);
 					--self:__AddLeyLine(ratedBias.Plot); 
 					-- Tundra Sharing

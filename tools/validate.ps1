@@ -1743,7 +1743,19 @@ if (Test-Path -LiteralPath $richMainlandAssignPath) {
         'ratedPlot.CoastOrientation == "EW"',
         'self.oceanStartFallbackPlayers[iPlayer] == true',
         'ZYLRM_COAST_ORIENTATION_',
-        'local categoryOrder = major == true and { "COAST", "INLAND" } or { "ALL" };'
+        'local categoryOrder = major == true and { "COAST", "INLAND" } or { "ALL" };',
+        'ZYL_RVC_IsFFAUniformDistributionEnabled',
+        'ZYL_RVC_ValidateFFAUniformDistribution',
+        'ZYL_RICH_MAINLAND_VARIANT.ffa ~= true',
+        'MapConfiguration.GetValue("ZYL_RVC_UniformDistribution")',
+        'instance.iPlacementAttempt >= 17',
+        'smallestZone > 0',
+        'coverage >= requiredCoverage',
+        'uniformDistributionOnlyFailure',
+        'FFA uniform retry keeps major-civilization distance',
+        'self.ffaUniformDistributionEnabled == true and regionIndex > 0',
+        '20 attempts exhausted; using best saved placement',
+        'for i = 1,20 do'
     )) {
         if (-not $richMainlandAssignLua.Contains($requiredToken)) {
             Add-ValidationError "Rich Mainland city-state fallback is missing: $requiredToken"
@@ -1751,6 +1763,10 @@ if (Test-Path -LiteralPath $richMainlandAssignPath) {
     }
     if ($richMainlandAssignLua -match 'Map\.GetPlotByIndex\(PlayerManager\.GetAliveMajorsCount\(\)\+PlayerManager\.GetAliveMinorsCount\(\)\+count\)') {
         Add-ValidationError 'Rich Mainland still assigns missing city-states to an arbitrary map-index tile.'
+    }
+    if ($richMainlandAssignLua -match '(?m)^\s*GenerateMap\s*\(' -or
+            $richMainlandAssignLua -match 'Network\.RestartGame\s*\(') {
+        Add-ValidationError 'FFA uniform distribution must use finite placement retries, not recursive map generation or a network restart.'
     }
 }
 
@@ -1785,6 +1801,35 @@ if (Test-Path -LiteralPath $richMainlandCorePath) {
     )) {
         if (-not $richMainlandCoreLua.Contains($requiredToken)) {
             Add-ValidationError "Rich Mainland coastal-start reef guarantee is missing: $requiredToken"
+        }
+    }
+
+    # FFA owns the full widened canvas while Team alone retains the added
+    # wrap-seam ocean.  Polar shallow rows and the denser/coarser island layer
+    # are shared by both variants.
+    foreach ($requiredToken in @(
+        'g_iBaseW = g_iW;',
+        'g_iAddedOceanWidth = 0;',
+        'g_fHorizontalScale = g_iLegacyW > 0 and g_iW / g_iLegacyW or 1;',
+        'if IS_TEAM then ZYL_EnforceCentralOceanBarrier(terrainTypes); end',
+		'for _, y in ipairs({ 0, 1, g_iH - 1 }) do',
+        'terrainTypes[index] = g_TERRAIN_TYPE_OCEAN;',
+		'ZYL_RemovePolarShallowSea();',
+        'local ZYL_RICH_MAINLAND_ISLAND_LAND_MULTIPLIER = 1.20;',
+        'local ZYL_RICH_MAINLAND_ISLAND_GRAIN = 4;',
+        'math.floor(100 - targetIslandLandPercent + 0.5)',
+        'math.floor(wonderTarget + 0.5)'
+    )) {
+        if (-not $richMainlandCoreLua.Contains($requiredToken)) {
+            Add-ValidationError "Rich Mainland widened-canvas/island/polar invariant is missing: $requiredToken"
+        }
+    }
+    foreach ($forbiddenToken in @(
+        'local isPolarRoute',
+        'args.iWaterPercent = 67;'
+    )) {
+        if ($richMainlandCoreLua.Contains($forbiddenToken)) {
+            Add-ValidationError "Old Rich Mainland central-ocean/polar/island behavior returned: $forbiddenToken"
         }
     }
 }
@@ -2026,6 +2071,36 @@ else {
     if (($ffaPlayers -join ',') -ne ((2..12) -join ',')) {
         Add-ValidationError "FFA Rich Mainland player-size coverage is not 2-12: $($ffaPlayers -join ',')"
     }
+    $uniformDistributionParameters = @($richMapConfig.SelectNodes('/GameInfo/Parameters/Row[@ConfigurationId="ZYL_RVC_UniformDistribution"]'))
+    if ($uniformDistributionParameters.Count -ne 1) {
+        Add-ValidationError "FFA Rich Mainland must own exactly one uniform-distribution option; found $($uniformDistributionParameters.Count)."
+    }
+    else {
+        $uniformDistributionParameter = $uniformDistributionParameters[0]
+        if ($uniformDistributionParameter.GetAttribute('Key2') -ne 'zyl_ffa_rich_mainland.lua' -or
+                $uniformDistributionParameter.GetAttribute('ParameterId') -ne 'ZYLRM_FFA_UniformDistribution' -or
+                $uniformDistributionParameter.GetAttribute('Domain') -ne 'bool' -or
+                $uniformDistributionParameter.GetAttribute('DefaultValue') -ne '1' -or
+                $uniformDistributionParameter.GetAttribute('Name') -ne 'LOC_ZYLRM_FFA_UNIFORM_DISTRIBUTION_NAME' -or
+                $uniformDistributionParameter.GetAttribute('Description') -ne 'LOC_ZYLRM_FFA_UNIFORM_DISTRIBUTION_DESCRIPTION') {
+            Add-ValidationError 'The experimental uniform-distribution option must be FFA-only, boolean, localized and enabled by default.'
+        }
+    }
+	$richMapTextPath = Join-Path $modRoot 'Components\BBM\Lang\ZYL_RichMainland_Text.xml'
+	if (-not (Test-Path -LiteralPath $richMapTextPath)) {
+		Add-ValidationError 'Rich Mainland localization is missing.'
+	}
+	else {
+		$richMapText = Load-XmlDocument $richMapTextPath
+		foreach ($language in @('zh_Hans_CN', 'en_US')) {
+			foreach ($tag in @('LOC_ZYLRM_FFA_UNIFORM_DISTRIBUTION_NAME', 'LOC_ZYLRM_FFA_UNIFORM_DISTRIBUTION_DESCRIPTION')) {
+				$textNode = $richMapText.SelectSingleNode("/GameData/LocalizedText/Row[@Tag='$tag' and @Language='$language']/Text")
+				if ($null -eq $textNode -or [string]::IsNullOrWhiteSpace($textNode.InnerText)) {
+					Add-ValidationError "FFA uniform-distribution localization is missing: $language / $tag"
+				}
+			}
+		}
+	}
     foreach ($ffaSize in $ffaSizes) {
         if ($ffaSize.GetAttribute('MaxPlayers') -ne $ffaSize.GetAttribute('DefaultPlayers')) {
             Add-ValidationError "FFA size $($ffaSize.GetAttribute('MapSizeType')) allows more players than its land-area guarantee."
