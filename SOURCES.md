@@ -19,7 +19,7 @@
 
 ## BBG 参考归档
 
-仓库根目录的 `BBG\BBG7.5` 与 `BBG\BetterBalancedGame` 是用于版本对比、回溯和审计的只读参考快照，不属于整合包运行时组件，也不由 `ZYLPVPMOD.modinfo` 加载。快照中的 `BBG\BBG7.5_全面对比进度.md` 保存了 7.5 与旧版的逐文件对比台账。
+模组目录之外的 `D:\Coderlife\BBGZYL\referencemods\BBG\BBG7.5` 与 `D:\Coderlife\BBGZYL\referencemods\BBG\BetterBalancedGame` 是用于版本对比、回溯和审计的只读参考快照，不属于本仓库或整合包运行时文件。`D:\Coderlife\BBGZYL\referencemods\BBG\BBG7.5_全面对比进度.md` 保存了 7.5 与旧版的逐文件对比台账。
 
 ## 整合副本中的确定性修复
 

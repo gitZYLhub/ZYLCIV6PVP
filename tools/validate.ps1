@@ -6,7 +6,6 @@ $modRoot = Split-Path -Parent $PSScriptRoot
 $modInfoPath = Join-Path $modRoot 'ZYLPVPMOD.modinfo'
 $expectedModId = '4dd01931-9d44-4a8a-8e74-712cba0f0072'
 $validationErrors = [System.Collections.Generic.List[string]]::new()
-$referenceArchiveRoot = Join-Path $modRoot 'BBG'
 
 function Add-ValidationError {
     param([string]$Message)
@@ -31,12 +30,9 @@ if (-not (Test-Path -LiteralPath $modInfoPath)) {
 }
 
 # Validate every runtime XML-bearing artifact, including the BBM art
-# dependency. The top-level BBG directory is an audit/reference archive and
-# is deliberately not part of the assembled ModInfo, so do not treat its
-# upstream language files as runtime package files.
+# dependency. Reference snapshots live outside the mod root.
 $xmlFiles = @(Get-ChildItem -LiteralPath $modRoot -Recurse -File | Where-Object {
-    $_.FullName -notlike "$referenceArchiveRoot\*" -and
-        $_.Extension -in @('.xml', '.modinfo', '.dep')
+	$_.Extension -in @('.xml', '.modinfo', '.dep')
 })
 foreach ($xmlFile in $xmlFiles) {
     try {
@@ -527,9 +523,7 @@ $intentionallyUnlistedMap = @{}
 foreach ($relativePath in $intentionallyUnlistedFiles) {
     $intentionallyUnlistedMap[(Normalize-RelativePath $relativePath)] = $relativePath
 }
-$diskFiles = @(Get-ChildItem -LiteralPath $modRoot -Recurse -File | Where-Object {
-    $_.FullName -notlike "$referenceArchiveRoot\*"
-})
+$diskFiles = @(Get-ChildItem -LiteralPath $modRoot -Recurse -File)
 foreach ($diskFile in $diskFiles) {
     if ($diskFile.FullName -eq $modInfoPath) { continue }
     $relativePath = $diskFile.FullName.Substring($modRoot.Length + 1)
