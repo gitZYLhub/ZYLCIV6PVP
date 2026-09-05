@@ -6,13 +6,16 @@
 			<Text>Gilded Shipyard</Text>
 		</Replace>
 		<Replace Tag="LOC_BUILDING_GILDED_Shipyard_DESCRIPTION" Language="en_US">
-			<Text>Unique to the Owls of Minerva, replaces the Shipyard. +1 [ICON_Food] Food and +1 [ICON_Production] Production. +2 [ICON_GreatAdmiral] Great Admiral points per turn. Naval units trained in this city gain +25% combat experience. Grants [ICON_Production] Production equal to the Harbor's base [ICON_Gold] Gold adjacency bonus; adjacency-doubling policies do not double this Production. Unimproved Coast and Lake tiles and Fisheries in this city gain +1 [ICON_Production] Production. If this city has no Gilded Vault, +3 [ICON_Culture] Culture. After revealing [ICON_RESOURCE_COAL] Coal, provides 1 Coal per turn.</Text>
+			<Text>Unique to the Owls of Minerva, replaces the Shipyard. +1 [ICON_Food] Food and +1 [ICON_Production] Production. +2 [ICON_GreatAdmiral] Great Admiral points per turn. Naval units trained in this city gain +25% combat experience. Grants [ICON_Production] Production equal to the Harbor's current [ICON_Gold] Gold adjacency bonus, including adjacency policy effects. Unimproved Coast and Lake tiles and Fisheries in this city gain +1 [ICON_Production] Production. If this city has no Gilded Vault, +3 [ICON_Culture] Culture. After revealing [ICON_RESOURCE_COAL] Coal, provides 1 Coal per turn.</Text>
 		</Replace>
 		<Replace Tag="LOC_BUILDING_GILDED_VAULT_DESCRIPTION" Language="en_US">
-			<Text>Unique to the Owls of Minerva, replaces the Bank. +3 [ICON_Culture] Culture. Having a Harbor in this city provides +1 [ICON_TradeRoute] Trade Route capacity.</Text>
+			<Text>Unique to the Owls of Minerva, replaces the Bank. +3 [ICON_Culture] Culture. Trade Routes originating in this city gain +2 [ICON_Gold] Gold, and Trade Routes ending in this city gain +1 [ICON_Gold] Gold. Constructing your empire's first Gilded Vault permanently grants +1 [ICON_TradeRoute] Trade Route capacity.</Text>
+		</Replace>
+		<Replace Tag="LOC_GOVERNOR_PROMOTION_OWLS_OF_MINERVA_1_DESCRIPTION" Language="en_US">
+			<Text>Unlocked by sending an [ICON_Envoy] Envoy to a City-State. Each [ICON_TradeRoute] Trade Route sent to a City-State awards 1 [ICON_Envoy] Envoy there. After completing Political Philosophy, gain +1 Economic policy slot.</Text>
 		</Replace>
 		<Replace Tag="LOC_GOVERNOR_PROMOTION_OWLS_OF_MINERVA_2_DESCRIPTION" Language="en_US">
-			<Text>Unlocked in the Medieval Era. Allows construction of the Gilded Vault, a powerful Bank replacement, and the Gilded Shipyard, a powerful Shipyard replacement.</Text>
+			<Text>Unlocked in the Medieval Era. +1 [ICON_TradeRoute] Trade Route capacity. Allows construction of the Gilded Vault, a powerful Bank replacement, and the Gilded Shipyard, a powerful Shipyard replacement.</Text>
 		</Replace>
 		<Replace Tag="LOC_GOVERNOR_PROMOTION_OWLS_OF_MINERVA_3_DESCRIPTION" Language="en_US">
 			<Text>Unlocked in the Renaissance Era. +1 Wildcard policy slot and +1 Spy capacity. Your cities gain +4 Loyalty per turn and +1 [ICON_Amenities] Amenity when your Spy is in their territory. Successful offensive Spy missions also grant 150% of the [ICON_Science] Science, [ICON_Culture] Culture, [ICON_Gold] Gold, and [ICON_Faith] Faith earned by the target city that turn.</Text>
@@ -60,7 +63,7 @@
 			<Text>Unlocked in the Industrial Era. Grants an additional Vampire in your [ICON_Capital] Capital and raises the Vampire Castle maximum to 4. Units within 1 tile of your Vampire Castles may Airlift to any other tile near one of your Vampire Castles.</Text>
 		</Replace>
 		<Replace Tag="LOC_IMPROVEMENT_VAMPIRE_CASTLE_DESCRIPTION" Language="en_US">
-			<Text>May be built by a Vampire only in friendly territory. Provides Fortification and grants this tile's yields to the [ICON_Capital] Capital. Base yields: +9 [ICON_Food] Food and +5 [ICON_Production] Production. Gains +1 [ICON_Production] Production from each adjacent Hill, Woods, Rainforest, Bonus/Luxury/Strategic resource, Mine, Lumber Mill, Fishing Boats, Pasture, Plantation, Quarry, or Camp. Gains +1 matching yield from adjacent Holy Sites, Theater Squares, Industrial Zones, or Campuses and their unique replacements, and +2 [ICON_Gold] Gold from adjacent Harbors or Commercial Hubs and their unique replacements.</Text>
+			<Text>May be built by a Vampire only in friendly territory. May be placed on removable features and Bonus, Luxury, or Strategic resources; completing it removes the feature and resource without granting harvest yields. Provides Fortification and grants this tile's yields to the [ICON_Capital] Capital. Base yields: +9 [ICON_Food] Food and +5 [ICON_Production] Production. Gains +1 [ICON_Production] Production from each adjacent Hill, Woods, Rainforest, Bonus/Luxury/Strategic resource, Mine, Lumber Mill, Fishing Boats, Pasture, Plantation, Quarry, or Camp. Gains +1 matching yield from adjacent Holy Sites, Theater Squares, Industrial Zones, or Campuses and their unique replacements, and +2 [ICON_Gold] Gold from adjacent Harbors or Commercial Hubs and their unique replacements.</Text>
 		</Replace>
 		<Replace Tag="LOC_ABILITY_ZYL_TPVP_VAMPIRE_ANTI_ANTI_CAVALRY_NAME" Language="en_US">
 			<Text>Vampire versus Anti-Cavalry</Text>
@@ -75,10 +78,11 @@
 		<!-- Simplified Chinese -->
 		<Replace Tag="LOC_BUILDING_GILDED_Shipyard_NAME" Language="zh_Hans_CN"><Text>镀金船厂</Text></Replace>
 		<Replace Tag="LOC_BUILDING_GILDED_Shipyard_DESCRIPTION" Language="zh_Hans_CN">
-			<Text>弥涅耳瓦夜鹰专属，替代造船厂。+1 [ICON_Food] 食物、+1 [ICON_Production] 生产力，每回合+2 [ICON_GreatAdmiral] 海军统帅点数。此城训练的海军单位+25%战斗经验。获得等同于港口“基础” [ICON_Gold] 金币相邻加成的 [ICON_Production] 生产力，相邻翻倍政策不会翻倍这部分生产力。此城未改良的海岸和湖泊，以及渔场+1 [ICON_Production] 生产力；若没有镀金宝库则+3 [ICON_Culture] 文化值。若已解锁 [ICON_RESOURCE_COAL] 煤，每回合+1 [ICON_RESOURCE_COAL] 煤。</Text>
+			<Text>弥涅耳瓦夜鹰专属，替代造船厂。+1 [ICON_Food] 食物、+1 [ICON_Production] 生产力，每回合+2 [ICON_GreatAdmiral] 海军统帅点数。此城训练的海军单位+25%战斗经验。获得等同于港口当前 [ICON_Gold] 金币相邻加成的 [ICON_Production] 生产力，包括相邻加成政策的效果。此城未改良的海岸和湖泊，以及渔场+1 [ICON_Production] 生产力；若没有镀金宝库则+3 [ICON_Culture] 文化值。若已解锁 [ICON_RESOURCE_COAL] 煤，每回合+1 [ICON_RESOURCE_COAL] 煤。</Text>
 		</Replace>
-		<Replace Tag="LOC_BUILDING_GILDED_VAULT_DESCRIPTION" Language="zh_Hans_CN"><Text>弥涅耳瓦夜鹰专属，替代银行。+3 [ICON_Culture] 文化值。若此城拥有港口，则+1 [ICON_TradeRoute] 贸易路线容量。</Text></Replace>
-		<Replace Tag="LOC_GOVERNOR_PROMOTION_OWLS_OF_MINERVA_2_DESCRIPTION" Language="zh_Hans_CN"><Text>在中世纪解锁。允许建造银行的强力替代品“镀金宝库”，以及造船厂的强力替代品“镀金船厂”。</Text></Replace>
+		<Replace Tag="LOC_BUILDING_GILDED_VAULT_DESCRIPTION" Language="zh_Hans_CN"><Text>弥涅耳瓦夜鹰专属，替代银行。+3 [ICON_Culture] 文化值。从该城出发的贸易路线+2 [ICON_Gold] 金币，到达该城的贸易路线+1 [ICON_Gold] 金币。帝国首次建成镀金宝库时，永久+1 [ICON_TradeRoute] 贸易路线容量。</Text></Replace>
+		<Replace Tag="LOC_GOVERNOR_PROMOTION_OWLS_OF_MINERVA_1_DESCRIPTION" Language="zh_Hans_CN"><Text>向城邦派遣 [ICON_Envoy] 使者后解锁。每条通往城邦的 [ICON_TradeRoute] 贸易路线会在该城邦提供1名 [ICON_Envoy] 使者。完成“政治哲学”后，获得1个经济政策槽位。</Text></Replace>
+		<Replace Tag="LOC_GOVERNOR_PROMOTION_OWLS_OF_MINERVA_2_DESCRIPTION" Language="zh_Hans_CN"><Text>在中世纪解锁。+1 [ICON_TradeRoute] 贸易路线容量。允许建造银行的强力替代品“镀金宝库”，以及造船厂的强力替代品“镀金船厂”。</Text></Replace>
 		<Replace Tag="LOC_GOVERNOR_PROMOTION_OWLS_OF_MINERVA_3_DESCRIPTION" Language="zh_Hans_CN"><Text>在文艺复兴时代解锁。+1个通配符政策槽位、+1点间谍容量。己方间谍位于城市领土时，该城每回合+4点忠诚度、+1 [ICON_Amenities] 宜居度。进攻型间谍任务成功后，还将获得目标城市该回合 [ICON_Science] 科技值、[ICON_Culture] 文化值、[ICON_Gold] 金币和 [ICON_Faith] 信仰值产出的150%。</Text></Replace>
 		<Replace Tag="LOC_GOVERNOR_PROMOTION_OWLS_OF_MINERVA_4_DESCRIPTION" Language="zh_Hans_CN"><Text>在工业时代解锁。每回合获得相当于国库中 [ICON_Gold] 金币总额5%的 [ICON_Gold] 金币。</Text></Replace>
 		<Replace Tag="LOC_GOVERNOR_PROMOTION_HERMETIC_ORDER_1_DESCRIPTION" Language="zh_Hans_CN"><Text>显示地脉。地脉只出现在平坦草原、平原和冻土，自身+1 [ICON_Science] 科技值、+2 [ICON_Production] 生产力，并为特色区域提供标准相邻加成。地脉可收获为40 [ICON_Gold] 金币，也可在其上修建农场且不移除地脉。解锁“对外贸易”后，在首都获得1名地卜师。</Text></Replace>
@@ -94,16 +98,17 @@
 		<Replace Tag="LOC_GOVERNOR_PROMOTION_SANGUINE_PACT_2_DESCRIPTION" Language="zh_Hans_CN"><Text>在中世纪解锁。在 [ICON_Capital] 首都额外获得1个吸血鬼，并允许吸血鬼建造吸血鬼城堡，每个帝国最多2座。吸血鬼+1 [ICON_Movement] 移动力。兵工厂+2 [ICON_Production] 生产力。获得1个军事政策槽位。</Text></Replace>
 		<Replace Tag="LOC_GOVERNOR_PROMOTION_SANGUINE_PACT_3_DESCRIPTION" Language="zh_Hans_CN"><Text>在文艺复兴时代解锁。在 [ICON_Capital] 首都额外获得1个吸血鬼，并将吸血鬼城堡上限提高至3座。吸血鬼恐吓相邻敌军，使其 [ICON_Strength] 战斗力-2。军事学院+4 [ICON_Production] 生产力。</Text></Replace>
 		<Replace Tag="LOC_GOVERNOR_PROMOTION_SANGUINE_PACT_4_DESCRIPTION" Language="zh_Hans_CN"><Text>在工业时代解锁。在 [ICON_Capital] 首都额外获得1个吸血鬼，并将吸血鬼城堡上限提高至4座。吸血鬼城堡1格范围内的单位可以空运至任意一座己方吸血鬼城堡附近的有效单元格。</Text></Replace>
-		<Replace Tag="LOC_IMPROVEMENT_VAMPIRE_CASTLE_DESCRIPTION" Language="zh_Hans_CN"><Text>只能由吸血鬼在己方领土建造。提供防御工事，并将本格产出提供给 [ICON_Capital] 首都。基础+9 [ICON_Food] 食物、+5 [ICON_Production] 生产力。每个相邻丘陵、树林、雨林、加成/奢侈/战略资源、矿山、伐木场、渔船、牧场、种植园、采石场或营地+1 [ICON_Production] 生产力；相邻圣地、剧院广场、工业区、学院及其特色替代区域+1对应产出；相邻港口、商业中心及其特色替代区域+2 [ICON_Gold] 金币。</Text></Replace>
+		<Replace Tag="LOC_IMPROVEMENT_VAMPIRE_CASTLE_DESCRIPTION" Language="zh_Hans_CN"><Text>只能由吸血鬼在己方领土建造。可建在可移除地貌以及加成、奢侈或战略资源上；建成时直接移除本格的地貌与资源，且不获得移除收益。提供防御工事，并将本格产出提供给 [ICON_Capital] 首都。基础+9 [ICON_Food] 食物、+5 [ICON_Production] 生产力。每个相邻丘陵、树林、雨林、加成/奢侈/战略资源、矿山、伐木场、渔船、牧场、种植园、采石场或营地+1 [ICON_Production] 生产力；相邻圣地、剧院广场、工业区、学院及其特色替代区域+1对应产出；相邻港口、商业中心及其特色替代区域+2 [ICON_Gold] 金币。</Text></Replace>
 		<Replace Tag="LOC_ABILITY_ZYL_TPVP_VAMPIRE_ANTI_ANTI_CAVALRY_NAME" Language="zh_Hans_CN"><Text>吸血鬼对抗抗骑兵</Text></Replace>
 		<Replace Tag="LOC_ABILITY_ZYL_TPVP_VAMPIRE_ANTI_ANTI_CAVALRY_DESCRIPTION" Language="zh_Hans_CN"><Text>对抗抗骑兵单位时-5 [ICON_Strength] 战斗力。</Text></Replace>
 		<Replace Tag="LOC_ABILITY_ZYL_TPVP_VAMPIRE_ANTI_ANTI_CAVALRY_MODIFIER" Language="zh_Hans_CN"><Text>对抗抗骑兵单位时-5 [ICON_Strength] 战斗力。</Text></Replace>
 
 		<!-- Traditional Chinese -->
 		<Replace Tag="LOC_BUILDING_GILDED_Shipyard_NAME" Language="zh_Hant_HK"><Text>鍍金造船廠</Text></Replace>
-		<Replace Tag="LOC_BUILDING_GILDED_Shipyard_DESCRIPTION" Language="zh_Hant_HK"><Text>彌涅耳瓦夜鷹專屬，取代造船廠。+1 [ICON_Food] 食物、+1 [ICON_Production] 生產力，每回合+2 [ICON_GreatAdmiral] 海軍統帥點數。此城訓練的海軍單位+25%戰鬥經驗。獲得等同於港口「基礎」[ICON_Gold] 金幣相鄰加成的 [ICON_Production] 生產力，相鄰翻倍政策不會翻倍這部分生產力。此城未改良的海岸和湖泊，以及漁場+1 [ICON_Production] 生產力；若沒有鍍金寶庫則+3 [ICON_Culture] 文化。顯示 [ICON_RESOURCE_COAL] 煤後每回合提供1煤。</Text></Replace>
-		<Replace Tag="LOC_BUILDING_GILDED_VAULT_DESCRIPTION" Language="zh_Hant_HK"><Text>彌涅耳瓦夜鷹專屬，取代銀行。+3 [ICON_Culture] 文化。若此城擁有港口，則+1 [ICON_TradeRoute] 貿易路線容量。</Text></Replace>
-		<Replace Tag="LOC_GOVERNOR_PROMOTION_OWLS_OF_MINERVA_2_DESCRIPTION" Language="zh_Hant_HK"><Text>在中世紀解鎖。允許建造銀行的強力替代品「鍍金寶庫」，以及造船廠的強力替代品「鍍金造船廠」。</Text></Replace>
+		<Replace Tag="LOC_BUILDING_GILDED_Shipyard_DESCRIPTION" Language="zh_Hant_HK"><Text>彌涅耳瓦夜鷹專屬，取代造船廠。+1 [ICON_Food] 食物、+1 [ICON_Production] 生產力，每回合+2 [ICON_GreatAdmiral] 海軍統帥點數。此城訓練的海軍單位+25%戰鬥經驗。獲得等同於港口當前 [ICON_Gold] 金幣相鄰加成的 [ICON_Production] 生產力，包括相鄰加成政策的效果。此城未改良的海岸和湖泊，以及漁場+1 [ICON_Production] 生產力；若沒有鍍金寶庫則+3 [ICON_Culture] 文化。顯示 [ICON_RESOURCE_COAL] 煤後每回合提供1煤。</Text></Replace>
+		<Replace Tag="LOC_BUILDING_GILDED_VAULT_DESCRIPTION" Language="zh_Hant_HK"><Text>彌涅耳瓦夜鷹專屬，取代銀行。+3 [ICON_Culture] 文化。從該城出發的貿易路線+2 [ICON_Gold] 金幣，到達該城的貿易路線+1 [ICON_Gold] 金幣。帝國首次建成鍍金寶庫時，永久+1 [ICON_TradeRoute] 貿易路線容量。</Text></Replace>
+		<Replace Tag="LOC_GOVERNOR_PROMOTION_OWLS_OF_MINERVA_1_DESCRIPTION" Language="zh_Hant_HK"><Text>向城邦派遣 [ICON_Envoy] 使者後解鎖。每條通往城邦的 [ICON_TradeRoute] 貿易路線會在該城邦提供1名 [ICON_Envoy] 使者。完成「政治哲學」後，獲得1個經濟政策槽位。</Text></Replace>
+		<Replace Tag="LOC_GOVERNOR_PROMOTION_OWLS_OF_MINERVA_2_DESCRIPTION" Language="zh_Hant_HK"><Text>在中世紀解鎖。+1 [ICON_TradeRoute] 貿易路線容量。允許建造銀行的強力替代品「鍍金寶庫」，以及造船廠的強力替代品「鍍金造船廠」。</Text></Replace>
 		<Replace Tag="LOC_GOVERNOR_PROMOTION_OWLS_OF_MINERVA_3_DESCRIPTION" Language="zh_Hant_HK"><Text>在文藝復興時期解鎖。+1通配符政策槽位、+1間諜容量。己方間諜位於城市領土時，該城每回合+4忠誠度、+1 [ICON_Amenities] 宜居度。進攻型間諜任務成功後，還將獲得目標城市該回合 [ICON_Science] 科技、[ICON_Culture] 文化、[ICON_Gold] 金幣和 [ICON_Faith] 信仰產出的150%。</Text></Replace>
 		<Replace Tag="LOC_GOVERNOR_PROMOTION_OWLS_OF_MINERVA_4_DESCRIPTION" Language="zh_Hant_HK"><Text>在工業時代解鎖。每回合獲得等同於國庫5%的 [ICON_Gold] 金幣收入。</Text></Replace>
 		<Replace Tag="LOC_GOVERNOR_PROMOTION_HERMETIC_ORDER_1_DESCRIPTION" Language="zh_Hant_HK"><Text>顯示地脈。地脈只出現在平坦草原、平原和凍土，自身+1 [ICON_Science] 科技、+2 [ICON_Production] 生產力，並為專業區域提供標準相鄰加成。地脈可收穫為40 [ICON_Gold] 金幣，也可在其上修建農場且不移除地脈。解鎖「對外貿易」後，在首都獲得1名地卜師。</Text></Replace>
@@ -119,7 +124,7 @@
 		<Replace Tag="LOC_GOVERNOR_PROMOTION_SANGUINE_PACT_2_DESCRIPTION" Language="zh_Hant_HK"><Text>在中世紀解鎖。在 [ICON_Capital] 首都額外獲得1個吸血鬼，並允許吸血鬼建造吸血鬼城堡，每個帝國最多2座。吸血鬼+1 [ICON_Movement] 移動力。兵工廠+2 [ICON_Production] 生產力。獲得1個軍事政策槽位。</Text></Replace>
 		<Replace Tag="LOC_GOVERNOR_PROMOTION_SANGUINE_PACT_3_DESCRIPTION" Language="zh_Hant_HK"><Text>在文藝復興時期解鎖。在 [ICON_Capital] 首都額外獲得1個吸血鬼，並將吸血鬼城堡上限提高至3座。吸血鬼恐嚇相鄰敵軍，使其 [ICON_Strength] 戰鬥力-2。軍事學院+4 [ICON_Production] 生產力。</Text></Replace>
 		<Replace Tag="LOC_GOVERNOR_PROMOTION_SANGUINE_PACT_4_DESCRIPTION" Language="zh_Hant_HK"><Text>在工業時代解鎖。在 [ICON_Capital] 首都額外獲得1個吸血鬼，並將吸血鬼城堡上限提高至4座。吸血鬼城堡1格範圍內的單位可以空運至任意一座己方吸血鬼城堡附近的有效單元格。</Text></Replace>
-		<Replace Tag="LOC_IMPROVEMENT_VAMPIRE_CASTLE_DESCRIPTION" Language="zh_Hant_HK"><Text>只能由吸血鬼在己方領土建造。提供防禦工事，並將本格產出提供給 [ICON_Capital] 首都。基礎+9 [ICON_Food] 食物、+5 [ICON_Production] 生產力。每個相鄰丘陵、樹林、雨林、加成/奢侈/戰略資源、礦山、伐木場、漁船、牧場、種植園、採石場或營地+1 [ICON_Production] 生產力；相鄰聖地、劇院廣場、工業區、學院及其特色替代區域+1對應產出；相鄰港口、商業中心及其特色替代區域+2 [ICON_Gold] 金幣。</Text></Replace>
+		<Replace Tag="LOC_IMPROVEMENT_VAMPIRE_CASTLE_DESCRIPTION" Language="zh_Hant_HK"><Text>只能由吸血鬼在己方領土建造。可建在可移除地貌以及加成、奢侈或戰略資源上；建成時直接移除本格的地貌與資源，且不獲得移除收益。提供防禦工事，並將本格產出提供給 [ICON_Capital] 首都。基礎+9 [ICON_Food] 食物、+5 [ICON_Production] 生產力。每個相鄰丘陵、樹林、雨林、加成/奢侈/戰略資源、礦山、伐木場、漁船、牧場、種植園、採石場或營地+1 [ICON_Production] 生產力；相鄰聖地、劇院廣場、工業區、學院及其特色替代區域+1對應產出；相鄰港口、商業中心及其特色替代區域+2 [ICON_Gold] 金幣。</Text></Replace>
 		<Replace Tag="LOC_ABILITY_ZYL_TPVP_VAMPIRE_ANTI_ANTI_CAVALRY_NAME" Language="zh_Hant_HK"><Text>吸血鬼對抗反騎兵</Text></Replace>
 		<Replace Tag="LOC_ABILITY_ZYL_TPVP_VAMPIRE_ANTI_ANTI_CAVALRY_DESCRIPTION" Language="zh_Hant_HK"><Text>對抗反騎兵單位時-5 [ICON_Strength] 戰鬥力。</Text></Replace>
 		<Replace Tag="LOC_ABILITY_ZYL_TPVP_VAMPIRE_ANTI_ANTI_CAVALRY_MODIFIER" Language="zh_Hant_HK"><Text>對抗反騎兵單位時-5 [ICON_Strength] 戰鬥力。</Text></Replace>

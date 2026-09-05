@@ -29,6 +29,38 @@ if (-not (Test-Path -LiteralPath $modInfoPath)) {
     throw "ModInfo not found: $modInfoPath"
 }
 
+# Build and maintenance scripts must never consume Steam Workshop caches.
+# Upstream content is copied into this repository deliberately; once embedded,
+# the repository and its ModInfo are the only allowed build inputs.
+$forbiddenWorkshopPathPattern = '(?i)steamapps[\\/]+workshop(?:[\\/]|$)'
+$maintenanceScripts = @(Get-ChildItem -LiteralPath $modRoot -Recurse -File | Where-Object {
+    $_.Extension -in @('.ps1', '.psm1', '.py', '.bat', '.cmd', '.sh', '.lua') -and
+        $_.FullName -ne $PSCommandPath
+})
+foreach ($maintenanceScript in $maintenanceScripts) {
+    foreach ($hit in @(Select-String -LiteralPath $maintenanceScript.FullName -Pattern $forbiddenWorkshopPathPattern)) {
+        $relativeScriptPath = $maintenanceScript.FullName.Substring($modRoot.Length + 1)
+        Add-ValidationError "Forbidden Steam Workshop content path in maintenance script ${relativeScriptPath}:$($hit.LineNumber)"
+    }
+}
+$assemblerPath = Join-Path $modRoot 'tools\assemble_modinfo.ps1'
+if (-not (Test-Path -LiteralPath $assemblerPath -PathType Leaf)) {
+    Add-ValidationError 'The local-only ModInfo assembler is missing.'
+}
+else {
+    $assemblerSource = Get-Content -LiteralPath $assemblerPath -Raw
+    foreach ($requiredBoundaryToken in @(
+        '$modInfoPath = Join-Path $modRoot ''ZYLPVPMOD.modinfo''',
+        'function Resolve-ProjectFile',
+        '$fullPath.StartsWith($modRootPrefix',
+        'Manifest path escapes the project root'
+    )) {
+        if (-not $assemblerSource.Contains($requiredBoundaryToken)) {
+            Add-ValidationError "The ModInfo assembler is missing its project-local input boundary: $requiredBoundaryToken"
+        }
+    }
+}
+
 # Validate every runtime XML-bearing artifact, including the BBM art
 # dependency. Reference snapshots live outside the mod root.
 $xmlFiles = @(Get-ChildItem -LiteralPath $modRoot -Recurse -File | Where-Object {
@@ -47,24 +79,24 @@ $modInfo = Load-XmlDocument $modInfoPath
 if ($modInfo.DocumentElement.GetAttribute('id') -ne $expectedModId) {
     Add-ValidationError "Unexpected Mod ID: $($modInfo.DocumentElement.GetAttribute('id'))"
 }
-if ($modInfo.DocumentElement.GetAttribute('version') -ne '127' -or
-		$modInfo.SelectSingleNode('/Mod/Properties/Version').InnerText -ne '127' -or
-		$modInfo.SelectSingleNode('/Mod/Properties/ToolboxVersion').InnerText -ne '1.2.7') {
-	Add-ValidationError 'The integrated package version must be 1.2.7 / ModInfo 127.'
+if ($modInfo.DocumentElement.GetAttribute('version') -ne '130' -or
+		$modInfo.SelectSingleNode('/Mod/Properties/Version').InnerText -ne '130' -or
+		$modInfo.SelectSingleNode('/Mod/Properties/ToolboxVersion').InnerText -ne '1.3.0') {
+	Add-ValidationError 'The integrated package version must be 1.3.0 / ModInfo 130.'
 }
 if ($modInfo.SelectSingleNode('/Mod/Properties/Name').InnerText -ne 'LOC_ZYLPVPMOD_TITLE') {
     Add-ValidationError 'The ModInfo title is not the ZYLPVPMOD localization key.'
 }
 $workshopTitleEnglish = $modInfo.SelectSingleNode("/Mod/LocalizedText/Text[@id='LOC_ZYLPVPMOD_TITLE']/en_US")
 $workshopTitleChinese = $modInfo.SelectSingleNode("/Mod/LocalizedText/Text[@id='LOC_ZYLPVPMOD_TITLE']/zh_Hans_CN")
-if ($null -eq $workshopTitleEnglish -or $workshopTitleEnglish.InnerText -ne 'ZYLPVPMOD 1.2.7' -or
-		$null -eq $workshopTitleChinese -or $workshopTitleChinese.InnerText -ne 'ZYLPVPMOD 1.2.7') {
-	Add-ValidationError 'The localized ModInfo / Steam Workshop title must be ZYLPVPMOD 1.2.7.'
+if ($null -eq $workshopTitleEnglish -or $workshopTitleEnglish.InnerText -ne 'ZYLPVPMOD 1.3.0' -or
+		$null -eq $workshopTitleChinese -or $workshopTitleChinese.InnerText -ne 'ZYLPVPMOD 1.3.0') {
+	Add-ValidationError 'The localized ModInfo title must be ZYLPVPMOD 1.3.0.'
 }
 $multiplayerHelperPath = Join-Path $modRoot 'data\MP_helper.lua'
 if (-not (Test-Path -LiteralPath $multiplayerHelperPath) -or
-		-not (Get-Content -LiteralPath $multiplayerHelperPath -Raw).Contains('local g_version = "ZYLPVPMOD v1.2.7"')) {
-	Add-ValidationError 'The multiplayer version handshake must identify ZYLPVPMOD v1.2.7.'
+		-not (Get-Content -LiteralPath $multiplayerHelperPath -Raw).Contains('local g_version = "ZYLPVPMOD v1.3.0"')) {
+	Add-ValidationError 'The multiplayer version handshake must identify ZYLPVPMOD v1.3.0.'
 }
 
 # Keep the Team PVP Balanced Industries/Corporations nerf complete. The
@@ -727,8 +759,11 @@ if (-not (Test-Path -LiteralPath $bbgCreePath)) {
 }
 else {
 	$bbgCreeSql = Get-Content -LiteralPath $bbgCreePath -Raw
-	if ($bbgCreeSql -notmatch "(?s)UPDATE\s+ModifierArguments\s+SET\s+Value\s*=\s*0\.5\s+WHERE\s+ModifierId\s+IN\s*\(\s*'TRAIT_TRADE_FOOD_FROM_CAMPS'\s*,\s*'TRAIT_TRADE_FOOD_FROM_PASTURES'\s*\)\s+AND\s+Name\s*=\s*'Amount'") {
-		Add-ValidationError 'Cree source does not reduce outgoing Camp/Pasture Trade Route Food to 0.5.'
+	if ($bbgCreeSql -notmatch "(?s)UPDATE\s+ModifierArguments\s+SET\s+Value\s*=\s*1\s+WHERE\s+ModifierId\s+IN\s*\(\s*'TRAIT_TRADE_FOOD_FROM_CAMPS'\s*,\s*'TRAIT_TRADE_FOOD_FROM_PASTURES'\s*\)\s+AND\s+Name\s*=\s*'Amount'") {
+		Add-ValidationError 'Cree source does not restore outgoing Camp/Pasture Trade Route Food to +1.'
+	}
+	if ($bbgCreeSql -match "(?s)UPDATE\s+Modifiers\s+SET(?:(?!;).)*SubjectStackLimit(?:(?!;).)*'TRAIT_TRADE_FOOD_FROM_CAMPS'(?:(?!;).)*'TRAIT_TRADE_FOOD_FROM_PASTURES'(?:(?!;).)*;") {
+		Add-ValidationError 'Cree source incorrectly uses a modifier stack limit as an improvement-count cap.'
 	}
 }
 
@@ -935,7 +970,6 @@ else {
         'MODIFIER_PLAYER_CITIES_ADJUST_BUILDING_HOUSING',
         'TECH_COST_PERCENT_CHANGE_BEFORE_GAME_ERA',
         "('TECH_CELESTIAL_NAVIGATION', 'TECH_SAILING')",
-		"('TECH_CELESTIAL_NAVIGATION', 'TECH_ASTROLOGY')",
 		'TRAIT_MAORI_EMBARKED_ABILITY',
 		'BBG_PLOT_HAS_FOREST_EARLY_EMPIRE',
 		'BBG_PLOT_HAS_JUNGLE_EARLY_EMPIRE',
@@ -1006,6 +1040,15 @@ else {
     if ($gameplayOverrideSql -notmatch "(?s)SET\s+Value\s*=\s*'4'\s+WHERE\s+Name\s*=\s*'CITY_POPULATION_COAST'") {
         Add-ValidationError 'Coast-only city base Housing is not locked to 4.'
     }
+    if ($gameplayOverrideSql -notmatch "(?s)DELETE\s+FROM\s+TechnologyPrereqs\s+WHERE\s+Technology\s*=\s*'TECH_CELESTIAL_NAVIGATION'") {
+        Add-ValidationError 'Celestial Navigation prerequisite cleanup is missing.'
+    }
+    if ($gameplayOverrideSql -notmatch "(?s)INSERT\s+OR\s+IGNORE\s+INTO\s+TechnologyPrereqs\s*\(\s*Technology\s*,\s*PrereqTech\s*\)\s*VALUES\s*\(\s*'TECH_CELESTIAL_NAVIGATION'\s*,\s*'TECH_SAILING'\s*\)") {
+        Add-ValidationError 'Celestial Navigation is not directly unlocked by Sailing.'
+    }
+    if ($gameplayOverrideSql -match "(?s)\(\s*'TECH_CELESTIAL_NAVIGATION'\s*,\s*'TECH_ASTROLOGY'\s*\)") {
+        Add-ValidationError 'Celestial Navigation still has an Astrology prerequisite.'
+    }
     if ($gameplayOverrideSql -notmatch "(?s)SET\s+ModifierType\s*=\s*'MODIFIER_PLAYER_CITIES_ADJUST_BUILDING_HOUSING'\s+WHERE\s+ModifierId\s*=\s*'BBG_MAYA_CAPITAL_HOUSING'") {
         Add-ValidationError 'Maya Housing modifier is not scoped to all cities.'
     }
@@ -1062,8 +1105,11 @@ else {
 	if ($gameplayOverrideSql -match "(?s)\('TRAIT_LEADER_MONASTERIES_KING'\s*,\s*'TRAIT_MONASTERIES_KING_HOLY_SITE_RIVER_ADJACENCY'\)") {
 		Add-ValidationError 'Final Khmer override still attaches the old river Holy Site Faith modifier to Jayavarman.'
 	}
-	if ($gameplayOverrideSql -notmatch "(?s)UPDATE\s+ModifierArguments\s+SET\s+Value\s*=\s*0\.5\s+WHERE\s+ModifierId\s+IN\s*\(\s*'TRAIT_TRADE_FOOD_FROM_CAMPS'\s*,\s*'TRAIT_TRADE_FOOD_FROM_PASTURES'\s*\)\s+AND\s+Name\s*=\s*'Amount'") {
-		Add-ValidationError 'Final Cree override does not reduce outgoing Camp/Pasture Trade Route Food to 0.5.'
+	if ($gameplayOverrideSql -notmatch "(?s)UPDATE\s+ModifierArguments\s+SET\s+Value\s*=\s*1\s+WHERE\s+ModifierId\s+IN\s*\(\s*'TRAIT_TRADE_FOOD_FROM_CAMPS'\s*,\s*'TRAIT_TRADE_FOOD_FROM_PASTURES'\s*\)\s+AND\s+Name\s*=\s*'Amount'") {
+		Add-ValidationError 'Final Cree override does not restore outgoing Camp/Pasture Trade Route Food to +1.'
+	}
+	if ($gameplayOverrideSql -match "(?s)UPDATE\s+Modifiers\s+SET(?:(?!;).)*SubjectStackLimit(?:(?!;).)*'TRAIT_TRADE_FOOD_FROM_CAMPS'(?:(?!;).)*'TRAIT_TRADE_FOOD_FROM_PASTURES'(?:(?!;).)*;") {
+		Add-ValidationError 'Final Cree override incorrectly uses a modifier stack limit as an improvement-count cap.'
 	}
 	foreach ($maliCityFaithBinding in @(
 		@('ZYL_MALI_DESERT_CITY_CENTER_FAITH', 'ZYL_MALI_DESERT_CITY_CENTER_REQUIREMENTS', 'REQUIRES_PLOT_HAS_DESERT'),
@@ -1361,12 +1407,12 @@ else {
 	}
 
 	foreach ($creeperTextSpec in @(
-		@('Components\BBG\lang\english.xml', 'en_US', '+0.5 [ICON_FOOD] Food', '+1 [ICON_GOLD] Gold'),
-		@('Components\BBG\lang\chinese.xml', 'zh_Hans_CN', '+0.5 [ICON_FOOD] 食物', '+1 [ICON_GOLD] 金币'),
-		@('lang\ZYL_BBG74_Chinese_Text.xml', 'zh_Hans_CN', '+0.5 [ICON_FOOD] 食物', '+1 [ICON_GOLD] 金币'),
-		@('lang\ZYL_GameplayOverrides_Text.xml', 'en_US', '+0.5 [ICON_FOOD] Food', '+1 [ICON_GOLD] Gold'),
-		@('lang\ZYL_GameplayOverrides_Text.xml', 'zh_Hans_CN', '+0.5 [ICON_FOOD] 食物', '+1 [ICON_GOLD] 金币'),
-		@('lang\ZYL_GameplayOverrides_Text.xml', 'zh_Hant_HK', '+0.5 [ICON_FOOD] 食物', '+1 [ICON_GOLD] 金幣')
+		@('Components\BBG\lang\english.xml', 'en_US', '+1 [ICON_FOOD] Food', 'per Camp or Pasture', '+1 [ICON_GOLD] Gold'),
+		@('Components\BBG\lang\chinese.xml', 'zh_Hans_CN', '+1 [ICON_FOOD] 食物', '每有一座营地或牧场', '+1 [ICON_GOLD] 金币'),
+		@('lang\ZYL_BBG74_Chinese_Text.xml', 'zh_Hans_CN', '+1 [ICON_FOOD] 食物', '每有一座营地或牧场', '+1 [ICON_GOLD] 金币'),
+		@('lang\ZYL_GameplayOverrides_Text.xml', 'en_US', '+1 [ICON_FOOD] Food', 'per Camp or Pasture', '+1 [ICON_GOLD] Gold'),
+		@('lang\ZYL_GameplayOverrides_Text.xml', 'zh_Hans_CN', '+1 [ICON_FOOD] 食物', '每有一座营地或牧场', '+1 [ICON_GOLD] 金币'),
+		@('lang\ZYL_GameplayOverrides_Text.xml', 'zh_Hant_HK', '+1 [ICON_FOOD] 食物', '每有一座露營地或牧場', '+1 [ICON_GOLD] 金幣')
 	)) {
 		$creeperTextPath = Join-Path $modRoot $creeperTextSpec[0]
 		if (-not (Test-Path -LiteralPath $creeperTextPath)) {
@@ -1375,13 +1421,16 @@ else {
 		}
 		$creeperTextXml = Load-XmlDocument $creeperTextPath
 		$creeperTextNode = $creeperTextXml.SelectSingleNode("/GameData/LocalizedText/*[@Tag='LOC_LEADER_POUNDMAKER_ABILITY_DESCRIPTION' and @Language='$($creeperTextSpec[1])']/Text")
-		if ($null -eq $creeperTextNode -or -not $creeperTextNode.InnerText.Contains($creeperTextSpec[2]) -or -not $creeperTextNode.InnerText.Contains($creeperTextSpec[3])) {
-			Add-ValidationError "Cree $($creeperTextSpec[1]) text does not describe +0.5 outgoing Food and +1 incoming Gold: $($creeperTextSpec[0])"
+		if ($null -eq $creeperTextNode -or -not $creeperTextNode.InnerText.Contains($creeperTextSpec[2]) -or -not $creeperTextNode.InnerText.Contains($creeperTextSpec[3]) -or -not $creeperTextNode.InnerText.Contains($creeperTextSpec[4])) {
+			Add-ValidationError "Cree $($creeperTextSpec[1]) text does not describe +1 outgoing Food per Camp/Pasture and +1 incoming Gold: $($creeperTextSpec[0])"
 			continue
 		}
-		$oldCreeFood = if ($creeperTextSpec[1] -eq 'en_US') { '+1 [ICON_FOOD] Food' } else { '+1 [ICON_FOOD] 食物' }
+		if ($creeperTextNode.InnerText.Contains('最多') -or $creeperTextNode.InnerText.Contains('up to')) {
+			Add-ValidationError "Cree $($creeperTextSpec[1]) text incorrectly claims an unsupported improvement-count cap: $($creeperTextSpec[0])"
+		}
+		$oldCreeFood = if ($creeperTextSpec[1] -eq 'en_US') { '+0.5 [ICON_FOOD] Food' } else { '+0.5 [ICON_FOOD] 食物' }
 		if ($creeperTextNode.InnerText.Contains($oldCreeFood)) {
-			Add-ValidationError "Cree $($creeperTextSpec[1]) text still claims +1 outgoing Food: $($creeperTextSpec[0])"
+			Add-ValidationError "Cree $($creeperTextSpec[1]) text still claims +0.5 outgoing Food: $($creeperTextSpec[0])"
 		}
 	}
 	foreach ($language in @('zh_Hans_CN', 'en_US')) {
@@ -2162,16 +2211,15 @@ if (Test-Path -LiteralPath $zylConfigPath) {
 	}
 }
 
-# The balanced Casual timer is a distinct lobby option.  It must retain the
-# original Casual baseline while using the highest individual city and unit
-# counts, with cumulative midgame and late-game allowances.
+# The two custom Casual timers remain distinct options. Casual (Relaxed) is
+# the default and uses the requested turn + 70 + 4C + 2U + delta formula.
 $cplConfigPath = Join-Path $modRoot 'configuration\Config.xml'
 $turnProcessingPath = Join-Path $modRoot 'ui\Additions\TurnProcessing.lua'
 if (Test-Path -LiteralPath $cplConfigPath) {
     $cplConfig = Load-XmlDocument $cplConfigPath
 	$smartTimerParameter = $cplConfig.SelectSingleNode('/GameInfo/Parameters/Row[@ParameterId="CPL_SMARTTIMER"]')
-	if ($null -eq $smartTimerParameter -or $smartTimerParameter.GetAttribute('DefaultValue') -ne '8') {
-		Add-ValidationError 'The base smart-timer lobby parameter must default to Casual (Balanced), value 8.'
+	if ($null -eq $smartTimerParameter -or $smartTimerParameter.GetAttribute('DefaultValue') -ne '9') {
+		Add-ValidationError 'The base smart-timer lobby parameter must default to Casual (Relaxed), value 9.'
 	}
     $balancedTimerOption = $cplConfig.SelectSingleNode('/GameInfo/DomainValues/Row[@Domain="TimerLimits" and @Value="8"]')
     if ($null -eq $balancedTimerOption -or
@@ -2179,11 +2227,24 @@ if (Test-Path -LiteralPath $cplConfigPath) {
         $balancedTimerOption.GetAttribute('Description') -ne 'TIMER_CASUAL_BALANCED_DESC') {
         Add-ValidationError 'The balanced Casual timer option (TimerLimits value 8) is missing or malformed.'
     }
+	$relaxedTimerOption = $cplConfig.SelectSingleNode('/GameInfo/DomainValues/Row[@Domain="TimerLimits" and @Value="9"]')
+	if ($null -eq $relaxedTimerOption -or
+		$relaxedTimerOption.GetAttribute('Name') -ne 'TIMER_CASUAL_RELAXED_NAME' -or
+		$relaxedTimerOption.GetAttribute('Description') -ne 'TIMER_CASUAL_RELAXED_DESC') {
+		Add-ValidationError 'The relaxed Casual timer option (TimerLimits value 9) is missing or malformed.'
+	}
+	$startupGateState = $cplConfig.SelectSingleNode('/GameInfo/Parameters/Row[@ParameterId="ZYL_STARTUP_GATE_RELEASED"]')
+	if ($null -eq $startupGateState -or
+		$startupGateState.GetAttribute('DefaultValue') -ne '0' -or
+		$startupGateState.GetAttribute('Visible') -ne '0' -or
+		$startupGateState.GetAttribute('ChangeableAfterGameStart') -ne '1') {
+		Add-ValidationError 'The startup synchronization gate state must be a hidden, runtime-changeable parameter defaulting to 0.'
+	}
 }
 if (Test-Path -LiteralPath $turnProcessingPath) {
     $turnProcessingSource = Get-Content -Raw -LiteralPath $turnProcessingPath
     foreach ($requiredCommandFragment in @(
-        'local MAX_TIME_EXTENSIONS_PER_TURN = 3',
+        'local MAX_TIME_EXTENSIONS_PER_TURN = 6',
         'local g_timeCommandUses = 0',
         'if g_timeCommandUses >= MAX_TIME_EXTENSIONS_PER_TURN then return end',
         'g_timeCommandUses = g_timeCommandUses + 1',
@@ -2205,6 +2266,42 @@ if (Test-Path -LiteralPath $turnProcessingPath) {
             Add-ValidationError "Balanced Casual timer logic is missing: $requiredTimerFragment"
         }
     }
+	foreach ($requiredRelaxedTimerFragment in @(
+		'GameConfiguration.GetValue("CPL_SMARTTIMER") == 9',
+		'local delta = g_timeshift',
+		'delta = delta - 25',
+		'delta = delta + 40',
+		'delta = delta + 20',
+		'timer = currentTurn + 70 + max_cities * 4 + max_units * 2 + delta'
+	)) {
+		if (-not $turnProcessingSource.Contains($requiredRelaxedTimerFragment)) {
+			Add-ValidationError "Relaxed Casual timer logic is missing: $requiredRelaxedTimerFragment"
+		}
+	}
+	foreach ($startupGateFragment in @(
+		'ZYL_STARTUP_GATE_RELEASED',
+		'Events.LoadScreenClose.Add(OnLoadScreenClose)',
+		'Events.LoadGameViewStateDone.Add(OnLoadGameViewStateDone)',
+		'Network.SendChat(STARTUP_READY_COMMAND_PREFIX',
+		'Network.SendChat(STARTUP_RELEASE_COMMAND_PREFIX',
+		'playerConfig:SetWantsPause(true)',
+		'playerConfig:SetWantsPause(false)',
+		'if g_startupGateActive then'
+	)) {
+		if (-not $turnProcessingSource.Contains($startupGateFragment)) {
+			Add-ValidationError "Startup synchronization gate is missing: $startupGateFragment"
+		}
+	}
+}
+
+$pausePanelPath = Join-Path $modRoot 'ui\Replacements\pausepanel.lua'
+if (Test-Path -LiteralPath $pausePanelPath) {
+	$pausePanelSource = Get-Content -LiteralPath $pausePanelPath -Raw
+	foreach ($startupPauseFragment in @('IsStartupGatePending', 'ZYL_STARTUP_GATE_RELEASED')) {
+		if (-not $pausePanelSource.Contains($startupPauseFragment)) {
+			Add-ValidationError "Pause panel can bypass the startup synchronization gate: $startupPauseFragment"
+		}
+	}
 }
 
 $eraLengthSqlPath = Join-Path $modRoot 'sql\ZYL_EraLengthOptimization.sql'
@@ -2213,10 +2310,15 @@ if (-not (Test-Path -LiteralPath $eraLengthSqlPath)) {
 }
 else {
     $eraLengthSource = Get-Content -Raw -LiteralPath $eraLengthSqlPath
-	$fixedEraDurations = @{
-		'ERA_ANCIENT' = 54
-		'ERA_CLASSICAL' = 50
-		'ERA_MEDIEVAL' = 50
+	$fixedEraDurations = [ordered]@{
+		'ERA_ANCIENT' = 50
+		'ERA_CLASSICAL' = 46
+		'ERA_MEDIEVAL' = 46
+		'ERA_RENAISSANCE' = 42
+		'ERA_INDUSTRIAL' = 42
+		'ERA_MODERN' = 40
+		'ERA_ATOMIC' = 40
+		'ERA_INFORMATION' = 40
 	}
 	foreach ($fixedEraDuration in $fixedEraDurations.GetEnumerator()) {
 		$durationPattern = "WHEN\s+'$([regex]::Escape($fixedEraDuration.Key))'\s+THEN\s+$($fixedEraDuration.Value)"
@@ -2226,6 +2328,22 @@ else {
 	}
 	if ($eraLengthSource -notmatch 'GameEraMinimumTurns' -or $eraLengthSource -notmatch 'GameEraMaximumTurns') {
 		Add-ValidationError 'Optional world-era duration override must set both the minimum and maximum duration columns.'
+	}
+}
+
+$eraThresholdSqlPath = Join-Path $modRoot 'Components\BBG\sql\XP1\Other_XP1_or_XP2.sql'
+if (-not (Test-Path -LiteralPath $eraThresholdSqlPath)) {
+	Add-ValidationError 'The BBG era-threshold SQL is missing.'
+}
+else {
+	$eraThresholdSource = Get-Content -Raw -LiteralPath $eraThresholdSqlPath
+	foreach ($requiredEraThreshold in @(
+		"UPDATE GlobalParameters SET Value=20 WHERE Name='DARK_AGE_SCORE_BASE_THRESHOLD';",
+		"UPDATE GlobalParameters SET Value=25 WHERE Name='GOLDEN_AGE_SCORE_BASE_THRESHOLD';"
+	)) {
+		if (-not $eraThresholdSource.Contains($requiredEraThreshold)) {
+			Add-ValidationError "The final era-threshold override is missing: $requiredEraThreshold"
+		}
 	}
 }
 
@@ -2250,7 +2368,7 @@ foreach ($timerTextPath in @('lang\Text_CN.xml', 'lang\Text_EN.xml')) {
     $fullTimerTextPath = Join-Path $modRoot $timerTextPath
     if (Test-Path -LiteralPath $fullTimerTextPath) {
         $timerText = Load-XmlDocument $fullTimerTextPath
-        foreach ($timerTag in @('TIMER_CASUAL_BALANCED_NAME', 'TIMER_CASUAL_BALANCED_DESC')) {
+        foreach ($timerTag in @('TIMER_CASUAL_BALANCED_NAME', 'TIMER_CASUAL_BALANCED_DESC', 'TIMER_CASUAL_RELAXED_NAME', 'TIMER_CASUAL_RELAXED_DESC')) {
             if ($null -eq $timerText.SelectSingleNode("/GameData/LocalizedText/Replace[@Tag='$timerTag']/Text")) {
                 Add-ValidationError "$timerTextPath is missing $timerTag."
             }
@@ -2270,7 +2388,8 @@ else {
     $expectedLobbyDefaults = @{
         'TOOLS_COMMAND' = '1'
         'TOOLS_15_TIME' = '1'
-        'CPL_SMARTTIMER' = '8'
+        'CPL_SMARTTIMER' = '9'
+		'ZYL_STARTUP_GATE_RELEASED' = '0'
         'ZYL_ERA_LENGTH_OPTIMIZATION' = '1'
 		'ZYL_DIPLOMACY_RIBBON_MODE' = '0'
         'BBCC_SETTING' = '0'
@@ -2326,7 +2445,8 @@ if (Test-Path -LiteralPath $hostGamePath) {
         Add-ValidationError 'Host game must apply ZYLPVPMOD defaults for fresh rooms, Restore Defaults and MPH preset None.'
     }
 	foreach ($requiredDefault in @(
-		'{ "CPL_SMARTTIMER", 8 }',
+		'{ "CPL_SMARTTIMER", 9 }',
+		'{ "ZYL_STARTUP_GATE_RELEASED", 0 }',
 		'{ "ZYL_ERA_LENGTH_OPTIMIZATION", 1 }',
 		'{ "ZYL_DIPLOMACY_RIBBON_MODE", 0 }'
 	)) {
@@ -2397,6 +2517,7 @@ $teamPvpSocietyPaths = @{
     Icons = Join-Path $teamPvpSocietyRoot 'Icons.xml'
     Dependency = Join-Path $teamPvpSocietyRoot 'TeamPVPSecretSocieties.dep'
     Art = Join-Path $teamPvpSocietyRoot 'Buildings.artdef'
+    VampireCastleGameplay = Join-Path $teamPvpSocietyRoot 'Scripts\VampireCastle_Gameplay.lua'
 }
 foreach ($entry in $teamPvpSocietyPaths.GetEnumerator()) {
     if (-not (Test-Path -LiteralPath $entry.Value)) {
@@ -2457,6 +2578,12 @@ if (Test-Path -LiteralPath $teamPvpSocietyPaths.Gameplay) {
         "SET EarliestGameEra = 'ERA_INDUSTRIAL'",
         "WHERE BuildingType = 'BUILDING_GILDED_VAULT'",
         "PurchaseYield = 'YIELD_GOLD'",
+        "'ZYL_TPVP_PLAYER_HAS_POLITICAL_PHILOSOPHY_REQUIREMENT'",
+        "'CivicType', 'CIVIC_POLITICAL_PHILOSOPHY'",
+        "'ZYL_TPVP_OWLS_2_TRADE_ROUTE_CAPACITY'",
+        "'ZYL_TPVP_PLAYER_HAS_GILDED_VAULT_REQUIREMENT'",
+        "'ZYL_TPVP_OWLS_FIRST_GILDED_VAULT_TRADE_ROUTE_CAPACITY'",
+        "'BUILDING_GILDED_VAULT_TRADE_ROUTE_CAPACITY'",
         "WHERE BuildingType = 'BUILDING_ALCHEMICAL_SOCIETY'",
         "WHEN 'YIELD_SCIENCE' THEN 4",
         "WHEN 'YIELD_PRODUCTION' THEN 2",
@@ -2469,17 +2596,36 @@ if (Test-Path -LiteralPath $teamPvpSocietyPaths.Gameplay) {
         "'SANGUINE_PACT_VAMPIRE_COMBAT_STRENGTH_FROM_PROPERTY', 'Max', 3",
         "'SANGUINE_PACT_VAMPIRE_BARB_COMBAT_STRENGTH_FROM_PROPERTY'",
         "SET CanBuildOutsideTerritory = 0",
+        'INSERT OR IGNORE INTO Improvement_ValidFeatures',
+        'WHERE Removable = 1',
+        'INSERT OR IGNORE INTO Improvement_ValidResources',
+        "'RESOURCECLASS_BONUS'",
+        "'RESOURCECLASS_LUXURY'",
+        "'RESOURCECLASS_STRATEGIC'",
         "'UNIT_RETREAT_VAMPIRE_TO_CASTLE'",
         "'SECRET_SOCIETIES_ATTACH_PLAYER_CASTLES_GAIN_ADJACENT_YIELDS'",
         "'IMPROVEMENT_VAMPIRE_CASTLE', 'YIELD_FOOD', 9",
         "'IMPROVEMENT_VAMPIRE_CASTLE', 'YIELD_PRODUCTION', 5",
         "'RESOURCE_LEY_LINE', 'YIELD_GOLD', 40, NULL",
         "'IMPROVEMENT_FARM', 'RESOURCE_LEY_LINE', 0",
+        "'BBG_BANK_TRADEROUTE_FROM_DOMESTIC'",
+        "'BBG_BANK_TRADEROUTE_TO_DOMESTIC'",
+        "'BBG_BANK_TRADEROUTE_FROM_INTERNATIONAL'",
+        "'BBG_BANK_TRADEROUTE_TO_INTERNATIONAL'",
+        "'BUILDING_IS_BANK', 'ZYL_TPVP_REQUIRES_CITY_HAS_GILDED_VAULT_COMPAT'",
+        "'BUILDING_IS_SHIPYARD', 'ZYL_TPVP_REQUIRES_CITY_HAS_GILDED_SHIPYARD_COMPAT'",
+        "'BUILDING_IS_BANK_OR_SHIPYARD', 'ZYL_TPVP_REQUIRES_CITY_HAS_GILDED_VAULT_COMPAT'",
+        "'BUILDING_IS_BANK_OR_SHIPYARD', 'ZYL_TPVP_REQUIRES_CITY_HAS_GILDED_SHIPYARD_COMPAT'",
+        "'BUILDING_BIG_BEN', 'BUILDING_GILDED_VAULT'",
         "'BUILDING_GILDED_Shipyard', 'BBG_SHIPYARD_FISHERY_PRODUCTION'",
+        "ModifierId <> 'COAL_FROM_SHIPYARD_BBG'",
+        "ModifierId LIKE 'ZYL_TPVP_GILDED_SHIPYARD_ADJ_%'",
+        "'COAL_FROM_SHIPYARD_BBG'",
         "'ZYL_TPVP_MILITARYRESEARCH_GILDED_SHIPYARD_SCIENCE'",
         "'ZYL_TPVP_CARDIFF_GILDED_SHIPYARD_PRODUCTION_ATTACH'",
         "'ZYL_TPVP_CARDIFF_GILDED_SHIPYARD_GOLD_ATTACH'",
-        "'ZYL_TPVP_GILDED_SHIPYARD_ADJ_12'"
+        "'ZYL_TPVP_TRADE_MEDIUM_GILDED_VAULT_GOLD', 'Amount', 4",
+        "'ZYL_TPVP_TRADE_MEDIUM_GILDED_SHIPYARD_GOLD', 'Amount', 4"
     )
     foreach ($token in $requiredSocietySqlTokens) {
         if (-not $teamPvpSocietySql.Contains($token)) {
@@ -2533,6 +2679,75 @@ if (Test-Path -LiteralPath $teamPvpSocietyPaths.Gameplay) {
     if ($teamPvpSocietySql -match "(?is)\('GOVERNOR_PROMOTION_SANGUINE_PACT_[1234]',\s*'SECRET_SOCIETY_VAMPIRE_ADDMOVE_TEAMPVP'\)") {
         Add-ValidationError 'The upstream zero-value Vampire movement placeholder must not remain attached.'
     }
+    if ($teamPvpSocietySql -notmatch "(?is)UPDATE\s+Modifiers\s+SET\s+OwnerRequirementSetId\s*=\s*'ZYL_TPVP_PLAYER_HAS_POLITICAL_PHILOSOPHY'\s+WHERE\s+ModifierId\s*=\s*'GOVERNOR_PROMOTION_OWLS_OF_MINERVA_1_ECONOMIC_POLICY_SLOT'") {
+        Add-ValidationError 'Owls tier 1 economic policy slot is not delayed until Political Philosophy.'
+    }
+    if ($teamPvpSocietySql -notmatch "(?is)\('GOVERNOR_PROMOTION_OWLS_OF_MINERVA_2',\s*'ZYL_TPVP_OWLS_2_TRADE_ROUTE_CAPACITY'\)") {
+        Add-ValidationError 'Owls tier 2 does not directly grant one Trade Route capacity.'
+    }
+    if ($teamPvpSocietySql -notmatch "(?is)\('ZYL_TPVP_OWLS_2_TRADE_ROUTE_CAPACITY',\s*'Amount',\s*1\)") {
+        Add-ValidationError 'Owls tier 2 direct Trade Route capacity is not +1.'
+    }
+    if ($teamPvpSocietySql -notmatch "(?is)\(ModifierId,\s*ModifierType,\s*RunOnce,\s*Permanent,\s*OwnerRequirementSetId\)\s*VALUES\s*\(\s*'ZYL_TPVP_OWLS_FIRST_GILDED_VAULT_TRADE_ROUTE_CAPACITY',\s*'MODIFIER_PLAYER_ADJUST_TRADE_ROUTE_CAPACITY',\s*1,\s*1,\s*'ZYL_TPVP_PLAYER_HAS_GILDED_VAULT'\s*\)") {
+        Add-ValidationError 'The first-Gilded-Vault Trade Route modifier must be a permanent one-time player effect.'
+    }
+    if ($teamPvpSocietySql -notmatch "(?is)\('GOVERNOR_PROMOTION_OWLS_OF_MINERVA_2',\s*'ZYL_TPVP_OWLS_FIRST_GILDED_VAULT_TRADE_ROUTE_CAPACITY'\)") {
+        Add-ValidationError 'The first-Gilded-Vault Trade Route effect is not attached to Owls tier 2.'
+    }
+    if ($teamPvpSocietySql -notmatch "(?is)DELETE\s+FROM\s+BuildingModifiers\s+WHERE\s+BuildingType\s*=\s*'BUILDING_GILDED_VAULT'\s+AND\s+ModifierId\s*=\s*'BUILDING_GILDED_VAULT_TRADE_ROUTE_CAPACITY'") {
+        Add-ValidationError 'The upstream per-Gilded-Vault Trade Route modifier is not removed.'
+    }
+    $bankTradeRouteModifiers = @(
+        'BBG_BANK_TRADEROUTE_FROM_DOMESTIC',
+        'BBG_BANK_TRADEROUTE_TO_DOMESTIC',
+        'BBG_BANK_TRADEROUTE_FROM_INTERNATIONAL',
+        'BBG_BANK_TRADEROUTE_TO_INTERNATIONAL'
+    )
+    foreach ($bankTradeRouteModifier in $bankTradeRouteModifiers) {
+        $bankTradeRoutePattern = "(?is)SELECT\s+'BUILDING_GILDED_VAULT',\s*ModifierId\s+FROM\s+Modifiers\s+WHERE\s+ModifierId\s+IN\s*\((?:(?!\);).)*'$([regex]::Escape($bankTradeRouteModifier))'(?:(?!\);).)*\)"
+        if ($teamPvpSocietySql -notmatch $bankTradeRoutePattern) {
+            Add-ValidationError "The Gilded Vault is missing BBG Bank Trade Route parity: $bankTradeRouteModifier"
+        }
+    }
+    if ($teamPvpSocietySql -notmatch "(?is)UPDATE\s+RequirementSets\s+SET\s+RequirementSetType\s*=\s*'REQUIREMENTSET_TEST_ANY'\s+WHERE\s+RequirementSetId\s+IN\s*\(\s*'BUILDING_IS_BANK'\s*,\s*'BUILDING_IS_SHIPYARD'\s*\)") {
+        Add-ValidationError 'Bank/Shipyard compatibility requirement sets are not converted to alternative-building checks.'
+    }
+    foreach ($compatibilitySpec in @(
+        [pscustomobject]@{ Set = 'BUILDING_IS_BANK'; Requirement = 'ZYL_TPVP_REQUIRES_CITY_HAS_GILDED_VAULT_COMPAT'; Building = 'BUILDING_GILDED_VAULT' },
+        [pscustomobject]@{ Set = 'BUILDING_IS_SHIPYARD'; Requirement = 'ZYL_TPVP_REQUIRES_CITY_HAS_GILDED_SHIPYARD_COMPAT'; Building = 'BUILDING_GILDED_Shipyard' }
+    )) {
+        if ($teamPvpSocietySql -notmatch "(?is)\('$([regex]::Escape($compatibilitySpec.Requirement))',\s*'BuildingType',\s*'$([regex]::Escape($compatibilitySpec.Building))'\)") {
+            Add-ValidationError "$($compatibilitySpec.Requirement) does not target $($compatibilitySpec.Building)."
+        }
+        if ($teamPvpSocietySql -notmatch "(?is)SELECT\s+'$([regex]::Escape($compatibilitySpec.Set))',\s*'$([regex]::Escape($compatibilitySpec.Requirement))'") {
+            Add-ValidationError "$($compatibilitySpec.Set) does not include $($compatibilitySpec.Building)."
+        }
+    }
+    foreach ($dramaticRequirement in @(
+        'ZYL_TPVP_REQUIRES_CITY_HAS_GILDED_VAULT_COMPAT',
+        'ZYL_TPVP_REQUIRES_CITY_HAS_GILDED_SHIPYARD_COMPAT'
+    )) {
+        if ($teamPvpSocietySql -notmatch "(?is)SELECT\s+'BUILDING_IS_BANK_OR_SHIPYARD',\s*'$([regex]::Escape($dramaticRequirement))'") {
+            Add-ValidationError "Dramatic Ages Bank/Shipyard compatibility is missing: $dramaticRequirement"
+        }
+    }
+    if ($teamPvpSocietySql -notmatch "(?is)SELECT\s+'BUILDING_GILDED_Shipyard',\s*ModifierId\s+FROM\s+BuildingModifiers\s+WHERE\s+BuildingType\s*=\s*'BUILDING_SHIPYARD'\s+AND\s+ModifierId\s*<>\s*'COAL_FROM_SHIPYARD_BBG'") {
+        Add-ValidationError 'Direct regular-Shipyard building modifiers are not copied to the Gilded Shipyard with the duplicate Coal effect excluded.'
+    }
+    if ($teamPvpSocietySql -notmatch "(?is)SELECT\s+'BUILDING_BIG_BEN',\s*'BUILDING_GILDED_VAULT'") {
+        Add-ValidationError 'Big Ben does not accept the Gilded Vault as its Bank replacement prerequisite.'
+    }
+    foreach ($tradeCityStateSpec in @(
+        [pscustomobject]@{ Modifier = 'ZYL_TPVP_TRADE_MEDIUM_GILDED_VAULT_GOLD'; Building = 'BUILDING_GILDED_VAULT' },
+        [pscustomobject]@{ Modifier = 'ZYL_TPVP_TRADE_MEDIUM_GILDED_SHIPYARD_GOLD'; Building = 'BUILDING_GILDED_Shipyard' }
+    )) {
+        if ($teamPvpSocietySql -notmatch "(?is)\('$([regex]::Escape($tradeCityStateSpec.Modifier))',\s*'BuildingType',\s*'$([regex]::Escape($tradeCityStateSpec.Building))'\).*?\('$([regex]::Escape($tradeCityStateSpec.Modifier))',\s*'Amount',\s*4\).*?\('$([regex]::Escape($tradeCityStateSpec.Modifier))',\s*'CityStatesOnly',\s*1\)") {
+            Add-ValidationError "Trade City-State +4 Gold parity is malformed for $($tradeCityStateSpec.Building)."
+        }
+    }
+    if ($teamPvpSocietySql -match 'ZYL_TPVP_GILDED_SHIPYARD_ADJ_[0-9]') {
+        Add-ValidationError 'The obsolete threshold-based Gilded Shipyard adjacency implementation is still present.'
+    }
     foreach ($buildingType in @('BUILDING_GILDED_VAULT', 'BUILDING_GILDED_Shipyard')) {
         $goldPurchasePattern = "(?is)UPDATE\s+Buildings\s+SET(?:(?!;).)*PurchaseYield\s*=\s*'YIELD_GOLD'(?:(?!;).)*WHERE\s+BuildingType\s*=\s*'$([regex]::Escape($buildingType))'\s*;"
         if ($teamPvpSocietySql -notmatch $goldPurchasePattern) {
@@ -2550,6 +2765,23 @@ if (Test-Path -LiteralPath $teamPvpSocietyPaths.Gameplay) {
     }
     if ($teamPvpSocietySql.Contains('CIVIC_GRANT_PLAYER_GOVERNOR_POINTS')) {
         Add-ValidationError 'Secret Society title refunds are duplicated outside the BBG-owned integration file.'
+    }
+}
+
+if (Test-Path -LiteralPath $teamPvpSocietyPaths.VampireCastleGameplay) {
+    $vampireCastleGameplay = Get-Content -LiteralPath $teamPvpSocietyPaths.VampireCastleGameplay -Raw
+    foreach ($token in @(
+        'IMPROVEMENT_VAMPIRE_CASTLE',
+        'RESOURCECLASS_BONUS',
+        'RESOURCECLASS_LUXURY',
+        'RESOURCECLASS_STRATEGIC',
+        'ResourceBuilder.SetResourceType(plot, -1)',
+        'TerrainBuilder.SetFeatureType(plot, -1)',
+        'Events.ImprovementAddedToMap.Add(OnVampireCastleAdded)'
+    )) {
+        if (-not $vampireCastleGameplay.Contains($token)) {
+            Add-ValidationError "Vampire Castle tile-clearing script is missing required behavior: $token"
+        }
     }
 }
 
@@ -2571,6 +2803,18 @@ if (Test-Path -LiteralPath $teamPvpSocietyPaths.Building) {
             Add-ValidationError "Gilded Shipyard base $($yield.Key) must be $($yield.Value)."
         }
     }
+    $yieldDistrictCopyRows = @($gildedShipyard.SelectNodes("/GameInfo/Building_YieldDistrictCopies/Row[@BuildingType='BUILDING_GILDED_Shipyard']"))
+    if ($yieldDistrictCopyRows.Count -ne 1 -or
+            $yieldDistrictCopyRows[0].GetAttribute('OldYieldType') -ne 'YIELD_GOLD' -or
+            $yieldDistrictCopyRows[0].GetAttribute('NewYieldType') -ne 'YIELD_PRODUCTION') {
+        Add-ValidationError 'The Gilded Shipyard must use one native Harbor Gold-adjacency to Production copy row.'
+    }
+    if ($null -eq $gildedShipyard.SelectSingleNode("/GameInfo/BuildingReplaces/Row[@CivUniqueBuildingType='BUILDING_GILDED_Shipyard' and @ReplacesBuildingType='BUILDING_SHIPYARD']")) {
+        Add-ValidationError 'The Gilded Shipyard is not registered as a native Shipyard replacement for Great-Person and boost compatibility.'
+    }
+    if ($null -eq $gildedShipyard.SelectSingleNode("/GameInfo/ModifierArguments/Row[@ModifierId='ZYL_TPVP_UNLOCK_GILDED_SHIPYARD' and @Name='BuildingTypeToReplace' and @Value='BUILDING_SHIPYARD']")) {
+        Add-ValidationError 'The Owls unlock modifier does not identify the regular Shipyard as the building being replaced.'
+    }
 }
 
 if (Test-Path -LiteralPath $teamPvpSocietyPaths.Text) {
@@ -2578,6 +2822,9 @@ if (Test-Path -LiteralPath $teamPvpSocietyPaths.Text) {
     foreach ($language in @('en_US', 'zh_Hans_CN', 'zh_Hant_HK')) {
         foreach ($tag in @(
             'LOC_BUILDING_GILDED_Shipyard_DESCRIPTION',
+            'LOC_BUILDING_GILDED_VAULT_DESCRIPTION',
+            'LOC_GOVERNOR_PROMOTION_OWLS_OF_MINERVA_1_DESCRIPTION',
+            'LOC_GOVERNOR_PROMOTION_OWLS_OF_MINERVA_2_DESCRIPTION',
             'LOC_GOVERNOR_PROMOTION_OWLS_OF_MINERVA_3_DESCRIPTION',
             'LOC_GOVERNOR_PROMOTION_OWLS_OF_MINERVA_4_DESCRIPTION',
             'LOC_GOVERNOR_PROMOTION_HERMETIC_ORDER_1_DESCRIPTION',
@@ -2590,6 +2837,33 @@ if (Test-Path -LiteralPath $teamPvpSocietyPaths.Text) {
         )) {
             if ($null -eq $teamPvpSocietyText.SelectSingleNode("/GameData/LocalizedText/Replace[@Tag='$tag' and @Language='$language']/Text")) {
                 Add-ValidationError "Team PVP Secret Societies localization is missing $tag for $language."
+            }
+        }
+    }
+    $owlsTextChecks = @(
+        [pscustomobject]@{ Language = 'en_US'; Tag = 'LOC_GOVERNOR_PROMOTION_OWLS_OF_MINERVA_1_DESCRIPTION'; Tokens = @('Political Philosophy', 'Economic policy slot') },
+        [pscustomobject]@{ Language = 'en_US'; Tag = 'LOC_GOVERNOR_PROMOTION_OWLS_OF_MINERVA_2_DESCRIPTION'; Tokens = @('+1 [ICON_TradeRoute] Trade Route capacity') },
+        [pscustomobject]@{ Language = 'en_US'; Tag = 'LOC_BUILDING_GILDED_VAULT_DESCRIPTION'; Tokens = @('originating in this city gain +2 [ICON_Gold]', 'ending in this city gain +1 [ICON_Gold]', 'first Gilded Vault', 'permanently grants +1 [ICON_TradeRoute]') },
+        [pscustomobject]@{ Language = 'en_US'; Tag = 'LOC_BUILDING_GILDED_Shipyard_DESCRIPTION'; Tokens = @("Harbor's current [ICON_Gold] Gold adjacency bonus", 'including adjacency policy effects') },
+        [pscustomobject]@{ Language = 'zh_Hans_CN'; Tag = 'LOC_GOVERNOR_PROMOTION_OWLS_OF_MINERVA_1_DESCRIPTION'; Tokens = @('政治哲学', '经济政策槽位') },
+        [pscustomobject]@{ Language = 'zh_Hans_CN'; Tag = 'LOC_GOVERNOR_PROMOTION_OWLS_OF_MINERVA_2_DESCRIPTION'; Tokens = @('+1 [ICON_TradeRoute] 贸易路线容量') },
+        [pscustomobject]@{ Language = 'zh_Hans_CN'; Tag = 'LOC_BUILDING_GILDED_VAULT_DESCRIPTION'; Tokens = @('从该城出发的贸易路线+2 [ICON_Gold]', '到达该城的贸易路线+1 [ICON_Gold]', '首次建成镀金宝库', '永久+1 [ICON_TradeRoute]') },
+        [pscustomobject]@{ Language = 'zh_Hans_CN'; Tag = 'LOC_BUILDING_GILDED_Shipyard_DESCRIPTION'; Tokens = @('港口当前 [ICON_Gold] 金币相邻加成', '包括相邻加成政策的效果') },
+        [pscustomobject]@{ Language = 'zh_Hant_HK'; Tag = 'LOC_GOVERNOR_PROMOTION_OWLS_OF_MINERVA_1_DESCRIPTION'; Tokens = @('政治哲學', '經濟政策槽位') },
+        [pscustomobject]@{ Language = 'zh_Hant_HK'; Tag = 'LOC_GOVERNOR_PROMOTION_OWLS_OF_MINERVA_2_DESCRIPTION'; Tokens = @('+1 [ICON_TradeRoute] 貿易路線容量') },
+        [pscustomobject]@{ Language = 'zh_Hant_HK'; Tag = 'LOC_BUILDING_GILDED_VAULT_DESCRIPTION'; Tokens = @('從該城出發的貿易路線+2 [ICON_Gold]', '到達該城的貿易路線+1 [ICON_Gold]', '首次建成鍍金寶庫', '永久+1 [ICON_TradeRoute]') },
+        [pscustomobject]@{ Language = 'zh_Hant_HK'; Tag = 'LOC_BUILDING_GILDED_Shipyard_DESCRIPTION'; Tokens = @('港口當前 [ICON_Gold] 金幣相鄰加成', '包括相鄰加成政策的效果') }
+    )
+    foreach ($owlsTextCheck in $owlsTextChecks) {
+        $owlsTextNode = $teamPvpSocietyText.SelectSingleNode("/GameData/LocalizedText/Replace[@Tag='$($owlsTextCheck.Tag)' and @Language='$($owlsTextCheck.Language)']/Text")
+        if ($null -eq $owlsTextNode) {
+            Add-ValidationError "Owls localization is missing $($owlsTextCheck.Tag) for $($owlsTextCheck.Language)."
+        }
+        else {
+            foreach ($owlsTextToken in $owlsTextCheck.Tokens) {
+                if (-not $owlsTextNode.InnerText.Contains($owlsTextToken)) {
+                    Add-ValidationError "Owls localization $($owlsTextCheck.Tag) for $($owlsTextCheck.Language) is missing: $owlsTextToken"
+                }
             }
         }
     }
@@ -2889,6 +3163,7 @@ $expectedTeamPvpActions = @{
     'zyl_tpvp_secretsocietiesart' = 'Components/TeamPVPSecretSocieties/TeamPVPSecretSocieties.dep'
     'zyl_tpvp_gildedshipyard' = 'Components/TeamPVPSecretSocieties/Build_GildedShipyard.xml'
     'zyl_tpvp_secretsocietiesgameplay' = 'Components/TeamPVPSecretSocieties/Gameplay.sql'
+    'zyl_tpvp_vampirecastlegameplay' = 'Components/TeamPVPSecretSocieties/Scripts/VampireCastle_Gameplay.lua'
     'zyl_tpvp_secretsocietiestext' = 'Components/TeamPVPSecretSocieties/Text.xml'
     'zyl_tpvp_secretsocietiesicons' = 'Components/TeamPVPSecretSocieties/Icons.xml'
 }
@@ -2909,25 +3184,16 @@ if ($null -eq $teamPvpArtAction -or
         $null -eq $teamPvpArtAction.SelectSingleNode("./Criteria[.='ZYL_SecretSocietiesXP2']")) {
     Add-ValidationError 'Team PVP Secret Societies art is not loaded in-game through its mode-gated .dep manifest.'
 }
+$vampireCastleGameplayAction = $actionIdMap['zyl_tpvp_vampirecastlegameplay']
+if ($null -eq $vampireCastleGameplayAction -or
+        $vampireCastleGameplayAction.LocalName -ne 'AddGameplayScripts' -or
+        $vampireCastleGameplayAction.ParentNode.LocalName -ne 'InGameActions' -or
+        $null -eq $vampireCastleGameplayAction.SelectSingleNode("./Criteria[.='ZYL_SecretSocietiesXP2']")) {
+    Add-ValidationError 'Vampire Castle tile clearing is not loaded as a mode-gated in-game gameplay script.'
+}
 $teamPvpArtDefRelativePath = Normalize-RelativePath 'Components/TeamPVPSecretSocieties/Buildings.artdef'
 if (-not $listedFileMap.ContainsKey($teamPvpArtDefRelativePath)) {
     Add-ValidationError 'Team PVP Secret Societies Buildings.artdef is absent from the manifest.'
-}
-
-$assemblerPath = Join-Path $modRoot 'tools\assemble_modinfo.ps1'
-if (Test-Path -LiteralPath $assemblerPath) {
-    $assembler = Get-Content -LiteralPath $assemblerPath -Raw
-    foreach ($token in @(
-        "'ZYL_ResourceHarvests' 'sql/ZYL_ResourceHarvests.sql'",
-        "'ZYL_TPVP_GildedShipyard' 'Components/TeamPVPSecretSocieties/Build_GildedShipyard.xml'",
-        "'ZYL_TPVP_SecretSocietiesGameplay' 'Components/TeamPVPSecretSocieties/Gameplay.sql'",
-        "'ZYL_TPVP_SecretSocietiesArt' 'Components/TeamPVPSecretSocieties/TeamPVPSecretSocieties.dep'",
-        "'Components/TeamPVPSecretSocieties/Buildings.artdef'"
-    )) {
-        if (-not $assembler.Contains($token)) {
-            Add-ValidationError "ModInfo assembler would discard a Team PVP/LightweightBalance integration entry: $token"
-        }
-    }
 }
 
 # The selected pantheon package must contain the requested thirteen
@@ -3057,22 +3323,6 @@ if ($null -eq $lightweightBalanceBlock) {
     Add-ValidationError 'Standalone ZYL Lightweight Balance is not blocked after selected features were integrated.'
 }
 
-$assemblerPath = Join-Path $modRoot 'tools\assemble_modinfo.ps1'
-if (Test-Path -LiteralPath $assemblerPath) {
-    $assembler = Get-Content -LiteralPath $assemblerPath -Raw
-    foreach ($token in @(
-        "'ZYL_SelectedPantheons' 'sql/ZYL_Pantheons.sql'",
-        "'ZYL_SelectedPantheonsText' 'lang/ZYL_Pantheons_Text.xml'",
-        "'ZYL_SelectedPantheonsIcons' 'icons/ZYL_Pantheon_Icons.xml'",
-        "'ZYL_GeothermalMines' 'sql/ZYL_GeothermalMines.sql'",
-        "'icons/ZYL_Pantheon_Icons.xml'"
-    )) {
-        if (-not $assembler.Contains($token)) {
-            Add-ValidationError "ModInfo assembler would discard a selected pantheon/geothermal entry: $token"
-        }
-    }
-}
-
 # The initial Settler movement package must remain limited to the period before
 # the first Palace exists. It intentionally includes all four parts of the
 # LightweightBalance behavior: +1 movement, terrain, river and shore handling.
@@ -3120,21 +3370,26 @@ else {
         Add-ValidationError 'Initial Settler SQL is absent from the ModInfo file manifest.'
     }
 
-    $assemblerPath = Join-Path $modRoot 'tools\assemble_modinfo.ps1'
-    if (Test-Path -LiteralPath $assemblerPath) {
-        $assembler = Get-Content -LiteralPath $assemblerPath -Raw
-        if (-not $assembler.Contains("'ZYL_StartingSettlerMovement' 'sql/ZYL_StartingSettler.sql'")) {
-            Add-ValidationError 'ModInfo assembler would discard the initial Settler action.'
-        }
-        if (-not $assembler.Contains("'sql/ZYL_StartingSettler.sql'")) {
-            Add-ValidationError 'ModInfo assembler would discard the initial Settler file manifest entry.'
-        }
-    }
 }
 
 $zylTextPath = Join-Path $modRoot 'lang\ZYL_Text.xml'
 if (Test-Path -LiteralPath $zylTextPath) {
     $zylText = Load-XmlDocument $zylTextPath
+	foreach ($startupGateLanguage in @('en_US', 'zh_Hans_CN')) {
+		foreach ($startupGateTag in @(
+			'LOC_ZYL_STARTUP_GATE_TITLE',
+			'LOC_ZYL_STARTUP_GATE_WAITING',
+			'LOC_ZYL_STARTUP_GATE_CLIENT_LOADING',
+			'LOC_ZYL_STARTUP_GATE_CLIENT_READY',
+			'LOC_ZYL_STARTUP_GATE_READY',
+			'LOC_ZYL_STARTUP_GATE_LOADING',
+			'LOC_ZYL_STARTUP_GATE_DISCONNECTED'
+		)) {
+			if ($null -eq $zylText.SelectSingleNode("/GameData/LocalizedText/Row[@Tag='$startupGateTag' and @Language='$startupGateLanguage']/Text")) {
+				Add-ValidationError "Startup synchronization text is missing $startupGateTag for $startupGateLanguage."
+			}
+		}
+	}
     foreach ($language in @('en_US', 'zh_Hans_CN', 'zh_Hant_HK')) {
         $settlerText = $zylText.SelectSingleNode("/GameData/LocalizedText/Replace[@Tag='LOC_UNIT_SETTLER_DESCRIPTION' and @Language='$language']/Text")
         if ($null -eq $settlerText -or -not $settlerText.InnerText.Contains('+1 [ICON_Movement]')) {

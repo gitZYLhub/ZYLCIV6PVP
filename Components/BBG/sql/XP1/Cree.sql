@@ -1,9 +1,11 @@
 -- Created by iElden
 
--- 03/09/26 Poundmaker: outgoing Trade Routes grant +0.5 Food per
--- destination Camp/Pasture instead of +1.  Incoming-route Gold remains +1.
+-- 05/09/26 Poundmaker: restore +1 Food per destination Camp/Pasture.
+-- Incoming-route Gold remains +1.  This native player-level trade-route
+-- effect counts all matching improvements in the target city; modifier stack
+-- limits do not cap that internal count.
 UPDATE ModifierArguments
-SET Value = 0.5
+SET Value = 1
 WHERE ModifierId IN ('TRAIT_TRADE_FOOD_FROM_CAMPS', 'TRAIT_TRADE_FOOD_FROM_PASTURES')
   AND Name = 'Amount';
 

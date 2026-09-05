@@ -360,7 +360,7 @@
 			<Text>解锁“制陶术”科技后+1 [ICON_TradeRoute] 贸易路线容量。商人首次进入克里城市3个单元格内的无主单元格后，这些单元格将划入克里领土中。[NEWLINE][NEWLINE][ICON_BULLET]出生地关联：T4牧场资源、T4鹿。</Text>
 		</Replace>
 		<Replace Tag="LOC_LEADER_POUNDMAKER_ABILITY_DESCRIPTION" Language="zh_Hans_CN">
-			<Text>所有同盟类型均提供共享视野。[NEWLINE]您派出的 [ICON_TRADEROUTE] 贸易路线目的地每有一座营地或牧场，便为庞德梅克提供+0.5 [ICON_FOOD] 食物。发往您城市的 [ICON_TRADEROUTE] 贸易路线目的地每有一座营地或牧场，便为庞德梅克提供+1 [ICON_GOLD] 金币。</Text>
+			<Text>所有同盟类型均提供共享视野。[NEWLINE]您派出的 [ICON_TRADEROUTE] 贸易路线目的地每有一座营地或牧场，便为庞德梅克提供+1 [ICON_FOOD] 食物。发往您城市的 [ICON_TRADEROUTE] 贸易路线目的地每有一座营地或牧场，便为庞德梅克提供+1 [ICON_GOLD] 金币。</Text>
 		</Replace>
 		<!-- = unique unit = -->
 		<Replace Tag="LOC_UNIT_CREE_OKIHTCITAW_DESCRIPTION" Language="zh_Hans_CN">

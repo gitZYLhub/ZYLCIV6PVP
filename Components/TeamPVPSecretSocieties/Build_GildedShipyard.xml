@@ -19,6 +19,11 @@
 		<Row BuildingType="BUILDING_GILDED_Shipyard" YieldType="YIELD_FOOD" YieldChange="1"/>
 		<Row BuildingType="BUILDING_GILDED_Shipyard" YieldType="YIELD_PRODUCTION" YieldChange="1"/>
 	</Building_YieldChanges>
+	<!-- Use the same native adjacency-copy table as the regular Shipyard.  This
+	     copies the Harbor's current Gold adjacency, including policy modifiers. -->
+	<Building_YieldDistrictCopies>
+		<Row BuildingType="BUILDING_GILDED_Shipyard" OldYieldType="YIELD_GOLD" NewYieldType="YIELD_PRODUCTION"/>
+	</Building_YieldDistrictCopies>
 	<BuildingConditions>
 		<Row BuildingType="BUILDING_GILDED_Shipyard" UnlocksFromEffect="true"/>
 	</BuildingConditions>

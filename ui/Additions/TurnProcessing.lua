@@ -21,18 +21,311 @@ local g_playertime = {}
 local b_settimer = false
 local b_setprocess = false
 local b_teamer = false
-local MAX_TIME_EXTENSIONS_PER_TURN = 3
+local MAX_TIME_EXTENSIONS_PER_TURN = 6
 local g_timeCommandUses = 0
 local g_reduceCommandUsed = false
 local g_temporaryNoTimer = false
 local g_turnTimer = { ElapsedTime = 0, MaxTurnTime = 0, TimeRemaining = 0 }
 local g_lastWarningSecond = -1
 local g_tickRegistered = false
+local STARTUP_READY_COMMAND_PREFIX = ".mph_ui_startup_ready_"
+local STARTUP_RELEASE_COMMAND_PREFIX = ".mph_ui_startup_release_"
+local g_startupGateActive = false
+local g_startupPauseOwned = false
+local g_startupExpectedPlayers = {}
+local g_startupReadyPlayers = {}
+local g_startupGateTurn = nil
+local g_startupLocalReady = false
+local g_startupLastReadySend = 0
+local g_startupLastUiUpdate = 0
+local g_startupLoadScreenClosed = false
+local g_startupViewStateReady = false
+local SetTicking
 
 local function IsHost()
 	local localID = Network.GetLocalPlayerID()
 	local hostID = Network.GetGameHostPlayerID()
 	return localID ~= nil and hostID ~= nil and localID >= 0 and localID == hostID
+end
+
+local function IsStartupGateTurn()
+	if GameConfiguration.IsNetworkMultiplayer() ~= true then
+		return false
+	end
+	if GameConfiguration.IsPlayByCloud ~= nil and GameConfiguration.IsPlayByCloud() then
+		return false
+	end
+	local currentTurn = Game.GetCurrentGameTurn()
+	local startTurn = GameConfiguration.GetStartTurn()
+	if currentTurn == nil or startTurn == nil then
+		return false
+	end
+	return currentTurn == startTurn or currentTurn == startTurn + 1
+end
+
+local function IsStartupParticipantSlot(playerID)
+	local playerConfig = PlayerConfigurations[playerID]
+	if playerConfig == nil or playerConfig:GetLeaderTypeName() == "LEADER_SPECTATOR" then
+		return false
+	end
+	local slotStatus = playerConfig:GetSlotStatus()
+	local takenStatus = (SlotStatus ~= nil and SlotStatus.SS_TAKEN) or 3
+	return slotStatus == takenStatus
+end
+
+local function BuildStartupPlayerSet()
+	local expected = {}
+	local aliveMajorIDs = PlayerManager.GetAliveMajorIDs() or {}
+	for _, playerID in ipairs(aliveMajorIDs) do
+		if IsStartupParticipantSlot(playerID) then
+			expected[playerID] = true
+		end
+	end
+	local playerIDs = GameConfiguration.GetMultiplayerPlayerIDs() or {}
+	for _, playerID in ipairs(playerIDs) do
+		if IsStartupParticipantSlot(playerID) then
+			expected[playerID] = true
+		end
+	end
+	local localID = Network.GetLocalPlayerID()
+	if localID ~= nil and IsStartupParticipantSlot(localID) then
+		expected[localID] = true
+	end
+	return expected
+end
+
+local function SetLocalStartupPause(wantsPause)
+	if not IsHost() then
+		return
+	end
+	local localID = Network.GetLocalPlayerID()
+	local playerConfig = localID ~= nil and PlayerConfigurations[localID] or nil
+	if playerConfig == nil then
+		return
+	end
+	if wantsPause then
+		if playerConfig:GetWantsPause() ~= true then
+			playerConfig:SetWantsPause(true)
+			Network.BroadcastPlayerInfo()
+		end
+		g_startupPauseOwned = true
+	elseif g_startupPauseOwned and playerConfig:GetWantsPause() == true then
+		playerConfig:SetWantsPause(false)
+		Network.BroadcastPlayerInfo()
+		g_startupPauseOwned = false
+	end
+end
+
+local function AllStartupPlayersReady()
+	local localID = Network.GetLocalPlayerID()
+	for playerID in pairs(g_startupExpectedPlayers) do
+		if g_startupReadyPlayers[playerID] ~= true
+			or (playerID ~= localID and Network.IsPlayerConnected(playerID) ~= true) then
+			return false
+		end
+	end
+	return true
+end
+
+local function RefreshStartupGateStatus()
+	if not g_startupGateActive then
+		return
+	end
+	Controls.Processing_Text:SetText(Locale.Lookup("LOC_ZYL_STARTUP_GATE_TITLE"))
+	Controls.Processing_Text_Number:SetText(Locale.Lookup("LOC_ZYL_STARTUP_GATE_WAITING"))
+	if not IsHost() then
+		local clientStatus = g_startupLocalReady and "LOC_ZYL_STARTUP_GATE_CLIENT_READY" or "LOC_ZYL_STARTUP_GATE_CLIENT_LOADING"
+		Controls.Player_Status:SetText(Locale.Lookup(clientStatus))
+		return
+	end
+	local statusLines = ""
+	for playerID in pairs(g_startupExpectedPlayers) do
+		local playerConfig = PlayerConfigurations[playerID]
+		local playerName = playerConfig ~= nil and Locale.Lookup(playerConfig:GetPlayerName()) or ("Player #" .. tostring(playerID))
+		local isConnected = playerID == Network.GetLocalPlayerID() or Network.IsPlayerConnected(playerID) == true
+		if not isConnected then
+			statusLines = statusLines .. playerName .. " - [COLOR_Civ6Red]" .. Locale.Lookup("LOC_ZYL_STARTUP_GATE_DISCONNECTED") .. "[ENDCOLOR][NEWLINE]"
+		elseif g_startupReadyPlayers[playerID] == true then
+			statusLines = statusLines .. playerName .. " - [COLOR_Civ6Green]" .. Locale.Lookup("LOC_ZYL_STARTUP_GATE_READY") .. "[ENDCOLOR][NEWLINE]"
+		else
+			statusLines = statusLines .. playerName .. " - [COLOR_Civ6Red]" .. Locale.Lookup("LOC_ZYL_STARTUP_GATE_LOADING") .. "[ENDCOLOR][NEWLINE]"
+		end
+	end
+	Controls.Player_Status:SetText(statusLines)
+end
+
+local function ReleaseStartupGate(reason)
+	if not g_startupGateActive or not IsHost() then
+		return
+	end
+	g_startupGateActive = false
+	SetLocalStartupPause(false)
+	GameConfiguration.SetValue("ZYL_STARTUP_GATE_RELEASED", 1)
+	Network.BroadcastGameConfig()
+	Network.SendChat(STARTUP_RELEASE_COMMAND_PREFIX .. tostring(g_startupGateTurn or ""), -2, -1)
+	print("ZYLPVPMOD startup map gate released:", tostring(reason))
+	g_startupExpectedPlayers = {}
+	g_startupReadyPlayers = {}
+	g_startupGateTurn = nil
+	g_startupLocalReady = false
+	g_startupLastReadySend = 0
+	g_startupLastUiUpdate = 0
+	g_startupLoadScreenClosed = false
+	g_startupViewStateReady = false
+	ContextPtr:ClearUpdate()
+	SetTicking(false)
+	Close()
+end
+
+local function EvaluateStartupGate()
+	if not g_startupGateActive or not IsHost() then
+		return
+	end
+	if AllStartupPlayersReady() then
+		ReleaseStartupGate("all playable players finished loading")
+	end
+end
+
+local function UpdateStartupGate()
+	if not g_startupGateActive then
+		ContextPtr:ClearUpdate()
+		return
+	end
+	local now = os.time()
+	if now == g_startupLastUiUpdate then
+		return
+	end
+	g_startupLastUiUpdate = now
+	if IsHost() then
+		for playerID in pairs(BuildStartupPlayerSet()) do
+			g_startupExpectedPlayers[playerID] = true
+		end
+		SetLocalStartupPause(true)
+		EvaluateStartupGate()
+	elseif g_startupLocalReady and now - g_startupLastReadySend >= 5 then
+		g_startupLastReadySend = now
+		Network.SendChat(STARTUP_READY_COMMAND_PREFIX .. tostring(g_startupGateTurn), -2, Network.GetGameHostPlayerID())
+	end
+	RefreshStartupGateStatus()
+end
+
+local function BeginStartupGate()
+	local released = GameConfiguration.GetValue("ZYL_STARTUP_GATE_RELEASED")
+	if not IsStartupGateTurn() or g_startupGateActive
+		or released == true or released == 1 then
+		return
+	end
+	g_startupGateActive = true
+	g_startupGateTurn = GameConfiguration.GetStartTurn()
+	g_startupExpectedPlayers = IsHost() and BuildStartupPlayerSet() or {}
+	g_startupReadyPlayers = {}
+	if IsHost() then
+		GameConfiguration.SetValue("ZYL_STARTUP_GATE_RELEASED", 0)
+		Network.BroadcastGameConfig()
+		SetLocalStartupPause(true)
+	end
+	ContextPtr:SetUpdate(UpdateStartupGate)
+	OnOpen()
+	RefreshStartupGateStatus()
+	if IsHost() then
+		print("ZYLPVPMOD startup map gate active; waiting for all playable players")
+	end
+end
+
+local function MarkLocalStartupReady()
+	if not IsStartupGateTurn() or not g_startupLoadScreenClosed or not g_startupViewStateReady
+		or g_startupLocalReady then
+		return
+	end
+	BeginStartupGate()
+	local localID = Network.GetLocalPlayerID()
+	if localID == nil then
+		return
+	end
+	if IsHost() then
+		for playerID in pairs(BuildStartupPlayerSet()) do
+			g_startupExpectedPlayers[playerID] = true
+		end
+		SetLocalStartupPause(true)
+		g_startupLocalReady = true
+		if g_startupExpectedPlayers[localID] then
+			g_startupReadyPlayers[localID] = true
+			RefreshStartupGateStatus()
+			EvaluateStartupGate()
+		end
+	else
+		g_startupLocalReady = true
+		g_startupLastReadySend = os.time()
+		RefreshStartupGateStatus()
+		Network.SendChat(STARTUP_READY_COMMAND_PREFIX .. tostring(g_startupGateTurn), -2, Network.GetGameHostPlayerID())
+	end
+end
+
+local function HandleStartupChat(fromPlayer, text)
+	local readyTurn = string.match(text, "^%.mph_ui_startup_ready_(%-?%d+)$")
+	if readyTurn ~= nil then
+		if IsHost() and g_startupGateActive and tonumber(readyTurn) == tonumber(g_startupGateTurn)
+			and IsStartupParticipantSlot(fromPlayer) then
+			g_startupExpectedPlayers[fromPlayer] = true
+			g_startupReadyPlayers[fromPlayer] = true
+			RefreshStartupGateStatus()
+			EvaluateStartupGate()
+		end
+		return true
+	end
+	local releaseTurn = string.match(text, "^%.mph_ui_startup_release_(%-?%d+)$")
+	if releaseTurn ~= nil then
+		if not IsHost() and fromPlayer == Network.GetGameHostPlayerID()
+			and tonumber(releaseTurn) == tonumber(g_startupGateTurn) then
+			g_startupGateActive = false
+			g_startupGateTurn = nil
+			g_startupLocalReady = false
+			g_startupLastReadySend = 0
+			g_startupLastUiUpdate = 0
+			g_startupLoadScreenClosed = false
+			g_startupViewStateReady = false
+			ContextPtr:ClearUpdate()
+			SetTicking(false)
+			Close()
+			print("ZYLPVPMOD startup map gate released by host")
+		end
+		return true
+	end
+	return false
+end
+
+local function OnStartupPlayerDisconnected(playerID)
+	if not IsHost() or not g_startupGateActive then
+		return
+	end
+	-- A dropped player is no longer considered ready. The startup gate remains
+	-- closed until they reconnect and finish loading, or the host converts or
+	-- closes their slot through the normal drop-handling flow.
+	g_startupReadyPlayers[playerID] = nil
+	RefreshStartupGateStatus()
+end
+
+local function OnStartupPlayerConnected(playerID)
+	if not IsHost() or not g_startupGateActive or not IsStartupParticipantSlot(playerID) then
+		return
+	end
+	g_startupExpectedPlayers[playerID] = true
+	g_startupReadyPlayers[playerID] = nil
+	RefreshStartupGateStatus()
+end
+
+local function ReconcileStartupPlayerSet()
+	if not IsHost() or not g_startupGateActive then
+		return
+	end
+	for playerID in pairs(g_startupExpectedPlayers) do
+		if not IsStartupParticipantSlot(playerID) then
+			g_startupExpectedPlayers[playerID] = nil
+			g_startupReadyPlayers[playerID] = nil
+		end
+	end
+	RefreshStartupGateStatus()
+	EvaluateStartupGate()
 end
 
 local function CommandsEnabled()
@@ -57,7 +350,7 @@ local function ApplyHostTimer(timeValue, timerType, playSound)
 	return true
 end
 
-local function SetTicking(enabled)
+SetTicking = function(enabled)
 	if enabled and not g_tickRegistered then
 		Events.GameCoreEventPublishComplete.Add(OnTick)
 		g_tickRegistered = true
@@ -70,7 +363,13 @@ end
 -- TPT p+/p++ convenience commands are handled here so the suite has exactly
 -- one timer owner. Commands are public-chat only and authoritative on the host.
 function OnMultiplayerChat(fromPlayer, toPlayer, text, eTargetType)
-	if not IsHost() or not CommandsEnabled() or toPlayer ~= -1 or type(text) ~= "string" then
+	if type(text) ~= "string" then
+		return
+	end
+	if HandleStartupChat(fromPlayer, text) then
+		return
+	end
+	if not IsHost() or not CommandsEnabled() or toPlayer ~= -1 then
 		return
 	end
 
@@ -200,6 +499,7 @@ function SmartTimer()
 	-- 6: Phyphy
 	-- 7: 2vi2 (Flashy)
 	-- 8: Casual Balanced (highest individual load)
+	-- 9: Casual Relaxed (turn + 70 + 4C + 2U + delta)
 	if GameConfiguration.GetValue("CPL_SMARTTIMER") == 1 then
 		return
 	end
@@ -363,6 +663,23 @@ function SmartTimer()
 		end
 	end
 
+	if GameConfiguration.GetValue("CPL_SMARTTIMER") == 9 then
+		-- C and U are the highest city and unit counts held by any one human.
+		-- Delta retains Casual's phase allowances; the host's manual time shift
+		-- remains part of that adjustment as it is for the other smart timers.
+		local delta = g_timeshift
+		if currentTurn > -1 and currentTurn < 10 then
+			delta = delta - 25
+		end
+		if currentTurn > 44 then
+			delta = delta + 40
+		end
+		if currentTurn > 89 then
+			delta = delta + 20
+		end
+		timer = currentTurn + 70 + max_cities * 4 + max_units * 2 + delta
+	end
+
 
 	if GameConfiguration.GetValue("CPL_SMARTTIMER") == 4 then
 
@@ -444,8 +761,18 @@ end
 --	NEW EVENTS
 -- ===========================================================================
 function OnLoadScreenClose()
+	BeginStartupGate()
 	Refresh_Data()	
 	SmartTimer()
+	g_startupLoadScreenClosed = true
+	MarkLocalStartupReady()
+end
+
+function OnLoadGameViewStateDone()
+	BeginStartupGate()
+	g_startupViewStateReady = true
+	-- Require both the base UI's completed map view and a closed load screen.
+	MarkLocalStartupReady()
 end
 
 
@@ -544,6 +871,10 @@ end
 -----------------------------------------------------------------------------------------------
 
 function OnTick()
+	if g_startupGateActive then
+		UpdateStartupGate()
+		return
+	end
 	if GameConfiguration.IsNetworkMultiplayer() ~= true or GameConfiguration.GetValue("CPL_SYNCTURN") ~= true or GameConfiguration.GetValue("CPL_SMARTTIMER") == 1  then
 		if b_setprocess then
 			LuaEvents.InGame_CloseTurnProcessing()
@@ -604,7 +935,9 @@ end
 function KeyHandler( key:number )
 	local bHandled:boolean = false;
 	if key == Keys.U then
-		if (not ContextPtr:IsHidden() ) then
+		if g_startupGateActive then
+			return true
+		elseif (not ContextPtr:IsHidden() ) then
 			Close();
 		end
 		bHandled = true;
@@ -669,6 +1002,9 @@ end
 
 -- ===========================================================================
 function Close()
+	if g_startupGateActive then
+		return
+	end
 	if(m_isClosing) then
 		print("Menu is already closing.");
 		return;
@@ -736,6 +1072,10 @@ function OnShutdown()
 	Events.TurnTimerUpdated.Remove(OnTurnTimerUpdated)
 		
 	Events.LoadScreenClose.Remove(OnLoadScreenClose);
+	Events.LoadGameViewStateDone.Remove(OnLoadGameViewStateDone);
+	Events.MultiplayerPlayerConnected.Remove(OnStartupPlayerConnected);
+	Events.MultiplayerPostPlayerDisconnected.Remove(OnStartupPlayerDisconnected);
+	Events.PlayerInfoChanged.Remove(ReconcileStartupPlayerSet);
 	
 end
 
@@ -763,5 +1103,9 @@ function Initialize()
 	Events.TurnTimerUpdated.Add(OnTurnTimerUpdated)
 		
 	Events.LoadScreenClose.Add(OnLoadScreenClose);
+	Events.LoadGameViewStateDone.Add(OnLoadGameViewStateDone);
+	Events.MultiplayerPlayerConnected.Add(OnStartupPlayerConnected);
+	Events.MultiplayerPostPlayerDisconnected.Add(OnStartupPlayerDisconnected);
+	Events.PlayerInfoChanged.Add(ReconcileStartupPlayerSet);
 end
 Initialize();

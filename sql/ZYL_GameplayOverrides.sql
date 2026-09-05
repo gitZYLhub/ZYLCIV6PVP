@@ -142,14 +142,14 @@ UPDATE GlobalParameters
 SET Value = '-25'
 WHERE Name = 'TECH_COST_PERCENT_CHANGE_BEFORE_GAME_ERA';
 
--- Restore Celestial Navigation's Sailing + Astrology prerequisite pair while
--- keeping this mod's embarkation unlock for every land unit.
+-- Make Celestial Navigation directly available after Sailing while keeping
+-- this mod's embarkation unlock for every land unit.  Delete all upstream
+-- prerequisites first so Astrology cannot be reintroduced by BBG/BBM layers.
 DELETE FROM TechnologyPrereqs
 WHERE Technology = 'TECH_CELESTIAL_NAVIGATION';
 
 INSERT OR IGNORE INTO TechnologyPrereqs (Technology, PrereqTech) VALUES
-	('TECH_CELESTIAL_NAVIGATION', 'TECH_SAILING'),
-	('TECH_CELESTIAL_NAVIGATION', 'TECH_ASTROLOGY');
+	('TECH_CELESTIAL_NAVIGATION', 'TECH_SAILING');
 
 UPDATE Technologies
 SET EmbarkAll = 1,
@@ -530,14 +530,14 @@ INSERT OR REPLACE INTO ModifierArguments (ModifierId, Name, Value) VALUES
 INSERT OR IGNORE INTO TraitModifiers (TraitType, ModifierId) VALUES
 	('TRAIT_CIVILIZATION_KHMER_BARAYS', 'ZYL_KHMER_HOLY_SITE_RIVER_FAITH');
 
--------------------------------------------------------------------------------
--- Poundmaker: reduce outgoing Camp/Pasture Food
+-- Poundmaker: restore outgoing Camp/Pasture Food to +1 per improvement
 -------------------------------------------------------------------------------
 
 -- The two Food modifiers use Origin=true; the separate Destination=true Gold
--- modifiers intentionally remain at +1.
+-- modifiers intentionally remain at +1.  The native effect counts all matching
+-- improvements in the target city and has no reliable per-type count cap.
 UPDATE ModifierArguments
-SET Value = 0.5
+SET Value = 1
 WHERE ModifierId IN (
 	'TRAIT_TRADE_FOOD_FROM_CAMPS',
 	'TRAIT_TRADE_FOOD_FROM_PASTURES'

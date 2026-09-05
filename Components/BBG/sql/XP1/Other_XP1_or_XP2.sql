@@ -359,5 +359,6 @@ UPDATE Districts SET Cost=30 WHERE DistrictType IN ('DISTRICT_IKANDA', 'DISTRICT
 --=======================================================================
 --******                          AGES                             ******
 --=======================================================================
--- 29/03/25 Dark age threshold increased by 3 era score (don't really get how it works but it works)
-UPDATE GlobalParameters SET Value=18 WHERE Name='DARK_AGE_SCORE_BASE_THRESHOLD';
+-- Era thresholds: make the Dark/Normal boundary 20 and the Golden boundary 25.
+UPDATE GlobalParameters SET Value=20 WHERE Name='DARK_AGE_SCORE_BASE_THRESHOLD';
+UPDATE GlobalParameters SET Value=25 WHERE Name='GOLDEN_AGE_SCORE_BASE_THRESHOLD';

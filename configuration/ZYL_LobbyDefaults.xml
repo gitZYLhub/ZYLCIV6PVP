@@ -8,7 +8,8 @@
 	<Parameters>
 		<Update><Where ParameterId="TOOLS_COMMAND"/><Set DefaultValue="1"/></Update>
 		<Update><Where ParameterId="TOOLS_15_TIME"/><Set DefaultValue="1"/></Update>
-		<Update><Where ParameterId="CPL_SMARTTIMER"/><Set DefaultValue="8"/></Update>
+		<Update><Where ParameterId="CPL_SMARTTIMER"/><Set DefaultValue="9"/></Update>
+		<Update><Where ParameterId="ZYL_STARTUP_GATE_RELEASED"/><Set DefaultValue="0"/></Update>
 		<Update><Where ParameterId="ZYL_ERA_LENGTH_OPTIMIZATION"/><Set DefaultValue="1"/></Update>
 		<Update><Where ParameterId="ZYL_DIPLOMACY_RIBBON_MODE"/><Set DefaultValue="0"/></Update>
 		<Update><Where ParameterId="BBCC_SETTING"/><Set DefaultValue="0"/></Update>

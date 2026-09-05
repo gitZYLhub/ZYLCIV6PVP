@@ -23,7 +23,7 @@
 			<Text>下个回合开始时强制结束回合</Text>
 		</Replace>
 		<Replace Tag="LOC_TURNTIME_ADD_BUTTON" Language="zh_Hans_CN">
-			<Text>本回合每次加时20秒，每回合最多3次；剩余时间不足8秒时每次加时24秒。[NEWLINE][NEWLINE]输入 p+++ 可暂时取消回合计时。</Text>
+			<Text>本回合每次加时20秒，每回合最多6次；剩余时间不足8秒时每次加时24秒。[NEWLINE][NEWLINE]输入 p+++ 可暂时取消回合计时。</Text>
 		</Replace>
 		<Replace Tag="LOC_TURNTIME_REDUCE_BUTTON" Language="zh_Hans_CN">
 			<Text>本回合减时10秒，最低40秒，每回合限一次。</Text>

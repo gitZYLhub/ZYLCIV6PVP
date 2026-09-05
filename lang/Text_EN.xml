@@ -275,6 +275,12 @@
         <Replace Tag="TIMER_CASUAL_BALANCED_DESC" language="en_US">
             <Text>Uses Casual timing, but calculates load directly from the highest city and unit counts among human players. Adds 40 seconds from turn 45 and another 20 seconds from turn 90 (60 seconds total).</Text>
         </Replace>
+        <Replace Tag="TIMER_CASUAL_RELAXED_NAME" language="en_US">
+            <Text>Casual (Relaxed)</Text>
+        </Replace>
+        <Replace Tag="TIMER_CASUAL_RELAXED_DESC" language="en_US">
+            <Text>Turn time = current turn + 70 + 4×highest human city count + 2×highest human unit count + Δ. Δ keeps Casual's phase adjustments: −25 seconds on turns 1–9, +40 from turn 45, and another +20 from turn 90, plus the host's manual time adjustment.</Text>
+        </Replace>
         <Replace Tag="TIMER_PHYPHY_NAME" language="en_US">
             <Text>Blitz</Text>
         </Replace>

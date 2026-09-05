@@ -408,7 +408,7 @@
 		</Replace>
 		<!-- = leader ability = -->
 		<Replace Tag="LOC_LEADER_POUNDMAKER_ABILITY_DESCRIPTION" Language="en_US">
-			<Text>All Alliance types provide Shared Visibility.[NEWLINE]Your outgoing [ICON_TRADEROUTE] Trade Routes grant +0.5 [ICON_FOOD] Food to Poundmaker per Camp or Pasture at the destination. [ICON_TRADEROUTE] Trade Routes sent to your cities grant +1 [ICON_GOLD] Gold to Poundmaker per Camp or Pasture at the destination.</Text>
+			<Text>All Alliance types provide Shared Visibility.[NEWLINE]Your outgoing [ICON_TRADEROUTE] Trade Routes grant +1 [ICON_FOOD] Food to Poundmaker per Camp or Pasture at the destination. [ICON_TRADEROUTE] Trade Routes sent to your cities grant +1 [ICON_GOLD] Gold to Poundmaker per Camp or Pasture at the destination.</Text>
 		</Replace>
 		<!-- = unique unit = -->
 		<Replace Tag="LOC_UNIT_CREE_OKIHTCITAW_DESCRIPTION" Language="en_US">

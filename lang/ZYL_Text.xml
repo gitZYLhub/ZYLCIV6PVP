@@ -6,7 +6,7 @@
 		<Row Tag="LOC_ZYL_TOOLS_15_TIME_NAME" Language="zh_Hans_CN"><Text>[COLOR:ResGoldLabelCS]15 秒计时提醒[ENDCOLOR]</Text></Row>
 		<Row Tag="LOC_ZYL_TOOLS_15_TIME_DESC" Language="zh_Hans_CN"><Text>在剩余 15 至 8 秒时播放逐秒提示音。</Text></Row>
 		<Row Tag="LOC_ZYL_ERA_LENGTH_OPTIMIZATION_NAME" Language="zh_Hans_CN"><Text>时代长度优化</Text></Row>
-		<Row Tag="LOC_ZYL_ERA_LENGTH_OPTIMIZATION_DESC" Language="zh_Hans_CN"><Text>调整世界时代持续时间：标准速度下，远古时代固定为54回合，古典和中世纪时代固定为50回合；联机速度下，远古时代固定为27回合，古典和中世纪时代固定为25回合。其他时代保持原版。默认开启。</Text></Row>
+		<Row Tag="LOC_ZYL_ERA_LENGTH_OPTIMIZATION_DESC" Language="zh_Hans_CN"><Text>固定世界时代持续时间：标准速度下依次为远古50、古典46、中世纪46、文艺复兴42、工业42、现代40、原子能40、信息40回合；联机速度下依次为25、23、23、21、21、20、20、20回合。未来时代为最终时代，不参与常规时代结算。默认开启。</Text></Row>
 		<Row Tag="LOC_ZYL_DIPLOMACY_RIBBON_MODE_NAME" Language="zh_Hans_CN"><Text>外交栏情报模式</Text></Row>
 		<Row Tag="LOC_ZYL_DIPLOMACY_RIBBON_MODE_DESC" Language="zh_Hans_CN"><Text>设置右上角外交栏采用个人或团队外交能见度。科技值、文化值以及积存金币和信仰始终可见；有限、公开、秘密和绝密能见度依次解锁军力、粮食与生产力、每回合金币与信仰、当前研究的科技与市政。未解锁的情报显示为问号，未接触的玩家仍保持匿名。</Text></Row>
 		<Row Tag="LOC_ZYL_DIPLOMACY_RIBBON_MODE_FFA_NAME" Language="zh_Hans_CN"><Text>FFA 模式</Text></Row>
@@ -24,8 +24,15 @@
 		<Row Tag="LOC_DPR_GOLD_PERTURN" Language="zh_Hans_CN"><Text>每回合金币</Text></Row>
 		<Row Tag="LOC_DPR_FAITH_PERTURN" Language="zh_Hans_CN"><Text>每回合信仰</Text></Row>
 		<Row Tag="LOC_DPR_FAVOR_PERTURN" Language="zh_Hans_CN"><Text>每回合外交支持</Text></Row>
-		<Row Tag="LOC_ZYL_QUICK_ADD_TT" Language="zh_Hans_CN"><Text>公共聊天发送 p++：本回合每次加时 20 秒，每回合最多 3 次；不足 8 秒时每次加时 24 秒。</Text></Row>
+		<Row Tag="LOC_ZYL_QUICK_ADD_TT" Language="zh_Hans_CN"><Text>公共聊天发送 p++：本回合每次加时 20 秒，每回合最多 6 次；不足 8 秒时每次加时 24 秒。</Text></Row>
 		<Row Tag="LOC_ZYL_QUICK_REDUCE_TT" Language="zh_Hans_CN"><Text>公共聊天发送 p--：本回合减时 10 秒，最低 40 秒，每回合限一次。</Text></Row>
+		<Row Tag="LOC_ZYL_STARTUP_GATE_TITLE" Language="zh_Hans_CN"><Text>正在等待所有玩家进入地图</Text></Row>
+		<Row Tag="LOC_ZYL_STARTUP_GATE_WAITING" Language="zh_Hans_CN"><Text>开局同步屏障</Text></Row>
+		<Row Tag="LOC_ZYL_STARTUP_GATE_CLIENT_LOADING" Language="zh_Hans_CN"><Text>正在完成本机地图载入……</Text></Row>
+		<Row Tag="LOC_ZYL_STARTUP_GATE_CLIENT_READY" Language="zh_Hans_CN"><Text>本机已完全进入地图，正在等待其他玩家。</Text></Row>
+		<Row Tag="LOC_ZYL_STARTUP_GATE_READY" Language="zh_Hans_CN"><Text>已进入地图</Text></Row>
+		<Row Tag="LOC_ZYL_STARTUP_GATE_LOADING" Language="zh_Hans_CN"><Text>正在载入地图</Text></Row>
+		<Row Tag="LOC_ZYL_STARTUP_GATE_DISCONNECTED" Language="zh_Hans_CN"><Text>已断开，等待重连或房主处理槽位</Text></Row>
 		<Row Tag="LOC_ZYL_RANDOM_TEAMS" Language="zh_Hans_CN"><Text>随机分队</Text></Row>
 		<Row Tag="LOC_ZYL_RANDOM_TEAMS_TT" Language="zh_Hans_CN"><Text>房主将已连接的真人参赛者随机且均衡地分入两队；排除 AI、观察者和空槽。</Text></Row>
 		<Row Tag="LOC_ZYL_TOGGLE_SLOTS" Language="zh_Hans_CN"><Text>空位开关</Text></Row>
@@ -37,7 +44,7 @@
 		<Row Tag="LOC_ZYL_TOOLS_15_TIME_NAME" Language="en_US"><Text>[COLOR:ResGoldLabelCS]15-second warning[ENDCOLOR]</Text></Row>
 		<Row Tag="LOC_ZYL_TOOLS_15_TIME_DESC" Language="en_US"><Text>Plays a countdown sound from 15 through 8 seconds remaining.</Text></Row>
 		<Row Tag="LOC_ZYL_ERA_LENGTH_OPTIMIZATION_NAME" Language="en_US"><Text>Era Length Optimization</Text></Row>
-		<Row Tag="LOC_ZYL_ERA_LENGTH_OPTIMIZATION_DESC" Language="en_US"><Text>Sets fixed World Era durations: at Standard speed, Ancient lasts 54 turns and Classical and Medieval last 50; at Online speed, Ancient lasts 27 turns and Classical and Medieval last 25. Other eras retain their default ranges. Enabled by default.</Text></Row>
+		<Row Tag="LOC_ZYL_ERA_LENGTH_OPTIMIZATION_DESC" Language="en_US"><Text>Sets fixed World Era durations: at Standard speed, Ancient, Classical, Medieval, Renaissance, Industrial, Modern, Atomic, and Information last 50, 46, 46, 42, 42, 40, 40, and 40 turns; at Online speed they last 25, 23, 23, 21, 21, 20, 20, and 20 turns. The Future Era is the terminal era and is not part of the regular era schedule. Enabled by default.</Text></Row>
 		<Row Tag="LOC_ZYL_DIPLOMACY_RIBBON_MODE_NAME" Language="en_US"><Text>Diplomacy Ribbon Intelligence</Text></Row>
 		<Row Tag="LOC_ZYL_DIPLOMACY_RIBBON_MODE_DESC" Language="en_US"><Text>Sets whether the top-right diplomacy ribbon uses individual or team Diplomatic Visibility. Science and Culture yields and stored Gold and Faith are always visible; Limited, Open, Secret, and Top Secret visibility successively reveal Military Strength, Food and Production, Gold and Faith per turn, and current Technology and Civic research. Locked intelligence is shown as a question mark, while unmet players remain anonymous.</Text></Row>
 		<Row Tag="LOC_ZYL_DIPLOMACY_RIBBON_MODE_FFA_NAME" Language="en_US"><Text>FFA Mode</Text></Row>
@@ -55,8 +62,15 @@
 		<Row Tag="LOC_DPR_GOLD_PERTURN" Language="en_US"><Text>Gold per Turn</Text></Row>
 		<Row Tag="LOC_DPR_FAITH_PERTURN" Language="en_US"><Text>Faith per Turn</Text></Row>
 		<Row Tag="LOC_DPR_FAVOR_PERTURN" Language="en_US"><Text>Diplomatic Favor per Turn</Text></Row>
-		<Row Tag="LOC_ZYL_QUICK_ADD_TT" Language="en_US"><Text>Send p++ publicly: add 20 seconds per use, up to 3 uses per turn; each use adds 24 seconds below 8 seconds.</Text></Row>
+		<Row Tag="LOC_ZYL_QUICK_ADD_TT" Language="en_US"><Text>Send p++ publicly: add 20 seconds per use, up to 6 uses per turn; each use adds 24 seconds below 8 seconds.</Text></Row>
 		<Row Tag="LOC_ZYL_QUICK_REDUCE_TT" Language="en_US"><Text>Send p-- publicly: subtract 10 seconds once per turn, with a 40-second floor.</Text></Row>
+		<Row Tag="LOC_ZYL_STARTUP_GATE_TITLE" Language="en_US"><Text>Waiting for all players to enter the map</Text></Row>
+		<Row Tag="LOC_ZYL_STARTUP_GATE_WAITING" Language="en_US"><Text>Startup synchronization barrier</Text></Row>
+		<Row Tag="LOC_ZYL_STARTUP_GATE_CLIENT_LOADING" Language="en_US"><Text>Finishing local map loading...</Text></Row>
+		<Row Tag="LOC_ZYL_STARTUP_GATE_CLIENT_READY" Language="en_US"><Text>This client has entered the map and is waiting for the other players.</Text></Row>
+		<Row Tag="LOC_ZYL_STARTUP_GATE_READY" Language="en_US"><Text>Entered map</Text></Row>
+		<Row Tag="LOC_ZYL_STARTUP_GATE_LOADING" Language="en_US"><Text>Loading map</Text></Row>
+		<Row Tag="LOC_ZYL_STARTUP_GATE_DISCONNECTED" Language="en_US"><Text>Disconnected; waiting for reconnection or host slot handling</Text></Row>
 		<Row Tag="LOC_ZYL_RANDOM_TEAMS" Language="en_US"><Text>Random Teams</Text></Row>
 		<Row Tag="LOC_ZYL_RANDOM_TEAMS_TT" Language="en_US"><Text>Host-only balanced shuffle of connected human participants; excludes AI, observers, and empty slots.</Text></Row>
 		<Row Tag="LOC_ZYL_TOGGLE_SLOTS" Language="en_US"><Text>Empty Slots</Text></Row>

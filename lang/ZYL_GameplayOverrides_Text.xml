@@ -97,13 +97,13 @@
 			<Text>解锁“铸铜术”科技后，矿山+1 [ICON_CULTURE] 文化值。采石场为所有 [ICON_DISTRICT] 区域提供标准相邻加成（对奥皮杜姆翻倍），矿山为所有 [ICON_DISTRICT] 区域提供少量相邻加成。特色 [ICON_DISTRICT] 区域不会因与其他区域相邻而获得少量相邻加成，且无法建在市中心旁。[NEWLINE][ICON_BULLET]出生地关联：T3铁、T4采石场资源、T5可开采资源。</Text>
 		</Replace>
 		<Replace Tag="LOC_LEADER_POUNDMAKER_ABILITY_DESCRIPTION" Language="en_US">
-			<Text>All Alliance types provide Shared Visibility.[NEWLINE]Your outgoing [ICON_TRADEROUTE] Trade Routes grant +0.5 [ICON_FOOD] Food to Poundmaker per Camp or Pasture at the destination. [ICON_TRADEROUTE] Trade Routes sent to your cities grant +1 [ICON_GOLD] Gold to Poundmaker per Camp or Pasture at the destination.</Text>
+			<Text>All Alliance types provide Shared Visibility.[NEWLINE]Your outgoing [ICON_TRADEROUTE] Trade Routes grant +1 [ICON_FOOD] Food to Poundmaker per Camp or Pasture at the destination. [ICON_TRADEROUTE] Trade Routes sent to your cities grant +1 [ICON_GOLD] Gold to Poundmaker per Camp or Pasture at the destination.</Text>
 		</Replace>
 		<Replace Tag="LOC_LEADER_POUNDMAKER_ABILITY_DESCRIPTION" Language="zh_Hans_CN">
-			<Text>所有同盟类型均提供共享视野。[NEWLINE]您派出的 [ICON_TRADEROUTE] 贸易路线目的地每有一座营地或牧场，便为庞德梅克提供+0.5 [ICON_FOOD] 食物。发往您城市的 [ICON_TRADEROUTE] 贸易路线目的地每有一座营地或牧场，便为庞德梅克提供+1 [ICON_GOLD] 金币。</Text>
+			<Text>所有同盟类型均提供共享视野。[NEWLINE]您派出的 [ICON_TRADEROUTE] 贸易路线目的地每有一座营地或牧场，便为庞德梅克提供+1 [ICON_FOOD] 食物。发往您城市的 [ICON_TRADEROUTE] 贸易路线目的地每有一座营地或牧场，便为庞德梅克提供+1 [ICON_GOLD] 金币。</Text>
 		</Replace>
 		<Replace Tag="LOC_LEADER_POUNDMAKER_ABILITY_DESCRIPTION" Language="zh_Hant_HK">
-			<Text>所有同盟類型皆提供共享能見度。[NEWLINE]您派出的 [ICON_TRADEROUTE] 貿易路線目的地每有一座露營地或牧場，便為龐德梅克提供+0.5 [ICON_FOOD] 食物。發往您城市的 [ICON_TRADEROUTE] 貿易路線目的地每有一座露營地或牧場，便為龐德梅克提供+1 [ICON_GOLD] 金幣。</Text>
+			<Text>所有同盟類型皆提供共享能見度。[NEWLINE]您派出的 [ICON_TRADEROUTE] 貿易路線目的地每有一座露營地或牧場，便為龐德梅克提供+1 [ICON_FOOD] 食物。發往您城市的 [ICON_TRADEROUTE] 貿易路線目的地每有一座露營地或牧場，便為龐德梅克提供+1 [ICON_GOLD] 金幣。</Text>
 		</Replace>
 		<Replace Tag="LOC_TRAIT_CIVILIZATION_KHMER_BARAYS_EXPANSION2_DESCRIPTION" Language="en_US">
 			<Text>Cities with an Aqueduct receive +1 [ICON_AMENITIES] Amenity. Farms provide +2 [ICON_FOOD] Food if adjacent to an Aqueduct and +1 [ICON_FAITH] Faith if adjacent to a Holy Site. Holy Sites receive the standard +1 [ICON_FAITH] Faith adjacency bonus from Rivers.[NEWLINE][ICON_BULLET]Bias: T3 Rivers.</Text>

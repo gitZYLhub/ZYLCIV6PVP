@@ -37,7 +37,8 @@ local b_visible = false;
 local ZYL_LOBBY_DEFAULTS:table = {
 	{ "TOOLS_COMMAND", 1 },
 	{ "TOOLS_15_TIME", 1 },
-	{ "CPL_SMARTTIMER", 8 },
+	{ "CPL_SMARTTIMER", 9 },
+	{ "ZYL_STARTUP_GATE_RELEASED", 0 },
 	{ "ZYL_ERA_LENGTH_OPTIMIZATION", 1 },
 	{ "ZYL_DIPLOMACY_RIBBON_MODE", 0 },
 	{ "BBCC_SETTING", 0 },

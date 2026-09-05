@@ -275,6 +275,12 @@
         <Replace Tag="TIMER_CASUAL_BALANCED_DESC" language="zh_Hans_CN">
             <Text>沿用休闲计时，并直接按所有真人玩家中的最高城市数和最高单位数计算负载。第45回合起额外增加40秒，第90回合起再增加20秒（合计60秒）。</Text>
         </Replace>
+        <Replace Tag="TIMER_CASUAL_RELAXED_NAME" language="zh_Hans_CN">
+            <Text>休闲（宽松）</Text>
+        </Replace>
+        <Replace Tag="TIMER_CASUAL_RELAXED_DESC" language="zh_Hans_CN">
+            <Text>回合时间 = 当前回合数 + 70 + 4×真人最高城市数 + 2×真人最高单位数 + Δ。Δ沿用休闲阶段修正：第1–9回合−25秒，第45回合起+40秒，第90回合起再+20秒，并计入房主手动时间调整。</Text>
+        </Replace>
         <Replace Tag="TIMER_PHYPHY_NAME" language="zh_Hans_CN">
             <Text>闪电</Text>
         </Replace>
