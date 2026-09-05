@@ -47,8 +47,8 @@ local CompetitionMode = false;
 local Remove_South_Sea_Resource_Plots = {}		-- 需要移除资源的远洋单元格（来自竖向大陆海陆生成）
 
 -------------------------------------------------------------------------------
--- Both Rich Mainland variants use their legacy content canvas and turn the
--- added width into a continuous deep ocean at the horizontal wrap seam.
+-- Both Rich Mainland variants separate their content canvas from the added
+-- columns that form a continuous deep ocean at the horizontal wrap seam.
 function GetMapInitData(MapSize)
 	local width = 0;
 	local height = 0;
@@ -64,11 +64,12 @@ end
 
 local function ZYL_InitializeExpandedOceanCanvas()
 	local baseWidths = ZYL_RICH_MAINLAND_VARIANT.baseWidthsByHeight or {};
+	local contentWidths = ZYL_RICH_MAINLAND_VARIANT.contentWidthsByHeight or baseWidths;
 	g_iLegacyW = math.min(g_iW, tonumber(baseWidths[g_iH]) or g_iW);
-	g_iBaseW = g_iLegacyW;
+	g_iBaseW = math.min(g_iW, tonumber(contentWidths[g_iH]) or g_iLegacyW);
 	g_iAddedOceanWidth = math.max(0, g_iW - g_iBaseW);
 	g_iContentOffsetX = math.floor(g_iAddedOceanWidth / 2);
-	g_fHorizontalScale = 1;
+	g_fHorizontalScale = IS_FFA and (g_iLegacyW > 0 and g_iBaseW / g_iLegacyW or 1) or 1;
 	print(string.format("%s: horizontal canvas actual=%dx%d legacy=%dx%d generation=%dx%d offset=%d addedOcean=%d scale=%.4f wrapX=%s",
 		LOG_PREFIX, g_iW, g_iH, g_iLegacyW, g_iH, g_iBaseW, g_iH,
 		g_iContentOffsetX, g_iAddedOceanWidth, g_fHorizontalScale,

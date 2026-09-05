@@ -1782,14 +1782,30 @@ if (Test-Path -LiteralPath $richMainlandAssignPath) {
         'ZYL_RVC_EvaluateHydrophobicStart',
         'walkableRatio <= ZYL_RVC_HYDROPHOBIC_MIN_WALKABLE_RATIO',
         'ZYL_RVC_EW_COAST_START_BONUS = 50000000',
+		'ZYL_RVC_TARGET_COAST_START_BONUS = 200000000',
+		'ZYL_RVC_OTHER_EW_COAST_START_BONUS = 100000000',
         'ZYL_RVC_GetCoastOrientation',
+		'ZYL_RVC_IsEastWestCoastOrientation',
+		'__InitCoastalSideTargets',
+		'__GetCoastalTargetSide',
+		'__LogCoastalSideQuota',
+		'coastalSideCounts = { WEST = 0, EAST = 0 }',
+		'counts.WEST < counts.EAST',
+		'counts.EAST < counts.WEST',
+		'self.coastalSideCounts[ratedBias.CoastOrientation]',
 		"SEAS_CIVILIZATION[row.CivilizationType] = true",
 		"including BBG's land-start",
         'Areas.FindBiggestArea(false)',
         'plotArea:GetID() ~= ZYL_RVC_MAINLAND_AREA_ID',
         'eastWestSeaMargin',
         'northSouthSeaMargin = 6',
-        'ratedPlot.CoastOrientation == "EW"',
+		'ratedPlot.CoastOrientation == targetSide',
+		'targetSide = positiveSide and "EAST" or "WEST"',
+		'index % 2 == 1 and firstSide',
+		'ZYLRM_COAST_WEST_STARTS',
+		'ZYLRM_COAST_EAST_STARTS',
+		'ZYL RVC coastal side quota:',
+		'bestUniformInstance:__LogCoastalSideQuota()',
         'self.oceanStartFallbackPlayers[iPlayer] == true',
         'ZYLRM_COAST_ORIENTATION_',
         'local categoryOrder = major == true and { "COAST", "INLAND" } or { "ALL" };',
@@ -1853,14 +1869,15 @@ if (Test-Path -LiteralPath $richMainlandCorePath) {
         }
     }
 
-    # Both variants use the legacy content canvas and reserve any widened
-    # columns for the shared wrap-seam deep-ocean barrier.  Polar shallow rows
-    # and the denser/coarser island layer are shared by both variants.
+    # Each variant keeps a distinct content canvas and reserves only its added
+    # columns for the wrap-seam deep-ocean barrier.  FFA therefore retains the
+    # former widened land canvas while adding four new ocean columns.
     foreach ($requiredToken in @(
-		'g_iBaseW = g_iLegacyW;',
+		'local contentWidths = ZYL_RICH_MAINLAND_VARIANT.contentWidthsByHeight or baseWidths;',
+		'g_iBaseW = math.min(g_iW, tonumber(contentWidths[g_iH]) or g_iLegacyW);',
 		'g_iAddedOceanWidth = math.max(0, g_iW - g_iBaseW);',
 		'g_iContentOffsetX = math.floor(g_iAddedOceanWidth / 2);',
-		'g_fHorizontalScale = 1;',
+		'g_fHorizontalScale = IS_FFA and (g_iLegacyW > 0 and g_iBaseW / g_iLegacyW or 1) or 1;',
 		'ZYL_EnforceCentralOceanBarrier(terrainTypes);',
 		'for _, y in ipairs({ 0, 1, g_iH - 1 }) do',
         'terrainTypes[index] = g_TERRAIN_TYPE_OCEAN;',
@@ -1885,6 +1902,43 @@ if (Test-Path -LiteralPath $richMainlandCorePath) {
             Add-ValidationError "Old Rich Mainland central-ocean/polar/island behavior returned: $forbiddenToken"
         }
     }
+}
+
+$richMainlandFfaEntryPath = Join-Path $modRoot 'Components\BBM\Data\BBS Maps\zyl_ffa_rich_mainland.lua'
+$richMainlandFfaSqlPath = Join-Path $modRoot 'Components\BBM\Data\BBS Maps\ZYLRM\ConfigureFFA.sql'
+if (Test-Path -LiteralPath $richMainlandFfaEntryPath) {
+    $richMainlandFfaEntry = Get-Content -LiteralPath $richMainlandFfaEntryPath -Raw
+    foreach ($requiredToken in @(
+        'contentWidthsByHeight = {',
+        '[34] = 58,', '[42] = 60,', '[48] = 62,', '[56] = 64,',
+        '[62] = 66,', '[68] = 68,', '[74] = 70,', '[80] = 72,',
+        '[84] = 74,', '[88] = 78,', '[92] = 80,'
+    )) {
+        if (-not $richMainlandFfaEntry.Contains($requiredToken)) {
+            Add-ValidationError "FFA preserved content width is missing: $requiredToken"
+        }
+    }
+}
+else {
+    Add-ValidationError 'FFA Rich Mainland entry script is missing.'
+}
+if (Test-Path -LiteralPath $richMainlandFfaSqlPath) {
+    $richMainlandFfaSql = Get-Content -LiteralPath $richMainlandFfaSqlPath -Raw
+    foreach ($requiredToken in @(
+        'GridWidth=62, GridHeight=34', 'GridWidth=66, GridHeight=48',
+        'GridWidth=70, GridHeight=62', 'GridWidth=74, GridHeight=74',
+        'GridWidth=78, GridHeight=84', 'GridWidth=84, GridHeight=92',
+        "3, 3, 64, 42, 3, 2)", "5, 4, 68, 56, 4, 3)",
+        "7, 5, 72, 68, 4, 4)", "9, 6, 76, 80, 5, 5)",
+        "11, 7, 82, 88, 6, 6)"
+    )) {
+        if (-not $richMainlandFfaSql.Contains($requiredToken)) {
+            Add-ValidationError "FFA runtime width must preserve the old content canvas plus four ocean columns: $requiredToken"
+        }
+    }
+}
+else {
+    Add-ValidationError 'FFA Rich Mainland runtime configuration is missing.'
 }
 foreach ($entry in $richMainlandCriteria.GetEnumerator()) {
     if (-not $criteriaMap.ContainsKey($entry.Key)) {

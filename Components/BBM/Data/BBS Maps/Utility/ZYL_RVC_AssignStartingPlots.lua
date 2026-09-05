@@ -503,12 +503,12 @@ end
 -- civilizations.
 
 -- Rich Mainland has a deliberately wide east/west ocean and a narrow
--- north/south ocean.  The former is the intended side for coastal starts
--- because it is closer to the offshore islands and their resources.  Keep
--- this as a score bonus (rather than a hard filter): once all east/west
--- candidates are occupied or fail normal start checks, north/south coast
--- candidates remain available as the fallback.
+-- north/south ocean.  Coastal civilizations receive balanced WEST/EAST
+-- targets.  A target side is a hard preference while a legal plot remains;
+-- the opposite side and then north/south coast remain safe fallbacks.
 local ZYL_RVC_EW_COAST_START_BONUS = 50000000
+local ZYL_RVC_TARGET_COAST_START_BONUS = 200000000
+local ZYL_RVC_OTHER_EW_COAST_START_BONUS = 100000000
 local ZYL_RVC_COAST_ORIENTATION_CACHE = {}
 local ZYL_RVC_MAINLAND_AREA_ID = nil
 
@@ -535,35 +535,46 @@ local function ZYL_RVC_GetCoastOrientation(plot)
     end
 
     local gridWidth, gridHeight = Map.GetGridSize()
-    local eastWest = 0
+    local west = 0
+    local east = 0
     local northSouth = 0
+	local contentWidths = ZYL_RICH_MAINLAND_VARIANT.contentWidthsByHeight
+		or ZYL_RICH_MAINLAND_VARIANT.baseWidthsByHeight or {}
+	local contentWidth = math.min(gridWidth,
+		tonumber(contentWidths[gridHeight]) or gridWidth)
+	local contentOffsetX = math.floor(math.max(0, gridWidth - contentWidth) / 2)
+	local contentMidX = contentOffsetX + contentWidth / 2
     for direction = 0, DirectionTypes.NUM_DIRECTION_TYPES - 1 do
         local adjacentPlot = Map.GetAdjacentPlot(plot:GetX(), plot:GetY(), direction)
         if adjacentPlot ~= nil and adjacentPlot:IsWater() and not adjacentPlot:IsLake() then
             -- Classify the exposed ocean by the map edge it is closest to.
             -- This is stable on the irregular coastline and avoids relying
             -- on row-parity-specific hex coordinate offsets.
-            local horizontalEdgeDistance = math.min(
-                adjacentPlot:GetX(), gridWidth - 1 - adjacentPlot:GetX()
-            )
+			local horizontalEdgeDistance = math.min(
+				adjacentPlot:GetX() - contentOffsetX,
+				contentOffsetX + contentWidth - 1 - adjacentPlot:GetX()
+			)
             local verticalEdgeDistance = math.min(
                 adjacentPlot:GetY(), gridHeight - 1 - adjacentPlot:GetY()
             )
             -- Compare depth beyond the generated sea margins, not raw edge
-            -- distance.  FFA widens its original canvas by roughly 10%, so its
-            -- 12-tile east/west margin is scaled by the exact size ratio;
-            -- Team retains the original 15-tile margin.
+            -- distance.  FFA preserves its widened content canvas and adds a
+            -- separate four-column wrap-seam ocean.
             local legacyWidths = ZYL_RICH_MAINLAND_VARIANT.baseWidthsByHeight or {}
             local legacyWidth = tonumber(legacyWidths[gridHeight]) or gridWidth
             local horizontalScale = ZYL_RICH_MAINLAND_VARIANT.ffa == true
-                and gridWidth / math.max(1, legacyWidth) or 1
+				and contentWidth / math.max(1, legacyWidth) or 1
             local eastWestSeaMargin =
                 (ZYL_RICH_MAINLAND_VARIANT.ffa == true and 12 or 15) * horizontalScale
             local northSouthSeaMargin = 6
             local eastWestDepth = horizontalEdgeDistance - eastWestSeaMargin
             local northSouthDepth = verticalEdgeDistance - northSouthSeaMargin
             if eastWestDepth <= northSouthDepth then
-                eastWest = eastWest + 1
+				if plot:GetX() < contentMidX then
+					west = west + 1
+				else
+					east = east + 1
+				end
             else
                 northSouth = northSouth + 1
             end
@@ -571,13 +582,24 @@ local function ZYL_RVC_GetCoastOrientation(plot)
     end
 
     local orientation = nil
+	local eastWest = west + east
     if eastWest > 0 or northSouth > 0 then
         -- A corner/coastal pocket that exposes both directions is treated as
         -- east/west so the preferred side wins ties deterministically.
-        orientation = eastWest >= northSouth and "EW" or "NS"
+		if eastWest >= northSouth then
+			orientation = west > east and "WEST"
+				or (east > west and "EAST"
+					or (plot:GetX() < contentMidX and "WEST" or "EAST"))
+		else
+			orientation = "NS"
+		end
     end
     ZYL_RVC_COAST_ORIENTATION_CACHE[plotIndex] = orientation
     return orientation
+end
+
+local function ZYL_RVC_IsEastWestCoastOrientation(orientation)
+	return orientation == "WEST" or orientation == "EAST"
 end
 
 ------------------------------------------------------------------------------
@@ -716,7 +738,10 @@ function BBS_AssignStartingPlots.Create(args)
         __Debug								= BBS_AssignStartingPlots.__Debug,
         __InitStartingData					= BBS_AssignStartingPlots.__InitStartingData,
         __FilterStart                       = BBS_AssignStartingPlots.__FilterStart,
-		__SetStartBias                      = BBS_AssignStartingPlots.__SetStartBias,
+        __SetStartBias                      = BBS_AssignStartingPlots.__SetStartBias,
+		__InitCoastalSideTargets             = BBS_AssignStartingPlots.__InitCoastalSideTargets,
+		__GetCoastalTargetSide              = BBS_AssignStartingPlots.__GetCoastalTargetSide,
+		__LogCoastalSideQuota                = BBS_AssignStartingPlots.__LogCoastalSideQuota,
 		__PlaceMinorCivsVanilla             = BBS_AssignStartingPlots.__PlaceMinorCivsVanilla,
 		__PlaceMissingMinorCivsRelaxed      = BBS_AssignStartingPlots.__PlaceMissingMinorCivsRelaxed,
 		__FindRelaxedMinorStart             = BBS_AssignStartingPlots.__FindRelaxedMinorStart,
@@ -818,6 +843,9 @@ function BBS_AssignStartingPlots.Create(args)
 		distributionGroups = {},
 		playerDistributionGroup = {},
 		playerDistributionBands = {},
+		coastalSideTargets = {},
+		coastalPlayerIDs = {},
+		coastalSideCounts = { WEST = 0, EAST = 0 },
         oceanStartFallbackPlayers = {},
 		ffaUniformDistributionEnabled = ffaUniformDistributionEnabled,
 		uniformDistributionScore = 0,
@@ -882,6 +910,7 @@ function BBS_AssignStartingPlots.Create(args)
 		for _, majorStartPlot in ipairs(bestUniformInstance.majorStartPlots or {}) do
 			bestUniformInstance:__TryToRemoveBonusResource(majorStartPlot)
 		end
+		bestUniformInstance:__LogCoastalSideQuota()
 		Game:SetProperty("ZYLRM_FFA_UNIFORM_FALLBACK", true)
 		Game:SetProperty("ZYLRM_FFA_UNIFORM_ATTEMPT", bestUniformAttempt or 20)
 		Game:SetProperty("ZYLRM_FFA_UNIFORM_SCORE", bestUniformScore)
@@ -1626,6 +1655,91 @@ function BBS_AssignStartingPlots:__FilterStart(plots, index, major)
     return sortedPlots;
 end
 ------------------------------------------------------------------------------
+function BBS_AssignStartingPlots:__InitCoastalSideTargets(civs, playersList)
+	self.coastalSideTargets = {}
+	self.coastalPlayerIDs = {}
+	self.coastalSideCounts = { WEST = 0, EAST = 0 }
+	local coastalCivs = {}
+	for _, civ in ipairs(civs or {}) do
+		if civ.Category == "COAST" then
+			table.insert(coastalCivs, civ)
+		end
+	end
+	table.sort(coastalCivs, function(a, b)
+		return playersList[a.Index] < playersList[b.Index]
+	end)
+
+	local firstSide = TerrainBuilder.GetRandomNumber(2,
+		"ZYL RVC coastal quota first side") == 0 and "WEST" or "EAST"
+	for index, civ in ipairs(coastalCivs) do
+		local playerID = playersList[civ.Index]
+		local targetSide = nil
+		if #coastalCivs >= 2 then
+			if ZYL_RICH_MAINLAND_VARIANT.team == true
+					and self.iTeamPlacement == 1 and Teamers_Ref_team ~= nil
+					and Teamers_Ref_team_overturn ~= nil and Players[playerID] ~= nil then
+				local team = Players[playerID]:GetTeam()
+				local positiveSide = (team == Teamers_Ref_team and Teamers_Ref_team_overturn == true)
+					or (team ~= Teamers_Ref_team and Teamers_Ref_team_overturn == false)
+				targetSide = positiveSide and "EAST" or "WEST"
+			else
+				targetSide = index % 2 == 1 and firstSide
+					or (firstSide == "WEST" and "EAST" or "WEST")
+			end
+		end
+		self.coastalSideTargets[playerID] = targetSide
+		table.insert(self.coastalPlayerIDs, playerID)
+		Game:SetProperty("ZYLRM_COAST_TARGET_" .. playerID, targetSide or "EITHER")
+		print("ZYL RVC coastal side target:", civ.Type, playerID,
+			targetSide or "EITHER")
+	end
+end
+-------------------------------------------------------------------------------
+function BBS_AssignStartingPlots:__GetCoastalTargetSide(playerID)
+	local configuredTarget = self.coastalSideTargets ~= nil
+		and self.coastalSideTargets[playerID] or nil
+	if ZYL_RICH_MAINLAND_VARIANT.team == true or configuredTarget == nil then
+		return configuredTarget
+	end
+	local counts = self.coastalSideCounts or { WEST = 0, EAST = 0 }
+	if counts.WEST < counts.EAST then
+		configuredTarget = "WEST"
+	elseif counts.EAST < counts.WEST then
+		configuredTarget = "EAST"
+	end
+	self.coastalSideTargets[playerID] = configuredTarget
+	Game:SetProperty("ZYLRM_COAST_TARGET_" .. playerID, configuredTarget)
+	return configuredTarget
+end
+-------------------------------------------------------------------------------
+function BBS_AssignStartingPlots:__LogCoastalSideQuota()
+	local west = 0
+	local east = 0
+	local fallback = 0
+	for _, playerID in ipairs(self.coastalPlayerIDs or {}) do
+		local player = Players[playerID]
+		local plot = player ~= nil and player:GetStartingPlot() or nil
+		local actualSide = ZYL_RVC_GetCoastOrientation(plot)
+		if actualSide == "WEST" then
+			west = west + 1
+		elseif actualSide == "EAST" then
+			east = east + 1
+		else
+			fallback = fallback + 1
+		end
+		local targetSide = self.coastalSideTargets[playerID]
+		Game:SetProperty("ZYLRM_COAST_TARGET_MET_" .. playerID,
+			targetSide == nil or actualSide == targetSide)
+		print("ZYL RVC coastal side result:", playerID,
+			"target", targetSide or "EITHER", "actual", tostring(actualSide))
+	end
+	Game:SetProperty("ZYLRM_COAST_WEST_STARTS", west)
+	Game:SetProperty("ZYLRM_COAST_EAST_STARTS", east)
+	Game:SetProperty("ZYLRM_COAST_FALLBACK_STARTS", fallback)
+	print("ZYL RVC coastal side quota:", "west", west, "east", east,
+		"fallback", fallback)
+end
+-------------------------------------------------------------------------------
 function BBS_AssignStartingPlots:__SetStartBias(startPlots, iNumberCiv, playersList, major)
     local civs = {};
 	local tierOrder = {};
@@ -1685,6 +1799,9 @@ function BBS_AssignStartingPlots:__SetStartBias(startPlots, iNumberCiv, playersL
         end
         table.insert(civs, civ);
     end
+	if major == true then
+		self:__InitCoastalSideTargets(civs, playersList)
+	end
     -- Place every land-start coastal civilization (including BBG's land-start
     -- Maori) before inland civilizations on both team and FFA variants,
     -- reserving the preferred side-coast slots before an inland bias can
@@ -1706,6 +1823,9 @@ function BBS_AssignStartingPlots:__SetStartBias(startPlots, iNumberCiv, playersL
 			end
         end
     end
+	if major == true then
+		self:__LogCoastalSideQuota()
+	end
 end
 ------------------------------------------------------------------------------
 function BBS_AssignStartingPlots:__BiasRoutine(civilizationType, startPlots, index, playersList, major)
@@ -2638,13 +2758,29 @@ function BBS_AssignStartingPlots:__RateBiasPlots(biases, startPlots, major, regi
 				and self.oceanStartFallbackPlayers[iPlayer] == true)
 		if major and isCoastalStartCivilization and not isInlandCoastVariant then
 			ratedPlot.CoastOrientation = ZYL_RVC_GetCoastOrientation(plot)
-			if ratedPlot.CoastOrientation == "EW" then
-				ratedPlot.Score = ratedPlot.Score + ZYL_RVC_EW_COAST_START_BONUS
+		end
+		local majorBufferValid = true
+		if Players[iPlayer] ~= nil then
+			majorBufferValid = self:__MajorCivBuffer(plot,Players[iPlayer]:GetTeam())
+			if majorBufferValid == false then
+				ratedPlot.Score = ratedPlot.Score - 90000000;
 			end
 		end
-		if Players[iPlayer] ~= nil then
-			if self:__MajorCivBuffer(plot,Players[iPlayer]:GetTeam()) == false then
-				ratedPlot.Score = ratedPlot.Score - 90000000;
+		-- Apply the quota only to candidates that still satisfy the live major
+		-- spacing check.  This makes target side > opposite EW side > NS without
+		-- allowing the quota bonus to resurrect a spacing-invalid plot.
+		local targetSide = major and self:__GetCoastalTargetSide(iPlayer) or nil
+		if major and majorBufferValid and (ratedPlot.Score > 0
+				or (bRepeatPlacement == true and ratedPlot.Score > -500)) then
+			if targetSide ~= nil and ratedPlot.CoastOrientation == targetSide then
+				ratedPlot.CoastTargetMet = true
+				ratedPlot.Score = ratedPlot.Score + ZYL_RVC_TARGET_COAST_START_BONUS
+			elseif targetSide ~= nil
+					and ZYL_RVC_IsEastWestCoastOrientation(ratedPlot.CoastOrientation) then
+				ratedPlot.Score = ratedPlot.Score + ZYL_RVC_OTHER_EW_COAST_START_BONUS
+			elseif targetSide == nil
+					and ZYL_RVC_IsEastWestCoastOrientation(ratedPlot.CoastOrientation) then
+				ratedPlot.Score = ratedPlot.Score + ZYL_RVC_EW_COAST_START_BONUS
 			end
 		end
         if isCanRandom == true then
@@ -2688,15 +2824,23 @@ function BBS_AssignStartingPlots:__SettlePlot(ratedBiases, index, player, major,
 							tostring(ratedBias.HydrophobicNearestCoastalLand));
 					end
 					if ratedBias.CoastOrientation ~= nil then
+						local targetSide = self:__GetCoastalTargetSide(player:GetID())
 						Game:SetProperty("ZYLRM_COAST_ORIENTATION_" .. player:GetID(),
 							ratedBias.CoastOrientation)
 						print("ZYL RVC coastal start orientation:", civilizationType,
-							ratedBias.CoastOrientation, ratedBias.Plot:GetX(), ratedBias.Plot:GetY())
+							ratedBias.CoastOrientation, "target", targetSide or "EITHER",
+							ratedBias.Plot:GetX(), ratedBias.Plot:GetY())
 					end
 					if ratedBias.Score < - 500 then
 						bError_shit_settle = true
 					end
-                    settled = true;
+					settled = true;
+					if self.coastalSideCounts ~= nil
+							and (ratedBias.CoastOrientation == "WEST"
+								or ratedBias.CoastOrientation == "EAST") then
+						self.coastalSideCounts[ratedBias.CoastOrientation] =
+							(self.coastalSideCounts[ratedBias.CoastOrientation] or 0) + 1
+					end
                     table.insert(self.playerStarts[index], ratedBias.Plot);
                     table.insert(self.majorStartPlots, ratedBias.Plot);
 					table.insert(self.majorStartPlotsTeam, player:GetTeam());
@@ -2792,7 +2936,7 @@ function BBS_AssignStartingPlots:__AddLeyLine(plot)
 					end
 				end
 			end
-		end 
+		end
 	end
 end
 ------------------------------------------------------------------------------
