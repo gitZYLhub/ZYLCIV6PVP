@@ -1853,14 +1853,15 @@ if (Test-Path -LiteralPath $richMainlandCorePath) {
         }
     }
 
-    # FFA owns the full widened canvas while Team alone retains the added
-    # wrap-seam ocean.  Polar shallow rows and the denser/coarser island layer
-    # are shared by both variants.
+    # Both variants use the legacy content canvas and reserve any widened
+    # columns for the shared wrap-seam deep-ocean barrier.  Polar shallow rows
+    # and the denser/coarser island layer are shared by both variants.
     foreach ($requiredToken in @(
-        'g_iBaseW = g_iW;',
-        'g_iAddedOceanWidth = 0;',
-        'g_fHorizontalScale = g_iLegacyW > 0 and g_iW / g_iLegacyW or 1;',
-        'if IS_TEAM then ZYL_EnforceCentralOceanBarrier(terrainTypes); end',
+		'g_iBaseW = g_iLegacyW;',
+		'g_iAddedOceanWidth = math.max(0, g_iW - g_iBaseW);',
+		'g_iContentOffsetX = math.floor(g_iAddedOceanWidth / 2);',
+		'g_fHorizontalScale = 1;',
+		'ZYL_EnforceCentralOceanBarrier(terrainTypes);',
 		'for _, y in ipairs({ 0, 1, g_iH - 1 }) do',
         'terrainTypes[index] = g_TERRAIN_TYPE_OCEAN;',
 		'ZYL_RemovePolarShallowSea();',
@@ -1874,6 +1875,9 @@ if (Test-Path -LiteralPath $richMainlandCorePath) {
         }
     }
     foreach ($forbiddenToken in @(
+        'g_iBaseW = g_iW;',
+        'g_iAddedOceanWidth = 0;',
+        'if IS_TEAM then ZYL_EnforceCentralOceanBarrier',
         'local isPolarRoute',
         'args.iWaterPercent = 67;'
     )) {
@@ -2169,6 +2173,63 @@ else {
             Add-ValidationError "Rich Mainland default $($entry.Key) must be $($entry.Value)."
         }
     }
+
+    $expectedRichCityStates = @{
+        'zyl_team_rich_mainland.lua|MAPSIZE_DUEL' = 5
+        'zyl_team_rich_mainland.lua|MAPSIZE_TINY' = 8
+        'zyl_team_rich_mainland.lua|MAPSIZE_SMALL' = 10
+        'zyl_team_rich_mainland.lua|MAPSIZE_STANDARD' = 12
+        'zyl_team_rich_mainland.lua|MAPSIZE_LARGE' = 14
+        'zyl_team_rich_mainland.lua|MAPSIZE_HUGE' = 17
+        'zyl_ffa_rich_mainland.lua|MAPSIZE_DUEL' = 5
+        'zyl_ffa_rich_mainland.lua|MAPSIZE_ZYL_FFA_3' = 6
+        'zyl_ffa_rich_mainland.lua|MAPSIZE_TINY' = 8
+        'zyl_ffa_rich_mainland.lua|MAPSIZE_ZYL_FFA_5' = 9
+        'zyl_ffa_rich_mainland.lua|MAPSIZE_SMALL' = 10
+        'zyl_ffa_rich_mainland.lua|MAPSIZE_ZYL_FFA_7' = 11
+        'zyl_ffa_rich_mainland.lua|MAPSIZE_STANDARD' = 12
+        'zyl_ffa_rich_mainland.lua|MAPSIZE_ZYL_FFA_9' = 13
+        'zyl_ffa_rich_mainland.lua|MAPSIZE_LARGE' = 14
+        'zyl_ffa_rich_mainland.lua|MAPSIZE_ZYL_FFA_11' = 16
+        'zyl_ffa_rich_mainland.lua|MAPSIZE_HUGE' = 17
+    }
+    foreach ($entry in $expectedRichCityStates.GetEnumerator()) {
+        $parts = $entry.Key.Split('|')
+        $node = $richMapConfig.SelectSingleNode("/GameInfo/MapSizes/Row[@Domain='$($parts[0])' and @MapSizeType='$($parts[1])']")
+        if ($null -eq $node -or [int]$node.GetAttribute('DefaultCityStates') -ne [int]$entry.Value) {
+            Add-ValidationError "Rich Mainland default city states $($entry.Key) must be $($entry.Value)."
+        }
+    }
+}
+
+$bbmMapConfigPath = Join-Path $modRoot 'Components\BBM\Configuration\Config.xml'
+if (Test-Path -LiteralPath $bbmMapConfigPath) {
+    $bbmMapConfig = Load-XmlDocument $bbmMapConfigPath
+    $expectedBbmCityStates = @{
+        'ExtraStandardMapSizes|MAPSIZE_DUEL' = 5
+        'ExtraStandardMapSizes|MAPSIZE_TINY' = 8
+        'ExtraStandardMapSizes|MAPSIZE_SMALL' = 11
+        'ExtraStandardMapSizes|MAPSIZE_STANDARD' = 14
+        'ExtraStandardMapSizes|MAPSIZE_LARGE' = 17
+        'ExtraStandardMapSizes|MAPSIZE_HUGE' = 20
+        'ExtraStandardMapSizes|MAPSIZE_ENORMOUS' = 26
+        'StandardMapSizes|MAPSIZE_DUEL' = 5
+        'StandardMapSizes|MAPSIZE_TINY' = 8
+        'StandardMapSizes|MAPSIZE_SMALL' = 11
+        'StandardMapSizes|MAPSIZE_STANDARD' = 14
+        'StandardMapSizes|MAPSIZE_LARGE' = 17
+        'StandardMapSizes|MAPSIZE_HUGE' = 20
+    }
+    foreach ($entry in $expectedBbmCityStates.GetEnumerator()) {
+        $parts = $entry.Key.Split('|')
+        $node = $bbmMapConfig.SelectSingleNode("/GameInfo/MapSizes/Replace[@Domain='$($parts[0])' and @MapSizeType='$($parts[1])']")
+        if ($null -eq $node -or [int]$node.GetAttribute('DefaultCityStates') -ne [int]$entry.Value) {
+            Add-ValidationError "BBM default city states $($entry.Key) must be $($entry.Value)."
+        }
+    }
+}
+else {
+    Add-ValidationError 'BBM map-size configuration is missing.'
 }
 
 $legacyRichMapReferences = @(
@@ -2394,6 +2455,7 @@ else {
 		'ZYL_DIPLOMACY_RIBBON_MODE' = '0'
         'BBCC_SETTING' = '0'
         'BBCC_SETTING_YIELD' = '2'
+		'SettlersConfig' = '0'
         'BarbariansSetting' = '-1'
         'NoBarbarians' = '1'
         'GameMode_Monopolies' = '1'
@@ -2448,12 +2510,25 @@ if (Test-Path -LiteralPath $hostGamePath) {
 		'{ "CPL_SMARTTIMER", 9 }',
 		'{ "ZYL_STARTUP_GATE_RELEASED", 0 }',
 		'{ "ZYL_ERA_LENGTH_OPTIMIZATION", 1 }',
-		'{ "ZYL_DIPLOMACY_RIBBON_MODE", 0 }'
+		'{ "ZYL_DIPLOMACY_RIBBON_MODE", 0 }',
+		'{ "SettlersConfig", 0 }'
 	)) {
 		if (-not $hostGameLua.Contains($requiredDefault)) {
 			Add-ValidationError "Host game is missing the requested lobby default: $requiredDefault"
 		}
 	}
+}
+
+$bbgConfigPath = Join-Path $modRoot 'Components\BBG\config\config.xml'
+if (Test-Path -LiteralPath $bbgConfigPath) {
+    $bbgConfig = Load-XmlDocument $bbgConfigPath
+    $settlersParameter = $bbgConfig.SelectSingleNode('/GameInfo/Parameters/Row[@ParameterId="SettlersConfig"]')
+    if ($null -eq $settlersParameter -or $settlersParameter.GetAttribute('DefaultValue') -ne '0') {
+        Add-ValidationError 'BBG captured-settler option must default to Send Home (0).'
+    }
+}
+else {
+    Add-ValidationError 'BBG front-end configuration is missing.'
 }
 
 # Secret Society promotions must refund their Governor Title. The BBG action
@@ -2783,6 +2858,7 @@ if (Test-Path -LiteralPath $teamPvpSocietyPaths.VampireCastleGameplay) {
             Add-ValidationError "Vampire Castle tile-clearing script is missing required behavior: $token"
         }
     }
+
 }
 
 if (Test-Path -LiteralPath $teamPvpSocietyPaths.Building) {

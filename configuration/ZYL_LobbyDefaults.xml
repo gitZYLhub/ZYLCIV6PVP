@@ -14,6 +14,7 @@
 		<Update><Where ParameterId="ZYL_DIPLOMACY_RIBBON_MODE"/><Set DefaultValue="0"/></Update>
 		<Update><Where ParameterId="BBCC_SETTING"/><Set DefaultValue="0"/></Update>
 		<Update><Where ParameterId="BBCC_SETTING_YIELD"/><Set DefaultValue="2"/></Update>
+		<Update><Where ParameterId="SettlersConfig"/><Set DefaultValue="0"/></Update>
 		<Update><Where ParameterId="BarbariansSetting"/><Set DefaultValue="-1"/></Update>
 		<Update><Where ParameterId="NoBarbarians"/><Set DefaultValue="1"/></Update>
 		<Update><Where ParameterId="GameMode_Monopolies"/><Set DefaultValue="1"/></Update>

@@ -1,7 +1,7 @@
 -- FFA Rich Mainland: explicit dimensions for every player count from 2 to 12.
 -- Widths are even-number roundings of roughly 110% of the legacy canvases
--- (52/54/56/58/60/62/64/66/68/70/72).  The full width participates in map
--- generation; no part of it is reserved as a forced central ocean.  Standard
+-- (52/54/56/58/60/62/64/66/68/70/72).  The legacy width remains the content
+-- canvas and the added columns form a forced deep ocean at the wrap seam. Standard
 -- size identifiers are reused for even counts; odd counts are real gameplay
 -- MapSize rows registered only while this map is selected.
 UPDATE Maps SET GridWidth=58, GridHeight=34, DefaultPlayers=2, NumNaturalWonders=3, Continents=1 WHERE MapSizeType='MAPSIZE_DUEL';

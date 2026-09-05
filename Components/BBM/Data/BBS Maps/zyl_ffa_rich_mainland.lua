@@ -5,9 +5,8 @@ ZYL_RICH_MAINLAND_VARIANT = {
 	id = "FFA",
 	team = false,
 	ffa = true,
-	-- Original canvas widths, used only as the denominator for each size's
-	-- horizontal scale.  FFA generates land, islands and east/west sea across
-	-- the full runtime width instead of reserving the added columns as ocean.
+	-- Original content-canvas widths.  The remaining runtime columns form the
+	-- continuous deep-ocean barrier at the horizontal wrap seam.
 	baseWidthsByHeight = {
 		[34] = 52,
 		[42] = 54,

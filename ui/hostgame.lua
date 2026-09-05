@@ -43,6 +43,7 @@ local ZYL_LOBBY_DEFAULTS:table = {
 	{ "ZYL_DIPLOMACY_RIBBON_MODE", 0 },
 	{ "BBCC_SETTING", 0 },
 	{ "BBCC_SETTING_YIELD", 2 },
+	{ "SettlersConfig", 0 },
 	{ "BARBS_SETTING", -1 },
 	{ "GAME_NO_BARBARIANS", 1 },
 	{ "GAMEMODE_MONOPOLIES", 1 },
