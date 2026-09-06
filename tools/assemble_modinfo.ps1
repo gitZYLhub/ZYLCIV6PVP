@@ -3,17 +3,37 @@ param()
 
 $ErrorActionPreference = 'Stop'
 
-# ZYLPVPMOD is self-contained. This script deliberately has no parameters for
-# upstream manifests and never reads Steam/Workshop caches or sibling projects.
+# ZYLPVPMOD is self-contained. This script synchronizes package identity and
+# required compatibility entries from tools/project.json. It deliberately has
+# no parameters for upstream manifests and never reads Steam/Workshop caches or
+# sibling projects. Action-graph generation is handled by the later M2 work.
 $modRoot = [System.IO.Path]::GetFullPath((Split-Path -Parent $PSScriptRoot))
 $modRootPrefix = $modRoot.TrimEnd('\') + '\'
-$modInfoPath = Join-Path $modRoot 'ZYLPVPMOD.modinfo'
+$projectMetadataPath = Join-Path $PSScriptRoot 'project.json'
+if (-not (Test-Path -LiteralPath $projectMetadataPath -PathType Leaf)) {
+    throw "Project metadata not found: $projectMetadataPath"
+}
+$projectMetadata = Get-Content -LiteralPath $projectMetadataPath -Raw | ConvertFrom-Json
+if ($projectMetadata.schemaVersion -ne 1 -or
+        [string]::IsNullOrWhiteSpace([string]$projectMetadata.modId) -or
+        [string]::IsNullOrWhiteSpace([string]$projectMetadata.packageName) -or
+        [string]::IsNullOrWhiteSpace([string]$projectMetadata.semanticVersion) -or
+        [int]$projectMetadata.modInfoVersion -le 0) {
+    throw 'tools/project.json is missing required schema-1 package metadata.'
+}
+
+$modInfoPath = Join-Path $modRoot ([string]$projectMetadata.modInfoFile)
 $temporaryPath = Join-Path $modRoot ('.ZYLPVPMOD.modinfo.' + [System.Guid]::NewGuid().ToString('N') + '.tmp')
 
-$unifiedId = '4dd01931-9d44-4a8a-8e74-712cba0f0072'
-$packageVersion = '1.3.0'
-$modInfoVersion = '130'
+$unifiedId = [string]$projectMetadata.modId
+$packageName = [string]$projectMetadata.packageName
+$packageVersion = [string]$projectMetadata.semanticVersion
+$modInfoVersion = ([int]$projectMetadata.modInfoVersion).ToString(
+    [System.Globalization.CultureInfo]::InvariantCulture
+)
+$multiplayerHelperRelativePath = [string]$projectMetadata.multiplayerHelperFile
 $vampireCastleScript = 'Components/TeamPVPSecretSocieties/Scripts/VampireCastle_Gameplay.lua'
+$manifestChanged = $false
 
 function Resolve-ProjectFile {
     param([Parameter(Mandatory = $true)][string]$RelativePath)
@@ -46,8 +66,12 @@ function Set-ChildText {
     if ($null -eq $node) {
         $node = $Document.CreateElement($Name)
         [void]$Parent.AppendChild($node)
+        $script:manifestChanged = $true
     }
-    $node.InnerText = $Value
+    if ($node.InnerText -ne $Value) {
+        $node.InnerText = $Value
+        $script:manifestChanged = $true
+    }
 }
 
 function Ensure-VampireCastleAction {
@@ -62,17 +86,20 @@ function Ensure-VampireCastleAction {
     if ($null -ne $action -and $action.LocalName -ne 'AddGameplayScripts') {
         [void]$section.RemoveChild($action)
         $action = $null
+        $script:manifestChanged = $true
     }
     if ($null -eq $action) {
         $action = $Document.CreateElement('AddGameplayScripts')
         $action.SetAttribute('id', 'ZYL_TPVP_VampireCastleGameplay')
         [void]$section.AppendChild($action)
+        $script:manifestChanged = $true
     }
 
     $properties = [System.Xml.XmlElement]$action.SelectSingleNode('Properties')
     if ($null -eq $properties) {
         $properties = $Document.CreateElement('Properties')
         [void]$action.PrependChild($properties)
+        $script:manifestChanged = $true
     }
     Set-ChildText $Document $properties 'LoadOrder' '250000031'
 
@@ -80,11 +107,13 @@ function Ensure-VampireCastleAction {
         $criterion = $Document.CreateElement('Criteria')
         $criterion.InnerText = 'ZYL_SecretSocietiesXP2'
         [void]$action.AppendChild($criterion)
+        $script:manifestChanged = $true
     }
     if ($null -eq $action.SelectSingleNode("File[.='$vampireCastleScript']")) {
         $file = $Document.CreateElement('File')
         $file.InnerText = $vampireCastleScript
         [void]$action.AppendChild($file)
+        $script:manifestChanged = $true
     }
 }
 
@@ -109,6 +138,7 @@ function Ensure-ListedFile {
     $file = $Document.CreateElement('File')
     $file.InnerText = $RelativePath
     [void]$files.AppendChild($file)
+    $script:manifestChanged = $true
 }
 
 if (-not (Test-Path -LiteralPath $modInfoPath -PathType Leaf)) {
@@ -122,8 +152,14 @@ $modInfo.Load($modInfoPath)
 if ($modInfo.DocumentElement.LocalName -ne 'Mod') {
     throw 'ZYLPVPMOD.modinfo does not have a Mod root element.'
 }
-$modInfo.DocumentElement.SetAttribute('id', $unifiedId)
-$modInfo.DocumentElement.SetAttribute('version', $modInfoVersion)
+if ($modInfo.DocumentElement.GetAttribute('id') -ne $unifiedId) {
+    $modInfo.DocumentElement.SetAttribute('id', $unifiedId)
+    $manifestChanged = $true
+}
+if ($modInfo.DocumentElement.GetAttribute('version') -ne $modInfoVersion) {
+    $modInfo.DocumentElement.SetAttribute('version', $modInfoVersion)
+    $manifestChanged = $true
+}
 
 $properties = [System.Xml.XmlElement]$modInfo.SelectSingleNode('/Mod/Properties')
 if ($null -eq $properties) {
@@ -138,8 +174,8 @@ $title = [System.Xml.XmlElement]$modInfo.SelectSingleNode(
 if ($null -eq $title) {
     throw 'ZYLPVPMOD.modinfo is missing LOC_ZYLPVPMOD_TITLE.'
 }
-Set-ChildText $modInfo $title 'en_US' "ZYLPVPMOD $packageVersion"
-Set-ChildText $modInfo $title 'zh_Hans_CN' "ZYLPVPMOD $packageVersion"
+Set-ChildText $modInfo $title 'en_US' "$packageName $packageVersion"
+Set-ChildText $modInfo $title 'zh_Hans_CN' "$packageName $packageVersion"
 
 Ensure-VampireCastleAction $modInfo
 Ensure-ListedFile $modInfo $vampireCastleScript
@@ -177,21 +213,45 @@ $writerSettings.NewLineChars = "`r`n"
 $writerSettings.NewLineHandling = [System.Xml.NewLineHandling]::Replace
 $writerSettings.Encoding = [System.Text.UTF8Encoding]::new($false)
 
-try {
-    $writer = [System.Xml.XmlWriter]::Create($temporaryPath, $writerSettings)
+if ($manifestChanged) {
     try {
-        $modInfo.Save($writer)
+        $writer = [System.Xml.XmlWriter]::Create($temporaryPath, $writerSettings)
+        try {
+            $modInfo.Save($writer)
+        }
+        finally {
+            $writer.Dispose()
+        }
+        [System.IO.File]::AppendAllText($temporaryPath, $writerSettings.NewLineChars, $writerSettings.Encoding)
+        Move-Item -LiteralPath $temporaryPath -Destination $modInfoPath -Force
     }
     finally {
-        $writer.Dispose()
-    }
-    [System.IO.File]::AppendAllText($temporaryPath, $writerSettings.NewLineChars, $writerSettings.Encoding)
-    Move-Item -LiteralPath $temporaryPath -Destination $modInfoPath -Force
-}
-finally {
-    if (Test-Path -LiteralPath $temporaryPath) {
-        Remove-Item -LiteralPath $temporaryPath -Force
+        if (Test-Path -LiteralPath $temporaryPath) {
+            Remove-Item -LiteralPath $temporaryPath -Force
+        }
     }
 }
 
-Write-Host "Updated local-only ModInfo: $modInfoPath"
+$multiplayerHelperPath = Resolve-ProjectFile $multiplayerHelperRelativePath
+
+$helperSource = Get-Content -LiteralPath $multiplayerHelperPath -Raw
+$helperVersionPattern = '(?m)^local g_version = "[^"\r\n]+"'
+$helperVersionReplacement = "local g_version = `"$packageName v$packageVersion`""
+$helperVersionMatches = [regex]::Matches($helperSource, $helperVersionPattern)
+if ($helperVersionMatches.Count -ne 1) {
+    throw "Expected exactly one multiplayer version declaration in $multiplayerHelperPath; found $($helperVersionMatches.Count)."
+}
+$updatedHelperSource = [regex]::Replace(
+    $helperSource,
+    $helperVersionPattern,
+    $helperVersionReplacement
+)
+if ($updatedHelperSource -ne $helperSource) {
+    [System.IO.File]::WriteAllText(
+        $multiplayerHelperPath,
+        $updatedHelperSource,
+        [System.Text.UTF8Encoding]::new($false)
+    )
+}
+
+Write-Host "Synchronized package metadata for $packageName $packageVersion."

@@ -6,22 +6,36 @@ param(
 $ErrorActionPreference = 'Stop'
 
 $sourceRoot = [System.IO.Path]::GetFullPath((Split-Path -Parent $PSScriptRoot))
+$projectMetadataPath = Join-Path $PSScriptRoot 'project.json'
+if (-not (Test-Path -LiteralPath $projectMetadataPath -PathType Leaf)) {
+	throw "Project metadata not found: $projectMetadataPath"
+}
+$projectMetadata = Get-Content -LiteralPath $projectMetadataPath -Raw | ConvertFrom-Json
+$packageName = [string]$projectMetadata.packageName
+$packageVersion = [string]$projectMetadata.semanticVersion
+$artifactsRoot = [System.IO.Path]::GetFullPath((Join-Path $sourceRoot 'artifacts'))
 if ([string]::IsNullOrWhiteSpace($Destination)) {
-	$Destination = Join-Path (Split-Path -Parent $sourceRoot) 'ZYLPVPMOD_Workshop'
+	$Destination = Join-Path $artifactsRoot 'workshop'
 }
 $destinationRoot = [System.IO.Path]::GetFullPath($Destination)
 $destinationParent = Split-Path -Parent $destinationRoot
 $sourcePrefix = $sourceRoot.TrimEnd('\') + '\'
 $destinationPrefix = $destinationRoot.TrimEnd('\') + '\'
+$artifactsPrefix = $artifactsRoot.TrimEnd('\') + '\'
+$destinationIsInsideSource = $destinationRoot.StartsWith(
+	$sourcePrefix,
+	[System.StringComparison]::OrdinalIgnoreCase
+)
 
 if ($destinationRoot.Equals($sourceRoot, [System.StringComparison]::OrdinalIgnoreCase) -or
-		$destinationRoot.StartsWith($sourcePrefix, [System.StringComparison]::OrdinalIgnoreCase) -or
 		$sourceRoot.StartsWith($destinationPrefix, [System.StringComparison]::OrdinalIgnoreCase) -or
+		($destinationIsInsideSource -and
+			-not $destinationRoot.StartsWith($artifactsPrefix, [System.StringComparison]::OrdinalIgnoreCase)) -or
 		$destinationRoot.Equals([System.IO.Path]::GetPathRoot($destinationRoot), [System.StringComparison]::OrdinalIgnoreCase)) {
 	throw "Unsafe workshop destination: $destinationRoot"
 }
 if (-not (Test-Path -LiteralPath $destinationParent -PathType Container)) {
-	throw "Workshop destination parent does not exist: $destinationParent"
+	[void](New-Item -ItemType Directory -Path $destinationParent -Force)
 }
 if (Test-Path -LiteralPath $destinationRoot) {
 	$destinationItem = Get-Item -LiteralPath $destinationRoot -Force
@@ -31,7 +45,7 @@ if (Test-Path -LiteralPath $destinationRoot) {
 	}
 }
 
-$modInfoPath = Join-Path $sourceRoot 'ZYLPVPMOD.modinfo'
+$modInfoPath = Join-Path $sourceRoot ([string]$projectMetadata.modInfoFile)
 $sourceValidator = Join-Path $sourceRoot 'tools\validate.ps1'
 
 # These files are useful in the source repository but are not read by Civ VI.
@@ -126,7 +140,7 @@ try {
 		Copy-Item -LiteralPath $entry.SourcePath -Destination $targetPath
 	}
 
-	$releaseModInfoPath = Join-Path $stageRoot 'ZYLPVPMOD.modinfo'
+	$releaseModInfoPath = Join-Path $stageRoot ([string]$projectMetadata.modInfoFile)
 	$xmlSettings = [System.Xml.XmlWriterSettings]::new()
 	$xmlSettings.Encoding = [System.Text.UTF8Encoding]::new($false)
 	$xmlSettings.Indent = $false
@@ -194,11 +208,55 @@ try {
 
 	$releaseFiles = @(Get-ChildItem -LiteralPath $destinationRoot -Recurse -Force -File)
 	$releaseBytes = ($releaseFiles | Measure-Object -Property Length -Sum).Sum
+	$manifestEntries = @($releaseFiles | ForEach-Object {
+		$relativePath = $_.FullName.Substring($destinationRoot.Length + 1).Replace('\', '/')
+		[pscustomobject][ordered]@{
+			path = $relativePath
+			bytes = $_.Length
+			sha256 = (Get-FileHash -LiteralPath $_.FullName -Algorithm SHA256).Hash.ToLowerInvariant()
+		}
+	} | Sort-Object path)
+	$aggregateLines = @($manifestEntries | ForEach-Object {
+		'{0} {1} {2}' -f $_.sha256, $_.bytes, $_.path
+	})
+	$aggregateText = ($aggregateLines -join "`n") + "`n"
+	$aggregateBytes = [System.Text.UTF8Encoding]::new($false).GetBytes($aggregateText)
+	$sha256 = [System.Security.Cryptography.SHA256]::Create()
+	try {
+		$aggregateHash = ([System.BitConverter]::ToString(
+			$sha256.ComputeHash($aggregateBytes)
+		)).Replace('-', '').ToLowerInvariant()
+	}
+	finally {
+		$sha256.Dispose()
+	}
+	$reportRoot = Join-Path $artifactsRoot 'reports'
+	[void](New-Item -ItemType Directory -Path $reportRoot -Force)
+	$reportPath = Join-Path $reportRoot "$packageName-$packageVersion-universal.manifest.json"
+	$report = [pscustomobject][ordered]@{
+		schemaVersion = 1
+		packageName = $packageName
+		semanticVersion = $packageVersion
+		modId = [string]$projectMetadata.modId
+		profile = 'universal'
+		fileCount = $releaseFiles.Count
+		totalBytes = $releaseBytes
+		aggregateSha256 = $aggregateHash
+		files = $manifestEntries
+	}
+	$reportJson = $report | ConvertTo-Json -Depth 5
+	[System.IO.File]::WriteAllText(
+		$reportPath,
+		$reportJson + "`n",
+		[System.Text.UTF8Encoding]::new($false)
+	)
 	Write-Host ''
 	Write-Host 'Workshop release created successfully.'
 	Write-Host "Directory : $destinationRoot"
 	Write-Host "Files     : $($releaseFiles.Count)"
 	Write-Host ('Size      : {0:N2} MiB' -f ($releaseBytes / 1MB))
+	Write-Host "SHA-256   : $aggregateHash"
+	Write-Host "Manifest  : $reportPath"
 	Write-Host "Excluded  : $($excludedNodes.Count) source-only files, plus all unlisted project files"
 }
 finally {

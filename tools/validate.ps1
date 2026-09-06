@@ -3,8 +3,18 @@ param()
 
 $ErrorActionPreference = 'Stop'
 $modRoot = Split-Path -Parent $PSScriptRoot
-$modInfoPath = Join-Path $modRoot 'ZYLPVPMOD.modinfo'
-$expectedModId = '4dd01931-9d44-4a8a-8e74-712cba0f0072'
+$projectMetadataPath = Join-Path $PSScriptRoot 'project.json'
+if (-not (Test-Path -LiteralPath $projectMetadataPath -PathType Leaf)) {
+    throw "Project metadata not found: $projectMetadataPath"
+}
+$projectMetadata = Get-Content -LiteralPath $projectMetadataPath -Raw | ConvertFrom-Json
+$modInfoPath = Join-Path $modRoot ([string]$projectMetadata.modInfoFile)
+$expectedModId = [string]$projectMetadata.modId
+$expectedPackageName = [string]$projectMetadata.packageName
+$expectedSemanticVersion = [string]$projectMetadata.semanticVersion
+$expectedModInfoVersion = ([int]$projectMetadata.modInfoVersion).ToString(
+    [System.Globalization.CultureInfo]::InvariantCulture
+)
 $validationErrors = [System.Collections.Generic.List[string]]::new()
 
 function Add-ValidationError {
@@ -21,7 +31,8 @@ function Test-IsSourceOnlyFile {
     param([string]$NormalizedPath)
 
     if ($NormalizedPath.StartsWith('docs\') -or
-            $NormalizedPath.StartsWith('.github\')) {
+            $NormalizedPath.StartsWith('.github\') -or
+            $NormalizedPath.StartsWith('tools\')) {
         return $true
     }
     return $NormalizedPath -in @(
@@ -30,6 +41,15 @@ function Test-IsSourceOnlyFile {
         'changelog.md',
         'zylpvpmod1.3.0修改大全.md'
     )
+}
+
+function Test-IsGeneratedProjectPath {
+    param([string]$NormalizedPath)
+
+    return $NormalizedPath.StartsWith('.git\') -or
+        $NormalizedPath.StartsWith('artifacts\') -or
+        $NormalizedPath.StartsWith('build\') -or
+        $NormalizedPath.StartsWith('dist\')
 }
 
 function Load-XmlDocument {
@@ -44,11 +64,16 @@ if (-not (Test-Path -LiteralPath $modInfoPath)) {
     throw "ModInfo not found: $modInfoPath"
 }
 
+$projectFiles = @(Get-ChildItem -LiteralPath $modRoot -Recurse -Force -File | Where-Object {
+    $relativePath = $_.FullName.Substring($modRoot.Length + 1)
+    -not (Test-IsGeneratedProjectPath (Normalize-RelativePath $relativePath))
+})
+
 # Build and maintenance scripts must never consume Steam Workshop caches.
 # Upstream content is copied into this repository deliberately; once embedded,
 # the repository and its ModInfo are the only allowed build inputs.
 $forbiddenWorkshopPathPattern = '(?i)steamapps[\\/]+workshop(?:[\\/]|$)'
-$maintenanceScripts = @(Get-ChildItem -LiteralPath $modRoot -Recurse -File | Where-Object {
+$maintenanceScripts = @($projectFiles | Where-Object {
     $_.Extension -in @('.ps1', '.psm1', '.py', '.bat', '.cmd', '.sh', '.lua') -and
         $_.FullName -ne $PSCommandPath
 })
@@ -65,7 +90,8 @@ if (-not (Test-Path -LiteralPath $assemblerPath -PathType Leaf)) {
 else {
     $assemblerSource = Get-Content -LiteralPath $assemblerPath -Raw
     foreach ($requiredBoundaryToken in @(
-        '$modInfoPath = Join-Path $modRoot ''ZYLPVPMOD.modinfo''',
+        '$projectMetadataPath = Join-Path $PSScriptRoot ''project.json''',
+        '$modInfoPath = Join-Path $modRoot ([string]$projectMetadata.modInfoFile)',
         'function Resolve-ProjectFile',
         '$fullPath.StartsWith($modRootPrefix',
         'Manifest path escapes the project root'
@@ -78,7 +104,7 @@ else {
 
 # Validate every runtime XML-bearing artifact, including the BBM art
 # dependency. Reference snapshots live outside the mod root.
-$xmlFiles = @(Get-ChildItem -LiteralPath $modRoot -Recurse -File | Where-Object {
+$xmlFiles = @($projectFiles | Where-Object {
 	$_.Extension -in @('.xml', '.modinfo', '.dep')
 })
 foreach ($xmlFile in $xmlFiles) {
@@ -94,24 +120,25 @@ $modInfo = Load-XmlDocument $modInfoPath
 if ($modInfo.DocumentElement.GetAttribute('id') -ne $expectedModId) {
     Add-ValidationError "Unexpected Mod ID: $($modInfo.DocumentElement.GetAttribute('id'))"
 }
-if ($modInfo.DocumentElement.GetAttribute('version') -ne '130' -or
-		$modInfo.SelectSingleNode('/Mod/Properties/Version').InnerText -ne '130' -or
-		$modInfo.SelectSingleNode('/Mod/Properties/ToolboxVersion').InnerText -ne '1.3.0') {
-	Add-ValidationError 'The integrated package version must be 1.3.0 / ModInfo 130.'
+if ($modInfo.DocumentElement.GetAttribute('version') -ne $expectedModInfoVersion -or
+		$modInfo.SelectSingleNode('/Mod/Properties/Version').InnerText -ne $expectedModInfoVersion -or
+		$modInfo.SelectSingleNode('/Mod/Properties/ToolboxVersion').InnerText -ne $expectedSemanticVersion) {
+	Add-ValidationError "Package version metadata must match tools/project.json ($expectedSemanticVersion / ModInfo $expectedModInfoVersion)."
 }
 if ($modInfo.SelectSingleNode('/Mod/Properties/Name').InnerText -ne 'LOC_ZYLPVPMOD_TITLE') {
     Add-ValidationError 'The ModInfo title is not the ZYLPVPMOD localization key.'
 }
 $workshopTitleEnglish = $modInfo.SelectSingleNode("/Mod/LocalizedText/Text[@id='LOC_ZYLPVPMOD_TITLE']/en_US")
 $workshopTitleChinese = $modInfo.SelectSingleNode("/Mod/LocalizedText/Text[@id='LOC_ZYLPVPMOD_TITLE']/zh_Hans_CN")
-if ($null -eq $workshopTitleEnglish -or $workshopTitleEnglish.InnerText -ne 'ZYLPVPMOD 1.3.0' -or
-		$null -eq $workshopTitleChinese -or $workshopTitleChinese.InnerText -ne 'ZYLPVPMOD 1.3.0') {
-	Add-ValidationError 'The localized ModInfo title must be ZYLPVPMOD 1.3.0.'
+$expectedPackageTitle = "$expectedPackageName $expectedSemanticVersion"
+if ($null -eq $workshopTitleEnglish -or $workshopTitleEnglish.InnerText -ne $expectedPackageTitle -or
+		$null -eq $workshopTitleChinese -or $workshopTitleChinese.InnerText -ne $expectedPackageTitle) {
+	Add-ValidationError "The localized ModInfo title must be $expectedPackageTitle."
 }
 $multiplayerHelperPath = Join-Path $modRoot 'data\MP_helper.lua'
 if (-not (Test-Path -LiteralPath $multiplayerHelperPath) -or
-		-not (Get-Content -LiteralPath $multiplayerHelperPath -Raw).Contains('local g_version = "ZYLPVPMOD v1.3.0"')) {
-	Add-ValidationError 'The multiplayer version handshake must identify ZYLPVPMOD v1.3.0.'
+		-not (Get-Content -LiteralPath $multiplayerHelperPath -Raw).Contains("local g_version = `"$expectedPackageName v$expectedSemanticVersion`"")) {
+	Add-ValidationError "The multiplayer version handshake must identify $expectedPackageName v$expectedSemanticVersion."
 }
 
 # Keep the Team PVP Balanced Industries/Corporations nerf complete. The
@@ -571,7 +598,7 @@ foreach ($relativePath in $intentionallyUnlistedFiles) {
     $intentionallyUnlistedMap[(Normalize-RelativePath $relativePath)] = $relativePath
 }
 $sourceOnlyFileCount = 0
-$diskFiles = @(Get-ChildItem -LiteralPath $modRoot -Recurse -File)
+$diskFiles = $projectFiles
 foreach ($diskFile in $diskFiles) {
     if ($diskFile.FullName -eq $modInfoPath) { continue }
     $relativePath = $diskFile.FullName.Substring($modRoot.Length + 1)
