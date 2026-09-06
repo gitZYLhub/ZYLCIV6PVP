@@ -2748,6 +2748,41 @@ Add-ValidationError 'Only the current host may start a remap, and refresh tracki
 }
 }
 
+$dropControlPath = Join-Path $modRoot 'ui\Additions\DropControl.lua'
+if (-not (Test-Path -LiteralPath $dropControlPath -PathType Leaf)) {
+Add-ValidationError 'The multiplayer drop controller is missing.'
+}
+else {
+$dropControlSource = Get-Content -LiteralPath $dropControlPath -Raw
+foreach ($requiredDropControlFragment in @(
+'local UIEvents = ExposedMembers.LuaEvents;',
+'local UpdateData',
+'not UpdateData(playerID, true)',
+'UpdateData(playerID, false)',
+'if player.IsDropped == true then',
+'player.ElapsedTime = 0',
+'RestoreHostPauseState()'
+)) {
+if (-not $dropControlSource.Contains($requiredDropControlFragment)) {
+Add-ValidationError "The drop controller is missing its idempotency or pause-state guard: $requiredDropControlFragment"
+}
+}
+if (-not [regex]::IsMatch(
+$dropControlSource,
+'(?s)function OnShutdown\(\).*?SetTicking\(false\).*?RestoreHostPauseState\(\)'
+)) {
+Add-ValidationError 'The drop controller does not return a suite-requested pause during shutdown.'
+}
+if ([regex]::Matches($dropControlSource, 'GameCoreEventPublishComplete\.Add\s*\(\s*OnTimeTicks\s*\)').Count -ne 1 -or
+[regex]::Matches($dropControlSource, 'GameCoreEventPublishComplete\.Remove\s*\(\s*OnTimeTicks\s*\)').Count -ne 1) {
+Add-ValidationError 'The drop controller timer must have exactly one guarded add/remove implementation.'
+}
+if ([regex]::Matches($dropControlSource, '(?m)^\s*print\(').Count -ne 0 -or
+[regex]::IsMatch($dropControlSource, '(?m)^UIEvents\s*=')) {
+Add-ValidationError 'The drop controller restored an unguarded print or global UIEvents alias.'
+}
+}
+
 $mphOptionsPath = Join-Path $modRoot 'ui\Additions\MPHOptions.lua'
 if (-not (Test-Path -LiteralPath $mphOptionsPath -PathType Leaf)) {
 Add-ValidationError 'The multiplayer options/resync controller is missing.'

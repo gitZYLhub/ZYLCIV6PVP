@@ -1,19 +1,19 @@
 -- Copyright 2016-2019, Firaxis Games
 -- (Multiplayer) Drop Control By D. / Jack The Narrator
-print("MPH Drop Control")
 include("InstanceManager");
 include("PopupDialog");
 
 -- ===========================================================================
 --	Variables
 -- ===========================================================================
-UIEvents = ExposedMembers.LuaEvents;
+local UIEvents = ExposedMembers.LuaEvents;
 local _kPopupDialog = {}
 local g_dropped_player_list = {};
 local m_visible = false
 local m_last_update = 0
 local m_tick_registered = false
 local m_suite_requested_pause = false
+local UpdateData
 
 local function IsHost()
 	local localID = Network.GetLocalPlayerID()
@@ -52,7 +52,9 @@ end
 --	New Functions
 -- ===========================================================================
 function OnMultiplayerPrePlayerDisconnected( playerID )
-	--print ("Time Disconnect", os.date("%c"))
+	if type(playerID) ~= "number" or playerID < 0 or not UpdateData(playerID, true) then
+		return
+	end
 	ContextPtr:SetHide(false);
 	local hostID = Network.GetGameHostPlayerID()
 	local localID = Network.GetLocalPlayerID()
@@ -77,63 +79,56 @@ function OnMultiplayerPrePlayerDisconnected( playerID )
 		end
 	end
 	
-	UpdateData(playerID,true)
 	UIEvents.UICPLPlayerDrop( playerID );
 end
 
 
 function OnMultplayerPlayerConnected( playerID )
-	--print ("Time Connected", os.date("%c"))
-	if #g_dropped_player_list > 0 then
-		for i, player in ipairs(g_dropped_player_list) do
-			if player.ID == playerID and player.IsDropped == true then
-				UIEvents.UICPLPlayerConnect( playerID );
-				UpdateData(playerID,false)
-				break
-			end
-		end	
+	if type(playerID) == "number" and playerID >= 0 and UpdateData(playerID, false) then
+		UIEvents.UICPLPlayerConnect( playerID );
 	end
-
 end
 
-function UpdateData(playerID:number,disconnected:boolean)
+UpdateData = function(playerID:number,disconnected:boolean)
 	if disconnected == true then
-		if #g_dropped_player_list == 0 then
-			local tmp = {}
-			tmp = { ID = playerID, RefTime = math.floor(Automation.GetTime()), ElapsedTime = 0, IsDropped = true }
-			table.insert(g_dropped_player_list,tmp)
-			else
-			local b_exist = false
-			for i, player in ipairs(g_dropped_player_list) do
-				if player.ID == playerID then
-					player.RefTime = math.floor(Automation.GetTime())
-					player.IsDropped = true
-					b_exist = true
+		local now = math.floor(Automation.GetTime())
+		for _, player in ipairs(g_dropped_player_list) do
+			if player.ID == playerID then
+				if player.IsDropped == true then
+					return false
 				end
-			end
-			if b_exist == false then
-				local tmp = { ID = playerID, RefTime = math.floor(Automation.GetTime()), ElapsedTime = 0, IsDropped = true }
-				table.insert(g_dropped_player_list,tmp)			
+				player.RefTime = now
+				player.ElapsedTime = 0
+				player.IsDropped = true
+				SetTicking(true)
+				return true
 			end
 		end
+		table.insert(g_dropped_player_list, {
+			ID = playerID,
+			RefTime = now,
+			ElapsedTime = 0,
+			IsDropped = true
+		})
 		SetTicking(true)
-		else
-		if #g_dropped_player_list > 0 then
-			for i, player in ipairs(g_dropped_player_list) do
-				if player.ID == playerID then
-					player.IsDropped = false
+		return true
+	else
+		for _, player in ipairs(g_dropped_player_list) do
+			if player.ID == playerID and player.IsDropped == true then
+				player.IsDropped = false
+				if not HasDroppedPlayers() then
+					SetTicking(false)
+					if IsHost() then
+						Controls.HostLabel:SetText("All players are connected. Resume when everyone is ready.")
+					else
+						OnClose()
+					end
 				end
+				return true
 			end	
 		end
-		if not HasDroppedPlayers() then
-			SetTicking(false)
-			if IsHost() then
-				Controls.HostLabel:SetText("All players are connected. Resume when everyone is ready.")
-			else
-				OnClose()
-			end
-		end
 	end
+	return false
 end
 
 function OnTimeTicks()
@@ -180,6 +175,7 @@ end
 function OnShutdown()
 	ContextPtr:SetHide(true);
 	SetTicking(false)
+	RestoreHostPauseState()
 	Events.MultiplayerPlayerConnected.Remove ( OnMultplayerPlayerConnected )
 	Events.MultiplayerPrePlayerDisconnected.Remove ( OnMultiplayerPrePlayerDisconnected )
 end
@@ -190,8 +186,7 @@ function OnHostResume()
 end
 
 function ConfirmResume()
-	local localID = Network.GetLocalPlayerID()
-	if localID == Network.GetGameHostPlayerID() then
+	if IsHost() then
 		if _kPopupDialog == nil then
 		_kPopupDialog = PopupDialog:new( "VotePanel" );
 		end
