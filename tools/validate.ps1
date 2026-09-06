@@ -2909,6 +2909,48 @@ Add-ValidationError 'Identity-game lobby deal data does not reset to an empty va
 }
 }
 
+$mainMenuPath = Join-Path $modRoot 'ui\mainmenu.lua'
+if (-not (Test-Path -LiteralPath $mainMenuPath -PathType Leaf)) {
+Add-ValidationError 'The main-menu replacement is missing.'
+}
+else {
+$mainMenuSource = Get-Content -LiteralPath $mainMenuPath -Raw
+foreach ($requiredMainMenuLifecycleFragment in @(
+'local b_debug = false',
+'ContextPtr:SetShutdown( OnShutdown );',
+'LuaEvents.EnterCrossPlayLobby.Remove(OnEnterCrossPlayLobby);',
+'Events.SystemUpdateUI.Remove(OnUpdateUI);'
+)) {
+if (-not $mainMenuSource.Contains($requiredMainMenuLifecycleFragment)) {
+Add-ValidationError "Main-menu lifecycle guard is missing: $requiredMainMenuLifecycleFragment"
+}
+}
+$mainMenuEventRegistrations = @{}
+foreach ($registration in [regex]::Matches(
+$mainMenuSource,
+'(?m)(Events|LuaEvents)\.([A-Za-z0-9_]+)\.Add\(\s*([A-Za-z0-9_]+)\s*\)'
+)) {
+$key = "$($registration.Groups[1].Value).$($registration.Groups[2].Value)|$($registration.Groups[3].Value)"
+$mainMenuEventRegistrations[$key] = $true
+}
+$mainMenuEventRemovals = @{}
+foreach ($removal in [regex]::Matches(
+$mainMenuSource,
+'(?m)(Events|LuaEvents)\.([A-Za-z0-9_]+)\.Remove\(\s*([A-Za-z0-9_]+)\s*\)'
+)) {
+$key = "$($removal.Groups[1].Value).$($removal.Groups[2].Value)|$($removal.Groups[3].Value)"
+$mainMenuEventRemovals[$key] = $true
+}
+foreach ($registrationKey in $mainMenuEventRegistrations.Keys) {
+if (-not $mainMenuEventRemovals.ContainsKey($registrationKey)) {
+Add-ValidationError "Main-menu global event registration has no matching shutdown removal: $registrationKey"
+}
+}
+if ([regex]::Matches($mainMenuSource, '(?m)^\s*print\(').Count -ne 0) {
+Add-ValidationError 'The main menu contains an unguarded runtime print.'
+}
+}
+
 $hostGamePath = Join-Path $modRoot 'ui\hostgame.lua'
 if (-not (Test-Path -LiteralPath $hostGamePath)) {
 Add-ValidationError 'The host-game replacement is missing.'

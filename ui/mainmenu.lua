@@ -30,6 +30,11 @@ local m_howToPiratesControl:table = nil;--Cache Pirates how-to button so that it
 local m_isQuitting :boolean = false;	-- Is the application shutting down (after user approval.)
 
 local g_version = " - [COLOR_LIGHTBLUE]MPH[ENDCOLOR]"
+local b_debug = false
+
+local function DebugLog(...)
+	if b_debug then print(...) end
+end
 
 g_LogoTexture = nil;	-- Custom Logo texture override.
 g_LogoMovie = nil;		-- Custom Logo movie override.
@@ -55,7 +60,7 @@ g_MostRecentSave = nil;					-- The most recent single player save a user has (lo
 function OnResumeGame()
 	if(g_MostRecentSave) then
 		local serverType : number = ServerType.SERVER_TYPE_NONE;
-		print("MainMenu::OnResumeGame() leaving the network session.");														 
+		DebugLog("MainMenu::OnResumeGame() leaving the network session.");
 		Network.LeaveGame();
 		Network.LoadGame(g_MostRecentSave, serverType);
 	end
@@ -128,7 +133,7 @@ function OnStateTransition( who:string )
 	
 	local save = Options.GetAppOption("Debug", "PlayNowSave");
 	if(save ~= nil) then
-		print("MainMenu::OnPlayCiv6() PlayNowSave leaving the network session.");
+		DebugLog("MainMenu::OnPlayCiv6() PlayNowSave leaving the network session.");
 		Network.LeaveGame();
 
 		local serverType : number = ServerType.SERVER_TYPE_NONE;
@@ -1444,7 +1449,27 @@ end
 function OnShutdown()
 	if Controls.Logo:IsTextureLoaded() then
 		Controls.Logo:UnloadTexture();
-	end	
+	end
+	Events.SteamServersConnected.Remove(UpdateInternetControls);
+	Events.SteamServersDisconnected.Remove(UpdateInternetControls);
+	Events.CrossPlayServersDisconnected.Remove(UpdateInternetControls);
+	Events.CrossPlayServersConnected.Remove(UpdateInternetControls);
+	Events.MultiplayerGameLaunched.Remove(OnGameLaunched);
+	Events.UserRequestClose.Remove(OnUserRequestClose);
+	Events.UserConfirmedClose.Remove(OnUserConfirmedClose);
+	Events.CloudTurnCheckComplete.Remove(OnCloudTurnCheckComplete);
+	Events.CloudUnseenCompleteCheckComplete.Remove(OnCloudUnseenCompleteCheckComplete);
+	Events.FiraxisLiveActivate.Remove(OnFiraxisLiveActivate);
+	Events.My2KLinkAccountResult.Remove(OnMy2KLinkAccountResult);
+	Events.MarketingPushDataUpdated.Remove(OnMarketingPushDataUpdated);
+	Events.FinishedGameplayContentConfigure.Remove(OnGameplayContentChanged);
+	Events.SystemUpdateUI.Remove(OnUpdateUI);
+	LuaEvents.FileListQueryResults.Remove(OnFileListQueryResults);
+	LuaEvents.MainMenu_ShowAdditionalContent.Remove(OnMods);
+	LuaEvents.CivRoyaleIntro_StartMatchMaking.Remove(StartRoyaleMatchMaking);
+	LuaEvents.PiratesIntro_StartMatchMaking.Remove(StartPiratesMatchMaking);
+	LuaEvents.StateTransition_SignalRaised.Remove(OnStateTransition);
+	LuaEvents.EnterCrossPlayLobby.Remove(OnEnterCrossPlayLobby);
 end
 
 -- ===========================================================================
@@ -1455,7 +1480,7 @@ function GetLocalModVersion(id)
 	
 	local mods = Modding.GetInstalledMods();
 	if(mods == nil or #mods == 0) then
-		print("No mods locally installed!")
+		DebugLog("No mods locally installed!")
 		return nil
 	end
 	
@@ -1468,7 +1493,7 @@ function GetLocalModVersion(id)
 	end
 	if handle ~= -1 then
 		local version = Modding.GetModProperty(handle, "Version");
-		print("id",id,version)
+		DebugLog("id", id, version)
 		return version
 		else
 		return nil
