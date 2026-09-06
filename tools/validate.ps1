@@ -502,6 +502,7 @@ foreach ($relativePath in $listedFiles) {
 # Keep intentionally dormant/conflicting upstream files explicit so a new
 # unlisted file fails validation instead of silently disappearing at runtime.
 $intentionallyUnlistedFiles = @(
+    'ZYLPVPMOD1.3.0修改大全.md',
     'BCS\UI\CityStates_SPEC.lua',
     'BCT\UnitFlagManager_BuilderCharges.lua',
     'BER\UnitFlagManager_GreatGeneralEraReminder.lua',
