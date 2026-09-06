@@ -7,7 +7,7 @@ function Get-ZylOrderedManifestElements {
         [string]$FragmentRootName,
 
         [Parameter(Mandatory = $true)]
-        [string]$ElementName
+        [string[]]$ElementNames
     )
 
     if (-not (Test-Path -LiteralPath $SourceDirectory -PathType Container)) {
@@ -17,6 +17,9 @@ function Get-ZylOrderedManifestElements {
     $records = [System.Collections.Generic.List[object]]::new()
     $orders = [System.Collections.Generic.HashSet[int]]::new()
     $identifiers = [System.Collections.Generic.HashSet[string]]::new(
+        [System.StringComparer]::OrdinalIgnoreCase
+    )
+    $domains = [System.Collections.Generic.HashSet[string]]::new(
         [System.StringComparer]::OrdinalIgnoreCase
     )
     $fragmentFiles = @(Get-ChildItem -LiteralPath $SourceDirectory -Filter '*.xml' -File | Sort-Object Name)
@@ -36,10 +39,16 @@ function Get-ZylOrderedManifestElements {
         if ([string]::IsNullOrWhiteSpace($domain)) {
             throw "Manifest fragment has no domain: $($fragmentFile.FullName)"
         }
+        if (-not $domains.Add($domain)) {
+            throw "Duplicate manifest fragment domain '$domain' in $SourceDirectory."
+        }
 
         foreach ($element in @($root.ChildNodes | Where-Object NodeType -eq Element)) {
-            if ($element.LocalName -ne $ElementName) {
-                throw "Unexpected element $($element.LocalName) in $($fragmentFile.FullName); expected $ElementName."
+            if ($element.LocalName -notin $ElementNames) {
+                throw (
+                    "Unexpected element $($element.LocalName) in $($fragmentFile.FullName); " +
+                    "expected one of: $($ElementNames -join ', ')."
+                )
             }
             $orderText = $element.GetAttribute('manifestOrder')
             $order = 0
@@ -51,7 +60,7 @@ function Get-ZylOrderedManifestElements {
             }
             $identifier = $element.GetAttribute('id')
             if ([string]::IsNullOrWhiteSpace($identifier) -or -not $identifiers.Add($identifier)) {
-                throw "Missing or duplicate $ElementName id '$identifier' in $SourceDirectory."
+                throw "Missing or duplicate $($element.LocalName) id '$identifier' in $SourceDirectory."
             }
             $records.Add([pscustomobject][ordered]@{
                 Order = $order
@@ -85,7 +94,44 @@ function New-ZylActionCriteriaSection {
     $records = @(Get-ZylOrderedManifestElements `
         -SourceDirectory $SourceDirectory `
         -FragmentRootName 'CriteriaFragment' `
-        -ElementName 'Criteria')
+        -ElementNames @('Criteria'))
+    foreach ($record in $records) {
+        $element = [System.Xml.XmlElement]$OwnerDocument.ImportNode($record.Element, $true)
+        $element.RemoveAttribute('manifestOrder')
+        [void]$section.AppendChild($element)
+    }
+    return ,$section
+}
+
+function New-ZylActionsSection {
+    param(
+        [Parameter(Mandatory = $true)]
+        [System.Xml.XmlDocument]$OwnerDocument,
+
+        [Parameter(Mandatory = $true)]
+        [ValidateSet('FrontEndActions', 'InGameActions')]
+        [string]$SectionName,
+
+        [Parameter(Mandatory = $true)]
+        [string]$SourceDirectory
+    )
+
+    $actionElementNames = @(
+        'AddGameplayScripts',
+        'AddUserInterfaces',
+        'ImportFiles',
+        'ReplaceUIScript',
+        'UpdateArt',
+        'UpdateColors',
+        'UpdateDatabase',
+        'UpdateIcons',
+        'UpdateText'
+    )
+    $section = $OwnerDocument.CreateElement($SectionName)
+    $records = @(Get-ZylOrderedManifestElements `
+        -SourceDirectory $SourceDirectory `
+        -FragmentRootName "${SectionName}Fragment" `
+        -ElementNames $actionElementNames)
     foreach ($record in $records) {
         $element = [System.Xml.XmlElement]$OwnerDocument.ImportNode($record.Element, $true)
         $element.RemoveAttribute('manifestOrder')

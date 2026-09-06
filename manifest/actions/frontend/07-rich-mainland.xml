@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrontEndActionsFragment schemaVersion="1" domain="07-rich-mainland">
+  <UpdateDatabase id="ZYL_RichMainland_Config" manifestOrder="30">
+    <Properties>
+      <LoadOrder>200000100</LoadOrder>
+    </Properties>
+    <File>Components/BBM/Configuration/ZYL_RichMainland_Config.xml</File>
+  </UpdateDatabase>
+  <UpdateText id="ZYL_RichMainland_Text" manifestOrder="31">
+    <Properties>
+      <LoadOrder>200000100</LoadOrder>
+    </Properties>
+    <File>Components/BBM/Lang/ZYL_RichMainland_Text.xml</File>
+  </UpdateText>
+</FrontEndActionsFragment>

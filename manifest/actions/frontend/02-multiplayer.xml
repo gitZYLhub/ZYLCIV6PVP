@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrontEndActionsFragment schemaVersion="1" domain="02-multiplayer">
+  <UpdateDatabase id="CPL_SETTINGS" manifestOrder="2">
+    <Properties>
+      <LoadOrder>30000</LoadOrder>
+    </Properties>
+    <File>configuration/config.sql</File>
+    <File>configuration/Config.xml</File>
+    <File>configuration/Config_BBG.xml</File>
+    <File>configuration/Config_BBS.xml</File>
+  </UpdateDatabase>
+  <UpdateText id="MPH_TEXTS" manifestOrder="3">
+    <File>lang/Text_EN.xml</File>
+    <File>lang/Text_FR.xml</File>
+    <File>lang/Text_CN.xml</File>
+    <File>lang/Text_RU.xml</File>
+    <File>lang/Text_BR.xml</File>
+    <File>lang/Text_KO.xml</File>
+    <File>lang/Text_JP.xml</File>
+    <File>lang/Text_DE.xml</File>
+  </UpdateText>
+  <UpdateIcons id="MPHIcons FrontEnd" manifestOrder="7">
+    <File>icons/Anonymous_Icons.xml</File>
+    <File>icons/Sudden_Death_Icons.xml</File>
+  </UpdateIcons>
+  <UpdateDatabase id="ZYL_LobbyDefaults" manifestOrder="32">
+    <Properties>
+      <LoadOrder>300000000</LoadOrder>
+    </Properties>
+    <File>configuration/ZYL_LobbyDefaults.xml</File>
+  </UpdateDatabase>
+</FrontEndActionsFragment>

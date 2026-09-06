@@ -6,7 +6,7 @@ $ErrorActionPreference = 'Stop'
 # ZYLPVPMOD is self-contained. This script synchronizes package identity and
 # assembles migrated manifest sections from repository-owned sources. It has no
 # parameters for upstream manifests and never reads Steam/Workshop caches or
-# sibling projects. Criteria are generated from manifest/criteria; action and
+# sibling projects. Criteria and actions are generated from manifest sources;
 # file-list migration continues incrementally during M2.
 $modRoot = [System.IO.Path]::GetFullPath((Split-Path -Parent $PSScriptRoot))
 $modRootPrefix = $modRoot.TrimEnd('\') + '\'
@@ -38,8 +38,9 @@ $modInfoVersion = ([int]$projectMetadata.modInfoVersion).ToString(
     [System.Globalization.CultureInfo]::InvariantCulture
 )
 $multiplayerHelperRelativePath = [string]$projectMetadata.multiplayerHelperFile
-$vampireCastleScript = 'Components/TeamPVPSecretSocieties/Scripts/VampireCastle_Gameplay.lua'
 $criteriaSourceDirectory = Join-Path $modRoot 'manifest\criteria'
+$frontEndActionsSourceDirectory = Join-Path $modRoot 'manifest\actions\frontend'
+$inGameActionsSourceDirectory = Join-Path $modRoot 'manifest\actions\ingame'
 $manifestChanged = $false
 
 function Resolve-ProjectFile {
@@ -81,73 +82,6 @@ function Set-ChildText {
     }
 }
 
-function Ensure-VampireCastleAction {
-    param([System.Xml.XmlDocument]$Document)
-
-    $section = [System.Xml.XmlElement]$Document.SelectSingleNode('/Mod/InGameActions')
-    if ($null -eq $section) {
-        throw 'ZYLPVPMOD.modinfo is missing InGameActions.'
-    }
-
-    $action = [System.Xml.XmlElement]$section.SelectSingleNode("*[@id='ZYL_TPVP_VampireCastleGameplay']")
-    if ($null -ne $action -and $action.LocalName -ne 'AddGameplayScripts') {
-        [void]$section.RemoveChild($action)
-        $action = $null
-        $script:manifestChanged = $true
-    }
-    if ($null -eq $action) {
-        $action = $Document.CreateElement('AddGameplayScripts')
-        $action.SetAttribute('id', 'ZYL_TPVP_VampireCastleGameplay')
-        [void]$section.AppendChild($action)
-        $script:manifestChanged = $true
-    }
-
-    $properties = [System.Xml.XmlElement]$action.SelectSingleNode('Properties')
-    if ($null -eq $properties) {
-        $properties = $Document.CreateElement('Properties')
-        [void]$action.PrependChild($properties)
-        $script:manifestChanged = $true
-    }
-    Set-ChildText $Document $properties 'LoadOrder' '250000031'
-
-    if ($null -eq $action.SelectSingleNode("Criteria[.='ZYL_SecretSocietiesXP2']")) {
-        $criterion = $Document.CreateElement('Criteria')
-        $criterion.InnerText = 'ZYL_SecretSocietiesXP2'
-        [void]$action.AppendChild($criterion)
-        $script:manifestChanged = $true
-    }
-    if ($null -eq $action.SelectSingleNode("File[.='$vampireCastleScript']")) {
-        $file = $Document.CreateElement('File')
-        $file.InnerText = $vampireCastleScript
-        [void]$action.AppendChild($file)
-        $script:manifestChanged = $true
-    }
-}
-
-function Ensure-ListedFile {
-    param(
-        [System.Xml.XmlDocument]$Document,
-        [string]$RelativePath
-    )
-
-    $files = [System.Xml.XmlElement]$Document.SelectSingleNode('/Mod/Files')
-    if ($null -eq $files) {
-        throw 'ZYLPVPMOD.modinfo is missing Files.'
-    }
-    foreach ($fileNode in @($files.SelectNodes('File'))) {
-        if ($fileNode.InnerText.Trim().Replace('\', '/').Equals(
-                $RelativePath,
-                [System.StringComparison]::OrdinalIgnoreCase
-            )) {
-            return
-        }
-    }
-    $file = $Document.CreateElement('File')
-    $file.InnerText = $RelativePath
-    [void]$files.AppendChild($file)
-    $script:manifestChanged = $true
-}
-
 if (-not (Test-Path -LiteralPath $modInfoPath -PathType Leaf)) {
     throw "Local ModInfo not found: $modInfoPath"
 }
@@ -164,25 +98,94 @@ if ($modInfo.DocumentElement.GetAttribute('id') -ne $unifiedId) {
     $manifestChanged = $true
 }
 
+function Test-GeneratedSectionMatches {
+    param(
+        [Parameter(Mandatory = $true)]
+        [System.Xml.XmlElement]$GeneratedSection,
+
+        [Parameter(Mandatory = $true)]
+        [System.Xml.XmlElement]$ExistingSection
+    )
+
+    # Human-facing comments may remain in the assembled ModInfo. The source
+    # fragments own every runtime element, so compare that ordered element
+    # sequence and avoid rewriting a semantically identical section.
+    $generatedElements = @($GeneratedSection.ChildNodes | Where-Object NodeType -eq Element)
+    $existingElements = @($ExistingSection.ChildNodes | Where-Object NodeType -eq Element)
+    if ($generatedElements.Count -ne $existingElements.Count) {
+        return $false
+    }
+    for ($index = 0; $index -lt $generatedElements.Count; $index++) {
+        if ($generatedElements[$index].OuterXml -ne $existingElements[$index].OuterXml) {
+            return $false
+        }
+    }
+    return $true
+}
+
+function Sync-GeneratedSection {
+    param(
+        [Parameter(Mandatory = $true)]
+        [System.Xml.XmlDocument]$Document,
+
+        [Parameter(Mandatory = $true)]
+        [string]$SectionName,
+
+        [Parameter(Mandatory = $true)]
+        [System.Xml.XmlElement]$GeneratedSection,
+
+        [Parameter(Mandatory = $true)]
+        [string]$NextSectionName
+    )
+
+    $existingSection = [System.Xml.XmlElement]$Document.SelectSingleNode("/Mod/$SectionName")
+    if ($null -eq $existingSection) {
+        $nextSection = $Document.SelectSingleNode("/Mod/$NextSectionName")
+        if ($null -eq $nextSection) {
+            throw "ZYLPVPMOD.modinfo is missing both $SectionName and $NextSectionName."
+        }
+        [void]$Document.DocumentElement.InsertBefore($GeneratedSection, $nextSection)
+        $script:manifestChanged = $true
+    }
+    elseif (-not (Test-GeneratedSectionMatches `
+            -GeneratedSection $GeneratedSection `
+            -ExistingSection $existingSection)) {
+        [void]$existingSection.ParentNode.ReplaceChild($GeneratedSection, $existingSection)
+        $script:manifestChanged = $true
+    }
+}
+
 function Sync-ActionCriteria {
     param([System.Xml.XmlDocument]$Document)
 
     $generatedSection = New-ZylActionCriteriaSection `
         -OwnerDocument $Document `
         -SourceDirectory $criteriaSourceDirectory
-    $existingSection = [System.Xml.XmlElement]$Document.SelectSingleNode('/Mod/ActionCriteria')
-    if ($null -eq $existingSection) {
-        $frontEndActions = $Document.SelectSingleNode('/Mod/FrontEndActions')
-        if ($null -eq $frontEndActions) {
-            throw 'ZYLPVPMOD.modinfo is missing both ActionCriteria and FrontEndActions.'
-        }
-        [void]$Document.DocumentElement.InsertBefore($generatedSection, $frontEndActions)
-        $script:manifestChanged = $true
-    }
-    elseif ($generatedSection.OuterXml -ne $existingSection.OuterXml) {
-        [void]$existingSection.ParentNode.ReplaceChild($generatedSection, $existingSection)
-        $script:manifestChanged = $true
-    }
+    Sync-GeneratedSection `
+        -Document $Document `
+        -SectionName 'ActionCriteria' `
+        -GeneratedSection $generatedSection `
+        -NextSectionName 'FrontEndActions'
+}
+
+function Sync-ActionsSection {
+    param(
+        [System.Xml.XmlDocument]$Document,
+        [ValidateSet('FrontEndActions', 'InGameActions')]
+        [string]$SectionName,
+        [string]$SourceDirectory,
+        [string]$NextSectionName
+    )
+
+    $generatedSection = New-ZylActionsSection `
+        -OwnerDocument $Document `
+        -SectionName $SectionName `
+        -SourceDirectory $SourceDirectory
+    Sync-GeneratedSection `
+        -Document $Document `
+        -SectionName $SectionName `
+        -GeneratedSection $generatedSection `
+        -NextSectionName $NextSectionName
 }
 if ($modInfo.DocumentElement.GetAttribute('version') -ne $modInfoVersion) {
     $modInfo.DocumentElement.SetAttribute('version', $modInfoVersion)
@@ -206,8 +209,16 @@ Set-ChildText $modInfo $title 'en_US' "$packageName $packageVersion"
 Set-ChildText $modInfo $title 'zh_Hans_CN' "$packageName $packageVersion"
 
 Sync-ActionCriteria $modInfo
-Ensure-VampireCastleAction $modInfo
-Ensure-ListedFile $modInfo $vampireCastleScript
+Sync-ActionsSection `
+    -Document $modInfo `
+    -SectionName 'FrontEndActions' `
+    -SourceDirectory $frontEndActionsSourceDirectory `
+    -NextSectionName 'InGameActions'
+Sync-ActionsSection `
+    -Document $modInfo `
+    -SectionName 'InGameActions' `
+    -SourceDirectory $inGameActionsSourceDirectory `
+    -NextSectionName 'Files'
 
 # Every path consumed by the generated manifest must resolve inside this
 # repository. This is the hard boundary that prevents external cache reads.

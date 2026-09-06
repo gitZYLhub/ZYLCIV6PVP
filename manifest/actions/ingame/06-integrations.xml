@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<InGameActionsFragment schemaVersion="1" domain="06-integrations">
+  <ImportFiles id="ZYLPVP_BetterDealWindow_IG_001_ADW_Initial" manifestOrder="185">
+    <Properties>
+      <LoadOrder>50000</LoadOrder>
+    </Properties>
+    <File>Components/BetterDealWindow/DiplomacyDealView.lua</File>
+    <File>Components/BetterDealWindow/DiplomacyDealView.xml</File>
+    <File>Components/BetterDealWindow/DiplomacyDealView_Expansion2.lua</File>
+  </ImportFiles>
+  <UpdateText id="ZYLPVP_BetterDealWindow_IG_002_ADW_UpdateText" manifestOrder="186">
+    <File>Components/BetterDealWindow/Text/BDW_Text.xml</File>
+    <File>Components/BetterDealWindow/Text/BDW_Text_CN.xml</File>
+    <File>Components/BetterDealWindow/Text/BDW_Text_DE.xml</File>
+    <File>Components/BetterDealWindow/Text/BDW_Text_ES.xml</File>
+    <File>Components/BetterDealWindow/Text/BDW_Text_FR.xml</File>
+    <File>Components/BetterDealWindow/Text/BDW_Text_IT.xml</File>
+    <File>Components/BetterDealWindow/Text/BDW_Text_JP.xml</File>
+    <File>Components/BetterDealWindow/Text/BDW_Text_KR.xml</File>
+    <File>Components/BetterDealWindow/Text/BDW_Text_PL.xml</File>
+    <File>Components/BetterDealWindow/Text/BDW_Text_PT.xml</File>
+    <File>Components/BetterDealWindow/Text/BDW_Text_RU.xml</File>
+  </UpdateText>
+  <AddUserInterfaces id="ZYLPVP_DetailedMapTacks_IG_001_dmt_yieldcalculator" manifestOrder="187">
+    <Properties>
+      <Context>InGame</Context>
+    </Properties>
+    <File>Components/DetailedMapTacks/ui/dmt_yieldcalculator.xml</File>
+  </AddUserInterfaces>
+  <UpdateText id="ZYLPVP_DetailedMapTacks_IG_002_dmt_text" manifestOrder="188">
+    <File Priority="1">Components/DetailedMapTacks/config/en_us/dmt_options_text.xml</File>
+    <File>Components/DetailedMapTacks/config/dmt_options_translations_text.xml</File>
+    <File Priority="1">Components/DetailedMapTacks/text/en_us/dmt_text.xml</File>
+    <File>Components/DetailedMapTacks/text/dmt_translations_text.xml</File>
+  </UpdateText>
+  <ImportFiles id="ZYLPVP_DetailedMapTacks_IG_003_dmt_files" manifestOrder="189">
+    <Properties>
+      <LoadOrder>12345</LoadOrder>
+    </Properties>
+    <!-- Higher than Map Tacks mod's 12000. -->
+    <File>Components/DetailedMapTacks/ui/dmt_mappinsubjectmanager.lua</File>
+    <File>Components/DetailedMapTacks/ui/dmt_modifiercalculator.lua</File>
+    <File>Components/DetailedMapTacks/ui/dmt_modifierrequirementchecker.lua</File>
+    <File>Components/DetailedMapTacks/ui/dmt_serialize.lua</File>
+    <File>Components/DetailedMapTacks/ui/dmt_yieldcalculator.lua</File>
+    <File>Components/DetailedMapTacks/ui/dmt_yieldcalculator.xml</File>
+    <File>Components/DetailedMapTacks/ui/mappinmanager_dmt.lua</File>
+    <File>Components/DetailedMapTacks/ui/mappinmanager.xml</File>
+    <File>Components/DetailedMapTacks/ui/mappinpopup_dmt.lua</File>
+  </ImportFiles>
+  <ImportFiles id="ZYL_BDW_CompatibilityFiles" manifestOrder="246">
+    <Properties>
+      <LoadOrder>50009</LoadOrder>
+    </Properties>
+    <File>Components/BetterDealWindow/DiplomacyDealView_ZYLPVP_Expansion2.lua</File>
+    <File>Components/BetterDealWindow/ZYLPVP_BDW_MPH_Compatibility.lua</File>
+  </ImportFiles>
+  <ReplaceUIScript id="ZYL_BDW_DiplomacyDealView_XP2" manifestOrder="247">
+    <Properties>
+      <LoadOrder>50010</LoadOrder>
+      <LuaContext>DiplomacyDealView</LuaContext>
+      <LuaReplace>Components/BetterDealWindow/DiplomacyDealView_ZYLPVP_Expansion2.lua</LuaReplace>
+    </Properties>
+    <Criteria>Expansion2</Criteria>
+  </ReplaceUIScript>
+  <ReplaceUIScript id="ZYL_DMT_MapPinManager" manifestOrder="250">
+    <Properties>
+      <LoadOrder>50020</LoadOrder>
+      <LuaContext>MapPinManager</LuaContext>
+      <LuaReplace>Components/DetailedMapTacks/ui/mappinmanager_dmt.lua</LuaReplace>
+    </Properties>
+  </ReplaceUIScript>
+  <ReplaceUIScript id="ZYL_DMT_MapPinPopup" manifestOrder="251">
+    <Properties>
+      <LoadOrder>50020</LoadOrder>
+      <LuaContext>MapPinPopup</LuaContext>
+      <LuaReplace>Components/DetailedMapTacks/ui/mappinpopup_dmt.lua</LuaReplace>
+    </Properties>
+  </ReplaceUIScript>
+</InGameActionsFragment>

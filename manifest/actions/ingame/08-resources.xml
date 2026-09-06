@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<InGameActionsFragment schemaVersion="1" domain="08-resources">
+  <UpdateDatabase id="ZYL_BBGExpandedDisableGameplay" manifestOrder="195">
+    <Properties>
+      <LoadOrder>100000000</LoadOrder>
+    </Properties>
+    <File>Components/BBG/sql/BBG_Expanded/Disable_new.sql</File>
+  </UpdateDatabase>
+  <UpdateDatabase id="ZYL_BBGExpandedResources" manifestOrder="196">
+    <Properties>
+      <LoadOrder>5</LoadOrder>
+    </Properties>
+    <Criteria>ZYL_NoExternalBBGExpanded</Criteria>
+    <File>CIVITASResources/Core/p0k_Resources.sql</File>
+  </UpdateDatabase>
+  <UpdateArt id="ZYL_BBGExpandedResourcesArt" manifestOrder="197">
+    <Properties>
+      <LoadOrder>5</LoadOrder>
+    </Properties>
+    <Criteria>ZYL_NoExternalBBGExpanded</Criteria>
+    <File>CIVITASResources/CIVITAS Resources.dep</File>
+  </UpdateArt>
+  <UpdateIcons id="ZYL_BBGExpandedResourcesIcons" manifestOrder="198">
+    <Properties>
+      <LoadOrder>5</LoadOrder>
+    </Properties>
+    <Criteria>ZYL_NoExternalBBGExpanded</Criteria>
+    <File>CIVITASResources/Core/CVS_Resource_Icon_Definitions.sql</File>
+  </UpdateIcons>
+  <UpdateText id="ZYL_BBGExpandedResourcesText" manifestOrder="199">
+    <Properties>
+      <LoadOrder>5</LoadOrder>
+    </Properties>
+    <Criteria>ZYL_NoExternalBBGExpanded</Criteria>
+    <File>CIVITASResources/Core/p0k_Resources_Localisation.sql</File>
+  </UpdateText>
+  <UpdateDatabase id="ZYL_BBGExpandedResourcesMode" manifestOrder="200">
+    <Properties>
+      <LoadOrder>10</LoadOrder>
+    </Properties>
+    <Criteria>ZYL_NoExternalBBGExpanded</Criteria>
+    <Criteria>ZYL_MonopoliesMode</Criteria>
+    <File>CIVITASResources/Core_MODE/p0k_Resources_MODE_Industries.sql</File>
+    <File>CIVITASResources/Core_MODE/p0k_Resources_MODE_Products.sql</File>
+    <File>CIVITASResources/Core_MODE/p0k_Resources_MODE_Projects.sql</File>
+  </UpdateDatabase>
+  <UpdateIcons id="ZYL_BBGExpandedResourcesModeIcons" manifestOrder="201">
+    <Properties>
+      <LoadOrder>10</LoadOrder>
+    </Properties>
+    <Criteria>ZYL_NoExternalBBGExpanded</Criteria>
+    <Criteria>ZYL_MonopoliesMode</Criteria>
+    <File>CIVITASResources/Core_MODE/p0k_Resources_MODE_Icon_Definitions.sql</File>
+  </UpdateIcons>
+  <UpdateText id="ZYL_BBGExpandedResourcesModeText" manifestOrder="202">
+    <Properties>
+      <LoadOrder>10</LoadOrder>
+    </Properties>
+    <Criteria>ZYL_NoExternalBBGExpanded</Criteria>
+    <Criteria>ZYL_MonopoliesMode</Criteria>
+    <File>CIVITASResources/Core_MODE/p0k_Resources_MODE_Localisation.sql</File>
+  </UpdateText>
+  <UpdateDatabase id="ZYL_BBGExpandedResourcesBalance" manifestOrder="203">
+    <Properties>
+      <LoadOrder>100000000</LoadOrder>
+    </Properties>
+    <Criteria>ZYL_NoExternalBBGExpanded</Criteria>
+    <File>Components/BBG/sql/BBG_Expanded/Resources.sql</File>
+  </UpdateDatabase>
+  <UpdateDatabase id="ZYL_ResourceHarvests" manifestOrder="204">
+    <Properties>
+      <LoadOrder>200000000</LoadOrder>
+    </Properties>
+    <File>sql/ZYL_ResourceHarvests.sql</File>
+  </UpdateDatabase>
+  <UpdateDatabase id="ZYL_MonopoliesBalance" manifestOrder="227">
+    <Properties>
+      <LoadOrder>260000015</LoadOrder>
+    </Properties>
+    <Criteria>ZYL_MonopoliesMode</Criteria>
+    <File>sql/ZYL_MonopoliesBalance.sql</File>
+  </UpdateDatabase>
+  <UpdateText id="ZYL_BBGExpandedChineseText" manifestOrder="230">
+    <Properties>
+      <LoadOrder>259999995</LoadOrder>
+    </Properties>
+    <File>lang/ZYL_BBGExpanded_Chinese.sql</File>
+  </UpdateText>
+  <UpdateText id="ZYL_MonopoliesBalanceText" manifestOrder="231">
+    <Properties>
+      <LoadOrder>260000025</LoadOrder>
+    </Properties>
+    <Criteria>ZYL_MonopoliesMode</Criteria>
+    <File>lang/ZYL_MonopoliesBalance_Text.xml</File>
+  </UpdateText>
+</InGameActionsFragment>

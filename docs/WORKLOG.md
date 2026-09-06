@@ -160,4 +160,14 @@
 - 修改：新增 `manifest/criteria/*.xml` 十个片段和 `tools/manifest/ManifestSources.ps1`；组装器每次从片段重建 ActionCriteria；校验器直接比较分域源生成段与 ModInfo 当前段，并继续检查冻结全图指纹。
 - 验证：十域 Criteria 数分别为 4/10/7/50/26/4/3/2/1/1，总计 108；源片段生成段与当前段规范 JSON 完全一致。正常组装前后 ModInfo SHA-256 均为 `94869D352E031F53513FB048095730851842B75BDF7CD4398B4EAF27259BB14D`。负向测试把生成文件首条 `Expansion2` 临时改为 `Expansion2_PROBE` 后校验以退出码 1 拒绝，组装器随后从片段恢复原哈希；最终校验通过 174 XML、108 Criteria、283 Actions、1077 Files、549 活跃引用、48 休眠文件和 29 源码专用文件。
 - 风险/待办：领域划分目前只约束所有权，不改变跨域引用；下一步用相同 `manifestOrder` 机制迁移 32 条 FrontEnd Actions 和 251 条 InGame Actions，再生成 Files 清单。
-- 提交：本次提交（Criteria 分域生成）。
+- 提交：`815f2e5 refactor: generate Criteria from domain manifests`。
+
+### 2026-09-07 / M2-Actions 分域生成
+
+- 目标：把 32 条 FrontEnd Actions 和 251 条 InGame Actions 从手工 ModInfo 迁移到按责任域维护的源片段，消除动作定义与组装器特例的双重真值。
+- 范围：两类 Actions、共享清单读取模块、组装器、校验器和相关文档；Files 暂不迁移，不改变任何游戏运行行为或版本号。
+- 设计决定：前端动作按 9 个域拆分为 2/4/7/7/3/1/2/1/5 条，游戏内动作按 9 个域拆分为 39/56/87/20/9/4/13/10/13 条；各段独立使用连续 `manifestOrder` 恢复冻结顺序。分域源拥有全部运行元素，生成 ModInfo 可保留说明注释；元素序列相同时组装器不重写文件。
+- 修改：新增 `manifest/actions/frontend/*.xml` 和 `manifest/actions/ingame/*.xml` 共 18 个片段；`ManifestSources.ps1` 支持受限 Action 元素集合；组装器生成两类动作段并删除 `ZYL_TPVP_VampireCastleGameplay`/Files 的硬编码补丁；校验器逐段比较分域源和 ModInfo。
+- 验证：PowerShell 语法解析通过；正常组装为字节级幂等，ModInfo SHA-256 保持 `94869D352E031F53513FB048095730851842B75BDF7CD4398B4EAF27259BB14D`，完整动作图仍为 `f41a5c55fc7000b435ffe645d4c25df358ad3950b1e03f105b64d07e49ba14af`。负向测试将生成文件首条 Action 临时改为 `FrontEnd_DRIFT_PROBE` 后校验以退出码 1 检出动作图漂移，组装器恢复精确原哈希；另将源片段临时改为 `FrontEnd_SOURCE_PROBE` 后校验以退出码 1 检出源/生成段不一致，并用重复 `FrontEnd` ID 证明重复动作会被拒绝。PowerShell 7 与 Windows PowerShell 校验均通过 192 XML、108 Criteria、283 Actions、1077 Files、549 活跃引用、48 休眠文件和 47 源码专用文件；universal 包仍为 1072 文件、740.53 MiB，聚合 SHA-256 保持 `fc00184ee15b5761dc6b873496ee907a72dd5f922ea7bf8b2853e14daa91b94b`。
+- 风险/待办：动作域只改变维护边界，不改变跨域 Criteria/File 引用；下一步迁移 1077 条 Files，并继续拆分校验器领域。
+- 提交：本次提交（Actions 分域生成）。

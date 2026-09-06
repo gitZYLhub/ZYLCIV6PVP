@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<InGameActionsFragment schemaVersion="1" domain="05-bbm">
+  <UpdateIcons id="ZYLPVP_BBM_IG_001_BBS_ICONS" manifestOrder="165">
+    <File>Components/BBM/sql/bbs_icons_wonders.sql</File>
+  </UpdateIcons>
+  <UpdateArt id="ZYLPVP_BBM_IG_002_ArtDep" manifestOrder="166">
+    <Properties>
+      <LoadOrder>10</LoadOrder>
+    </Properties>
+    <File>NaturalWondersMod.dep</File>
+  </UpdateArt>
+  <ImportFiles id="ZYLPVP_BBM_IG_003_Map_BBS" manifestOrder="167">
+    <Properties>
+      <LoadOrder>1000</LoadOrder>
+    </Properties>
+    <File>Components/BBM/Data/BBS Maps/continents.lua</File>
+    <File>Components/BBM/Data/BBS Maps/continents_islands.lua</File>
+    <File>Components/BBM/Data/BBS Maps/fractal.lua</File>
+    <File>Components/BBM/Data/BBS Maps/inlandsea.lua</File>
+    <File>Components/BBM/Data/BBS Maps/island_plates.lua</File>
+    <File>Components/BBM/Data/BBS Maps/lakes.lua</File>
+    <File>Components/BBM/Data/BBS Maps/pangaea.lua</File>
+    <File>Components/BBM/Data/BBS Maps/pangaea_ultima.lua</File>
+    <File>Components/BBM/Data/BBS Maps/primordial.lua</File>
+    <File>Components/BBM/Data/BBS Maps/seven_seas.lua</File>
+    <File>Components/BBM/Data/BBS Maps/shuffle.lua</File>
+    <File>Components/BBM/Data/BBS Maps/splintered_fractal.lua</File>
+    <File>Components/BBM/Data/BBS Maps/small_continents.lua</File>
+    <File>Components/BBM/Data/BBS Maps/terra.lua</File>
+    <File>Components/BBM/Data/BBS Maps/tilted_axis.lua</File>
+    <File>Components/BBM/Data/BBS Maps/archipelago_xp2.lua</File>
+    <File>Components/BBM/Data/BBS Maps/highlands_xp2.lua</File>
+    <File>Components/BBM/Data/BBS Maps/rich_highlands_xp2.lua</File>
+    <File>Components/BBM/Data/BBS Maps/rich_riverlands.lua</File>
+    <File>Components/BBM/Data/BBS Maps/wetlands_xp2.lua</File>
+    <File>Components/BBM/Data/BBS Maps/perfectworld6.lua</File>
+    <File>Components/BBM/Data/BBS Maps/Utility/BBS_NaturalWonderGenerator.lua</File>
+    <File>Components/BBM/Data/BBS Maps/Utility/BBS_MountainsCliffs.lua</File>
+    <File>Components/BBM/Data/BBS Maps/Utility/BBM_AssignStartingPlots.lua</File>
+    <File>Components/BBM/Data/BBS Maps/Utility/DW_CoastalLowlands.lua</File>
+    <File>Components/BBM/Data/BBS Maps/Utility/BBM_FeatureGenerator.lua</File>
+    <File>Components/BBM/Data/BBS Maps/Utility/DW_MapUtilities.lua</File>
+    <File>Components/BBM/Data/BBS Maps/Utility/DW_MountainsCliffs.lua</File>
+    <File>Components/BBM/Data/BBS Maps/Utility/DW_RiversLakes.lua</File>
+    <File>Components/BBM/Data/BBS Maps/Utility/DW_TerrainGenerator.lua</File>
+    <File>Components/BBM/Data/BBS Maps/Utility/BBS_TerrainGenerator.lua</File>
+    <File>Components/BBM/Data/BBS Maps/Utility/BBS_ResourceGenerator.lua</File>
+    <File>Components/BBM/Data/BBS Maps/Utility/BBM_MapUtils.lua</File>
+    <File>Components/BBM/Data/BBS Maps/Utility/BBM_SpawnBalancing.lua</File>
+    <File>Components/BBM/Data/BBS Maps/Utility/BBM_CivilizationAssign.lua</File>
+  </ImportFiles>
+  <UpdateDatabase id="ZYLPVP_BBM_IG_004_BBS_Global_Parameters" manifestOrder="168">
+    <Properties>
+      <LoadOrder>1001</LoadOrder>
+    </Properties>
+    <File>Components/BBM/Configuration/Config.sql</File>
+    <File>Components/BBM/Gameplay/GamePlay.xml</File>
+    <File>Components/BBM/Gameplay/GamePlayXP2.xml</File>
+  </UpdateDatabase>
+  <UpdateText id="ZYLPVP_BBM_IG_005_BBS_Gameplay_test" manifestOrder="169">
+    <File>Components/BBM/Lang/english.xml</File>
+    <File>Components/BBM/Lang/french.xml</File>
+    <File>Components/BBM/Lang/russian.xml</File>
+    <File>Components/BBM/Lang/chinese.xml</File>
+    <File>Components/BBM/Lang/german.xml</File>
+    <File>Components/BBM/Lang/japanese.xml</File>
+    <File>Components/BBM/Lang/korean.xml</File>
+    <File>Components/BBM/Lang/portuguese.xml</File>
+  </UpdateText>
+  <UpdateDatabase id="ZYLPVP_BBM_IG_006_BBS_Minor_Bias_Parameters" manifestOrder="170">
+    <Properties>
+      <LoadOrder>1001</LoadOrder>
+    </Properties>
+    <File>Components/BBM/Configuration/Config_minor_bias.sql</File>
+  </UpdateDatabase>
+  <UpdateDatabase id="ZYLPVP_BBM_IG_007_BBS_Minor_Bias_Parameters" criteria="ZYLPVP_BBM_DLC: Vikings Content" manifestOrder="171">
+    <Properties>
+      <LoadOrder>1001</LoadOrder>
+    </Properties>
+    <File>Components/BBM/Configuration/Config_minor_bias_DLC_viking.sql</File>
+  </UpdateDatabase>
+  <UpdateDatabase id="ZYLPVP_BBM_IG_008_BBS_Negative_StartBias" manifestOrder="172">
+    <Properties>
+      <LoadOrder>2000</LoadOrder>
+    </Properties>
+    <File>Components/BBM/sql/bbs_bias_master.sql</File>
+  </UpdateDatabase>
+  <UpdateDatabase id="ZYLPVP_BBM_IG_009_BBS_New_Natural_Wonders" manifestOrder="173">
+    <Properties>
+      <LoadOrder>20000</LoadOrder>
+    </Properties>
+    <File>Components/BBM/sql/bbs_new_wonders.sql</File>
+  </UpdateDatabase>
+  <UpdateDatabase id="ZYLPVP_BBM_IG_010_BBS_New_Natural_Wonders_Xp1" manifestOrder="174">
+    <Properties>
+      <LoadOrder>20000</LoadOrder>
+    </Properties>
+    <Criteria>ZYLPVP_BBM_xp1</Criteria>
+    <File>Components/BBM/sql/bbs_new_wonders_xp1.sql</File>
+  </UpdateDatabase>
+  <UpdateDatabase id="ZYLPVP_BBM_IG_011_BBS_New_Natural_Wonders_Xp2" manifestOrder="175">
+    <Properties>
+      <LoadOrder>20000</LoadOrder>
+    </Properties>
+    <Criteria>ZYLPVP_BBM_xp2</Criteria>
+    <File>Components/BBM/sql/bbs_new_wonders_xp2.sql</File>
+  </UpdateDatabase>
+  <UpdateDatabase id="ZYLPVP_BBM_IG_012_BBS_New_Natural_Wonders_Xp1_Xp2" manifestOrder="176">
+    <Properties>
+      <LoadOrder>20000</LoadOrder>
+    </Properties>
+    <Criteria>ZYLPVP_BBM_xp1</Criteria>
+    <Criteria>ZYLPVP_BBM_xp2</Criteria>
+    <File>Components/BBM/sql/bbs_new_wonders_xp1_xp2.sql</File>
+  </UpdateDatabase>
+  <UpdateDatabase id="ZYLPVP_BBM_IG_013_BBS_Less_Natural_Wonders" manifestOrder="177">
+    <Properties>
+      <LoadOrder>20000</LoadOrder>
+    </Properties>
+    <Criteria>ZYLPVP_BBM_NATURALSetting_1</Criteria>
+    <File>Components/BBM/sql/bbs_less_wonders.sql</File>
+  </UpdateDatabase>
+  <UpdateDatabase id="ZYLPVP_BBM_IG_014_BBS_More_Natural_Wonders" manifestOrder="178">
+    <Properties>
+      <LoadOrder>20000</LoadOrder>
+    </Properties>
+    <Criteria>ZYLPVP_BBM_NATURALSetting_2</Criteria>
+    <File>Components/BBM/sql/bbs_more_wonders.sql</File>
+  </UpdateDatabase>
+  <UpdateDatabase id="ZYLPVP_BBM_IG_015_BBS_Negative_StartBias_Australia" manifestOrder="179">
+    <Properties>
+      <LoadOrder>20005</LoadOrder>
+    </Properties>
+    <Criteria>ZYLPVP_BBM_xp2_australia</Criteria>
+    <File>Components/BBM/sql/bbs_bias_australia.sql</File>
+  </UpdateDatabase>
+  <UpdateDatabase id="ZYLPVP_BBM_IG_016_BBS_Negative_StartBias_Maya" manifestOrder="180">
+    <Properties>
+      <LoadOrder>20005</LoadOrder>
+    </Properties>
+    <Criteria>ZYLPVP_BBM_dlc_maya_colombia</Criteria>
+    <File>Components/BBM/sql/bbs_bias_maya.sql</File>
+  </UpdateDatabase>
+  <UpdateDatabase id="ZYLPVP_BBM_IG_017_BBS_Negative_StartBias_xp2" manifestOrder="181">
+    <Properties>
+      <LoadOrder>20005</LoadOrder>
+    </Properties>
+    <Criteria>ZYLPVP_BBM_xp2</Criteria>
+    <File>Components/BBM/sql/bbs_bias_xp2.sql</File>
+  </UpdateDatabase>
+  <UpdateDatabase id="ZYLPVP_BBM_IG_018_BBS_Negative_StartBias_xp1" manifestOrder="182">
+    <Properties>
+      <LoadOrder>20005</LoadOrder>
+    </Properties>
+    <Criteria>ZYLPVP_BBM_xp1</Criteria>
+    <File>Components/BBM/sql/bbs_bias_xp1.sql</File>
+  </UpdateDatabase>
+  <ImportFiles id="ZYLPVP_BBM_IG_019_BBS_ExtraMapScriptImport" manifestOrder="183">
+    <Properties>
+      <LoadOrder>1001</LoadOrder>
+    </Properties>
+    <File>Components/BBM/Data/BBS Maps/perfectworld6.lua</File>
+    <File>Components/BBM/Data/BBS Maps/dwarchipelago.lua</File>
+    <File>Components/BBM/Data/BBS Maps/dwcontinents.lua</File>
+    <File>Components/BBM/Data/BBS Maps/dwfractal.lua</File>
+    <File>Components/BBM/Data/BBS Maps/dwpangaea.lua</File>
+    <File>Components/BBM/Data/BBS Maps/dwsmallcontinents.lua</File>
+    <File>Components/BBM/Data/BBS Maps/dwmixedland.lua</File>
+    <File>Components/BBM/Data/BBS Maps/dwmixedislands.lua</File>
+  </ImportFiles>
+  <AddUserInterfaces id="ZYLPVP_BBM_IG_020_BBM_UI" manifestOrder="184">
+    <Properties>
+      <Context>InGame</Context>
+    </Properties>
+    <File>Components/BBM/UI/BBM_UI.xml</File>
+  </AddUserInterfaces>
+</InGameActionsFragment>

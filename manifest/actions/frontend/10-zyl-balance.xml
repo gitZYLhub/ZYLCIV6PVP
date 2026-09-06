@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrontEndActionsFragment schemaVersion="1" domain="10-zyl-balance">
+  <UpdateDatabase id="ZYL_CoastLeaderVariants_Config" manifestOrder="19">
+    <Properties>
+      <LoadOrder>200000000</LoadOrder>
+    </Properties>
+    <File>LeaderVariants/ZYL_CoastLeaderVariants_Config.sql</File>
+  </UpdateDatabase>
+  <UpdateText id="ZYL_CoastLeaderVariants_ConfigText" manifestOrder="20">
+    <Properties>
+      <LoadOrder>200000000</LoadOrder>
+    </Properties>
+    <File>LeaderVariants/ZYL_CoastLeaderVariants_Text.sql</File>
+  </UpdateText>
+  <UpdateIcons id="ZYL_CoastLeaderVariants_ConfigIcons" manifestOrder="21">
+    <Properties>
+      <LoadOrder>200000000</LoadOrder>
+    </Properties>
+    <File>LeaderVariants/ZYL_CoastLeaderVariants_Icons.sql</File>
+  </UpdateIcons>
+  <UpdateColors id="ZYL_CoastLeaderVariants_ConfigColors" manifestOrder="22">
+    <Properties>
+      <LoadOrder>200000000</LoadOrder>
+    </Properties>
+    <File>LeaderVariants/ZYL_CoastLeaderVariants_Colors.sql</File>
+  </UpdateColors>
+  <UpdateText id="ZYL_GameplayOverridesFrontEndText" manifestOrder="24">
+    <Properties>
+      <LoadOrder>260000020</LoadOrder>
+    </Properties>
+    <File>lang/ZYL_GameplayOverrides_Text.xml</File>
+  </UpdateText>
+</FrontEndActionsFragment>

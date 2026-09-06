@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrontEndActionsFragment schemaVersion="1" domain="04-bbg">
+  <UpdateText id="ZYLPVP_BBG_FE_001_bbg_pregame_text_updates" manifestOrder="9">
+    <Properties>
+      <LoadOrder>100000000</LoadOrder>
+    </Properties>
+    <File>Components/BBG/lang/english.xml</File>
+    <File>Components/BBG/lang/korean.xml</File>
+    <File>Components/BBG/lang/russian.xml</File>
+    <File>Components/BBG/lang/french.xml</File>
+    <File>Components/BBG/lang/polish.xml</File>
+    <File>Components/BBG/lang/japanese.xml</File>
+    <File>Components/BBG/lang/portuguese.xml</File>
+    <File>Components/BBG/lang/german.xml</File>
+    <File>Components/BBG/lang/chinese.xml</File>
+    <File>Components/BBG/lang/italian.xml</File>
+    <File>Components/BBG/lang/spanish.xml</File>
+  </UpdateText>
+  <UpdateDatabase id="ZYLPVP_BBG_FE_002_bbg_frontend_custom_victory" manifestOrder="10">
+    <Properties>
+      <LoadOrder>19998</LoadOrder>
+    </Properties>
+    <File>Components/BBG/config/config.xml</File>
+    <File>Components/BBG/config/config.sql</File>
+  </UpdateDatabase>
+  <UpdateText id="ZYLPVP_BBG_FE_003_UpdateText" manifestOrder="11">
+    <Criteria>ZYLPVP_BBG_ModManager</Criteria>
+    <File>Components/BBG/mod_filter.sql</File>
+  </UpdateText>
+  <UpdateColors id="ZYLPVP_BBG_FE_004_Colors" manifestOrder="12">
+    <Properties>
+      <LoadOrder>10001</LoadOrder>
+    </Properties>
+    <File>Components/BBG/sql/colors.sql</File>
+  </UpdateColors>
+  <UpdateDatabase id="ZYLPVP_BBG_FE_005_BBG_Expanded_MOAR_Units_WIP_front" manifestOrder="13">
+    <Properties>
+      <LoadOrder>4</LoadOrder>
+    </Properties>
+    <Criteria>ZYLPVP_BBG_BBGExpanded_WIP</Criteria>
+    <File>Components/BBG/sql/BBG_Expanded/MOARUnits_enabledconfig.sql</File>
+  </UpdateDatabase>
+  <UpdateDatabase id="ZYLPVP_BBG_FE_006_BBG_Expanded_MOAR_Units_Release_front" manifestOrder="14">
+    <Properties>
+      <LoadOrder>4</LoadOrder>
+    </Properties>
+    <Criteria>ZYLPVP_BBG_BBGExpanded_Release</Criteria>
+    <File>Components/BBG/sql/BBG_Expanded/MOARUnits_enabledconfig.sql</File>
+  </UpdateDatabase>
+  <UpdateText id="ZYL_BBG74_ChineseTextFrontEnd" manifestOrder="25">
+    <Properties>
+      <LoadOrder>259999990</LoadOrder>
+    </Properties>
+    <File>lang/ZYL_BBG74_Chinese_Text.xml</File>
+  </UpdateText>
+</FrontEndActionsFragment>

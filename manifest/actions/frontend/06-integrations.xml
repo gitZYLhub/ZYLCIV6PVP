@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrontEndActionsFragment schemaVersion="1" domain="06-integrations">
+  <UpdateText id="ZYLPVP_DetailedMapTacks_FE_001_dmt_settings_text" manifestOrder="18">
+    <File Priority="1">Components/DetailedMapTacks/config/en_us/dmt_options_text.xml</File>
+    <File>Components/DetailedMapTacks/config/dmt_options_translations_text.xml</File>
+  </UpdateText>
+</FrontEndActionsFragment>

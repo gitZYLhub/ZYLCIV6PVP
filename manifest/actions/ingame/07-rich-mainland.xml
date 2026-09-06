@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<InGameActionsFragment schemaVersion="1" domain="07-rich-mainland">
+  <ImportFiles id="ZYL_RichMainland_MapScripts" manifestOrder="209">
+    <Properties>
+      <LoadOrder>1001</LoadOrder>
+    </Properties>
+    <File>Components/BBM/Data/BBS Maps/zyl_team_rich_mainland.lua</File>
+    <File>Components/BBM/Data/BBS Maps/zyl_ffa_rich_mainland.lua</File>
+    <File>Components/BBM/Data/BBS Maps/zyl_rich_mainland_core.lua</File>
+    <File>Components/BBM/Data/BBS Maps/Utility/ZYL_RVC_AssignStartingPlots.lua</File>
+    <File>Components/BBM/Data/BBS Maps/Utility/ZYL_RVC_Balance.lua</File>
+    <File>Components/BBM/Data/BBS Maps/Utility/ZYL_RVC_BBS_TerrainGenerator.lua</File>
+    <File>Components/BBM/Data/BBS Maps/Utility/ZYL_RVC_CoastalLowlands.lua</File>
+    <File>Components/BBM/Data/BBS Maps/Utility/ZYL_RVC_DW_TerrainGenerator.lua</File>
+    <File>Components/BBM/Data/BBS Maps/Utility/ZYL_RVC_FeatureGenerator.lua</File>
+    <File>Components/BBM/Data/BBS Maps/Utility/ZYL_RVC_MapUtilities.lua</File>
+    <File>Components/BBM/Data/BBS Maps/Utility/ZYL_RVC_MountainsCliffs.lua</File>
+    <File>Components/BBM/Data/BBS Maps/Utility/ZYL_RVC_ResourceGenerator.lua</File>
+    <File>Components/BBM/Data/BBS Maps/Utility/ZYL_RVC_RiversLakes.lua</File>
+  </ImportFiles>
+  <UpdateDatabase id="ZYL_RichMainland_Common" manifestOrder="210">
+    <Properties>
+      <LoadOrder>1002</LoadOrder>
+    </Properties>
+    <Criteria>ZYL_RichMainland</Criteria>
+    <File>Components/BBM/Data/BBS Maps/ZYLRM/ConfigureCommon.sql</File>
+  </UpdateDatabase>
+  <UpdateDatabase id="ZYL_RichMainland_Team_Config" manifestOrder="211">
+    <Properties>
+      <LoadOrder>1003</LoadOrder>
+    </Properties>
+    <Criteria>ZYL_RichMainland_Team</Criteria>
+    <File>Components/BBM/Data/BBS Maps/ZYLRM/ConfigureTeam.sql</File>
+  </UpdateDatabase>
+  <UpdateDatabase id="ZYL_RichMainland_FFA_Config" manifestOrder="212">
+    <Properties>
+      <LoadOrder>1003</LoadOrder>
+    </Properties>
+    <Criteria>ZYL_RichMainland_FFA</Criteria>
+    <File>Components/BBM/Data/BBS Maps/ZYLRM/ConfigureFFA.sql</File>
+  </UpdateDatabase>
+</InGameActionsFragment>

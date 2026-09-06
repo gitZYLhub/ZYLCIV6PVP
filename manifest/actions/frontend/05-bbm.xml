@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrontEndActionsFragment schemaVersion="1" domain="05-bbm">
+  <UpdateDatabase id="ZYLPVP_BBM_FE_001_BBS_SETTINGS" manifestOrder="15">
+    <File>Components/BBM/Configuration/Config.xml</File>
+  </UpdateDatabase>
+  <UpdateText id="ZYLPVP_BBM_FE_002_BBS_SETTINGS_TEXTS" manifestOrder="16">
+    <File>Components/BBM/Lang/english.xml</File>
+    <File>Components/BBM/Lang/french.xml</File>
+    <File>Components/BBM/Lang/russian.xml</File>
+    <File>Components/BBM/Lang/chinese.xml</File>
+    <File>Components/BBM/Lang/german.xml</File>
+    <File>Components/BBM/Lang/japanese.xml</File>
+    <File>Components/BBM/Lang/korean.xml</File>
+    <File>Components/BBM/Lang/portuguese.xml</File>
+  </UpdateText>
+  <UpdateIcons id="ZYLPVP_BBM_FE_003_BBS_ICONS" manifestOrder="17">
+    <File>Components/BBM/sql/bbs_icons_wonders.sql</File>
+  </UpdateIcons>
+</FrontEndActionsFragment>

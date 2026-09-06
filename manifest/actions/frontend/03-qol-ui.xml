@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrontEndActionsFragment schemaVersion="1" domain="03-qol-ui">
+  <UpdateDatabase id="ZYL_QoL_Config" manifestOrder="4">
+    <Properties>
+      <LoadOrder>10010</LoadOrder>
+    </Properties>
+    <File>configuration/Config_ZYL.xml</File>
+    <File>Config/Config_UI.xml</File>
+    <File>BPC/BetterPantheonChooser_Config.xml</File>
+    <File>BRS/Config/BRS_Config.xml</File>
+    <File>NHK/GameCfg.xml</File>
+    <File>NHK/SQL/QueriesConfiguration.sql</File>
+    <File>NHK/Config_TurnTime.xml</File>
+    <File>NHK/Config_Mappin.xml</File>
+    <File>NHK/Config_GreatPeople_Recruit.xml</File>
+  </UpdateDatabase>
+  <UpdateText id="ZYL_QoL_Config_Text" manifestOrder="5">
+    <File>lang/ZYL_Text.xml</File>
+    <File>Config/Config_UI_Text.xml</File>
+    <File>BPC/BetterPantheonChooser_Config_Text.xml</File>
+    <File>BRS/Config/BRS_Config_Text.xml</File>
+    <File>NHK/GameCfg_Text.xml</File>
+    <File>NHK/Config_TurnTime_Text.xml</File>
+    <File>NHK/Config_Mappin_Text.xml</File>
+    <File>NHK/Config_GreatPeople_Recruit_Text.xml</File>
+  </UpdateText>
+  <ImportFiles id="ZYL_FrontEnd_NetworkStatus" manifestOrder="6">
+    <Properties>
+      <LoadOrder>10020</LoadOrder>
+    </Properties>
+    <File>BNL/NetConnectionIconLogic.lua</File>
+  </ImportFiles>
+  <UpdateDatabase id="ZYL_DisableNaturalDisastersOption" manifestOrder="26">
+    <Properties>
+      <LoadOrder>99999</LoadOrder>
+    </Properties>
+    <File>configuration/ZYL_DisasterRange.sql</File>
+  </UpdateDatabase>
+  <ImportFiles id="ZYL_LANPlayerNameLength" manifestOrder="27">
+    <Properties>
+      <LoadOrder>1000</LoadOrder>
+    </Properties>
+    <File>Option/Options.xml</File>
+  </ImportFiles>
+  <UpdateDatabase id="ZYL_RandomPromotionHotkeyConfig" manifestOrder="28">
+    <Properties>
+      <LoadOrder>1000</LoadOrder>
+    </Properties>
+    <File>NHK/Config_NewUnitOperation.xml</File>
+  </UpdateDatabase>
+  <UpdateText id="ZYL_RandomPromotionHotkeyConfigText" manifestOrder="29">
+    <Properties>
+      <LoadOrder>1000</LoadOrder>
+    </Properties>
+    <File>NHK/Config_NewUnitOperation_Text.xml</File>
+  </UpdateText>
+</FrontEndActionsFragment>

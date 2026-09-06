@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrontEndActionsFragment schemaVersion="1" domain="08-resources">
+  <UpdateDatabase id="ZYL_BBGExpandedDisableConfig" manifestOrder="23">
+    <Properties>
+      <LoadOrder>100000000</LoadOrder>
+    </Properties>
+    <File>Components/BBG/sql/BBG_Expanded/Disable_new_config.sql</File>
+  </UpdateDatabase>
+</FrontEndActionsFragment>

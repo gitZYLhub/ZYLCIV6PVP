@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrontEndActionsFragment schemaVersion="1" domain="01-core">
+  <ImportFiles id="FrontEnd" manifestOrder="1">
+    <Properties>
+      <LoadOrder>9999</LoadOrder>
+    </Properties>
+    <File>ui/gamesetuplogic.lua</File>
+    <File>ui/hostgame.lua</File>
+    <File>ui/hostgame.xml</File>
+    <File>ui/mainmenu.lua</File>
+    <File>ui/mainmenu.xml</File>
+    <File>ui/playertargetlogic.lua</File>
+    <File>ui/setupparameters.lua</File>
+    <File>ui/stagingroom.lua</File>
+    <File>ui/stagingroom.xml</File>
+  </ImportFiles>
+  <ImportFiles id="FrontEnd_Arts_Icons_Import" manifestOrder="8">
+    <Items>
+      <File>icons/Sudden_Death_44.dds</File>
+      <File>mode/sudden_death/Sudden_Death_Portrait.dds</File>
+      <File>mode/sudden_death/Sudden_Death_Background.dds</File>
+      <File>icons/Anonymous_44.dds</File>
+      <File>mode/anonymous/Anonymous_Portrait.dds</File>
+      <File>mode/anonymous/Anonymous_Background.dds</File>
+    </Items>
+  </ImportFiles>
+</FrontEndActionsFragment>

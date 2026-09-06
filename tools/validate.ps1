@@ -179,6 +179,8 @@ else {
         '$modInfoPath = Join-Path $modRoot ([string]$projectMetadata.modInfoFile)',
         'function Resolve-ProjectFile',
         'Sync-ActionCriteria $modInfo',
+        "-SectionName 'FrontEndActions'",
+        "-SectionName 'InGameActions'",
         '$fullPath.StartsWith($modRootPrefix',
         'Manifest path escapes the project root'
     )) {
@@ -226,6 +228,51 @@ try {
 }
 catch {
     Add-ValidationError "Invalid ModInfo Criteria source fragments: $($_.Exception.Message)"
+}
+
+$actionSectionSources = @(
+    [pscustomobject]@{
+        SectionName = 'FrontEndActions'
+        SourceDirectory = Join-Path $modRoot 'manifest\actions\frontend'
+    },
+    [pscustomobject]@{
+        SectionName = 'InGameActions'
+        SourceDirectory = Join-Path $modRoot 'manifest\actions\ingame'
+    }
+)
+foreach ($actionSectionSource in $actionSectionSources) {
+    try {
+        $generatedActionSection = New-ZylActionsSection `
+            -OwnerDocument $modInfo `
+            -SectionName $actionSectionSource.SectionName `
+            -SourceDirectory $actionSectionSource.SourceDirectory
+        $currentActionSection = [System.Xml.XmlElement]$modInfo.SelectSingleNode(
+            "/Mod/$($actionSectionSource.SectionName)"
+        )
+        if ($null -eq $currentActionSection) {
+            Add-ValidationError "ModInfo is missing the generated $($actionSectionSource.SectionName) section."
+        }
+        else {
+            $generatedActionJson = ConvertTo-ZylCanonicalJson -InputObject (
+                ConvertTo-ZylCanonicalXmlNode -Node $generatedActionSection
+            )
+            $currentActionJson = ConvertTo-ZylCanonicalJson -InputObject (
+                ConvertTo-ZylCanonicalXmlNode -Node $currentActionSection
+            )
+            if ($generatedActionJson -ne $currentActionJson) {
+                Add-ValidationError (
+                    "ModInfo $($actionSectionSource.SectionName) differs from the domain " +
+                    'source fragments; run tools/assemble_modinfo.ps1.'
+                )
+            }
+        }
+    }
+    catch {
+        Add-ValidationError (
+            "Invalid ModInfo $($actionSectionSource.SectionName) source fragments: " +
+            $_.Exception.Message
+        )
+    }
 }
 if ($modInfo.DocumentElement.GetAttribute('id') -ne $expectedModId) {
     Add-ValidationError "Unexpected Mod ID: $($modInfo.DocumentElement.GetAttribute('id'))"

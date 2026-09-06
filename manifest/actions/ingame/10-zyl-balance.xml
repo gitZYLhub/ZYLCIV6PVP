@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<InGameActionsFragment schemaVersion="1" domain="10-zyl-balance">
+  <UpdateDatabase id="ZYL_CoastLeaderVariants_Gameplay" manifestOrder="190">
+    <Properties>
+      <LoadOrder>200000000</LoadOrder>
+    </Properties>
+    <File>LeaderVariants/ZYL_CoastLeaderVariants_Gameplay.sql</File>
+  </UpdateDatabase>
+  <UpdateText id="ZYL_CoastLeaderVariants_GameplayText" manifestOrder="191">
+    <Properties>
+      <LoadOrder>200000000</LoadOrder>
+    </Properties>
+    <File>LeaderVariants/ZYL_CoastLeaderVariants_Text.sql</File>
+  </UpdateText>
+  <UpdateIcons id="ZYL_CoastLeaderVariants_GameplayIcons" manifestOrder="192">
+    <Properties>
+      <LoadOrder>200000000</LoadOrder>
+    </Properties>
+    <File>LeaderVariants/ZYL_CoastLeaderVariants_Icons.sql</File>
+  </UpdateIcons>
+  <UpdateColors id="ZYL_CoastLeaderVariants_GameplayColors" manifestOrder="193">
+    <Properties>
+      <LoadOrder>200000000</LoadOrder>
+    </Properties>
+    <File>LeaderVariants/ZYL_CoastLeaderVariants_Colors.sql</File>
+  </UpdateColors>
+  <UpdateDatabase id="ZYL_StartingSettlerMovement" manifestOrder="194">
+    <Properties>
+      <LoadOrder>50020</LoadOrder>
+    </Properties>
+    <File>sql/ZYL_StartingSettler.sql</File>
+  </UpdateDatabase>
+  <UpdateDatabase id="ZYL_SelectedPantheons" manifestOrder="205">
+    <Properties>
+      <LoadOrder>210000000</LoadOrder>
+    </Properties>
+    <File>sql/ZYL_Pantheons.sql</File>
+  </UpdateDatabase>
+  <UpdateText id="ZYL_SelectedPantheonsText" manifestOrder="206">
+    <Properties>
+      <LoadOrder>210000010</LoadOrder>
+    </Properties>
+    <File>lang/ZYL_Pantheons_Text.xml</File>
+  </UpdateText>
+  <UpdateIcons id="ZYL_SelectedPantheonsIcons" manifestOrder="207">
+    <Properties>
+      <LoadOrder>210000010</LoadOrder>
+    </Properties>
+    <File>icons/ZYL_Pantheon_Icons.xml</File>
+  </UpdateIcons>
+  <UpdateDatabase id="ZYL_GeothermalMines" manifestOrder="208">
+    <Properties>
+      <LoadOrder>210000020</LoadOrder>
+    </Properties>
+    <Criteria>ZYL_GatheringStorm</Criteria>
+    <File>sql/ZYL_GeothermalMines.sql</File>
+  </UpdateDatabase>
+  <UpdateDatabase id="ZYL_GameplayOverrides" manifestOrder="224">
+    <Properties>
+      <LoadOrder>260000000</LoadOrder>
+    </Properties>
+    <File>sql/ZYL_GameplayOverrides.sql</File>
+  </UpdateDatabase>
+  <UpdateDatabase id="ZYL_EraLengthOptimization" manifestOrder="225">
+    <Properties>
+      <LoadOrder>260000005</LoadOrder>
+    </Properties>
+    <Criteria>ZYL_EraLengthOptimization</Criteria>
+    <File>sql/ZYL_EraLengthOptimization.sql</File>
+  </UpdateDatabase>
+  <UpdateDatabase id="ZYL_GovernorOverrides" manifestOrder="226">
+    <Properties>
+      <LoadOrder>260000010</LoadOrder>
+    </Properties>
+    <Criteria>ZYLPVP_BBG_XP1_OR_XP2</Criteria>
+    <File>sql/ZYL_GovernorOverrides.sql</File>
+  </UpdateDatabase>
+  <UpdateText id="ZYL_GameplayOverridesText" manifestOrder="228">
+    <Properties>
+      <LoadOrder>260000020</LoadOrder>
+    </Properties>
+    <File>lang/ZYL_GameplayOverrides_Text.xml</File>
+  </UpdateText>
+</InGameActionsFragment>
