@@ -140,4 +140,14 @@
 - 修改：仅更新测试矩阵和工作日志中的验证证据。
 - 验证：`assemble_modinfo.ps1` 执行前后 ModInfo SHA-256 均为 `94869D352E031F53513FB048095730851842B75BDF7CD4398B4EAF27259BB14D`；连续两次 universal 构建均为 1072 文件、776,502,843 字节（740.53 MiB），聚合 SHA-256 `fc00184ee15b5761dc6b873496ee907a72dd5f922ea7bf8b2853e14daa91b94b`。每次构建前校验均通过 164 XML、108 条件、283 动作、1077 文件、549 活跃引用、48 休眠文件和 14 源码专用文件。
 - 风险/待办：哈希相对冻结基线变化是本轮 Lua 运行时修复的预期结果；尚未执行游戏加载、存读档和双客户端联机测试。
-- 提交：本次提交（阶段构建证据）。
+- 提交：`79471e4 docs: record reproducible refactor checkpoint`。
+
+### 2026-09-07 / M2-冻结 ModInfo 语义动作图
+
+- 目标：在把超大 ModInfo 拆成分域源文件前，建立能够证明 Criteria、Action、加载顺序和 Files 清单没有静默漂移的机器基线。
+- 范围：`ActionCriteria`、`FrontEndActions`、`InGameActions`、`Files` 四个运行图段及报告/校验工具；版本、作者、依赖、Block 和本地化元数据继续由现有 XML/元数据校验负责。
+- 设计决定：规范化忽略无语义的 XML 属性顺序和缩进，但保留元素顺序、Action 内文件顺序与 Files 全局顺序；冻结基线只保存来源提交、SHA-256 和计数，完整 482,193 字节图按需生成到 `artifacts/reports`，避免提交第二份巨型派生真值。
+- 修改：新增 `tools/validation/ManifestGraph.ps1`、`tools/report_modinfo_graph.ps1` 和 `manifest/baseline-1.3.0-action-graph.json`；主校验器自动比较当前动作图与冻结指纹，同时核对四类计数；`manifest` 纳入源码专用目录。
+- 验证：冻结标签与当前动作图 SHA-256 均为 `f41a5c55fc7000b435ffe645d4c25df358ad3950b1e03f105b64d07e49ba14af`，计数均为 108 Criteria、32 FrontEnd Actions、251 InGame Actions、1077 Files。连续两次完整报告文件相同；交换 XML 属性顺序不改变指纹；内存中把首条 Action 文件路径追加 `.probe` 后指纹变为 `bfd7b6efa32c06f011aecaa43601fc0aec3be3946f9d6fcf154bc33db88475ed`，成功检出语义漂移。完整项目校验通过，源码专用文件增至 17。
+- 风险/待办：当前基线要求动作图与 1.3.0 完全等价；后续若因兼容性需要有意增删 Action，必须建立显式迁移差异而不是直接覆盖基线。下一步按域拆分清单源并让组装器生成相同指纹。
+- 提交：本次提交（ModInfo 语义基线）。

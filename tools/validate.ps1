@@ -28,6 +28,12 @@ if (-not (Test-Path -LiteralPath $luaChecksPath -PathType Leaf)) {
 }
 . $luaChecksPath
 
+$manifestGraphHelpersPath = Join-Path $PSScriptRoot 'validation\ManifestGraph.ps1'
+if (-not (Test-Path -LiteralPath $manifestGraphHelpersPath -PathType Leaf)) {
+    throw "Manifest graph validation helpers not found: $manifestGraphHelpersPath"
+}
+. $manifestGraphHelpersPath
+
 $missingRemovalFixture = @(Get-ZylLuaEventLifecycleIssues -Source 'Events.Example.Add(OnExample)' -Label 'Fixture')
 $balancedLifecycleFixture = @(Get-ZylLuaEventLifecycleIssues -Source @'
 Events.Example.Add(OnExample)
@@ -44,6 +50,20 @@ if ($missingRemovalFixture.Count -ne 1 -or
     Add-ValidationError 'Lua event-lifecycle helper failed its positive/negative self-test.'
 }
 
+$canonicalXmlFixtureA = [System.Xml.XmlDocument]::new()
+$canonicalXmlFixtureA.LoadXml('<Root b="2" a="1"><Child>x</Child></Root>')
+$canonicalXmlFixtureB = [System.Xml.XmlDocument]::new()
+$canonicalXmlFixtureB.LoadXml('<Root a="1" b="2"><Child>x</Child></Root>')
+$canonicalFixtureJsonA = ConvertTo-ZylCanonicalJson -InputObject (
+    ConvertTo-ZylCanonicalXmlNode -Node $canonicalXmlFixtureA.DocumentElement
+)
+$canonicalFixtureJsonB = ConvertTo-ZylCanonicalJson -InputObject (
+    ConvertTo-ZylCanonicalXmlNode -Node $canonicalXmlFixtureB.DocumentElement
+)
+if ($canonicalFixtureJsonA -ne $canonicalFixtureJsonB) {
+    Add-ValidationError 'Manifest canonicalization helper is sensitive to XML attribute order.'
+}
+
 function Normalize-RelativePath {
     param([string]$Path)
     return $Path.Trim().Replace('/', '\').ToLowerInvariant()
@@ -54,7 +74,8 @@ function Test-IsSourceOnlyFile {
 
     if ($NormalizedPath.StartsWith('docs\') -or
             $NormalizedPath.StartsWith('.github\') -or
-            $NormalizedPath.StartsWith('tools\')) {
+            $NormalizedPath.StartsWith('tools\') -or
+            $NormalizedPath.StartsWith('manifest\')) {
         return $true
     }
     return $NormalizedPath -in @(
@@ -84,6 +105,41 @@ function Load-XmlDocument {
 
 if (-not (Test-Path -LiteralPath $modInfoPath)) {
     throw "ModInfo not found: $modInfoPath"
+}
+
+$actionGraphBaselinePath = Join-Path $modRoot 'manifest\baseline-1.3.0-action-graph.json'
+if (-not (Test-Path -LiteralPath $actionGraphBaselinePath -PathType Leaf)) {
+    Add-ValidationError 'The frozen 1.3.0 ModInfo action-graph fingerprint is missing.'
+}
+else {
+    $actionGraphBaseline = Get-Content -LiteralPath $actionGraphBaselinePath -Raw | ConvertFrom-Json
+    $actualActionGraphFingerprint = Get-ZylModInfoActionGraphFingerprint -Path $modInfoPath
+    $actionGraphDocument = Load-XmlDocument $modInfoPath
+    $actualActionGraphCounts = [ordered]@{
+        criteria = @($actionGraphDocument.SelectNodes('/Mod/ActionCriteria/Criteria')).Count
+        frontEndActions = @($actionGraphDocument.SelectNodes('/Mod/FrontEndActions/*')).Count
+        inGameActions = @($actionGraphDocument.SelectNodes('/Mod/InGameActions/*')).Count
+        files = @($actionGraphDocument.SelectNodes('/Mod/Files/File')).Count
+    }
+    if ($actionGraphBaseline.schemaVersion -ne 1 -or
+            [string]::IsNullOrWhiteSpace([string]$actionGraphBaseline.actionGraphSha256) -or
+            $null -eq $actionGraphBaseline.counts) {
+        Add-ValidationError 'The frozen ModInfo action-graph fingerprint has an invalid schema.'
+    }
+    elseif ($actualActionGraphFingerprint -ne [string]$actionGraphBaseline.actionGraphSha256) {
+        Add-ValidationError (
+            "ModInfo action graph differs from the frozen 1.3.0 semantic baseline: " +
+            "expected $($actionGraphBaseline.actionGraphSha256), found $actualActionGraphFingerprint."
+        )
+    }
+    foreach ($countName in $actualActionGraphCounts.Keys) {
+        if ([int]$actionGraphBaseline.counts.$countName -ne $actualActionGraphCounts[$countName]) {
+            Add-ValidationError (
+                "Frozen ModInfo action-graph count is stale for ${countName}: " +
+                "expected $($actionGraphBaseline.counts.$countName), found $($actualActionGraphCounts[$countName])."
+            )
+        }
+    }
 }
 
 $projectFiles = @(Get-ChildItem -LiteralPath $modRoot -Recurse -Force -File | Where-Object {

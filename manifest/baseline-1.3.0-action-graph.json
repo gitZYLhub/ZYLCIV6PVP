@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "sourceCommit": "1852e1d4ddc5abcfc4507885fc1141866a9154e0",
+  "actionGraphSha256": "f41a5c55fc7000b435ffe645d4c25df358ad3950b1e03f105b64d07e49ba14af",
+  "counts": {
+    "criteria": 108,
+    "frontEndActions": 32,
+    "inGameActions": 251,
+    "files": 1077
+  }
+}
