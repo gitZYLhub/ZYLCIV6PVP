@@ -30,9 +30,12 @@ local m_lobbyModeName:string = MPLobbyTypes.STANDARD_INTERNET;
 local m_shellTabIM:table = InstanceManager:new("ShellTab", "TopControl", Controls.ShellTabs);
 local m_kPopupDialog:table;
 local m_pCityStateWarningPopup:table = PopupDialog:new("CityStateWarningPopup");
-local m_InSession = false
 local m_Preset = -1;
-local b_visible = false;
+local b_debug = false;
+
+local function DebugLog(...)
+	if b_debug then print(...) end
+end
 
 local ZYL_LOBBY_DEFAULTS:table = {
 	{ "TOOLS_COMMAND", 1 },
@@ -448,33 +451,10 @@ function OnInputHandler( uiMsg, wParam, lParam )
 end
 
 -- ===========================================================================
-function Refresh()
-	local isInSession:boolean = Network.IsInSession();
-	if m_InSession == false and isInSession == true then
-	-- Refresh the mod list
-	
-	local enabledMods = GameConfiguration.GetEnabledMods();
-	local bMods = false
-	for _, curMod in ipairs(enabledMods) do
-		if curMod.Id == "4dd01931-9d44-4a8a-8e74-712cba0f0072" then
-			bMods = true
-		end													 	 
-	end
-	if bMods == false and GameConfiguration.GetValue("SpawnRecalculation") == true then
-		local r = math.random()
-		if r < 0.1 then
-			GameConfiguration.SetValue("SpawnRecalculation",false)
-		end
-	end
-	end
-end
-
-
 function OnShow()
 	CheckPreset()
 	RebuildPlayerParameters(true);
 	GameSetup_RefreshParameters();
-	Refresh()
 
 	-- Hide buttons if we're already in a game
 	local isInSession:boolean = Network.IsInSession();
@@ -512,7 +492,6 @@ end
 
 -- ===========================================================================
 function OnHide( isHide, isInit )
-	b_visible = false
 	ReleasePlayerParameters();
 	HideGameSetup();
 end
@@ -521,7 +500,7 @@ end
 -- Restore Default Settings Button Handler
 -------------------------------------------------
 function OnDefaultButton()
-	print("Resetting Setup Parameters");
+	DebugLog("Resetting Setup Parameters");
 
 	-- Get the game name since we wish to persist this.
 	local gameMode = GameModeTypeForMPLobbyType(m_lobbyModeName);
@@ -546,12 +525,11 @@ end
 -------------------------------------------------------------------------------
 -- Event Listeners
 -------------------------------------------------------------------------------
-Events.FinishedGameplayContentConfigure.Add(function(result)
+function OnFinishedGameplayContentConfigure(result)
 	if(ContextPtr and not ContextPtr:IsHidden() and result.Success) then
 		GameSetup_RefreshParameters();
-		Refresh();
 	end
-end);
+end
 
 -------------------------------------------------
 -- Mods Setting Button Handler
@@ -570,7 +548,7 @@ function OnConfirmClick()
 	--SERVER_TYPE_STEAM_DEDICATED,	// Steam Game Server, host does not play.
 
 	local serverType = ServerTypeForMPLobbyType(m_lobbyModeName);
-	print("OnConfirmClick() m_lobbyModeName: " .. tostring(m_lobbyModeName) .. " serverType: " .. tostring(serverType));
+	DebugLog("OnConfirmClick() m_lobbyModeName: " .. tostring(m_lobbyModeName) .. " serverType: " .. tostring(serverType));
 	
 	-- GAME_NAME must not be empty.
 	local gameName = GameConfiguration.GetValue("GAME_NAME");	
@@ -617,25 +595,19 @@ end
 function OnRefreshConfig()
 	local hostID = Network.GetGameHostPlayerID()
 	local localID = Network.GetLocalPlayerID()
-	if hostID == localID then
-		local map_seed = MapConfiguration.GetValue("RANDOM_SEED")
-		local game_seed = GameConfiguration.GetValue("GAME_SYNC_RANDOM_SEED")
-		local rng = math.random()*100000
-		rng = math.floor(rng)
-		if map_seed ~= nil and tonumber(map_seed) ~= nil then
-			map_seed = tonumber(map_seed)+rng
-			else
-			map_seed = rng
-		end
-		game_seed = map_seed - 1
-		GameConfiguration.SetValue("GAME_SYNC_RANDOM_SEED",game_seed)
-		MapConfiguration.SetValue("RANDOM_SEED",map_seed)
-		Network.BroadcastGameConfig();
-		Network.BroadcastPlayerInfo();
-		print("OnRefreshConfig(): Seeds refreshed",map_seed,game_seed)
-		else
-		print("OnRefreshConfig(): Not the Host")
+	if hostID == nil or localID == nil or hostID < 0 or localID ~= hostID then
+		DebugLog("OnRefreshConfig(): Not the Host")
+		return
 	end
+
+	local map_seed = tonumber(MapConfiguration.GetValue("RANDOM_SEED"))
+	local rng = math.floor(math.random() * 100000)
+	map_seed = (map_seed or 0) + rng
+	local game_seed = map_seed - 1
+	GameConfiguration.SetValue("GAME_SYNC_RANDOM_SEED", game_seed)
+	MapConfiguration.SetValue("RANDOM_SEED", map_seed)
+	Network.BroadcastGameConfig();
+	DebugLog("OnRefreshConfig(): Seeds refreshed", map_seed, game_seed)
 end
 
 
@@ -695,7 +667,7 @@ function CheckLeaveGame()
 									-- and should not trigger a game exit.
 		and Network.IsInSession()	-- Still in a network session.
 		and not Network.IsInGameStartedState() then -- Don't trigger leave game if we're being used as an ingame screen. Worldview is handling this instead.
-		print("HostGame::CheckLeaveGame() leaving the network session.");																   
+		DebugLog("HostGame::CheckLeaveGame() leaving the network session.");
 		Network.LeaveGame();
 	end
 end
@@ -797,10 +769,23 @@ end
 function OnShutdown()
 	-- Cache values for hotloading...
 	LuaEvents.GameDebug_AddValue(RELOAD_CACHE_ID, "isHidden", ContextPtr:IsHidden());
+	Events.FinishedGameplayContentConfigure.Remove(OnFinishedGameplayContentConfigure);
+	Events.SystemUpdateUI.Remove(OnUpdateUI);
+	Events.MultiplayerGameAbandoned.Remove(OnAbandoned);
+	Events.LeaveGameComplete.Remove(OnLeaveGameComplete);
+	Events.BeforeMultiplayerInviteProcessing.Remove(OnBeforeMultiplayerInviteProcessing);
+	Events.GameConfigChanged.Remove(CheckPreset);
+	LuaEvents.ChangeMPLobbyMode.Remove(OnChangeMPLobbyMode);
+	LuaEvents.GameDebug_Return.Remove(OnGameDebugReturn);
+	LuaEvents.Lobby_RaiseHostGame.Remove(OnRaiseHostGame);
+	LuaEvents.MainMenu_RaiseHostGame.Remove(OnRaiseHostGame);
+	LuaEvents.Multiplayer_ExitShell.Remove(HandleExitRequest);
+	LuaEvents.StagingRoom_EnsureHostGame.Remove(OnEnsureHostGame);
+	LuaEvents.Mods_UpdateHostGameSettings.Remove(GameSetup_RefreshParameters);
 	LuaEvents.MultiSelectWindow_SetParameterValues.Remove(OnSetParameterValues);
 	LuaEvents.CityStatePicker_SetParameterValues.Remove(OnSetParameterValues);
-	LuaEvents.CityStatePicker_SetParameterValue.Remove(OnSetParameterValue);																		 
-	LuaEvents.LeaderPicker_SetParameterValues.Remove(OnSetParameterValues);																	
+	LuaEvents.CityStatePicker_SetParameterValue.Remove(OnSetParameterValue);
+	LuaEvents.LeaderPicker_SetParameterValues.Remove(OnSetParameterValues);
 end
 
 -- ===========================================================================
@@ -841,7 +826,6 @@ end
 
 -- ===========================================================================
 function OnExitGame()
-	m_InSession = false
 	LuaEvents.Multiplayer_ExitShell();
 end
 
@@ -992,7 +976,7 @@ end
 
 function CheckPreset()
 	local currentPreset = GameConfiguration.GetValue("MPH_PRESET")
-	print("CheckPreset()",currentPreset,m_Preset,isInSession)
+	DebugLog("CheckPreset()", currentPreset, m_Preset)
 	if currentPreset == nil then
 		return
 	end
@@ -1003,63 +987,62 @@ function CheckPreset()
 		end
 		-- None
 		if currentPreset == 0 then
-			print("Applied Default Settings")
+			DebugLog("Applied Default Settings")
 			Default_Natural_Wonders()
 			ApplyZYLLobbyDefaults()
 		end
 		-- CWC
 		if currentPreset == 1 then
-			print("Applied CWC Settings")
+			DebugLog("Applied CWC Settings")
 			CWC_Natural_Wonders()
 		end
 		-- FFA
 		if currentPreset == 2 then
-			print("Applied Default Settings")
+			DebugLog("Applied Default Settings")
 			Default_Natural_Wonders()
 		end
 		-- Squadron
 		if currentPreset == 3 then
-			print("Applied Squadron Settings")
+			DebugLog("Applied Squadron Settings")
 			Squadron_Natural_Wonders()
 		end	
 		-- CPL Premier League
 		if currentPreset == 4 then
-			print("Applied Premier Settings")
+			DebugLog("Applied Premier Settings")
 			Premier_League_Natural_Wonders()
 		end
 		-- OneVOneRR
 		if currentPreset == 5 then
-			print("Applied 1vi1 Settings")
+			DebugLog("Applied 1vi1 Settings")
 			OneVOneRR_Natural_Wonders()
 			OneVOneRR_CS()
 		end
 		-- FFA CivFr
 		if currentPreset == 6 then
-			print("Applied Squadron Settings")
+			DebugLog("Applied FFA CivFr Settings")
 			FFA_CivFr_Natural_Wonders()
 		end
 		-- PPL Arena
 		if currentPreset == 8 then
-			print("Applied PPL Arena Settings")
+			DebugLog("Applied PPL Arena Settings")
 			PPLGamemode_Natural_Wonders()
 			PPLGamemode_CS()
 			GameConfiguration.SetValue("CITY_STATE_COUNT",3)
 		end
 		-- 2vi2CPL 
 		if currentPreset == 9 then
-			print("Applied PPL Arena Settings")
+			DebugLog("Applied 2vi2 CPL Settings")
 			PPLGamemode_Natural_Wonders()
 			PPLGamemode_CS()
 			GameConfiguration.SetValue("CITY_STATE_COUNT",12)
 		end
 		-- GOAT
 		if currentPreset == 10 then
-			print("Applied GOAT Settings")
+			DebugLog("Applied GOAT Settings")
 			GOAT_CS()
 			OneVOneRR_Natural_Wonders()
 		end			
 		Network.BroadcastGameConfig();	
-		OnUpdateUI()
 	end
 	
 	m_Preset = currentPreset
@@ -1085,6 +1068,7 @@ end
 function Initialize()
 	
 	CheckPreset()
+	Events.FinishedGameplayContentConfigure.Add(OnFinishedGameplayContentConfigure);
 	Events.SystemUpdateUI.Add(OnUpdateUI);
 
 	ContextPtr:SetInitHandler(OnInit);

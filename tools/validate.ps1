@@ -3173,6 +3173,51 @@ if (Test-Path -LiteralPath $hostGamePath) {
 			Add-ValidationError "Host game is missing the requested lobby default: $requiredDefault"
 		}
 	}
+	foreach ($requiredHostLifecycleFragment in @(
+		'local b_debug = false;',
+		'function OnFinishedGameplayContentConfigure(result)',
+		'Events.FinishedGameplayContentConfigure.Add(OnFinishedGameplayContentConfigure);',
+		'Events.FinishedGameplayContentConfigure.Remove(OnFinishedGameplayContentConfigure);',
+		'hostID == nil or localID == nil or hostID < 0 or localID ~= hostID'
+	)) {
+		if (-not $hostGameLua.Contains($requiredHostLifecycleFragment)) {
+			Add-ValidationError "Host-game lifecycle or authority guard is missing: $requiredHostLifecycleFragment"
+		}
+	}
+	foreach ($forbiddenHostFragment in @(
+		'Events.FinishedGameplayContentConfigure.Add(function',
+		'Network.BroadcastPlayerInfo()',
+		'SpawnRecalculation',
+		'OnUpdateUI()'
+	)) {
+		if ($hostGameLua.Contains($forbiddenHostFragment)) {
+			Add-ValidationError "Host game restored a dead path or unrelated broadcast: $forbiddenHostFragment"
+		}
+	}
+	if ([regex]::Matches($hostGameLua, '(?m)^\s*print\(').Count -ne 0) {
+		Add-ValidationError 'Host game contains an unguarded top-level print call.'
+	}
+	$hostEventRegistrations = @{}
+	foreach ($registration in [regex]::Matches(
+		$hostGameLua,
+		'(?m)(Events|LuaEvents)\.([A-Za-z0-9_]+)\.Add\(\s*([A-Za-z0-9_]+)\s*\)'
+	)) {
+		$key = "$($registration.Groups[1].Value).$($registration.Groups[2].Value)|$($registration.Groups[3].Value)"
+		$hostEventRegistrations[$key] = $true
+	}
+	$hostEventRemovals = @{}
+	foreach ($removal in [regex]::Matches(
+		$hostGameLua,
+		'(?m)(Events|LuaEvents)\.([A-Za-z0-9_]+)\.Remove\(\s*([A-Za-z0-9_]+)\s*\)'
+	)) {
+		$key = "$($removal.Groups[1].Value).$($removal.Groups[2].Value)|$($removal.Groups[3].Value)"
+		$hostEventRemovals[$key] = $true
+	}
+	foreach ($registrationKey in $hostEventRegistrations.Keys) {
+		if (-not $hostEventRemovals.ContainsKey($registrationKey)) {
+			Add-ValidationError "Host-game global event registration has no matching shutdown removal: $registrationKey"
+		}
+	}
 }
 
 $bbgConfigPath = Join-Path $modRoot 'Components\BBG\config\config.xml'
