@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CriteriaFragment schemaVersion="1" domain="05-bbm">
+  <Criteria id="ZYLPVP_BBM_DLC: Vikings Content" manifestOrder="68">
+    <ModInUse>2F6E858A-28EF-46B3-BEAC-B985E52E9BC1</ModInUse>
+  </Criteria>
+  <Criteria id="ZYLPVP_BBM_xp1" manifestOrder="69">
+    <ModInUse>1B28771A-C749-434B-9053-D1380C553DE9</ModInUse>
+  </Criteria>
+  <Criteria id="ZYLPVP_BBM_xp2" manifestOrder="70">
+    <ModInUse>4873eb62-8ccc-4574-b784-dda455e74e68</ModInUse>
+  </Criteria>
+  <Criteria id="ZYLPVP_BBM_dlc_australia" manifestOrder="71">
+    <ModInUse>E3F53C61-371C-440B-96CE-077D318B36C0</ModInUse>
+  </Criteria>
+  <Criteria id="ZYLPVP_BBM_xp2_australia" manifestOrder="72">
+    <LeaderPlayable>Players:Expansion2_Players::LEADER_JOHN_CURTIN</LeaderPlayable>
+  </Criteria>
+  <Criteria id="ZYLPVP_BBM_dlc_aztec" manifestOrder="73">
+    <ModInUse>02A8BDDE-67EA-4D38-9540-26E685E3156E</ModInUse>
+  </Criteria>
+  <Criteria id="ZYLPVP_BBM_xp2_aztec" manifestOrder="74">
+    <LeaderPlayable>Players:Expansion2_Players::LEADER_MONTEZUMA</LeaderPlayable>
+  </Criteria>
+  <Criteria id="ZYLPVP_BBM_dlc_indo_khmer" manifestOrder="75">
+    <ModInUse>1F367231-A040-4793-BDBB-088816853683</ModInUse>
+  </Criteria>
+  <Criteria id="ZYLPVP_BBM_xp2_indo_khmer" manifestOrder="76">
+    <LeaderPlayable>Players:Expansion2_Players::LEADER_GITARJA,Players:Expansion2_Players::LEADER_JAYAVARMAN</LeaderPlayable>
+  </Criteria>
+  <Criteria id="ZYLPVP_BBM_dlc_macedon_persia" manifestOrder="77">
+    <ModInUse>E2749E9A-8056-45CD-901B-C368C8E83DEB</ModInUse>
+  </Criteria>
+  <Criteria id="ZYLPVP_BBM_xp2_macedon_persia" manifestOrder="78">
+    <LeaderPlayable>Players:Expansion2_Players::LEADER_ALEXANDER,Players:Expansion2_Players::LEADER_CYRUS</LeaderPlayable>
+  </Criteria>
+  <Criteria id="ZYLPVP_BBM_dlc_nubia" manifestOrder="79">
+    <ModInUse>643EA320-8E1A-4CF1-A01C-00D88DDD131A</ModInUse>
+  </Criteria>
+  <Criteria id="ZYLPVP_BBM_xp2_nubia" manifestOrder="80">
+    <ModInUse>643EA320-8E1A-4CF1-A01C-00D88DDD131A</ModInUse>
+    <ModInUse>4873eb62-8ccc-4574-b784-dda455e74e68</ModInUse>
+  </Criteria>
+  <Criteria id="ZYLPVP_BBM_dlc_poland" manifestOrder="81">
+    <ModInUse>3809975F-263F-40A2-A747-8BFB171D821A</ModInUse>
+  </Criteria>
+  <Criteria id="ZYLPVP_BBM_xp2_poland" manifestOrder="82">
+    <LeaderPlayable>Players:Expansion2_Players::LEADER_JADWIGA</LeaderPlayable>
+  </Criteria>
+  <Criteria id="ZYLPVP_BBM_dlc_maya_colombia" manifestOrder="83">
+    <ModInUse>9DE86512-DE1A-400D-8C0A-AB46EBBF76B9</ModInUse>
+  </Criteria>
+  <Criteria id="ZYLPVP_BBM_nfp_macedon_persia_maya_colombia" manifestOrder="84">
+    <!-- for some reason, requires xp1 as well -->
+    <ModInUse>1B28771A-C749-434B-9053-D1380C553DE9</ModInUse>
+    <ModInUse>E2749E9A-8056-45CD-901B-C368C8E83DEB</ModInUse>
+    <ModInUse>9DE86512-DE1A-400D-8C0A-AB46EBBF76B9</ModInUse>
+  </Criteria>
+  <Criteria id="ZYLPVP_BBM_nfp_xp1_maya_colombia" manifestOrder="85">
+    <ModInUse>1B28771A-C749-434B-9053-D1380C553DE9</ModInUse>
+    <ModInUse>9DE86512-DE1A-400D-8C0A-AB46EBBF76B9</ModInUse>
+  </Criteria>
+  <Criteria id="ZYLPVP_BBM_nfp_ethiopia" manifestOrder="86">
+    <ModInUse>1B394FE9-23DC-4868-8F0A-5220CB8FB427</ModInUse>
+  </Criteria>
+  <Criteria id="ZYLPVP_BBM_nfp_xp2_ethiopia" manifestOrder="87">
+    <ModInUse>1B394FE9-23DC-4868-8F0A-5220CB8FB427</ModInUse>
+    <ModInUse>4873eb62-8ccc-4574-b784-dda455e74e68</ModInUse>
+  </Criteria>
+  <Criteria id="ZYLPVP_BBM_nfp_teddy_persona" manifestOrder="88">
+    <ModInUse>113D9459-0A3B-4FCB-A49C-483F40303575</ModInUse>
+  </Criteria>
+  <Criteria id="ZYLPVP_BBM_nfp_catherine_persona" manifestOrder="89">
+    <ModInUse>CE5876CD-6900-46D1-9C9C-8DBA1F28872E</ModInUse>
+  </Criteria>
+  <Criteria id="ZYLPVP_BBM_nfp_byzantium_gaul" manifestOrder="90">
+    <ModInUse>A1100FC4-70F2-4129-AC27-2A65A685ED08</ModInUse>
+  </Criteria>
+  <Criteria id="ZYLPVP_BBM_nfp_babylon" manifestOrder="91">
+    <ModInUse>8424840C-92EF-4426-A9B4-B4E0CB818049</ModInUse>
+  </Criteria>
+  <Criteria id="ZYLPVP_BBM_NATURALSetting_2" manifestOrder="92">
+    <ConfigurationValueMatches>
+      <ConfigurationId>BBSNatural</ConfigurationId>
+      <Group>Map</Group>
+      <Value>2</Value>
+    </ConfigurationValueMatches>
+  </Criteria>
+  <Criteria id="ZYLPVP_BBM_NATURALSetting_1" manifestOrder="93">
+    <ConfigurationValueMatches>
+      <ConfigurationId>BBSNatural</ConfigurationId>
+      <Group>Map</Group>
+      <Value>0</Value>
+    </ConfigurationValueMatches>
+  </Criteria>
+</CriteriaFragment>

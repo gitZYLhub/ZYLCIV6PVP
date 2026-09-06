@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CriteriaFragment schemaVersion="1" domain="06-better-deal-window">
+  <Criteria id="ZYLPVP_BDW_Expansion1" manifestOrder="94">
+    <GameCoreInUse>Expansion1</GameCoreInUse>
+  </Criteria>
+  <Criteria id="ZYLPVP_BDW_Expansion2" manifestOrder="95">
+    <GameCoreInUse>Expansion2</GameCoreInUse>
+  </Criteria>
+  <Criteria id="ZYLPVP_BDW_Monopolies_Mode" manifestOrder="96">
+    <ConfigurationValueMatches>
+      <Group>Game</Group>
+      <ConfigurationId>GAMEMODE_MONOPOLIES</ConfigurationId>
+      <Value>1</Value>
+    </ConfigurationValueMatches>
+  </Criteria>
+  <Criteria id="ZYLPVP_BDW_Monopolies_Mode_Expansion2" manifestOrder="97">
+    <RuleSetInUse>RULESET_EXPANSION_2</RuleSetInUse>
+    <ConfigurationValueMatches>
+      <Group>Game</Group>
+      <ConfigurationId>GAMEMODE_MONOPOLIES</ConfigurationId>
+      <Value>1</Value>
+    </ConfigurationValueMatches>
+  </Criteria>
+</CriteriaFragment>

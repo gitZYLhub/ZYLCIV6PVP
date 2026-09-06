@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CriteriaFragment schemaVersion="1" domain="07-rich-mainland">
+  <Criteria id="ZYL_RichMainland_Team" manifestOrder="106">
+    <ConfigurationValueMatches>
+      <Group>Map</Group>
+      <ConfigurationId>MAP_SCRIPT</ConfigurationId>
+      <Value>zyl_team_rich_mainland.lua</Value>
+    </ConfigurationValueMatches>
+  </Criteria>
+  <Criteria id="ZYL_RichMainland_FFA" manifestOrder="107">
+    <ConfigurationValueMatches>
+      <Group>Map</Group>
+      <ConfigurationId>MAP_SCRIPT</ConfigurationId>
+      <Value>zyl_ffa_rich_mainland.lua</Value>
+    </ConfigurationValueMatches>
+  </Criteria>
+  <Criteria id="ZYL_RichMainland" any="1" manifestOrder="108">
+    <ConfigurationValueMatches>
+      <Group>Map</Group>
+      <ConfigurationId>MAP_SCRIPT</ConfigurationId>
+      <Value>zyl_team_rich_mainland.lua</Value>
+    </ConfigurationValueMatches>
+    <ConfigurationValueMatches>
+      <Group>Map</Group>
+      <ConfigurationId>MAP_SCRIPT</ConfigurationId>
+      <Value>zyl_ffa_rich_mainland.lua</Value>
+    </ConfigurationValueMatches>
+  </Criteria>
+</CriteriaFragment>

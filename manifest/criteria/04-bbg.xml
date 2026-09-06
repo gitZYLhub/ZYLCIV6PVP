@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CriteriaFragment schemaVersion="1" domain="04-bbg">
+  <Criteria id="ZYLPVP_BBG_XP1" any="1" manifestOrder="18">
+    <GameCoreInUse>Expansion1</GameCoreInUse>
+    <RuleSetInUse>RULESET_EXPANSION_1,RULESET_EXPANSION_2</RuleSetInUse>
+    <LeaderPlayable>Players:Expansion1_Players::LEADER_CHANDRAGUPTA,Players:Expansion1_Players::LEADER_GENGHIS_KHAN,Players:Expansion1_Players::LEADER_LAUTARO,Players:Expansion1_Players::LEADER_POUNDMAKER,Players:Expansion1_Players::LEADER_ROBERT_THE_BRUCE,Players:Expansion1_Players::LEADER_SEONDEOK,Players:Expansion1_Players::LEADER_SHAKA,Players:Expansion1_Players::LEADER_TAMAR,Players:Expansion1_Players::LEADER_WILHELMINA</LeaderPlayable>
+    <LeaderPlayable>Players:Expansion2_Players::LEADER_CHANDRAGUPTA,Players:Expansion2_Players::LEADER_GENGHIS_KHAN,Players:Expansion2_Players::LEADER_LAUTARO,Players:Expansion2_Players::LEADER_POUNDMAKER,Players:Expansion2_Players::LEADER_ROBERT_THE_BRUCE,Players:Expansion2_Players::LEADER_SEONDEOK,Players:Expansion2_Players::LEADER_SHAKA,Players:Expansion2_Players::LEADER_TAMAR,Players:Expansion2_Players::LEADER_WILHELMINA</LeaderPlayable>
+  </Criteria>
+  <Criteria id="ZYLPVP_BBG_XP2" any="1" manifestOrder="19">
+    <GameCoreInUse>Expansion2</GameCoreInUse>
+    <LeaderPlayable>Players:Expansion2_Players::LEADER_DIDO,Players:Expansion2_Players::LEADER_ELEANOR_ENGLAND,Players:Expansion2_Players::LEADER_ELEANOR_FRANCE,Players:Expansion2_Players::LEADER_KRISTINA,Players:Expansion2_Players::LEADER_KUPE,Players:Expansion2_Players::LEADER_LAURIER,Players:Expansion2_Players::LEADER_MANSA_MUSA,Players:Expansion2_Players::LEADER_MATTHIAS_CORVINUS,Players:Expansion2_Players::LEADER_PACHACUTI,Players:Expansion2_Players::LEADER_SULEIMAN</LeaderPlayable>
+  </Criteria>
+  <Criteria id="ZYLPVP_BBG_XP1_AND_XP2" any="1" manifestOrder="20">
+    <RuleSetInUse>RULESET_EXPANSION_2</RuleSetInUse>
+    <LeaderPlayable>Players:Expansion2_Players::LEADER_CHANDRAGUPTA,Players:Expansion2_Players::LEADER_GENGHIS_KHAN,Players:Expansion2_Players::LEADER_LAUTARO,Players:Expansion2_Players::LEADER_POUNDMAKER,Players:Expansion2_Players::LEADER_ROBERT_THE_BRUCE,Players:Expansion2_Players::LEADER_SEONDEOK,Players:Expansion2_Players::LEADER_SHAKA,Players:Expansion2_Players::LEADER_TAMAR,Players:Expansion2_Players::LEADER_WILHELMINA</LeaderPlayable>
+  </Criteria>
+  <Criteria id="ZYLPVP_BBG_XP1_OR_XP2" any="1" manifestOrder="21">
+    <GameCoreInUse>Expansion1</GameCoreInUse>
+    <GameCoreInUse>Expansion2</GameCoreInUse>
+  </Criteria>
+  <Criteria id="ZYLPVP_BBG_DLC_Aztec" any="1" manifestOrder="22">
+    <LeaderPlayable>Players:StandardPlayers::LEADER_MONTEZUMA,StandardPlayers::LEADER_MONTEZUMA,Players:Expansion1_Players::LEADER_MONTEZUMA,Players:Expansion2_Players::LEADER_MONTEZUMA</LeaderPlayable>
+  </Criteria>
+  <Criteria id="ZYLPVP_BBG_DLC_Vikings" manifestOrder="23">
+    <ModInUse>2F6E858A-28EF-46B3-BEAC-B985E52E9BC1</ModInUse>
+  </Criteria>
+  <Criteria id="ZYLPVP_BBG_DLC_Poland" any="1" manifestOrder="24">
+    <LeaderPlayable>Players:StandardPlayers::LEADER_JADWIGA,StandardPlayers::LEADER_JADWIGA,Players:Expansion1_Players::LEADER_JADWIGA,Players:Expansion2_Players::LEADER_JADWIGA</LeaderPlayable>
+  </Criteria>
+  <Criteria id="ZYLPVP_BBG_DLC_Australia" any="1" manifestOrder="25">
+    <LeaderPlayable>Players:StandardPlayers::LEADER_JOHN_CURTIN,StandardPlayers::LEADER_JOHN_CURTIN,Players:Expansion1_Players::LEADER_JOHN_CURTIN,Players:Expansion2_Players::LEADER_JOHN_CURTIN</LeaderPlayable>
+  </Criteria>
+  <Criteria id="ZYLPVP_BBG_DLC_Macedon_Persia" any="1" manifestOrder="26">
+    <LeaderPlayable>Players:StandardPlayers::LEADER_ALEXANDER,Players:StandardPlayers::LEADER_CYRUS,StandardPlayers::LEADER_ALEXANDER,StandardPlayers::LEADER_CYRUS,Players:Expansion1_Players::LEADER_ALEXANDER,Players:Expansion1_Players::LEADER_CYRUS,Players:Expansion2_Players::LEADER_ALEXANDER,Players:Expansion2_Players::LEADER_CYRUS</LeaderPlayable>
+  </Criteria>
+  <Criteria id="ZYLPVP_BBG_DLC_Nubia" any="1" manifestOrder="27">
+    <LeaderPlayable>Players:StandardPlayers::LEADER_AMANITORE,StandardPlayers::LEADER_AMANITORE,Players:Expansion1_Players::LEADER_AMANITORE,Players:Expansion2_Players::LEADER_AMANITORE</LeaderPlayable>
+  </Criteria>
+  <Criteria id="ZYLPVP_BBG_DLC_Indonesia_Khmer" any="1" manifestOrder="28">
+    <LeaderPlayable>Players:StandardPlayers::LEADER_GITARJA,Players:StandardPlayers::LEADER_JAYAVARMAN,StandardPlayers::LEADER_GITARJA,StandardPlayers::LEADER_JAYAVARMAN,Players:Expansion1_Players::LEADER_GITARJA,Players:Expansion1_Players::LEADER_JAYAVARMAN,Players:Expansion2_Players::LEADER_GITARJA,Players:Expansion2_Players::LEADER_JAYAVARMAN</LeaderPlayable>
+  </Criteria>
+  <Criteria id="ZYLPVP_BBG_GranColombia_Maya" any="1" manifestOrder="29">
+    <LeaderPlayable>Players:StandardPlayers::LEADER_SIMON_BOLIVAR,Players:StandardPlayers::LEADER_LADY_SIX_SKY,StandardPlayers::LEADER_SIMON_BOLIVAR,StandardPlayers::LEADER_LADY_SIX_SKY,Players:Expansion1_Players::LEADER_SIMON_BOLIVAR,Players:Expansion1_Players::LEADER_LADY_SIX_SKY,Players:Expansion2_Players::LEADER_SIMON_BOLIVAR,Players:Expansion2_Players::LEADER_LADY_SIX_SKY</LeaderPlayable>
+  </Criteria>
+  <Criteria id="ZYLPVP_BBG_Ethiopia" any="1" manifestOrder="30">
+    <LeaderPlayable>Players:StandardPlayers::LEADER_MENELIK,StandardPlayers::LEADER_MENELIK,Players:Expansion1_Players::LEADER_MENELIK,Players:Expansion2_Players::LEADER_MENELIK</LeaderPlayable>
+  </Criteria>
+  <Criteria id="ZYLPVP_BBG_CatherinePersona" any="1" manifestOrder="31">
+    <LeaderPlayable>Players:StandardPlayers::LEADER_CATHERINE_DE_MEDICI_ALT,StandardPlayers::LEADER_CATHERINE_DE_MEDICI_ALT,Players:Expansion1_Players::LEADER_CATHERINE_DE_MEDICI_ALT,Players:Expansion2_Players::LEADER_CATHERINE_DE_MEDICI_ALT</LeaderPlayable>
+  </Criteria>
+  <Criteria id="ZYLPVP_BBG_TeddyPersona" any="1" manifestOrder="32">
+    <LeaderPlayable>Players:StandardPlayers::LEADER_T_ROOSEVELT_ROUGHRIDER,StandardPlayers::LEADER_T_ROOSEVELT_ROUGHRIDER,Players:Expansion1_Players::LEADER_T_ROOSEVELT_ROUGHRIDER,Players:Expansion2_Players::LEADER_T_ROOSEVELT_ROUGHRIDER</LeaderPlayable>
+  </Criteria>
+  <Criteria id="ZYLPVP_BBG_Byzantium_Gaul" any="1" manifestOrder="33">
+    <LeaderPlayable>Players:StandardPlayers::LEADER_BASIL,Players:StandardPlayers::LEADER_AMBIORIX,StandardPlayers::LEADER_BASIL,StandardPlayers::LEADER_AMBIORIX,Players:Expansion1_Players::LEADER_BASIL,Players:Expansion1_Players::LEADER_AMBIORIX,Players:Expansion2_Players::LEADER_BASIL,Players:Expansion2_Players::LEADER_AMBIORIX</LeaderPlayable>
+  </Criteria>
+  <Criteria id="ZYLPVP_BBG_Babylon" any="1" manifestOrder="34">
+    <LeaderPlayable>Players:StandardPlayers::LEADER_HAMMURABI,Players:Expansion1_Players::LEADER_HAMMURABI,Players:Expansion2_Players::LEADER_HAMMURABI</LeaderPlayable>
+  </Criteria>
+  <Criteria id="ZYLPVP_BBG_KublaiKhan_Vietnam" any="1" manifestOrder="35">
+    <LeaderPlayable>Players:StandardPlayers::LEADER_LADY_TRIEU,Players:Expansion1_Players::LEADER_LADY_TRIEU,Players:Expansion2_Players::LEADER_LADY_TRIEU</LeaderPlayable>
+    <LeaderPlayable>Players:StandardPlayers::LEADER_KUBLAI_KHAN_CHINA,Players:Expansion1_Players::LEADER_KUBLAI_KHAN_CHINA,Players:Expansion2_Players::LEADER_KUBLAI_KHAN_CHINA</LeaderPlayable>
+    <LeaderPlayable>Players:Expansion1_Players::LEADER_KUBLAI_KHAN_MONGOLIA,Players:Expansion2_Players::LEADER_KUBLAI_KHAN_MONGOLIA</LeaderPlayable>
+  </Criteria>
+  <Criteria id="ZYLPVP_BBG_Portugal" any="1" manifestOrder="36">
+    <LeaderPlayable>Players:StandardPlayers::LEADER_JOAO_III,StandardPlayers::LEADER_JOAO_III,Players:Expansion1_Players::LEADER_JOAO_III,Players:Expansion2_Players::LEADER_JOAO_III</LeaderPlayable>
+  </Criteria>
+  <Criteria id="ZYLPVP_BBG_Caesar" any="1" manifestOrder="37">
+    <LeaderPlayable>Players:StandardPlayers::LEADER_JULIUS_CAESAR,StandardPlayers::LEADER_JULIUS_CAESAR,Players:Expansion1_Players::LEADER_JULIUS_CAESAR,Players:Expansion2_Players::LEADER_JULIUS_CAESAR</LeaderPlayable>
+  </Criteria>
+  <Criteria id="ZYLPVP_BBG_Negotiators" any="1" manifestOrder="38">
+    <LeaderPlayable>Players:StandardPlayers::LEADER_ABRAHAM_LINCOLN,StandardPlayers::LEADER_ABRAHAM_LINCOLN,Players:Expansion1_Players::LEADER_ABRAHAM_LINCOLN,Players:Expansion2_Players::LEADER_ABRAHAM_LINCOLN</LeaderPlayable>
+    <LeaderPlayable>Players:StandardPlayers::LEADER_NZINGA_MBANDE,StandardPlayers::LEADER_NZINGA_MBANDE,Players:Expansion1_Players::LEADER_NZINGA_MBANDE,Players:Expansion2_Players::LEADER_NZINGA_MBANDE</LeaderPlayable>
+    <LeaderPlayable>Players:StandardPlayers::LEADER_SALADIN_ALT,StandardPlayers::LEADER_SALADIN_ALT,Players:Expansion1_Players::LEADER_SALADIN_ALT,Players:Expansion2_Players::LEADER_SALADIN_ALT</LeaderPlayable>
+  </Criteria>
+  <Criteria id="ZYLPVP_BBG_Warlords" any="1" manifestOrder="39">
+    <LeaderPlayable>Players:StandardPlayers::LEADER_TOKUGAWA,Players:Expansion1_Players::LEADER_TOKUGAWA,Players:Expansion2_Players::LEADER_TOKUGAWA</LeaderPlayable>
+    <LeaderPlayable>Players:StandardPlayers::LEADER_NADER_SHAH,Players:Expansion1_Players::LEADER_NADER_SHAH,Players:Expansion2_Players::LEADER_NADER_SHAH</LeaderPlayable>
+    <LeaderPlayable>Players:Expansion2_Players::LEADER_SULEIMAN_ALT</LeaderPlayable>
+  </Criteria>
+  <Criteria id="ZYLPVP_BBG_RulersChina" any="1" manifestOrder="40">
+    <LeaderPlayable>Players:StandardPlayers::LEADER_YONGLE,Players:Expansion1_Players::LEADER_YONGLE,Players:Expansion2_Players::LEADER_YONGLE</LeaderPlayable>
+    <LeaderPlayable>Players:StandardPlayers::LEADER_WU_ZETIAN,Players:Expansion1_Players::LEADER_WU_ZETIAN,Players:Expansion2_Players::LEADER_WU_ZETIAN</LeaderPlayable>
+    <LeaderPlayable>Players:StandardPlayers::LEADER_QIN_ALT,Players:Expansion1_Players::LEADER_QIN_ALT,Players:Expansion2_Players::LEADER_QIN_ALT</LeaderPlayable>
+    <LeaderPlayable>Players:Expansion2_Players::LEADER_SUNDIATA_KEITA</LeaderPlayable>
+  </Criteria>
+  <Criteria id="ZYLPVP_BBG_Builders" any="1" manifestOrder="41">
+    <LeaderPlayable>Players:StandardPlayers::LEADER_THEODORA,Players:Expansion1_Players::LEADER_THEODORA,Players:Expansion2_Players::LEADER_THEODORA</LeaderPlayable>
+    <LeaderPlayable>Players:StandardPlayers::LEADER_LUDWIG,Players:Expansion1_Players::LEADER_LUDWIG,Players:Expansion2_Players::LEADER_LUDWIG</LeaderPlayable>
+    <LeaderPlayable>Players:Expansion1_Players::LEADER_SEJONG,Players:Expansion2_Players::LEADER_SEJONG</LeaderPlayable>
+  </Criteria>
+  <Criteria id="ZYLPVP_BBG_RulersSahara" any="1" manifestOrder="42">
+    <LeaderPlayable>Players:StandardPlayers::LEADER_RAMSES,Players:Expansion1_Players::LEADER_RAMSES,Players:Expansion2_Players::LEADER_RAMSES</LeaderPlayable>
+    <LeaderPlayable>Players:StandardPlayers::LEADER_CLEOPATRA_ALT,Players:Expansion1_Players::LEADER_CLEOPATRA_ALT,Players:Expansion2_Players::LEADER_CLEOPATRA_ALT</LeaderPlayable>
+    <LeaderPlayable>Players:Expansion2_Players::LEADER_SUNDIATA_KEITA</LeaderPlayable>
+  </Criteria>
+  <Criteria id="ZYLPVP_BBG_RulersEngland" any="1" manifestOrder="43">
+    <LeaderPlayable>Players:StandardPlayers::LEADER_ELIZABETH,Players:Expansion1_Players::LEADER_ELIZABETH,Players:Expansion2_Players::LEADER_ELIZABETH</LeaderPlayable>
+    <LeaderPlayable>Players:StandardPlayers::LEADER_HARALD_ALT,Players:Expansion1_Players::LEADER_HARALD_ALT,Players:Expansion2_Players::LEADER_HARALD_ALT</LeaderPlayable>
+    <LeaderPlayable>Players:StandardPlayers::LEADER_VICTORIA_ALT,Players:Expansion1_Players::LEADER_VICTORIA_ALT,Players:Expansion2_Players::LEADER_VICTORIA_ALT</LeaderPlayable>
+  </Criteria>
+  <Criteria id="ZYLPVP_BBG_NoConflictingUIMod" manifestOrder="44">
+    <ModInUse inverse="1">1d44b5e7-753e-405b-af24-5ee634ec8a01</ModInUse>
+    <ModInUse inverse="1">8d4fa23a-ef43-440c-8422-2bec11f8f5d7</ModInUse>
+  </Criteria>
+  <Criteria id="ZYLPVP_BBG_NO_BBGTS" manifestOrder="45">
+    <!--new beta environment-->
+    <ModInUse inverse="1">d6b111c4-be33-4878-b1fc-8741b1cd6af7</ModInUse>
+  </Criteria>
+  <Criteria id="ZYLPVP_BBG_core_bbcc" manifestOrder="46">
+    <ConfigurationValueMatches inverse="1">
+      <Group>Game</Group>
+      <ConfigurationId>BBCC_SETTING</ConfigurationId>
+      <Value>-1</Value>
+    </ConfigurationValueMatches>
+  </Criteria>
+  <Criteria id="ZYLPVP_BBG_bbcc_cap" manifestOrder="47">
+    <ConfigurationValueMatches>
+      <Group>Game</Group>
+      <ConfigurationId>BBCC_SETTING</ConfigurationId>
+      <Value>1</Value>
+    </ConfigurationValueMatches>
+  </Criteria>
+  <Criteria id="ZYLPVP_BBG_standard_bbcc" manifestOrder="48">
+    <ConfigurationValueMatches>
+      <Group>Game</Group>
+      <ConfigurationId>BBCC_SETTING_YIELD</ConfigurationId>
+      <Value>0</Value>
+    </ConfigurationValueMatches>
+  </Criteria>
+  <Criteria id="ZYLPVP_BBG_no_rng_bbcc" manifestOrder="49">
+    <ConfigurationValueMatches>
+      <Group>Game</Group>
+      <ConfigurationId>BBCC_SETTING_YIELD</ConfigurationId>
+      <Value>1</Value>
+    </ConfigurationValueMatches>
+  </Criteria>
+  <Criteria id="ZYLPVP_BBG_legacy_bbcc" manifestOrder="50">
+    <ConfigurationValueMatches>
+      <Group>Game</Group>
+      <ConfigurationId>BBCC_SETTING_YIELD</ConfigurationId>
+      <Value>2</Value>
+    </ConfigurationValueMatches>
+  </Criteria>
+  <Criteria id="ZYLPVP_BBG_CVSetting_2" manifestOrder="51">
+    <ConfigurationValueMatches>
+      <ConfigurationId>VictoryCulturalSetting</ConfigurationId>
+      <Group>Game</Group>
+      <Value>2</Value>
+    </ConfigurationValueMatches>
+  </Criteria>
+  <Criteria id="ZYLPVP_BBG_CVSetting_1" manifestOrder="52">
+    <ConfigurationValueMatches>
+      <ConfigurationId>VictoryCulturalSetting</ConfigurationId>
+      <Group>Game</Group>
+      <Value>1</Value>
+    </ConfigurationValueMatches>
+  </Criteria>
+  <Criteria id="ZYLPVP_BBG_SVSetting_2" manifestOrder="53">
+    <ConfigurationValueMatches>
+      <ConfigurationId>VictoryScienceSetting</ConfigurationId>
+      <Group>Game</Group>
+      <Value>2</Value>
+    </ConfigurationValueMatches>
+  </Criteria>
+  <Criteria id="ZYLPVP_BBG_SVSetting_1" manifestOrder="54">
+    <ConfigurationValueMatches>
+      <ConfigurationId>VictoryScienceSetting</ConfigurationId>
+      <Group>Game</Group>
+      <Value>1</Value>
+    </ConfigurationValueMatches>
+  </Criteria>
+  <Criteria id="ZYLPVP_BBG_DVSetting_2" manifestOrder="55">
+    <ConfigurationValueMatches>
+      <ConfigurationId>VictoryDiploSetting</ConfigurationId>
+      <Group>Game</Group>
+      <Value>2</Value>
+    </ConfigurationValueMatches>
+  </Criteria>
+  <Criteria id="ZYLPVP_BBG_DVSetting_1" manifestOrder="56">
+    <ConfigurationValueMatches>
+      <ConfigurationId>VictoryDiploSetting</ConfigurationId>
+      <Group>Game</Group>
+      <Value>1</Value>
+    </ConfigurationValueMatches>
+  </Criteria>
+  <Criteria id="ZYLPVP_BBG_RVSetting_2" manifestOrder="57">
+    <ConfigurationValueMatches>
+      <ConfigurationId>VictoryReligiousSetting</ConfigurationId>
+      <Group>Game</Group>
+      <Value>2</Value>
+    </ConfigurationValueMatches>
+  </Criteria>
+  <Criteria id="ZYLPVP_BBG_RVSetting_1" manifestOrder="58">
+    <ConfigurationValueMatches>
+      <ConfigurationId>VictoryReligiousSetting</ConfigurationId>
+      <Group>Game</Group>
+      <Value>1</Value>
+    </ConfigurationValueMatches>
+  </Criteria>
+  <Criteria id="ZYLPVP_BBG_TerritorialSetting_1" manifestOrder="59">
+    <ConfigurationValueMatches>
+      <ConfigurationId>VICTORY_TRADITIONAL_DOMINATION</ConfigurationId>
+      <Group>Game</Group>
+      <Value>1</Value>
+    </ConfigurationValueMatches>
+  </Criteria>
+  <Criteria id="ZYLPVP_BBG_GlobalSetting_1" manifestOrder="60">
+    <ConfigurationValueMatches>
+      <ConfigurationId>VictoryMasterSlider</ConfigurationId>
+      <Group>Game</Group>
+      <Value>1</Value>
+    </ConfigurationValueMatches>
+  </Criteria>
+  <Criteria id="ZYLPVP_BBG_GlobalSetting_2" manifestOrder="61">
+    <ConfigurationValueMatches>
+      <ConfigurationId>VictoryMasterSlider</ConfigurationId>
+      <Group>Game</Group>
+      <Value>2</Value>
+    </ConfigurationValueMatches>
+  </Criteria>
+  <Criteria id="ZYLPVP_BBG_GlobalSetting_BBG_Legacy" manifestOrder="62">
+    <ConfigurationValueMatches>
+      <ConfigurationId>VictoryMasterSlider</ConfigurationId>
+      <Group>Game</Group>
+      <Value>5</Value>
+    </ConfigurationValueMatches>
+  </Criteria>
+  <Criteria id="ZYLPVP_BBG_Settlers_Sent_Back" manifestOrder="63">
+    <ConfigurationValueMatches>
+      <ConfigurationId>SettlersConfig</ConfigurationId>
+      <Group>Game</Group>
+      <Value>0</Value>
+    </ConfigurationValueMatches>
+  </Criteria>
+  <Criteria id="ZYLPVP_BBG_BBGExpanded_WIP" manifestOrder="64">
+    <!-- WIP -->
+    <ModInUse>2a0aa96a-a31c-4ce2-87ec-09144f6f3e00</ModInUse>
+  </Criteria>
+  <Criteria id="ZYLPVP_BBG_BBGExpanded_Release" manifestOrder="65">
+    <!-- Release -->
+    <ModInUse>2a0aa96a-a31c-4ce2-87ec-09152f6f3e00</ModInUse>
+  </Criteria>
+  <Criteria id="ZYLPVP_BBG_ModManager" manifestOrder="66">
+    <!-- Release -->
+    <ModInUse>47dccacd-f1d0-4f25-bb02-deb2b528c833</ModInUse>
+  </Criteria>
+  <Criteria id="ZYLPVP_BBG_BBGExpanded" any="1" manifestOrder="67">
+    <ModInUse>2a0aa96a-a31c-4ce2-87ec-09144f6f3e00</ModInUse>
+    <ModInUse>2a0aa96a-a31c-4ce2-87ec-09152f6f3888</ModInUse>
+    <ModInUse>2a0aa96a-a31c-4ce2-87ec-09152f6f3e00</ModInUse>
+  </Criteria>
+</CriteriaFragment>

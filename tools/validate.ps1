@@ -34,6 +34,12 @@ if (-not (Test-Path -LiteralPath $manifestGraphHelpersPath -PathType Leaf)) {
 }
 . $manifestGraphHelpersPath
 
+$manifestSourcesHelpersPath = Join-Path $PSScriptRoot 'manifest\ManifestSources.ps1'
+if (-not (Test-Path -LiteralPath $manifestSourcesHelpersPath -PathType Leaf)) {
+    throw "Manifest source helpers not found: $manifestSourcesHelpersPath"
+}
+. $manifestSourcesHelpersPath
+
 $missingRemovalFixture = @(Get-ZylLuaEventLifecycleIssues -Source 'Events.Example.Add(OnExample)' -Label 'Fixture')
 $balancedLifecycleFixture = @(Get-ZylLuaEventLifecycleIssues -Source @'
 Events.Example.Add(OnExample)
@@ -169,8 +175,10 @@ else {
     $assemblerSource = Get-Content -LiteralPath $assemblerPath -Raw
     foreach ($requiredBoundaryToken in @(
         '$projectMetadataPath = Join-Path $PSScriptRoot ''project.json''',
+        '$manifestSourcesPath = Join-Path $PSScriptRoot ''manifest\ManifestSources.ps1''',
         '$modInfoPath = Join-Path $modRoot ([string]$projectMetadata.modInfoFile)',
         'function Resolve-ProjectFile',
+        'Sync-ActionCriteria $modInfo',
         '$fullPath.StartsWith($modRootPrefix',
         'Manifest path escapes the project root'
     )) {
@@ -195,6 +203,30 @@ foreach ($xmlFile in $xmlFiles) {
 }
 
 $modInfo = Load-XmlDocument $modInfoPath
+$criteriaSourceDirectory = Join-Path $modRoot 'manifest\criteria'
+try {
+    $generatedCriteriaSection = New-ZylActionCriteriaSection `
+        -OwnerDocument $modInfo `
+        -SourceDirectory $criteriaSourceDirectory
+    $currentCriteriaSection = [System.Xml.XmlElement]$modInfo.SelectSingleNode('/Mod/ActionCriteria')
+    if ($null -eq $currentCriteriaSection) {
+        Add-ValidationError 'ModInfo is missing the generated ActionCriteria section.'
+    }
+    else {
+        $generatedCriteriaJson = ConvertTo-ZylCanonicalJson -InputObject (
+            ConvertTo-ZylCanonicalXmlNode -Node $generatedCriteriaSection
+        )
+        $currentCriteriaJson = ConvertTo-ZylCanonicalJson -InputObject (
+            ConvertTo-ZylCanonicalXmlNode -Node $currentCriteriaSection
+        )
+        if ($generatedCriteriaJson -ne $currentCriteriaJson) {
+            Add-ValidationError 'ModInfo ActionCriteria differs from the domain source fragments; run tools/assemble_modinfo.ps1.'
+        }
+    }
+}
+catch {
+    Add-ValidationError "Invalid ModInfo Criteria source fragments: $($_.Exception.Message)"
+}
 if ($modInfo.DocumentElement.GetAttribute('id') -ne $expectedModId) {
     Add-ValidationError "Unexpected Mod ID: $($modInfo.DocumentElement.GetAttribute('id'))"
 }

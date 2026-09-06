@@ -150,4 +150,14 @@
 - 修改：新增 `tools/validation/ManifestGraph.ps1`、`tools/report_modinfo_graph.ps1` 和 `manifest/baseline-1.3.0-action-graph.json`；主校验器自动比较当前动作图与冻结指纹，同时核对四类计数；`manifest` 纳入源码专用目录。
 - 验证：冻结标签与当前动作图 SHA-256 均为 `f41a5c55fc7000b435ffe645d4c25df358ad3950b1e03f105b64d07e49ba14af`，计数均为 108 Criteria、32 FrontEnd Actions、251 InGame Actions、1077 Files。连续两次完整报告文件相同；交换 XML 属性顺序不改变指纹；内存中把首条 Action 文件路径追加 `.probe` 后指纹变为 `bfd7b6efa32c06f011aecaa43601fc0aec3be3946f9d6fcf154bc33db88475ed`，成功检出语义漂移。完整项目校验通过，源码专用文件增至 17。
 - 风险/待办：当前基线要求动作图与 1.3.0 完全等价；后续若因兼容性需要有意增删 Action，必须建立显式迁移差异而不是直接覆盖基线。下一步按域拆分清单源并让组装器生成相同指纹。
-- 提交：本次提交（ModInfo 语义基线）。
+- 提交：`e210103 test: freeze ModInfo semantic action graph`。
+
+### 2026-09-07 / M2-ActionCriteria 分域生成
+
+- 目标：把 108 条 Criteria 从手工 ModInfo 迁移到按责任域维护的源片段，同时逐项保留冻结顺序和语义。
+- 范围：ActionCriteria、共享清单读取模块、组装器、校验器和相关文档；FrontEndActions、InGameActions、Files 暂不迁移。
+- 设计决定：按 core、multiplayer、QoL UI、BBG、BBM、Better Deal Window、Rich Mainland、resources、secret societies、ZYL balance 十个域拆分。每条 Criteria 在源片段携带唯一连续 `manifestOrder`，组装进 ModInfo 时移除开发属性；ID 在全部片段间不区分大小写唯一。
+- 修改：新增 `manifest/criteria/*.xml` 十个片段和 `tools/manifest/ManifestSources.ps1`；组装器每次从片段重建 ActionCriteria；校验器直接比较分域源生成段与 ModInfo 当前段，并继续检查冻结全图指纹。
+- 验证：十域 Criteria 数分别为 4/10/7/50/26/4/3/2/1/1，总计 108；源片段生成段与当前段规范 JSON 完全一致。正常组装前后 ModInfo SHA-256 均为 `94869D352E031F53513FB048095730851842B75BDF7CD4398B4EAF27259BB14D`。负向测试把生成文件首条 `Expansion2` 临时改为 `Expansion2_PROBE` 后校验以退出码 1 拒绝，组装器随后从片段恢复原哈希；最终校验通过 174 XML、108 Criteria、283 Actions、1077 Files、549 活跃引用、48 休眠文件和 29 源码专用文件。
+- 风险/待办：领域划分目前只约束所有权，不改变跨域引用；下一步用相同 `manifestOrder` 机制迁移 32 条 FrontEnd Actions 和 251 条 InGame Actions，再生成 Files 清单。
+- 提交：本次提交（Criteria 分域生成）。

@@ -4,15 +4,21 @@ param()
 $ErrorActionPreference = 'Stop'
 
 # ZYLPVPMOD is self-contained. This script synchronizes package identity and
-# required compatibility entries from tools/project.json. It deliberately has
-# no parameters for upstream manifests and never reads Steam/Workshop caches or
-# sibling projects. Action-graph generation is handled by the later M2 work.
+# assembles migrated manifest sections from repository-owned sources. It has no
+# parameters for upstream manifests and never reads Steam/Workshop caches or
+# sibling projects. Criteria are generated from manifest/criteria; action and
+# file-list migration continues incrementally during M2.
 $modRoot = [System.IO.Path]::GetFullPath((Split-Path -Parent $PSScriptRoot))
 $modRootPrefix = $modRoot.TrimEnd('\') + '\'
 $projectMetadataPath = Join-Path $PSScriptRoot 'project.json'
+$manifestSourcesPath = Join-Path $PSScriptRoot 'manifest\ManifestSources.ps1'
 if (-not (Test-Path -LiteralPath $projectMetadataPath -PathType Leaf)) {
     throw "Project metadata not found: $projectMetadataPath"
 }
+if (-not (Test-Path -LiteralPath $manifestSourcesPath -PathType Leaf)) {
+    throw "Manifest source helpers not found: $manifestSourcesPath"
+}
+. $manifestSourcesPath
 $projectMetadata = Get-Content -LiteralPath $projectMetadataPath -Raw | ConvertFrom-Json
 if ($projectMetadata.schemaVersion -ne 1 -or
         [string]::IsNullOrWhiteSpace([string]$projectMetadata.modId) -or
@@ -33,6 +39,7 @@ $modInfoVersion = ([int]$projectMetadata.modInfoVersion).ToString(
 )
 $multiplayerHelperRelativePath = [string]$projectMetadata.multiplayerHelperFile
 $vampireCastleScript = 'Components/TeamPVPSecretSocieties/Scripts/VampireCastle_Gameplay.lua'
+$criteriaSourceDirectory = Join-Path $modRoot 'manifest\criteria'
 $manifestChanged = $false
 
 function Resolve-ProjectFile {
@@ -156,6 +163,27 @@ if ($modInfo.DocumentElement.GetAttribute('id') -ne $unifiedId) {
     $modInfo.DocumentElement.SetAttribute('id', $unifiedId)
     $manifestChanged = $true
 }
+
+function Sync-ActionCriteria {
+    param([System.Xml.XmlDocument]$Document)
+
+    $generatedSection = New-ZylActionCriteriaSection `
+        -OwnerDocument $Document `
+        -SourceDirectory $criteriaSourceDirectory
+    $existingSection = [System.Xml.XmlElement]$Document.SelectSingleNode('/Mod/ActionCriteria')
+    if ($null -eq $existingSection) {
+        $frontEndActions = $Document.SelectSingleNode('/Mod/FrontEndActions')
+        if ($null -eq $frontEndActions) {
+            throw 'ZYLPVPMOD.modinfo is missing both ActionCriteria and FrontEndActions.'
+        }
+        [void]$Document.DocumentElement.InsertBefore($generatedSection, $frontEndActions)
+        $script:manifestChanged = $true
+    }
+    elseif ($generatedSection.OuterXml -ne $existingSection.OuterXml) {
+        [void]$existingSection.ParentNode.ReplaceChild($generatedSection, $existingSection)
+        $script:manifestChanged = $true
+    }
+}
 if ($modInfo.DocumentElement.GetAttribute('version') -ne $modInfoVersion) {
     $modInfo.DocumentElement.SetAttribute('version', $modInfoVersion)
     $manifestChanged = $true
@@ -177,6 +205,7 @@ if ($null -eq $title) {
 Set-ChildText $modInfo $title 'en_US' "$packageName $packageVersion"
 Set-ChildText $modInfo $title 'zh_Hans_CN' "$packageName $packageVersion"
 
+Sync-ActionCriteria $modInfo
 Ensure-VampireCastleAction $modInfo
 Ensure-ListedFile $modInfo $vampireCastleScript
 
@@ -254,4 +283,4 @@ if ($updatedHelperSource -ne $helperSource) {
     )
 }
 
-Write-Host "Synchronized package metadata for $packageName $packageVersion."
+Write-Host "Assembled ModInfo metadata and migrated sections for $packageName $packageVersion."

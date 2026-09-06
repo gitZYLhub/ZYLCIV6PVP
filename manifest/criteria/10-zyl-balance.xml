@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CriteriaFragment schemaVersion="1" domain="10-zyl-balance">
+  <Criteria id="ZYL_EraLengthOptimization" manifestOrder="103">
+    <RuleSetInUse>RULESET_EXPANSION_1,RULESET_EXPANSION_2</RuleSetInUse>
+    <ConfigurationValueMatches>
+      <Group>Game</Group>
+      <ConfigurationId>ZYL_ERA_LENGTH_OPTIMIZATION</ConfigurationId>
+      <Value>1</Value>
+    </ConfigurationValueMatches>
+  </Criteria>
+</CriteriaFragment>

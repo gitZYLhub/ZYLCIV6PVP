@@ -29,6 +29,8 @@ ModInfo
 | Build | 从清单复制、验证、报告和原子替换产物 | 读取 Workshop 缓存或外部源码 |
 | Validation | 检查声明、引用和行为契约 | 静默修复输入 |
 
+Manifest 迁移采用“分段替换而非一次重写”：目前 `manifest/criteria` 是 ActionCriteria 的唯一开发源，组装器按 `manifestOrder` 恢复原顺序并移除该开发属性；尚未迁移的 Actions 与 Files 暂时仍从生成后的 ModInfo 保留。每迁移一段都必须保持冻结动作图指纹一致。
+
 ## 联机状态原则
 
 ```text

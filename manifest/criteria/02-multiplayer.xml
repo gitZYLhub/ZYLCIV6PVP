@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CriteriaFragment schemaVersion="1" domain="02-multiplayer">
+  <Criteria id="Anonymous_Mode_Expansion2" manifestOrder="3">
+    <ConfigurationValueMatches>
+      <Group>Game</Group>
+      <ConfigurationId>GAMEMODE_ANONYMOUS</ConfigurationId>
+      <Value>1</Value>
+    </ConfigurationValueMatches>
+  </Criteria>
+  <Criteria id="Sudden_Death_Mode_Expansion2" manifestOrder="4">
+    <ConfigurationValueMatches>
+      <Group>Game</Group>
+      <ConfigurationId>GAMEMODE_SUDDEN_DEATH</ConfigurationId>
+      <Value>1</Value>
+    </ConfigurationValueMatches>
+  </Criteria>
+  <Criteria id="Alliance_Military_Off" manifestOrder="5">
+    <ConfigurationValueMatches>
+      <Group>Game</Group>
+      <ConfigurationId>ALLIANCE_MILITARY</ConfigurationId>
+      <Value>0</Value>
+    </ConfigurationValueMatches>
+  </Criteria>
+  <Criteria id="Alliance_Cultural_Off" manifestOrder="6">
+    <ConfigurationValueMatches>
+      <Group>Game</Group>
+      <ConfigurationId>ALLIANCE_CULTURAL</ConfigurationId>
+      <Value>0</Value>
+    </ConfigurationValueMatches>
+  </Criteria>
+  <Criteria id="Alliance_Religious_Off" manifestOrder="7">
+    <ConfigurationValueMatches>
+      <Group>Game</Group>
+      <ConfigurationId>ALLIANCE_RELIGIOUS</ConfigurationId>
+      <Value>0</Value>
+    </ConfigurationValueMatches>
+  </Criteria>
+  <Criteria id="Alliance_Research_Off" manifestOrder="8">
+    <ConfigurationValueMatches>
+      <Group>Game</Group>
+      <ConfigurationId>ALLIANCE_RESEARCH</ConfigurationId>
+      <Value>0</Value>
+    </ConfigurationValueMatches>
+  </Criteria>
+  <Criteria id="Alliance_Economic_Off" manifestOrder="9">
+    <ConfigurationValueMatches>
+      <Group>Game</Group>
+      <ConfigurationId>ALLIANCE_ECONOMIC</ConfigurationId>
+      <Value>0</Value>
+    </ConfigurationValueMatches>
+  </Criteria>
+  <Criteria id="Diplomatic_Deals_Off" manifestOrder="10">
+    <ConfigurationValueMatches>
+      <Group>Game</Group>
+      <ConfigurationId>DIPLOMATIC_DEAL</ConfigurationId>
+      <Value>1</Value>
+    </ConfigurationValueMatches>
+  </Criteria>
+  <Criteria id="Diplomatic_FS_Off" manifestOrder="11">
+    <ConfigurationValueMatches>
+      <Group>Game</Group>
+      <ConfigurationId>NO_FRIENDSHIP</ConfigurationId>
+      <Value>1</Value>
+    </ConfigurationValueMatches>
+  </Criteria>
+  <Criteria id="Diplomatic_SW_Off" manifestOrder="12">
+    <ConfigurationValueMatches>
+      <Group>Game</Group>
+      <ConfigurationId>NO_SURPRISE_WAR</ConfigurationId>
+      <Value>1</Value>
+    </ConfigurationValueMatches>
+  </Criteria>
+</CriteriaFragment>

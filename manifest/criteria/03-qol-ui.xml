@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CriteriaFragment schemaVersion="1" domain="03-qol-ui">
+  <Criteria id="TPT_NEW_HOTKEYS" manifestOrder="13">
+    <ConfigurationValueMatches>
+      <Group>Game</Group>
+      <ConfigurationId>NEW_HOTKEYS</ConfigurationId>
+      <Value>1</Value>
+    </ConfigurationValueMatches>
+  </Criteria>
+  <Criteria id="SETTINGS_UI_GreatPeoplePopup" any="1" manifestOrder="14">
+    <ConfigurationValueMatches>
+      <Group>Game</Group>
+      <ConfigurationId>SETTINGS_UI_BGP</ConfigurationId>
+      <Value>1</Value>
+    </ConfigurationValueMatches>
+    <ConfigurationValueMatches>
+      <Group>Game</Group>
+      <ConfigurationId>SETTINGS_UI</ConfigurationId>
+      <Value>SETTINGS_UI_ENABLE_ALL</Value>
+    </ConfigurationValueMatches>
+  </Criteria>
+  <Criteria id="SETTINGS_UI_TopPanelExtension" any="1" manifestOrder="15">
+    <ConfigurationValueMatches>
+      <Group>Game</Group>
+      <ConfigurationId>SETTINGS_UI_TPE</ConfigurationId>
+      <Value>1</Value>
+    </ConfigurationValueMatches>
+    <ConfigurationValueMatches>
+      <Group>Game</Group>
+      <ConfigurationId>SETTINGS_UI</ConfigurationId>
+      <Value>SETTINGS_UI_ENABLE_ALL</Value>
+    </ConfigurationValueMatches>
+  </Criteria>
+  <Criteria id="SETTINGS_UI_CityStates" any="1" manifestOrder="16">
+    <ConfigurationValueMatches>
+      <Group>Game</Group>
+      <ConfigurationId>SETTINGS_UI_BCS</ConfigurationId>
+      <Value>1</Value>
+    </ConfigurationValueMatches>
+    <ConfigurationValueMatches>
+      <Group>Game</Group>
+      <ConfigurationId>SETTINGS_UI</ConfigurationId>
+      <Value>SETTINGS_UI_ENABLE_ALL</Value>
+    </ConfigurationValueMatches>
+  </Criteria>
+  <Criteria id="SETTINGS_UI_TechCivicProgressPro" any="1" manifestOrder="17">
+    <ConfigurationValueMatches>
+      <Group>Game</Group>
+      <ConfigurationId>SETTINGS_UI_TCP</ConfigurationId>
+      <Value>1</Value>
+    </ConfigurationValueMatches>
+    <ConfigurationValueMatches>
+      <Group>Game</Group>
+      <ConfigurationId>SETTINGS_UI</ConfigurationId>
+      <Value>SETTINGS_UI_ENABLE_ALL</Value>
+    </ConfigurationValueMatches>
+  </Criteria>
+  <Criteria id="ZYL_NoMapPins" manifestOrder="104">
+    <ConfigurationValueMatches>
+      <Group>Game</Group>
+      <ConfigurationId>CPL_NO_PINS</ConfigurationId>
+      <Value>1</Value>
+    </ConfigurationValueMatches>
+  </Criteria>
+  <Criteria id="SETTINGS_UI_BetterTradeScreen" any="1" manifestOrder="105">
+    <ConfigurationValueMatches>
+      <Group>Game</Group>
+      <ConfigurationId>SETTINGS_UI_BTS</ConfigurationId>
+      <Value>1</Value>
+    </ConfigurationValueMatches>
+    <ConfigurationValueMatches>
+      <Group>Game</Group>
+      <ConfigurationId>SETTINGS_UI</ConfigurationId>
+      <Value>SETTINGS_UI_ENABLE_ALL</Value>
+    </ConfigurationValueMatches>
+  </Criteria>
+</CriteriaFragment>

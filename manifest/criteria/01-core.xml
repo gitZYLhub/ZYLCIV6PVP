@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CriteriaFragment schemaVersion="1" domain="01-core">
+  <Criteria id="Expansion2" manifestOrder="1">
+    <GameCoreInUse>Expansion2</GameCoreInUse>
+  </Criteria>
+  <Criteria id="Expansion1" manifestOrder="2">
+    <GameCoreInUse>Expansion1</GameCoreInUse>
+  </Criteria>
+  <Criteria id="ZYL_Ethiopia" manifestOrder="98">
+    <ModInUse>1B394FE9-23DC-4868-8F0A-5220CB8FB427</ModInUse>
+  </Criteria>
+  <Criteria id="ZYL_GatheringStorm" manifestOrder="102">
+    <RuleSetInUse>RULESET_EXPANSION_2</RuleSetInUse>
+  </Criteria>
+</CriteriaFragment>

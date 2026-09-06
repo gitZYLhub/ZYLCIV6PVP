@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CriteriaFragment schemaVersion="1" domain="08-resources">
+  <Criteria id="ZYL_NoExternalBBGExpanded" manifestOrder="100">
+    <ModInUse inverse="1">2a0aa96a-a31c-4ce2-87ec-09144f6f3e00</ModInUse>
+    <ModInUse inverse="1">2a0aa96a-a31c-4ce2-87ec-09152f6f3888</ModInUse>
+    <ModInUse inverse="1">2a0aa96a-a31c-4ce2-87ec-09152f6f3e00</ModInUse>
+  </Criteria>
+  <Criteria id="ZYL_MonopoliesMode" manifestOrder="101">
+    <ConfigurationValueMatches>
+      <Group>Game</Group>
+      <ConfigurationId>GAMEMODE_MONOPOLIES</ConfigurationId>
+      <Value>1</Value>
+    </ConfigurationValueMatches>
+  </Criteria>
+</CriteriaFragment>
