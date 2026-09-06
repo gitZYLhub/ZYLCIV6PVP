@@ -323,6 +323,8 @@
 			<!-- Host-only convenience controls. These intentionally do not replace MPH's ready/draft controls. -->
 			<GridButton ID="RandomTeamsButton" Anchor="C,B" Offset="-235,28" Size="180,32" Style="ShellButton" String="LOC_ZYL_RANDOM_TEAMS" ToolTip="LOC_ZYL_RANDOM_TEAMS_TT" Hidden="1"/>
 			<GridButton ID="ToggleEmptySlotsButton" Anchor="C,B" Offset="235,28" Size="180,32" Style="ShellButton" String="LOC_ZYL_TOGGLE_SLOTS" ToolTip="LOC_ZYL_TOGGLE_SLOTS_TT" Hidden="1"/>
+			<GridButton ID="IdentityDealButton" Anchor="C,B" Offset="-235,68" Size="180,32" Style="ShellButton" String="LOC_ZYL_IDENTITY_DEAL_BUTTON" ToolTip="LOC_ZYL_IDENTITY_DEAL_BUTTON_TT" Hidden="1"/>
+			<GridButton ID="IdentityViewButton" Anchor="C,B" Offset="235,68" Size="180,32" Style="ShellButton" String="LOC_ZYL_IDENTITY_WAITING_BUTTON" Hidden="1"/>
 
 			<!-- Ready Button  -->
 			<AlphaAnim		ID="FadeAnim"						Anchor="C,C"								Size="parent,parent"	AlphaBegin="0" AlphaEnd="1" Cycle="Once" Speed=".5" Stopped="0" Pause="1" Function="Root">
@@ -350,6 +352,33 @@
 			<Container ID="TooltipContainer" Size="420,720" Anchor="R,C" Offset="-10,10"/>
 		</Container>
 	</Box>
+
+	<!-- Lobby identity card. Every valid deal opens masked; only the local
+	     player's permitted information is populated by stagingroom.lua. -->
+	<Container ID="IdentityLobbyOverlay" Size="parent,parent" Color="0,0,0,180" ConsumeMouse="1" Hidden="1">
+		<Grid ID="IdentityLobbyPanel" Size="590,430" Anchor="C,C" Style="WindowFrameTitle" ConsumeMouse="1">
+			<Label ID="IdentityLobbyTitle" Anchor="C,T" Offset="0,18" Style="ShellHeader" String="LOC_ZYL_IDENTITY_PANEL_TITLE" />
+			<Label ID="IdentityLobbyPlayerOrder" Anchor="C,T" Offset="0,60" Style="FontNormal16" String="" />
+
+			<Container ID="IdentityLobbyMaskContainer" Size="550,180" Anchor="C,T" Offset="0,92">
+				<Label ID="IdentityLobbyMaskSeal" Anchor="C,T" Offset="0,10" Style="FontFlair48" String="?" />
+				<Label ID="IdentityLobbyMaskHint" Anchor="C,T" Offset="0,78" Style="BodyTextDark16" String="LOC_ZYL_IDENTITY_REVEAL_HINT" />
+				<GridButton ID="IdentityLobbyRevealButton" Anchor="C,T" Offset="0,125" Style="MainButton" Size="280,42" String="LOC_ZYL_IDENTITY_REVEAL" />
+			</Container>
+
+			<Container ID="IdentityLobbyRoleContainer" Size="550,300" Anchor="C,T" Offset="0,92" Hidden="1">
+				<Label ID="IdentityLobbyRoleName" Anchor="C,T" Offset="0,0" Style="FontFlair32" String="" />
+				<Label ID="IdentityLobbyRoleDescription" Anchor="C,T" Offset="0,55" Style="BodyTextDark16" WrapWidth="510" String="" />
+				<Label ID="IdentityLobbyLordLabel" Anchor="C,T" Offset="0,112" Style="FontNormal16" String="LOC_ZYL_IDENTITY_LORD_LABEL" />
+				<Label ID="IdentityLobbyLordName" Anchor="C,T" Offset="0,138" Style="FontNormal20" String="" />
+				<Label ID="IdentityLobbyTeamLabel" Anchor="C,T" Offset="0,184" Style="FontNormal16" String="LOC_ZYL_IDENTITY_REBEL_TEAM_LABEL" Hidden="1" />
+				<Label ID="IdentityLobbyTeamNames" Anchor="C,T" Offset="0,212" Style="FontNormal16" WrapWidth="510" String="" Hidden="1" />
+				<GridButton ID="IdentityLobbyHideButton" Anchor="C,T" Offset="0,260" Style="MainButton" Size="280,42" String="LOC_ZYL_IDENTITY_HIDE" />
+			</Container>
+
+			<GridButton ID="IdentityLobbyCloseButton" Anchor="C,B" Offset="0,-12" Style="ButtonRed" Size="180,38" String="LOC_ZYL_IDENTITY_CLOSE" />
+		</Grid>
+	</Container>
 
 	<!-- Hotseat bottom deco -->
 	<Image ID="HotseatDeco" Anchor="C,B" Size="963,45" Offset="0,55" Texture="Controls_BorderDeco" StretchMode="Tile" Color="255,255,255,20"/>

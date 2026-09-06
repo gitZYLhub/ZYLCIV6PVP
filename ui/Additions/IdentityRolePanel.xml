@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Context Name="ZYLIdentityRolePanel">
+	<Container ID="RoleButtonContainer" Size="120,42" Anchor="R,T" Offset="-28,92" Hidden="1">
+		<GridButton ID="RoleButton" Style="ShellButton" Size="120,36" Anchor="C,C" String="LOC_ZYL_IDENTITY_PANEL_TITLE" />
+	</Container>
+
+	<Container ID="Overlay" Size="parent,parent" Color="0,0,0,150" ConsumeMouse="1" Hidden="1">
+		<Grid ID="Panel" Size="590,auto" Anchor="C,C" Style="WindowFrameTitle" AutoSizePadding="20,20" ConsumeMouse="1">
+			<Label ID="Title" Anchor="C,T" Style="ShellHeader" String="LOC_ZYL_IDENTITY_PANEL_TITLE" />
+			<Label ID="PlayerOrder" Anchor="C,T" Offset="0,42" Style="FontNormal16" String="" />
+
+			<Container ID="MaskContainer" Size="parent-40,180" Anchor="C,T" Offset="0,75">
+				<Label ID="MaskSeal" Anchor="C,T" Offset="0,10" Style="FontFlair48" String="?" />
+				<Label ID="MaskHint" Anchor="C,T" Offset="0,78" Style="BodyTextDark16" String="LOC_ZYL_IDENTITY_REVEAL_HINT" />
+				<GridButton ID="RevealButton" Anchor="C,T" Offset="0,125" Style="MainButton" Size="280,42" String="LOC_ZYL_IDENTITY_REVEAL" />
+			</Container>
+
+			<Container ID="IdentityContainer" Size="parent-40,300" Anchor="C,T" Offset="0,75" Hidden="1">
+				<Label ID="RoleName" Anchor="C,T" Offset="0,0" Style="FontFlair32" String="" />
+				<Label ID="RoleDescription" Anchor="C,T" Offset="0,55" Style="BodyTextDark16" WrapWidth="510" String="" />
+				<Label ID="LordLabel" Anchor="C,T" Offset="0,112" Style="FontNormal16" String="LOC_ZYL_IDENTITY_LORD_LABEL" />
+				<Label ID="LordName" Anchor="C,T" Offset="0,138" Style="FontNormal20" String="" />
+				<Label ID="TeamLabel" Anchor="C,T" Offset="0,184" Style="FontNormal16" String="LOC_ZYL_IDENTITY_REBEL_TEAM_LABEL" Hidden="1" />
+				<Label ID="TeamNames" Anchor="C,T" Offset="0,212" Style="FontNormal16" WrapWidth="510" String="" Hidden="1" />
+				<GridButton ID="HideButton" Anchor="C,T" Offset="0,260" Style="MainButton" Size="280,42" String="LOC_ZYL_IDENTITY_HIDE" />
+			</Container>
+
+			<Container ID="ErrorContainer" Size="parent-40,170" Anchor="C,T" Offset="0,95" Hidden="1">
+				<Label ID="ErrorTitle" Anchor="C,T" Style="FontFlair24" String="LOC_ZYL_IDENTITY_ERROR_TITLE" />
+				<Label ID="ErrorText" Anchor="C,T" Offset="0,58" Style="BodyTextDark16" WrapWidth="510" String="LOC_ZYL_IDENTITY_ERROR_DATA" />
+			</Container>
+
+			<GridButton ID="CloseButton" Anchor="C,B" Offset="0,-10" Style="ButtonRed" Size="180,38" String="LOC_ZYL_IDENTITY_CLOSE" />
+		</Grid>
+	</Container>
+</Context>

@@ -6,9 +6,65 @@
 		<Row Key1="Ruleset" Key2="RULESET_EXPANSION_1" ParameterId="ZYL_ERA_LENGTH_OPTIMIZATION" Name="LOC_ZYL_ERA_LENGTH_OPTIMIZATION_NAME" Description="LOC_ZYL_ERA_LENGTH_OPTIMIZATION_DESC" Domain="bool" DefaultValue="1" ConfigurationGroup="Game" ConfigurationId="ZYL_ERA_LENGTH_OPTIMIZATION" GroupId="GameOptions" SupportsSinglePlayer="1" SupportsPlayByCloud="1" SupportsHotSeat="1" SortIndex="2010" />
 		<Row Key1="Ruleset" Key2="RULESET_EXPANSION_2" ParameterId="ZYL_ERA_LENGTH_OPTIMIZATION" Name="LOC_ZYL_ERA_LENGTH_OPTIMIZATION_NAME" Description="LOC_ZYL_ERA_LENGTH_OPTIMIZATION_DESC" Domain="bool" DefaultValue="1" ConfigurationGroup="Game" ConfigurationId="ZYL_ERA_LENGTH_OPTIMIZATION" GroupId="GameOptions" SupportsSinglePlayer="1" SupportsPlayByCloud="1" SupportsHotSeat="1" SortIndex="2010" />
 		<Row Key1="Ruleset" Key2="RULESET_EXPANSION_2" ParameterId="ZYL_DIPLOMACY_RIBBON_MODE" Name="LOC_ZYL_DIPLOMACY_RIBBON_MODE_NAME" Description="LOC_ZYL_DIPLOMACY_RIBBON_MODE_DESC" Domain="ZylDiplomacyRibbonModes" DefaultValue="0" ConfigurationGroup="Game" ConfigurationId="ZYL_DIPLOMACY_RIBBON_MODE" GroupId="GameOptions" SupportsSinglePlayer="1" SupportsPlayByCloud="1" SupportsHotSeat="1" SortIndex="2020" />
+		<Row ParameterId="ZYL_STARTING_BONUS_PLAYER" Name="LOC_ZYL_STARTING_BONUS_PLAYER_NAME" Description="LOC_ZYL_STARTING_BONUS_PLAYER_DESC" Domain="ZylStartingBonusPlayers" DefaultValue="0" ConfigurationGroup="Game" ConfigurationId="ZYL_STARTING_BONUS_PLAYER" GroupId="GameOptions" ChangeableAfterGameStart="0" SupportsSinglePlayer="0" SupportsPlayByCloud="0" SupportsHotSeat="0" SupportsLANMultiplayer="1" SupportsInternetMultiplayer="1" SortIndex="2030" />
+		<Row ParameterId="ZYL_STARTING_BONUS_TYPE" Name="LOC_ZYL_STARTING_BONUS_TYPE_NAME" Description="LOC_ZYL_STARTING_BONUS_TYPE_DESC" Domain="ZylStartingBonusTypes" DefaultValue="0" ConfigurationGroup="Game" ConfigurationId="ZYL_STARTING_BONUS_TYPE" GroupId="GameOptions" ChangeableAfterGameStart="0" SupportsSinglePlayer="0" SupportsPlayByCloud="0" SupportsHotSeat="0" SupportsLANMultiplayer="1" SupportsInternetMultiplayer="1" SortIndex="2040" />
+		<Row ParameterId="ZYL_IDENTITY_MODE" Name="LOC_ZYL_IDENTITY_MODE_NAME" Description="LOC_ZYL_IDENTITY_MODE_DESC" Domain="bool" DefaultValue="0" ConfigurationGroup="Game" ConfigurationId="ZYL_IDENTITY_MODE" GroupId="GameOptions" ChangeableAfterGameStart="0" SupportsSinglePlayer="0" SupportsPlayByCloud="0" SupportsHotSeat="0" SupportsLANMultiplayer="1" SupportsInternetMultiplayer="1" SortIndex="2050" />
+		<Row ParameterId="ZYL_IDENTITY_LOYALIST_COUNT" Name="LOC_ZYL_IDENTITY_LOYALIST_COUNT_NAME" Description="LOC_ZYL_IDENTITY_COUNT_DESC" Domain="ZylIdentityCounts" DefaultValue="2" ConfigurationGroup="Game" ConfigurationId="ZYL_IDENTITY_LOYALIST_COUNT" GroupId="GameOptions" ChangeableAfterGameStart="0" SupportsSinglePlayer="0" SupportsPlayByCloud="0" SupportsHotSeat="0" SupportsLANMultiplayer="1" SupportsInternetMultiplayer="1" SortIndex="2060" />
+		<Row ParameterId="ZYL_IDENTITY_REBEL_COUNT" Name="LOC_ZYL_IDENTITY_REBEL_COUNT_NAME" Description="LOC_ZYL_IDENTITY_COUNT_DESC" Domain="ZylIdentityRebelCounts" DefaultValue="3" ConfigurationGroup="Game" ConfigurationId="ZYL_IDENTITY_REBEL_COUNT" GroupId="GameOptions" ChangeableAfterGameStart="0" SupportsSinglePlayer="0" SupportsPlayByCloud="0" SupportsHotSeat="0" SupportsLANMultiplayer="1" SupportsInternetMultiplayer="1" SortIndex="2070" />
+		<Row ParameterId="ZYL_IDENTITY_SPY_COUNT" Name="LOC_ZYL_IDENTITY_SPY_COUNT_NAME" Description="LOC_ZYL_IDENTITY_COUNT_DESC" Domain="ZylIdentityCounts" DefaultValue="1" ConfigurationGroup="Game" ConfigurationId="ZYL_IDENTITY_SPY_COUNT" GroupId="GameOptions" ChangeableAfterGameStart="0" SupportsSinglePlayer="0" SupportsPlayByCloud="0" SupportsHotSeat="0" SupportsLANMultiplayer="1" SupportsInternetMultiplayer="1" SortIndex="2080" />
+		<Row ParameterId="ZYL_IDENTITY_SEPARATE_PLAYER_1" Name="LOC_ZYL_IDENTITY_SEPARATE_PLAYER_1_NAME" Description="LOC_ZYL_IDENTITY_SEPARATE_DESC" Domain="ZylStartingBonusPlayers" DefaultValue="0" ConfigurationGroup="Game" ConfigurationId="ZYL_IDENTITY_SEPARATE_PLAYER_1" GroupId="GameOptions" ChangeableAfterGameStart="0" SupportsSinglePlayer="0" SupportsPlayByCloud="0" SupportsHotSeat="0" SupportsLANMultiplayer="1" SupportsInternetMultiplayer="1" SortIndex="2090" />
+		<Row ParameterId="ZYL_IDENTITY_SEPARATE_PLAYER_2" Name="LOC_ZYL_IDENTITY_SEPARATE_PLAYER_2_NAME" Description="LOC_ZYL_IDENTITY_SEPARATE_DESC" Domain="ZylStartingBonusPlayers" DefaultValue="0" ConfigurationGroup="Game" ConfigurationId="ZYL_IDENTITY_SEPARATE_PLAYER_2" GroupId="GameOptions" ChangeableAfterGameStart="0" SupportsSinglePlayer="0" SupportsPlayByCloud="0" SupportsHotSeat="0" SupportsLANMultiplayer="1" SupportsInternetMultiplayer="1" SortIndex="2100" />
+		<Row ParameterId="ZYL_IDENTITY_DEAL" Name="LOC_ZYL_IDENTITY_DEAL_DATA_NAME" Description="LOC_ZYL_IDENTITY_DEAL_DATA_DESC" Domain="text" DefaultValue="" ConfigurationGroup="Game" ConfigurationId="ZYL_IDENTITY_DEAL" GroupId="AdvancedOptions" ChangeableAfterGameStart="0" SupportsSinglePlayer="0" SupportsPlayByCloud="0" SupportsHotSeat="0" SupportsLANMultiplayer="1" SupportsInternetMultiplayer="1" Visible="0" SortIndex="2110" />
 	</Parameters>
 	<DomainValues>
 		<Row Domain="ZylDiplomacyRibbonModes" Value="0" Name="LOC_ZYL_DIPLOMACY_RIBBON_MODE_FFA_NAME" Description="LOC_ZYL_DIPLOMACY_RIBBON_MODE_FFA_DESC" SortIndex="10" />
 		<Row Domain="ZylDiplomacyRibbonModes" Value="1" Name="LOC_ZYL_DIPLOMACY_RIBBON_MODE_TEAM_NAME" Description="LOC_ZYL_DIPLOMACY_RIBBON_MODE_TEAM_DESC" SortIndex="20" />
+		<Row Domain="ZylStartingBonusPlayers" Value="0" Name="LOC_ZYL_STARTING_BONUS_NONE" Description="LOC_ZYL_STARTING_BONUS_NONE_DESC" SortIndex="0" />
+		<Row Domain="ZylStartingBonusPlayers" Value="1" Name="LOC_ZYL_STARTING_BONUS_PLAYER_1" Description="LOC_ZYL_STARTING_BONUS_PLAYER_SLOT_DESC" SortIndex="10" />
+		<Row Domain="ZylStartingBonusPlayers" Value="2" Name="LOC_ZYL_STARTING_BONUS_PLAYER_2" Description="LOC_ZYL_STARTING_BONUS_PLAYER_SLOT_DESC" SortIndex="20" />
+		<Row Domain="ZylStartingBonusPlayers" Value="3" Name="LOC_ZYL_STARTING_BONUS_PLAYER_3" Description="LOC_ZYL_STARTING_BONUS_PLAYER_SLOT_DESC" SortIndex="30" />
+		<Row Domain="ZylStartingBonusPlayers" Value="4" Name="LOC_ZYL_STARTING_BONUS_PLAYER_4" Description="LOC_ZYL_STARTING_BONUS_PLAYER_SLOT_DESC" SortIndex="40" />
+		<Row Domain="ZylStartingBonusPlayers" Value="5" Name="LOC_ZYL_STARTING_BONUS_PLAYER_5" Description="LOC_ZYL_STARTING_BONUS_PLAYER_SLOT_DESC" SortIndex="50" />
+		<Row Domain="ZylStartingBonusPlayers" Value="6" Name="LOC_ZYL_STARTING_BONUS_PLAYER_6" Description="LOC_ZYL_STARTING_BONUS_PLAYER_SLOT_DESC" SortIndex="60" />
+		<Row Domain="ZylStartingBonusPlayers" Value="7" Name="LOC_ZYL_STARTING_BONUS_PLAYER_7" Description="LOC_ZYL_STARTING_BONUS_PLAYER_SLOT_DESC" SortIndex="70" />
+		<Row Domain="ZylStartingBonusPlayers" Value="8" Name="LOC_ZYL_STARTING_BONUS_PLAYER_8" Description="LOC_ZYL_STARTING_BONUS_PLAYER_SLOT_DESC" SortIndex="80" />
+		<Row Domain="ZylStartingBonusPlayers" Value="9" Name="LOC_ZYL_STARTING_BONUS_PLAYER_9" Description="LOC_ZYL_STARTING_BONUS_PLAYER_SLOT_DESC" SortIndex="90" />
+		<Row Domain="ZylStartingBonusPlayers" Value="10" Name="LOC_ZYL_STARTING_BONUS_PLAYER_10" Description="LOC_ZYL_STARTING_BONUS_PLAYER_SLOT_DESC" SortIndex="100" />
+		<Row Domain="ZylStartingBonusPlayers" Value="11" Name="LOC_ZYL_STARTING_BONUS_PLAYER_11" Description="LOC_ZYL_STARTING_BONUS_PLAYER_SLOT_DESC" SortIndex="110" />
+		<Row Domain="ZylStartingBonusPlayers" Value="12" Name="LOC_ZYL_STARTING_BONUS_PLAYER_12" Description="LOC_ZYL_STARTING_BONUS_PLAYER_SLOT_DESC" SortIndex="120" />
+		<Row Domain="ZylStartingBonusTypes" Value="0" Name="LOC_ZYL_STARTING_BONUS_NONE" Description="LOC_ZYL_STARTING_BONUS_NONE_DESC" SortIndex="0" />
+		<Row Domain="ZylStartingBonusTypes" Value="1" Name="LOC_ZYL_STARTING_BONUS_BUILDER" Description="LOC_ZYL_STARTING_BONUS_BUILDER_DESC" SortIndex="10" />
+		<Row Domain="ZylStartingBonusTypes" Value="2" Name="LOC_ZYL_STARTING_BONUS_SCOUT" Description="LOC_ZYL_STARTING_BONUS_SCOUT_DESC" SortIndex="20" />
+		<Row Domain="ZylStartingBonusTypes" Value="3" Name="LOC_ZYL_STARTING_BONUS_BUILDER_SCOUT" Description="LOC_ZYL_STARTING_BONUS_BUILDER_SCOUT_DESC" SortIndex="30" />
+		<Row Domain="ZylIdentityCounts" Value="0" Name="0" Description="LOC_ZYL_IDENTITY_COUNT_VALUE_DESC" SortIndex="0" />
+		<Row Domain="ZylIdentityCounts" Value="1" Name="1" Description="LOC_ZYL_IDENTITY_COUNT_VALUE_DESC" SortIndex="10" />
+		<Row Domain="ZylIdentityCounts" Value="2" Name="2" Description="LOC_ZYL_IDENTITY_COUNT_VALUE_DESC" SortIndex="20" />
+		<Row Domain="ZylIdentityCounts" Value="3" Name="3" Description="LOC_ZYL_IDENTITY_COUNT_VALUE_DESC" SortIndex="30" />
+		<Row Domain="ZylIdentityCounts" Value="4" Name="4" Description="LOC_ZYL_IDENTITY_COUNT_VALUE_DESC" SortIndex="40" />
+		<Row Domain="ZylIdentityCounts" Value="5" Name="5" Description="LOC_ZYL_IDENTITY_COUNT_VALUE_DESC" SortIndex="50" />
+		<Row Domain="ZylIdentityCounts" Value="6" Name="6" Description="LOC_ZYL_IDENTITY_COUNT_VALUE_DESC" SortIndex="60" />
+		<Row Domain="ZylIdentityCounts" Value="7" Name="7" Description="LOC_ZYL_IDENTITY_COUNT_VALUE_DESC" SortIndex="70" />
+		<Row Domain="ZylIdentityCounts" Value="8" Name="8" Description="LOC_ZYL_IDENTITY_COUNT_VALUE_DESC" SortIndex="80" />
+		<Row Domain="ZylIdentityCounts" Value="9" Name="9" Description="LOC_ZYL_IDENTITY_COUNT_VALUE_DESC" SortIndex="90" />
+		<Row Domain="ZylIdentityCounts" Value="10" Name="10" Description="LOC_ZYL_IDENTITY_COUNT_VALUE_DESC" SortIndex="100" />
+		<Row Domain="ZylIdentityCounts" Value="11" Name="11" Description="LOC_ZYL_IDENTITY_COUNT_VALUE_DESC" SortIndex="110" />
+		<Row Domain="ZylIdentityRebelCounts" Value="1" Name="1" Description="LOC_ZYL_IDENTITY_COUNT_VALUE_DESC" SortIndex="10" />
+		<Row Domain="ZylIdentityRebelCounts" Value="2" Name="2" Description="LOC_ZYL_IDENTITY_COUNT_VALUE_DESC" SortIndex="20" />
+		<Row Domain="ZylIdentityRebelCounts" Value="3" Name="3" Description="LOC_ZYL_IDENTITY_COUNT_VALUE_DESC" SortIndex="30" />
+		<Row Domain="ZylIdentityRebelCounts" Value="4" Name="4" Description="LOC_ZYL_IDENTITY_COUNT_VALUE_DESC" SortIndex="40" />
+		<Row Domain="ZylIdentityRebelCounts" Value="5" Name="5" Description="LOC_ZYL_IDENTITY_COUNT_VALUE_DESC" SortIndex="50" />
+		<Row Domain="ZylIdentityRebelCounts" Value="6" Name="6" Description="LOC_ZYL_IDENTITY_COUNT_VALUE_DESC" SortIndex="60" />
+		<Row Domain="ZylIdentityRebelCounts" Value="7" Name="7" Description="LOC_ZYL_IDENTITY_COUNT_VALUE_DESC" SortIndex="70" />
+		<Row Domain="ZylIdentityRebelCounts" Value="8" Name="8" Description="LOC_ZYL_IDENTITY_COUNT_VALUE_DESC" SortIndex="80" />
+		<Row Domain="ZylIdentityRebelCounts" Value="9" Name="9" Description="LOC_ZYL_IDENTITY_COUNT_VALUE_DESC" SortIndex="90" />
+		<Row Domain="ZylIdentityRebelCounts" Value="10" Name="10" Description="LOC_ZYL_IDENTITY_COUNT_VALUE_DESC" SortIndex="100" />
+		<Row Domain="ZylIdentityRebelCounts" Value="11" Name="11" Description="LOC_ZYL_IDENTITY_COUNT_VALUE_DESC" SortIndex="110" />
 	</DomainValues>
+	<ParameterDependencies>
+		<Row ParameterId="ZYL_IDENTITY_LOYALIST_COUNT" ConfigurationGroup="Game" ConfigurationId="ZYL_IDENTITY_MODE" Operator="Equals" ConfigurationValue="1" />
+		<Row ParameterId="ZYL_IDENTITY_REBEL_COUNT" ConfigurationGroup="Game" ConfigurationId="ZYL_IDENTITY_MODE" Operator="Equals" ConfigurationValue="1" />
+		<Row ParameterId="ZYL_IDENTITY_SPY_COUNT" ConfigurationGroup="Game" ConfigurationId="ZYL_IDENTITY_MODE" Operator="Equals" ConfigurationValue="1" />
+		<Row ParameterId="ZYL_IDENTITY_SEPARATE_PLAYER_1" ConfigurationGroup="Game" ConfigurationId="ZYL_IDENTITY_MODE" Operator="Equals" ConfigurationValue="1" />
+		<Row ParameterId="ZYL_IDENTITY_SEPARATE_PLAYER_2" ConfigurationGroup="Game" ConfigurationId="ZYL_IDENTITY_MODE" Operator="Equals" ConfigurationValue="1" />
+	</ParameterDependencies>
 </GameInfo>

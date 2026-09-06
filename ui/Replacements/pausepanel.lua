@@ -8,21 +8,6 @@ local g_fCountdownInitialTime = 10
 local g_fCountdownReadyButtonTime = 10
 local g_timer = -1;
 
-local function IsStartupGatePending()
-	if GameConfiguration.IsNetworkMultiplayer() ~= true then
-		return false
-	end
-	if GameConfiguration.IsPlayByCloud ~= nil and GameConfiguration.IsPlayByCloud() then
-		return false
-	end
-	local released = GameConfiguration.GetValue("ZYL_STARTUP_GATE_RELEASED")
-	local currentTurn = Game.GetCurrentGameTurn()
-	local startTurn = GameConfiguration.GetStartTurn()
-	return (currentTurn == startTurn or currentTurn == startTurn + 1)
-		and released ~= true and released ~= 1
-end
-
-
 -- ===========================================================================
 -- Internal Functions
 function OpenPausePanel()
@@ -157,10 +142,6 @@ end
 -- ===========================================================================
 function CheckPausedState()
 	print("CheckPausedState()",os.time())								  
-	if IsStartupGatePending() then
-		ClosePausePanel()
-		return
-	end
 	if(not GameConfiguration.IsPaused()) then
 		ClosePausePanel();
 		return;
@@ -186,9 +167,6 @@ end
 -- ===========================================================================
 
 function OnMultiplayerChat( fromPlayer, toPlayer, text, eTargetType )
-	if IsStartupGatePending() then
-		return
-	end
 	local hostID = Network.GetGameHostPlayerID()
 	local localID = Network.GetLocalPlayerID()
 	local pausePlayerID : number = GameConfiguration.GetPausePlayer();

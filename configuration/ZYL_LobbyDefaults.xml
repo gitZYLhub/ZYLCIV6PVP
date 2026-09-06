@@ -9,9 +9,17 @@
 		<Update><Where ParameterId="TOOLS_COMMAND"/><Set DefaultValue="1"/></Update>
 		<Update><Where ParameterId="TOOLS_15_TIME"/><Set DefaultValue="1"/></Update>
 		<Update><Where ParameterId="CPL_SMARTTIMER"/><Set DefaultValue="9"/></Update>
-		<Update><Where ParameterId="ZYL_STARTUP_GATE_RELEASED"/><Set DefaultValue="0"/></Update>
 		<Update><Where ParameterId="ZYL_ERA_LENGTH_OPTIMIZATION"/><Set DefaultValue="1"/></Update>
 		<Update><Where ParameterId="ZYL_DIPLOMACY_RIBBON_MODE"/><Set DefaultValue="0"/></Update>
+		<Update><Where ParameterId="ZYL_STARTING_BONUS_PLAYER"/><Set DefaultValue="0"/></Update>
+		<Update><Where ParameterId="ZYL_STARTING_BONUS_TYPE"/><Set DefaultValue="0"/></Update>
+		<Update><Where ParameterId="ZYL_IDENTITY_MODE"/><Set DefaultValue="0"/></Update>
+		<Update><Where ParameterId="ZYL_IDENTITY_LOYALIST_COUNT"/><Set DefaultValue="2"/></Update>
+		<Update><Where ParameterId="ZYL_IDENTITY_REBEL_COUNT"/><Set DefaultValue="3"/></Update>
+		<Update><Where ParameterId="ZYL_IDENTITY_SPY_COUNT"/><Set DefaultValue="1"/></Update>
+		<Update><Where ParameterId="ZYL_IDENTITY_SEPARATE_PLAYER_1"/><Set DefaultValue="0"/></Update>
+		<Update><Where ParameterId="ZYL_IDENTITY_SEPARATE_PLAYER_2"/><Set DefaultValue="0"/></Update>
+		<Update><Where ParameterId="ZYL_IDENTITY_DEAL"/><Set DefaultValue=""/></Update>
 		<Update><Where ParameterId="BBCC_SETTING"/><Set DefaultValue="0"/></Update>
 		<Update><Where ParameterId="BBCC_SETTING_YIELD"/><Set DefaultValue="2"/></Update>
 		<Update><Where ParameterId="SettlersConfig"/><Set DefaultValue="0"/></Update>

@@ -221,39 +221,10 @@ end
 --	获取当前外交能见度模式类型
 -- ===========================================================================
 local Model = tonumber(GameConfiguration.GetValue("ZYL_DIPLOMACY_RIBBON_MODE") or 0) == 1 and 1 or 0
---[[		规则说明
-模式0
-
-分数：		所有人✓			
-军力：		仅队友			人口：		仅队友
-科技：		所有人✓			粮食：		仅队友
-文化：		所有人✓			生产力：		仅队友
-金币：		所有人✓			回合金：		所有人✓
-信仰：		所有人✓			回合信仰：	所有人✓
-外交支持：	所有人✓			回合外交：	所有人✓
-
-模式1
-
-能见度0：										能见度1：											能见度2：											能见度3
-
-分数：		所有人✓			      				|	分数：		所有人✓			      				|	分数：		所有人✓			      				|	分数：		所有人✓			      				|
-军力：		仅队友			人口：		仅队友	|	军力：		仅队友			人口：		仅队友	|	军力：		仅队友			人口：		所有人✓	|	军力：		所有人✓			人口：		所有人✓	|		
-科技：		仅队友			粮食：		仅队友	|	科技：		仅队友			粮食：		仅队友	|	科技：		所有人✓			粮食：		所有人✓	|	科技：		所有人✓			粮食：		所有人✓	|
-文化：		仅队友			生产力：		仅队友	|	文化：		仅队友			生产力：		仅队友	|	文化：		所有人✓			生产力：		仅队友	|	文化：		所有人✓			生产力：		所有人✓	|
-金币：		仅队友			回合金：		仅队友	|	金币：		所有人✓			回合金：		所有人✓	|	金币：		所有人✓			回合金：		所有人✓	|	金币：		所有人✓			回合金：		所有人✓	|
-信仰：		仅队友			回合信仰：	仅队友	|	信仰：		所有人✓			回合信仰：	所有人✓	|	信仰：		所有人✓			回合信仰：	所有人✓	|	信仰：		所有人✓			回合信仰：	所有人✓	|
-外交支持：	仅队友			回合外交：	仅队友	|	外交支持：	所有人✓			回合外交：	所有人✓	|	外交支持：	所有人✓			回合外交：	所有人✓	|	外交支持：	所有人✓			回合外交：	所有人✓	|
-
-模式2
-
-分数：		所有人✓			
-军力：		所有人✓			人口：		所有人✓
-科技：		所有人✓			粮食：		所有人✓
-文化：		所有人✓			生产力：		所有人✓
-金币：		所有人✓			回合金：		所有人✓
-信仰：		所有人✓			回合信仰：	所有人✓
-外交支持：	所有人✓			回合外交：	所有人✓
-]]
+-- 当前显示阈值由文件末尾最终生效的 UpdateStatValues 实现：
+-- 公共信息为分数、科技/文化产出、当前信仰和外交支持；
+-- 1级显示军力，2级显示人口/粮食/生产力，3级显示当前金币及金币/信仰回合产出，
+-- 4级显示正在研究的科技/市政。自由混战读取本人的外交能见度，团队模式读取队伍最高值，队友按4级处理。
 -- ===========================================================================
 --	获取队伍信息
 -- ===========================================================================
@@ -1448,9 +1419,9 @@ function UpdateStatValues(playerID, uiLeader)
 	local pPlayer = Players[playerID]
 	local accessLevel = g_AccessLevel[playerID] or 0
 
-	-- Science/Culture yields and stored Gold/Faith are public by design.
+	-- Science/Culture yields and stored Faith are public by design.
 	-- Limited/Open/Secret/Top Secret then unlock Military, empire yields,
-	-- per-turn Gold/Faith, and current research respectively.
+	-- stored Gold plus per-turn Gold/Faith, and current research respectively.
 	if uiLeader.Score:IsVisible() then
 		uiLeader.Score:SetText("[ICON_Capital]"..tostring(Round(pPlayer:GetScore())))
 	end
@@ -1465,7 +1436,8 @@ function UpdateStatValues(playerID, uiLeader)
 		uiLeader.Culture:SetText("[ICON_Culture]"..tostring(Round(pPlayer:GetCulture():GetCultureYield())))
 	end
 	if uiLeader.Gold:IsVisible() then
-		uiLeader.Gold:SetText("[ICON_Gold]"..tostring(math.floor(pPlayer:GetTreasury():GetGoldBalance())))
+		local value = ZYLCanReveal(accessLevel, 3) and tostring(math.floor(pPlayer:GetTreasury():GetGoldBalance())) or Invisible
+		uiLeader.Gold:SetText("[ICON_Gold]"..value)
 	end
 	if uiLeader.Faith:IsVisible() then
 		uiLeader.Faith:SetText("[ICON_Faith]"..tostring(Round(pPlayer:GetReligion():GetFaithBalance())))

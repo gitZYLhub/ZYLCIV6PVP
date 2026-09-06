@@ -1142,7 +1142,16 @@
 			<File>ui/Additions/TurnProcessing.lua</File>
 			<File>ui/Additions/VotePanel.xml</File>
 			<File>ui/Additions/VotePanel.lua</File>
+			<File>ui/Additions/IdentityRolePanel.xml</File>
+			<File>ui/Additions/IdentityRolePanel.lua</File>
 		</ImportFiles>
+		<AddUserInterfaces id="ZYL_IdentityRolePanel">
+			<Properties>
+				<LoadOrder>115</LoadOrder>
+				<Context>InGame</Context>
+			</Properties>
+			<File>ui/Additions/IdentityRolePanel.xml</File>
+		</AddUserInterfaces>
 		<!-- Extra Icons For Modes -->
 		<ImportFiles id="AN_Import">
 			<Items>
@@ -2689,6 +2698,12 @@
 			<Criteria>ZYL_SecretSocietiesXP2</Criteria>
 			<File>Components/TeamPVPSecretSocieties/Scripts/VampireCastle_Gameplay.lua</File>
 		</AddGameplayScripts>
+		<AddGameplayScripts id="ZYL_StartingPlayerBonusGameplay">
+			<Properties>
+				<LoadOrder>260000100</LoadOrder>
+			</Properties>
+			<File>scripts/ZYL_StartingPlayerBonus.lua</File>
+		</AddGameplayScripts>
 		<UpdateDatabase id="ZYL_GameplayOverrides">
 			<Properties>
 				<LoadOrder>260000000</LoadOrder>
@@ -2976,6 +2991,7 @@
 		<!-- Integrated TPT UI/QoL resources -->
 		<File>configuration/Config_ZYL.xml</File>
 		<File>lang/ZYL_Text.xml</File>
+		<File>scripts/ZYL_StartingPlayerBonus.lua</File>
 		<File>lang/Blacklist_Text.xml</File>
 		<File>Config/Config_UI.xml</File>
 		<File>Config/Config_UI_Text.xml</File>
@@ -2995,6 +3011,8 @@
 		<File>Settings/UI/TPT_SettingsPanel.xml</File>
 		<File>ui/Additions/BlacklistPanel.lua</File>
 		<File>ui/Additions/BlacklistPanel.xml</File>
+		<File>ui/Additions/IdentityRolePanel.lua</File>
+		<File>ui/Additions/IdentityRolePanel.xml</File>
 		<File>ui/Additions/QuickControls.lua</File>
 		<File>ui/Additions/QuickControls.xml</File>
 		<File>BRS/BetterReportScreen_Database.sql</File>

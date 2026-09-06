@@ -162,7 +162,9 @@ local g_everyoneReady = false;					-- Is everyone ready to play?
 local g_everyoneModReady = true;				-- Does everyone have the mods for this game?
 local g_humanRequiredFilled = true;				-- Are all the human required slots filled by humans?
 local g_duplicateLeaders = false;				-- Are there duplicate leaders blocking launch?
-												-- Note:  This only applies if No Duplicate Leaders parameter is set.
+															-- Note:  This only applies if No Duplicate Leaders parameter is set.
+local g_identityConfigValid = true;				-- Is the built-in identity-game configuration valid?
+local g_identityConfigReason = nil;				-- Localization key explaining an invalid identity configuration.
 local g_pbcNewGameCheck = true;					-- In a PlayByCloud game, only the game host can launch a new game.	
 local g_pbcMinHumanCheck = true;				-- PlayByCloud matches need at least two human players. 
 												-- The game and backend can not handle solo games. 
@@ -285,6 +287,10 @@ end
 -- ===========================================================================
 function KeyUpHandler( key:number )
 	if key == Keys.VK_ESCAPE then
+		if Controls.IdentityLobbyOverlay ~= nil and not Controls.IdentityLobbyOverlay:IsHidden() then
+			CloseZYLIdentityLobbyPanel();
+			return true;
+		end
 		Close();
 		return true;
 	end
@@ -490,6 +496,7 @@ function OnGameConfigChanged()
 	end
 	OnMapMaxMajorPlayersChanged(MapConfiguration.GetMaxMajorPlayers());	
 	OnMapMinMajorPlayersChanged(MapConfiguration.GetMinMajorPlayers());
+	RefreshZYLIdentityLobbyControls();
 end
 
 -------------------------------------------------
@@ -2695,6 +2702,10 @@ function HostReset()
 end
 
 function HostForceStart()
+	if(not CheckZYLIdentityConfig()) then
+		UpdateReadyButton();
+		return;
+	end
 	local localID = Network.GetLocalPlayerID()
 	local player_ids = GameConfiguration.GetMultiplayerPlayerIDs();
 	for i, iPlayer in ipairs(player_ids) do	
@@ -3980,6 +3991,9 @@ function PlayerInfoChanged_SpecificPlayer(playerID)
 end
 
 function OnPlayerInfoChanged(playerID)
+	-- A join, leave, observer switch, AI takeover or slot change invalidates a
+	-- lobby deal whose roster no longer matches.
+	RefreshZYLIdentityLobbyControls();
 
 	if GameConfiguration.GetValue("GAMEMODE_ANONYMOUS") == true then
 		Anonymise_ID(playerID)
@@ -4533,12 +4547,14 @@ function OnMultplayerPlayerConnected( playerID )
 			end
 		end
 	end
+	RefreshZYLIdentityLobbyControls();
 end
 
 -------------------------------------------------
 -------------------------------------------------
 
 function OnMultiplayerPrePlayerDisconnected( playerID )
+	InvalidateZYLIdentityLobbyDeal();
 	RefreshStatusID(playerID)
 	if g_phase ~= PHASE_DEFAULT and g_phase ~= PHASE_READY then
 		HostReset()
@@ -4713,6 +4729,7 @@ function OnMultiplayerHostMigrated( newHostID : number )
 		OnChat( newHostID, -1, PlayerHostMigratedChatStr, false );
 		UI.PlaySound("Play_MP_Host_Migration");
 	end
+	RefreshZYLIdentityLobbyControls();
 end
 
 ----------------------------------------------------------------
@@ -5039,6 +5056,468 @@ end
 -------------------------------------------------
 -- CHECK FOR GAME AUTO START
 -------------------------------------------------
+local ZYL_IDENTITY_DEAL_CONFIG = "ZYL_IDENTITY_DEAL";
+local ZYL_IDENTITY_DEAL_VERSION = 1;
+local ZYL_ROLE_LORD = 1;
+local ZYL_ROLE_LOYALIST = 2;
+local ZYL_ROLE_REBEL = 3;
+local ZYL_ROLE_SPY = 4;
+local g_ZYLIdentityLobbyCurrentDeal = nil;
+local g_ZYLIdentityLobbyAutoOpenedPayload = nil;
+local CanUseZYLHostControls;
+
+local ZYL_IDENTITY_ROLE_TEXT = {
+	[ZYL_ROLE_LORD] = { Name = "LOC_ZYL_IDENTITY_ROLE_LORD", Description = "LOC_ZYL_IDENTITY_ROLE_LORD_DESC" },
+	[ZYL_ROLE_LOYALIST] = { Name = "LOC_ZYL_IDENTITY_ROLE_LOYALIST", Description = "LOC_ZYL_IDENTITY_ROLE_LOYALIST_DESC" },
+	[ZYL_ROLE_REBEL] = { Name = "LOC_ZYL_IDENTITY_ROLE_REBEL", Description = "LOC_ZYL_IDENTITY_ROLE_REBEL_DESC" },
+	[ZYL_ROLE_SPY] = { Name = "LOC_ZYL_IDENTITY_ROLE_SPY", Description = "LOC_ZYL_IDENTITY_ROLE_SPY_DESC" }
+};
+
+-- Return human full-civilization players in the same deterministic order used
+-- by the gameplay importer. AI, empty slots and observers do not consume an
+-- identity or an ordinal.
+function GetZYLIdentityHumanPlayers()
+	local result = {};
+	for _, playerID in ipairs(GameConfiguration.GetMultiplayerPlayerIDs() or {}) do
+		local config = PlayerConfigurations[playerID];
+		if(config ~= nil
+			and config:GetSlotStatus() == SlotStatus.SS_TAKEN
+			and config:IsHuman()
+			and Network.IsPlayerConnected(playerID)
+			and config:GetLeaderTypeName() ~= "LEADER_SPECTATOR"
+			and config:GetCivilizationLevelTypeID() == CivilizationLevelTypes.CIVILIZATION_LEVEL_FULL_CIV) then
+			table.insert(result, playerID);
+		end
+	end
+	table.sort(result);
+	return result;
+end
+
+local function ReadZYLIdentityInteger(parameterID:string)
+	local value = tonumber(GameConfiguration.GetValue(parameterID));
+	if(value == nil or value ~= math.floor(value)) then
+		return nil;
+	end
+	return value;
+end
+
+local function IsZYLIdentityEnabled()
+	local value = GameConfiguration.GetValue("ZYL_IDENTITY_MODE");
+	return value == true or tonumber(value) == 1;
+end
+
+local function GetZYLIdentitySettings()
+	if not IsZYLIdentityEnabled() then
+		return { Enabled = false, Players = {} }, nil;
+	end
+
+	local settings = {
+		Enabled = true,
+		Players = GetZYLIdentityHumanPlayers(),
+		Loyalist = ReadZYLIdentityInteger("ZYL_IDENTITY_LOYALIST_COUNT"),
+		Rebel = ReadZYLIdentityInteger("ZYL_IDENTITY_REBEL_COUNT"),
+		Spy = ReadZYLIdentityInteger("ZYL_IDENTITY_SPY_COUNT"),
+		First = ReadZYLIdentityInteger("ZYL_IDENTITY_SEPARATE_PLAYER_1"),
+		Second = ReadZYLIdentityInteger("ZYL_IDENTITY_SEPARATE_PLAYER_2")
+	};
+
+	if(#settings.Players < 3 or #settings.Players > 12
+		or settings.Loyalist == nil or settings.Loyalist < 0
+		or settings.Rebel == nil or settings.Rebel < 1
+		or settings.Spy == nil or settings.Spy < 0
+		or settings.First == nil or settings.Second == nil
+		or 1 + settings.Loyalist + settings.Rebel + settings.Spy ~= #settings.Players) then
+		return nil, "LOC_ZYL_IDENTITY_ERROR_COUNT";
+	end
+
+	if((settings.First == 0) ~= (settings.Second == 0)
+		or (settings.First > 0 and settings.First == settings.Second)
+		or settings.First < 0 or settings.First > #settings.Players
+		or settings.Second < 0 or settings.Second > #settings.Players) then
+		return nil, "LOC_ZYL_IDENTITY_ERROR_SELECTION";
+	end
+
+	return settings, nil;
+end
+
+local function GetZYLIdentitySettingsSignature(settings)
+	return table.concat({
+		tostring(settings.Loyalist),
+		tostring(settings.Rebel),
+		tostring(settings.Spy),
+		tostring(settings.First),
+		tostring(settings.Second)
+	}, ",");
+end
+
+local function GetZYLIdentityCamp(role, playerID)
+	if role == ZYL_ROLE_LORD or role == ZYL_ROLE_LOYALIST then return "lord-camp"; end
+	if role == ZYL_ROLE_REBEL then return "rebel-camp"; end
+	return "independent-" .. tostring(playerID);
+end
+
+local function RemoveZYLIdentityRole(pool, role)
+	for index = #pool, 1, -1 do
+		if pool[index] == role then
+			table.remove(pool, index);
+			return true;
+		end
+	end
+	return false;
+end
+
+local function BuildZYLIdentityAssignments(settings)
+	local pool = { ZYL_ROLE_LORD };
+	for _ = 1, settings.Loyalist do table.insert(pool, ZYL_ROLE_LOYALIST); end
+	for _ = 1, settings.Rebel do table.insert(pool, ZYL_ROLE_REBEL); end
+	for _ = 1, settings.Spy do table.insert(pool, ZYL_ROLE_SPY); end
+
+	local assignments = {};
+	if settings.First > 0 then
+		local firstPlayerID = settings.Players[settings.First];
+		local secondPlayerID = settings.Players[settings.Second];
+		local roleTypes = {
+			{ Role = ZYL_ROLE_LORD, Count = 1 },
+			{ Role = ZYL_ROLE_LOYALIST, Count = settings.Loyalist },
+			{ Role = ZYL_ROLE_REBEL, Count = settings.Rebel },
+			{ Role = ZYL_ROLE_SPY, Count = settings.Spy }
+		};
+		local candidates = {};
+		for _, first in ipairs(roleTypes) do
+			if first.Count > 0 then
+				for _, second in ipairs(roleTypes) do
+					local availableSecond = second.Count - (first.Role == second.Role and 1 or 0);
+					if availableSecond > 0
+						and GetZYLIdentityCamp(first.Role, firstPlayerID)
+							~= GetZYLIdentityCamp(second.Role, secondPlayerID) then
+						table.insert(candidates, {
+							First = first.Role,
+							Second = second.Role,
+							Weight = first.Count * availableSecond
+						});
+					end
+				end
+			end
+		end
+		if #candidates == 0 then return nil, "LOC_ZYL_IDENTITY_ERROR_NO_SOLUTION"; end
+
+		local totalWeight = 0;
+		for _, candidate in ipairs(candidates) do totalWeight = totalWeight + candidate.Weight; end
+		local selectedWeight = math.random(totalWeight) - 1;
+		local chosen = candidates[1];
+		for _, candidate in ipairs(candidates) do
+			if selectedWeight < candidate.Weight then
+				chosen = candidate;
+				break;
+			end
+			selectedWeight = selectedWeight - candidate.Weight;
+		end
+
+		assignments[firstPlayerID] = chosen.First;
+		assignments[secondPlayerID] = chosen.Second;
+		if not RemoveZYLIdentityRole(pool, chosen.First)
+			or not RemoveZYLIdentityRole(pool, chosen.Second) then
+			return nil, "LOC_ZYL_IDENTITY_ERROR_NO_SOLUTION";
+		end
+	end
+
+	for index = #pool, 2, -1 do
+		local swapIndex = math.random(index);
+		pool[index], pool[swapIndex] = pool[swapIndex], pool[index];
+	end
+	local remainingIndex = 1;
+	for _, playerID in ipairs(settings.Players) do
+		if assignments[playerID] == nil then
+			assignments[playerID] = pool[remainingIndex];
+			remainingIndex = remainingIndex + 1;
+		end
+	end
+	return assignments, nil;
+end
+
+local function ValidateZYLIdentityAssignments(settings, assignments)
+	local counts = {
+		[ZYL_ROLE_LORD] = 0,
+		[ZYL_ROLE_LOYALIST] = 0,
+		[ZYL_ROLE_REBEL] = 0,
+		[ZYL_ROLE_SPY] = 0
+	};
+	local lordID = nil;
+	for _, playerID in ipairs(settings.Players) do
+		local role = assignments[playerID];
+		if counts[role] == nil then return nil; end
+		counts[role] = counts[role] + 1;
+		if role == ZYL_ROLE_LORD then lordID = playerID; end
+	end
+	if counts[ZYL_ROLE_LORD] ~= 1
+		or counts[ZYL_ROLE_LOYALIST] ~= settings.Loyalist
+		or counts[ZYL_ROLE_REBEL] ~= settings.Rebel
+		or counts[ZYL_ROLE_SPY] ~= settings.Spy then
+		return nil;
+	end
+	if settings.First > 0 then
+		local firstPlayerID = settings.Players[settings.First];
+		local secondPlayerID = settings.Players[settings.Second];
+		if GetZYLIdentityCamp(assignments[firstPlayerID], firstPlayerID)
+			== GetZYLIdentityCamp(assignments[secondPlayerID], secondPlayerID) then
+			return nil;
+		end
+	end
+	return lordID;
+end
+
+local function ParseZYLIdentityDeal(settings)
+	local payload = GameConfiguration.GetValue(ZYL_IDENTITY_DEAL_CONFIG);
+	if type(payload) ~= "string" or payload == "" then
+		return nil, "LOC_ZYL_IDENTITY_ERROR_NOT_DEALT";
+	end
+
+	local versionText, nonceText, signature, entriesText =
+		string.match(payload, "^(%d+)|(%d+)|([%d,]+)|([%d:,]+)$");
+	local version = tonumber(versionText);
+	local nonce = tonumber(nonceText);
+	if version ~= ZYL_IDENTITY_DEAL_VERSION
+		or nonce == nil or nonce < 1 or nonce ~= math.floor(nonce)
+		or signature ~= GetZYLIdentitySettingsSignature(settings) then
+		return nil, "LOC_ZYL_IDENTITY_ERROR_STALE";
+	end
+
+	local assignments = {};
+	local playerIndex = {};
+	local entryCount = 0;
+	for entry in string.gmatch(entriesText, "[^,]+") do
+		entryCount = entryCount + 1;
+		local playerIDText, roleText = string.match(entry, "^(%d+):(%d+)$");
+		local playerID = tonumber(playerIDText);
+		local role = tonumber(roleText);
+		if playerID == nil or role == nil
+			or entryCount > #settings.Players
+			or playerID ~= settings.Players[entryCount]
+			or assignments[playerID] ~= nil then
+			return nil, "LOC_ZYL_IDENTITY_ERROR_STALE";
+		end
+		assignments[playerID] = role;
+		playerIndex[playerID] = entryCount;
+	end
+	if entryCount ~= #settings.Players then
+		return nil, "LOC_ZYL_IDENTITY_ERROR_STALE";
+	end
+
+	local lordID = ValidateZYLIdentityAssignments(settings, assignments);
+	if lordID == nil then return nil, "LOC_ZYL_IDENTITY_ERROR_STALE"; end
+	return {
+		Payload = payload,
+		Settings = settings,
+		Assignments = assignments,
+		PlayerIndex = playerIndex,
+		LordID = lordID
+	}, nil;
+end
+
+local function GetZYLIdentityPlayerName(playerID)
+	local config = PlayerConfigurations[playerID];
+	if config == nil then return tostring(playerID); end
+	return Locale.Lookup(config:GetPlayerName());
+end
+
+local function PopulateZYLIdentityLobbyRole(deal, localPlayerID)
+	local role = deal.Assignments[localPlayerID];
+	local roleText = ZYL_IDENTITY_ROLE_TEXT[role];
+	if roleText == nil then return false; end
+
+	Controls.IdentityLobbyPlayerOrder:SetText(Locale.Lookup(
+		"LOC_ZYL_IDENTITY_PLAYER_ORDER", deal.PlayerIndex[localPlayerID]));
+	Controls.IdentityLobbyRoleName:SetText(Locale.Lookup(roleText.Name));
+	Controls.IdentityLobbyRoleDescription:SetText(Locale.Lookup(roleText.Description));
+	Controls.IdentityLobbyLordName:SetText(GetZYLIdentityPlayerName(deal.LordID));
+	Controls.IdentityLobbyTeamLabel:SetHide(role ~= ZYL_ROLE_REBEL);
+	Controls.IdentityLobbyTeamNames:SetHide(role ~= ZYL_ROLE_REBEL);
+	if role == ZYL_ROLE_REBEL then
+		local teammates = {};
+		for _, playerID in ipairs(deal.Settings.Players) do
+			if playerID ~= localPlayerID and deal.Assignments[playerID] == ZYL_ROLE_REBEL then
+				table.insert(teammates, GetZYLIdentityPlayerName(playerID));
+			end
+		end
+		if #teammates == 0 then
+			Controls.IdentityLobbyTeamNames:SetText(Locale.Lookup("LOC_ZYL_IDENTITY_NO_TEAMMATE"));
+		else
+			Controls.IdentityLobbyTeamNames:SetText(table.concat(
+				teammates, Locale.Lookup("LOC_ZYL_IDENTITY_NAME_SEPARATOR")));
+		end
+	end
+	return true;
+end
+
+function CloseZYLIdentityLobbyPanel()
+	Controls.IdentityLobbyOverlay:SetHide(true);
+end
+
+local function OpenZYLIdentityLobbyMasked(deal)
+	local localPlayerID = Network.GetLocalPlayerID();
+	if deal == nil or deal.PlayerIndex[localPlayerID] == nil then return; end
+	if not PopulateZYLIdentityLobbyRole(deal, localPlayerID) then return; end
+	g_ZYLIdentityLobbyCurrentDeal = deal;
+	Controls.IdentityLobbyMaskContainer:SetHide(false);
+	Controls.IdentityLobbyRoleContainer:SetHide(true);
+	Controls.IdentityLobbyOverlay:SetHide(false);
+end
+
+function OnZYLIdentityLobbyReveal()
+	if g_ZYLIdentityLobbyCurrentDeal == nil then return; end
+	Controls.IdentityLobbyMaskContainer:SetHide(true);
+	Controls.IdentityLobbyRoleContainer:SetHide(false);
+end
+
+function OnZYLIdentityLobbyHide()
+	if g_ZYLIdentityLobbyCurrentDeal ~= nil then
+		OpenZYLIdentityLobbyMasked(g_ZYLIdentityLobbyCurrentDeal);
+	end
+end
+
+function OnZYLViewIdentity()
+	local settings = GetZYLIdentitySettings();
+	if settings == nil or not settings.Enabled then return; end
+	local deal = ParseZYLIdentityDeal(settings);
+	if deal ~= nil then OpenZYLIdentityLobbyMasked(deal); end
+end
+
+function OnZYLDealIdentities()
+	if not Network.IsGameHost() or not CanUseZYLHostControls() then return; end
+	local settings, settingsError = GetZYLIdentitySettings();
+	if settings == nil or not settings.Enabled then
+		g_identityConfigValid = false;
+		g_identityConfigReason = settingsError or "LOC_ZYL_IDENTITY_ERROR_COUNT";
+		UpdateReadyButton();
+		return;
+	end
+
+	local assignments, assignmentError = BuildZYLIdentityAssignments(settings);
+	local lordID = assignments ~= nil and ValidateZYLIdentityAssignments(settings, assignments) or nil;
+	if assignments == nil or lordID == nil then
+		g_identityConfigValid = false;
+		g_identityConfigReason = assignmentError or "LOC_ZYL_IDENTITY_ERROR_NO_SOLUTION";
+		UpdateReadyButton();
+		return;
+	end
+
+	local currentPayload = GameConfiguration.GetValue(ZYL_IDENTITY_DEAL_CONFIG);
+	local oldNonce = type(currentPayload) == "string"
+		and tonumber(string.match(currentPayload, "^%d+|(%d+)|")) or 0;
+	local nonce = (oldNonce or 0) + 1;
+	if nonce > 2147483646 then nonce = 1; end
+	local entries = {};
+	for index, playerID in ipairs(settings.Players) do
+		entries[index] = tostring(playerID) .. ":" .. tostring(assignments[playerID]);
+	end
+	local payload = table.concat({
+		tostring(ZYL_IDENTITY_DEAL_VERSION),
+		tostring(nonce),
+		GetZYLIdentitySettingsSignature(settings),
+		table.concat(entries, ",")
+	}, "|");
+	GameConfiguration.SetValue(ZYL_IDENTITY_DEAL_CONFIG, payload);
+	Network.BroadcastGameConfig();
+	RefreshZYLIdentityLobbyControls();
+	CheckGameAutoStart();
+	UpdateReadyButton();
+	UI.PlaySound("Play_UI_Click");
+	print("ZYL identity game: lobby roles dealt", #settings.Players, "players; lord", lordID);
+end
+
+function InvalidateZYLIdentityLobbyDeal()
+	if not IsZYLIdentityEnabled() then return; end
+	g_ZYLIdentityLobbyCurrentDeal = nil;
+	g_ZYLIdentityLobbyAutoOpenedPayload = nil;
+	CloseZYLIdentityLobbyPanel();
+	local oldPayload = GameConfiguration.GetValue(ZYL_IDENTITY_DEAL_CONFIG);
+	if Network.IsGameHost() and type(oldPayload) == "string" and oldPayload ~= "" then
+		GameConfiguration.SetValue(ZYL_IDENTITY_DEAL_CONFIG, "");
+		Network.BroadcastGameConfig();
+	end
+end
+
+function RefreshZYLIdentityLobbyControls()
+	local enabled = IsZYLIdentityEnabled();
+	if not enabled then
+		-- Turning the mode off must discard the previous deal. Otherwise turning
+		-- it back on with identical settings could silently reuse old roles.
+		local oldPayload = GameConfiguration.GetValue(ZYL_IDENTITY_DEAL_CONFIG);
+		if Network.IsGameHost() and type(oldPayload) == "string" and oldPayload ~= "" then
+			GameConfiguration.SetValue(ZYL_IDENTITY_DEAL_CONFIG, "");
+			Network.BroadcastGameConfig();
+		end
+		Controls.IdentityDealButton:SetHide(true);
+		Controls.IdentityViewButton:SetHide(true);
+		g_ZYLIdentityLobbyCurrentDeal = nil;
+		g_ZYLIdentityLobbyAutoOpenedPayload = nil;
+		CloseZYLIdentityLobbyPanel();
+		return;
+	end
+
+	local settings, settingsError = GetZYLIdentitySettings();
+	local deal = nil;
+	local dealError = settingsError;
+	if settings ~= nil then deal, dealError = ParseZYLIdentityDeal(settings); end
+	local localPlayerID = Network.GetLocalPlayerID();
+	local localIsParticipant = false;
+	for _, playerID in ipairs(GetZYLIdentityHumanPlayers()) do
+		if playerID == localPlayerID then localIsParticipant = true; break; end
+	end
+
+	Controls.IdentityDealButton:SetHide(not CanUseZYLHostControls());
+	Controls.IdentityDealButton:SetDisabled(settings == nil);
+	Controls.IdentityDealButton:SetText(Locale.Lookup(
+		deal ~= nil and "LOC_ZYL_IDENTITY_REDEAL_BUTTON" or "LOC_ZYL_IDENTITY_DEAL_BUTTON"));
+	Controls.IdentityDealButton:SetToolTipString(Locale.Lookup(
+		settingsError or "LOC_ZYL_IDENTITY_DEAL_BUTTON_TT"));
+
+	Controls.IdentityViewButton:SetHide(not localIsParticipant);
+	Controls.IdentityViewButton:SetDisabled(deal == nil);
+	Controls.IdentityViewButton:SetText(Locale.Lookup(
+		deal ~= nil and "LOC_ZYL_IDENTITY_VIEW_BUTTON" or "LOC_ZYL_IDENTITY_WAITING_BUTTON"));
+	Controls.IdentityViewButton:SetToolTipString(
+		deal ~= nil and "" or Locale.Lookup(dealError or "LOC_ZYL_IDENTITY_ERROR_NOT_DEALT"));
+
+	if deal == nil then
+		-- Permanently invalidate an old deal as soon as the roster or settings
+		-- stop matching. Restoring the old values must not resurrect old roles.
+		local oldPayload = GameConfiguration.GetValue(ZYL_IDENTITY_DEAL_CONFIG);
+		if Network.IsGameHost() and type(oldPayload) == "string" and oldPayload ~= "" then
+			GameConfiguration.SetValue(ZYL_IDENTITY_DEAL_CONFIG, "");
+			Network.BroadcastGameConfig();
+		end
+		g_ZYLIdentityLobbyCurrentDeal = nil;
+		g_ZYLIdentityLobbyAutoOpenedPayload = nil;
+		CloseZYLIdentityLobbyPanel();
+	elseif localIsParticipant and deal.Payload ~= g_ZYLIdentityLobbyAutoOpenedPayload then
+		g_ZYLIdentityLobbyAutoOpenedPayload = deal.Payload;
+		OpenZYLIdentityLobbyMasked(deal);
+	end
+end
+
+-- Validate the settings and require a current lobby deal before either the
+-- normal countdown or the host force-start path may launch the game.
+function CheckZYLIdentityConfig()
+	g_identityConfigValid = true;
+	g_identityConfigReason = nil;
+	local settings, settingsError = GetZYLIdentitySettings();
+	if settings == nil then
+		g_identityConfigValid = false;
+		g_identityConfigReason = settingsError;
+		return false;
+	end
+	if not settings.Enabled then return true; end
+
+	local deal, dealError = ParseZYLIdentityDeal(settings);
+	if deal == nil then
+		g_identityConfigValid = false;
+		g_identityConfigReason = dealError;
+		return false;
+	end
+	return true;
+end
+
 function CheckGameAutoStart()
 	
 	-- PlayByCloud Only - Autostart if we are the active turn player.
@@ -5127,6 +5606,11 @@ function CheckGameAutoStart()
 			g_notEnoughPlayers = true;
 		end
 
+		if(not CheckZYLIdentityConfig()) then
+			print("CheckGameAutoStart: Can't start game because the ZYL identity configuration is invalid");
+			startCountdown = false;
+		end
+
 		if(GameConfiguration.IsPlayByCloud() 
 			and GameConfiguration.GetGameState() ~= GameStateTypes.GAMESTATE_LAUNCHED
 			and totalHumans < 2) then
@@ -5189,6 +5673,8 @@ function ResetAutoStartFlags()
 	g_everyoneModReady = true;
 	g_duplicateLeaders = false;
 	g_humanRequiredFilled = true;
+	g_identityConfigValid = true;
+	g_identityConfigReason = nil;
 	g_pbcNewGameCheck = true;
 	g_pbcMinHumanCheck = true;
 	g_matchMakeFullGameCheck = true;
@@ -6246,6 +6732,11 @@ function UpdateReadyButton()
 		Controls.ReadyButton:LocalizeAndSetToolTip( "LOC_READY_BLOCKED_NOT_ENOUGH_PLAYERS_TT");
 		Controls.ReadyCheck:LocalizeAndSetToolTip( "LOC_READY_BLOCKED_NOT_ENOUGH_PLAYERS_TT");
 		localPlayerButton:LocalizeAndSetToolTip( "LOC_READY_BLOCKED_NOT_ENOUGH_PLAYERS_TT");
+	elseif(not g_identityConfigValid) then
+		Controls.StartLabel:LocalizeAndSetText("LOC_ZYL_IDENTITY_ERROR_TITLE");
+		Controls.ReadyButton:LocalizeAndSetToolTip(g_identityConfigReason or "LOC_ZYL_IDENTITY_ERROR_COUNT");
+		Controls.ReadyCheck:LocalizeAndSetToolTip(g_identityConfigReason or "LOC_ZYL_IDENTITY_ERROR_COUNT");
+		localPlayerButton:LocalizeAndSetToolTip(g_identityConfigReason or "LOC_ZYL_IDENTITY_ERROR_COUNT");
 	elseif(not m_bTeamsValid) then
 		Controls.StartLabel:LocalizeAndSetText("LOC_READY_BLOCKED_TEAMS_INVALID");
 		Controls.ReadyButton:LocalizeAndSetToolTip( "LOC_READY_BLOCKED_TEAMS_INVALID_TT" );
@@ -6307,6 +6798,9 @@ function UpdateReadyButton()
 		if(err) then
 			errorReason = err.Reason or "LOC_SETUP_PLAYER_PARAMETER_ERROR"
 		end
+	end
+	if(not g_identityConfigValid) then
+		errorReason = g_identityConfigReason or "LOC_ZYL_IDENTITY_ERROR_COUNT";
 	end
 	-- Block ready up when there is a civ ownership issue.  
 	-- We have to do this because ownership is not communicated to the host.
@@ -6596,6 +7090,7 @@ function OnShow()
 	-- enabled-mod flags are ready. Host retries below remain as a fallback.
 	SendVersion()
 	BuildPlayerList();
+	RefreshZYLIdentityLobbyControls();
 	PopulateTargetPull(Controls.ChatPull, Controls.ChatEntry, Controls.ChatIcon, m_playerTargetEntries, m_playerTarget, false, OnChatPulldownChanged);
 	ShowHideChatPanel();
 
@@ -6702,7 +7197,7 @@ end
 
 -------------------------------------------------
 -------------------------------------------------
-local function CanUseZYLHostControls()
+CanUseZYLHostControls = function()
 	return Network.IsGameHost()
 		and GameConfiguration.GetGameState() == -901772834
 		and g_phase == PHASE_DEFAULT
@@ -6713,6 +7208,7 @@ function RefreshZYLHostControls()
 	local enabled = CanUseZYLHostControls()
 	Controls.RandomTeamsButton:SetHide(not enabled)
 	Controls.ToggleEmptySlotsButton:SetHide(not enabled)
+	RefreshZYLIdentityLobbyControls()
 end
 
 function OnZYLRandomTeams()
@@ -7550,6 +8046,11 @@ function Initialize()
 	Controls.ReadyCheck:RegisterCallback( Mouse.eMouseEnter, function() UI.PlaySound("Main_Menu_Mouse_Over"); end);
 	Controls.RandomTeamsButton:RegisterCallback(Mouse.eLClick, OnZYLRandomTeams)
 	Controls.ToggleEmptySlotsButton:RegisterCallback(Mouse.eLClick, OnZYLToggleEmptySlots)
+	Controls.IdentityDealButton:RegisterCallback(Mouse.eLClick, OnZYLDealIdentities)
+	Controls.IdentityViewButton:RegisterCallback(Mouse.eLClick, OnZYLViewIdentity)
+	Controls.IdentityLobbyRevealButton:RegisterCallback(Mouse.eLClick, OnZYLIdentityLobbyReveal)
+	Controls.IdentityLobbyHideButton:RegisterCallback(Mouse.eLClick, OnZYLIdentityLobbyHide)
+	Controls.IdentityLobbyCloseButton:RegisterCallback(Mouse.eLClick, CloseZYLIdentityLobbyPanel)
 	Controls.JoinCodeText:RegisterCallback( Mouse.eLClick, OnClickToCopy );
 
 	Controls.InviteButton:SetToolTipString(GetInviteTT());
