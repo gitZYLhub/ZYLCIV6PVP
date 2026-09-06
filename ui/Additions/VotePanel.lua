@@ -5,7 +5,6 @@ include("InstanceManager");
 include("PopupDialog");
 include( "PlayerSetupLogic" );
 include( "GameSetupLogic" );
-print("MPH Remap Panel")
 
 -- ===========================================================================
 --	Variables
@@ -16,8 +15,6 @@ local m_roletype = -1
 local m_forced = false
 local b_remap_passed = false
 local b_remap_armed = false
-local b_remap_armed_ui = false
-local b_HasSavedSeeds = false
 local g_cached_playerIDs = {} -- keep a track of who has voted on which team
 -- timer variables kept convention from stagingroom
 local g_fCountdownTimer = 10
@@ -27,10 +24,25 @@ local g_fCountdownReadyButtonTime = 10
 local g_timer = -1
 local hostID = Network.GetGameHostPlayerID()
 local localID = Network.GetLocalPlayerID()
-local tick = os.clock()
-local tick_2 = os.clock()
+local tick = Automation.GetTime()
 local map_sd = 0
 local game_sd = 0
+local b_debug = false
+local m_refreshRegistered = false
+
+local function DebugLog(...)
+	if b_debug then print(...) end
+end
+
+local function SetRefreshTracking(enabled)
+	if enabled and not m_refreshRegistered then
+		Events.GameCoreEventPublishComplete.Add(OnRefresh)
+		m_refreshRegistered = true
+	elseif not enabled and m_refreshRegistered then
+		Events.GameCoreEventPublishComplete.Remove(OnRefresh)
+		m_refreshRegistered = false
+	end
+end
 
 
 -- ===========================================================================
@@ -202,7 +214,7 @@ function UpdateVoteOptions()
 end
 
 function UpdatePlayerList()
-	print("UpdatePlayerList()")
+	DebugLog("UpdatePlayerList()")
 	hostID = Network.GetGameHostPlayerID()
 	localID = Network.GetLocalPlayerID()
 	-- g_cached_playerIDs: ID = id, Team = team, Status = status, Name = name
@@ -264,7 +276,7 @@ function OnVoteRight()
 end
 
 function OnConfirmResults()
-	print("OnConfirmResults()")
+	DebugLog("OnConfirmResults()")
 	m_votetype = -1
 	m_roletype = -1
 	ContextPtr:SetHide(true);
@@ -272,7 +284,7 @@ function OnConfirmResults()
 end
 
 function OnHostConfirmResults()
-	print("OnHostConfirmResults()")
+	DebugLog("OnHostConfirmResults()")
 	hostID = Network.GetGameHostPlayerID()
 	localID = Network.GetLocalPlayerID()
 	if  b_remap_passed == true and m_votetype == 0 then
@@ -337,19 +349,6 @@ function OnHostRemap()
 		GameConfiguration.SetValue("GAME_SYNC_RANDOM_SEED", GameConfiguration.GetValue("GAME_SYNC_RANDOM_SEED")+1);
 	end
 	Network.BroadcastGameConfig()
-	--print("New Game Seed",GameConfiguration.GetValue("GAME_SYNC_RANDOM_SEED"))
-	--print("New Map Seed",MapConfiguration.GetValue("RANDOM_SEED"));
-	--local player_ids = GameConfiguration.GetMultiplayerPlayerIDs()
-	--for i, iPlayer in ipairs(player_ids) do
-	--	if Players[iPlayer] ~= nil then
-	--		if Network.IsPlayerConnected(iPlayer) == true and iPlayer ~= hostID then
-	--			Network.SendChat(".mph_ui_remap_triggered",-2,iPlayer)
-	--			Network.SendChat(".mph_ui_remap_map_"..MapConfiguration.GetValue("RANDOM_SEED"),-2,iPlayer)
-	--			Network.SendChat(".mph_ui_remap_rng_"..GameConfiguration.GetValue("GAME_SYNC_RANDOM_SEED"),-2,iPlayer)
-	--		end
-	--	end
-	--end
-	--b_RemapArmed = true
 	
 	ConfirmRestart()
 end
@@ -381,37 +380,12 @@ end
 
 
 function OnYesRestart( )
-	--Network.BroadcastGameConfig()
-	--local player_ids = GameConfiguration.GetMultiplayerPlayerIDs()
-	--for i, iPlayer in ipairs(player_ids) do
-	--	if Players[iPlayer] ~= nil then
-	--		if Network.IsPlayerConnected(iPlayer) == true and iPlayer ~= hostID then
-	--			Network.SendChat(".mph_ui_remap_execute", -2,-1)
-	--		end
-	--	end
-	--end	
 	_kPopupDialog:Close();
 	ContextPtr:SetHide(true);
-	GameConfiguration.SetValue("GAME_HOST_IS_JUST_RELOADING","Y")
-	Network.BroadcastGameConfig();
-	--local kParameters:table = {};
-	--kParameters.GameSeed = GameConfiguration.GetValue("GAME_SYNC_RANDOM_SEED")
-	--kParameters.MapSeed = MapConfiguration.GetValue("RANDOM_SEED")
-	--kParameters.OnStart = "OnHostInstructsRemap";
-	--if (GameConfiguration.IsPaused() == true) then
-	--	local pausePlayerID  = GameConfiguration.GetPausePlayer();
-	--	local localPlayerConfig = PlayerConfigurations[pausePlayerID];
-	--	if(localPlayerConfig) then
-	--		localPlayerConfig:SetWantsPause(false);
-	--	end
-	--	Network.BroadcastPlayerInfo();
-	--end
 	Network.SendChat("Initiating Remap",-2,Network.GetGameHostPlayerID())
 	Network.SendChat("----------------",-2,Network.GetGameHostPlayerID())
 	Network.SendChat("You'll be resynced to the new game once the Host has fully loaded.",-2,Network.GetGameHostPlayerID())
 	OnLocalHostRestart()
-	--UI.RequestPlayerOperation(Network.GetGameHostPlayerID(), PlayerOperations.EXECUTE_SCRIPT, kParameters);
-	--print("UI -> OnHostInstructsRemap",kParameters.GameSeed,kParameters.MapSeed,os.date())
 end
 
 function OnNoRestart( )
@@ -421,7 +395,7 @@ end
 
 
 function OnHostReceiveVote(text, fromPlayer)
-	print("OnHostReceiveVote")
+	DebugLog("OnHostReceiveVote")
 	hostID = Network.GetGameHostPlayerID()
 	localID = Network.GetLocalPlayerID()
 	if hostID ~= localID or m_votetype < 0 then
@@ -455,7 +429,7 @@ function OnHostReceiveVote(text, fromPlayer)
 					else
 					player.Status = -5
 				end
-				print(player.Name,"has voted",player.Vote)
+				DebugLog(player.Name,"has voted",player.Vote)
 			end
 		end
 
@@ -473,7 +447,7 @@ function OnHostReceiveVote(text, fromPlayer)
 				everyone_voted = false
 			end
 		end
-		print("everyone_voted",everyone_voted)
+		DebugLog("everyone_voted",everyone_voted)
 		-- Determine the vote
 		if everyone_voted == true then
 			local total_votes = 0
@@ -512,7 +486,7 @@ function OnHostReceiveVote(text, fromPlayer)
 end
 
 function OnReceiveVote(text)
-	print("OnReceiveVote")
+	DebugLog("OnReceiveVote")
 	hostID = Network.GetGameHostPlayerID()
 	localID = Network.GetLocalPlayerID()
 	local sender_id = -1
@@ -533,9 +507,9 @@ function OnReceiveVote(text)
 					player.Status = 1
 					player.Vote = sender_vote
 					if player.Vote ~= 66 then
-						print(player.Name,"has voted",player.Vote)
+						DebugLog(player.Name,"has voted",player.Vote)
 						else
-						print(player.Name,"hasn't voted")
+						DebugLog(player.Name,"hasn't voted")
 						player.Status = -5
 					end
 				end
@@ -641,7 +615,7 @@ function OnMultiplayerChat( fromPlayer, toPlayer, text, eTargetType )
 	
 	-- Triggering a VoteMap	
 	if b_ishost == true and hostID ~= localID and (string.lower(text) == ".mph_ui_snap")  then
-		print("Snapshot Requested")
+		DebugLog("Snapshot Requested")
 		Network.RequestSnapshot()
 		return
 	end
@@ -653,7 +627,7 @@ function OnMultiplayerChat( fromPlayer, toPlayer, text, eTargetType )
 	end
 	
 	if b_ishost == true and (string.lower(text) == ".mph_ui_remap_triggered")  then
-		b_RemapArmed = true
+		b_remap_armed = true
 		return
 	end
 	
@@ -671,12 +645,9 @@ function OnMultiplayerChat( fromPlayer, toPlayer, text, eTargetType )
 		return
 	end
 	
-	if b_ishost == true and string.lower(text) == ".mph_ui_remap_execute" and b_RemapArmed == true then
+	if b_ishost == true and string.lower(text) == ".mph_ui_remap_execute" and b_remap_armed == true then
 		Network.BroadcastGameConfig();
 		Network.BroadcastPlayerInfo();
-		Network.BroadcastGameConfig();
-		Network.BroadcastPlayerInfo();
-		Network.BroadcastGameConfig();
 		Network.SendChat(".mph_ui_log_received_remap_request_mapseed_"..tostring(MapConfiguration.GetValue("RANDOM_SEED")).."_gameseed_"..tostring(GameConfiguration.GetValue("GAME_SYNC_RANDOM_SEED")),-2,hostID)	
 		Network.RestartGame();
 		return
@@ -695,11 +666,16 @@ function OnMultiplayerChat( fromPlayer, toPlayer, text, eTargetType )
 end
 
 function OnLocalHostRestart()
+	localID = Network.GetLocalPlayerID()
+	hostID = Network.GetGameHostPlayerID()
 	if localID ~= hostID then
-		print("OnLocalHostRestart() - Not the Host")
+		DebugLog("OnLocalHostRestart() - Not the Host")
+		return
 	end
-	print(tick,"REMAP - HOST IS RESTARTING",os.date())
-	GameConfiguration.SetValue("GAME_HOST_IS_JUST_RELOADING","Y")
+	DebugLog(tick,"REMAP - HOST IS RESTARTING",os.date())
+	if GameConfiguration.GetValue("GAME_HOST_IS_JUST_RELOADING") ~= "Y" then
+		GameConfiguration.SetValue("GAME_HOST_IS_JUST_RELOADING","Y")
+	end
 	Network.BroadcastGameConfig();	
 	if (GameConfiguration.IsPaused() == false) then
 		local localPlayerID = hostID;
@@ -708,43 +684,25 @@ function OnLocalHostRestart()
 		localPlayerConfig:SetWantsPause(newPause);
 		Network.BroadcastPlayerInfo();
 	end
+	SetRefreshTracking(true)
 	Network.RestartGame();	
 end
 
 function OnRefresh()
-	if tick + 1 < os.clock() then
-		--print(tick,"Local Status:",Game:GetProperty("MPH_RESYNC_ARMED_"..localID),"RESTART?",GameConfiguration.GetValue("GAME_HOST_IS_JUST_RELOADING"),Game:GetProperty("MPH_REMAP_MODE"))
-		-- triggering a Host Request (Restart Context - Pre Host Restart)
-		--if Game:GetProperty("MPH_REMAP_MODE") == 1 and localID == hostID then
-		--print(tick,"REMAP",Game:GetProperty("MPH_REMAP_MODE"),"SEED",Game:GetProperty("MPH_GAMESEED"),Game:GetProperty("MPH_MAPSEED"),os.date())
-		-- Arming the seeds manually 
-		--	if Game:GetProperty("MPH_GAMESEED") ~= nil and Game:GetProperty("MPH_MAPSEED") ~= nil then
-		--		if (GameConfiguration.IsPaused() == false) then
-		--			local localPlayerID = hostID;
-		--			local localPlayerConfig = PlayerConfigurations[localPlayerID];
-		--			local newPause = not localPlayerConfig:GetWantsPause();
-		--			localPlayerConfig:SetWantsPause(newPause);
-		--			Network.BroadcastPlayerInfo();
-		--		end
-		--		MapConfiguration.SetValue("RANDOM_SEED",Game:GetProperty("MPH_MAPSEED"))
-		--		GameConfiguration.SetValue("GAME_SYNC_RANDOM_SEED", Game:GetProperty("MPH_GAMESEED"))
-		--		GameConfiguration.SetValue("GAME_HOST_IS_JUST_RELOADING","Y")
-		--		Network.BroadcastGameConfig();
-		--		print(tick,"REMAP - HOST IS RESTARTING",os.date())
-		--		Network.RestartGame();
-		--		return
-		--	end
-		--end
-
+	local currentTime = Automation.GetTime()
+	if tick + 1 < currentTime then
+		localID = Network.GetLocalPlayerID()
+		hostID = Network.GetGameHostPlayerID()
 		-- triggering a Snapshot Request (Restart Context - Host has Fully Loaded)
 		if localID == hostID and GameConfiguration.GetValue("GAME_HOST_IS_JUST_RELOADING") == "Y" then
-			print(tick,"Host Command: Snapshot Request",os.date())
+			DebugLog(tick,"Host Command: Snapshot Request",os.date())
 			GameConfiguration.SetValue("GAME_HOST_IS_JUST_RELOADING","N")
 			Network.BroadcastGameConfig();			
 			Network.SendChat(".mph_ui_snap",-2,-1)
+			SetRefreshTracking(false)
 			return	
 		end
-		tick = os.clock()
+		tick = currentTime
 	end
 end
 
@@ -753,8 +711,8 @@ end
 -- ===========================================================================
 function OnShutdown()
 	ContextPtr:SetHide(true);
-	print("MPH Shutdown - UI Refresh")
-	Events.GameCoreEventPublishComplete.Remove ( OnRefresh );
+	DebugLog("MPH Shutdown - UI Refresh")
+	SetRefreshTracking(false)
 	LuaEvents.MPHMenu_OnHostRemap.Remove(OnHostRemap_Menu)
 	Events.MultiplayerChat.Remove( OnMultiplayerChat );
 end
@@ -778,7 +736,9 @@ function Initialize()
 	_kPopupDialog = PopupDialog:new( "VotePanel" );
 	
 	LuaEvents.MPHMenu_OnHostRemap.Add(OnHostRemap_Menu)
-	print("MPH Activate - UI Refresh")
-	Events.GameCoreEventPublishComplete.Add ( OnRefresh );
+	DebugLog("MPH Activate - UI Refresh")
+	SetRefreshTracking(
+		localID == hostID and GameConfiguration.GetValue("GAME_HOST_IS_JUST_RELOADING") == "Y"
+	)
 end
 Initialize();

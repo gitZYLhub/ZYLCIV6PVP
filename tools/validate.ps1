@@ -2704,6 +2704,50 @@ Add-ValidationError "Staging-room global event registration has no matching shut
 }
 }
 
+$votePanelPath = Join-Path $modRoot 'ui\Additions\VotePanel.lua'
+if (-not (Test-Path -LiteralPath $votePanelPath -PathType Leaf)) {
+Add-ValidationError 'The remap/vote panel is missing.'
+}
+else {
+$votePanelSource = Get-Content -LiteralPath $votePanelPath -Raw
+foreach ($requiredVotePanelFragment in @(
+'local b_remap_armed = false',
+'local function SetRefreshTracking(enabled)',
+'local tick = Automation.GetTime()',
+'SetRefreshTracking(true)',
+'SetRefreshTracking(false)',
+'if GameConfiguration.GetValue("GAME_HOST_IS_JUST_RELOADING") ~= "Y" then'
+)) {
+if (-not $votePanelSource.Contains($requiredVotePanelFragment)) {
+Add-ValidationError "The remap/vote panel is missing its network lifecycle guard: $requiredVotePanelFragment"
+}
+}
+foreach ($forbiddenVotePanelFragment in @(
+'b_RemapArmed',
+'local tick_2'
+)) {
+if ($votePanelSource.Contains($forbiddenVotePanelFragment)) {
+Add-ValidationError "The remap/vote panel restored a global typo or dead timer: $forbiddenVotePanelFragment"
+}
+}
+if ([regex]::IsMatch(
+$votePanelSource,
+'(?s)Network\.BroadcastGameConfig\(\);\s*Network\.BroadcastPlayerInfo\(\);\s*Network\.BroadcastGameConfig\(\);'
+)) {
+Add-ValidationError 'The remap/vote panel restored its repeated GameConfig/PlayerInfo broadcast burst.'
+}
+if ([regex]::Matches($votePanelSource, 'GameCoreEventPublishComplete\.Add\(OnRefresh\)').Count -ne 1 -or
+[regex]::Matches($votePanelSource, 'GameCoreEventPublishComplete\.Remove\(OnRefresh\)').Count -ne 1) {
+Add-ValidationError 'The remap/vote refresh callback must have exactly one guarded add/remove implementation.'
+}
+if (-not [regex]::IsMatch(
+$votePanelSource,
+'(?s)function OnLocalHostRestart\(\).*?if localID ~= hostID then.*?return.*?SetRefreshTracking\(true\).*?Network\.RestartGame\(\)'
+)) {
+Add-ValidationError 'Only the current host may start a remap, and refresh tracking must be armed before restart.'
+}
+}
+
 $stagingRoomIdentityXmlPath = Join-Path $modRoot 'ui\stagingroom.xml'
 if (-not (Test-Path -LiteralPath $stagingRoomIdentityXmlPath)) {
 Add-ValidationError 'The staging-room XML replacement is missing.'
