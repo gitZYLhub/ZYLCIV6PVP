@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FilesFragment schemaVersion="1" domain="07-rich-mainland">
+  <File manifestOrder="732">Components/BBM/Configuration/ZYL_RichMainland_Config.xml</File>
+  <File manifestOrder="733">Components/BBM/Lang/ZYL_RichMainland_Text.xml</File>
+  <File manifestOrder="734">Components/BBM/Data/BBS Maps/zyl_team_rich_mainland.lua</File>
+  <File manifestOrder="735">Components/BBM/Data/BBS Maps/zyl_ffa_rich_mainland.lua</File>
+  <File manifestOrder="736">Components/BBM/Data/BBS Maps/zyl_rich_mainland_core.lua</File>
+  <File manifestOrder="737">Components/BBM/Data/BBS Maps/ZYLRM/ConfigureCommon.sql</File>
+  <File manifestOrder="738">Components/BBM/Data/BBS Maps/ZYLRM/ConfigureTeam.sql</File>
+  <File manifestOrder="739">Components/BBM/Data/BBS Maps/ZYLRM/ConfigureFFA.sql</File>
+  <File manifestOrder="740">Components/BBM/Data/BBS Maps/Utility/ZYL_RVC_AssignStartingPlots.lua</File>
+  <File manifestOrder="741">Components/BBM/Data/BBS Maps/Utility/ZYL_RVC_Balance.lua</File>
+  <File manifestOrder="742">Components/BBM/Data/BBS Maps/Utility/ZYL_RVC_BBS_TerrainGenerator.lua</File>
+  <File manifestOrder="743">Components/BBM/Data/BBS Maps/Utility/ZYL_RVC_CoastalLowlands.lua</File>
+  <File manifestOrder="744">Components/BBM/Data/BBS Maps/Utility/ZYL_RVC_DW_TerrainGenerator.lua</File>
+  <File manifestOrder="745">Components/BBM/Data/BBS Maps/Utility/ZYL_RVC_FeatureGenerator.lua</File>
+  <File manifestOrder="746">Components/BBM/Data/BBS Maps/Utility/ZYL_RVC_MapUtilities.lua</File>
+  <File manifestOrder="747">Components/BBM/Data/BBS Maps/Utility/ZYL_RVC_MountainsCliffs.lua</File>
+  <File manifestOrder="748">Components/BBM/Data/BBS Maps/Utility/ZYL_RVC_ResourceGenerator.lua</File>
+  <File manifestOrder="749">Components/BBM/Data/BBS Maps/Utility/ZYL_RVC_RiversLakes.lua</File>
+</FilesFragment>

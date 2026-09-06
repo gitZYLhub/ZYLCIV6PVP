@@ -6,8 +6,8 @@ $ErrorActionPreference = 'Stop'
 # ZYLPVPMOD is self-contained. This script synchronizes package identity and
 # assembles migrated manifest sections from repository-owned sources. It has no
 # parameters for upstream manifests and never reads Steam/Workshop caches or
-# sibling projects. Criteria and actions are generated from manifest sources;
-# file-list migration continues incrementally during M2.
+# sibling projects. Criteria, actions and the Files list are generated from
+# repository-owned manifest sources.
 $modRoot = [System.IO.Path]::GetFullPath((Split-Path -Parent $PSScriptRoot))
 $modRootPrefix = $modRoot.TrimEnd('\') + '\'
 $projectMetadataPath = Join-Path $PSScriptRoot 'project.json'
@@ -41,6 +41,7 @@ $multiplayerHelperRelativePath = [string]$projectMetadata.multiplayerHelperFile
 $criteriaSourceDirectory = Join-Path $modRoot 'manifest\criteria'
 $frontEndActionsSourceDirectory = Join-Path $modRoot 'manifest\actions\frontend'
 $inGameActionsSourceDirectory = Join-Path $modRoot 'manifest\actions\ingame'
+$filesSourceDirectory = Join-Path $modRoot 'manifest\files'
 $manifestChanged = $false
 
 function Resolve-ProjectFile {
@@ -134,17 +135,21 @@ function Sync-GeneratedSection {
         [Parameter(Mandatory = $true)]
         [System.Xml.XmlElement]$GeneratedSection,
 
-        [Parameter(Mandatory = $true)]
         [string]$NextSectionName
     )
 
     $existingSection = [System.Xml.XmlElement]$Document.SelectSingleNode("/Mod/$SectionName")
     if ($null -eq $existingSection) {
-        $nextSection = $Document.SelectSingleNode("/Mod/$NextSectionName")
-        if ($null -eq $nextSection) {
-            throw "ZYLPVPMOD.modinfo is missing both $SectionName and $NextSectionName."
+        if ([string]::IsNullOrWhiteSpace($NextSectionName)) {
+            [void]$Document.DocumentElement.AppendChild($GeneratedSection)
         }
-        [void]$Document.DocumentElement.InsertBefore($GeneratedSection, $nextSection)
+        else {
+            $nextSection = $Document.SelectSingleNode("/Mod/$NextSectionName")
+            if ($null -eq $nextSection) {
+                throw "ZYLPVPMOD.modinfo is missing both $SectionName and $NextSectionName."
+            }
+            [void]$Document.DocumentElement.InsertBefore($GeneratedSection, $nextSection)
+        }
         $script:manifestChanged = $true
     }
     elseif (-not (Test-GeneratedSectionMatches `
@@ -187,6 +192,18 @@ function Sync-ActionsSection {
         -GeneratedSection $generatedSection `
         -NextSectionName $NextSectionName
 }
+
+function Sync-FilesSection {
+    param([System.Xml.XmlDocument]$Document)
+
+    $generatedSection = New-ZylFilesSection `
+        -OwnerDocument $Document `
+        -SourceDirectory $filesSourceDirectory
+    Sync-GeneratedSection `
+        -Document $Document `
+        -SectionName 'Files' `
+        -GeneratedSection $generatedSection
+}
 if ($modInfo.DocumentElement.GetAttribute('version') -ne $modInfoVersion) {
     $modInfo.DocumentElement.SetAttribute('version', $modInfoVersion)
     $manifestChanged = $true
@@ -219,6 +236,7 @@ Sync-ActionsSection `
     -SectionName 'InGameActions' `
     -SourceDirectory $inGameActionsSourceDirectory `
     -NextSectionName 'Files'
+Sync-FilesSection $modInfo
 
 # Every path consumed by the generated manifest must resolve inside this
 # repository. This is the hard boundary that prevents external cache reads.

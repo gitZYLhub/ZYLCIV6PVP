@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FilesFragment schemaVersion="1" domain="10-zyl-balance">
+  <File manifestOrder="660">LeaderVariants/ZYL_CoastLeaderVariants_Gameplay.sql</File>
+  <File manifestOrder="661">LeaderVariants/ZYL_CoastLeaderVariants_Config.sql</File>
+  <File manifestOrder="662">LeaderVariants/ZYL_CoastLeaderVariants_Text.sql</File>
+  <File manifestOrder="663">LeaderVariants/ZYL_CoastLeaderVariants_Icons.sql</File>
+  <File manifestOrder="664">LeaderVariants/ZYL_CoastLeaderVariants_Colors.sql</File>
+  <File manifestOrder="667">sql/ZYL_StartingSettler.sql</File>
+  <File manifestOrder="669">sql/ZYL_Pantheons.sql</File>
+  <File manifestOrder="670">sql/ZYL_GeothermalMines.sql</File>
+  <File manifestOrder="671">sql/ZYL_GameplayOverrides.sql</File>
+  <File manifestOrder="672">sql/ZYL_EraLengthOptimization.sql</File>
+  <File manifestOrder="673">sql/ZYL_GovernorOverrides.sql</File>
+  <File manifestOrder="675">lang/ZYL_Pantheons_Text.xml</File>
+  <File manifestOrder="676">lang/ZYL_GameplayOverrides_Text.xml</File>
+  <File manifestOrder="682">icons/ZYL_Pantheon_Icons.xml</File>
+</FilesFragment>

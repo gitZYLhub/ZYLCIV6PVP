@@ -170,4 +170,14 @@
 - 修改：新增 `manifest/actions/frontend/*.xml` 和 `manifest/actions/ingame/*.xml` 共 18 个片段；`ManifestSources.ps1` 支持受限 Action 元素集合；组装器生成两类动作段并删除 `ZYL_TPVP_VampireCastleGameplay`/Files 的硬编码补丁；校验器逐段比较分域源和 ModInfo。
 - 验证：PowerShell 语法解析通过；正常组装为字节级幂等，ModInfo SHA-256 保持 `94869D352E031F53513FB048095730851842B75BDF7CD4398B4EAF27259BB14D`，完整动作图仍为 `f41a5c55fc7000b435ffe645d4c25df358ad3950b1e03f105b64d07e49ba14af`。负向测试将生成文件首条 Action 临时改为 `FrontEnd_DRIFT_PROBE` 后校验以退出码 1 检出动作图漂移，组装器恢复精确原哈希；另将源片段临时改为 `FrontEnd_SOURCE_PROBE` 后校验以退出码 1 检出源/生成段不一致，并用重复 `FrontEnd` ID 证明重复动作会被拒绝。PowerShell 7 与 Windows PowerShell 校验均通过 192 XML、108 Criteria、283 Actions、1077 Files、549 活跃引用、48 休眠文件和 47 源码专用文件；universal 包仍为 1072 文件、740.53 MiB，聚合 SHA-256 保持 `fc00184ee15b5761dc6b873496ee907a72dd5f922ea7bf8b2853e14daa91b94b`。
 - 风险/待办：动作域只改变维护边界，不改变跨域 Criteria/File 引用；下一步迁移 1077 条 Files，并继续拆分校验器领域。
-- 提交：本次提交（Actions 分域生成）。
+- 提交：`5f25527 refactor: generate Actions from domain manifests`。
+
+### 2026-09-07 / M2-Files 分域生成
+
+- 目标：把 1077 条 Files 从手工 ModInfo 迁移为唯一、可排序、可审查的源清单，完成冻结运行图四段的源化。
+- 范围：Files、共享清单读取模块、组装器、校验器和相关文档；不删除或移动任何运行文件，不拆减 Windows/macOS 资产，不改变版本号。
+- 设计决定：按 core、multiplayer、QoL UI、BBG、BBM、integrations、Rich Mainland、resources、secret societies、ZYL balance 和 art/platform assets 十一个域拆分，数量分别为 20/60/112/210/71/29/18/329/17/14/197。跨平台美术资产独立成域只是维护归类，不改变 universal 包组成。
+- 修改：新增 `manifest/files/*.xml` 十一个片段；共享读取模块支持以规范化 `InnerText` 路径为身份，拒绝空路径、斜杠归一后不区分大小写重复和不连续顺序；组装器生成 Files 末段，校验器直接比较源清单与 ModInfo。
+- 验证：1077 条源路径全部唯一映射且生成段与当前 Files 相同；连续两次组装前后 ModInfo SHA-256 均为 `94869D352E031F53513FB048095730851842B75BDF7CD4398B4EAF27259BB14D`，完整动作图保持 `f41a5c55fc7000b435ffe645d4c25df358ad3950b1e03f105b64d07e49ba14af`。负向测试临时删除 `manifestOrder="1"` 的 `README.md` 后，校验以退出码 1 检出从 2 起始的不连续顺序。PowerShell 7 与 Windows PowerShell 最终校验均通过 203 XML、108 Criteria、283 Actions、1077 Files、549 活跃引用、48 休眠文件和 58 源码专用文件；universal 包仍为 1072 文件、740.53 MiB，聚合 SHA-256 保持 `fc00184ee15b5761dc6b873496ee907a72dd5f922ea7bf8b2853e14daa91b94b`。
+- 风险/待办：本阶段只重构清单真值，尚未压缩/删除跨平台资产；下一步拆分其余校验领域并建立明确的运行资产所有者契约。
+- 提交：本次提交（Files 分域生成）。

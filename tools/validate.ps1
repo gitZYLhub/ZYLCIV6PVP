@@ -181,6 +181,7 @@ else {
         'Sync-ActionCriteria $modInfo',
         "-SectionName 'FrontEndActions'",
         "-SectionName 'InGameActions'",
+        'Sync-FilesSection $modInfo',
         '$fullPath.StartsWith($modRootPrefix',
         'Manifest path escapes the project root'
     )) {
@@ -273,6 +274,31 @@ foreach ($actionSectionSource in $actionSectionSources) {
             $_.Exception.Message
         )
     }
+}
+
+$filesSourceDirectory = Join-Path $modRoot 'manifest\files'
+try {
+    $generatedFilesSection = New-ZylFilesSection `
+        -OwnerDocument $modInfo `
+        -SourceDirectory $filesSourceDirectory
+    $currentFilesSection = [System.Xml.XmlElement]$modInfo.SelectSingleNode('/Mod/Files')
+    if ($null -eq $currentFilesSection) {
+        Add-ValidationError 'ModInfo is missing the generated Files section.'
+    }
+    else {
+        $generatedFilesJson = ConvertTo-ZylCanonicalJson -InputObject (
+            ConvertTo-ZylCanonicalXmlNode -Node $generatedFilesSection
+        )
+        $currentFilesJson = ConvertTo-ZylCanonicalJson -InputObject (
+            ConvertTo-ZylCanonicalXmlNode -Node $currentFilesSection
+        )
+        if ($generatedFilesJson -ne $currentFilesJson) {
+            Add-ValidationError 'ModInfo Files differs from the domain source fragments; run tools/assemble_modinfo.ps1.'
+        }
+    }
+}
+catch {
+    Add-ValidationError "Invalid ModInfo Files source fragments: $($_.Exception.Message)"
 }
 if ($modInfo.DocumentElement.GetAttribute('id') -ne $expectedModId) {
     Add-ValidationError "Unexpected Mod ID: $($modInfo.DocumentElement.GetAttribute('id'))"

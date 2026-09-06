@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FilesFragment schemaVersion="1" domain="01-core">
+  <File manifestOrder="1">README.md</File>
+  <File manifestOrder="2">TEST_CHECKLIST.md</File>
+  <File manifestOrder="3">tools/validate.ps1</File>
+  <File manifestOrder="14">LICENSE</File>
+  <File manifestOrder="28">ui/gamesetuplogic.lua</File>
+  <File manifestOrder="29">ui/hostgame.lua</File>
+  <File manifestOrder="30">ui/hostgame.xml</File>
+  <File manifestOrder="31">ui/mainmenu.lua</File>
+  <File manifestOrder="32">ui/mainmenu.xml</File>
+  <File manifestOrder="33">ui/playertargetlogic.lua</File>
+  <File manifestOrder="34">ui/setupparameters.lua</File>
+  <File manifestOrder="35">ui/stagingroom.lua</File>
+  <File manifestOrder="36">ui/stagingroom.xml</File>
+  <File manifestOrder="66">mode/sudden_death/Sudden_Death_Portrait.dds</File>
+  <File manifestOrder="67">mode/sudden_death/Sudden_Death_Background.dds</File>
+  <File manifestOrder="68">mode/anonymous/Anonymous_Portrait.dds</File>
+  <File manifestOrder="69">mode/anonymous/Anonymous_Background.dds</File>
+  <File manifestOrder="750">CONFLICT_RESOLUTION.md</File>
+  <File manifestOrder="751">SOURCES.md</File>
+  <File manifestOrder="752">tools/assemble_modinfo.ps1</File>
+</FilesFragment>

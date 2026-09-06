@@ -29,7 +29,7 @@ ModInfo
 | Build | 从清单复制、验证、报告和原子替换产物 | 读取 Workshop 缓存或外部源码 |
 | Validation | 检查声明、引用和行为契约 | 静默修复输入 |
 
-Manifest 迁移采用“分段替换而非一次重写”：目前 `manifest/criteria`、`manifest/actions/frontend` 和 `manifest/actions/ingame` 分别是 ActionCriteria、FrontEndActions 和 InGameActions 运行元素的唯一开发源。组装器按 `manifestOrder` 恢复各段原顺序并移除该开发属性，允许生成后的 ModInfo 保留不影响运行的说明注释；尚未迁移的 Files 暂时从 ModInfo 保留。每迁移一段都必须保持冻结动作图指纹一致。
+Manifest 迁移采用“分段替换而非一次重写”：`manifest/criteria`、`manifest/actions/frontend`、`manifest/actions/ingame` 和 `manifest/files` 分别是 ActionCriteria、FrontEndActions、InGameActions 和 Files 运行元素的唯一开发源。组装器按 `manifestOrder` 恢复各段原顺序并移除该开发属性，允许生成后的 ModInfo 保留不影响运行的说明注释。四段都必须保持冻结动作图指纹一致。
 
 ## 联机状态原则
 

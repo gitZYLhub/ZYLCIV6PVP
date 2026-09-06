@@ -7,7 +7,10 @@ function Get-ZylOrderedManifestElements {
         [string]$FragmentRootName,
 
         [Parameter(Mandatory = $true)]
-        [string[]]$ElementNames
+        [string[]]$ElementNames,
+
+        [ValidateSet('IdAttribute', 'InnerText')]
+        [string]$IdentityKind = 'IdAttribute'
     )
 
     if (-not (Test-Path -LiteralPath $SourceDirectory -PathType Container)) {
@@ -58,9 +61,15 @@ function Get-ZylOrderedManifestElements {
             if (-not $orders.Add($order)) {
                 throw "Duplicate manifestOrder $order in $SourceDirectory."
             }
-            $identifier = $element.GetAttribute('id')
+            $identifier = if ($IdentityKind -eq 'InnerText') {
+                $element.InnerText.Trim().Replace('\', '/')
+            }
+            else {
+                $element.GetAttribute('id')
+            }
             if ([string]::IsNullOrWhiteSpace($identifier) -or -not $identifiers.Add($identifier)) {
-                throw "Missing or duplicate $($element.LocalName) id '$identifier' in $SourceDirectory."
+                $identityLabel = if ($IdentityKind -eq 'InnerText') { 'path' } else { 'id' }
+                throw "Missing or duplicate $($element.LocalName) $identityLabel '$identifier' in $SourceDirectory."
             }
             $records.Add([pscustomobject][ordered]@{
                 Order = $order
@@ -132,6 +141,29 @@ function New-ZylActionsSection {
         -SourceDirectory $SourceDirectory `
         -FragmentRootName "${SectionName}Fragment" `
         -ElementNames $actionElementNames)
+    foreach ($record in $records) {
+        $element = [System.Xml.XmlElement]$OwnerDocument.ImportNode($record.Element, $true)
+        $element.RemoveAttribute('manifestOrder')
+        [void]$section.AppendChild($element)
+    }
+    return ,$section
+}
+
+function New-ZylFilesSection {
+    param(
+        [Parameter(Mandatory = $true)]
+        [System.Xml.XmlDocument]$OwnerDocument,
+
+        [Parameter(Mandatory = $true)]
+        [string]$SourceDirectory
+    )
+
+    $section = $OwnerDocument.CreateElement('Files')
+    $records = @(Get-ZylOrderedManifestElements `
+        -SourceDirectory $SourceDirectory `
+        -FragmentRootName 'FilesFragment' `
+        -ElementNames @('File') `
+        -IdentityKind 'InnerText')
     foreach ($record in $records) {
         $element = [System.Xml.XmlElement]$OwnerDocument.ImportNode($record.Element, $true)
         $element.RemoveAttribute('manifestOrder')
