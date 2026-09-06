@@ -1,8 +1,5 @@
 -- Copyright 2016-2019, Firaxis Games
 -- (Multiplayer) Drop Control By D. / Jack The Narrator
-print("MPH Sudden Death Panel")
-include("InstanceManager");
-include("PopupDialog");
 
 SDEvents = ExposedMembers.LuaEvents;
 -- ===========================================================================
@@ -12,8 +9,24 @@ local m_ref_time = 0
 local m_elapsed_time
 local m_first_time = 3600
 local m_remaining_time = 3600
-local m_saved_time
 local g_cached_playerIDs = {}
+local m_tickRegistered = false
+local m_lastBroadcastTurn = nil
+local b_debug = false
+
+local function DebugLog(...)
+	if b_debug then print(...) end
+end
+
+local function SetTicking(enabled)
+	if enabled and not m_tickRegistered then
+		Events.GameCoreEventPublishComplete.Add(OnTimeTicks)
+		m_tickRegistered = true
+	elseif not enabled and m_tickRegistered then
+		Events.GameCoreEventPublishComplete.Remove(OnTimeTicks)
+		m_tickRegistered = false
+	end
+end
 
 -- ===========================================================================
 --	Timer 
@@ -23,8 +36,9 @@ function UpdateTimer()
 	local localID = Network.GetLocalPlayerID()
 	local hostID = Network.GetGameHostPlayerID()
 	local remaining_time = 0
-	m_elapsed_time = (Automation.GetTime() - m_ref_time) + m_elapsed_time
-	m_ref_time = Automation.GetTime()
+	local now = Automation.GetTime()
+	m_elapsed_time = (now - m_ref_time) + m_elapsed_time
+	m_ref_time = now
 	remaining_time = math.floor(m_first_time-m_elapsed_time)
 	m_remaining_time = tonumber(remaining_time)
 	local minute = math.floor(remaining_time/60)
@@ -61,7 +75,7 @@ function UpdateTimer()
 	else
 		Controls.SuddenDeathPlayer:SetText("")
 		Controls.SuddenDeathLabel:SetText("[COLOR_Civ6Green]Sudden Death complete[ENDCOLOR]")
-		Events.GameCoreEventPublishComplete.Remove(OnTimeTicks)
+		SetTicking(false)
 		return
 	end
 	
@@ -79,8 +93,6 @@ function OnTimeTicks()
 	local hostID = Network.GetGameHostPlayerID()
 
 	local currenttime = math.floor(Automation.GetTime())
-	currenttime = currenttime
-	currenttime = math.floor(currenttime)
 	if currenttime > (m_ref_time + 1) or currenttime == m_ref_time + 1 then
 		UpdateTimer()
 	end
@@ -154,6 +166,11 @@ function OnPlayerTurnActivated( playerID, bIsFirstTime )
 	if localID ~= hostID then
 		return
 	end
+	local currentTurn = Game.GetCurrentGameTurn()
+	if m_lastBroadcastTurn == currentTurn then
+		return
+	end
+	m_lastBroadcastTurn = currentTurn
 	
 	SDEvents.UISuddenDeathSavetime( m_remaining_time );
 	
@@ -167,9 +184,15 @@ function OnPlayerTurnActivated( playerID, bIsFirstTime )
 end
 
 function OnHostAdjustDeathTimer(time_adjust:number)
-	m_first_time = time_adjust
+	local adjustedTime = tonumber(time_adjust)
+	if adjustedTime == nil or adjustedTime <= 0 then
+		DebugLog("Ignored invalid sudden-death timer adjustment", time_adjust)
+		return
+	end
+	m_first_time = adjustedTime
 	m_elapsed_time = 0
 	m_ref_time = Automation.GetTime()
+	m_lastBroadcastTurn = nil
 end
 
 
@@ -179,9 +202,7 @@ end
 -- ===========================================================================
 
 function OnMultiplayerChat( fromPlayer, toPlayer, text, eTargetType )
-	print(text, "From", fromPlayer,"To",toPlayer)
-	print(string.lower(string.sub(text,1,20)))
-	print(tonumber(string.sub(text,22)))
+	DebugLog("SuddenDeath command", text, "From", fromPlayer,"To",toPlayer)
 	local hostID = Network.GetGameHostPlayerID()
 	local localID = Network.GetLocalPlayerID()
 	local b_ishost = false
@@ -198,14 +219,20 @@ function OnMultiplayerChat( fromPlayer, toPlayer, text, eTargetType )
 	
 	if b_ishost == true and (string.lower(string.sub(text,1,27)) == ".mph_ui_sudden_death_adjust")  then
 		local tmp = tonumber(string.sub(text,29))
-		OnHostAdjustDeathTimer(tmp)
+		if tmp ~= nil and tmp > 0 then
+			OnHostAdjustDeathTimer(tmp)
+		else
+			DebugLog("Ignored malformed sudden-death adjustment", text)
+		end
 		return
 	end	
 	
 	if b_ishost == true and (string.lower(string.sub(text,1,20)) == ".mph_ui_terminate_ai")  then
 		local tmp_AI_ID = tonumber(string.sub(text,22))
-		if Network.IsPlayerConnected(tmp_AI_ID) == false then
+		if tmp_AI_ID ~= nil and Players[tmp_AI_ID] ~= nil and Network.IsPlayerConnected(tmp_AI_ID) == false then
 			SDEvents.UISuddenDeathTimeExpireAI( tmp_AI_ID );
+		else
+			DebugLog("Ignored malformed or connected terminate target", text)
 		end
 		return
 	end	
@@ -213,7 +240,7 @@ end
 
 -- ===========================================================================
 function OnShutdown()
-	Events.GameCoreEventPublishComplete.Remove( OnTimeTicks );
+	SetTicking(false)
 	Events.MultiplayerChat.Remove(OnMultiplayerChat)
 	Events.PlayerTurnActivated.Remove(OnPlayerTurnActivated)
 	LuaEvents.MPHMenu_OnHostRetime.Remove(OnHostAdjustDeathTimer)
@@ -226,11 +253,8 @@ function Initialize()
 		return
 	end
 	ContextPtr:SetHide(false);
-	_kPopupDialog = PopupDialog:new( "SuddenDeath" );
 	Events.MultiplayerChat.Add( OnMultiplayerChat );
-	if m_elapsed_time ~= nil then
-		m_elapsed_time = m_elapsed_time
-		else
+	if m_elapsed_time == nil then
 		m_elapsed_time = 0
 	end
 	
@@ -274,8 +298,8 @@ function Initialize()
 			end
 		end
 	end
-	print(m_ref_time,Automation.GetTime())
-	Events.GameCoreEventPublishComplete.Add ( OnTimeTicks );
+	DebugLog(m_ref_time,Automation.GetTime())
+	SetTicking(true)
 	Events.PlayerTurnActivated.Add( OnPlayerTurnActivated );
 	
 	LuaEvents.MPHMenu_OnHostRetime.Add( OnHostAdjustDeathTimer );

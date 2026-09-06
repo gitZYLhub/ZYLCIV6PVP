@@ -2788,6 +2788,44 @@ Add-ValidationError 'The multiplayer options controller contains an unguarded ru
 }
 }
 
+$suddenDeathPanelPath = Join-Path $modRoot 'ui\Additions\SuddenDeathPanel.lua'
+if (-not (Test-Path -LiteralPath $suddenDeathPanelPath -PathType Leaf)) {
+Add-ValidationError 'The sudden-death panel is missing.'
+}
+else {
+$suddenDeathPanelSource = Get-Content -LiteralPath $suddenDeathPanelPath -Raw
+foreach ($requiredSuddenDeathFragment in @(
+'local function SetTicking(enabled)',
+'if m_lastBroadcastTurn == currentTurn then',
+'m_lastBroadcastTurn = currentTurn',
+'if adjustedTime == nil or adjustedTime <= 0 then',
+'if tmp_AI_ID ~= nil and Players[tmp_AI_ID] ~= nil',
+'SetTicking(false)',
+'SetTicking(true)'
+)) {
+if (-not $suddenDeathPanelSource.Contains($requiredSuddenDeathFragment)) {
+Add-ValidationError "The sudden-death controller is missing its timer/input guard: $requiredSuddenDeathFragment"
+}
+}
+foreach ($forbiddenSuddenDeathFragment in @(
+'include("InstanceManager")',
+'include("PopupDialog")',
+'m_elapsed_time = m_elapsed_time',
+'Events.GameCoreEventPublishComplete.Add ( OnTimeTicks )'
+)) {
+if ($suddenDeathPanelSource.Contains($forbiddenSuddenDeathFragment)) {
+Add-ValidationError "The sudden-death controller restored an unused dependency, no-op or unmanaged tick: $forbiddenSuddenDeathFragment"
+}
+}
+if ([regex]::Matches($suddenDeathPanelSource, 'GameCoreEventPublishComplete\.Add\(OnTimeTicks\)').Count -ne 1 -or
+[regex]::Matches($suddenDeathPanelSource, 'GameCoreEventPublishComplete\.Remove\(OnTimeTicks\)').Count -ne 1) {
+Add-ValidationError 'The sudden-death timer must have exactly one guarded add/remove implementation.'
+}
+if ([regex]::Matches($suddenDeathPanelSource, '(?m)^\s*print\(').Count -ne 0) {
+Add-ValidationError 'The sudden-death controller contains an unguarded runtime print.'
+}
+}
+
 $stagingRoomIdentityXmlPath = Join-Path $modRoot 'ui\stagingroom.xml'
 if (-not (Test-Path -LiteralPath $stagingRoomIdentityXmlPath)) {
 Add-ValidationError 'The staging-room XML replacement is missing.'

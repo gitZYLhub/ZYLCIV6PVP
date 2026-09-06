@@ -71,3 +71,13 @@
 - 验证：`tools/validate.ps1` 与 `git diff --check` 通过；活动 `print` 为 0；Resync 的 SystemUpdateUI Add/Remove 各一处，GameCore resync Tick 为 0；地图指纹只在加载完成时和缓存缺失兜底时计算。
 - 风险/待办：地图指纹仍是同步的全图扫描，必须在地图已完全加载后执行；真实多人测试需确认所有客户端 LoadScreenClose 的消息到达顺序和暂停解除条件。
 - 提交：待提交。
+
+### 2026-09-06 / M3-突然死亡计时器去重
+
+- 目标：减少计时同步消息，修复畸形命令可能写坏计时状态的问题。
+- 范围：`ui/Additions/SuddenDeathPanel.lua`；不改变 3600 秒初始值、淘汰最低分玩家和每次淘汰后 1200 秒规则。
+- 设计决定：本地显示仍每秒更新；只有房主在新的游戏回合第一次 PlayerTurnActivated 时持久化并同步时间。计时 Tick 由一个带注册状态的函数管理。
+- 修改：缓存 Automation 时间；删除重复 floor、自赋值、未使用 Popup/InstanceManager 和变量；调整时间必须为正数，AI 淘汰目标必须是有效且未连接玩家；聊天和状态日志默认关闭。
+- 验证：`tools/validate.ps1` 与 `git diff --check` 通过；活动 `print` 为 0；计时 Tick 恰有一个受控 Add/Remove；校验器锁定按游戏回合去重和调整/淘汰参数验证。
+- 风险/待办：需在同时回合和动态回合两种联机模式验证每回合同步频率与长时间客户端时钟漂移；如果实测一回合过长，可改为低频心跳而不是恢复每玩家广播。
+- 提交：待提交。
