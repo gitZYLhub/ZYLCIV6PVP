@@ -1,6 +1,5 @@
 -- Copyright 2016-2019, Firaxis Games
 -- (Multiplayer) Turn Processing By D. / Jack The Narrator
-print("ZYLPVPMOD Turn Processing")
 include( "Civ6Common" );
 include( "Colors") ;
 include( "SupportFunctions" ); --DarkenLightenColor
@@ -28,7 +27,13 @@ local g_temporaryNoTimer = false
 local g_turnTimer = { ElapsedTime = 0, MaxTurnTime = 0, TimeRemaining = 0 }
 local g_lastWarningSecond = -1
 local g_tickRegistered = false
+local g_lastAppliedTimerType = nil
+local b_debug = false
 local SetTicking
+
+local function DebugLog(...)
+	if b_debug then print(...) end
+end
 
 local function IsHost()
 	local localID = Network.GetLocalPlayerID()
@@ -41,21 +46,33 @@ local function CommandsEnabled()
 	return value == true or value == 1
 end
 
+local function IsTurnProcessingEnabled()
+	return GameConfiguration.IsNetworkMultiplayer() == true
+		and GameConfiguration.GetValue("CPL_SYNCTURN") == true
+		and tonumber(GameConfiguration.GetValue("CPL_SMARTTIMER")) ~= 1
+end
+
 local function ApplyHostTimer(timeValue, timerType, playSound)
 	if not IsHost() then
 		return false
 	end
-	if timeValue ~= nil then
+	local changed = false
+	if timeValue ~= nil and tonumber(GameConfiguration.GetValue("TURN_TIMER_TIME")) ~= tonumber(timeValue) then
 		GameConfiguration.SetValue("TURN_TIMER_TIME", timeValue)
+		changed = true
 	end
-	if timerType ~= nil then
+	if timerType ~= nil and timerType ~= g_lastAppliedTimerType then
 		GameConfiguration.SetTurnTimerType(timerType)
+		g_lastAppliedTimerType = timerType
+		changed = true
 	end
-	Network.BroadcastGameConfig()
+	if changed then
+		Network.BroadcastGameConfig()
+	end
 	if playSound then
 		UI.PlaySound("Play_MP_Game_Launch_Timer_Beep")
 	end
-	return true
+	return changed
 end
 
 SetTicking = function(enabled)
@@ -91,6 +108,7 @@ function OnMultiplayerChat(fromPlayer, toPlayer, text, eTargetType)
 	end
 
 	if command == "p+++" or command == "p++++" then
+		if g_temporaryNoTimer then return end
 		ApplyHostTimer(nil, "TURNTIMER_NONE", true)
 		g_temporaryNoTimer = true
 		return
@@ -124,7 +142,7 @@ end
 function Refresh_Data()
 	g_playertime = {}
 	b_teamer = false
-	if GameConfiguration.IsNetworkMultiplayer() ~= true or GameConfiguration.GetValue("CPL_SYNCTURN") ~= true or GameConfiguration.GetValue("CPL_SMARTTIMER") == 1 then
+	if not IsTurnProcessingEnabled() then
 		return
 	end
 	local player_ids = GameConfiguration.GetMultiplayerPlayerIDs()
@@ -205,7 +223,8 @@ function SmartTimer()
 	-- 7: 2vi2 (Flashy)
 	-- 8: Casual Balanced (highest individual load)
 	-- 9: Casual Relaxed (turn + 70 + 4C + 2U + delta)
-	if GameConfiguration.GetValue("CPL_SMARTTIMER") == 1 then
+	local timerMode = tonumber(GameConfiguration.GetValue("CPL_SMARTTIMER")) or 1
+	if timerMode == 1 then
 		return
 	end
 
@@ -241,7 +260,7 @@ function SmartTimer()
 	end
 
 	local timer = 0
-	if GameConfiguration.GetValue("CPL_SMARTTIMER") == 0 then
+	if timerMode == 0 then
 		timer = 30 + avg_cities * 4 + avg_units * 1  + g_timeshift
 	
 
@@ -268,22 +287,22 @@ function SmartTimer()
 	end
 	if b_teamer == true then
 		if GameConfiguration.GetValue("CPL_BAN_FORMAT") ~= 3 then
-			print("More time: Teamer!")
+			DebugLog("More time: Teamer!")
 			timer = math.floor(timer * 1.1)
 		end
 	end
 	if b_war == true then
 		if GameConfiguration.GetValue("CPL_BAN_FORMAT") ~= 3 then
-			print("More time: War!")
+			DebugLog("More time: War!")
 			timer = math.floor(timer * 1.15)
 			else
-			print("More time: War!")
+			DebugLog("More time: War!")
 			timer = math.floor(timer * 1.05)			
 		end
 	end
 	end
 
-	if GameConfiguration.GetValue("CPL_SMARTTIMER") == 2 then
+	if timerMode == 2 then
 
 	if currentTurn < 16 then
 		timer = 15 + g_timeshift
@@ -297,7 +316,7 @@ function SmartTimer()
 
 	end
 
-	if GameConfiguration.GetValue("CPL_SMARTTIMER") == 3 then
+	if timerMode == 3 then
     timer = 30 + avg_cities * 4 + avg_units * 1 + g_timeshift
 
     if currentTurn >= 1 and currentTurn <= 5 then
@@ -333,7 +352,7 @@ function SmartTimer()
     end
 	end
 
-	if GameConfiguration.GetValue("CPL_SMARTTIMER") == 5 then
+	if timerMode == 5 then
 
 
 	timer = 95 + avg_cities * 4 + avg_units * 1  + g_timeshift
@@ -350,7 +369,7 @@ function SmartTimer()
 	
 	end
 
-	if GameConfiguration.GetValue("CPL_SMARTTIMER") == 8 then
+	if timerMode == 8 then
 		-- Preserve the Casual baseline, but size the turn for the highest city
 		-- and unit counts so the busiest human player always determines the load.
 		timer = 95 + max_cities * 4 + max_units + g_timeshift
@@ -368,7 +387,7 @@ function SmartTimer()
 		end
 	end
 
-	if GameConfiguration.GetValue("CPL_SMARTTIMER") == 9 then
+	if timerMode == 9 then
 		-- C and U are the highest city and unit counts held by any one human.
 		-- Delta retains Casual's phase allowances; the host's manual time shift
 		-- remains part of that adjustment as it is for the other smart timers.
@@ -386,7 +405,7 @@ function SmartTimer()
 	end
 
 
-	if GameConfiguration.GetValue("CPL_SMARTTIMER") == 4 then
+	if timerMode == 4 then
 
 
 	timer = 30 + currentTurn + g_timeshift
@@ -394,7 +413,7 @@ function SmartTimer()
 
 	end
 
-	if GameConfiguration.GetValue("CPL_SMARTTIMER") == 6 then
+	if timerMode == 6 then
 
 	if currentTurn <= 15 then
 		timer = 15
@@ -414,7 +433,7 @@ function SmartTimer()
 
 	end
 	
-	if GameConfiguration.GetValue("CPL_SMARTTIMER") == 7 then
+	if timerMode == 7 then
 
 	if currentTurn<8 then
 		timer = 20
@@ -450,7 +469,7 @@ function SmartTimer()
 	end
 
 	local turnSegment = Game.GetCurrentTurnSegment();
-	if GameConfiguration.GetValue("CPL_SMARTTIMER") ~= 1 then
+	if timerMode ~= 1 then
 		if turnSegment == WORLD_CONGRESS_STAGE_1 then
 			timer = 240
 			elseif turnSegment == WORLD_CONGRESS_STAGE_2 then			
@@ -477,12 +496,12 @@ function OnTurnEnd(turn)
 	g_reduceCommandUsed = false
 	g_lastWarningSecond = -1
 	SmartTimer()
-	if GameConfiguration.GetValue("CPL_SMARTTIMER") ~= 1 and g_currenttimer ~= nil and IsHost() then
+	if IsTurnProcessingEnabled() and g_currenttimer ~= nil and IsHost() then
 		ApplyHostTimer(g_currenttimer, "TURNTIMER_STANDARD", false)
 		g_temporaryNoTimer = false
 	end
 	
-	if GameConfiguration.IsNetworkMultiplayer() ~= true or GameConfiguration.GetValue("CPL_SYNCTURN") ~= true or GameConfiguration.GetValue("CPL_SMARTTIMER") == 1  then
+	if not IsTurnProcessingEnabled() then
 		return
 	end
 	for i, Player in ipairs(g_playertime) do
@@ -505,7 +524,7 @@ end
 -- End
 
 function OnLocalPlayerTurnEnd(playerID)
-	if GameConfiguration.IsNetworkMultiplayer() ~= true or GameConfiguration.GetValue("CPL_SYNCTURN") ~= true or GameConfiguration.GetValue("CPL_SMARTTIMER") == 1 then
+	if not IsTurnProcessingEnabled() then
 		return
 	end
 	local localID = Network.GetLocalPlayerID()
@@ -520,7 +539,7 @@ end
 
 
 function OnRemotePlayerTurnEnd(playerID)
-	if GameConfiguration.IsNetworkMultiplayer() ~= true or GameConfiguration.GetValue("CPL_SYNCTURN") ~= true or GameConfiguration.GetValue("CPL_SMARTTIMER") == 1 then
+	if not IsTurnProcessingEnabled() then
 		return
 	end
 	for i, Player in ipairs(g_playertime) do
@@ -535,7 +554,7 @@ end
 
 -- Start
 function OnRemotePlayerTurnBegin(playerID)
-	if GameConfiguration.IsNetworkMultiplayer() ~= true or GameConfiguration.GetValue("CPL_SYNCTURN") ~= true or GameConfiguration.GetValue("CPL_SMARTTIMER") == 1  then
+	if not IsTurnProcessingEnabled() then
 		return
 	end
 	for i, Player in ipairs(g_playertime) do
@@ -549,8 +568,9 @@ end
 
 
 function OnLocalPlayerTurnBegin()
-
-	
+	if not IsTurnProcessingEnabled() then
+		return
+	end
 	local localID = Network.GetLocalPlayerID()
 	for i, Player in ipairs(g_playertime) do
 		if localID == Player.id then
@@ -566,11 +586,7 @@ end
 -----------------------------------------------------------------------------------------------
 
 function OnTick()
-	if g_startupGateActive then
-		UpdateStartupGate()
-		return
-	end
-	if GameConfiguration.IsNetworkMultiplayer() ~= true or GameConfiguration.GetValue("CPL_SYNCTURN") ~= true or GameConfiguration.GetValue("CPL_SMARTTIMER") == 1  then
+	if not IsTurnProcessingEnabled() then
 		if b_setprocess then
 			LuaEvents.InGame_CloseTurnProcessing()
 			b_setprocess = false
@@ -589,12 +605,10 @@ function OnTick()
 		else
 		if b_settimer == false then
 			SmartTimer()
-			if GameConfiguration.GetValue("CPL_SMARTTIMER") ~= 1 then
-				if (g_currenttimer ~= nil) then
-					ApplyHostTimer(g_currenttimer, "TURNTIMER_STANDARD", false)
-					LuaEvents.InGame_CloseTurnProcessing()
-					b_setprocess = false
-				end
+			if g_currenttimer ~= nil then
+				ApplyHostTimer(g_currenttimer, "TURNTIMER_STANDARD", false)
+				LuaEvents.InGame_CloseTurnProcessing()
+				b_setprocess = false
 			end
 			b_settimer = true
 			SetTicking(false)
@@ -611,9 +625,13 @@ function OnAdjustTime(time_value:number)
 	if not IsHost() then
 		return
 	end
-	g_timeshift = time_value
+	local adjustedValue = tonumber(time_value)
+	if adjustedValue == nil then
+		return
+	end
+	g_timeshift = adjustedValue
 	SmartTimer()
-	if GameConfiguration.GetValue("CPL_SMARTTIMER") ~= 1 and (g_currenttimer ~= nil) then
+	if IsTurnProcessingEnabled() and g_currenttimer ~= nil then
 		ApplyHostTimer(g_currenttimer, "TURNTIMER_STANDARD", false)
 	end
 	
@@ -630,9 +648,7 @@ end
 function KeyHandler( key:number )
 	local bHandled:boolean = false;
 	if key == Keys.U then
-		if g_startupGateActive then
-			return true
-		elseif (not ContextPtr:IsHidden() ) then
+		if (not ContextPtr:IsHidden() ) then
 			Close();
 		end
 		bHandled = true;
@@ -670,7 +686,7 @@ end
 -- ===========================================================================
 function OnShow()
 	if m_isClosing then
-		print("Show was requested on menu that is in the midst of closing.");
+		DebugLog("Show was requested on menu that is in the midst of closing.");
 		return;
 	end
 
@@ -698,7 +714,7 @@ end
 -- ===========================================================================
 function Close()
 	if(m_isClosing) then
-		print("Menu is already closing.");
+		DebugLog("Menu is already closing.");
 		return;
 	end
 	
@@ -726,7 +742,7 @@ end
 
 -- ===========================================================================
 function ShutdownAfterClose()
-	print("ShutdownAfterClose()")
+	DebugLog("ShutdownAfterClose()")
 	m_isClosing = false;
 	ContextPtr:SetHide(true);
 end

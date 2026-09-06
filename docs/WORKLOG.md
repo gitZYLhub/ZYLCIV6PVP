@@ -30,7 +30,7 @@
 - 修改：新增 `.gitattributes`、`.gitignore`、`CHANGELOG.md` 以及 `docs` 下的治理文档；校验器识别源码专用文件。新增 `tools/project.json` 作为 Mod ID、包名、语义版本、ModInfo 整数版本和联机握手文件的单一元数据源；组装器与校验器改为读取它。发布脚本默认输出到仓库内忽略的 `artifacts`，并生成逐文件 SHA-256 与聚合哈希报告。
 - 验证：PowerShell 三个维护脚本语法解析通过；`tools/validate.ps1` 通过，结果为 164 XML、108 条件、283 动作、1077 文件、549 活跃引用、48 个休眠文件和 13 个源码专用文件。连续两次 universal 构建均为 1072 文件、740.53 MiB、聚合 SHA-256 `10123dfcc47c5b4fa6a154a9bda926ee9e51c89b32e35f2367ffd2b183bfea6c`。
 - 风险/待办：现有 ModInfo 和校验器仍为超大单文件，后续里程碑拆分；平台专用包尚未启用。
-- 提交：待提交。
+- 提交：`dbbd3f7 chore: establish 2.0 refactor governance`；`9059c0e build: centralize metadata and reproducible releases`。
 
 ### 2026-09-06 / M3-大厅刷新与事件生命周期第一批修复
 
@@ -40,7 +40,7 @@
 - 修改：OnTick 在任何 Quick/Full Refresh 前节流；缓存 DRAFT 配置读取；Ban 槽和内置能力标记改为差异写入；版本握手周期日志改为调试日志；修正 `fasle`；OnShutdown 对称移除 21 个 Events 和 5 个 LuaEvents 注册。
 - 验证：`tools/validate.ps1` 与 `git diff --check` 通过；静态配对统计为 26 个全局事件 Add / 26 个 Remove；未受调试开关保护的 `RefreshStatus` 打印为 0；`GameConfiguration.SetValue` 静态调用点从审计时约 53 个降到 41 个。
 - 风险/待办：尚未做 Civ VI 双客户端运行测试；`stagingroom.lua` 仍是巨型脚本，命令、投票、身份和 ViewModel 抽取留在后续批次。
-- 提交：待提交。
+- 提交：`29545c1 perf: throttle staging-room refresh lifecycle`。
 
 ### 2026-09-06 / M4-游戏脚本确定性与掉线幂等
 
@@ -50,7 +50,7 @@
 - 修改：删除每回合 `Game.GetRandNum`/时间戳打印及无消费者的队伍扫描；重复 OnDrop 幂等返回；重连由单位×快照双循环改为 ID 哈希索引；删除两个未使用表工具函数。
 - 验证：`tools/validate.ps1` 与 `git diff --check` 通过；`Game.GetRandNum` 和非调试回合开始处理器均为 0；脚本由 425 行降为 396 行。校验器锁定幂等快照、ID 索引、精确差值恢复及禁止随机调用。
 - 风险/待办：需在真实双客户端中验证玩家掉线、重复通知、单位在掉线期间被删除以及重连后的移动力；本地 Lua 快照在整个 gameplay context 生命周期内有效，但不跨重新启动进程。
-- 提交：待提交。
+- 提交：`d8a57a2 fix: make disconnect recovery deterministic`。
 
 ### 2026-09-06 / M3-投票重开广播与 Tick 生命周期
 
@@ -60,7 +60,7 @@
 - 修改：统一 `b_remap_armed` 大小写；非房主立即返回；刷新时重新读取当前 host/local ID；使用 `Automation.GetTime`；删除未使用变量和失效注释；正式日志纳入调试开关。
 - 验证：`tools/validate.ps1` 与 `git diff --check` 通过；VotePanel 从 784 行降为 744 行；活动 `print` 为 0；重开 Tick 恰有一个受控 Add/Remove；活动配置/玩家广播调用点分别降至 6/3，执行 remap 的分支各调用一次。
 - 风险/待办：需要真实联机验证“确认重开→上下文重载→房主请求快照→客户端重同步”完整时序，以及房主迁移发生在该窗口内的行为。
-- 提交：待提交。
+- 提交：`958828a fix: deduplicate remap network lifecycle`。
 
 ### 2026-09-06 / M3-重同步控制器限流与输入收敛
 
@@ -70,7 +70,7 @@
 - 修改：删除常驻 GameCore Tick 和未定义 `g_local_turn/g_local_seed` 协议；缓存地图指纹；拒绝非数字种子；每条聊天原文和功能日志均置于关闭的 debug 开关；三条直接网络调试命令只在 debug 时可用。
 - 验证：`tools/validate.ps1` 与 `git diff --check` 通过；活动 `print` 为 0；Resync 的 SystemUpdateUI Add/Remove 各一处，GameCore resync Tick 为 0；地图指纹只在加载完成时和缓存缺失兜底时计算。
 - 风险/待办：地图指纹仍是同步的全图扫描，必须在地图已完全加载后执行；真实多人测试需确认所有客户端 LoadScreenClose 的消息到达顺序和暂停解除条件。
-- 提交：待提交。
+- 提交：`0b335d8 perf: bound multiplayer resync monitoring`。
 
 ### 2026-09-06 / M3-突然死亡计时器去重
 
@@ -80,4 +80,14 @@
 - 修改：缓存 Automation 时间；删除重复 floor、自赋值、未使用 Popup/InstanceManager 和变量；调整时间必须为正数，AI 淘汰目标必须是有效且未连接玩家；聊天和状态日志默认关闭。
 - 验证：`tools/validate.ps1` 与 `git diff --check` 通过；活动 `print` 为 0；计时 Tick 恰有一个受控 Add/Remove；校验器锁定按游戏回合去重和调整/淘汰参数验证。
 - 风险/待办：需在同时回合和动态回合两种联机模式验证每回合同步频率与长时间客户端时钟漂移；如果实测一回合过长，可改为低频心跳而不是恢复每玩家广播。
-- 提交：待提交。
+- 提交：`80eead2 perf: deduplicate sudden-death synchronization`。
+
+### 2026-09-07 / M3-主回合计时器差异广播
+
+- 目标：减少回合切换、等待处理和聊天加时路径中的重复配置读取与广播，并移除无法成立的旧启动门分支。
+- 范围：`ui/Additions/TurnProcessing.lua` 的计时器所有权、智能公式选择、同步回合状态事件和时间调整入口；不改变 0–9 各模式公式、每回合加时次数上限或公开聊天命令名称。
+- 设计决定：仍由房主作为唯一计时器写入者；秒数与本地记录的计时器类型都没有变化时不广播。多人同步回合条件集中在一个谓词中，智能公式每次计算只读取一次模式。临时无计时命令保持幂等，正常回合结束恢复标准计时器。
+- 修改：增加差异写入和单次配置广播；缓存计时模式；为所有本地/远端回合状态处理补齐统一启用条件；拒绝非数字 `UITimeAdjust`；删除引用未定义 `g_startupGateActive`/`UpdateStartupGate` 的死分支；运行日志转为默认关闭的调试日志。
+- 验证：`tools/validate.ps1`、PowerShell 语法解析和 `git diff --check` 通过；全局事件静态统计为 12 个 Add / 12 个 Remove；活动行首 `print` 为 0。校验器锁定差异广播、模式缓存、输入防护、临时无计时幂等和禁止死启动门引用。
+- 风险/待办：计时器类型差异判断依赖该脚本作为游戏内唯一写入者；需用双客户端验证相同秒数的连续回合由游戏核心正常重置，以及 `p+`、`p-`、`p+++` 后下一回合恢复标准计时的完整时序。
+- 提交：本次提交（主回合计时器重构）。

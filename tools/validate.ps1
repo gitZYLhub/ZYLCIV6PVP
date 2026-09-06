@@ -2970,7 +2970,7 @@ if (Test-Path -LiteralPath $turnProcessingPath) {
     foreach ($requiredTimerFragment in @(
         'max_cities = math.max(max_cities, city_count)',
         'max_units = math.max(max_units, unit_count)',
-        'GameConfiguration.GetValue("CPL_SMARTTIMER") == 8',
+        'if timerMode == 8 then',
         'timer = 95 + max_cities * 4 + max_units + g_timeshift',
         'timer = timer + 40',
         'timer = timer + 20'
@@ -2978,9 +2978,9 @@ if (Test-Path -LiteralPath $turnProcessingPath) {
         if (-not $turnProcessingSource.Contains($requiredTimerFragment)) {
             Add-ValidationError "Balanced Casual timer logic is missing: $requiredTimerFragment"
         }
-    }
+	}
 	foreach ($requiredRelaxedTimerFragment in @(
-		'GameConfiguration.GetValue("CPL_SMARTTIMER") == 9',
+		'if timerMode == 9 then',
 		'local delta = g_timeshift',
 		'delta = delta - 25',
 		'delta = delta + 40',
@@ -2990,6 +2990,32 @@ if (Test-Path -LiteralPath $turnProcessingPath) {
 		if (-not $turnProcessingSource.Contains($requiredRelaxedTimerFragment)) {
 			Add-ValidationError "Relaxed Casual timer logic is missing: $requiredRelaxedTimerFragment"
 		}
+	}
+	foreach ($requiredTimerLifecycleFragment in @(
+		'local g_lastAppliedTimerType = nil',
+		'local function IsTurnProcessingEnabled()',
+		'local timerMode = tonumber(GameConfiguration.GetValue("CPL_SMARTTIMER")) or 1',
+		'if timeValue ~= nil and tonumber(GameConfiguration.GetValue("TURN_TIMER_TIME")) ~= tonumber(timeValue) then',
+		'if timerType ~= nil and timerType ~= g_lastAppliedTimerType then',
+		'if changed then',
+		'if g_temporaryNoTimer then return end',
+		'local adjustedValue = tonumber(time_value)',
+		'SetTicking(false)'
+	)) {
+		if (-not $turnProcessingSource.Contains($requiredTimerLifecycleFragment)) {
+			Add-ValidationError "Turn-processing lifecycle or input guard is missing: $requiredTimerLifecycleFragment"
+		}
+	}
+	foreach ($forbiddenTimerFragment in @(
+		'g_startupGateActive',
+		'UpdateStartupGate'
+	)) {
+		if ($turnProcessingSource.Contains($forbiddenTimerFragment)) {
+			Add-ValidationError "Turn-processing still references dead startup-gate state: $forbiddenTimerFragment"
+		}
+	}
+	if ([regex]::Matches($turnProcessingSource, '(?m)^\s*print\(').Count -ne 0) {
+		Add-ValidationError 'Turn-processing contains an unguarded top-level print call.'
 	}
 }
 
