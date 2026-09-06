@@ -2748,6 +2748,46 @@ Add-ValidationError 'Only the current host may start a remap, and refresh tracki
 }
 }
 
+$mphOptionsPath = Join-Path $modRoot 'ui\Additions\MPHOptions.lua'
+if (-not (Test-Path -LiteralPath $mphOptionsPath -PathType Leaf)) {
+Add-ValidationError 'The multiplayer options/resync controller is missing.'
+}
+else {
+$mphOptionsSource = Get-Content -LiteralPath $mphOptionsPath -Raw
+foreach ($requiredMphOptionsFragment in @(
+'local function SetResyncTicking(enabled)',
+'Events.SystemUpdateUI.Add(OnResyncTick)',
+'Events.SystemUpdateUI.Remove(OnResyncTick)',
+'if m_lastResyncTickSecond == now then',
+'m_cachedMapFingerprint = ComputeMapFingerprint()',
+'if m_cachedMapFingerprint == nil then',
+'if check_seed == nil then',
+'if b_debug and (string.lower(text)== ".mph_ui_requestsnap"'
+)) {
+if (-not $mphOptionsSource.Contains($requiredMphOptionsFragment)) {
+Add-ValidationError "The multiplayer resync controller is missing its throttle/cache/input guard: $requiredMphOptionsFragment"
+}
+}
+foreach ($forbiddenMphOptionsFragment in @(
+'Events.GameCoreEventPublishComplete.Add( OnResyncTick )',
+'print(text)',
+'g_local_turn',
+'g_local_seed',
+'.mph_ui_checkseed_id'
+)) {
+if ($mphOptionsSource.Contains($forbiddenMphOptionsFragment)) {
+Add-ValidationError "The multiplayer resync controller restored a hot loop, chat log leak or dead seed protocol: $forbiddenMphOptionsFragment"
+}
+}
+if ([regex]::Matches($mphOptionsSource, 'Events\.SystemUpdateUI\.Add\(OnResyncTick\)').Count -ne 1 -or
+[regex]::Matches($mphOptionsSource, 'Events\.SystemUpdateUI\.Remove\(OnResyncTick\)').Count -ne 1) {
+Add-ValidationError 'The resync timeout must have exactly one guarded SystemUpdateUI add/remove implementation.'
+}
+if ([regex]::Matches($mphOptionsSource, '(?m)^\s*print\(').Count -ne 0) {
+Add-ValidationError 'The multiplayer options controller contains an unguarded runtime print.'
+}
+}
+
 $stagingRoomIdentityXmlPath = Join-Path $modRoot 'ui\stagingroom.xml'
 if (-not (Test-Path -LiteralPath $stagingRoomIdentityXmlPath)) {
 Add-ValidationError 'The staging-room XML replacement is missing.'

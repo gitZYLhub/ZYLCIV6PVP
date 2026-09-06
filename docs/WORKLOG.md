@@ -61,3 +61,13 @@
 - 验证：`tools/validate.ps1` 与 `git diff --check` 通过；VotePanel 从 784 行降为 744 行；活动 `print` 为 0；重开 Tick 恰有一个受控 Add/Remove；活动配置/玩家广播调用点分别降至 6/3，执行 remap 的分支各调用一次。
 - 风险/待办：需要真实联机验证“确认重开→上下文重载→房主请求快照→客户端重同步”完整时序，以及房主迁移发生在该窗口内的行为。
 - 提交：待提交。
+
+### 2026-09-06 / M3-重同步控制器限流与输入收敛
+
+- 目标：减少暂停/重同步期间的高频回调和全图重复计算，关闭聊天日志泄漏与无效调试协议。
+- 范围：`ui/Additions/MPHOptions.lua` 的 general/targeted resync、种子/地图指纹检查和调试命令；不改变玩家可见按钮和 30 秒安全超时。
+- 设计决定：暂停期间仍能运行的 `SystemUpdateUI` 是唯一超时源，但只在 general resync 挂起时注册并按秒节流。地图指纹在每次 LoadScreenClose 重新计算一次，房主响应本轮所有客户端时复用。
+- 修改：删除常驻 GameCore Tick 和未定义 `g_local_turn/g_local_seed` 协议；缓存地图指纹；拒绝非数字种子；每条聊天原文和功能日志均置于关闭的 debug 开关；三条直接网络调试命令只在 debug 时可用。
+- 验证：`tools/validate.ps1` 与 `git diff --check` 通过；活动 `print` 为 0；Resync 的 SystemUpdateUI Add/Remove 各一处，GameCore resync Tick 为 0；地图指纹只在加载完成时和缓存缺失兜底时计算。
+- 风险/待办：地图指纹仍是同步的全图扫描，必须在地图已完全加载后执行；真实多人测试需确认所有客户端 LoadScreenClose 的消息到达顺序和暂停解除条件。
+- 提交：待提交。

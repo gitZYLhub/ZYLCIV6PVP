@@ -4,7 +4,6 @@
 include("Civ6Common");
 include("InstanceManager");
 include("PopupDialog");
-print("MPH very own In Game option menu")
 
 -- ===========================================================================
 --	Variable
@@ -20,6 +19,25 @@ local m_clientResyncInProgress = false
 local m_clientResyncReason = nil
 local m_targetedResyncRequested = {}
 local RESYNC_PAUSE_TIMEOUT_SECONDS = 30
+local b_debug = false
+local m_resyncTickRegistered = false
+local m_lastResyncTickSecond = nil
+local m_cachedMapFingerprint = nil
+
+local function DebugLog(...)
+	if b_debug then print(...) end
+end
+
+local function SetResyncTicking(enabled)
+	if enabled and not m_resyncTickRegistered then
+		Events.SystemUpdateUI.Add(OnResyncTick)
+		m_resyncTickRegistered = true
+	elseif not enabled and m_resyncTickRegistered then
+		Events.SystemUpdateUI.Remove(OnResyncTick)
+		m_resyncTickRegistered = false
+		m_lastResyncTickSecond = nil
+	end
+end
 
 
 -- Quick utility function to determine if Rise and Fall is installed.
@@ -115,7 +133,7 @@ function OnLocalUIRefresh()
 end
 
 function OnLocalUIRefreshValidate()
-	print("OnLocalUIRefreshValidate()")
+	DebugLog("OnLocalUIRefreshValidate()")
 	LuaEvents.InGame_OnLocalUIRefresh()
 	OnReturn()
 	
@@ -162,7 +180,7 @@ function OnRequestHostForceEnd()
 	if localID ~= hostID then
 		Network.SendChat(".mph_ui_log_received_general_request_to_force_endturn",-2,hostID)	
 		UI.RequestAction(ActionTypes.ACTION_ENDTURN, { REASON = "UserForced" } );
-		print("Turn was force-ended by host")
+		DebugLog("Turn was force-ended by host")
 	end
 	OnReturn()
 end
@@ -180,7 +198,7 @@ function OnHostResync()
 end
 
 function OnHostResyncValidate()
-	print("OnHostResyncValidate()")
+	DebugLog("OnHostResyncValidate()")
 	local hostID = Network.GetGameHostPlayerID()
 	local localID = Network.GetLocalPlayerID()
 	if localID ~= hostID then
@@ -191,6 +209,7 @@ function OnHostResyncValidate()
 	m_hostResyncPending = {}
 	m_hostResyncStartedAt = os.time()
 	m_hostPausedForResync = alreadyOwnsPause
+	SetResyncTicking(true)
 	if GameConfiguration.IsPaused() == false then
 		local localPlayerID = localID;
 		local localPlayerConfig = PlayerConfigurations[localPlayerID];
@@ -210,7 +229,7 @@ function OnHostResyncValidate()
 			Network.SendChat(".mph_ui_resync_now",-2,iPlayer)
 		end
 	end
-	print("MPH general resync requested for",requestCount,"client(s)")
+	DebugLog("MPH general resync requested for",requestCount,"client(s)")
 	if requestCount == 0 then
 		FinishHostResyncPause("no connected clients")
 	end
@@ -226,10 +245,11 @@ function FinishHostResyncPause(reason)
 			Network.BroadcastPlayerInfo()
 		end
 	end
-	print("MPH general resync pause finished:",tostring(reason))
+	DebugLog("MPH general resync pause finished:",tostring(reason))
 	m_hostResyncPending = {}
 	m_hostResyncStartedAt = nil
 	m_hostPausedForResync = false
+	SetResyncTicking(false)
 end
 
 function ExecuteHostRequestedResync(reason)
@@ -243,7 +263,7 @@ function ExecuteHostRequestedResync(reason)
 		Network.SendChat(".mph_ui_resync_started_"..tostring(reason),-2,hostID)
 		local snapshotResult = Network.RequestSnapshot()
 		local syncResult = Network.TriggerTestSync()
-		print("MPH host-requested resync:",tostring(reason),"RequestSnapshot:",snapshotResult,"TriggerTestSync:",syncResult)
+		DebugLog("MPH host-requested resync:",tostring(reason),"RequestSnapshot:",snapshotResult,"TriggerTestSync:",syncResult)
 	end
 	OnReturn()
 end
@@ -274,8 +294,7 @@ function OnHostRetimeEditBox(editBox :table)
 end
 
 function OnHostRetimeValidate()
-	print("OnHostRetimeValidate")
-	print(m_extraTime)
+	DebugLog("OnHostRetimeValidate", m_extraTime)
 	if Network.GetLocalPlayerID() ~= Network.GetGameHostPlayerID() then
 		return
 	end
@@ -294,7 +313,7 @@ function OnHostRetimeValidate()
 end
 
 function OnRequestVoteRemap()
-	print("OnRequestVoteRemap()")
+	DebugLog("OnRequestVoteRemap()")
 	local hostID = Network.GetGameHostPlayerID()
 	local localID = Network.GetLocalPlayerID()
 	Network.SendChat(".mph_ui_vote_remap_request",-2,-1)
@@ -307,7 +326,7 @@ function OnVoteRemap()
 end
 
 function OnRequestHostVoteRemap()
-	print("OnRequestHostVoteRemap()")
+	DebugLog("OnRequestHostVoteRemap()")
 	local hostID = Network.GetGameHostPlayerID()
 	local localID = Network.GetLocalPlayerID()
 	if localID ~= hostID then
@@ -331,7 +350,11 @@ function OnRequestHostSeedCheck(text,sender_id)
 	
 	if seed_type == "m" then
 		local check_seed = tonumber(string.sub(string.lower(text),2))
-		print("Map seed from player "..sender_id.." is: "..tostring(check_seed))
+		if check_seed == nil then
+			DebugLog("Ignored malformed map seed from player", sender_id, text)
+			return
+		end
+		DebugLog("Map seed from player "..sender_id.." is: "..tostring(check_seed))
 		if check_seed ~= tonumber(map_seed) then
 			RequestTargetedResync(sender_id,"map_seed")
 			else
@@ -341,7 +364,11 @@ function OnRequestHostSeedCheck(text,sender_id)
 	
 	if seed_type == "g" then
 		local check_seed = tonumber(string.sub(string.lower(text),2))
-		print("Game seed from player "..sender_id.." is: "..tostring(check_seed))
+		if check_seed == nil then
+			DebugLog("Ignored malformed game seed from player", sender_id, text)
+			return
+		end
+		DebugLog("Game seed from player "..sender_id.." is: "..tostring(check_seed))
 		if check_seed ~= tonumber(game_seed) then
 			RequestTargetedResync(sender_id,"game_seed")
 			else
@@ -359,12 +386,12 @@ function RequestTargetedResync(playerID,reason)
 	local existingRequest = m_targetedResyncRequested[playerID]
 	if existingRequest ~= nil then
 		if os.time() - existingRequest.RequestedAt < RESYNC_PAUSE_TIMEOUT_SECONDS then
-			print("MPH targeted resync already requested for player",playerID,"first reason:",existingRequest.Reason,"additional reason:",reason)
+			DebugLog("MPH targeted resync already requested for player",playerID,"first reason:",existingRequest.Reason,"additional reason:",reason)
 			return
 		end
 	end
 	m_targetedResyncRequested[playerID] = { Reason = reason, RequestedAt = os.time() }
-	print("MPH targeted resync requested for player",playerID,"reason:",reason)
+	DebugLog("MPH targeted resync requested for player",playerID,"reason:",reason)
 	Network.SendChat(".mph_ui_resync_seed",-2,playerID)
 end
 
@@ -418,8 +445,11 @@ function OnRequestHostMapFingerprint(fingerprint,senderID)
 	if localID ~= hostID then
 		return
 	end
-	local hostFingerprint = ComputeMapFingerprint()
-	print("MPH map fingerprint: host",hostFingerprint,"player",senderID,tostring(fingerprint))
+	if m_cachedMapFingerprint == nil then
+		m_cachedMapFingerprint = ComputeMapFingerprint()
+	end
+	local hostFingerprint = m_cachedMapFingerprint
+	DebugLog("MPH map fingerprint: host",hostFingerprint,"player",senderID,tostring(fingerprint))
 	if tostring(fingerprint) ~= hostFingerprint then
 		RequestTargetedResync(senderID,"map_fingerprint")
 	end
@@ -431,15 +461,20 @@ function OnMultiplayerSnapshotProcessed()
 	if localID ~= hostID and m_clientResyncInProgress == true then
 		m_clientResyncInProgress = false
 		Network.SendChat(".mph_ui_resync_complete_"..(m_clientResyncReason or "unknown"),-2,hostID)
-		print("MPH host-requested snapshot processed")
+		DebugLog("MPH host-requested snapshot processed")
 		m_clientResyncReason = nil
 	end
 end
 
 function OnResyncTick()
+	local now = os.time()
+	if m_lastResyncTickSecond == now then
+		return
+	end
+	m_lastResyncTickSecond = now
 	local hostID = Network.GetGameHostPlayerID()
 	local localID = Network.GetLocalPlayerID()
-	if localID == hostID and m_hostResyncStartedAt ~= nil and os.time() - m_hostResyncStartedAt >= RESYNC_PAUSE_TIMEOUT_SECONDS then
+	if localID == hostID and m_hostResyncStartedAt ~= nil and now - m_hostResyncStartedAt >= RESYNC_PAUSE_TIMEOUT_SECONDS then
 		FinishHostResyncPause("timeout safeguard")
 	end
 end
@@ -449,7 +484,7 @@ end
 -- ===========================================================================
 
 function OnMultiplayerChat( fromPlayer, toPlayer, text, eTargetType )
-	print(text)
+	DebugLog("MPH command", fromPlayer, toPlayer, text)
 	local hostID = Network.GetGameHostPlayerID()
 	local localID = Network.GetLocalPlayerID()
 	local b_ishost = false
@@ -469,43 +504,10 @@ function OnMultiplayerChat( fromPlayer, toPlayer, text, eTargetType )
 		local kick_id = string.sub(text,14)
 		if kick_id ~= nil then
 			kick_id = tonumber(kick_id)
-			print("Kick UI: Player",kick_id)
+			DebugLog("Kick UI: Player",kick_id)
 			if hostID ~= kick_id then
 				Network.KickPlayer(kick_id);
 			end
-		end
-		return
-	end
-	
-	-- Receiving a Seed Check
-	
-	if ((string.sub(string.lower(text),1,20) == ".mph_ui_checkseed_id") and localID == hostID)  then
-		-- Network.SendChat(".mph_ui_checkseed_id_"..tostring(playerID).."_turn_"..g_local_turn.."_seed_"..g_local_seed,-2,hostID)
-		-- .mph_ui_checkseed_id_5_turn_2_seed_66
-		local indexTurns, indexTurne = string.find(text,"_turn_")
-		local indexSeeds, indexSeede = string.find(text,"_seed_")
-		if indexTurns == nil or indexTurne == nil or indexSeeds == nil or indexSeede == nil then
-			print("Seed Check: ignored malformed message from player",fromPlayer,text)
-			return
-		end
-		local sender_id = string.sub(text,22,indexTurns-1)
-		local turn_checked = string.sub(text,indexTurne+1,indexSeeds-1)
-		local seed_checked = string.sub(text, indexSeede+1)
-		if g_local_turn ~= nil and tostring(turn_checked) == tostring(g_local_turn) then
-			if tostring(seed_checked) == tostring(g_local_seed) then
-				print("Seed Check: Player "..tostring(sender_id).." is in sync. State:"..tostring(seed_checked).." Turn:"..tostring(turn_checked))
-			else
-				print("Seed Check: ERROR Player "..tostring(sender_id).." is out-of-sync. Local State:"..tostring(g_local_seed).." Player State:"..tostring(seed_checked).." Turn:"..tostring(turn_checked))
-				local name = PlayerConfigurations[tonumber(sender_id)]
-				if name == nil then
-					name = "Player "..tostring(sender_id)
-					else
-					name = tostring(PlayerConfigurations[tonumber(sender_id)]:GetPlayerName())
-				end
-				Network.SendChat(name.." is out of sync with the host!",-2,-1)
-				RequestTargetedResync(tonumber(sender_id),"turn_state")
-			end
-			
 		end
 		return
 	end
@@ -518,13 +520,13 @@ function OnMultiplayerChat( fromPlayer, toPlayer, text, eTargetType )
 	end
 
 	if (string.sub(string.lower(text),1,22) == ".mph_ui_resync_started" and localID == hostID) then
-		print("MPH client accepted resync request:",fromPlayer,text)
+		DebugLog("MPH client accepted resync request:",fromPlayer,text)
 		return
 	end
 
 	if (string.sub(string.lower(text),1,23) == ".mph_ui_resync_complete" and localID == hostID) then
 		local completionReason = string.sub(text,25)
-		print("MPH client completed resync:",fromPlayer,"reason:",completionReason)
+		DebugLog("MPH client completed resync:",fromPlayer,"reason:",completionReason)
 		if completionReason == "general" then
 			m_hostResyncPending[fromPlayer] = nil
 			local stillPending = false
@@ -559,9 +561,9 @@ function OnMultiplayerChat( fromPlayer, toPlayer, text, eTargetType )
 	
 	-- Logging Information
 	
-	if (string.sub(string.lower(text),1,11) == ".mph_ui_log")  then
+	if b_debug and (string.sub(string.lower(text),1,11) == ".mph_ui_log")  then
 		local tmp = tostring(string.sub(text,12))
-		print(tmp,"fromPlayer ID: ",fromPlayer)
+		DebugLog(tmp,"fromPlayer ID: ",fromPlayer)
 		return
 	end
 	
@@ -581,18 +583,18 @@ function OnMultiplayerChat( fromPlayer, toPlayer, text, eTargetType )
 	
 	-- Test
 	
-	if (string.lower(text)== ".mph_ui_requestsnap" and localID == fromPlayer)  then
-		print("Network.RequestSnapshot()",Network.RequestSnapshot())
+	if b_debug and (string.lower(text)== ".mph_ui_requestsnap" and localID == fromPlayer)  then
+		DebugLog("Network.RequestSnapshot()",Network.RequestSnapshot())
 		return
 	end
 	
-	if (string.lower(text)== ".mph_ui_triggertest" and localID == fromPlayer)  then
-		print("Network.TriggerTestSync()",Network.TriggerTestSync())
+	if b_debug and (string.lower(text)== ".mph_ui_triggertest" and localID == fromPlayer)  then
+		DebugLog("Network.TriggerTestSync()",Network.TriggerTestSync())
 		return
 	end	
 	
-	if (string.lower(text)== ".mph_ui_forceresync" and localID == fromPlayer)  then
-		print("Network.ForceResync()",Network.ForceResync())
+	if b_debug and (string.lower(text)== ".mph_ui_forceresync" and localID == fromPlayer)  then
+		DebugLog("Network.ForceResync()",Network.ForceResync())
 		return
 	end		
 	
@@ -600,14 +602,15 @@ function OnMultiplayerChat( fromPlayer, toPlayer, text, eTargetType )
 end
 
 function OnLoadScreenClose()
-	print("OnLoadScreenClose()")
+	DebugLog("OnLoadScreenClose()")
 	local hostID = Network.GetGameHostPlayerID()
 	local localID = Network.GetLocalPlayerID()
 	local map_seed = MapConfiguration.GetValue("RANDOM_SEED")
 	local game_seed = GameConfiguration.GetValue("GAME_SYNC_RANDOM_SEED")
-	local mapFingerprint = ComputeMapFingerprint()
+	m_cachedMapFingerprint = ComputeMapFingerprint()
+	local mapFingerprint = m_cachedMapFingerprint
 	local generatedFingerprint = Game ~= nil and Game.GetProperty ~= nil and Game.GetProperty("ZYLRM_MAP_FINGERPRINT") or nil
-	print("MPH initial sync state: map seed",map_seed,"game seed",game_seed,"map fingerprint",mapFingerprint,"generated fingerprint",generatedFingerprint)
+	DebugLog("MPH initial sync state: map seed",map_seed,"game seed",game_seed,"map fingerprint",mapFingerprint,"generated fingerprint",generatedFingerprint)
 	if hostID ~= localID then
 		Network.SendChat(".mph_ui_seed_m"..tostring(map_seed),-2,hostID)
 		Network.SendChat(".mph_ui_seed_g"..tostring(game_seed),-2,hostID)
@@ -626,8 +629,7 @@ function OnShutdown()
 	Events.MultiplayerChat.Remove( OnMultiplayerChat );
 	Events.LoadScreenClose.Remove( OnLoadScreenClose );
 	Events.MultiplayerSnapshotProcessed.Remove( OnMultiplayerSnapshotProcessed );
-	Events.GameCoreEventPublishComplete.Remove( OnResyncTick );
-	Events.SystemUpdateUI.Remove( OnResyncTick );
+	SetResyncTicking(false)
 	
 end
 
@@ -652,8 +654,6 @@ function Initialize()
 	Events.MultiplayerChat.Add( OnMultiplayerChat );
 	Events.LoadScreenClose.Add( OnLoadScreenClose );
 	Events.MultiplayerSnapshotProcessed.Add( OnMultiplayerSnapshotProcessed );
-	Events.GameCoreEventPublishComplete.Add( OnResyncTick );
-	Events.SystemUpdateUI.Add( OnResyncTick );
 
 end
 Initialize();
