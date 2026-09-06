@@ -22,6 +22,28 @@ function Add-ValidationError {
     $validationErrors.Add($Message)
 }
 
+$luaChecksPath = Join-Path $PSScriptRoot 'validation\LuaChecks.ps1'
+if (-not (Test-Path -LiteralPath $luaChecksPath -PathType Leaf)) {
+    throw "Lua validation helpers not found: $luaChecksPath"
+}
+. $luaChecksPath
+
+$missingRemovalFixture = @(Get-ZylLuaEventLifecycleIssues -Source 'Events.Example.Add(OnExample)' -Label 'Fixture')
+$balancedLifecycleFixture = @(Get-ZylLuaEventLifecycleIssues -Source @'
+Events.Example.Add(OnExample)
+Events.Example.Remove(OnExample)
+'@ -Label 'Fixture')
+$duplicateRegistrationFixture = @(Get-ZylLuaEventLifecycleIssues -Source @'
+Events.Example.Add(OnExample)
+Events.Example.Add(OnExample)
+Events.Example.Remove(OnExample)
+'@ -Label 'Fixture')
+if ($missingRemovalFixture.Count -ne 1 -or
+        $balancedLifecycleFixture.Count -ne 0 -or
+        $duplicateRegistrationFixture.Count -ne 1) {
+    Add-ValidationError 'Lua event-lifecycle helper failed its positive/negative self-test.'
+}
+
 function Normalize-RelativePath {
     param([string]$Path)
     return $Path.Trim().Replace('/', '\').ToLowerInvariant()
@@ -2681,27 +2703,7 @@ Add-ValidationError "Staging-room regression restored a hot-loop or typo: $forbi
 }
 }
 
-$eventRegistrations = @{}
-foreach ($registration in [regex]::Matches(
-$stagingRoomSource,
-'(?m)(Events|LuaEvents)\.([A-Za-z0-9_]+)\.Add\(\s*([A-Za-z0-9_]+)\s*\)'
-)) {
-$key = "$($registration.Groups[1].Value).$($registration.Groups[2].Value)|$($registration.Groups[3].Value)"
-$eventRegistrations[$key] = $true
-}
-$eventRemovals = @{}
-foreach ($removal in [regex]::Matches(
-$stagingRoomSource,
-'(?m)(Events|LuaEvents)\.([A-Za-z0-9_]+)\.Remove\(\s*([A-Za-z0-9_]+)\s*\)'
-)) {
-$key = "$($removal.Groups[1].Value).$($removal.Groups[2].Value)|$($removal.Groups[3].Value)"
-$eventRemovals[$key] = $true
-}
-foreach ($registrationKey in $eventRegistrations.Keys) {
-if (-not $eventRemovals.ContainsKey($registrationKey)) {
-Add-ValidationError "Staging-room global event registration has no matching shutdown removal: $registrationKey"
-}
-}
+Test-ZylLuaEventLifecycle -Source $stagingRoomSource -Label 'Staging room'
 }
 
 $votePanelPath = Join-Path $modRoot 'ui\Additions\VotePanel.lua'
@@ -2777,9 +2779,9 @@ if ([regex]::Matches($dropControlSource, 'GameCoreEventPublishComplete\.Add\s*\(
 [regex]::Matches($dropControlSource, 'GameCoreEventPublishComplete\.Remove\s*\(\s*OnTimeTicks\s*\)').Count -ne 1) {
 Add-ValidationError 'The drop controller timer must have exactly one guarded add/remove implementation.'
 }
-if ([regex]::Matches($dropControlSource, '(?m)^\s*print\(').Count -ne 0 -or
-[regex]::IsMatch($dropControlSource, '(?m)^UIEvents\s*=')) {
-Add-ValidationError 'The drop controller restored an unguarded print or global UIEvents alias.'
+Test-ZylLuaHasNoUnguardedPrint -Source $dropControlSource -Label 'Drop controller'
+if ([regex]::IsMatch($dropControlSource, '(?m)^UIEvents\s*=')) {
+Add-ValidationError 'The drop controller restored a global UIEvents alias.'
 }
 }
 
@@ -2818,9 +2820,7 @@ if ([regex]::Matches($mphOptionsSource, 'Events\.SystemUpdateUI\.Add\(OnResyncTi
 [regex]::Matches($mphOptionsSource, 'Events\.SystemUpdateUI\.Remove\(OnResyncTick\)').Count -ne 1) {
 Add-ValidationError 'The resync timeout must have exactly one guarded SystemUpdateUI add/remove implementation.'
 }
-if ([regex]::Matches($mphOptionsSource, '(?m)^\s*print\(').Count -ne 0) {
-Add-ValidationError 'The multiplayer options controller contains an unguarded runtime print.'
-}
+Test-ZylLuaHasNoUnguardedPrint -Source $mphOptionsSource -Label 'Multiplayer options controller'
 }
 
 $suddenDeathPanelPath = Join-Path $modRoot 'ui\Additions\SuddenDeathPanel.lua'
@@ -2856,9 +2856,7 @@ if ([regex]::Matches($suddenDeathPanelSource, 'GameCoreEventPublishComplete\.Add
 [regex]::Matches($suddenDeathPanelSource, 'GameCoreEventPublishComplete\.Remove\(OnTimeTicks\)').Count -ne 1) {
 Add-ValidationError 'The sudden-death timer must have exactly one guarded add/remove implementation.'
 }
-if ([regex]::Matches($suddenDeathPanelSource, '(?m)^\s*print\(').Count -ne 0) {
-Add-ValidationError 'The sudden-death controller contains an unguarded runtime print.'
-}
+Test-ZylLuaHasNoUnguardedPrint -Source $suddenDeathPanelSource -Label 'Sudden-death controller'
 }
 
 $stagingRoomIdentityXmlPath = Join-Path $modRoot 'ui\stagingroom.xml'
@@ -2925,30 +2923,8 @@ if (-not $mainMenuSource.Contains($requiredMainMenuLifecycleFragment)) {
 Add-ValidationError "Main-menu lifecycle guard is missing: $requiredMainMenuLifecycleFragment"
 }
 }
-$mainMenuEventRegistrations = @{}
-foreach ($registration in [regex]::Matches(
-$mainMenuSource,
-'(?m)(Events|LuaEvents)\.([A-Za-z0-9_]+)\.Add\(\s*([A-Za-z0-9_]+)\s*\)'
-)) {
-$key = "$($registration.Groups[1].Value).$($registration.Groups[2].Value)|$($registration.Groups[3].Value)"
-$mainMenuEventRegistrations[$key] = $true
-}
-$mainMenuEventRemovals = @{}
-foreach ($removal in [regex]::Matches(
-$mainMenuSource,
-'(?m)(Events|LuaEvents)\.([A-Za-z0-9_]+)\.Remove\(\s*([A-Za-z0-9_]+)\s*\)'
-)) {
-$key = "$($removal.Groups[1].Value).$($removal.Groups[2].Value)|$($removal.Groups[3].Value)"
-$mainMenuEventRemovals[$key] = $true
-}
-foreach ($registrationKey in $mainMenuEventRegistrations.Keys) {
-if (-not $mainMenuEventRemovals.ContainsKey($registrationKey)) {
-Add-ValidationError "Main-menu global event registration has no matching shutdown removal: $registrationKey"
-}
-}
-if ([regex]::Matches($mainMenuSource, '(?m)^\s*print\(').Count -ne 0) {
-Add-ValidationError 'The main menu contains an unguarded runtime print.'
-}
+Test-ZylLuaEventLifecycle -Source $mainMenuSource -Label 'Main menu'
+Test-ZylLuaHasNoUnguardedPrint -Source $mainMenuSource -Label 'Main menu'
 }
 
 $hostGamePath = Join-Path $modRoot 'ui\hostgame.lua'
@@ -3091,9 +3067,7 @@ if (Test-Path -LiteralPath $turnProcessingPath) {
 			Add-ValidationError "Turn-processing still references dead startup-gate state: $forbiddenTimerFragment"
 		}
 	}
-	if ([regex]::Matches($turnProcessingSource, '(?m)^\s*print\(').Count -ne 0) {
-		Add-ValidationError 'Turn-processing contains an unguarded top-level print call.'
-	}
+	Test-ZylLuaHasNoUnguardedPrint -Source $turnProcessingSource -Label 'Turn processing'
 }
 
 $eraLengthSqlPath = Join-Path $modRoot 'sql\ZYL_EraLengthOptimization.sql'
@@ -3271,30 +3245,8 @@ if (Test-Path -LiteralPath $hostGamePath) {
 			Add-ValidationError "Host game restored a dead path or unrelated broadcast: $forbiddenHostFragment"
 		}
 	}
-	if ([regex]::Matches($hostGameLua, '(?m)^\s*print\(').Count -ne 0) {
-		Add-ValidationError 'Host game contains an unguarded top-level print call.'
-	}
-	$hostEventRegistrations = @{}
-	foreach ($registration in [regex]::Matches(
-		$hostGameLua,
-		'(?m)(Events|LuaEvents)\.([A-Za-z0-9_]+)\.Add\(\s*([A-Za-z0-9_]+)\s*\)'
-	)) {
-		$key = "$($registration.Groups[1].Value).$($registration.Groups[2].Value)|$($registration.Groups[3].Value)"
-		$hostEventRegistrations[$key] = $true
-	}
-	$hostEventRemovals = @{}
-	foreach ($removal in [regex]::Matches(
-		$hostGameLua,
-		'(?m)(Events|LuaEvents)\.([A-Za-z0-9_]+)\.Remove\(\s*([A-Za-z0-9_]+)\s*\)'
-	)) {
-		$key = "$($removal.Groups[1].Value).$($removal.Groups[2].Value)|$($removal.Groups[3].Value)"
-		$hostEventRemovals[$key] = $true
-	}
-	foreach ($registrationKey in $hostEventRegistrations.Keys) {
-		if (-not $hostEventRemovals.ContainsKey($registrationKey)) {
-			Add-ValidationError "Host-game global event registration has no matching shutdown removal: $registrationKey"
-		}
-	}
+	Test-ZylLuaEventLifecycle -Source $hostGameLua -Label 'Host game'
+	Test-ZylLuaHasNoUnguardedPrint -Source $hostGameLua -Label 'Host game'
 }
 
 $bbgConfigPath = Join-Path $modRoot 'Components\BBG\config\config.xml'

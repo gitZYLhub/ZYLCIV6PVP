@@ -120,4 +120,14 @@
 - 修改：为 14 个 Events 和 6 个 LuaEvents 补齐 Remove，其中包括原先在初始化函数外注册的 `EnterCrossPlayLobby`；4 个正式 `print` 迁移到调试开关。
 - 验证：`tools/validate.ps1`、PowerShell 语法解析和 `git diff --check` 通过；全局事件从 20 Add / 0 Remove 变为 20 Add / 20 Remove，活动行首 `print` 从 4 降为 0。校验器按事件名与处理器名逐一核对配对。
 - 风险/待办：需实际执行主菜单热重载、Steam/跨平台服务器断开重连、2K 账号回调、云回合检查、额外内容返回和跨平台大厅入口，确认新 Context 初始化后只响应一次。
-- 提交：本次提交（主菜单生命周期重构）。
+- 提交：`584306c fix: close main-menu event lifecycle`。
+
+### 2026-09-07 / M2-Lua 静态校验模块化起步
+
+- 目标：停止在 28 万字节的 `validate.ps1` 中为每个 UI 重复复制事件配对和正式日志正则，建立可复用、可自检的领域模块接口。
+- 范围：校验工具与架构/计划文档；不改变 ModInfo、运行包文件或游戏行为。
+- 设计决定：`tools/validate.ps1` 保持唯一公开入口和错误汇总者；`tools/validation/LuaChecks.ps1` 提供事件生命周期问题收集、统一上报和无防护 `print` 检查。事件检查按“事件命名空间 + 事件名 + 处理器名”计数，Remove 数少于 Add 数即失败。
+- 修改：等待室、主菜单、主机设置的三份事件配对逻辑改为模块调用；主菜单、主机设置、断线、重同步、两类计时器的六份正式日志正则改为统一调用；入口加入完整配对、缺失 Remove、重复 Add 三类正反样例。
+- 验证：入口与模块 PowerShell 语法解析通过；`tools/validate.ps1` 和 `git diff --check` 通过，仍检查 164 个 XML、108 条件、283 动作、1077 文件、549 活跃引用和 48 个休眠文件，源码专用文件因新增模块从 13 增至 14。主入口相关重复实现净减少 55 行。
+- 风险/待办：当前解析只覆盖具名的 `Events/LuaEvents.X.Add(Handler)` 形式；匿名回调仍需由领域断言禁止。后续继续抽出 ModInfo 清单/XML、数据库契约、地图、UI、联机和发布包检查。
+- 提交：本次提交（Lua 校验模块化）。
