@@ -103,24 +103,14 @@ local g_version = "ZYLPVPMOD v1.3.0"
 local Drop_Data = {};
 local b_debug = false
 
+local function DebugLog(...)
+	if b_debug then print(...) end
+end
+
 -- ===========================================================================
 --	GLOBAL FLAGS
 -- ===========================================================================
 
-
--- =========================================================================== 
---	NEW EVENTS
--- =========================================================================== 
-
-function OnGameTurnStarted(turn)
-	-- local time
-	g_turn_start_time = os.date('%Y-%m-%d %H:%M:%S')
-	b_clean = false
-	b_debuff = false
-	local seed = Game.GetRandNum(100, "MPH Track Local State")
-	print("OnGameTurnStarted: Turn",turn,"Local State:",seed,g_turn_start_time)
-	
-end
 
 -- =========================================================================== 
 --	REMOTE EVENTS (UI -> SCRIPT)
@@ -128,7 +118,11 @@ end
 -- Drop/Restore Mechanics
 
 function OnDrop(playerID:number)
-	print("Ondrop: Saving Player",playerID,"'s data")
+	if Drop_Data[playerID] ~= nil then
+		DebugLog("OnDrop: preserving existing frozen-unit snapshot for player", playerID)
+		return
+	end
+	DebugLog("OnDrop: saving player",playerID,"unit movement")
 	-- Drop_Player Table
 	local Drop_P = {}
 	-- Units
@@ -142,11 +136,11 @@ function OnDrop(playerID:number)
 	local counter = 0
 	for i, unit in pPlayerUnits:Members() do
 		counter = counter + 1
-		tmp_unit[counter] = { ID = unit:GetID(), moves = unit:GetMovesRemaining()}
-		print("unit:GetMovesRemaining()",unit:GetMovesRemaining())
-		UnitManager.ChangeMovesRemaining(unit, -99)
-		print("unit:GetMovesRemaining()",unit:GetMovesRemaining())
-		print("counter",counter,"tmp_unit[counter] ",tmp_unit[counter] ,"tmp_unit[counter].ID",tmp_unit[counter].ID,"tmp_unit[counter].moves",tmp_unit[counter].moves) 
+		local movesRemaining = unit:GetMovesRemaining()
+		tmp_unit[counter] = { ID = unit:GetID(), moves = movesRemaining }
+		if movesRemaining ~= 0 then
+			UnitManager.ChangeMovesRemaining(unit, -movesRemaining)
+		end
 	end
 	tmp_unit["count"] = counter
 	Drop_P = { unit = tmp_unit }
@@ -156,7 +150,7 @@ end
 LuaEvents.UICPLPlayerDrop.Add( OnDrop );
 
 function RestoreUnits(unit_table:table,playerID:number)
-	print("RestoreUnits", playerID)
+	DebugLog("RestoreUnits", playerID)
 	if type(unit_table) ~= "table" or (tonumber(unit_table["count"]) or 0) < 1 then
 		return
 	end
@@ -165,31 +159,33 @@ function RestoreUnits(unit_table:table,playerID:number)
 	local pPlayer = Players[playerID];
 	if pPlayer == nil or pPlayer:GetUnits() == nil then return end
 	local pPlayerUnits = pPlayer:GetUnits();
-	-- Restore all the units
-	local counter = 0
+	local savedMovesByUnitID = {}
+	for index = 1, unit_table["count"] do
+		local savedUnit = unit_table[index]
+		if savedUnit ~= nil and savedUnit.ID ~= nil then
+			savedMovesByUnitID[savedUnit.ID] = tonumber(savedUnit.moves) or 0
+		end
+	end
+
+	-- Restore each surviving unit to its exact saved value in one linear pass.
 	for i, unit in pPlayerUnits:Members() do
 		local unit_ID = unit:GetID()
-		for k = 1, unit_table["count"] do
-			local savedUnit = unit_table[k]
-			if savedUnit ~= nil and unit_ID == savedUnit.ID then
-				UnitManager.ChangeMovesRemaining(unit, tonumber(savedUnit.moves) or 0)
-				print(unit:GetID(),unit:GetMovesRemaining())
-				counter = counter + 1
-				break
+		local savedMoves = savedMovesByUnitID[unit_ID]
+		if savedMoves ~= nil then
+			local currentMoves = unit:GetMovesRemaining()
+			if currentMoves ~= savedMoves then
+				UnitManager.ChangeMovesRemaining(unit, savedMoves - currentMoves)
 			end
-		end
-		if counter == unit_table["count"] then
-			break
 		end
 	end
 	
 end
 
 function OnConnect(playerID:number)
-	print("OnConnect", playerID)
+	DebugLog("OnConnect", playerID)
 	local dropData = Drop_Data[playerID]
 	if dropData == nil or dropData.unit == nil then
-		print("OnConnect: no frozen-unit snapshot for player", playerID)
+		DebugLog("OnConnect: no frozen-unit snapshot for player", playerID)
 		return
 	end
 	RestoreUnits(dropData.unit,playerID)
@@ -202,7 +198,7 @@ LuaEvents.UICPLPlayerConnect.Add( OnConnect );
 --	Sudden Death
 
 function OnTimerExpires(playerID:number)
-	print("OnTimerExpires Script", playerID)
+	DebugLog("OnTimerExpires Script", playerID)
 	local pPlayer = Players[playerID];
 	if pPlayer == nil then return end
 	local pPlayerUnits:table = pPlayer:GetUnits();	
@@ -222,22 +218,6 @@ function OnTimeSaved(timeleft:number)
 end
 
 LuaEvents.UISuddenDeathSavetime.Add( OnTimeSaved );
-
--- =========================================================================== 
---	Utils
--- ===========================================================================
-function Tablelength(T)
-	local count = 0
-	for _ in pairs(T) do count = count + 1 end
-	return count
-end
-
-function FindTableIndex(t,val)
-    for k,v in ipairs(t) do 
-        if v == val then return k end
-    end
-end
-
 
 -- Event Debugging
 
@@ -369,7 +349,7 @@ end
 -------------------------------------------------------
 
 function Initialize()
-	print("-- Init D. CPL Helper Gameplay Script"..g_version.." --");
+	DebugLog("-- Init D. CPL Helper Gameplay Script"..g_version.." --");
 	
 	if b_debug == true then
 		-- Player
@@ -408,15 +388,6 @@ function Initialize()
 		-- Spy
 		Events.SpyMissionUpdated.Add( Debug_OnSpyMissionUpdated );
 		Events.SpyMissionCompleted.Add(	Debug_OnSpyMissionCompleted );
-	end
-
-	GameEvents.OnGameTurnStarted.Add(OnGameTurnStarted);
-	for _, i in ipairs(PlayerManager.GetAliveMajorIDs()) do
-		if Players[i] ~= nil and Players[i]:IsAlive() == true then
-			if Players[i]:GetTeam() ~= i then
-				b_teamer = true
-			end
-		end
 	end
 
 end

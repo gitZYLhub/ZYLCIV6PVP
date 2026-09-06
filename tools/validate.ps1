@@ -140,6 +140,30 @@ if (-not (Test-Path -LiteralPath $multiplayerHelperPath) -or
 		-not (Get-Content -LiteralPath $multiplayerHelperPath -Raw).Contains("local g_version = `"$expectedPackageName v$expectedSemanticVersion`"")) {
 	Add-ValidationError "The multiplayer version handshake must identify $expectedPackageName v$expectedSemanticVersion."
 }
+else {
+	$multiplayerHelperSource = Get-Content -LiteralPath $multiplayerHelperPath -Raw
+	foreach ($requiredHelperFragment in @(
+		'if Drop_Data[playerID] ~= nil then',
+		'local savedMovesByUnitID = {}',
+		'UnitManager.ChangeMovesRemaining(unit, savedMoves - currentMoves)',
+		'local function DebugLog(...)'
+	)) {
+		if (-not $multiplayerHelperSource.Contains($requiredHelperFragment)) {
+			Add-ValidationError "The multiplayer helper is missing its deterministic drop/reconnect guard: $requiredHelperFragment"
+		}
+	}
+	foreach ($forbiddenHelperFragment in @(
+		'Game.GetRandNum',
+		'GameEvents.OnGameTurnStarted.Add(OnGameTurnStarted)',
+		'UnitManager.ChangeMovesRemaining(unit, -99)',
+		'function Tablelength(',
+		'function FindTableIndex('
+	)) {
+		if ($multiplayerHelperSource.Contains($forbiddenHelperFragment)) {
+			Add-ValidationError "The multiplayer helper restored a random-stream, non-idempotent or dead-code path: $forbiddenHelperFragment"
+		}
+	}
+}
 
 # Keep the Team PVP Balanced Industries/Corporations nerf complete. The
 # upstream balance file omitted four DLC products, and this package adds six
