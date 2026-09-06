@@ -17,6 +17,21 @@ function Normalize-RelativePath {
     return $Path.Trim().Replace('/', '\').ToLowerInvariant()
 }
 
+function Test-IsSourceOnlyFile {
+    param([string]$NormalizedPath)
+
+    if ($NormalizedPath.StartsWith('docs\') -or
+            $NormalizedPath.StartsWith('.github\')) {
+        return $true
+    }
+    return $NormalizedPath -in @(
+        '.gitattributes',
+        '.gitignore',
+        'changelog.md',
+        'zylpvpmod1.3.0修改大全.md'
+    )
+}
+
 function Load-XmlDocument {
     param([string]$Path)
     $document = [System.Xml.XmlDocument]::new()
@@ -502,7 +517,6 @@ foreach ($relativePath in $listedFiles) {
 # Keep intentionally dormant/conflicting upstream files explicit so a new
 # unlisted file fails validation instead of silently disappearing at runtime.
 $intentionallyUnlistedFiles = @(
-    'ZYLPVPMOD1.3.0修改大全.md',
     'BCS\UI\CityStates_SPEC.lua',
     'BCT\UnitFlagManager_BuilderCharges.lua',
     'BER\UnitFlagManager_GreatGeneralEraReminder.lua',
@@ -556,11 +570,16 @@ $intentionallyUnlistedMap = @{}
 foreach ($relativePath in $intentionallyUnlistedFiles) {
     $intentionallyUnlistedMap[(Normalize-RelativePath $relativePath)] = $relativePath
 }
+$sourceOnlyFileCount = 0
 $diskFiles = @(Get-ChildItem -LiteralPath $modRoot -Recurse -File)
 foreach ($diskFile in $diskFiles) {
     if ($diskFile.FullName -eq $modInfoPath) { continue }
     $relativePath = $diskFile.FullName.Substring($modRoot.Length + 1)
     $key = Normalize-RelativePath $relativePath
+    if (Test-IsSourceOnlyFile $key) {
+        $sourceOnlyFileCount++
+        continue
+    }
     if (-not $listedFileMap.ContainsKey($key) -and -not $intentionallyUnlistedMap.ContainsKey($key)) {
         Add-ValidationError "File exists on disk but is absent from <Files> and the dormant allowlist: $relativePath"
     }
@@ -4507,6 +4526,6 @@ if ($validationErrors.Count -gt 0) {
     exit 1
 }
 
-Write-Host ("PASS: {0} XML artifacts, {1} criteria, {2} actions, {3} listed files, {4} active references and {5} intentionally dormant files validated." -f `
-    $xmlFiles.Count, $criteriaMap.Count, $actionNodes.Count, $listedFiles.Count, $actionReferenceMap.Count, $intentionallyUnlistedFiles.Count) -ForegroundColor Green
+Write-Host ("PASS: {0} XML artifacts, {1} criteria, {2} actions, {3} listed files, {4} active references, {5} intentionally dormant files and {6} source-only files validated." -f `
+    $xmlFiles.Count, $criteriaMap.Count, $actionNodes.Count, $listedFiles.Count, $actionReferenceMap.Count, $intentionallyUnlistedFiles.Count, $sourceOnlyFileCount) -ForegroundColor Green
 exit 0

@@ -1,0 +1,17 @@
+# Editor and operating-system files
+.DS_Store
+Thumbs.db
+*.swp
+*.user
+
+# Logs, caches and temporary files
+*.log
+*.tmp
+*.bak
+.cache/
+
+# Local build and test output
+artifacts/
+build/
+dist/
+ZYLPVPMOD_Workshop/
