@@ -89,7 +89,7 @@ local PHASE_READY = 3
 local PHASE_VOTE_BAN_MAP = 11
 local PHASE_VOTE_BAN_LEADER = 12
 
-local b_debug = true
+local b_debug = false
 local g_debug = false
 local b_has_voted = true
 local isCivPlayerName = false
@@ -476,6 +476,7 @@ end
 -------------------------------------------------
 function OnGameConfigChanged()
 	Refresh()	  
+	QuickRefresh()
 	if(ContextPtr:IsHidden() == false) then
 		RealizeGameSetup(); -- Rebuild the game settings UI.
 		RebuildTeamPulldowns();	-- NoTeams setting might have changed.
@@ -503,35 +504,43 @@ end
 -------------------------------------------------
 --  Tournament Baby!
 -------------------------------------------------
-function OnTick()
-	QuickRefresh()
-	if g_last_tick_time == nil then
-		g_last_tick_time = os.clock()
-		return
-	end
-	if os.clock() > g_last_tick_time + g_tick_size or os.clock() == g_last_tick_time + g_tick_size then
-		g_last_tick_time = os.clock()
-		if b_tick == true then
-			b_tick = false
-		end
-		Refresh()
-		RefreshStatus()
-		ShowHideEditButton()
-		return
-	end
-	-- Define Settings
+local function RefreshTickSettings()
 	g_slot_draft = 0
-	if GameConfiguration.GetValue("DRAFT_SLOT_ORDER") ~= nil then
-		g_slot_draft = GameConfiguration.GetValue("DRAFT_SLOT_ORDER")
+	local draftSlotOrder = GameConfiguration.GetValue("DRAFT_SLOT_ORDER")
+	if draftSlotOrder ~= nil then
+		g_slot_draft = draftSlotOrder
 	end
 	g_timer = 1
-	if GameConfiguration.GetValue("DRAFT_TIMER") ~= nil then
-		if GameConfiguration.GetValue("DRAFT_TIMER") == true then
+	local draftTimer = GameConfiguration.GetValue("DRAFT_TIMER")
+	if draftTimer ~= nil then
+		if draftTimer == true then
 			g_timer = 1 
 			else
 			g_timer = 0
 		end
-	end	
+	end
+end
+
+function OnTick()
+	local now = os.clock()
+	if g_last_tick_time == nil then
+		g_last_tick_time = now
+		RefreshTickSettings()
+		return
+	end
+	if now < g_last_tick_time + g_tick_size then
+		return
+	end
+
+	g_last_tick_time = now
+	if b_tick == true then
+		b_tick = false
+	end
+	RefreshTickSettings()
+	QuickRefresh()
+	Refresh()
+	RefreshStatus()
+	ShowHideEditButton()
 end
 
 function CheckStatusID(playerID)
@@ -598,7 +607,7 @@ function GetLocalBBMVersion()
 end
 
 function RefreshStatusID(playerID,version,bbs_version,bbg_version)
-	print("RefreshStatusID",playerID,version,bbg_version,bbs_version)
+	if g_debug then print("RefreshStatusID",playerID,version,bbg_version,bbs_version) end
 	if GameConfiguration.GetGameState() ~= -901772834 or m_countdownType =="Launch" then
 		return
 	end
@@ -722,7 +731,7 @@ function RefreshStatusID(playerID,version,bbs_version,bbg_version)
 end
 
 function ResetStatus()
-	print("ResetStatus()")
+	if g_debug then print("ResetStatus()") end
 	if GameConfiguration.GetGameState() ~= -901772834 or m_countdownType =="Launch" then
 		return
 	end
@@ -819,7 +828,7 @@ function GetStatus_SpecificID(playerID)
 end
 
 function RefreshStatus()
-	print("RefreshStatus()",os.date("%c"),b_tick)
+	if g_debug then print("RefreshStatus()",os.date("%c"),b_tick) end
 	if GameConfiguration.GetGameState() ~= -901772834 or b_mph_game == false or m_countdownType =="Launch" or b_tick == true then
 		return
 	end
@@ -854,7 +863,7 @@ function RefreshStatus()
 						Network.SendChat("[COLOR_Civ6Green]# Greetings! "..tostring(name).." has joined a MP game using Multiplayer Helper (v "..tostring(g_version).."). [ENDCOLOR]",-2,player.ID)
 						player.HandshakeLastSentAt = now
 						player.HandshakeAttempts = player.HandshakeAttempts + 1
-						print("RefreshStatus() - Retrying MPH handshake - ID:",player.ID,"attempt:",player.HandshakeAttempts)
+						if g_debug then print("RefreshStatus() - Retrying MPH handshake - ID:",player.ID,"attempt:",player.HandshakeAttempts) end
 					end
 				end
 				if player.Status == 2 then
@@ -881,7 +890,7 @@ function RefreshStatus()
 				end				
 				if player.Status == 0 then
 					b_mods_ok = false
-					print("RefreshStatus() - Host Querrying - ID:",player.ID)
+					if g_debug then print("RefreshStatus() - Host Querying - ID:",player.ID) end
 					local name = PlayerConfigurations[player.ID]:GetPlayerName()
 					if name == nil then
 						name = "Player "..player.ID
@@ -907,7 +916,7 @@ function RefreshStatus()
 end
 
 function OnModCheck()
-	print("OnModCheck()",os.date("%c"))
+	if g_debug then print("OnModCheck()",os.date("%c")) end
 	local localID = Network.GetLocalPlayerID()
 	local hostID = Network.GetGameHostPlayerID()
 	b_mods_ok = false
@@ -1569,12 +1578,12 @@ function QuickRefresh()
 
 	if GameConfiguration.GetValue("CPL_BAN_FORMAT") == 1 or GameConfiguration.GetValue("CPL_BAN_FORMAT") == 0 then
 		g_phase = PHASE_DEFAULT
-		GameConfiguration.SetValue("BAN_1","LEADER_NONE")
-		GameConfiguration.SetValue("BAN_2","LEADER_NONE")
-		GameConfiguration.SetValue("BAN_3","LEADER_NONE")
-		GameConfiguration.SetValue("BAN_4","LEADER_NONE")
-		GameConfiguration.SetValue("BAN_5","LEADER_NONE")
-		GameConfiguration.SetValue("BAN_6","LEADER_NONE")
+		for banIndex = 1, 6 do
+			local key = "BAN_" .. tostring(banIndex)
+			if GameConfiguration.GetValue(key) ~= "LEADER_NONE" then
+				GameConfiguration.SetValue(key, "LEADER_NONE")
+			end
+		end
 		Controls.PickedMapLabel:SetHide(true) 
 		Controls.PickedMap2Label:SetHide(true) 
 	end
@@ -1598,24 +1607,33 @@ function Refresh()
 	if string.len(g_refreshing) > 30 then
 		g_refreshing = "Refreshing"
 	end	
-	GameConfiguration.SetValue("MOD_BSM_ID",false)
-	GameConfiguration.SetValue("MOD_BBS_ID",false)
-	GameConfiguration.SetValue("MOD_BBG_ID",false)
-	GameConfiguration.SetValue("MOD_MPH_ID",false)
+	local hasBSM = false
+	local hasUnifiedPackage = false
 	local enabledMods = GameConfiguration.GetEnabledMods();
 	for _, curMod in ipairs(enabledMods) do
 		-- Color unofficial mods to call them out.
 		if curMod.Id == "3291a787-4a93-445c-998d-e22034ab15b3" or curMod.Id == "c6e5ad32-0600-4a98-a7cd-5854a1abcaaf" then
-			GameConfiguration.SetValue("MOD_BSM_ID",true)
+			hasBSM = true
 		end			
 		if curMod.Id == ZYLPVP_MOD_ID then
 			-- The unified package owns all three capabilities.  Keep MPH's
 			-- hidden configuration flags enabled for its existing presets.
-			GameConfiguration.SetValue("MOD_BBS_ID",true)
-			GameConfiguration.SetValue("MOD_BBG_ID",true)
-			GameConfiguration.SetValue("MOD_MPH_ID",true)
+			hasUnifiedPackage = true
 		end
-	end	
+	end
+	local capabilityValues = {
+		{ "MOD_BSM_ID", hasBSM },
+		{ "MOD_BBS_ID", hasUnifiedPackage },
+		{ "MOD_BBG_ID", hasUnifiedPackage },
+		{ "MOD_MPH_ID", hasUnifiedPackage }
+	}
+	for _, entry in ipairs(capabilityValues) do
+		local key = entry[1]
+		local value = entry[2]
+		if GameConfiguration.GetValue(key) ~= value then
+			GameConfiguration.SetValue(key, value)
+		end
+	end
 	
 	-- Define Settings
 	g_slot_draft = 0
@@ -7853,7 +7871,7 @@ function IsFriendInGame(friend:table)
 			return true;
 		end
 	end
-	return fasle;
+	return false;
 end
 
 -------------------------------------------------
@@ -7880,6 +7898,36 @@ end
 function OnShutdown()
 	-- Cache values for hotloading...
 	LuaEvents.GameDebug_AddValue("StagingRoom", "isHidden", ContextPtr:IsHidden());
+
+	-- UI contexts may be hot-reloaded during development and can also be
+	-- recreated after shell transitions. Keep every global registration paired
+	-- with a removal so stale contexts cannot continue receiving network events.
+	Events.SystemUpdateUI.Remove(OnUpdateUI);
+	Events.MapMaxMajorPlayersChanged.Remove(OnMapMaxMajorPlayersChanged);
+	Events.MapMinMajorPlayersChanged.Remove(OnMapMinMajorPlayersChanged);
+	Events.MultiplayerPrePlayerDisconnected.Remove(OnMultiplayerPrePlayerDisconnected);
+	Events.GameConfigChanged.Remove(OnGameConfigChanged);
+	Events.PlayerInfoChanged.Remove(OnPlayerInfoChanged);
+	Events.GameCoreEventPublishComplete.Remove(OnTick);
+	Events.UploadCloudPlayerConfigComplete.Remove(OnUploadCloudPlayerConfigComplete);
+	Events.ModStatusUpdated.Remove(OnModStatusUpdated);
+	Events.MultiplayerChat.Remove(OnMultiplayerChat);
+	Events.MultiplayerGameAbandoned.Remove(OnAbandoned);
+	Events.MultiplayerGameLaunchFailed.Remove(OnMultiplayerGameLaunchFailed);
+	Events.LeaveGameComplete.Remove(OnLeaveGameComplete);
+	Events.BeforeMultiplayerInviteProcessing.Remove(OnBeforeMultiplayerInviteProcessing);
+	Events.MultiplayerHostMigrated.Remove(OnMultiplayerHostMigrated);
+	Events.MultiplayerPlayerConnected.Remove(OnMultplayerPlayerConnected);
+	Events.MultiplayerPingTimesChanged.Remove(OnMultiplayerPingTimesChanged);
+	Events.SteamFriendsStatusUpdated.Remove(UpdateFriendsList);
+	Events.SteamFriendsPresenceUpdated.Remove(UpdateFriendsList);
+	Events.CloudGameKilled.Remove(OnCloudGameKilled);
+	Events.CloudGameQuit.Remove(OnCloudGameQuit);
+	LuaEvents.GameDebug_Return.Remove(OnGameDebugReturn);
+	LuaEvents.HostGame_ShowStagingRoom.Remove(OnRaise);
+	LuaEvents.JoiningRoom_ShowStagingRoom.Remove(OnRaise);
+	LuaEvents.EditHotseatPlayer_UpdatePlayer.Remove(UpdatePlayerEntry);
+	LuaEvents.Multiplayer_ExitShell.Remove(OnHandleExitRequest);
 end
 
 function OnGameDebugReturn( context:string, contextTable:table )

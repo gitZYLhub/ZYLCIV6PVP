@@ -2633,6 +2633,51 @@ Add-ValidationError "Staging-room identity validation is missing: $requiredStagi
 if ([regex]::Matches($stagingRoomSource, 'if\(not CheckZYLIdentityConfig\(\)\) then').Count -lt 2) {
 Add-ValidationError 'Identity configuration must block both normal auto-start and host force-start paths.'
 }
+
+foreach ($requiredLobbyLifecycleFragment in @(
+'local function RefreshTickSettings()',
+'if now < g_last_tick_time + g_tick_size then',
+'Events.GameCoreEventPublishComplete.Remove(OnTick);',
+'LuaEvents.Multiplayer_ExitShell.Remove(OnHandleExitRequest);',
+'if GameConfiguration.GetValue(key) ~= value then'
+)) {
+if (-not $stagingRoomSource.Contains($requiredLobbyLifecycleFragment)) {
+Add-ValidationError "Staging-room refresh/lifecycle guard is missing: $requiredLobbyLifecycleFragment"
+}
+}
+foreach ($forbiddenLobbyFragment in @(
+"function OnTick()`r`n`tQuickRefresh()",
+"function OnTick()`n`tQuickRefresh()",
+'return fasle;',
+'local b_debug = true',
+'GameConfiguration.SetValue("MOD_BSM_ID",false)'
+)) {
+if ($stagingRoomSource.Contains($forbiddenLobbyFragment)) {
+Add-ValidationError "Staging-room regression restored a hot-loop or typo: $forbiddenLobbyFragment"
+}
+}
+
+$eventRegistrations = @{}
+foreach ($registration in [regex]::Matches(
+$stagingRoomSource,
+'(?m)(Events|LuaEvents)\.([A-Za-z0-9_]+)\.Add\(\s*([A-Za-z0-9_]+)\s*\)'
+)) {
+$key = "$($registration.Groups[1].Value).$($registration.Groups[2].Value)|$($registration.Groups[3].Value)"
+$eventRegistrations[$key] = $true
+}
+$eventRemovals = @{}
+foreach ($removal in [regex]::Matches(
+$stagingRoomSource,
+'(?m)(Events|LuaEvents)\.([A-Za-z0-9_]+)\.Remove\(\s*([A-Za-z0-9_]+)\s*\)'
+)) {
+$key = "$($removal.Groups[1].Value).$($removal.Groups[2].Value)|$($removal.Groups[3].Value)"
+$eventRemovals[$key] = $true
+}
+foreach ($registrationKey in $eventRegistrations.Keys) {
+if (-not $eventRemovals.ContainsKey($registrationKey)) {
+Add-ValidationError "Staging-room global event registration has no matching shutdown removal: $registrationKey"
+}
+}
 }
 
 $stagingRoomIdentityXmlPath = Join-Path $modRoot 'ui\stagingroom.xml'

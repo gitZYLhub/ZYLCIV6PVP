@@ -31,3 +31,13 @@
 - 验证：PowerShell 三个维护脚本语法解析通过；`tools/validate.ps1` 通过，结果为 164 XML、108 条件、283 动作、1077 文件、549 活跃引用、48 个休眠文件和 13 个源码专用文件。连续两次 universal 构建均为 1072 文件、740.53 MiB、聚合 SHA-256 `10123dfcc47c5b4fa6a154a9bda926ee9e51c89b32e35f2367ffd2b183bfea6c`。
 - 风险/待办：现有 ModInfo 和校验器仍为超大单文件，后续里程碑拆分；平台专用包尚未启用。
 - 提交：待提交。
+
+### 2026-09-06 / M3-大厅刷新与事件生命周期第一批修复
+
+- 目标：先消除能够静态确认的大厅热循环、重复配置写入、日志噪音和热重载事件泄漏风险。
+- 范围：`ui/stagingroom.lua` 的周期刷新、能力标记、版本状态日志、好友判断和全局事件生命周期；不改变投票、Ban/Pick、身份算法或网络协议格式。
+- 设计决定：配置事件仍立即执行完整 UI 刷新；发布回调只按原有 `g_tick_size` 的 1–5 秒阶段间隔执行周期任务。所有共享标记保持固定顺序写入，并在新值不同于旧值时才写。
+- 修改：OnTick 在任何 Quick/Full Refresh 前节流；缓存 DRAFT 配置读取；Ban 槽和内置能力标记改为差异写入；版本握手周期日志改为调试日志；修正 `fasle`；OnShutdown 对称移除 21 个 Events 和 5 个 LuaEvents 注册。
+- 验证：`tools/validate.ps1` 与 `git diff --check` 通过；静态配对统计为 26 个全局事件 Add / 26 个 Remove；未受调试开关保护的 `RefreshStatus` 打印为 0；`GameConfiguration.SetValue` 静态调用点从审计时约 53 个降到 41 个。
+- 风险/待办：尚未做 Civ VI 双客户端运行测试；`stagingroom.lua` 仍是巨型脚本，命令、投票、身份和 ViewModel 抽取留在后续批次。
+- 提交：待提交。
