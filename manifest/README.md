@@ -7,6 +7,7 @@
 - `actions/frontend/*.xml`：按责任域拆分的 FrontEndActions。
 - `actions/ingame/*.xml`：按责任域拆分的 InGameActions。
 - `files/*.xml`：按责任域拆分的 Files 路径，跨平台美术资产单独成域但仍完整保留。
+- `dormant-files.txt`：有意保留在源码树、但因冲突或未启用而不得进入 ModInfo 的文件白名单。
 
 当前 ActionCriteria、FrontEndActions、InGameActions 和 Files 已全部由分域片段生成。`tools/assemble_modinfo.ps1` 每次运行都会从片段重建这些运行元素，并保留 ModInfo 中不影响运行语义的人工说明注释；`tools/validate.ps1` 会拒绝片段与生成文件不一致的状态。
 

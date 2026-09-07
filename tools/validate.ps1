@@ -52,6 +52,12 @@ if (-not (Test-Path -LiteralPath $projectChecksPath -PathType Leaf)) {
 }
 . $projectChecksPath
 
+$assetInventoryChecksPath = Join-Path $PSScriptRoot 'validation\AssetInventoryChecks.ps1'
+if (-not (Test-Path -LiteralPath $assetInventoryChecksPath -PathType Leaf)) {
+    throw "Asset inventory validation helpers not found: $assetInventoryChecksPath"
+}
+. $assetInventoryChecksPath
+
 $missingRemovalFixture = @(Get-ZylLuaEventLifecycleIssues -Source 'Events.Example.Add(OnExample)' -Label 'Fixture')
 $balancedLifecycleFixture = @(Get-ZylLuaEventLifecycleIssues -Source @'
 Events.Example.Add(OnExample)
@@ -110,6 +116,12 @@ if ($safeWorkshopFixture.Count -ne 0 -or
         -not (Test-IsGeneratedProjectPath 'artifacts\workshop\file.xml') -or
         (Test-IsGeneratedProjectPath 'components\bbg\file.xml')) {
     Add-ValidationError 'Project boundary helpers failed their positive/negative self-test.'
+}
+
+$uniquePathFixture = @(Get-ZylDuplicateNormalizedPaths -Paths @('a/file.xml', 'b/file.xml'))
+$duplicatePathFixture = @(Get-ZylDuplicateNormalizedPaths -Paths @('A/file.xml', 'a\FILE.xml'))
+if ($uniquePathFixture.Count -ne 0 -or $duplicatePathFixture.Count -ne 1) {
+    Add-ValidationError 'Asset path identity helper failed its positive/negative self-test.'
 }
 
 if (-not (Test-Path -LiteralPath $modInfoPath)) {
@@ -585,141 +597,27 @@ foreach ($englishTag in $englishLocalizationTags) {
     }
 }
 
-# Build a case-insensitive manifest for Windows/macOS portability.
-$listedFiles = [System.Collections.Generic.List[string]]::new()
-$listedFileMap = @{}
-foreach ($fileNode in @($modInfo.SelectNodes('/Mod/Files/File'))) {
-    $relativePath = $fileNode.InnerText.Trim().Replace('/', '\')
-    $key = Normalize-RelativePath $relativePath
-    if ($listedFileMap.ContainsKey($key)) {
-        Add-ValidationError "Duplicate <Files> entry (case-insensitive): $relativePath"
-    }
-    else {
-        $listedFileMap[$key] = $relativePath
-        $listedFiles.Add($relativePath)
-    }
+# Build a case-insensitive runtime inventory for Windows/macOS portability and
+# reverse-audit every repository file against published, dormant or source-only
+# ownership. Action and Criteria identity/reference maps are shared below.
+$dormantFileListPath = Join-Path $modRoot 'manifest\dormant-files.txt'
+$assetInventory = Get-ZylAssetInventory `
+    -ModInfo $modInfo `
+    -ProjectRoot $modRoot `
+    -ProjectFiles $projectFiles `
+    -ModInfoPath $modInfoPath `
+    -DormantFileListPath $dormantFileListPath
+foreach ($assetIssue in @($assetInventory.Issues)) {
+    Add-ValidationError $assetIssue
 }
-foreach ($relativePath in $listedFiles) {
-    if (-not (Test-Path -LiteralPath (Join-Path $modRoot $relativePath))) {
-        Add-ValidationError "Listed file missing on disk: $relativePath"
-    }
-}
-
-# Reverse-audit the manifest as well. Most past omissions were valid files on
-# disk that no action could ever see because they never reached <Files>.
-# Keep intentionally dormant/conflicting upstream files explicit so a new
-# unlisted file fails validation instead of silently disappearing at runtime.
-$intentionallyUnlistedFiles = @(
-    'BCS\UI\CityStates_SPEC.lua',
-    'BCT\UnitFlagManager_BuilderCharges.lua',
-    'BER\UnitFlagManager_GreatGeneralEraReminder.lua',
-    'BSM\Text_CN.xml',
-    'BSM\Text_EN.xml',
-    'BSM\UI\DiplomacyRibbon_SP.lua',
-    'BSM\UI\DiplomacyRibbon_SP.xml',
-    'BSM\UI\diplomacyribbon_spec.lua',
-    'Components\BBG\LICENSE',
-    'Components\BBG\scripts\bbg_stateutils.lua',
-	'tools\build_workshop_release.ps1',
-    'Components\BBG\scripts\bbg_unitcommanddefs.lua',
-    'Components\BBG\scripts\bbg_unitcommands.lua',
-    'Components\BBG\sql\beta\ban_trade_treaty.sql',
-    'Components\BBG\ui\bbg_customplacement.lua',
-    'Components\BBG\ui\replacements\civ6common.lua',
-    'Components\BBG\ui\replacements\productionpanel_bbg.lua',
-    'Components\BBG\ui\replacements\strategicview_mapplacement.lua',
-    'Components\BBG\ui\replacements\unitpanel_bbg_legacy.lua',
-    'Components\BBM\Configuration\Config_option.xml',
-    'Components\BBM\Configuration\ConfigText.xml',
-    'Components\BBM\Data\BBS Maps\Utility\NaturalWonderGenerator.lua',
-    'Components\BBM\Gameplay\Text.xml',
-    'Components\BBM\license.txt',
-    'Components\BBM\notice.txt',
-    'Components\BBM\README.md',
-    'Config\GameConfig_BASE.xml',
-    'Config\GameConfig_MONOPOLIES.xml',
-    'Config\GameConfig_SECRETSOCIETIES.xml',
-    'configuration\readme.txt',
-    'GPN\GreatPersonNames.sql',
-    'icons\Anonymous_Portrait.dds',
-    'icons\LastMove_44.dds',
-    'icons\LastMove_Icons.xml',
-    'mode\lastmove\LastMove_Background.dds',
-    'mode\lastmove\LastMove_Portrait.dds',
-    'mode\lastmove\lastmove_text.xml',
-    'mode\lastmove\lastmove_UI.lua',
-    'mode\lastmove\lastmove_UI.xml',
-    'mode\lastmove\lastmove_unitabilities.xml',
-    'mode\lastmove\lastmove.lua',
-    'NHK\UI\TurnTime_HotKey.lua',
-    'NHK\UI\TurnTime_HotKey.xml',
-    'RMP\Config_Text.xml',
-    'RMP\Config.xml',
-    'ui\Replacements\chatpanel_ZYL.lua',
-    'ui\Replacements\chatpanel_ZYL.xml',
-    'ui\Replacements\diplomacydealview_MPH.lua'
-)
-$intentionallyUnlistedMap = @{}
-foreach ($relativePath in $intentionallyUnlistedFiles) {
-    $intentionallyUnlistedMap[(Normalize-RelativePath $relativePath)] = $relativePath
-}
-$sourceOnlyFileCount = 0
-$diskFiles = $projectFiles
-foreach ($diskFile in $diskFiles) {
-    if ($diskFile.FullName -eq $modInfoPath) { continue }
-    $relativePath = $diskFile.FullName.Substring($modRoot.Length + 1)
-    $key = Normalize-RelativePath $relativePath
-    if (Test-IsSourceOnlyFile $key) {
-        $sourceOnlyFileCount++
-        continue
-    }
-    if (-not $listedFileMap.ContainsKey($key) -and -not $intentionallyUnlistedMap.ContainsKey($key)) {
-        Add-ValidationError "File exists on disk but is absent from <Files> and the dormant allowlist: $relativePath"
-    }
-}
-foreach ($key in $intentionallyUnlistedMap.Keys) {
-    $relativePath = $intentionallyUnlistedMap[$key]
-    if (-not (Test-Path -LiteralPath (Join-Path $modRoot $relativePath))) {
-        Add-ValidationError "Dormant-file allowlist entry no longer exists; remove or update it: $relativePath"
-    }
-    if ($listedFileMap.ContainsKey($key)) {
-        Add-ValidationError "A deliberately dormant/conflicting file was added to <Files>: $relativePath"
-    }
-}
-
-$actionNodes = @(
-    $modInfo.SelectNodes('/Mod/FrontEndActions/*') |
-        Where-Object { $_.NodeType -eq [System.Xml.XmlNodeType]::Element }
-    $modInfo.SelectNodes('/Mod/InGameActions/*') |
-        Where-Object { $_.NodeType -eq [System.Xml.XmlNodeType]::Element }
-)
-
-$actionIdMap = @{}
-foreach ($actionNode in $actionNodes) {
-    $actionId = $actionNode.GetAttribute('id')
-    if ([string]::IsNullOrWhiteSpace($actionId)) {
-        Add-ValidationError "Action without id: $($actionNode.OuterXml)"
-        continue
-    }
-    $actionKey = $actionId.ToLowerInvariant()
-    if ($actionIdMap.ContainsKey($actionKey)) {
-        Add-ValidationError "Duplicate action id: $actionId"
-    }
-    else {
-        $actionIdMap[$actionKey] = $actionNode
-    }
-}
-
-# Civ VI's UpdateArt handler accepts game-art dependency manifests, not raw
-# ArtDef files.  Passing an .artdef here logs "Could not load file. Unknown
-# extension" and silently skips the asset.
-foreach ($updateArtAction in @($actionNodes | Where-Object { $_.LocalName -eq 'UpdateArt' })) {
-    foreach ($fileNode in @($updateArtAction.SelectNodes('.//File'))) {
-        if ([System.IO.Path]::GetExtension($fileNode.InnerText.Trim()) -ieq '.artdef') {
-            Add-ValidationError "UpdateArt action $($updateArtAction.GetAttribute('id')) directly loads an ArtDef instead of a .dep manifest: $($fileNode.InnerText.Trim())"
-        }
-    }
-}
+$listedFiles = @($assetInventory.ListedFiles)
+$listedFileMap = $assetInventory.ListedFileMap
+$intentionallyUnlistedFiles = @($assetInventory.IntentionallyUnlistedFiles)
+$sourceOnlyFileCount = $assetInventory.SourceOnlyFileCount
+$actionNodes = @($assetInventory.ActionNodes)
+$actionIdMap = $assetInventory.ActionIdMap
+$criteriaMap = $assetInventory.CriteriaMap
+$actionReferenceMap = $assetInventory.ActionReferenceMap
 
 # ZYLPVPMOD's final gameplay override layer must remain later than every
 # embedded BBG/BBM action; otherwise an upstream update can silently restore
@@ -1781,62 +1679,6 @@ else {
         if (-not $governorOverrideSql.Contains($requiredToken)) {
             Add-ValidationError "Governor override SQL is missing invariant: $requiredToken"
         }
-    }
-}
-
-$criteriaMap = @{}
-foreach ($criteriaNode in @($modInfo.SelectNodes('/Mod/ActionCriteria/Criteria'))) {
-    $criteriaId = $criteriaNode.GetAttribute('id')
-    $criteriaKey = $criteriaId.ToLowerInvariant()
-    if ($criteriaMap.ContainsKey($criteriaKey)) {
-        Add-ValidationError "Duplicate criteria id: $criteriaId"
-    }
-    else {
-        $criteriaMap[$criteriaKey] = $criteriaNode
-    }
-}
-foreach ($actionNode in $actionNodes) {
-    $criteriaReferences = [System.Collections.Generic.List[string]]::new()
-    foreach ($criteriaNode in @($actionNode.SelectNodes('./Criteria'))) {
-        $criteriaReferences.Add($criteriaNode.InnerText.Trim())
-    }
-    foreach ($attributeName in @('criteria', 'Criteria')) {
-        if ($actionNode.HasAttribute($attributeName)) {
-            $criteriaReferences.Add($actionNode.GetAttribute($attributeName).Trim())
-        }
-    }
-    foreach ($criteriaReference in $criteriaReferences) {
-        if (-not $criteriaMap.ContainsKey($criteriaReference.ToLowerInvariant())) {
-            Add-ValidationError "Unknown criteria '$criteriaReference' in action '$($actionNode.GetAttribute('id'))'."
-        }
-    }
-}
-
-$actionReferenceMap = @{}
-foreach ($actionNode in $actionNodes) {
-    foreach ($referenceNode in @($actionNode.SelectNodes('.//File') + $actionNode.SelectNodes('.//LuaReplace'))) {
-        $relativePath = $referenceNode.InnerText.Trim().Replace('/', '\')
-        $actionReferenceMap[(Normalize-RelativePath $relativePath)] = $relativePath
-    }
-}
-
-# AddUserInterfaces loads a same-named Lua file beside its XML when present.
-foreach ($actionNode in @($actionNodes | Where-Object { $_.LocalName -eq 'AddUserInterfaces' })) {
-    foreach ($fileNode in @($actionNode.SelectNodes('.//File'))) {
-        if ($fileNode.InnerText -notlike '*.xml') { continue }
-        $pairedLua = [System.IO.Path]::ChangeExtension($fileNode.InnerText.Trim(), '.lua').Replace('/', '\')
-        if (Test-Path -LiteralPath (Join-Path $modRoot $pairedLua)) {
-            $actionReferenceMap[(Normalize-RelativePath $pairedLua)] = $pairedLua
-        }
-    }
-}
-foreach ($key in @($actionReferenceMap.Keys | Sort-Object)) {
-    $relativePath = $actionReferenceMap[$key]
-    if (-not (Test-Path -LiteralPath (Join-Path $modRoot $relativePath))) {
-        Add-ValidationError "Action reference missing on disk: $relativePath"
-    }
-    if (-not $listedFileMap.ContainsKey($key)) {
-        Add-ValidationError "Action reference absent from <Files>: $relativePath"
     }
 }
 

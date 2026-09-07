@@ -200,4 +200,14 @@
 - 修改：新增工程文件枚举、维护脚本 Workshop 缓存路径扫描、组装器本地输入边界和 XML 可解析性检查；主入口删除 80 行内联实现并以 28 行装载、自检和调度代码替代，净减少 52 行。
 - 验证：路径扫描器对安全样例返回 0 个问题、对 `steamapps/workshop` 危险样例返回 1 个问题；源码/运行文件与生成目录分类正反样例通过。临时把 `manifest/files/01-core.xml` 闭合标签改为 `FilesFragment_PROBE` 后，Windows PowerShell 校验以退出码 1 精确报告无效 XML 文件和行列。首次跨版本复核还发现 Windows PowerShell 5.1 会误解码无 BOM 脚本中的《修改大全》中文文件名，已为该模块保留 UTF-8 BOM；修复后 PowerShell 7 与 Windows PowerShell 均通过 203 XML、108 Criteria、283 Actions、1077 Files、549 活跃引用、48 休眠文件和 60 源码专用文件，universal 包仍为 1072 文件、740.53 MiB，聚合 SHA-256 `fc00184ee15b5761dc6b873496ee907a72dd5f922ea7bf8b2853e14daa91b94b`。
 - 风险/待办：基础工程边界已抽离，但数据库、地图、UI、联机和发布包契约仍在主入口；下一步应选择高复用且能构造正反样例的领域继续拆分。
-- 提交：本次提交（工程边界与 XML 校验模块化）。
+- 提交：`2b4bf4a refactor: extract project validation checks`。
+
+### 2026-09-07 / M2-运行资产所有权校验模块化
+
+- 目标：让仓库内每个文件明确属于“发布、休眠或源码”之一，并统一 Action/Criteria 身份和活跃引用视图，减少主入口散落的清单状态。
+- 范围：校验工具、休眠文件清单和相关文档；不删除、移动或修改任何运行资产，不改变 ModInfo、版本或玩家行为。
+- 设计决定：把 48 个有意休眠/冲突文件从 PowerShell 数组迁移到 `manifest/dormant-files.txt`；`AssetInventoryChecks.ps1` 一次构造 Files、Action、Criteria、活跃引用及其不区分大小写映射，并返回全部问题和供后续领域断言复用的只读视图。
+- 修改：新增发布文件存在性、磁盘反向所有权、休眠项存在/未发布、Action/Criteria ID 唯一、Criteria 引用闭合、UpdateArt 不直载 ArtDef、Action 文件引用磁盘/Files 双闭合检查；主入口删除 191 行内联实现并以 33 行装载、自检、调用和视图解包替代，净减少 158 行。
+- 验证：规范化路径助手对 `A/file.xml` 与 `a\\FILE.xml` 正确报告重复；临时从休眠清单移除 `BCS/UI/CityStates_SPEC.lua` 后，Windows PowerShell 校验以退出码 1 报告该磁盘文件既不在 Files 也不在休眠白名单；内存中把首个 Action 引用追加 `.probe` 后，同时报告引用磁盘缺失和未列入 Files。恢复后 PowerShell 7 与 Windows PowerShell 均通过 203 XML、108 Criteria、283 Actions、1077 Files、549 活跃引用、48 休眠文件和 62 源码专用文件；ModInfo SHA-256 保持 `94869D352E031F53513FB048095730851842B75BDF7CD4398B4EAF27259BB14D`，universal 包仍为 1072 文件、740.53 MiB，聚合 SHA-256 `fc00184ee15b5761dc6b873496ee907a72dd5f922ea7bf8b2853e14daa91b94b`。
+- 风险/待办：所有权模型当前仍以“休眠白名单”为粗粒度原因记录；后续可为休眠项增加原因/来源元数据。下一步继续抽取数据库契约或活跃运行文件危险模式检查。
+- 提交：本次提交（运行资产所有权校验模块化）。
