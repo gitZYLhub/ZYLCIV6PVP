@@ -59,6 +59,12 @@ Manifest 迁移采用“分段替换而非一次重写”：`manifest/criteria`�
 - 领域模块返回问题或调用统一的 `Add-ValidationError`，不得自行终止整个校验流程；只有入口脚本负责最终退出码与摘要。
 - 抽取模块时必须保持原断言有效，并至少提供一个应通过和一个应失败的内建样例，防止“为了拆文件而让校验失效”。
 
+## 发布层
+
+- `tools/build_workshop_release.ps1` 从 ModInfo 的 Files 清单建立临时目录，经完整校验后原子替换 `artifacts/workshop`；源码、文档、Git 元数据和休眠文件不得进入运行包。
+- 已知文本格式必须通过严格 UTF-8 解码并在临时产物中规范为 LF，BOM 与孤立 CR 保留；`.dds/.fgx` 等二进制资产逐字节复制。构建过程不得为了统一行尾修改源码树。
+- 报告 schema 2 记录 `textNormalization=utf8-lf`、规范化文本数量、逐文件大小/哈希和聚合哈希；相同 Git 内容的 CRLF/LF 工作区变体必须产生相同报告哈希。
+
 ## 目录迁移约束
 
 重构可逐步新增 `src`、`manifest` 或 `tests` 等开发目录，但不能在未同步更新 `.dep`、ArtDefs、ModInfo 和平台引用时移动运行资产。Civ VI 对 UI Context 文件名、相对路径和平台目录的约定优先于常规软件项目的目录美观。

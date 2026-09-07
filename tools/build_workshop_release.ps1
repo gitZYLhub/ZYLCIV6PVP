@@ -5,6 +5,84 @@ param(
 
 $ErrorActionPreference = 'Stop'
 
+$releaseTextExtensions = [System.Collections.Generic.HashSet[string]]::new(
+	[System.StringComparer]::OrdinalIgnoreCase
+)
+@(
+	'.anm',
+	'.artdef',
+	'.dep',
+	'.geo',
+	'.lua',
+	'.md',
+	'.modinfo',
+	'.mtl',
+	'.ps1',
+	'.psm1',
+	'.sql',
+	'.tex',
+	'.txt',
+	'.xlp',
+	'.xml'
+) | ForEach-Object { [void]$releaseTextExtensions.Add($_) }
+$strictUtf8 = [System.Text.UTF8Encoding]::new($false, $true)
+$utf8WithoutBom = [System.Text.UTF8Encoding]::new($false)
+
+function Test-ZylReleaseTextPath {
+	param([Parameter(Mandatory = $true)][string]$RelativePath)
+
+	if ($RelativePath.Equals('LICENSE', [System.StringComparison]::OrdinalIgnoreCase)) {
+		return $true
+	}
+	return $releaseTextExtensions.Contains(
+		[System.IO.Path]::GetExtension($RelativePath)
+	)
+}
+
+function ConvertTo-ZylReleaseTextBytes {
+	param(
+		[Parameter(Mandatory = $true)]
+		[byte[]]$SourceBytes,
+
+		[Parameter(Mandatory = $true)]
+		[string]$RelativePath
+	)
+
+	try {
+		$text = $strictUtf8.GetString($SourceBytes)
+	}
+	catch {
+		throw "Release text file is not valid UTF-8: $RelativePath"
+	}
+	$normalizedText = $text.Replace("`r`n", "`n")
+	$normalizedBytes = $utf8WithoutBom.GetBytes($normalizedText)
+	Write-Output -NoEnumerate $normalizedBytes
+}
+
+$normalizationFixture = [byte[]](239, 187, 191, 65, 13, 10, 66, 10, 67, 13, 68)
+[byte[]]$normalizedFixture = ConvertTo-ZylReleaseTextBytes `
+	-SourceBytes $normalizationFixture `
+	-RelativePath 'fixture.xml'
+if ([System.BitConverter]::ToString($normalizedFixture) -ne 'EF-BB-BF-41-0A-42-0A-43-0D-44' -or
+		-not (Test-ZylReleaseTextPath 'file.lua') -or
+		-not (Test-ZylReleaseTextPath 'texture.tex') -or
+		-not (Test-ZylReleaseTextPath 'LICENSE') -or
+		(Test-ZylReleaseTextPath 'texture.dds')) {
+	throw 'Release text-normalization helper failed its positive/binary-boundary self-test.'
+}
+$invalidUtf8Rejected = $false
+try {
+	[void](ConvertTo-ZylReleaseTextBytes `
+		-SourceBytes ([byte[]](195, 40)) `
+		-RelativePath 'invalid-fixture.xml')
+}
+catch {
+	$invalidUtf8Rejected = $true
+}
+if (-not $invalidUtf8Rejected) {
+	throw 'Release text-normalization helper accepted invalid UTF-8.'
+}
+
 $sourceRoot = [System.IO.Path]::GetFullPath((Split-Path -Parent $PSScriptRoot))
 $projectMetadataPath = Join-Path $PSScriptRoot 'project.json'
 if (-not (Test-Path -LiteralPath $projectMetadataPath -PathType Leaf)) {
@@ -101,7 +179,9 @@ foreach ($fileNode in @($modInfo.SelectNodes('/Mod/Files/File'))) {
 	$runtimeEntries.Add([pscustomobject]@{
 		RelativePath = $relativePath
 		SourcePath = $sourcePath
-		Length = (Get-Item -LiteralPath $sourcePath).Length
+		SourceLength = (Get-Item -LiteralPath $sourcePath).Length
+		NormalizeText = Test-ZylReleaseTextPath $relativePath
+		ExpectedLength = [int64]0
 	})
 }
 
@@ -131,13 +211,26 @@ $backupRoot = $null
 try {
 	[void](New-Item -ItemType Directory -Path $stageRoot)
 	Write-Host "Copying $($runtimeEntries.Count) runtime files..."
+	$normalizedTextFileCount = 0
 	foreach ($entry in $runtimeEntries) {
 		$targetPath = Join-Path $stageRoot $entry.RelativePath.Replace('/', '\')
 		$targetParent = Split-Path -Parent $targetPath
 		if (-not (Test-Path -LiteralPath $targetParent)) {
 			[void](New-Item -ItemType Directory -Path $targetParent -Force)
 		}
-		Copy-Item -LiteralPath $entry.SourcePath -Destination $targetPath
+		if ($entry.NormalizeText) {
+			[byte[]]$sourceBytes = [System.IO.File]::ReadAllBytes($entry.SourcePath)
+			[byte[]]$normalizedBytes = ConvertTo-ZylReleaseTextBytes `
+				-SourceBytes $sourceBytes `
+				-RelativePath $entry.RelativePath
+			[System.IO.File]::WriteAllBytes($targetPath, $normalizedBytes)
+			$entry.ExpectedLength = $normalizedBytes.Length
+			$normalizedTextFileCount++
+		}
+		else {
+			Copy-Item -LiteralPath $entry.SourcePath -Destination $targetPath
+			$entry.ExpectedLength = $entry.SourceLength
+		}
 	}
 
 	$releaseModInfoPath = Join-Path $stageRoot ([string]$projectMetadata.modInfoFile)
@@ -161,8 +254,8 @@ try {
 	}
 	foreach ($entry in $runtimeEntries) {
 		$targetPath = Join-Path $stageRoot $entry.RelativePath.Replace('/', '\')
-		if ((Get-Item -LiteralPath $targetPath).Length -ne $entry.Length) {
-			throw "Copied file length mismatch: $($entry.RelativePath)"
+		if ((Get-Item -LiteralPath $targetPath).Length -ne $entry.ExpectedLength) {
+			throw "Staged file length mismatch: $($entry.RelativePath)"
 		}
 	}
 	foreach ($forbiddenPath in @('.git', 'BBG', 'tools')) {
@@ -208,14 +301,23 @@ try {
 
 	$releaseFiles = @(Get-ChildItem -LiteralPath $destinationRoot -Recurse -Force -File)
 	$releaseBytes = ($releaseFiles | Measure-Object -Property Length -Sum).Sum
-	$manifestEntries = @($releaseFiles | ForEach-Object {
-		$relativePath = $_.FullName.Substring($destinationRoot.Length + 1).Replace('\', '/')
-		[pscustomobject][ordered]@{
+	$releaseFileMap = @{}
+	$releaseRelativePaths = [System.Collections.Generic.List[string]]::new()
+	foreach ($releaseFile in $releaseFiles) {
+		$relativePath = $releaseFile.FullName.Substring($destinationRoot.Length + 1).Replace('\', '/')
+		$releaseFileMap[$relativePath] = $releaseFile
+		$releaseRelativePaths.Add($relativePath)
+	}
+	$releaseRelativePaths.Sort([System.StringComparer]::Ordinal)
+	$manifestEntries = [System.Collections.Generic.List[object]]::new()
+	foreach ($relativePath in $releaseRelativePaths) {
+		$releaseFile = $releaseFileMap[$relativePath]
+		$manifestEntries.Add([pscustomobject][ordered]@{
 			path = $relativePath
-			bytes = $_.Length
-			sha256 = (Get-FileHash -LiteralPath $_.FullName -Algorithm SHA256).Hash.ToLowerInvariant()
-		}
-	} | Sort-Object path)
+			bytes = $releaseFile.Length
+			sha256 = (Get-FileHash -LiteralPath $releaseFile.FullName -Algorithm SHA256).Hash.ToLowerInvariant()
+		})
+	}
 	$aggregateLines = @($manifestEntries | ForEach-Object {
 		'{0} {1} {2}' -f $_.sha256, $_.bytes, $_.path
 	})
@@ -234,17 +336,19 @@ try {
 	[void](New-Item -ItemType Directory -Path $reportRoot -Force)
 	$reportPath = Join-Path $reportRoot "$packageName-$packageVersion-universal.manifest.json"
 	$report = [pscustomobject][ordered]@{
-		schemaVersion = 1
+		schemaVersion = 2
 		packageName = $packageName
 		semanticVersion = $packageVersion
 		modId = [string]$projectMetadata.modId
 		profile = 'universal'
+		textNormalization = 'utf8-lf'
+		normalizedTextFileCount = $normalizedTextFileCount
 		fileCount = $releaseFiles.Count
-		totalBytes = $releaseBytes
+		totalBytes = [int64]$releaseBytes
 		aggregateSha256 = $aggregateHash
 		files = $manifestEntries
 	}
-	$reportJson = $report | ConvertTo-Json -Depth 5
+	$reportJson = $report | ConvertTo-Json -Depth 5 -Compress
 	[System.IO.File]::WriteAllText(
 		$reportPath,
 		$reportJson + "`n",
@@ -256,6 +360,7 @@ try {
 	Write-Host "Files     : $($releaseFiles.Count)"
 	Write-Host ('Size      : {0:N2} MiB' -f ($releaseBytes / 1MB))
 	Write-Host "SHA-256   : $aggregateHash"
+	Write-Host "Text      : $normalizedTextFileCount UTF-8 files normalized to LF"
 	Write-Host "Manifest  : $reportPath"
 	Write-Host "Excluded  : $($excludedNodes.Count) source-only files, plus all unlisted project files"
 }

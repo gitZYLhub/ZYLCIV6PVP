@@ -134,6 +134,14 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\tools\validate.ps1
 
 校验器检查 XML、ModInfo、动作/条件 ID、文件引用、BBM 美术依赖、LuaReplace 跨组件所有权、旧组件运行时 ID、上游失效引用、自动更新/动态加载和防堆科文代码。
 
+生成可上传的 universal 包：
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File .\tools\build_workshop_release.ps1
+```
+
+产物写入已忽略的 `artifacts/workshop`，逐文件清单写入 `artifacts/reports`。构建器仅在临时产物中把已知 UTF-8 文本规范为 LF，保留 BOM，不修改源码；二进制资产逐字节复制。因此同一 Git 内容在 Windows/macOS 或不同 `core.autocrlf` 配置下应生成相同哈希。
+
 静态通过不等于文明 VI 联机通过。正式比赛前必须按 [TEST_CHECKLIST.md](TEST_CHECKLIST.md) 至少用两个真实 Steam 客户端测试开房、生成两张富饶大陆、P++、强制过回合、掉线重连、Resync 和保存加载，并检查 `Lua.log`、`UI.log`、`Database.log`、`Modding.log` 与 `Multiplayer.log`。
 
 ## 分发说明

@@ -192,11 +192,13 @@ $projectFiles = @(Get-ZylProjectFiles -ProjectRoot $modRoot)
 # Upstream content is copied into this repository deliberately; once embedded,
 # the repository and its ModInfo are the only allowed build inputs.
 $assemblerPath = Join-Path $modRoot 'tools\assemble_modinfo.ps1'
+$releaseBuilderPath = Join-Path $modRoot 'tools\build_workshop_release.ps1'
 foreach ($projectBoundaryIssue in @(Get-ZylProjectBoundaryIssues `
         -ProjectRoot $modRoot `
         -ProjectFiles $projectFiles `
         -ValidatorPath $PSCommandPath `
-        -AssemblerPath $assemblerPath)) {
+        -AssemblerPath $assemblerPath `
+        -ReleaseBuilderPath $releaseBuilderPath)) {
     Add-ValidationError $projectBoundaryIssue
 }
 
