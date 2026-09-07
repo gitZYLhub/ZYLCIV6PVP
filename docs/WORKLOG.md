@@ -190,4 +190,14 @@
 - 修改：新增冻结指纹/四类计数检查、ActionCriteria/FrontEndActions/InGameActions/Files 源一致性检查和通用段比较器；主入口删除 123 行内联实现并以 34 行装载、自检和调度代码替代，净减少 89 行。
 - 验证：段比较器内建“属性换序但语义相同”正例和“路径值漂移”反例；临时把 Files 源改为 `README_PROBE.md` 时校验以退出码 1 报告源/生成段不一致，临时把生成 Action 改为 `FrontEnd_MANIFEST_CHECK_PROBE` 时冻结基线以退出码 1 报告指纹漂移，组装器随后恢复 ModInfo 原始 SHA-256 `94869D352E031F53513FB048095730851842B75BDF7CD4398B4EAF27259BB14D`。PowerShell 7 与 Windows PowerShell 最终校验均通过 203 XML、108 Criteria、283 Actions、1077 Files、549 活跃引用、48 休眠文件和 59 源码专用文件；universal 包仍为 1072 文件、740.53 MiB，聚合 SHA-256 保持 `fc00184ee15b5761dc6b873496ee907a72dd5f922ea7bf8b2853e14daa91b94b`。
 - 风险/待办：Manifest 域已经抽离；下一步优先抽取通用 XML/工程边界检查，再处理数据库契约、地图、UI、联机和发布包检查。
-- 提交：本次提交（Manifest 校验模块化）。
+- 提交：`8d84a7b refactor: extract manifest validation checks`。
+
+### 2026-09-07 / M2-工程边界与 XML 校验模块化
+
+- 目标：统一主入口反复依赖的路径/XML 基础能力，并把外部 Workshop 缓存隔离、组装器输入边界和全项目 XML 解析检查抽成无副作用模块。
+- 范围：校验工具与架构/计划/工作日志；不改变运行资产、ModInfo、分域源、版本或玩家行为。
+- 设计决定：`ProjectChecks.ps1` 提供路径规范化、源码/生成文件分类和 XML 装载函数，供主入口后续领域断言继续调用；领域检查只返回问题列表。项目文件枚举统一排除 `.git`、`artifacts`、`build`、`dist`，但不隐藏其他未列入运行包的源码。
+- 修改：新增工程文件枚举、维护脚本 Workshop 缓存路径扫描、组装器本地输入边界和 XML 可解析性检查；主入口删除 80 行内联实现并以 28 行装载、自检和调度代码替代，净减少 52 行。
+- 验证：路径扫描器对安全样例返回 0 个问题、对 `steamapps/workshop` 危险样例返回 1 个问题；源码/运行文件与生成目录分类正反样例通过。临时把 `manifest/files/01-core.xml` 闭合标签改为 `FilesFragment_PROBE` 后，Windows PowerShell 校验以退出码 1 精确报告无效 XML 文件和行列。首次跨版本复核还发现 Windows PowerShell 5.1 会误解码无 BOM 脚本中的《修改大全》中文文件名，已为该模块保留 UTF-8 BOM；修复后 PowerShell 7 与 Windows PowerShell 均通过 203 XML、108 Criteria、283 Actions、1077 Files、549 活跃引用、48 休眠文件和 60 源码专用文件，universal 包仍为 1072 文件、740.53 MiB，聚合 SHA-256 `fc00184ee15b5761dc6b873496ee907a72dd5f922ea7bf8b2853e14daa91b94b`。
+- 风险/待办：基础工程边界已抽离，但数据库、地图、UI、联机和发布包契约仍在主入口；下一步应选择高复用且能构造正反样例的领域继续拆分。
+- 提交：本次提交（工程边界与 XML 校验模块化）。

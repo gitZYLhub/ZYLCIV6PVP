@@ -46,6 +46,12 @@ if (-not (Test-Path -LiteralPath $manifestChecksPath -PathType Leaf)) {
 }
 . $manifestChecksPath
 
+$projectChecksPath = Join-Path $PSScriptRoot 'validation\ProjectChecks.ps1'
+if (-not (Test-Path -LiteralPath $projectChecksPath -PathType Leaf)) {
+    throw "Project validation helpers not found: $projectChecksPath"
+}
+. $projectChecksPath
+
 $missingRemovalFixture = @(Get-ZylLuaEventLifecycleIssues -Source 'Events.Example.Add(OnExample)' -Label 'Fixture')
 $balancedLifecycleFixture = @(Get-ZylLuaEventLifecycleIssues -Source @'
 Events.Example.Add(OnExample)
@@ -91,43 +97,19 @@ if (-not (Test-ZylManifestSectionsMatch `
     Add-ValidationError 'Manifest section matcher failed its positive/negative self-test.'
 }
 
-function Normalize-RelativePath {
-    param([string]$Path)
-    return $Path.Trim().Replace('/', '\').ToLowerInvariant()
-}
-
-function Test-IsSourceOnlyFile {
-    param([string]$NormalizedPath)
-
-    if ($NormalizedPath.StartsWith('docs\') -or
-            $NormalizedPath.StartsWith('.github\') -or
-            $NormalizedPath.StartsWith('tools\') -or
-            $NormalizedPath.StartsWith('manifest\')) {
-        return $true
-    }
-    return $NormalizedPath -in @(
-        '.gitattributes',
-        '.gitignore',
-        'changelog.md',
-        'zylpvpmod1.3.0修改大全.md'
-    )
-}
-
-function Test-IsGeneratedProjectPath {
-    param([string]$NormalizedPath)
-
-    return $NormalizedPath.StartsWith('.git\') -or
-        $NormalizedPath.StartsWith('artifacts\') -or
-        $NormalizedPath.StartsWith('build\') -or
-        $NormalizedPath.StartsWith('dist\')
-}
-
-function Load-XmlDocument {
-    param([string]$Path)
-    $document = [System.Xml.XmlDocument]::new()
-    $document.PreserveWhitespace = $false
-    $document.Load($Path)
-    return $document
+$safeWorkshopFixture = @(Get-ZylWorkshopCacheReferenceIssues `
+    -Source 'Join-Path $modRoot manifest' `
+    -Label 'Fixture')
+$unsafeWorkshopFixture = @(Get-ZylWorkshopCacheReferenceIssues `
+    -Source 'C:\Steam\steamapps\workshop\content\289070' `
+    -Label 'Fixture')
+if ($safeWorkshopFixture.Count -ne 0 -or
+        $unsafeWorkshopFixture.Count -ne 1 -or
+        -not (Test-IsSourceOnlyFile 'docs\architecture.md') -or
+        (Test-IsSourceOnlyFile 'ui\stagingroom.lua') -or
+        -not (Test-IsGeneratedProjectPath 'artifacts\workshop\file.xml') -or
+        (Test-IsGeneratedProjectPath 'components\bbg\file.xml')) {
+    Add-ValidationError 'Project boundary helpers failed their positive/negative self-test.'
 }
 
 if (-not (Test-Path -LiteralPath $modInfoPath)) {
@@ -141,47 +123,18 @@ foreach ($manifestIssue in @(Get-ZylManifestBaselineIssues `
     Add-ValidationError $manifestIssue
 }
 
-$projectFiles = @(Get-ChildItem -LiteralPath $modRoot -Recurse -Force -File | Where-Object {
-    $relativePath = $_.FullName.Substring($modRoot.Length + 1)
-    -not (Test-IsGeneratedProjectPath (Normalize-RelativePath $relativePath))
-})
+$projectFiles = @(Get-ZylProjectFiles -ProjectRoot $modRoot)
 
 # Build and maintenance scripts must never consume Steam Workshop caches.
 # Upstream content is copied into this repository deliberately; once embedded,
 # the repository and its ModInfo are the only allowed build inputs.
-$forbiddenWorkshopPathPattern = '(?i)steamapps[\\/]+workshop(?:[\\/]|$)'
-$maintenanceScripts = @($projectFiles | Where-Object {
-    $_.Extension -in @('.ps1', '.psm1', '.py', '.bat', '.cmd', '.sh', '.lua') -and
-        $_.FullName -ne $PSCommandPath
-})
-foreach ($maintenanceScript in $maintenanceScripts) {
-    foreach ($hit in @(Select-String -LiteralPath $maintenanceScript.FullName -Pattern $forbiddenWorkshopPathPattern)) {
-        $relativeScriptPath = $maintenanceScript.FullName.Substring($modRoot.Length + 1)
-        Add-ValidationError "Forbidden Steam Workshop content path in maintenance script ${relativeScriptPath}:$($hit.LineNumber)"
-    }
-}
 $assemblerPath = Join-Path $modRoot 'tools\assemble_modinfo.ps1'
-if (-not (Test-Path -LiteralPath $assemblerPath -PathType Leaf)) {
-    Add-ValidationError 'The local-only ModInfo assembler is missing.'
-}
-else {
-    $assemblerSource = Get-Content -LiteralPath $assemblerPath -Raw
-    foreach ($requiredBoundaryToken in @(
-        '$projectMetadataPath = Join-Path $PSScriptRoot ''project.json''',
-        '$manifestSourcesPath = Join-Path $PSScriptRoot ''manifest\ManifestSources.ps1''',
-        '$modInfoPath = Join-Path $modRoot ([string]$projectMetadata.modInfoFile)',
-        'function Resolve-ProjectFile',
-        'Sync-ActionCriteria $modInfo',
-        "-SectionName 'FrontEndActions'",
-        "-SectionName 'InGameActions'",
-        'Sync-FilesSection $modInfo',
-        '$fullPath.StartsWith($modRootPrefix',
-        'Manifest path escapes the project root'
-    )) {
-        if (-not $assemblerSource.Contains($requiredBoundaryToken)) {
-            Add-ValidationError "The ModInfo assembler is missing its project-local input boundary: $requiredBoundaryToken"
-        }
-    }
+foreach ($projectBoundaryIssue in @(Get-ZylProjectBoundaryIssues `
+        -ProjectRoot $modRoot `
+        -ProjectFiles $projectFiles `
+        -ValidatorPath $PSCommandPath `
+        -AssemblerPath $assemblerPath)) {
+    Add-ValidationError $projectBoundaryIssue
 }
 
 # Validate every runtime XML-bearing artifact, including the BBM art
@@ -189,13 +142,8 @@ else {
 $xmlFiles = @($projectFiles | Where-Object {
 	$_.Extension -in @('.xml', '.modinfo', '.dep')
 })
-foreach ($xmlFile in $xmlFiles) {
-    try {
-        [void](Load-XmlDocument $xmlFile.FullName)
-    }
-    catch {
-        Add-ValidationError "Invalid XML: $($xmlFile.FullName) :: $($_.Exception.Message)"
-    }
+foreach ($xmlIssue in @(Get-ZylXmlArtifactIssues -XmlFiles $xmlFiles)) {
+    Add-ValidationError $xmlIssue
 }
 
 $modInfo = Load-XmlDocument $modInfoPath
