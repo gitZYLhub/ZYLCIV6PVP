@@ -2686,7 +2686,9 @@ foreach ($requiredLobbyLifecycleFragment in @(
 'LuaEvents.Multiplayer_ExitShell.Remove(OnHandleExitRequest);',
 'if GameConfiguration.GetValue(key) ~= value then',
 'local ZYL_NATIVE_PRINT = print',
-'local function ZYLDebugLog(...)'
+'local function ZYLDebugLog(...)',
+'for index = #shuffledVersion, 2, -1 do',
+'local swapIndex = math.random(index)'
 )) {
 if (-not $stagingRoomSource.Contains($requiredLobbyLifecycleFragment)) {
 Add-ValidationError "Staging-room refresh/lifecycle guard is missing: $requiredLobbyLifecycleFragment"
@@ -2699,7 +2701,8 @@ foreach ($forbiddenLobbyFragment in @(
 'local b_debug = true',
 'GameConfiguration.SetValue("MOD_BSM_ID",false)',
 'PlayerConfigurations[0]:SetValue("NICK_NAME","paf")',
-'g_test = GetNextID()'
+'g_test = GetNextID()',
+'local random_index = 1 + math.random (left_to_do)'
 )) {
 if ($stagingRoomSource.Contains($forbiddenLobbyFragment)) {
 Add-ValidationError "Staging-room regression restored a hot-loop or typo: $forbiddenLobbyFragment"
@@ -2719,6 +2722,12 @@ $stagingRoomSource,
 '(?s)function OnZYLRandomTeams\(\).*?for index, playerID in ipairs\(participants\) do\s*PlayerConfigurations\[playerID\]:SetTeam\(\(index - 1\) % 2\)\s*end\s*Network\.BroadcastPlayerInfo\(\)'
 )) {
 Add-ValidationError 'Random-team assignment must batch all team mutations into one PlayerInfo broadcast.'
+}
+if (-not [regex]::IsMatch(
+$stagingRoomSource,
+'(?s)m_LeaderBan = GetShuffledCopyOfTable\(m_LeaderBan\).*?for _, leader in ipairs\(m_LeaderBan\) do.*?leader_rand = leader\.LeaderType\s*break'
+)) {
+Add-ValidationError 'Forced random leader selection must consume the shuffled array in order.'
 }
 if (-not [regex]::IsMatch(
 $stagingRoomSource,

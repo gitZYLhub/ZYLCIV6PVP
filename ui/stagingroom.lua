@@ -2528,7 +2528,7 @@ function HostSkip()
 				num = 10
 			end
 
-			for k, leader in pairs(m_LeaderBan) do
+			for _, leader in ipairs(m_LeaderBan) do
 				local b_add = true
 				for i = 1, num do
 					if GameConfiguration.GetValue("BAN_"..i) ~= nil then
@@ -2580,20 +2580,13 @@ end
 ------------------------------------------------------------------------------
 function GetShuffledCopyOfTable(incoming_table)
 	-- Designed to operate on tables with no gaps. Does not affect original table.
-	local len = table.maxn(incoming_table);
-	local copy = {};
-	local shuffledVersion = {};
-	-- Make copy of table.
-	for loop = 1, len do
-		copy[loop] = incoming_table[loop];
+	local shuffledVersion = {}
+	for index = 1, #incoming_table do
+		shuffledVersion[index] = incoming_table[index]
 	end
-	-- One at a time, choose a random index from Copy to insert in to final table, then remove it from the copy.
-	local left_to_do = table.maxn(copy);
-	for loop = 1, len do
-		local random_index = 1 + math.random (left_to_do);
-		table.insert(shuffledVersion, copy[random_index]);
-		table.remove(copy, random_index);
-		left_to_do = left_to_do - 1;
+	for index = #shuffledVersion, 2, -1 do
+		local swapIndex = math.random(index)
+		shuffledVersion[index], shuffledVersion[swapIndex] = shuffledVersion[swapIndex], shuffledVersion[index]
 	end
 	return shuffledVersion
 end
