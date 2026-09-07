@@ -2706,7 +2706,11 @@ foreach ($forbiddenLobbyFragment in @(
 'PlayerConfigurations[0]:SetValue("NICK_NAME","paf")',
 'g_test = GetNextID()',
 'local random_index = 1 + math.random (left_to_do)',
-'if Network.IsPlayerConnected(player.ID) and (g_phase == PHASE_DEFAULT or g_phase == PHASE_INIT) then'
+'if Network.IsPlayerConnected(player.ID) and (g_phase == PHASE_DEFAULT or g_phase == PHASE_INIT) then',
+'function CheckStatusID(',
+'function ResetStatus_SpecificID(',
+'function OnGameSummaryTabClicked(',
+'function OnFriendsTabClicked('
 )) {
 if ($stagingRoomSource.Contains($forbiddenLobbyFragment)) {
 Add-ValidationError "Staging-room regression restored a hot-loop or typo: $forbiddenLobbyFragment"

@@ -320,4 +320,14 @@
 - 修改：将循环首尾两次连接查询收敛为 `isConnected` 快照，以 `previousStatus` 守卫玩家卡片重绘。稳定状态 3/99、等待重试但尚未超时的状态 1 不再产生完整条目更新；0→1、2→3/66 和连接后重新检查仍在同一轮更新。
 - 验证：校验器提取 `RefreshStatus` 函数体，要求恰好一次玩家连接查询、恰好一个受状态转换保护的 `UpdatePlayerEntry`，并拒绝旧无条件已连接分支；PowerShell 7 与 Windows PowerShell 5.1 全量校验均通过。三种 profile 重建闭合：universal 为 1072 文件、776,225,186 字节、聚合 SHA-256 `b869878a1b07c5bdf18dad5368d26d4d525069186ad71ee891681665524a6f9c`；Windows 为 903 文件、442,484,249 字节、`b957478e1daf17188ca1355f7aeff087f6b6bf1348a009bb45bda17cd71cdd43`；macOS 为 903 文件、442,483,911 字节、`fe30b75a69315c907852968a718f0025107397b175924a1bd26fe0b3f7ded5ce`。
 - 风险/待办：静态事件归属无法证明所有 Civ VI 平台版本都按相同时序发送条目事件；需在房主加两个客户端下观察加入、准备、换队、延迟变化、版本成功和超时，并确认各卡片即时更新。下一步继续把周期 `Refresh` 中不依赖握手变化的 UI 域拆为事件刷新。
-- 提交：本次提交（握手状态转换驱动玩家卡片）。
+- 提交：`ed42a3f perf: update lobby cards on handshake transitions`。
+
+### 2026-09-07 / M3-大厅确定死函数清理
+
+- 目标：继续对 8000 行大厅脚本做有证据的精简，只移除全项目无调用、无事件注册、无 XML 回调的遗留函数。
+- 范围：大厅 Lua、静态回归断言、计划、测试矩阵和工作日志；不修改任何活跃回调、UI 控件、握手状态、网络消息、ModInfo、版本或玩家行为。
+- 审计：从 `stagingroom.lua` 的命名函数定义生成列表，再在全仓库 Lua/XML/ModInfo 中按完整标识符反查。`CheckStatusID`、`ResetStatus_SpecificID`、空实现 `OnGameSummaryTabClicked`、`OnFriendsTabClicked` 均只有定义本身；实际标签页在 `RealizeInfoTabs` 中注册匿名回调，握手状态由 `RefreshStatusID`/`ResetStatus` 管理。
+- 修改：删除上述 4 个函数，共移除两段重复线性扫描/状态重置和两个 TODO 壳；校验器拒绝这些函数名重新进入大厅运行文件。
+- 验证：删除后全仓库仅在校验器禁用清单中保留四个标识符；PowerShell 7 与 Windows PowerShell 5.1 全量校验均通过。当前大厅脚本为 8047 行、290,018 源码字节；三种 profile 重建闭合：universal 为 1072 文件、776,223,699 字节、聚合 SHA-256 `98c315d0cd9c54ab19c49f3fd760c47258e88c80c491f3c0c28055438d20c55d`；Windows 为 903 文件、442,482,762 字节、`ed0990e361f356306a0deb382f7d3fbf41236119135a0d5a39e0a21ef2d3d0db`；macOS 为 903 文件、442,482,424 字节、`71d22344f035825a600125b143c249e59bf817d7873953c70f99a81a91a290fd`。源码 ModInfo 与冻结动作图未变化。
+- 风险/待办：全仓库静态引用不能证明外部未登记 Mod 会按全局函数名调用，但四个名字均为内部 MPH 实现细节且没有 LuaEvent/Context 约定；风险低。后续继续采用“定义清单 + 全仓库反查”处理死代码，避免按肉眼批量删除。
+- 提交：本次提交（大厅确定死函数清理）。

@@ -547,33 +547,6 @@ function OnTick()
 	ShowHideEditButton()
 end
 
-function CheckStatusID(playerID)
-	if GameConfiguration.GetGameState() ~= -901772834 then
-		return
-	end
-	local name = PlayerConfigurations[playerID]:GetPlayerName()
-	local ID = nil
-	local status = nil
-	local version = nil
-	if g_player_status ~= nil then
-		for i, player in ipairs(g_player_status) do 
-			if player.Name == name then
-				ID = player.ID
-				version = player.Version
-				status = player.Status
-			end
-		end
-		for i, player in ipairs(g_player_status) do 
-			if player.ID == ID then
-				player.ID = playerID
-				player.Name = name
-				player.Version = version
-				player.Status = status
-			end
-		end
-	end
-end
-
 function GetLocalModVersion(id)
 	if id == nil then
 		return nil
@@ -783,34 +756,6 @@ function ResetStatus()
 			table.insert(g_player_status, tmp)				
 		end
 		
-	end
-end
-
-function ResetStatus_SpecificID(playerID)
-	if GameConfiguration.GetGameState() ~= -901772834 then
-		return
-	end
-	local localID = Network.GetLocalPlayerID()
-	local hostID = Network.GetGameHostPlayerID()
-
-	if g_player_status ~= nil and #g_player_status > 0 then
-		for i, player in pairs(g_player_status) do
-			if player.ID == playerID then
-				player.Status = 0
-				player.Version = 0
-				player.HandshakeStartedAt = nil
-				player.HandshakeLastSentAt = nil
-				player.HandshakeAttempts = 0
-				if b_bbg_game == true then
-					player.bbg_id = s_bbg_id
-					player.bbg_v = 0
-				end
-				if b_bbs_game == true then
-					player.bbs_id = s_bbs_id
-					player.bbs_v = 0
-				end
-			end
-		end
 	end
 end
 
@@ -7519,15 +7464,6 @@ function RealizeShellTabs()
 	stagingRoom.TopControl:SetSizeX(stagingRoom.Button:GetSizeX());
 	
 	Controls.ShellTabs:CalculateSize();
-end
-
--- ===========================================================================
-function OnGameSummaryTabClicked()
-	-- TODO
-end
-
-function OnFriendsTabClicked()
-	-- TODO
 end
 
 -- ===========================================================================
