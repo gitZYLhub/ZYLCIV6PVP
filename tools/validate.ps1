@@ -2565,7 +2565,9 @@ foreach ($requiredLobbyLifecycleFragment in @(
 'if now < g_last_tick_time + g_tick_size then',
 'Events.GameCoreEventPublishComplete.Remove(OnTick);',
 'LuaEvents.Multiplayer_ExitShell.Remove(OnHandleExitRequest);',
-'if GameConfiguration.GetValue(key) ~= value then'
+'if GameConfiguration.GetValue(key) ~= value then',
+'local ZYL_NATIVE_PRINT = print',
+'local function ZYLDebugLog(...)'
 )) {
 if (-not $stagingRoomSource.Contains($requiredLobbyLifecycleFragment)) {
 Add-ValidationError "Staging-room refresh/lifecycle guard is missing: $requiredLobbyLifecycleFragment"
@@ -2576,7 +2578,9 @@ foreach ($forbiddenLobbyFragment in @(
 "function OnTick()`n`tQuickRefresh()",
 'return fasle;',
 'local b_debug = true',
-'GameConfiguration.SetValue("MOD_BSM_ID",false)'
+'GameConfiguration.SetValue("MOD_BSM_ID",false)',
+'PlayerConfigurations[0]:SetValue("NICK_NAME","paf")',
+'g_test = GetNextID()'
 )) {
 if ($stagingRoomSource.Contains($forbiddenLobbyFragment)) {
 Add-ValidationError "Staging-room regression restored a hot-loop or typo: $forbiddenLobbyFragment"
@@ -2584,6 +2588,13 @@ Add-ValidationError "Staging-room regression restored a hot-loop or typo: $forbi
 }
 
 Test-ZylLuaEventLifecycle -Source $stagingRoomSource -Label 'Staging room'
+Test-ZylLuaHasNoUnguardedPrint -Source $stagingRoomSource -Label 'Staging room'
+if ([regex]::Matches($stagingRoomSource, '(?<![A-Za-z0-9_])print\s*\(').Count -ne 0) {
+Add-ValidationError 'Staging room bypasses its opt-in debug logger with a direct print call.'
+}
+if ([regex]::Matches($stagingRoomSource, ',\s*GetNextID\s*\(\s*\)').Count -ne 0) {
+Add-ValidationError 'Staging-room debug logging must not call the stateful GetNextID function.'
+}
 }
 
 $votePanelPath = Join-Path $modRoot 'ui\Additions\VotePanel.lua'

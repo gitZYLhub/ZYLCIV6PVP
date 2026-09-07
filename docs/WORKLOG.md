@@ -220,4 +220,14 @@
 - 修改：迁移动态 `loadstring`、`Modding.UpdateSubscription`、science/culture anti-stacking 和 8 个旧组件 Mod ID 检查；主入口用模块装载、3 问题反例和单次调度替代原内联扫描。
 - 验证：安全文本样例返回 0 个问题；包含 `loadstring`、旧 Mod ID 和 `NO_MORE_STACK` 的三行样例返回 3 个问题。PowerShell 7 与 Windows PowerShell 全量校验均通过 203 XML、108 Criteria、283 Actions、1077 Files、549 活跃引用、48 休眠文件和 63 源码专用文件；ModInfo SHA-256 保持 `94869D352E031F53513FB048095730851842B75BDF7CD4398B4EAF27259BB14D`，universal 包仍为 1072 文件、740.53 MiB，聚合 SHA-256 `fc00184ee15b5761dc6b873496ee907a72dd5f922ea7bf8b2853e14daa91b94b`。
 - 风险/待办：这是静态文本门禁，不能证明 Civ VI 运行时没有通过其他 API 动态加载代码；后续仍需实机日志和双客户端测试。
-- 提交：本次提交（活跃运行文件安全校验模块化）。
+- 提交：`ba725bd refactor: extract active runtime safety checks`。
+
+### 2026-09-07 / M3-大厅调试日志与状态副作用收敛
+
+- 目标：消除 `stagingroom.lua` 在正式大厅流程中的日志洪泛，并确保调试输出本身不会改变联机状态或产生额外广播。
+- 范围：大厅 Lua、静态回归断言、更新日志、计划、测试矩阵和工作日志；不改变正常聊天命令格式、Ban/Pick/投票规则、身份配置或版本号。
+- 设计决定：保留现有房主 `.debug` 开关，新增单一 `ZYLDebugLog` 入口；默认 `g_debug=false` 时不写 Lua 日志，显式启用后仍可获得诊断信息。调试消息只能读取已计算状态，不得再次调用有副作用的状态函数。
+- 修改：冻结版 88 个活跃 `print` 调用点中删除 1 个启动日志，其余 87 个迁移到调试入口；两条日志改为复用已计算的 `g_next_ID`，`.next` 调试命令改为复用 `tmp`，使 `GetNextID()` 调用点由 15 降至 12；`.broadcast_player_0` 删除把昵称写为 `paf` 的遗留调试副作用。
+- 验证：静态计数为 0 个直接 `print`、87 个受控调试调用、0 个日志参数内 `GetNextID()` 和 0 个 `paf` 昵称写入；校验器固定调试入口并拒绝上述回归。临时把 `g_Anon` 调试调用改回直接 `print` 后，Windows PowerShell 校验以退出码 1 报告大厅无防护日志。恢复后 PowerShell 7 与 Windows PowerShell 均通过 203 XML、108 Criteria、283 Actions、1077 Files、549 活跃引用、48 休眠文件和 63 源码专用文件；连续两次 universal 构建均为 1072 文件、776,495,377 字节（740.52 MiB），聚合 SHA-256 `e09404245d3ff1812c194d28cde21d7f4f3b1972aed684c9ac131929a2bbe4ae`。
+- 风险/待办：Lua 静态检查不能替代游戏内日志采集；需要在房主/客户端/观察者大厅分别验证默认静默、`.debug` 后可诊断，以及投票/Ban/Pick 不多发 PlayerInfo。
+- 提交：本次提交（大厅日志与调试副作用收敛）。

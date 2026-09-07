@@ -13,7 +13,6 @@ include( "Civ6Common" );
 include( "TeamSupport" );
 
 local g_version = "13X"
-print("Staging Room For MPH ",g_version)					
 ----------------------------------------------------------------  
 -- Constants
 ---------------------------------------------------------------- 
@@ -91,6 +90,12 @@ local PHASE_VOTE_BAN_LEADER = 12
 
 local b_debug = false
 local g_debug = false
+local ZYL_NATIVE_PRINT = print
+local function ZYLDebugLog(...)
+	if g_debug then
+		ZYL_NATIVE_PRINT(...)
+	end
+end
 local b_has_voted = true
 local isCivPlayerName = false
 local g_next_ID = nil
@@ -262,7 +267,7 @@ local TEAM_ICON_PREFIX			:string = "ICON_TEAM_ICON_";
 
 --Anonymous
 local g_Anon = GameConfiguration.GetValue('GAMEMODE_ANONYMOUS')
-print("g_Anon", g_Anon)
+ZYLDebugLog("g_Anon", g_Anon)
 
 -------------------------------------------------
 -- Localized Constants
@@ -577,7 +582,7 @@ function GetLocalModVersion(id)
 	
 	local mods = Modding.GetInstalledMods();
 	if(mods == nil or #mods == 0) then
-		print("No mods locally installed!")
+		ZYLDebugLog("No mods locally installed!")
 		return nil
 	end
 	
@@ -607,7 +612,7 @@ function GetLocalBBMVersion()
 end
 
 function RefreshStatusID(playerID,version,bbs_version,bbg_version)
-	if g_debug then print("RefreshStatusID",playerID,version,bbg_version,bbs_version) end
+	if g_debug then ZYLDebugLog("RefreshStatusID",playerID,version,bbg_version,bbs_version) end
 	if GameConfiguration.GetGameState() ~= -901772834 or m_countdownType =="Launch" then
 		return
 	end
@@ -694,7 +699,7 @@ function RefreshStatusID(playerID,version,bbs_version,bbg_version)
 							table.insert(g_player_status, tmp)
 						end
 						else
-						print("Error:",playerID,"has no valid PlayerConfigurations[playerID]",Network.IsPlayerConnected(playerID))
+						ZYLDebugLog("Error:",playerID,"has no valid PlayerConfigurations[playerID]",Network.IsPlayerConnected(playerID))
 					end
 					else
 					local tmp = { ID = playerID, Status = -1, Version = 0, Name = "AI"}
@@ -731,7 +736,7 @@ function RefreshStatusID(playerID,version,bbs_version,bbg_version)
 end
 
 function ResetStatus()
-	if g_debug then print("ResetStatus()") end
+	if g_debug then ZYLDebugLog("ResetStatus()") end
 	if GameConfiguration.GetGameState() ~= -901772834 or m_countdownType =="Launch" then
 		return
 	end
@@ -828,7 +833,7 @@ function GetStatus_SpecificID(playerID)
 end
 
 function RefreshStatus()
-	if g_debug then print("RefreshStatus()",os.date("%c"),b_tick) end
+	if g_debug then ZYLDebugLog("RefreshStatus()",os.date("%c"),b_tick) end
 	if GameConfiguration.GetGameState() ~= -901772834 or b_mph_game == false or m_countdownType =="Launch" or b_tick == true then
 		return
 	end
@@ -863,7 +868,7 @@ function RefreshStatus()
 						Network.SendChat("[COLOR_Civ6Green]# Greetings! "..tostring(name).." has joined a MP game using Multiplayer Helper (v "..tostring(g_version).."). [ENDCOLOR]",-2,player.ID)
 						player.HandshakeLastSentAt = now
 						player.HandshakeAttempts = player.HandshakeAttempts + 1
-						if g_debug then print("RefreshStatus() - Retrying MPH handshake - ID:",player.ID,"attempt:",player.HandshakeAttempts) end
+						if g_debug then ZYLDebugLog("RefreshStatus() - Retrying MPH handshake - ID:",player.ID,"attempt:",player.HandshakeAttempts) end
 					end
 				end
 				if player.Status == 2 then
@@ -890,7 +895,7 @@ function RefreshStatus()
 				end				
 				if player.Status == 0 then
 					b_mods_ok = false
-					if g_debug then print("RefreshStatus() - Host Querying - ID:",player.ID) end
+					if g_debug then ZYLDebugLog("RefreshStatus() - Host Querying - ID:",player.ID) end
 					local name = PlayerConfigurations[player.ID]:GetPlayerName()
 					if name == nil then
 						name = "Player "..player.ID
@@ -916,7 +921,7 @@ function RefreshStatus()
 end
 
 function OnModCheck()
-	if g_debug then print("OnModCheck()",os.date("%c")) end
+	if g_debug then ZYLDebugLog("OnModCheck()",os.date("%c")) end
 	local localID = Network.GetLocalPlayerID()
 	local hostID = Network.GetGameHostPlayerID()
 	b_mods_ok = false
@@ -1800,7 +1805,7 @@ function OnHostLaunch()
 end
 
 function OnHostSkip()
-	print("OnHostSkip()")
+	ZYLDebugLog("OnHostSkip()")
 	Network.SendChat(".skip",-2,-1)
 end
 
@@ -1873,7 +1878,7 @@ function OnConfirmValid(playerID:number,valid:number)
 	PlayerInfoChanged_SpecificPlayer(playerID)
 	GameSetup_RefreshParameters()
 	UpdateReadyButton()
-	print("OnConfirmValid","g_error",g_error)
+	ZYLDebugLog("OnConfirmValid","g_error",g_error)
 	
 	if g_error == true then
 		UI.PlaySound("UI_Lens_Overlay_Off");
@@ -1904,7 +1909,7 @@ function OnValidReceived(text,teamer:boolean,fromPlayer:number)
 	local localID = Network.GetLocalPlayerID()
 	local hostID = Network.GetGameHostPlayerID()
 	if g_debug == true then
-		print("OnValidReceived - Is Teamer?",b_teamer,text)
+		ZYLDebugLog("OnValidReceived - Is Teamer?",b_teamer,text)
 	end
 	local valid_number = "" 
 	local valid_playerID = ""
@@ -1930,7 +1935,7 @@ function OnValidReceived(text,teamer:boolean,fromPlayer:number)
 		end
 	end
 	if g_debug == true then
-		print("OnValidReceived - Valid Player ID",valid_playerID)
+		ZYLDebugLog("OnValidReceived - Valid Player ID",valid_playerID)
 	end
 	if valid_playerID == nil or (fromPlayer ~= nil and fromPlayer ~= valid_playerID and fromPlayer ~= hostID) then
 		return
@@ -1979,7 +1984,7 @@ function OnValidReceived(text,teamer:boolean,fromPlayer:number)
 			if g_cached_playerIDs[i].ID == valid_playerID then
 				g_cached_playerIDs[i].HasPicked = true
 					if g_debug == true then
-						print("OnValidReceived - Remove from the List",g_cached_playerIDs[i].ID)
+						ZYLDebugLog("OnValidReceived - Remove from the List",g_cached_playerIDs[i].ID)
 					end
 				break
 			end
@@ -1990,29 +1995,29 @@ function OnValidReceived(text,teamer:boolean,fromPlayer:number)
 		((g_valid_count == g_total_players or g_valid_count > g_total_players) and g_slot_draft == 3 and g_ban_count > 6) then
 		Controls.ReadyCheck:ClearCallback(Mouse.eLClick)
 		g_phase = PHASE_READY
-		print("g_valid_count",g_valid_count,"g_total_players",g_total_players)
+		ZYLDebugLog("g_valid_count",g_valid_count,"g_total_players",g_total_players)
 		if localID == hostID then
 			Network.SendChat(".chgphase_"..g_phase,-2,-1)
 			if g_slot_draft == 3 then
 				Network.SendChat(".unlock",-2,-1)
 			end
 			g_next_ID = GetNextID()
-			 print("OnValidReceived g_valid_count",g_valid_count,"g_phase",g_phase,"g_next_ID",g_next_ID )
+			 ZYLDebugLog("OnValidReceived g_valid_count",g_valid_count,"g_phase",g_phase,"g_next_ID",g_next_ID )
 			if g_next_ID == nil then
 			 g_next_ID = 0
-			 print("OnValidReceived g_valid_count",g_valid_count,"g_phase",g_phase,"g_next_ID shouldn't be nil")
+			 ZYLDebugLog("OnValidReceived g_valid_count",g_valid_count,"g_phase",g_phase,"g_next_ID shouldn't be nil")
 			end
 			Network.SendChat(".idnext_"..g_next_ID,-2,-1)
 		end
 		elseif g_slot_draft == 3 and g_valid_count == 4 then -- Has to be 4 after testing
 			g_phase = PHASE_LEADERBAN
-			print("g_valid_count",g_valid_count,"g_total_players",g_total_players,"CWC NEW Second Ban Phase")
+			ZYLDebugLog("g_valid_count",g_valid_count,"g_total_players",g_total_players,"CWC NEW Second Ban Phase")
 			if localID == hostID then
 				Network.SendChat(".chgphase_"..g_phase,-2,-1)
 				g_next_ID = GetNextID()
 							if g_next_ID == nil then
 			 g_next_ID = 0
-			 print("OnValidReceived g_valid_count",g_valid_count,"g_phase",g_phase,"g_next_ID shouldn't be nil")
+			 ZYLDebugLog("OnValidReceived g_valid_count",g_valid_count,"g_phase",g_phase,"g_next_ID shouldn't be nil")
 			end
 				Network.SendChat(".idnext_"..g_next_ID,-2,-1)
 			end			
@@ -2021,16 +2026,16 @@ function OnValidReceived(text,teamer:boolean,fromPlayer:number)
 		if localID == hostID then
 			Network.SendChat(".chgphase_"..g_phase,-2,-1)
 			g_next_ID = GetNextID()
-			print("OnValidReceived g_valid_count",g_valid_count,"g_phase",g_phase,"g_next_ID is",GetNextID())
+			ZYLDebugLog("OnValidReceived g_valid_count",g_valid_count,"g_phase",g_phase,"g_next_ID is",g_next_ID)
 			if g_next_ID == nil then
 			 g_next_ID = 0
-			 print("OnValidReceived g_valid_count",g_valid_count,"g_phase",g_phase,"g_next_ID shouldn't be nil")
+			 ZYLDebugLog("OnValidReceived g_valid_count",g_valid_count,"g_phase",g_phase,"g_next_ID shouldn't be nil")
 			end
 			Network.SendChat(".idnext_"..g_next_ID,-2,-1)
 		end
 	
 		if g_debug == true then
-			print("OnValidReceived - Set g_next_ID",g_next_ID)
+			ZYLDebugLog("OnValidReceived - Set g_next_ID",g_next_ID)
 		end
 		OnNextValid(g_valid_count)
 	end
@@ -2040,7 +2045,7 @@ function OnBanMapReceived(text,teamer:boolean,fromPlayer:number)
 	local localID = Network.GetLocalPlayerID()
 	local hostID = Network.GetGameHostPlayerID()
 	if g_debug == true then
-		print("OnBanMapReceived - teamer?",b_teamer)
+		ZYLDebugLog("OnBanMapReceived - teamer?",b_teamer)
 	end
 	local ban_number, ban_ID, ban_map = string.match(text, "^%.mapban_(%d+)_(%d+)_(%d+)$")
 	ban_number = tonumber(ban_number)
@@ -2050,7 +2055,7 @@ function OnBanMapReceived(text,teamer:boolean,fromPlayer:number)
 		return
 	end
 	if g_debug == true then
-		print("OnBanMapReceived - ban_map",ban_map)
+		ZYLDebugLog("OnBanMapReceived - ban_map",ban_map)
 	end	
 	local map_left = 0
 	local map_script = ""
@@ -2099,12 +2104,12 @@ function OnBanMapReceived(text,teamer:boolean,fromPlayer:number)
 	if localID == hostID then
 		Network.SendChat(".chgphase_"..g_phase,-2,-1)
 		g_next_ID = GetNextID()
-		print("OnBanMapReceived g_valid_count",g_valid_count,"map_left",map_left,"g_phase",g_phase,"g_next_ID is",GetNextID())
+		ZYLDebugLog("OnBanMapReceived g_valid_count",g_valid_count,"map_left",map_left,"g_phase",g_phase,"g_next_ID is",g_next_ID)
 		Network.SendChat(".idnext_"..g_next_ID,-2,-1)
 	end
 	
 	if g_debug == true then
-		print("OnBanReceived - Set g_next_ID",g_next_ID)
+		ZYLDebugLog("OnBanReceived - Set g_next_ID",g_next_ID)
 	end
 	
 end
@@ -2114,7 +2119,7 @@ function OnPhaseChanged(text)
 	local hostID = Network.GetGameHostPlayerID()
 	local phase_number = string.sub(text,11)
 	if tonumber(phase_number) ~= nil then
-		print("OnPhaseChanged - old g_phase",g_phase,"to new phase",phase_number)	
+		ZYLDebugLog("OnPhaseChanged - old g_phase",g_phase,"to new phase",phase_number)
 		g_phase = tonumber(phase_number)
 		PhaseVisibility()
 	end
@@ -2145,7 +2150,7 @@ function OnReceiveBanVote(text:string, fromPlayer:number) -- .mapvote_0_2_LEADER
 	for i, player in ipairs(g_cached_playerIDs) do	
 		if player.ID == voter_ID then
 			if player.HasVotedBan == false then
-				print("OnReceiveBanVote: Player ",player.ID,"Ban Number",ban_number,leader)
+				ZYLDebugLog("OnReceiveBanVote: Player ",player.ID,"Ban Number",ban_number,leader)
 				local playerEntry = g_PlayerEntries[player.ID];
 				playerEntry.PlayerAction:SetText("[COLOR_Civ6Red]Banning "..ban_number.."/3 [ENDCOLOR]")
 				if ban_number == 1 then
@@ -2172,7 +2177,7 @@ function OnReceiveBanVote(text:string, fromPlayer:number) -- .mapvote_0_2_LEADER
 					playerEntry.PlayerAction:SetText("Locked")
 				end
 				else
-				print("OnReceiveBanVote: Player ",player.ID," has already voted.")
+				ZYLDebugLog("OnReceiveBanVote: Player ",player.ID," has already voted.")
 			end	
 		end
 		if player.HasVotedBan == false then
@@ -2205,7 +2210,7 @@ function OnReceiveBanVote(text:string, fromPlayer:number) -- .mapvote_0_2_LEADER
 			local sort_func = function( a,b ) return a.BanVotes > b.BanVotes end
 			table.sort( banned_leader, sort_func )
 			for k, leader in pairs(banned_leader) do
-				print(k,leader.LeaderType,leader.BanVotes)
+				ZYLDebugLog(k,leader.LeaderType,leader.BanVotes)
 			end
 			for i = 1, 6 do
 				if banned_leader[i].BanVotes > 0 then
@@ -2244,7 +2249,7 @@ function OnReceiveMapVote(text:string, fromPlayer:number) -- .mapvote_0_2_1_5
 	for i, player in ipairs(g_cached_playerIDs) do	
 		if player.ID == voter_ID then
 			if player.HasVotedMap == false then
-				print("OnReceiveMapVote: Player ",player.ID," has voted ",temp,age,script)
+				ZYLDebugLog("OnReceiveMapVote: Player ",player.ID," has voted ",temp,age,script)
 				player.VotedScript = script
 				player.VotedTemp = temp
 				player.VotedAge = age
@@ -2252,7 +2257,7 @@ function OnReceiveMapVote(text:string, fromPlayer:number) -- .mapvote_0_2_1_5
 				local playerEntry = g_PlayerEntries[player.ID];
 				playerEntry.PlayerAction:SetText("Locked")
 				else
-				print("OnReceiveMapVote: Player ",player.ID," has already voted.")
+				ZYLDebugLog("OnReceiveMapVote: Player ",player.ID," has already voted.")
 			end	
 		end
 		if player.HasVotedMap == false then
@@ -2317,11 +2322,11 @@ function OnReceiveMapVote(text:string, fromPlayer:number) -- .mapvote_0_2_1_5
 end
 
 function OnBanReceived(text,teamer:boolean,fromPlayer:number)
-	print("OnBanReceived",text)
+	ZYLDebugLog("OnBanReceived",text)
 	local localID = Network.GetLocalPlayerID()
 	local hostID = Network.GetGameHostPlayerID()
 	if g_debug == true then
-		print("OnBanReceived - teamer?",b_teamer)
+		ZYLDebugLog("OnBanReceived - teamer?",b_teamer)
 	end
 	local ban_number = string.sub(text,6,6)
 	if (string.sub(text,6,6) == "1" or string.sub(text,6,6) == "0") and string.sub(text,7,7) ~= "_" then
@@ -2432,7 +2437,7 @@ function OnBanReceived(text,teamer:boolean,fromPlayer:number)
 	if localID == hostID then
 		Network.SendChat(".chgphase_"..g_phase,-2,-1)
 		g_next_ID = GetNextID()
-		print("OnBanReceived - g_ban_count",g_ban_count,"g_phase",g_phase,"Set g_next_ID",g_next_ID)
+		ZYLDebugLog("OnBanReceived - g_ban_count",g_ban_count,"g_phase",g_phase,"Set g_next_ID",g_next_ID)
 		if g_next_ID == nil then
 			g_next_ID = hostID
 		end
@@ -2442,13 +2447,13 @@ function OnBanReceived(text,teamer:boolean,fromPlayer:number)
 	end
 	
 	if g_debug == true then
-		print("OnBanReceived - Set g_next_ID",g_next_ID)
+		ZYLDebugLog("OnBanReceived - Set g_next_ID",g_next_ID)
 	end
 	
 end
 
 function HostSkip()
-	print("HostSkip()",g_phase)
+	ZYLDebugLog("HostSkip()",g_phase)
 	local localID = Network.GetLocalPlayerID()
 	local hostID = Network.GetGameHostPlayerID()
 	local map_left = 0
@@ -2494,7 +2499,7 @@ function HostSkip()
 		end
 	elseif g_phase == PHASE_LEADERPICK then
 		if localID == hostID then
-			print("HostSkip() g_valid_count",g_valid_count)
+			ZYLDebugLog("HostSkip() g_valid_count",g_valid_count)
 			
 			-- Select a Random Leader
 			m_LeaderBan = nil
@@ -2553,14 +2558,14 @@ function HostSkip()
 					break
 				end
 			end
-			print("Forced Picked:",g_next_ID,leader_rand)
+			ZYLDebugLog("Forced Picked:",g_next_ID,leader_rand)
 			if g_next_ID == nil then
-				print("HostSkip: g_next_ID",g_next_ID,"Shouldn't be nil")
+				ZYLDebugLog("HostSkip: g_next_ID",g_next_ID,"Shouldn't be nil")
 				g_next_ID = 0
 			end
 			PlayerConfigurations[g_next_ID]:SetLeaderTypeName(tostring(leader_rand))
-			print("Debug:",PlayerConfigurations[g_next_ID]:GetValue("LEADER_TYPE_ID"))
-			print("Debug II:",PlayerConfigurations[g_next_ID]:GetLeaderTypeName())
+			ZYLDebugLog("Debug:",PlayerConfigurations[g_next_ID]:GetValue("LEADER_TYPE_ID"))
+			ZYLDebugLog("Debug II:",PlayerConfigurations[g_next_ID]:GetLeaderTypeName())
 			Network.SendChat(".valid_"..g_valid_count.."_"..g_next_ID.."_"..tostring(leader_rand),-2,-1)
 			Network.BroadcastPlayerInfo()
 		end
@@ -2594,7 +2599,7 @@ function GetShuffledCopyOfTable(incoming_table)
 end
 
 function HostUnlock()
-	print("HostUnlock()",g_phase)
+	ZYLDebugLog("HostUnlock()",g_phase)
 	local localID = Network.GetLocalPlayerID()
 	local hostID = Network.GetGameHostPlayerID()
 	g_disabled_civ = false
@@ -2611,7 +2616,7 @@ function HostUnlock()
 end
 
 function HostReset()
-	print("HostReset()",g_phase)
+	ZYLDebugLog("HostReset()",g_phase)
 	StopCountdown()
 	UpdateAllPlayerEntries()
 	local localID = Network.GetLocalPlayerID()
@@ -2813,10 +2818,10 @@ function HostLaunch()
 			if PlayerConfigurations[iPlayer]:GetLeaderTypeName() ~= "LEADER_SPECTATOR" then
 				PlayerConfigurations[iPlayer]:SetLeaderTypeName(nil)
 			end
-			print("ID",iPlayer,"version:",g_version_map[iPlayer],"host:",g_version_map["HOST"] )
+			ZYLDebugLog("ID",iPlayer,"version:",g_version_map[iPlayer],"host:",g_version_map["HOST"] )
 			if Network.IsPlayerConnected(iPlayer) == true and g_version_map[iPlayer] ~= g_version_map["HOST"] then
 				version_error = iPlayer
-				print("Error: ID",iPlayer,"version:",g_version_map[iPlayer],"host:",g_version_map["HOST"] )
+				ZYLDebugLog("Error: ID",iPlayer,"version:",g_version_map[iPlayer],"host:",g_version_map["HOST"] )
 			end
 			if ( ( Network.IsPlayerConnected(iPlayer) or (g_debug == true  ) ) and PlayerConfigurations[iPlayer]:GetLeaderTypeName() == "LEADER_SPECTATOR") then
 				OnPlayerEntryReady(iPlayer)
@@ -2889,7 +2894,7 @@ function HostLaunch()
 			tmp = { Map = GameConfiguration.GetValue("BAN_POOL_"..i.."_NAME") , Allowed = GameConfiguration.GetValue("BAN_POOL_"..i), ID = i}
 			table.insert(g_map_pool,tmp)
 			if g_debug == true then
-				print("Map Pool",tmp.Map,tmp.Allowed,tmp.ID)
+				ZYLDebugLog("Map Pool",tmp.Map,tmp.Allowed,tmp.ID)
 			end
 			if GameConfiguration.GetValue("BAN_POOL_"..i) == true then
 				pool_size = pool_size + 1
@@ -2937,7 +2942,7 @@ function HostLaunch()
 		if localID == hostID then
 			Network.SendChat(".chgphase_"..g_phase,-2,-1)
 			g_next_ID = GetNextID()
-			print("HostLaunch() - map_left",map_left,"g_phase",g_phase,"next ID",g_next_ID)
+			ZYLDebugLog("HostLaunch() - map_left",map_left,"g_phase",g_phase,"next ID",g_next_ID)
 			Network.SendChat(".idnext_"..g_next_ID,-2,-1)
 		end
 		else
@@ -2952,7 +2957,7 @@ function HostLaunch()
 		if localID == hostID then
 			Network.SendChat(".chgphase_"..g_phase,-2,-1)
 			g_next_ID = GetNextID()
-			print("HostLaunch() - map_left",map_left,"g_phase",g_phase,"next ID",g_next_ID)
+			ZYLDebugLog("HostLaunch() - map_left",map_left,"g_phase",g_phase,"next ID",g_next_ID)
 			Network.SendChat(".idnext_"..g_next_ID,-2,-1)
 		end
 	end
@@ -2968,7 +2973,7 @@ function HostLaunch()
 		if localID == hostID then
 			Network.SendChat(".chgphase_"..g_phase,-2,-1)
 			g_next_ID = GetNextID()
-			print("HostLaunch() - map_left",map_left,"g_phase",g_phase,"next ID",g_next_ID)
+			ZYLDebugLog("HostLaunch() - map_left",map_left,"g_phase",g_phase,"next ID",g_next_ID)
 			Network.SendChat(".idnext_"..g_next_ID,-2,-1)
 		end
 	end
@@ -3085,11 +3090,11 @@ function OnReceiveNextID(next_id:number)
 end
 
 function GetNextID()
-	print("GetNextID() g_phase",g_phase,"g_next_ID",g_next_ID,"g_slot_draft",g_slot_draft,"b_teamer",b_teamer)
+	ZYLDebugLog("GetNextID() g_phase",g_phase,"g_next_ID",g_next_ID,"g_slot_draft",g_slot_draft,"b_teamer",b_teamer)
 	-- 0: RANDOM 1: Slot	2: CWC		3: NEW CWC
 	-- first let's check our cached data from HostLaunch() exist
 	if g_cached_playerIDs == nil then
-		print("Error: g_cached_playerIDs is nil")
+		ZYLDebugLog("Error: g_cached_playerIDs is nil")
 		return
 	end
 
@@ -3097,7 +3102,7 @@ function GetNextID()
 	if last_ID ~= nil then
 		Network.BroadcastPlayerInfo(last_ID)
 	end
-	print("Last ID was:",g_next_ID)
+	ZYLDebugLog("Last ID was:",g_next_ID)
 	----------------------------------------------------------------------------
 	-- Map Ban
 	----------------------------------------------------------------------------
@@ -3428,7 +3433,7 @@ function GetNextID()
 	-- Pick Phase
 	--------------------------------------------------------------------------------------
 	if g_phase == PHASE_LEADERPICK then
-		print("Phase is: PHASE_LEADERPICK")
+		ZYLDebugLog("Phase is: PHASE_LEADERPICK")
 	--------------------------------------------------------------------------------------	
 	-- initialise (first time)
 	--------------------------------------------------------------------------------------
@@ -3473,7 +3478,7 @@ function GetNextID()
 				local next_in_line = nil
 			
 				for i, player in ipairs(g_cached_playerIDs) do
-					print("GetNextID()",i,player.ID,player.Observer,player.HasPicked)
+					ZYLDebugLog("GetNextID()",i,player.ID,player.Observer,player.HasPicked)
 					if found_previous == true and player.Observer == false and player.HasPicked == false then
 						next_in_line = player.ID 
 						return player.ID 
@@ -3656,7 +3661,7 @@ function OnNextMap()
 	end
 	
 	if g_debug == true then
-		print("OnNextMap - Ban #",bannumber, "Map Left",map_left)
+		ZYLDebugLog("OnNextMap - Ban #",bannumber, "Map Left",map_left)
 	end
 	
 	if localID == g_next_ID then 
@@ -3668,7 +3673,7 @@ function OnNextMap()
 	end
 
 	if g_debug == true then
-		print("OnNextMap g_next_ID",g_next_ID)
+		ZYLDebugLog("OnNextMap g_next_ID",g_next_ID)
 	end
 	
 	PopulateMapList(bannumber,g_next_ID)
@@ -3704,11 +3709,11 @@ function OnNextBan()
 	local id = -1
 	local bannumber = g_ban_count + 1
 	if g_debug == true then
-		print("OnNextBan - Ban #",bannumber)
+		ZYLDebugLog("OnNextBan - Ban #",bannumber)
 	end
 	
 	if g_debug == true then
-		print("OnNextBan g_next_ID",g_next_ID)
+		ZYLDebugLog("OnNextBan g_next_ID",g_next_ID)
 	end
 	PopulateBanList(bannumber,g_next_ID)
 	Controls.MPH_ConfirmButton:SetHide(true)
@@ -3741,7 +3746,7 @@ end
 function OnNextValid()
 	local valid = g_valid_count
 	if g_debug == true then
-		print("OnNextValid - Valid #",valid)
+		ZYLDebugLog("OnNextValid - Valid #",valid)
 	end
 	
 	local localID = Network.GetLocalPlayerID()
@@ -4179,7 +4184,7 @@ function OnMultiplayerChat( fromPlayer, toPlayer, text, eTargetType )
 		local indexBBSs, indexBBSe = string.find(text,"_BBM_")
 		local indexBBGs, indexBBGe = string.find(text,"_BBG_")
 		if indexBBSs == nil or indexBBSe == nil or indexBBGs == nil or indexBBGe == nil then
-			print("Ignored malformed MPH version response from player",fromPlayer,text)
+			ZYLDebugLog("Ignored malformed MPH version response from player",fromPlayer,text)
 			return
 		end
 		local mph_version = string.sub(text,20,indexBBSs-1)
@@ -4217,7 +4222,7 @@ function OnMultiplayerChat( fromPlayer, toPlayer, text, eTargetType )
 	end
 	
 	if b_ishost == true and text == ".broadcast_player_0" then
-		print("query",PlayerConfigurations[0]:SetValue("NICK_NAME","paf"))
+		ZYLDebugLog("Broadcasting player 0 for diagnostics")
 		Network.BroadcastPlayerInfo(0)
 	end
 	
@@ -4237,7 +4242,7 @@ function OnMultiplayerChat( fromPlayer, toPlayer, text, eTargetType )
 		local tmp = GetNextID()
 		if tmp ~= nil then
 			text = tostring(tmp)
-			g_test = GetNextID()
+			g_test = tmp
 			else
 			text = "nil"
 		end
@@ -4334,11 +4339,11 @@ function OnMultiplayerChat( fromPlayer, toPlayer, text, eTargetType )
 	if b_ishost == true and text == ".modlist" then
 		local mods = Modding.GetActiveMods()
 		if mods ~= nil then
-			print(mods)
+			ZYLDebugLog(mods)
 			for i,v in ipairs(mods) do
-				print(i,v)
+				ZYLDebugLog(i,v)
 				for key,value in ipairs(v) do
-					print(key,value)
+					ZYLDebugLog(key,value)
 				end
 			end
 		end
@@ -4772,7 +4777,7 @@ function OnSlotType( playerID, id )
 		m_kPopupDialog:Open();
 		return
 	end										   
-	--print("playerID: " .. playerID .. " id: " .. id);
+	--ZYLDebugLog("playerID: " .. playerID .. " id: " .. id);
 	-- NOTE:  This function assumes that the given player slot is not occupied by a player.  We
 	--				assume that players having to be kicked before the slot's type can be manually changed.
 	local pPlayerConfig = PlayerConfigurations[playerID];
@@ -4839,7 +4844,7 @@ end
 -------------------------------------------------
 function OnKickButton(playerID)
 	-- Kick button was clicked for the given player slot.
-	--print("playerID " .. playerID);
+	--ZYLDebugLog("playerID " .. playerID);
 	if g_disabled_slot_settings == true then
 		m_kPopupDialog:Close();	
 		m_kPopupDialog:AddTitle(  Locale.ToUpper(Locale.Lookup("LOC_MPH_KICK_DISABLED_TITLE")));
@@ -5440,7 +5445,7 @@ function OnZYLDealIdentities()
 	CheckGameAutoStart();
 	UpdateReadyButton();
 	UI.PlaySound("Play_UI_Click");
-	print("ZYL identity game: lobby roles dealt", #settings.Players, "players; lord", lordID);
+	ZYLDebugLog("ZYL identity game: lobby roles dealt", #settings.Players, "players; lord", lordID);
 end
 
 function InvalidateZYLIdentityLobbyDeal()
@@ -5572,13 +5577,13 @@ function CheckGameAutoStart()
 				or Network.IsPlayerConnected(iPlayer))	-- network connection on this slot, could be an multiplayer autoplay.
 				and (curPlayerConfig:IsAlive() or curSlotStatus == SlotStatus.SS_OBSERVER)) then -- Dead players do not block launch countdown.  Observers count as dead but should still block launch to be consistent. 
 				if(not curPlayerConfig:GetReady()) then
-					print("CheckGameAutoStart: Can't start game because player ".. iPlayer .. " isn't ready");
+					ZYLDebugLog("CheckGameAutoStart: Can't start game because player ".. iPlayer .. " isn't ready");
 					startCountdown = false;
 					g_everyoneReady = false;
 				-- Players are set to ModRrady when have they successfully downloaded and configured all the mods required for this game.
 				-- See Network::Manager::OnFinishedGameplayContentConfigure()
 				elseif(not curPlayerConfig:GetModReady()) then
-					print("CheckGameAutoStart: Can't start game because player ".. iPlayer .. " isn't mod ready");
+					ZYLDebugLog("CheckGameAutoStart: Can't start game because player ".. iPlayer .. " isn't mod ready");
 					startCountdown = false;
 					g_everyoneModReady = false;
 				end
@@ -5600,7 +5605,7 @@ function CheckGameAutoStart()
 
 				if(iPlayer >= g_currentMaxPlayers) then
 					-- A player is occupying an invalid player slot for this map size.
-					print("CheckGameAutoStart: Can't start game because player " .. iPlayer .. " is in an invalid slot for this map size.");
+					ZYLDebugLog("CheckGameAutoStart: Can't start game because player " .. iPlayer .. " is in an invalid slot for this map size.");
 					startCountdown = false;
 					g_badPlayerForMapSize = true;
 				end
@@ -5619,20 +5624,20 @@ function CheckGameAutoStart()
 		
 		-- Check player count
 		if(totalPlayers < g_currentMinPlayers) then
-			print("CheckGameAutoStart: Can't start game because there are not enough players. " .. totalPlayers .. "/" .. g_currentMinPlayers);
+			ZYLDebugLog("CheckGameAutoStart: Can't start game because there are not enough players. " .. totalPlayers .. "/" .. g_currentMinPlayers);
 			startCountdown = false;
 			g_notEnoughPlayers = true;
 		end
 
 		if(not CheckZYLIdentityConfig()) then
-			print("CheckGameAutoStart: Can't start game because the ZYL identity configuration is invalid");
+			ZYLDebugLog("CheckGameAutoStart: Can't start game because the ZYL identity configuration is invalid");
 			startCountdown = false;
 		end
 
 		if(GameConfiguration.IsPlayByCloud() 
 			and GameConfiguration.GetGameState() ~= GameStateTypes.GAMESTATE_LAUNCHED
 			and totalHumans < 2) then
-			print("CheckGameAutoStart: Can't start game because two human players are required for PlayByCloud. totalHumans: " .. totalHumans);
+			ZYLDebugLog("CheckGameAutoStart: Can't start game because two human players are required for PlayByCloud. totalHumans: " .. totalHumans);
 			startCountdown = false;
 			g_pbcMinHumanCheck = false;
 		end
@@ -5641,19 +5646,19 @@ function CheckGameAutoStart()
 			and GameConfiguration.GetGameState() ~= GameStateTypes.GAMESTATE_LAUNCHED
 			and totalHumans < totalPlayers
 			and (IsReadyCountdownActive() or IsWaitForPlayersCountdownActive())) then
-			print("CheckGameAutoStart: Can't start game because we are still in the Ready/Matchmaking Countdown and we do not have a full game yet. totalHumans: " .. totalHumans .. ", totalPlayers: " .. tostring(totalPlayers));
+			ZYLDebugLog("CheckGameAutoStart: Can't start game because we are still in the Ready/Matchmaking Countdown and we do not have a full game yet. totalHumans: " .. totalHumans .. ", totalPlayers: " .. tostring(totalPlayers));
 			startCountdown = false;
 			g_matchMakeFullGameCheck = false;
 		end
 
 		if(not Network.IsEveryoneConnected()) then
-			print("CheckGameAutoStart: Can't start game because players are joining the game.");
+			ZYLDebugLog("CheckGameAutoStart: Can't start game because players are joining the game.");
 			startCountdown = false;
 			g_everyoneConnected = false;
 		end
 
 		if(not m_bTeamsValid) then
-			print("CheckGameAutoStart: Can't start game because all civs are on the same team!");
+			ZYLDebugLog("CheckGameAutoStart: Can't start game because all civs are on the same team!");
 			startCountdown = false;
 		end
 
@@ -5661,7 +5666,7 @@ function CheckGameAutoStart()
 		if(GameConfiguration.IsPlayByCloud()
 			and GameConfiguration.GetGameState() ~= GameStateTypes.GAMESTATE_LAUNCHED
 			and not Network.IsGameHost()) then
-			print("CheckGameAutoStart: Can't start game because remote client can't launch new PlayByCloud game.");
+			ZYLDebugLog("CheckGameAutoStart: Can't start game because remote client can't launch new PlayByCloud game.");
 			startCountdown = false;
 			g_pbcNewGameCheck = false;
 		end
@@ -5707,7 +5712,7 @@ function CheckLeaveGame()
 									-- and should not trigger a game exit.
 		and Network.IsInSession()	-- Still in a network session.
 		and not Network.IsInGameStartedState() then -- Don't trigger leave game if we're being used as an ingame screen. Worldview is handling this instead.
-		print("StagingRoom::CheckLeaveGame() leaving the network session.");															  
+		ZYLDebugLog("StagingRoom::CheckLeaveGame() leaving the network session.");
 		Network.LeaveGame();
 	end
 end
@@ -5716,7 +5721,7 @@ end
 --	LUA Event
 -- ===========================================================================
 function OnHandleExitRequest()
-	print("Staging Room -Handle Exit Request");
+	ZYLDebugLog("Staging Room -Handle Exit Request");
 
 	CheckLeaveGame();
 	Controls.CountdownTimerAnim:ClearAnimCallback();
@@ -5748,7 +5753,7 @@ function GetPlayerEntry(playerID)
 	local playerEntry = g_PlayerEntries[playerID];
 	if(playerEntry == nil) then
 		-- need to create the player entry.
-		--print("creating playerEntry for player " .. tostring(playerID));
+		--ZYLDebugLog("creating playerEntry for player " .. tostring(playerID));
 		playerEntry = m_playersIM:GetInstance();
 
 		--SetupTeamPulldown( playerID, playerEntry.TeamPullDown );
@@ -6441,7 +6446,7 @@ function UpdatePlayerEntry(playerID)
 		end
 		
 	else
-		print("PlayerEntry not found for playerID(" .. tostring(playerID) .. ").");
+		ZYLDebugLog("PlayerEntry not found for playerID(" .. tostring(playerID) .. ").");
 	end
 end
 
@@ -6532,14 +6537,14 @@ function UpdatePlayerEntry_Hotseat(playerID)
 				local curPlayerConfig = PlayerConfigurations[iPlayer];
 				local curSlotStatus = curPlayerConfig:GetSlotStatus();
 				
-				print("UpdatePlayerEntry_Hotseat: playerID=" .. iPlayer .. ", SlotStatus=" .. curSlotStatus);	
+				ZYLDebugLog("UpdatePlayerEntry_Hotseat: playerID=" .. iPlayer .. ", SlotStatus=" .. curSlotStatus);
 				if(curSlotStatus == SlotStatus.SS_TAKEN) then 
 					g_hotseatNumHumanPlayers = g_hotseatNumHumanPlayers + 1;
 				elseif(curSlotStatus == SlotStatus.SS_COMPUTER) then
 					g_hotseatNumAIPlayers = g_hotseatNumAIPlayers + 1;
 				end
 			end
-			print("UpdatePlayerEntry_Hotseat: g_hotseatNumHumanPlayers=" .. g_hotseatNumHumanPlayers .. ", g_hotseatNumAIPlayers=" .. g_hotseatNumAIPlayers);	
+			ZYLDebugLog("UpdatePlayerEntry_Hotseat: g_hotseatNumHumanPlayers=" .. g_hotseatNumHumanPlayers .. ", g_hotseatNumAIPlayers=" .. g_hotseatNumAIPlayers);
 
 			if(slotStatus == SlotStatus.SS_TAKEN) then
 				local nickName = pPlayerConfig:GetNickName();
@@ -6586,7 +6591,7 @@ function UpdateAllDefaultPlayerNames()
 		
 		if isSafeToReferencePlayer and (slotStatus == SlotStatus.SS_TAKEN) then
 			local strRegEx = "^" .. DefaultHotseatPlayerName .. " %d+$"
-			print(strRegEx .. " " .. pCurPlayerConfig:GetNickName());
+			ZYLDebugLog(strRegEx .. " " .. pCurPlayerConfig:GetNickName());
 			local isDefaultPlayerName = string.match(pCurPlayerConfig:GetNickName(), strRegEx);
 			if(isDefaultPlayerName ~= nil) then
 				humanDefaultPlayerNameConfigs[#humanDefaultPlayerNameConfigs+1] = pCurPlayerConfig;
@@ -6844,11 +6849,11 @@ function StartCountdown(countdownType :string)
 
 	local countdownData = g_CountdownData[countdownType];
 	if(countdownData == nil) then
-		print("ERROR: missing countdownData for type " .. tostring(countdownType));
+		ZYLDebugLog("ERROR: missing countdownData for type " .. tostring(countdownType));
 		return;
 	end
 
-	print("Starting Countdown Type " .. tostring(countdownType));
+	ZYLDebugLog("Starting Countdown Type " .. tostring(countdownType));
 	m_countdownType = countdownType;
 
 	if(countdownData.TimerType == TimerTypes.Script) then
@@ -6872,7 +6877,7 @@ function StartCountdown(countdownType :string)
 end
 
 function StartLaunchCountdown()
-	--print("StartLaunchCountdown");
+	--ZYLDebugLog("StartLaunchCountdown");
 	local gameState = GameConfiguration.GetGameState();
 	-- In progress PlayByCloud games and matchmaking games launch instantly.
 	if((GameConfiguration.IsPlayByCloud() and gameState == GameStateTypes.GAMESTATE_LAUNCHED)
@@ -6893,7 +6898,7 @@ end
 -------------------------------------------------
 function StopCountdown()
 	if(m_countdownType ~= CountdownTypes.None) then
-		print("Stopping Countdown. m_countdownType=" .. tostring(m_countdownType));
+		ZYLDebugLog("Stopping Countdown. m_countdownType=" .. tostring(m_countdownType));
 	end
 
 	Controls.TurnTimerMeter:SetPercent(0);
@@ -7054,7 +7059,7 @@ end
 function UpdateCountdownTimeRemaining()
 	local countdownData :table = g_CountdownData[m_countdownType];
 	if(countdownData == nil) then
-		print("ERROR: missing countdown data!");
+		ZYLDebugLog("ERROR: missing countdown data!");
 		return;
 	end
 
@@ -7072,7 +7077,7 @@ end
 function OnShow()
 	-- Fetch g_currentMaxPlayers because it might be stale due to loading a save.
 	g_Anon = GameConfiguration.GetValue('GAMEMODE_ANONYMOUS')
-	print("g_Anon", g_Anon)
+	ZYLDebugLog("g_Anon", g_Anon)
 	g_currentMaxPlayers = math.min(MapConfiguration.GetMaxMajorPlayers(), 50);
 	m_shownPBCReadyPopup = false;
 	m_exitReadyWait = false;
