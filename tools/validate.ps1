@@ -2687,6 +2687,7 @@ foreach ($requiredLobbyLifecycleFragment in @(
 'if GameConfiguration.GetValue(key) ~= value then',
 'local ZYL_NATIVE_PRINT = print',
 'local function ZYLDebugLog(...)',
+'local banFormat = GameConfiguration.GetValue("CPL_BAN_FORMAT")',
 'for index = #shuffledVersion, 2, -1 do',
 'local swapIndex = math.random(index)'
 )) {
@@ -2707,6 +2708,23 @@ foreach ($forbiddenLobbyFragment in @(
 if ($stagingRoomSource.Contains($forbiddenLobbyFragment)) {
 Add-ValidationError "Staging-room regression restored a hot-loop or typo: $forbiddenLobbyFragment"
 }
+}
+
+$quickRefreshMatch = [regex]::Match(
+$stagingRoomSource,
+'(?s)function QuickRefresh\(\)(.*?)\nend\s*\n\s*function Refresh\(\)'
+)
+$fullRefreshMatch = [regex]::Match(
+$stagingRoomSource,
+'(?s)function Refresh\(\)(.*?)\nend\s*\n\s*function OnHostLaunch\(\)'
+)
+if (-not $quickRefreshMatch.Success -or
+-not $fullRefreshMatch.Success -or
+[regex]::Matches($quickRefreshMatch.Value, 'GameConfiguration\.GetValue\("CPL_BAN_FORMAT"\)').Count -ne 1 -or
+[regex]::Matches($fullRefreshMatch.Value, 'GameConfiguration\.GetValue\("CPL_BAN_FORMAT"\)').Count -ne 1 -or
+[regex]::Matches($fullRefreshMatch.Value, 'GameConfiguration\.GetValue\("DRAFT_(?:SLOT_ORDER|TIMER)"\)').Count -ne 0 -or
+-not $fullRefreshMatch.Value.Contains('RefreshTickSettings()')) {
+Add-ValidationError 'Staging-room periodic refresh restored duplicate tournament-setting reads.'
 }
 
 Test-ZylLuaEventLifecycle -Source $stagingRoomSource -Label 'Staging room'

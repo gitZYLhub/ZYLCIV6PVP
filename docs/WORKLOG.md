@@ -300,4 +300,14 @@
 - 修改：复制连续数组后执行从尾到头的 Fisher–Yates，交换下标直接使用 `math.random(index)`；候选选择从 `pairs` 改为 `ipairs`，明确按洗牌顺序查找首个未禁用、未选择且合法的领袖。时间复杂度从 O(n²) 降为 O(n)。
 - 验证：校验器要求线性倒序循环、无偏的 `math.random(index)` 和洗牌后选人路径中的顺序数组遍历，并拒绝旧 `1 + math.random(left_to_do)`；PowerShell 7 与 Windows PowerShell 5.1 全量校验均通过 203 XML、108 Criteria、283 Actions、1077 Files、549 活跃引用、48 休眠文件和 65 源码专用文件。三种 profile 重建闭合：universal 为 1072 文件、776,225,674 字节、聚合 SHA-256 `6499a7ae3c517d8c82263f3026ff9f5f3d445018a172f1e3cb24c54ce909cf49`；Windows 为 903 文件、442,484,737 字节、`b8a32dd10e403e79bf653bce6a4903fbcf3e10974c4be9c8aa9e48b01d357735`；macOS 为 903 文件、442,484,399 字节、`09db75d79eeae9dc2acd73c848373ae0ff9c7cf3967b3a597959d46b375e080b`。实机仍需在赛事选人阶段反复使用房主跳过并覆盖接近全禁选列表的边界。
 - 风险/待办：UI 层 `math.random` 只由房主用于选出结果，最终领袖仍通过现有聊天与 PlayerInfo 广播同步；本轮不改变同步游戏随机流。G13 实机测试完成前不宣称运行验证通过。
-- 提交：本次提交（随机领袖越界修复与线性洗牌）。
+- 提交：`09114a8 fix: prevent forced-leader shuffle overflow`。
+
+### 2026-09-07 / M3-周期赛事配置快照复用
+
+- 目标：减少大厅 1–5 秒周期刷新中对同一 GameConfiguration 值的重复跨边界查询，同时保持配置变化立即刷新和握手轮询行为。
+- 范围：`OnTick`、`QuickRefresh`、`Refresh`、静态回归断言、更新日志、计划、测试矩阵和工作日志；不改变刷新间隔、阶段状态机、配置写入、玩家列表扫描、握手、聊天消息、广播或版本号。
+- 设计决定：`Refresh` 成为 `DRAFT_SLOT_ORDER`/`DRAFT_TIMER` 的唯一常规刷新入口，初次 Tick 仍预热一次；`QuickRefresh` 与 `Refresh` 各自只读取一次 `CPL_BAN_FORMAT`，前者同时复用一次游戏状态。刷新提示只由完整 `Refresh` 推进。
+- 修改：删除 `OnTick` 常规路径与 `Refresh` 内联块的双重赛事设置读取，改为 `Refresh` 调用已有 `RefreshTickSettings`；缓存 Ban/Pick 格式和游戏状态后复用分支条件。目标配置读取由 `DRAFT_*` 6 次加 `CPL_BAN_FORMAT` 7 次，共 13 次/周期，降为 2+2=4 次。
+- 验证：校验器提取 `QuickRefresh`/`Refresh` 函数体，固定 Ban/Pick 格式各一次读取、禁止完整刷新重新直接读取 `DRAFT_*`，并要求调用统一设置函数。静态审计确认常规 Tick 不再额外调用设置函数，快速刷新不再推进提示；PowerShell 7 与 Windows PowerShell 5.1 全量校验均通过。三种 profile 重建闭合：universal 为 1072 文件、776,225,097 字节、聚合 SHA-256 `f2f0fa79c6228d1c49387dca546de68d653a2242dcc95c7a0fc80d28c99e6a11`；Windows 为 903 文件、442,484,160 字节、`fb3a4f857b16f55c1f30a8870869d78e788f3b141c01f8d65be21f2e6cfd4dfa`；macOS 为 903 文件、442,483,822 字节、`e6f8440c1e73635652d18db32f458cd5f6727b2ddf41d28e59f1fd4cf7b1525c`。
+- 风险/待办：这是跨 Lua/C++ 配置查询数的静态削减，不等于已有实机帧时间数据；仍需 P03/P10 在空闲大厅与 Ban/Pick 1 秒阶段分别采集 Lua 时间。下一步继续分离真正需要周期轮询的握手状态与只需事件触发的 UI 域。
+- 提交：本次提交（周期赛事配置快照复用）。

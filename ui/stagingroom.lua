@@ -541,7 +541,6 @@ function OnTick()
 	if b_tick == true then
 		b_tick = false
 	end
-	RefreshTickSettings()
 	QuickRefresh()
 	Refresh()
 	RefreshStatus()
@@ -1535,16 +1534,14 @@ end
 function QuickRefresh()
 	local localID = Network.GetLocalPlayerID()
 	local hostID = Network.GetGameHostPlayerID()
-	g_refreshing = g_refreshing.."."
+	local banFormat = GameConfiguration.GetValue("CPL_BAN_FORMAT")
+	local gameState = GameConfiguration.GetGameState()
 	if localID == hostID and not GameConfiguration.IsPlayByCloud() then
 		Controls.ModCheckButton:SetHide(false)
 		else
 		Controls.ModCheckButton:SetHide(true)	
 	end
-	if string.len(g_refreshing) > 30 then
-		g_refreshing = "Refreshing"
-	end
-	if (GameConfiguration.GetValue("CPL_BAN_FORMAT") == nil) then
+	if banFormat == nil then
 		g_phase = PHASE_DEFAULT
 		Controls.PhaseLabel:SetHide(true)
 		Controls.PhaseButton:SetHide(true)
@@ -1560,7 +1557,7 @@ function QuickRefresh()
 		return
 	end
 
-	if Network.IsPlayerHotJoining(localID) or IsCloudInProgress() or GameConfiguration.IsHotseat() or GameConfiguration.GetGameState() ~= -901772834 then
+	if Network.IsPlayerHotJoining(localID) or IsCloudInProgress() or GameConfiguration.IsHotseat() or gameState ~= -901772834 then
 		g_phase = PHASE_DEFAULT
 		Controls.ModCheckButton:SetHide(true)
 		Controls.PhaseButton:SetHide(true)
@@ -1581,7 +1578,7 @@ function QuickRefresh()
 		return
 	end
 
-	if GameConfiguration.GetValue("CPL_BAN_FORMAT") == 1 or GameConfiguration.GetValue("CPL_BAN_FORMAT") == 0 then
+	if banFormat == 1 or banFormat == 0 then
 		g_phase = PHASE_DEFAULT
 		for banIndex = 1, 6 do
 			local key = "BAN_" .. tostring(banIndex)
@@ -1593,7 +1590,7 @@ function QuickRefresh()
 		Controls.PickedMap2Label:SetHide(true) 
 	end
 	
-	if (GameConfiguration.GetValue("CPL_BAN_FORMAT") == 3 or GameConfiguration.GetValue("CPL_BAN_FORMAT") == 4) and GameConfiguration.GetGameState() == -901772834 then
+	if (banFormat == 3 or banFormat == 4) and gameState == -901772834 then
 		if g_phase == PHASE_DEFAULT then
 			g_phase = PHASE_INIT
 		end
@@ -1608,6 +1605,8 @@ function Refresh()
 	local localID = Network.GetLocalPlayerID()
 	local hostID = Network.GetGameHostPlayerID()
 	local player_ids = GameConfiguration.GetMultiplayerPlayerIDs();
+	local banFormat = GameConfiguration.GetValue("CPL_BAN_FORMAT")
+	RefreshTickSettings()
 	g_refreshing = g_refreshing.."."
 	if string.len(g_refreshing) > 30 then
 		g_refreshing = "Refreshing"
@@ -1640,20 +1639,6 @@ function Refresh()
 		end
 	end
 	
-	-- Define Settings
-	g_slot_draft = 0
-	if GameConfiguration.GetValue("DRAFT_SLOT_ORDER") ~= nil then
-		g_slot_draft = GameConfiguration.GetValue("DRAFT_SLOT_ORDER")
-	end
-	g_timer = 1
-	if GameConfiguration.GetValue("DRAFT_TIMER") ~= nil then
-		if GameConfiguration.GetValue("DRAFT_TIMER") == true then
-			g_timer = 1 
-			else
-			g_timer = 0
-		end
-	end	
-		
 	-- Anonymous WIP
 	if GameConfiguration.GetValue("GAMEMODE_ANONYMOUS") == true then 
 		for i, iPlayer in ipairs(player_ids) do	
@@ -1706,7 +1691,7 @@ function Refresh()
 		Controls.ResetButton:SetDisabled(false)
 	end
 	
-	if GameConfiguration.GetValue("CPL_BAN_FORMAT") ~= 3 and GameConfiguration.GetValue("CPL_BAN_FORMAT") ~= 4  then
+	if banFormat ~= 3 and banFormat ~= 4 then
 		Controls.StartButton:SetHide(true)
 		g_phase = PHASE_DEFAULT
 		g_banned_leader = nil
