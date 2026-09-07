@@ -51,6 +51,7 @@
 
 - 固定文本文件的 Git 行尾策略，二进制美术资源不再参与文本规范化。
 - Workshop 构建在临时产物中把 601 个已知 UTF-8 文本统一为 LF 并保留 BOM，二进制资产仍逐字节复制；不同平台或 `core.autocrlf` 设置不再仅因工作区 CRLF/LF 差异产生不同包哈希。
+- 发布器新增 universal、Windows 和 macOS 三种 profile；单平台包自动移除 169 个另一平台的成对资产并同步裁剪产物 ModInfo，源码清单和 universal 兼容包保持不变。
 
 ### 移除
 

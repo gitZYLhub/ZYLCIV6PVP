@@ -1,9 +1,19 @@
 [CmdletBinding()]
 param(
-	[string]$Destination
+	[string]$Destination,
+
+	[ValidateSet('universal', 'windows', 'macos')]
+	[string]$Profile = 'universal'
 )
 
 $ErrorActionPreference = 'Stop'
+$Profile = $Profile.ToLowerInvariant()
+
+$releaseChecksPath = Join-Path $PSScriptRoot 'validation\ReleaseChecks.ps1'
+if (-not (Test-Path -LiteralPath $releaseChecksPath -PathType Leaf)) {
+	throw "Release validation helpers not found: $releaseChecksPath"
+}
+. $releaseChecksPath
 
 $releaseTextExtensions = [System.Collections.Generic.HashSet[string]]::new(
 	[System.StringComparer]::OrdinalIgnoreCase
@@ -70,6 +80,13 @@ if ([System.BitConverter]::ToString($normalizedFixture) -ne 'EF-BB-BF-41-0A-42-0
 		(Test-ZylReleaseTextPath 'texture.dds')) {
 	throw 'Release text-normalization helper failed its positive/binary-boundary self-test.'
 }
+if (-not (Test-ZylReleasePathIncluded -RelativePath 'common/file.xml' -Profile 'windows') -or
+		-not (Test-ZylReleasePathIncluded -RelativePath 'Platforms/Windows/a.blp' -Profile 'windows') -or
+		(Test-ZylReleasePathIncluded -RelativePath 'Platforms/MacOS/a.blp' -Profile 'windows') -or
+		-not (Test-ZylReleasePathIncluded -RelativePath 'Nested/Platforms/MacOS/a.blp' -Profile 'macos') -or
+		-not (Test-ZylReleasePathIncluded -RelativePath 'Platforms/MacOS/a.blp' -Profile 'universal')) {
+	throw 'Release profile helper failed its positive/negative self-test.'
+}
 $invalidUtf8Rejected = $false
 try {
 	[void](ConvertTo-ZylReleaseTextBytes `
@@ -93,7 +110,13 @@ $packageName = [string]$projectMetadata.packageName
 $packageVersion = [string]$projectMetadata.semanticVersion
 $artifactsRoot = [System.IO.Path]::GetFullPath((Join-Path $sourceRoot 'artifacts'))
 if ([string]::IsNullOrWhiteSpace($Destination)) {
-	$Destination = Join-Path $artifactsRoot 'workshop'
+	$destinationName = if ($Profile -eq 'universal') {
+		'workshop'
+	}
+	else {
+		"workshop-$Profile"
+	}
+	$Destination = Join-Path $artifactsRoot $destinationName
 }
 $destinationRoot = [System.IO.Path]::GetFullPath($Destination)
 $destinationParent = Split-Path -Parent $destinationRoot
@@ -150,7 +173,9 @@ $runtimeEntries = [System.Collections.Generic.List[object]]::new()
 $runtimePaths = [System.Collections.Generic.HashSet[string]]::new(
 	[System.StringComparer]::OrdinalIgnoreCase
 )
-$excludedNodes = [System.Collections.Generic.List[System.Xml.XmlNode]]::new()
+$sourceOnlyExcludedNodes = [System.Collections.Generic.List[System.Xml.XmlNode]]::new()
+$platformExcludedNodes = [System.Collections.Generic.List[System.Xml.XmlNode]]::new()
+$platformAssetIncludedCount = 0
 
 foreach ($fileNode in @($modInfo.SelectNodes('/Mod/Files/File'))) {
 	$relativePath = $fileNode.InnerText.Trim().Replace('\', '/')
@@ -160,8 +185,15 @@ foreach ($fileNode in @($modInfo.SelectNodes('/Mod/Files/File'))) {
 		throw "Unsafe path in ModInfo Files list: $relativePath"
 	}
 	if ($excludedPaths.Contains($relativePath)) {
-		$excludedNodes.Add($fileNode)
+		$sourceOnlyExcludedNodes.Add($fileNode)
 		continue
+	}
+	if (-not (Test-ZylReleasePathIncluded -RelativePath $relativePath -Profile $Profile)) {
+		$platformExcludedNodes.Add($fileNode)
+		continue
+	}
+	if ($null -ne (Get-ZylPlatformAssetDescriptor -RelativePath $relativePath)) {
+		$platformAssetIncludedCount++
 	}
 	if (-not $runtimePaths.Add($relativePath)) {
 		throw "Duplicate runtime path in ModInfo: $relativePath"
@@ -193,12 +225,15 @@ foreach ($actionFileNode in @($modInfo.SelectNodes(
 	if ($excludedPaths.Contains($actionPath)) {
 		throw "Excluded path is still referenced by a ModInfo action: $actionPath"
 	}
+	if (-not (Test-ZylReleasePathIncluded -RelativePath $actionPath -Profile $Profile)) {
+		throw "Platform-pruned path is still referenced by a ModInfo action: $actionPath"
+	}
 	if (-not $runtimePaths.Contains($actionPath)) {
 		throw "Action file is absent from the runtime Files list: $actionPath"
 	}
 }
 
-foreach ($excludedNode in $excludedNodes) {
+foreach ($excludedNode in @($sourceOnlyExcludedNodes) + @($platformExcludedNodes)) {
 	[void]$excludedNode.ParentNode.RemoveChild($excludedNode)
 }
 
@@ -334,15 +369,18 @@ try {
 	}
 	$reportRoot = Join-Path $artifactsRoot 'reports'
 	[void](New-Item -ItemType Directory -Path $reportRoot -Force)
-	$reportPath = Join-Path $reportRoot "$packageName-$packageVersion-universal.manifest.json"
+	$reportPath = Join-Path $reportRoot "$packageName-$packageVersion-$Profile.manifest.json"
 	$report = [pscustomobject][ordered]@{
-		schemaVersion = 2
+		schemaVersion = 3
 		packageName = $packageName
 		semanticVersion = $packageVersion
 		modId = [string]$projectMetadata.modId
-		profile = 'universal'
+		profile = $Profile
 		textNormalization = 'utf8-lf'
 		normalizedTextFileCount = $normalizedTextFileCount
+		sourceOnlyExcludedCount = $sourceOnlyExcludedNodes.Count
+		platformAssetIncludedCount = $platformAssetIncludedCount
+		platformExcludedCount = $platformExcludedNodes.Count
 		fileCount = $releaseFiles.Count
 		totalBytes = [int64]$releaseBytes
 		aggregateSha256 = $aggregateHash
@@ -356,13 +394,14 @@ try {
 	)
 	Write-Host ''
 	Write-Host 'Workshop release created successfully.'
+	Write-Host "Profile   : $Profile"
 	Write-Host "Directory : $destinationRoot"
 	Write-Host "Files     : $($releaseFiles.Count)"
 	Write-Host ('Size      : {0:N2} MiB' -f ($releaseBytes / 1MB))
 	Write-Host "SHA-256   : $aggregateHash"
 	Write-Host "Text      : $normalizedTextFileCount UTF-8 files normalized to LF"
 	Write-Host "Manifest  : $reportPath"
-	Write-Host "Excluded  : $($excludedNodes.Count) source-only files, plus all unlisted project files"
+	Write-Host "Excluded  : $($sourceOnlyExcludedNodes.Count) source-only and $($platformExcludedNodes.Count) opposite-platform files, plus all unlisted project files"
 }
 finally {
 	if (Test-Path -LiteralPath $stageRoot) {

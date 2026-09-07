@@ -70,6 +70,12 @@ if (-not (Test-Path -LiteralPath $databaseContractChecksPath -PathType Leaf)) {
 }
 . $databaseContractChecksPath
 
+$releaseChecksPath = Join-Path $PSScriptRoot 'validation\ReleaseChecks.ps1'
+if (-not (Test-Path -LiteralPath $releaseChecksPath -PathType Leaf)) {
+    throw "Release validation helpers not found: $releaseChecksPath"
+}
+. $releaseChecksPath
+
 $missingRemovalFixture = @(Get-ZylLuaEventLifecycleIssues -Source 'Events.Example.Add(OnExample)' -Label 'Fixture')
 $balancedLifecycleFixture = @(Get-ZylLuaEventLifecycleIssues -Source @'
 Events.Example.Add(OnExample)
@@ -175,6 +181,44 @@ if (@(Get-ZylEraDurationSqlIssues -Source $validEraDurationFixture).Count -ne 0 
     Add-ValidationError 'Era-duration database contract helper failed its positive/negative self-test.'
 }
 
+$pairedPlatformFixture = [System.Xml.XmlDocument]::new()
+$pairedPlatformFixture.LoadXml(@'
+<Mod>
+  <FrontEndActions />
+  <InGameActions />
+  <Files>
+    <File>Assets/Platforms/MacOS/example.blp</File>
+    <File>Assets/Platforms/Windows/example.blp</File>
+  </Files>
+</Mod>
+'@)
+$missingPlatformFixture = [System.Xml.XmlDocument]$pairedPlatformFixture.Clone()
+[void]$missingPlatformFixture.SelectSingleNode(
+    '/Mod/Files/File[contains(., "Windows")]'
+).ParentNode.RemoveChild(
+    $missingPlatformFixture.SelectSingleNode('/Mod/Files/File[contains(., "Windows")]')
+)
+$directPlatformActionFixture = [System.Xml.XmlDocument]$pairedPlatformFixture.Clone()
+$directPlatformActionFixture.SelectSingleNode('/Mod/InGameActions').InnerXml = @'
+<ImportFiles id="Fixture"><File>Assets/Platforms/Windows/example.blp</File></ImportFiles>
+'@
+if (@(Get-ZylPlatformAssetPairIssues -ModInfo $pairedPlatformFixture).Count -ne 0 -or
+        @(Get-ZylPlatformAssetPairIssues -ModInfo $missingPlatformFixture).Count -ne 1 -or
+        @(Get-ZylPlatformAssetPairIssues -ModInfo $directPlatformActionFixture).Count -ne 1 -or
+        @(Get-ZylPlatformLiteralReferenceIssues `
+            -Source 'Asset/Platforms/{PLATFORM}/example.blp' `
+            -Label 'Fixture').Count -ne 0 -or
+        @(Get-ZylPlatformLiteralReferenceIssues `
+            -Source 'Asset/Platforms/Windows/example.blp' `
+            -Label 'Fixture').Count -ne 1 -or
+        -not (Test-ZylReleasePathIncluded -RelativePath 'common/file.xml' -Profile 'windows') -or
+        -not (Test-ZylReleasePathIncluded -RelativePath 'Platforms/Windows/a.blp' -Profile 'windows') -or
+        (Test-ZylReleasePathIncluded -RelativePath 'Platforms/MacOS/a.blp' -Profile 'windows') -or
+        -not (Test-ZylReleasePathIncluded -RelativePath 'Nested/Platforms/MacOS/a.blp' -Profile 'macos') -or
+        -not (Test-ZylReleasePathIncluded -RelativePath 'Platforms/MacOS/a.blp' -Profile 'universal')) {
+    Add-ValidationError 'Release platform helper failed its positive/negative self-test.'
+}
+
 if (-not (Test-Path -LiteralPath $modInfoPath)) {
     throw "ModInfo not found: $modInfoPath"
 }
@@ -187,6 +231,11 @@ foreach ($manifestIssue in @(Get-ZylManifestBaselineIssues `
 }
 
 $projectFiles = @(Get-ZylProjectFiles -ProjectRoot $modRoot)
+foreach ($platformDefinitionIssue in @(Get-ZylPlatformAssetDefinitionIssues `
+        -ProjectFiles $projectFiles `
+        -ProjectRoot $modRoot)) {
+    Add-ValidationError $platformDefinitionIssue
+}
 
 # Build and maintenance scripts must never consume Steam Workshop caches.
 # Upstream content is copied into this repository deliberately; once embedded,
@@ -197,9 +246,18 @@ foreach ($projectBoundaryIssue in @(Get-ZylProjectBoundaryIssues `
         -ProjectRoot $modRoot `
         -ProjectFiles $projectFiles `
         -ValidatorPath $PSCommandPath `
-        -AssemblerPath $assemblerPath `
-        -ReleaseBuilderPath $releaseBuilderPath)) {
+        -AssemblerPath $assemblerPath)) {
     Add-ValidationError $projectBoundaryIssue
+}
+if (-not (Test-Path -LiteralPath $releaseBuilderPath -PathType Leaf)) {
+    Add-ValidationError 'The deterministic release builder is missing.'
+}
+else {
+    $releaseBuilderSource = Get-Content -LiteralPath $releaseBuilderPath -Raw
+    foreach ($releaseBuilderIssue in @(Get-ZylReleaseBuilderIssues `
+            -Source $releaseBuilderSource)) {
+        Add-ValidationError $releaseBuilderIssue
+    }
 }
 
 # Validate every runtime XML-bearing artifact, including the BBM art
@@ -212,6 +270,9 @@ foreach ($xmlIssue in @(Get-ZylXmlArtifactIssues -XmlFiles $xmlFiles)) {
 }
 
 $modInfo = Load-XmlDocument $modInfoPath
+foreach ($platformAssetIssue in @(Get-ZylPlatformAssetPairIssues -ModInfo $modInfo)) {
+    Add-ValidationError $platformAssetIssue
+}
 $criteriaSourceDirectory = Join-Path $modRoot 'manifest\criteria'
 $frontEndActionsSourceDirectory = Join-Path $modRoot 'manifest\actions\frontend'
 $inGameActionsSourceDirectory = Join-Path $modRoot 'manifest\actions\ingame'

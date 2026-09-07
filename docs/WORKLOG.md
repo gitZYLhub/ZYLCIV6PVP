@@ -270,4 +270,14 @@
 - 修改：构建器新增文本边界、自检和规范化写入，运行条目分别记录源码/目标长度；报告升级为 schema 2，增加 `textNormalization=utf8-lf` 和规范化文件数。聚合清单从文化相关 `Sort-Object` 改为序号排序，报告消除 PowerShell 版本相关缩进/数字格式。常规校验固定关键实现片段，防止退回原始文本复制或文化相关排序。
 - 验证：607 个候选仓库文本（约 15.4 MiB）全部通过严格 UTF-8 解码；发布清单排除 6 个源码文件后规范化 601 个运行文本。BOM/CRLF/LF/孤立 CR 正例和非法 UTF-8 反例均通过；临时把报告标识改为探针值时 Windows PowerShell 校验以退出码 1 拒绝。首轮跨运行时检查发现逐文件集合完全相同但 `Sort-Object` 聚合顺序不同，修复后时代 SQL 在工作区分别为 1251 字节全 LF 和 1282 字节全 CRLF、且构建器分别运行于 PowerShell 5.1 与 7 时，均生成 1072 文件、776,225,890 字节（740.27 MiB）和聚合 SHA-256 `3c4bcc62c842c916191d77e02ff3d94edf1a27af7462d09b52990bd33d66d280`；两种 PowerShell 生成的报告文本也完全相同，报告 SHA-256 为 `80400c6f1b05629bc4adac89b1484b9ee4814d0dff831aaf85f72b4102d77689`。代表性 SQL/Lua/ArtDef/TEX 与 Git 规范 blob 一致，FGX/DDS 源与产物 SHA-256 一致。
 - 风险/待办：文本白名单必须随新增 Civ VI 文本资产格式维护；Windows/macOS 分平台包仍未生成。后续把发布清单与平台引用闭合检查抽成独立模块，并在干净克隆环境复核聚合哈希。
-- 提交：本次提交（跨工作区确定性文本发布）。
+- 提交：`679a6fe build: normalize release text deterministically`。
+
+### 2026-09-07 / M8-分平台确定性发布
+
+- 目标：在不修改源码 ModInfo 与 universal 包语义的前提下生成 Windows/macOS 瘦身包，并让错误平台路径、缺失配对和 Action 直引在构建前失败。
+- 范围：发布器、独立发布校验模块、总校验入口、README、架构、计划、测试矩阵、更新日志和工作日志；不修改任何游戏运行代码、数据库规则、冻结清单、Mod ID、名称或版本号。
+- 设计决定：平台身份只由路径中任意层级的 `Platforms/MacOS`、`Platforms/Windows` 段决定；每个逻辑路径必须同时拥有 Windows/macOS 成员，Action 不得直接引用其中任一平台文件。universal 保留两端，单平台 profile 只在临时构建树和其 ModInfo 中删除另一端，源码真值不变。
+- 修改：新增 `ReleaseChecks.ps1`，抽走发布器实现边界检查并加入平台路径分类、169 组双向配对、Action 非直引和资产定义无平台目录硬编码契约；发布器新增 `-Profile universal|windows|macos`、独立默认目录、profile 报告名和 schema 3 组成字段。Windows/macOS 各排除 169 个另一平台文件，601 个文本文件仍按 UTF-8/LF 确定性生成。
+- 验证：模块内建完整配对正例、缺 Windows 成员反例、Action 直引反例、平台字面引用反例和根目录/嵌套路径选择样例；56 个 `.dep/.artdef/.xlp/.tex/.mtl/.anm/.geo` 文件全部能严格按 UTF-8 审计且不含平台目录硬编码。PowerShell 7 与 Windows PowerShell 5.1 全量校验均通过 203 XML、108 Criteria、283 Actions、1077 Files、549 活跃引用、48 休眠文件和 65 源码专用文件；两种运行时生成的 Windows 包均为 903 文件、442,484,953 字节，聚合 SHA-256 `ee212707175eea0f2de95628785818d246ed3f0a2e43862ef7383cd565ebf2a7`，macOS 包均为 903 文件、442,484,615 字节，聚合 SHA-256 `45ad3c085f00ea550613b067ac764fd449711b500ba0930c92a6d60e9d1d8d3f`。universal 仍为 1072 文件、776,225,890 字节和 `3c4bcc62c842c916191d77e02ff3d94edf1a27af7462d09b52990bd33d66d280`；三包产物 ModInfo、磁盘文件及全部动作引用闭合，源码 ModInfo SHA-256 保持 `94869D352E031F53513FB048095730851842B75BDF7CD4398B4EAF27259BB14D`，冻结目录干净。
+- 风险/待办：路径与清单闭合不能替代目标系统加载器验证；Windows/macOS 单平台包在正式分发前仍需各自实机启动、建图和模型缺失日志检查。重复二进制内容哈希登记与体积预算也尚未完成。
+- 提交：本次提交（分平台确定性发布）。

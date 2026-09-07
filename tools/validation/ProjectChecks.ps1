@@ -84,10 +84,7 @@ function Get-ZylProjectBoundaryIssues {
         [string]$ValidatorPath,
 
         [Parameter(Mandatory = $true)]
-        [string]$AssemblerPath,
-
-        [Parameter(Mandatory = $true)]
-        [string]$ReleaseBuilderPath
+        [string]$AssemblerPath
     )
 
     $issues = [System.Collections.Generic.List[string]]::new()
@@ -127,29 +124,6 @@ function Get-ZylProjectBoundaryIssues {
         }
     }
 
-    if (-not (Test-Path -LiteralPath $ReleaseBuilderPath -PathType Leaf)) {
-        $issues.Add('The deterministic release builder is missing.')
-        return @($issues)
-    }
-    $releaseBuilderSource = Get-Content -LiteralPath $ReleaseBuilderPath -Raw
-    foreach ($requiredReleaseToken in @(
-        'function Test-ZylReleaseTextPath',
-        'function ConvertTo-ZylReleaseTextBytes',
-        '[System.Text.UTF8Encoding]::new($false, $true)',
-        '$normalizedText = $text.Replace("`r`n", "`n")',
-        '[System.IO.File]::WriteAllBytes($targetPath, $normalizedBytes)',
-        'NormalizeText = Test-ZylReleaseTextPath $relativePath',
-        '$releaseRelativePaths.Sort([System.StringComparer]::Ordinal)',
-        'ConvertTo-Json -Depth 5 -Compress',
-        "textNormalization = 'utf8-lf'",
-        'Release text-normalization helper accepted invalid UTF-8.'
-    )) {
-        if (-not $releaseBuilderSource.Contains($requiredReleaseToken)) {
-            $issues.Add(
-                "The release builder is missing deterministic text normalization: $requiredReleaseToken"
-            )
-        }
-    }
     return @($issues)
 }
 

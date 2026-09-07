@@ -55,15 +55,16 @@ Manifest 迁移采用“分段替换而非一次重写”：`manifest/criteria`�
 - `AssetInventoryChecks.ps1` 生成发布文件、休眠文件、源码文件、Action/Criteria 身份与活跃引用的统一视图，检查磁盘、Files 与 Action 引用双向闭合；`manifest/dormant-files.txt` 取代隐藏在代码中的休眠白名单。
 - `RuntimeSafetyChecks.ps1` 只扫描资产视图中的活跃 Lua/SQL/XML，拒绝动态 `loadstring`、Workshop 自更新调用、已禁用反叠加机制和旧组件 Mod ID；休眠替代文件不会制造误报。
 - `DatabaseContractChecks.ps1` 逐步承接关键数据库最终值和其配置/动作/文本闭包；首批时代契约同时固定八个时代的最小/最大回合、黑暗/黄金时代阈值、双资料片大厅开关、Action/Criteria 和中英文计时器标签，并用正确/错误 SQL 片段自检。
+- `ReleaseChecks.ps1` 统一 universal/windows/macos 路径选择、跨平台资产成对约束、Action 不直指平台二进制、资产定义不硬编码平台目录和发布器实现边界；根目录与任意嵌套目录中的 `Platforms/MacOS`、`Platforms/Windows` 都按同一规则识别。
 - `tools/report_modinfo_graph.ps1` 将完整规范图写入已忽略的 `artifacts/reports`，用于拆分前后定位差异；报告不进入 Workshop 包，也不是新的手工真值源。
 - 领域模块返回问题或调用统一的 `Add-ValidationError`，不得自行终止整个校验流程；只有入口脚本负责最终退出码与摘要。
 - 抽取模块时必须保持原断言有效，并至少提供一个应通过和一个应失败的内建样例，防止“为了拆文件而让校验失效”。
 
 ## 发布层
 
-- `tools/build_workshop_release.ps1` 从 ModInfo 的 Files 清单建立临时目录，经完整校验后原子替换 `artifacts/workshop`；源码、文档、Git 元数据和休眠文件不得进入运行包。
+- `tools/build_workshop_release.ps1` 从 ModInfo 的 Files 清单建立临时目录，经完整校验后原子替换对应的 `artifacts/workshop*` 目录；源码、文档、Git 元数据和休眠文件不得进入运行包。universal 保留全部平台资产，windows/macos 只在临时清单与产物 ModInfo 中裁剪另一平台资产。
 - 已知文本格式必须通过严格 UTF-8 解码并在临时产物中规范为 LF，BOM 与孤立 CR 保留；`.dds/.fgx` 等二进制资产逐字节复制。构建过程不得为了统一行尾修改源码树。
-- 报告 schema 2 记录 `textNormalization=utf8-lf`、规范化文本数量、逐文件大小/哈希和聚合哈希；相同 Git 内容的 CRLF/LF 工作区变体必须产生相同报告哈希。
+- 报告 schema 3 记录 profile、源码/平台排除数、保留的平台资产数、`textNormalization=utf8-lf`、规范化文本数量、逐文件大小/哈希和聚合哈希；相同 Git 内容的 CRLF/LF 工作区变体必须产生相同报告哈希。
 
 ## 目录迁移约束
 
