@@ -180,4 +180,14 @@
 - 修改：新增 `manifest/files/*.xml` 十一个片段；共享读取模块支持以规范化 `InnerText` 路径为身份，拒绝空路径、斜杠归一后不区分大小写重复和不连续顺序；组装器生成 Files 末段，校验器直接比较源清单与 ModInfo。
 - 验证：1077 条源路径全部唯一映射且生成段与当前 Files 相同；连续两次组装前后 ModInfo SHA-256 均为 `94869D352E031F53513FB048095730851842B75BDF7CD4398B4EAF27259BB14D`，完整动作图保持 `f41a5c55fc7000b435ffe645d4c25df358ad3950b1e03f105b64d07e49ba14af`。负向测试临时删除 `manifestOrder="1"` 的 `README.md` 后，校验以退出码 1 检出从 2 起始的不连续顺序。PowerShell 7 与 Windows PowerShell 最终校验均通过 203 XML、108 Criteria、283 Actions、1077 Files、549 活跃引用、48 休眠文件和 58 源码专用文件；universal 包仍为 1072 文件、740.53 MiB，聚合 SHA-256 保持 `fc00184ee15b5761dc6b873496ee907a72dd5f922ea7bf8b2853e14daa91b94b`。
 - 风险/待办：本阶段只重构清单真值，尚未压缩/删除跨平台资产；下一步拆分其余校验领域并建立明确的运行资产所有者契约。
-- 提交：本次提交（Files 分域生成）。
+- 提交：`511466a refactor: generate Files from domain manifests`。
+
+### 2026-09-07 / M2-Manifest 校验模块化
+
+- 目标：把冻结动作图和四段分域源一致性检查从近 5000 行主入口抽离，形成可复用、无副作用且可单测的 Manifest 校验边界。
+- 范围：校验工具与架构/计划/工作日志；不改变 ModInfo、分域源、运行文件、版本或玩家行为。
+- 设计决定：`ManifestChecks.ps1` 只返回问题列表，不直接写错误或修改输入；继续复用 `ManifestGraph.ps1` 的属性顺序无关规范化和 `ManifestSources.ps1` 的确定性生成。主入口保留统一汇总与退出职责。
+- 修改：新增冻结指纹/四类计数检查、ActionCriteria/FrontEndActions/InGameActions/Files 源一致性检查和通用段比较器；主入口删除 123 行内联实现并以 34 行装载、自检和调度代码替代，净减少 89 行。
+- 验证：段比较器内建“属性换序但语义相同”正例和“路径值漂移”反例；临时把 Files 源改为 `README_PROBE.md` 时校验以退出码 1 报告源/生成段不一致，临时把生成 Action 改为 `FrontEnd_MANIFEST_CHECK_PROBE` 时冻结基线以退出码 1 报告指纹漂移，组装器随后恢复 ModInfo 原始 SHA-256 `94869D352E031F53513FB048095730851842B75BDF7CD4398B4EAF27259BB14D`。PowerShell 7 与 Windows PowerShell 最终校验均通过 203 XML、108 Criteria、283 Actions、1077 Files、549 活跃引用、48 休眠文件和 59 源码专用文件；universal 包仍为 1072 文件、740.53 MiB，聚合 SHA-256 保持 `fc00184ee15b5761dc6b873496ee907a72dd5f922ea7bf8b2853e14daa91b94b`。
+- 风险/待办：Manifest 域已经抽离；下一步优先抽取通用 XML/工程边界检查，再处理数据库契约、地图、UI、联机和发布包检查。
+- 提交：本次提交（Manifest 校验模块化）。

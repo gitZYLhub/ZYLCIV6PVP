@@ -50,6 +50,7 @@ Manifest 迁移采用“分段替换而非一次重写”：`manifest/criteria`�
 - `tools/validate.ps1` 是唯一公开入口，负责装载项目元数据、调度各领域检查并统一汇总错误；它不得静默修改任何源码或运行资产。
 - `tools/validation/*.ps1` 保存无副作用、可用正反样例验证的领域检查函数。首个模块 `LuaChecks.ps1` 负责 Lua 全局事件生命周期和正式日志约束。
 - `ManifestGraph.ps1` 把 ActionCriteria、FrontEndActions、InGameActions 和 Files 转成忽略 XML 属性顺序、但保留节点与文件顺序的规范图；`manifest/baseline-1.3.0-action-graph.json` 固定冻结版本的语义指纹与计数。
+- `ManifestChecks.ps1` 负责冻结指纹/计数和四段分域源一致性检查，只返回问题列表；主入口负责决定失败退出。段比较器内建属性换序应通过、路径漂移应失败的正反样例。
 - `tools/report_modinfo_graph.ps1` 将完整规范图写入已忽略的 `artifacts/reports`，用于拆分前后定位差异；报告不进入 Workshop 包，也不是新的手工真值源。
 - 领域模块返回问题或调用统一的 `Add-ValidationError`，不得自行终止整个校验流程；只有入口脚本负责最终退出码与摘要。
 - 抽取模块时必须保持原断言有效，并至少提供一个应通过和一个应失败的内建样例，防止“为了拆文件而让校验失效”。

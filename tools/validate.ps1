@@ -40,6 +40,12 @@ if (-not (Test-Path -LiteralPath $manifestSourcesHelpersPath -PathType Leaf)) {
 }
 . $manifestSourcesHelpersPath
 
+$manifestChecksPath = Join-Path $PSScriptRoot 'validation\ManifestChecks.ps1'
+if (-not (Test-Path -LiteralPath $manifestChecksPath -PathType Leaf)) {
+    throw "Manifest validation helpers not found: $manifestChecksPath"
+}
+. $manifestChecksPath
+
 $missingRemovalFixture = @(Get-ZylLuaEventLifecycleIssues -Source 'Events.Example.Add(OnExample)' -Label 'Fixture')
 $balancedLifecycleFixture = @(Get-ZylLuaEventLifecycleIssues -Source @'
 Events.Example.Add(OnExample)
@@ -68,6 +74,21 @@ $canonicalFixtureJsonB = ConvertTo-ZylCanonicalJson -InputObject (
 )
 if ($canonicalFixtureJsonA -ne $canonicalFixtureJsonB) {
     Add-ValidationError 'Manifest canonicalization helper is sensitive to XML attribute order.'
+}
+
+$matchingManifestFixture = [System.Xml.XmlDocument]::new()
+$matchingManifestFixture.LoadXml('<Files><File b="2" a="1">a.xml</File></Files>')
+$reorderedManifestFixture = [System.Xml.XmlDocument]::new()
+$reorderedManifestFixture.LoadXml('<Files><File a="1" b="2">a.xml</File></Files>')
+$driftedManifestFixture = [System.Xml.XmlDocument]::new()
+$driftedManifestFixture.LoadXml('<Files><File a="1" b="2">b.xml</File></Files>')
+if (-not (Test-ZylManifestSectionsMatch `
+        -Expected $matchingManifestFixture.DocumentElement `
+        -Actual $reorderedManifestFixture.DocumentElement) -or
+        (Test-ZylManifestSectionsMatch `
+            -Expected $matchingManifestFixture.DocumentElement `
+            -Actual $driftedManifestFixture.DocumentElement)) {
+    Add-ValidationError 'Manifest section matcher failed its positive/negative self-test.'
 }
 
 function Normalize-RelativePath {
@@ -114,38 +135,10 @@ if (-not (Test-Path -LiteralPath $modInfoPath)) {
 }
 
 $actionGraphBaselinePath = Join-Path $modRoot 'manifest\baseline-1.3.0-action-graph.json'
-if (-not (Test-Path -LiteralPath $actionGraphBaselinePath -PathType Leaf)) {
-    Add-ValidationError 'The frozen 1.3.0 ModInfo action-graph fingerprint is missing.'
-}
-else {
-    $actionGraphBaseline = Get-Content -LiteralPath $actionGraphBaselinePath -Raw | ConvertFrom-Json
-    $actualActionGraphFingerprint = Get-ZylModInfoActionGraphFingerprint -Path $modInfoPath
-    $actionGraphDocument = Load-XmlDocument $modInfoPath
-    $actualActionGraphCounts = [ordered]@{
-        criteria = @($actionGraphDocument.SelectNodes('/Mod/ActionCriteria/Criteria')).Count
-        frontEndActions = @($actionGraphDocument.SelectNodes('/Mod/FrontEndActions/*')).Count
-        inGameActions = @($actionGraphDocument.SelectNodes('/Mod/InGameActions/*')).Count
-        files = @($actionGraphDocument.SelectNodes('/Mod/Files/File')).Count
-    }
-    if ($actionGraphBaseline.schemaVersion -ne 1 -or
-            [string]::IsNullOrWhiteSpace([string]$actionGraphBaseline.actionGraphSha256) -or
-            $null -eq $actionGraphBaseline.counts) {
-        Add-ValidationError 'The frozen ModInfo action-graph fingerprint has an invalid schema.'
-    }
-    elseif ($actualActionGraphFingerprint -ne [string]$actionGraphBaseline.actionGraphSha256) {
-        Add-ValidationError (
-            "ModInfo action graph differs from the frozen 1.3.0 semantic baseline: " +
-            "expected $($actionGraphBaseline.actionGraphSha256), found $actualActionGraphFingerprint."
-        )
-    }
-    foreach ($countName in $actualActionGraphCounts.Keys) {
-        if ([int]$actionGraphBaseline.counts.$countName -ne $actualActionGraphCounts[$countName]) {
-            Add-ValidationError (
-                "Frozen ModInfo action-graph count is stale for ${countName}: " +
-                "expected $($actionGraphBaseline.counts.$countName), found $($actualActionGraphCounts[$countName])."
-            )
-        }
-    }
+foreach ($manifestIssue in @(Get-ZylManifestBaselineIssues `
+        -ModInfoPath $modInfoPath `
+        -BaselinePath $actionGraphBaselinePath)) {
+    Add-ValidationError $manifestIssue
 }
 
 $projectFiles = @(Get-ChildItem -LiteralPath $modRoot -Recurse -Force -File | Where-Object {
@@ -207,98 +200,16 @@ foreach ($xmlFile in $xmlFiles) {
 
 $modInfo = Load-XmlDocument $modInfoPath
 $criteriaSourceDirectory = Join-Path $modRoot 'manifest\criteria'
-try {
-    $generatedCriteriaSection = New-ZylActionCriteriaSection `
-        -OwnerDocument $modInfo `
-        -SourceDirectory $criteriaSourceDirectory
-    $currentCriteriaSection = [System.Xml.XmlElement]$modInfo.SelectSingleNode('/Mod/ActionCriteria')
-    if ($null -eq $currentCriteriaSection) {
-        Add-ValidationError 'ModInfo is missing the generated ActionCriteria section.'
-    }
-    else {
-        $generatedCriteriaJson = ConvertTo-ZylCanonicalJson -InputObject (
-            ConvertTo-ZylCanonicalXmlNode -Node $generatedCriteriaSection
-        )
-        $currentCriteriaJson = ConvertTo-ZylCanonicalJson -InputObject (
-            ConvertTo-ZylCanonicalXmlNode -Node $currentCriteriaSection
-        )
-        if ($generatedCriteriaJson -ne $currentCriteriaJson) {
-            Add-ValidationError 'ModInfo ActionCriteria differs from the domain source fragments; run tools/assemble_modinfo.ps1.'
-        }
-    }
-}
-catch {
-    Add-ValidationError "Invalid ModInfo Criteria source fragments: $($_.Exception.Message)"
-}
-
-$actionSectionSources = @(
-    [pscustomobject]@{
-        SectionName = 'FrontEndActions'
-        SourceDirectory = Join-Path $modRoot 'manifest\actions\frontend'
-    },
-    [pscustomobject]@{
-        SectionName = 'InGameActions'
-        SourceDirectory = Join-Path $modRoot 'manifest\actions\ingame'
-    }
-)
-foreach ($actionSectionSource in $actionSectionSources) {
-    try {
-        $generatedActionSection = New-ZylActionsSection `
-            -OwnerDocument $modInfo `
-            -SectionName $actionSectionSource.SectionName `
-            -SourceDirectory $actionSectionSource.SourceDirectory
-        $currentActionSection = [System.Xml.XmlElement]$modInfo.SelectSingleNode(
-            "/Mod/$($actionSectionSource.SectionName)"
-        )
-        if ($null -eq $currentActionSection) {
-            Add-ValidationError "ModInfo is missing the generated $($actionSectionSource.SectionName) section."
-        }
-        else {
-            $generatedActionJson = ConvertTo-ZylCanonicalJson -InputObject (
-                ConvertTo-ZylCanonicalXmlNode -Node $generatedActionSection
-            )
-            $currentActionJson = ConvertTo-ZylCanonicalJson -InputObject (
-                ConvertTo-ZylCanonicalXmlNode -Node $currentActionSection
-            )
-            if ($generatedActionJson -ne $currentActionJson) {
-                Add-ValidationError (
-                    "ModInfo $($actionSectionSource.SectionName) differs from the domain " +
-                    'source fragments; run tools/assemble_modinfo.ps1.'
-                )
-            }
-        }
-    }
-    catch {
-        Add-ValidationError (
-            "Invalid ModInfo $($actionSectionSource.SectionName) source fragments: " +
-            $_.Exception.Message
-        )
-    }
-}
-
+$frontEndActionsSourceDirectory = Join-Path $modRoot 'manifest\actions\frontend'
+$inGameActionsSourceDirectory = Join-Path $modRoot 'manifest\actions\ingame'
 $filesSourceDirectory = Join-Path $modRoot 'manifest\files'
-try {
-    $generatedFilesSection = New-ZylFilesSection `
-        -OwnerDocument $modInfo `
-        -SourceDirectory $filesSourceDirectory
-    $currentFilesSection = [System.Xml.XmlElement]$modInfo.SelectSingleNode('/Mod/Files')
-    if ($null -eq $currentFilesSection) {
-        Add-ValidationError 'ModInfo is missing the generated Files section.'
-    }
-    else {
-        $generatedFilesJson = ConvertTo-ZylCanonicalJson -InputObject (
-            ConvertTo-ZylCanonicalXmlNode -Node $generatedFilesSection
-        )
-        $currentFilesJson = ConvertTo-ZylCanonicalJson -InputObject (
-            ConvertTo-ZylCanonicalXmlNode -Node $currentFilesSection
-        )
-        if ($generatedFilesJson -ne $currentFilesJson) {
-            Add-ValidationError 'ModInfo Files differs from the domain source fragments; run tools/assemble_modinfo.ps1.'
-        }
-    }
-}
-catch {
-    Add-ValidationError "Invalid ModInfo Files source fragments: $($_.Exception.Message)"
+foreach ($manifestIssue in @(Get-ZylGeneratedManifestSourceIssues `
+        -ModInfo $modInfo `
+        -CriteriaSourceDirectory $criteriaSourceDirectory `
+        -FrontEndActionsSourceDirectory $frontEndActionsSourceDirectory `
+        -InGameActionsSourceDirectory $inGameActionsSourceDirectory `
+        -FilesSourceDirectory $filesSourceDirectory)) {
+    Add-ValidationError $manifestIssue
 }
 if ($modInfo.DocumentElement.GetAttribute('id') -ne $expectedModId) {
     Add-ValidationError "Unexpected Mod ID: $($modInfo.DocumentElement.GetAttribute('id'))"
