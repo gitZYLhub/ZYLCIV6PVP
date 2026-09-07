@@ -843,7 +843,9 @@ function RefreshStatus()
 	if hostID == localID and b_mph_game == true then
 		if g_player_status ~= nil and #g_player_status > 0 then
 			for i, player in ipairs(g_player_status) do
-				if Network.IsPlayerConnected(player.ID) == false and player.Status ~= -1 then
+				local previousStatus = player.Status
+				local isConnected = Network.IsPlayerConnected(player.ID)
+				if not isConnected and player.Status ~= -1 then
 					player.Status = -1
 				end
 				if player.Status == 66 then
@@ -907,7 +909,8 @@ function RefreshStatus()
 					player.HandshakeLastSentAt = player.HandshakeStartedAt
 					player.HandshakeAttempts = 1
 				end
-				if Network.IsPlayerConnected(player.ID) and (g_phase == PHASE_DEFAULT or g_phase == PHASE_INIT) then
+				if isConnected and player.Status ~= previousStatus
+						and (g_phase == PHASE_DEFAULT or g_phase == PHASE_INIT) then
 					UpdatePlayerEntry(player.ID)
 				end
 			end	

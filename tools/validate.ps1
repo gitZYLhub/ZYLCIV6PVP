@@ -2688,6 +2688,8 @@ foreach ($requiredLobbyLifecycleFragment in @(
 'local ZYL_NATIVE_PRINT = print',
 'local function ZYLDebugLog(...)',
 'local banFormat = GameConfiguration.GetValue("CPL_BAN_FORMAT")',
+'local previousStatus = player.Status',
+'local isConnected = Network.IsPlayerConnected(player.ID)',
 'for index = #shuffledVersion, 2, -1 do',
 'local swapIndex = math.random(index)'
 )) {
@@ -2703,7 +2705,8 @@ foreach ($forbiddenLobbyFragment in @(
 'GameConfiguration.SetValue("MOD_BSM_ID",false)',
 'PlayerConfigurations[0]:SetValue("NICK_NAME","paf")',
 'g_test = GetNextID()',
-'local random_index = 1 + math.random (left_to_do)'
+'local random_index = 1 + math.random (left_to_do)',
+'if Network.IsPlayerConnected(player.ID) and (g_phase == PHASE_DEFAULT or g_phase == PHASE_INIT) then'
 )) {
 if ($stagingRoomSource.Contains($forbiddenLobbyFragment)) {
 Add-ValidationError "Staging-room regression restored a hot-loop or typo: $forbiddenLobbyFragment"
@@ -2725,6 +2728,20 @@ if (-not $quickRefreshMatch.Success -or
 [regex]::Matches($fullRefreshMatch.Value, 'GameConfiguration\.GetValue\("DRAFT_(?:SLOT_ORDER|TIMER)"\)').Count -ne 0 -or
 -not $fullRefreshMatch.Value.Contains('RefreshTickSettings()')) {
 Add-ValidationError 'Staging-room periodic refresh restored duplicate tournament-setting reads.'
+}
+
+$refreshStatusMatch = [regex]::Match(
+$stagingRoomSource,
+'(?s)function RefreshStatus\(\)(.*?)\nend\s*\n\s*function OnModCheck\(\)'
+)
+if (-not $refreshStatusMatch.Success -or
+[regex]::Matches($refreshStatusMatch.Value, 'Network\.IsPlayerConnected\(player\.ID\)').Count -ne 1 -or
+[regex]::Matches($refreshStatusMatch.Value, 'UpdatePlayerEntry\(player\.ID\)').Count -ne 1 -or
+-not [regex]::IsMatch(
+$refreshStatusMatch.Value,
+'(?s)local previousStatus = player\.Status\s*local isConnected = Network\.IsPlayerConnected\(player\.ID\).*?if isConnected and player\.Status ~= previousStatus\s*and \(g_phase == PHASE_DEFAULT or g_phase == PHASE_INIT\) then\s*UpdatePlayerEntry\(player\.ID\)'
+)) {
+Add-ValidationError 'Staging-room handshake polling must update player cards only on status transitions.'
 }
 
 Test-ZylLuaEventLifecycle -Source $stagingRoomSource -Label 'Staging room'

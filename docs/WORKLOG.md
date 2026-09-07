@@ -310,4 +310,14 @@
 - 修改：删除 `OnTick` 常规路径与 `Refresh` 内联块的双重赛事设置读取，改为 `Refresh` 调用已有 `RefreshTickSettings`；缓存 Ban/Pick 格式和游戏状态后复用分支条件。目标配置读取由 `DRAFT_*` 6 次加 `CPL_BAN_FORMAT` 7 次，共 13 次/周期，降为 2+2=4 次。
 - 验证：校验器提取 `QuickRefresh`/`Refresh` 函数体，固定 Ban/Pick 格式各一次读取、禁止完整刷新重新直接读取 `DRAFT_*`，并要求调用统一设置函数。静态审计确认常规 Tick 不再额外调用设置函数，快速刷新不再推进提示；PowerShell 7 与 Windows PowerShell 5.1 全量校验均通过。三种 profile 重建闭合：universal 为 1072 文件、776,225,097 字节、聚合 SHA-256 `f2f0fa79c6228d1c49387dca546de68d653a2242dcc95c7a0fc80d28c99e6a11`；Windows 为 903 文件、442,484,160 字节、`fb3a4f857b16f55c1f30a8870869d78e788f3b141c01f8d65be21f2e6cfd4dfa`；macOS 为 903 文件、442,483,822 字节、`e6f8440c1e73635652d18db32f458cd5f6727b2ddf41d28e59f1fd4cf7b1525c`。
 - 风险/待办：这是跨 Lua/C++ 配置查询数的静态削减，不等于已有实机帧时间数据；仍需 P03/P10 在空闲大厅与 Ban/Pick 1 秒阶段分别采集 Lua 时间。下一步继续分离真正需要周期轮询的握手状态与只需事件触发的 UI 域。
-- 提交：本次提交（周期赛事配置快照复用）。
+- 提交：`8426401 perf: reuse lobby refresh configuration snapshots`。
+
+### 2026-09-07 / M3-握手状态转换驱动玩家卡片
+
+- 目标：停止版本握手轮询在状态稳定后仍周期性重绘所有已连接玩家卡片，并减少同一玩家的重复网络连接查询。
+- 范围：`RefreshStatus`、静态回归断言、更新日志、计划、测试矩阵和工作日志；不改变握手状态值、宽限/重试/超时、版本比较、聊天消息、Tick 间隔、PlayerInfo 广播或其他玩家条目事件。
+- 设计决定：每轮每名玩家只读取一次 `Network.IsPlayerConnected`，记录进入本轮时的握手状态；只有玩家仍连接、状态确实发生转换且处于默认/初始化阶段时才调用 `UpdatePlayerEntry`。槽位、准备、队伍和网络延迟继续由既有 `PlayerInfoChanged`、团队事件和 `MultiplayerPingTimesChanged` 更新。
+- 修改：将循环首尾两次连接查询收敛为 `isConnected` 快照，以 `previousStatus` 守卫玩家卡片重绘。稳定状态 3/99、等待重试但尚未超时的状态 1 不再产生完整条目更新；0→1、2→3/66 和连接后重新检查仍在同一轮更新。
+- 验证：校验器提取 `RefreshStatus` 函数体，要求恰好一次玩家连接查询、恰好一个受状态转换保护的 `UpdatePlayerEntry`，并拒绝旧无条件已连接分支；PowerShell 7 与 Windows PowerShell 5.1 全量校验均通过。三种 profile 重建闭合：universal 为 1072 文件、776,225,186 字节、聚合 SHA-256 `b869878a1b07c5bdf18dad5368d26d4d525069186ad71ee891681665524a6f9c`；Windows 为 903 文件、442,484,249 字节、`b957478e1daf17188ca1355f7aeff087f6b6bf1348a009bb45bda17cd71cdd43`；macOS 为 903 文件、442,483,911 字节、`fe30b75a69315c907852968a718f0025107397b175924a1bd26fe0b3f7ded5ce`。
+- 风险/待办：静态事件归属无法证明所有 Civ VI 平台版本都按相同时序发送条目事件；需在房主加两个客户端下观察加入、准备、换队、延迟变化、版本成功和超时，并确认各卡片即时更新。下一步继续把周期 `Refresh` 中不依赖握手变化的 UI 域拆为事件刷新。
+- 提交：本次提交（握手状态转换驱动玩家卡片）。
