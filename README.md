@@ -142,7 +142,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\tools\build_workshop_relea
 powershell -NoProfile -ExecutionPolicy Bypass -File .\tools\build_workshop_release.ps1 -Profile macos
 ```
 
-产物分别写入已忽略的 `artifacts/workshop`、`artifacts/workshop-windows`、`artifacts/workshop-macos`，逐文件清单写入 `artifacts/reports`。universal 包保留两个平台的全部资产；单平台包只删除路径中明确位于另一端 `Platforms/MacOS` 或 `Platforms/Windows` 的成对资产，并同步裁剪产物 ModInfo，不修改源码 ModInfo。构建器仅在临时产物中把已知 UTF-8 文本规范为 LF，保留 BOM，不修改源码；二进制资产逐字节复制。因此同一 Git 内容在 Windows/macOS 或不同 `core.autocrlf` 配置下应生成相同哈希。单平台包已通过静态闭合和双 PowerShell 构建，正式分发前仍须在对应系统上完成文明 VI 实机加载。
+产物分别写入已忽略的 `artifacts/workshop`、`artifacts/workshop-windows`、`artifacts/workshop-macos`，逐文件清单写入 `artifacts/reports`。universal 包保留两个平台的全部资产；单平台包只删除路径中明确位于另一端 `Platforms/MacOS` 或 `Platforms/Windows` 的成对资产，并同步裁剪产物 ModInfo，不修改源码 ModInfo。构建器仅在临时产物中把已知 UTF-8 文本规范为 LF，保留 BOM，不修改源码；二进制资产逐字节复制。因此同一 Git 内容在 Windows/macOS 或不同 `core.autocrlf` 配置下应生成相同哈希。报告同时列出包体积预算和按内容哈希聚合的重复二进制；“理论可回收”只用于审计，不能据此直接删除具有不同路径契约的文件。单平台包已通过静态闭合和双 PowerShell 构建，正式分发前仍须在对应系统上完成文明 VI 实机加载。
 
 静态通过不等于文明 VI 联机通过。正式比赛前必须按 [TEST_CHECKLIST.md](TEST_CHECKLIST.md) 至少用两个真实 Steam 客户端测试开房、生成两张富饶大陆、P++、强制过回合、掉线重连、Resync 和保存加载，并检查 `Lua.log`、`UI.log`、`Database.log`、`Modding.log` 与 `Multiplayer.log`。
 

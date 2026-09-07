@@ -64,7 +64,7 @@ Manifest 迁移采用“分段替换而非一次重写”：`manifest/criteria`�
 
 - `tools/build_workshop_release.ps1` 从 ModInfo 的 Files 清单建立临时目录，经完整校验后原子替换对应的 `artifacts/workshop*` 目录；源码、文档、Git 元数据和休眠文件不得进入运行包。universal 保留全部平台资产，windows/macos 只在临时清单与产物 ModInfo 中裁剪另一平台资产。
 - 已知文本格式必须通过严格 UTF-8 解码并在临时产物中规范为 LF，BOM 与孤立 CR 保留；`.dds/.fgx` 等二进制资产逐字节复制。构建过程不得为了统一行尾修改源码树。
-- 报告 schema 3 记录 profile、源码/平台排除数、保留的平台资产数、`textNormalization=utf8-lf`、规范化文本数量、逐文件大小/哈希和聚合哈希；相同 Git 内容的 CRLF/LF 工作区变体必须产生相同报告哈希。
+- 报告 schema 3 记录 profile、源码/平台排除数、保留的平台资产数、体积预算、`textNormalization=utf8-lf`、规范化文本数量、逐文件大小/哈希和聚合哈希；未按文本规则处理的文件还会按“SHA-256 + 大小”生成确定性重复组和理论可回收体积。不同路径可能属于加载契约，报告不得自动去重或改写引用。相同 Git 内容的 CRLF/LF 工作区变体必须产生相同报告哈希。
 
 ## 目录迁移约束
 

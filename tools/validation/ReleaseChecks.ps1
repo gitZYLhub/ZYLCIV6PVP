@@ -172,6 +172,78 @@ function Get-ZylPlatformAssetDefinitionIssues {
     return @($issues)
 }
 
+function Get-ZylDuplicateContentSummary {
+    param(
+        [Parameter(Mandatory = $true)]
+        [object[]]$Entries
+    )
+
+    $contentBuckets = [System.Collections.Generic.Dictionary[string, object]]::new(
+        [System.StringComparer]::Ordinal
+    )
+    foreach ($entry in $Entries) {
+        $bucketKey = '{0}:{1}' -f $entry.sha256, ([int64]$entry.bytes)
+        if (-not $contentBuckets.ContainsKey($bucketKey)) {
+            $contentBuckets[$bucketKey] = [System.Collections.Generic.List[object]]::new()
+        }
+        $contentBuckets[$bucketKey].Add($entry)
+    }
+
+    $bucketKeys = [System.Collections.Generic.List[string]]::new()
+    foreach ($bucketKey in $contentBuckets.Keys) {
+        $bucketKeys.Add($bucketKey)
+    }
+    $bucketKeys.Sort([System.StringComparer]::Ordinal)
+
+    $groups = [System.Collections.Generic.List[object]]::new()
+    $duplicateFileCount = 0
+    $extraCopyCount = 0
+    [int64]$theoreticalReclaimableBytes = 0
+    foreach ($bucketKey in $bucketKeys) {
+        $bucket = $contentBuckets[$bucketKey]
+        if ($bucket.Count -lt 2) {
+            continue
+        }
+        $paths = [System.Collections.Generic.List[string]]::new()
+        foreach ($entry in $bucket) {
+            $paths.Add([string]$entry.path)
+        }
+        $paths.Sort([System.StringComparer]::Ordinal)
+        [int64]$bytesPerFile = $bucket[0].bytes
+        [int64]$groupReclaimableBytes = ($bucket.Count - 1) * $bytesPerFile
+        $duplicateFileCount += $bucket.Count
+        $extraCopyCount += $bucket.Count - 1
+        $theoreticalReclaimableBytes += $groupReclaimableBytes
+        $groups.Add([pscustomobject][ordered]@{
+            sha256 = [string]$bucket[0].sha256
+            bytesPerFile = $bytesPerFile
+            copies = $bucket.Count
+            theoreticalReclaimableBytes = $groupReclaimableBytes
+            paths = @($paths)
+        })
+    }
+
+    return [pscustomobject][ordered]@{
+        groupCount = $groups.Count
+        fileCount = $duplicateFileCount
+        extraCopyCount = $extraCopyCount
+        theoreticalReclaimableBytes = $theoreticalReclaimableBytes
+        groups = @($groups)
+    }
+}
+
+function Test-ZylReleaseSizeWithinBudget {
+    param(
+        [Parameter(Mandatory = $true)]
+        [int64]$TotalBytes,
+
+        [Parameter(Mandatory = $true)]
+        [int64]$BudgetBytes
+    )
+
+    return $TotalBytes -ge 0 -and $BudgetBytes -gt 0 -and $TotalBytes -le $BudgetBytes
+}
+
 function Get-ZylReleaseBuilderIssues {
     param(
         [Parameter(Mandatory = $true)]
@@ -193,6 +265,9 @@ function Get-ZylReleaseBuilderIssues {
             'ConvertTo-Json -Depth 5 -Compress',
             'textNormalization = ''utf8-lf''',
             'profile = $Profile',
+            'releaseBudgets',
+            'Get-ZylDuplicateContentSummary',
+            'Test-ZylReleaseSizeWithinBudget',
             'Release text-normalization helper accepted invalid UTF-8.'
         )) {
         if (-not $Source.Contains($requiredReleaseToken)) {

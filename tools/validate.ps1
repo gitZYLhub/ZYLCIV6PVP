@@ -219,6 +219,29 @@ if (@(Get-ZylPlatformAssetPairIssues -ModInfo $pairedPlatformFixture).Count -ne 
     Add-ValidationError 'Release platform helper failed its positive/negative self-test.'
 }
 
+$duplicateContentFixture = Get-ZylDuplicateContentSummary -Entries @(
+    [pscustomobject]@{ path = 'b.dds'; bytes = 10; sha256 = 'same' },
+    [pscustomobject]@{ path = 'a.dds'; bytes = 10; sha256 = 'same' },
+    [pscustomobject]@{ path = 'c.dds'; bytes = 20; sha256 = 'unique' }
+)
+$uniqueContentFixture = Get-ZylDuplicateContentSummary -Entries @(
+    [pscustomobject]@{ path = 'a.dds'; bytes = 10; sha256 = 'a' },
+    [pscustomobject]@{ path = 'b.dds'; bytes = 10; sha256 = 'b' }
+)
+if ($duplicateContentFixture.groupCount -ne 1 -or
+        $duplicateContentFixture.fileCount -ne 2 -or
+        $duplicateContentFixture.extraCopyCount -ne 1 -or
+        $duplicateContentFixture.theoreticalReclaimableBytes -ne 10 -or
+        ($duplicateContentFixture.groups[0].paths -join '|') -ne 'a.dds|b.dds' -or
+        $uniqueContentFixture.groupCount -ne 0) {
+    Add-ValidationError 'Release duplicate-content helper failed its positive/negative self-test.'
+}
+if (-not (Test-ZylReleaseSizeWithinBudget -TotalBytes 10 -BudgetBytes 10) -or
+        (Test-ZylReleaseSizeWithinBudget -TotalBytes 11 -BudgetBytes 10) -or
+        (Test-ZylReleaseSizeWithinBudget -TotalBytes 0 -BudgetBytes 0)) {
+    Add-ValidationError 'Release size-budget helper failed its boundary self-test.'
+}
+
 if (-not (Test-Path -LiteralPath $modInfoPath)) {
     throw "ModInfo not found: $modInfoPath"
 }

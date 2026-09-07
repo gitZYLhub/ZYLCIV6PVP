@@ -108,6 +108,15 @@ if (-not (Test-Path -LiteralPath $projectMetadataPath -PathType Leaf)) {
 $projectMetadata = Get-Content -LiteralPath $projectMetadataPath -Raw | ConvertFrom-Json
 $packageName = [string]$projectMetadata.packageName
 $packageVersion = [string]$projectMetadata.semanticVersion
+$budgetPropertyName = $Profile + 'MaxBytes'
+$budgetProperty = $projectMetadata.releaseBudgets.PSObject.Properties[$budgetPropertyName]
+if ($null -eq $budgetProperty) {
+	throw "Release size budget is missing for profile: $Profile"
+}
+[int64]$sizeBudgetBytes = $budgetProperty.Value
+if ($sizeBudgetBytes -le 0) {
+	throw "Release size budget must be positive for profile: $Profile"
+}
 $artifactsRoot = [System.IO.Path]::GetFullPath((Join-Path $sourceRoot 'artifacts'))
 if ([string]::IsNullOrWhiteSpace($Destination)) {
 	$destinationName = if ($Profile -eq 'universal') {
@@ -287,6 +296,12 @@ try {
 	if ($stagedFiles.Count -ne $expectedFileCount) {
 		throw "Unexpected staging file count: expected $expectedFileCount, found $($stagedFiles.Count)"
 	}
+	[int64]$stagedBytes = ($stagedFiles | Measure-Object -Property Length -Sum).Sum
+	if (-not (Test-ZylReleaseSizeWithinBudget `
+			-TotalBytes $stagedBytes `
+			-BudgetBytes $sizeBudgetBytes)) {
+		throw "Release size budget exceeded for ${Profile}: $stagedBytes > $sizeBudgetBytes bytes"
+	}
 	foreach ($entry in $runtimeEntries) {
 		$targetPath = Join-Path $stageRoot $entry.RelativePath.Replace('/', '\')
 		if ((Get-Item -LiteralPath $targetPath).Length -ne $entry.ExpectedLength) {
@@ -353,6 +368,11 @@ try {
 			sha256 = (Get-FileHash -LiteralPath $releaseFile.FullName -Algorithm SHA256).Hash.ToLowerInvariant()
 		})
 	}
+	$binaryManifestEntries = @($manifestEntries | Where-Object {
+		-not (Test-ZylReleaseTextPath $_.path)
+	})
+	$duplicateBinarySummary = Get-ZylDuplicateContentSummary `
+		-Entries $binaryManifestEntries
 	$aggregateLines = @($manifestEntries | ForEach-Object {
 		'{0} {1} {2}' -f $_.sha256, $_.bytes, $_.path
 	})
@@ -383,7 +403,14 @@ try {
 		platformExcludedCount = $platformExcludedNodes.Count
 		fileCount = $releaseFiles.Count
 		totalBytes = [int64]$releaseBytes
+		sizeBudgetBytes = $sizeBudgetBytes
+		sizeBudgetRemainingBytes = [int64]($sizeBudgetBytes - $releaseBytes)
 		aggregateSha256 = $aggregateHash
+		duplicateBinaryGroupCount = $duplicateBinarySummary.groupCount
+		duplicateBinaryFileCount = $duplicateBinarySummary.fileCount
+		duplicateBinaryExtraCopyCount = $duplicateBinarySummary.extraCopyCount
+		duplicateBinaryTheoreticalReclaimableBytes = $duplicateBinarySummary.theoreticalReclaimableBytes
+		duplicateBinaryGroups = $duplicateBinarySummary.groups
 		files = $manifestEntries
 	}
 	$reportJson = $report | ConvertTo-Json -Depth 5 -Compress
@@ -398,7 +425,9 @@ try {
 	Write-Host "Directory : $destinationRoot"
 	Write-Host "Files     : $($releaseFiles.Count)"
 	Write-Host ('Size      : {0:N2} MiB' -f ($releaseBytes / 1MB))
+	Write-Host ('Budget    : {0:N2} MiB ({1:N2} MiB remaining)' -f ($sizeBudgetBytes / 1MB), (($sizeBudgetBytes - $releaseBytes) / 1MB))
 	Write-Host "SHA-256   : $aggregateHash"
+	Write-Host "Duplicates: $($duplicateBinarySummary.groupCount) binary groups, $($duplicateBinarySummary.theoreticalReclaimableBytes) theoretical bytes"
 	Write-Host "Text      : $normalizedTextFileCount UTF-8 files normalized to LF"
 	Write-Host "Manifest  : $reportPath"
 	Write-Host "Excluded  : $($sourceOnlyExcludedNodes.Count) source-only and $($platformExcludedNodes.Count) opposite-platform files, plus all unlisted project files"

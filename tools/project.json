@@ -5,5 +5,10 @@
   "semanticVersion": "1.3.0",
   "modInfoVersion": 130,
   "modInfoFile": "ZYLPVPMOD.modinfo",
-  "multiplayerHelperFile": "data/MP_helper.lua"
+  "multiplayerHelperFile": "data/MP_helper.lua",
+  "releaseBudgets": {
+    "universalMaxBytes": 800000000,
+    "windowsMaxBytes": 460000000,
+    "macosMaxBytes": 460000000
+  }
 }
