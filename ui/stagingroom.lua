@@ -6476,48 +6476,23 @@ function OnRenameValidate()
 	end
 end
 
-function Anonymise()
-	local player_ids = GameConfiguration.GetMultiplayerPlayerIDs();		
-		
-	for i, iPlayer in ipairs(player_ids) do	
-		if(Network.IsPlayerConnected(iPlayer)) then
-			local name :string = "Anon"
-			if PlayerConfigurations[iPlayer]:GetLeaderTypeName() ~= nil then
-				if PlayerConfigurations[iPlayer]:GetLeaderTypeName() == "LEADER_SPECTATOR" then
-					name = PlayerConfigurations[iPlayer]:GetPlayerName()
-					else
-					name = tostring(Locale.Lookup(PlayerConfigurations[iPlayer]:GetLeaderName())).." - "..iPlayer
-				end
-				
-			end
-			if PlayerConfigurations[iPlayer]:GetValue("NICK_NAME") ~= name then
-				PlayerConfigurations[iPlayer]:SetValue("NICK_NAME",name);
-				Network.BroadcastPlayerInfo(iPlayer);	
-			end
+function Anonymise_ID(playerID:number)
+	local playerConfig = PlayerConfigurations[playerID]
+	if playerConfig == nil or not Network.IsPlayerConnected(playerID) then
+		return
+	end
+
+	local name :string = "Anon"
+	if playerConfig:GetLeaderTypeName() ~= nil then
+		if playerConfig:GetLeaderTypeName() == "LEADER_SPECTATOR" then
+			name = playerConfig:GetPlayerName()
+		else
+			name = tostring(Locale.Lookup(playerConfig:GetLeaderName())).." - "..playerID
 		end
 	end
-end
-
-function Anonymise_ID(playerID:number)
-	local player_ids = GameConfiguration.GetMultiplayerPlayerIDs();		
-		
-	for i, iPlayer in ipairs(player_ids) do	
-		if iPlayer == playerID then
-			if(Network.IsPlayerConnected(iPlayer)) then
-			local name :string = "Anon"
-			if PlayerConfigurations[iPlayer]:GetLeaderTypeName() ~= nil then
-				if PlayerConfigurations[iPlayer]:GetLeaderTypeName() == "LEADER_SPECTATOR" then
-					name = PlayerConfigurations[iPlayer]:GetPlayerName()
-					else
-					name = tostring(Locale.Lookup(PlayerConfigurations[iPlayer]:GetLeaderName())).." - "..iPlayer
-				end
-			end
-			if PlayerConfigurations[iPlayer]:GetValue("NICK_NAME") ~= name then
-				PlayerConfigurations[iPlayer]:SetValue("NICK_NAME",name);
-				Network.BroadcastPlayerInfo(iPlayer);	
-			end
-			end
-		end
+	if playerConfig:GetValue("NICK_NAME") ~= name then
+		playerConfig:SetValue("NICK_NAME",name);
+		Network.BroadcastPlayerInfo(playerID);
 	end
 end
 

@@ -2607,6 +2607,15 @@ $stagingRoomSource,
 )) {
 Add-ValidationError 'Bulk empty-slot closure must batch all slot mutations into one PlayerInfo broadcast.'
 }
+if ($stagingRoomSource.Contains('function Anonymise()')) {
+Add-ValidationError 'Staging room restored the unused full-roster Anonymise implementation.'
+}
+if (-not [regex]::IsMatch(
+$stagingRoomSource,
+'(?s)function Anonymise_ID\(playerID:number\)\s*local playerConfig = PlayerConfigurations\[playerID\]\s*if playerConfig == nil or not Network\.IsPlayerConnected\(playerID\) then\s*return\s*end'
+)) {
+Add-ValidationError 'Per-player anonymisation must directly index and validate the requested player configuration.'
+}
 }
 
 $votePanelPath = Join-Path $modRoot 'ui\Additions\VotePanel.lua'
