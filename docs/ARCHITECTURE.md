@@ -53,6 +53,7 @@ Manifest 迁移采用“分段替换而非一次重写”：`manifest/criteria`�
 - `ManifestChecks.ps1` 负责冻结指纹/计数和四段分域源一致性检查，只返回问题列表；主入口负责决定失败退出。段比较器内建属性换序应通过、路径漂移应失败的正反样例。
 - `ProjectChecks.ps1` 统一路径规范化、源码/生成目录分类、工程文件枚举、Workshop 外部缓存隔离、组装器本地输入边界和 XML 可解析性检查；它同样只返回问题列表，并由入口用安全/危险路径样例自检。
 - `AssetInventoryChecks.ps1` 生成发布文件、休眠文件、源码文件、Action/Criteria 身份与活跃引用的统一视图，检查磁盘、Files 与 Action 引用双向闭合；`manifest/dormant-files.txt` 取代隐藏在代码中的休眠白名单。
+- `RuntimeSafetyChecks.ps1` 只扫描资产视图中的活跃 Lua/SQL/XML，拒绝动态 `loadstring`、Workshop 自更新调用、已禁用反叠加机制和旧组件 Mod ID；休眠替代文件不会制造误报。
 - `tools/report_modinfo_graph.ps1` 将完整规范图写入已忽略的 `artifacts/reports`，用于拆分前后定位差异；报告不进入 Workshop 包，也不是新的手工真值源。
 - 领域模块返回问题或调用统一的 `Add-ValidationError`，不得自行终止整个校验流程；只有入口脚本负责最终退出码与摘要。
 - 抽取模块时必须保持原断言有效，并至少提供一个应通过和一个应失败的内建样例，防止“为了拆文件而让校验失效”。

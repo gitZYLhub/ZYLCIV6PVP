@@ -210,4 +210,14 @@
 - 修改：新增发布文件存在性、磁盘反向所有权、休眠项存在/未发布、Action/Criteria ID 唯一、Criteria 引用闭合、UpdateArt 不直载 ArtDef、Action 文件引用磁盘/Files 双闭合检查；主入口删除 191 行内联实现并以 33 行装载、自检、调用和视图解包替代，净减少 158 行。
 - 验证：规范化路径助手对 `A/file.xml` 与 `a\\FILE.xml` 正确报告重复；临时从休眠清单移除 `BCS/UI/CityStates_SPEC.lua` 后，Windows PowerShell 校验以退出码 1 报告该磁盘文件既不在 Files 也不在休眠白名单；内存中把首个 Action 引用追加 `.probe` 后，同时报告引用磁盘缺失和未列入 Files。恢复后 PowerShell 7 与 Windows PowerShell 均通过 203 XML、108 Criteria、283 Actions、1077 Files、549 活跃引用、48 休眠文件和 62 源码专用文件；ModInfo SHA-256 保持 `94869D352E031F53513FB048095730851842B75BDF7CD4398B4EAF27259BB14D`，universal 包仍为 1072 文件、740.53 MiB，聚合 SHA-256 `fc00184ee15b5761dc6b873496ee907a72dd5f922ea7bf8b2853e14daa91b94b`。
 - 风险/待办：所有权模型当前仍以“休眠白名单”为粗粒度原因记录；后续可为休眠项增加原因/来源元数据。下一步继续抽取数据库契约或活跃运行文件危险模式检查。
-- 提交：本次提交（运行资产所有权校验模块化）。
+- 提交：`7374925 refactor: extract runtime asset inventory checks`。
+
+### 2026-09-07 / M2-活跃运行文件安全校验模块化
+
+- 目标：把危险调用、旧组件 ID 和已禁用机制扫描限定到实际被 Action 加载的文本文件，并从主入口抽成可复用模块。
+- 范围：校验工具与架构/计划/测试矩阵/工作日志；不改变运行资产、ModInfo、分域源、版本或玩家行为。
+- 设计决定：`RuntimeSafetyChecks.ps1` 接收资产所有权模块生成的活跃引用映射，只读取其中的 Lua/SQL/XML；逐行返回带文件和行号的问题，不扫描休眠替代实现。
+- 修改：迁移动态 `loadstring`、`Modding.UpdateSubscription`、science/culture anti-stacking 和 8 个旧组件 Mod ID 检查；主入口用模块装载、3 问题反例和单次调度替代原内联扫描。
+- 验证：安全文本样例返回 0 个问题；包含 `loadstring`、旧 Mod ID 和 `NO_MORE_STACK` 的三行样例返回 3 个问题。PowerShell 7 与 Windows PowerShell 全量校验均通过 203 XML、108 Criteria、283 Actions、1077 Files、549 活跃引用、48 休眠文件和 63 源码专用文件；ModInfo SHA-256 保持 `94869D352E031F53513FB048095730851842B75BDF7CD4398B4EAF27259BB14D`，universal 包仍为 1072 文件、740.53 MiB，聚合 SHA-256 `fc00184ee15b5761dc6b873496ee907a72dd5f922ea7bf8b2853e14daa91b94b`。
+- 风险/待办：这是静态文本门禁，不能证明 Civ VI 运行时没有通过其他 API 动态加载代码；后续仍需实机日志和双客户端测试。
+- 提交：本次提交（活跃运行文件安全校验模块化）。

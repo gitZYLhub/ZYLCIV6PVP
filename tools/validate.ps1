@@ -58,6 +58,12 @@ if (-not (Test-Path -LiteralPath $assetInventoryChecksPath -PathType Leaf)) {
 }
 . $assetInventoryChecksPath
 
+$runtimeSafetyChecksPath = Join-Path $PSScriptRoot 'validation\RuntimeSafetyChecks.ps1'
+if (-not (Test-Path -LiteralPath $runtimeSafetyChecksPath -PathType Leaf)) {
+    throw "Runtime safety validation helpers not found: $runtimeSafetyChecksPath"
+}
+. $runtimeSafetyChecksPath
+
 $missingRemovalFixture = @(Get-ZylLuaEventLifecycleIssues -Source 'Events.Example.Add(OnExample)' -Label 'Fixture')
 $balancedLifecycleFixture = @(Get-ZylLuaEventLifecycleIssues -Source @'
 Events.Example.Add(OnExample)
@@ -122,6 +128,18 @@ $uniquePathFixture = @(Get-ZylDuplicateNormalizedPaths -Paths @('a/file.xml', 'b
 $duplicatePathFixture = @(Get-ZylDuplicateNormalizedPaths -Paths @('A/file.xml', 'a\FILE.xml'))
 if ($uniquePathFixture.Count -ne 0 -or $duplicatePathFixture.Count -ne 1) {
     Add-ValidationError 'Asset path identity helper failed its positive/negative self-test.'
+}
+
+$safeRuntimeTextFixture = @(Get-ZylRuntimeTextSafetyIssues `
+    -Source 'local value = 1' `
+    -Label 'Fixture.lua')
+$unsafeRuntimeTextFixture = @(Get-ZylRuntimeTextSafetyIssues -Source @'
+loadstring("return 1")
+local oldId = "3cd7857e-b720-4a1b-a61d-930f58d5237e"
+local legacy = "NO_MORE_STACK"
+'@ -Label 'Fixture.lua')
+if ($safeRuntimeTextFixture.Count -ne 0 -or $unsafeRuntimeTextFixture.Count -ne 3) {
+    Add-ValidationError 'Active runtime safety helper failed its positive/negative self-test.'
 }
 
 if (-not (Test-Path -LiteralPath $modInfoPath)) {
@@ -4650,36 +4668,10 @@ if (Test-Path -LiteralPath $stagingRoomXmlPath) {
 }
 
 # Scan only active runtime text files for dangerous or disabled behavior.
-$dangerPatterns = @(
-    @{ Name = 'dynamic loadstring'; Pattern = 'loadstring\s*\(' },
-    @{ Name = 'Workshop auto-update'; Pattern = 'Modding\.UpdateSubscription\s*\(' },
-    @{ Name = 'science/culture anti-stacking'; Pattern = 'NoMoreStack|NO_MORE_STACK' }
-)
-$oldRuntimeIds = @(
-    '3cd7857e-b720-4a1b-a61d-930f58d5237e',
-    'cb84075d-5007-4207-b662-c35a5f7be260',
-    'cb84075d-5007-4207-b662-c35a5f7be250',
-    'cb84075d-5007-4207-b662-c35a5f7be254',
-    'c88cba8b-8311-4d35-90c3-51a4a5d66542',
-    'c88cba8b-8311-4d35-90c3-51a4a5d66550',
-    '619ac86e-d99d-4bf3-b8f0-8c5b8c402567',
-    '00000000-0165-224C-A3AA-154BB4B9C1C5'
-)
-foreach ($key in @($actionReferenceMap.Keys | Sort-Object)) {
-    $relativePath = $actionReferenceMap[$key]
-    if ([System.IO.Path]::GetExtension($relativePath) -notin @('.lua', '.sql', '.xml')) { continue }
-    $fullPath = Join-Path $modRoot $relativePath
-    if (-not (Test-Path -LiteralPath $fullPath)) { continue }
-    foreach ($dangerPattern in $dangerPatterns) {
-        foreach ($hit in @(Select-String -LiteralPath $fullPath -Pattern $dangerPattern.Pattern)) {
-            Add-ValidationError "$($dangerPattern.Name) in active file ${relativePath}:$($hit.LineNumber)"
-        }
-    }
-    foreach ($oldId in $oldRuntimeIds) {
-        foreach ($hit in @(Select-String -LiteralPath $fullPath -SimpleMatch $oldId)) {
-            Add-ValidationError "Old component Mod ID in active runtime file ${relativePath}:$($hit.LineNumber): $oldId"
-        }
-    }
+foreach ($runtimeSafetyIssue in @(Get-ZylActiveRuntimeSafetyIssues `
+        -ProjectRoot $modRoot `
+        -ActionReferenceMap $actionReferenceMap)) {
+    Add-ValidationError $runtimeSafetyIssue
 }
 
 $descriptionZhNode = $modInfo.SelectSingleNode("/Mod/LocalizedText/Text[@id='LOC_ZYLPVPMOD_DESCRIPTION']/zh_Hans_CN")
