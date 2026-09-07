@@ -51,6 +51,22 @@ function Test-ZylLuaEventLifecycle {
     }
 }
 
+function Get-ZylLuaUnguardedPrintIssues {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string]$Source,
+
+        [Parameter(Mandatory = $true)]
+        [string]$Label
+    )
+
+    $issues = [System.Collections.Generic.List[string]]::new()
+    if ([regex]::Matches($Source, '(?m)^\s*print\(').Count -ne 0) {
+        $issues.Add("$Label contains an unguarded runtime print.")
+    }
+    return @($issues)
+}
+
 function Test-ZylLuaHasNoUnguardedPrint {
     param(
         [Parameter(Mandatory = $true)]
@@ -60,7 +76,9 @@ function Test-ZylLuaHasNoUnguardedPrint {
         [string]$Label
     )
 
-    if ([regex]::Matches($Source, '(?m)^\s*print\(').Count -ne 0) {
-        Add-ValidationError "$Label contains an unguarded runtime print."
+    foreach ($issue in @(Get-ZylLuaUnguardedPrintIssues `
+            -Source $Source `
+            -Label $Label)) {
+        Add-ValidationError $issue
     }
 }

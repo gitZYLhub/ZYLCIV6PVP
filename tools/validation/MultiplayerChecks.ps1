@@ -169,3 +169,202 @@ function Get-ZylStagingRoomContractIssues {
 
     return @($issues)
 }
+
+function Get-ZylVotePanelContractIssues {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string]$Source
+    )
+
+    $issues = [System.Collections.Generic.List[string]]::new()
+    foreach ($requiredFragment in @(
+            'local b_remap_armed = false',
+            'local function SetRefreshTracking(enabled)',
+            'local tick = Automation.GetTime()',
+            'SetRefreshTracking(true)',
+            'SetRefreshTracking(false)',
+            'if GameConfiguration.GetValue("GAME_HOST_IS_JUST_RELOADING") ~= "Y" then'
+        )) {
+        if (-not $Source.Contains($requiredFragment)) {
+            $issues.Add("The remap/vote panel is missing its network lifecycle guard: $requiredFragment")
+        }
+    }
+    foreach ($forbiddenFragment in @('b_RemapArmed', 'local tick_2')) {
+        if ($Source.Contains($forbiddenFragment)) {
+            $issues.Add("The remap/vote panel restored a global typo or dead timer: $forbiddenFragment")
+        }
+    }
+    if ([regex]::IsMatch(
+            $Source,
+            '(?s)Network\.BroadcastGameConfig\(\);\s*' +
+            'Network\.BroadcastPlayerInfo\(\);\s*' +
+            'Network\.BroadcastGameConfig\(\);'
+        )) {
+        $issues.Add('The remap/vote panel restored its repeated GameConfig/PlayerInfo broadcast burst.')
+    }
+    if ([regex]::Matches(
+            $Source,
+            'GameCoreEventPublishComplete\.Add\(OnRefresh\)'
+        ).Count -ne 1 -or
+            [regex]::Matches(
+                $Source,
+                'GameCoreEventPublishComplete\.Remove\(OnRefresh\)'
+            ).Count -ne 1) {
+        $issues.Add('The remap/vote refresh callback must have exactly one guarded add/remove implementation.')
+    }
+    if (-not [regex]::IsMatch(
+            $Source,
+            '(?s)function OnLocalHostRestart\(\).*?' +
+            'if localID ~= hostID then.*?return.*?' +
+            'SetRefreshTracking\(true\).*?Network\.RestartGame\(\)'
+        )) {
+        $issues.Add('Only the current host may start a remap, and refresh tracking must be armed before restart.')
+    }
+    return @($issues)
+}
+
+function Get-ZylDropControlContractIssues {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string]$Source
+    )
+
+    $issues = [System.Collections.Generic.List[string]]::new()
+    foreach ($requiredFragment in @(
+            'local UIEvents = ExposedMembers.LuaEvents;',
+            'local UpdateData',
+            'not UpdateData(playerID, true)',
+            'UpdateData(playerID, false)',
+            'if player.IsDropped == true then',
+            'player.ElapsedTime = 0',
+            'RestoreHostPauseState()'
+        )) {
+        if (-not $Source.Contains($requiredFragment)) {
+            $issues.Add("The drop controller is missing its idempotency or pause-state guard: $requiredFragment")
+        }
+    }
+    if (-not [regex]::IsMatch(
+            $Source,
+            '(?s)function OnShutdown\(\).*?' +
+            'SetTicking\(false\).*?RestoreHostPauseState\(\)'
+        )) {
+        $issues.Add('The drop controller does not return a suite-requested pause during shutdown.')
+    }
+    if ([regex]::Matches(
+            $Source,
+            'GameCoreEventPublishComplete\.Add\s*\(\s*OnTimeTicks\s*\)'
+        ).Count -ne 1 -or
+            [regex]::Matches(
+                $Source,
+                'GameCoreEventPublishComplete\.Remove\s*\(\s*OnTimeTicks\s*\)'
+            ).Count -ne 1) {
+        $issues.Add('The drop controller timer must have exactly one guarded add/remove implementation.')
+    }
+    foreach ($printIssue in @(Get-ZylLuaUnguardedPrintIssues `
+            -Source $Source `
+            -Label 'Drop controller')) {
+        $issues.Add($printIssue)
+    }
+    if ([regex]::IsMatch($Source, '(?m)^UIEvents\s*=')) {
+        $issues.Add('The drop controller restored a global UIEvents alias.')
+    }
+    return @($issues)
+}
+
+function Get-ZylResyncControllerContractIssues {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string]$Source
+    )
+
+    $issues = [System.Collections.Generic.List[string]]::new()
+    foreach ($requiredFragment in @(
+            'local function SetResyncTicking(enabled)',
+            'Events.SystemUpdateUI.Add(OnResyncTick)',
+            'Events.SystemUpdateUI.Remove(OnResyncTick)',
+            'if m_lastResyncTickSecond == now then',
+            'm_cachedMapFingerprint = ComputeMapFingerprint()',
+            'if m_cachedMapFingerprint == nil then',
+            'if check_seed == nil then',
+            'if b_debug and (string.lower(text)== ".mph_ui_requestsnap"'
+        )) {
+        if (-not $Source.Contains($requiredFragment)) {
+            $issues.Add("The multiplayer resync controller is missing its throttle/cache/input guard: $requiredFragment")
+        }
+    }
+    foreach ($forbiddenFragment in @(
+            'Events.GameCoreEventPublishComplete.Add( OnResyncTick )',
+            'print(text)',
+            'g_local_turn',
+            'g_local_seed',
+            '.mph_ui_checkseed_id'
+        )) {
+        if ($Source.Contains($forbiddenFragment)) {
+            $issues.Add("The multiplayer resync controller restored a hot loop, chat log leak or dead seed protocol: $forbiddenFragment")
+        }
+    }
+    if ([regex]::Matches(
+            $Source,
+            'Events\.SystemUpdateUI\.Add\(OnResyncTick\)'
+        ).Count -ne 1 -or
+            [regex]::Matches(
+                $Source,
+                'Events\.SystemUpdateUI\.Remove\(OnResyncTick\)'
+            ).Count -ne 1) {
+        $issues.Add('The resync timeout must have exactly one guarded SystemUpdateUI add/remove implementation.')
+    }
+    foreach ($printIssue in @(Get-ZylLuaUnguardedPrintIssues `
+            -Source $Source `
+            -Label 'Multiplayer options controller')) {
+        $issues.Add($printIssue)
+    }
+    return @($issues)
+}
+
+function Get-ZylSuddenDeathContractIssues {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string]$Source
+    )
+
+    $issues = [System.Collections.Generic.List[string]]::new()
+    foreach ($requiredFragment in @(
+            'local function SetTicking(enabled)',
+            'if m_lastBroadcastTurn == currentTurn then',
+            'm_lastBroadcastTurn = currentTurn',
+            'if adjustedTime == nil or adjustedTime <= 0 then',
+            'if tmp_AI_ID ~= nil and Players[tmp_AI_ID] ~= nil',
+            'SetTicking(false)',
+            'SetTicking(true)'
+        )) {
+        if (-not $Source.Contains($requiredFragment)) {
+            $issues.Add("The sudden-death controller is missing its timer/input guard: $requiredFragment")
+        }
+    }
+    foreach ($forbiddenFragment in @(
+            'include("InstanceManager")',
+            'include("PopupDialog")',
+            'm_elapsed_time = m_elapsed_time',
+            'Events.GameCoreEventPublishComplete.Add ( OnTimeTicks )'
+        )) {
+        if ($Source.Contains($forbiddenFragment)) {
+            $issues.Add("The sudden-death controller restored an unused dependency, no-op or unmanaged tick: $forbiddenFragment")
+        }
+    }
+    if ([regex]::Matches(
+            $Source,
+            'GameCoreEventPublishComplete\.Add\(OnTimeTicks\)'
+        ).Count -ne 1 -or
+            [regex]::Matches(
+                $Source,
+                'GameCoreEventPublishComplete\.Remove\(OnTimeTicks\)'
+            ).Count -ne 1) {
+        $issues.Add('The sudden-death timer must have exactly one guarded add/remove implementation.')
+    }
+    foreach ($printIssue in @(Get-ZylLuaUnguardedPrintIssues `
+            -Source $Source `
+            -Label 'Sudden-death controller')) {
+        $issues.Add($printIssue)
+    }
+    return @($issues)
+}

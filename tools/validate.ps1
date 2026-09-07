@@ -2682,157 +2682,59 @@ Add-ValidationError $stagingRoomIssue
 }
 }
 
-$votePanelPath = Join-Path $modRoot 'ui\Additions\VotePanel.lua'
-if (-not (Test-Path -LiteralPath $votePanelPath -PathType Leaf)) {
-Add-ValidationError 'The remap/vote panel is missing.'
-}
-else {
-$votePanelSource = Get-Content -LiteralPath $votePanelPath -Raw
-foreach ($requiredVotePanelFragment in @(
-'local b_remap_armed = false',
-'local function SetRefreshTracking(enabled)',
-'local tick = Automation.GetTime()',
-'SetRefreshTracking(true)',
-'SetRefreshTracking(false)',
-'if GameConfiguration.GetValue("GAME_HOST_IS_JUST_RELOADING") ~= "Y" then'
-)) {
-if (-not $votePanelSource.Contains($requiredVotePanelFragment)) {
-Add-ValidationError "The remap/vote panel is missing its network lifecycle guard: $requiredVotePanelFragment"
-}
-}
-foreach ($forbiddenVotePanelFragment in @(
-'b_RemapArmed',
-'local tick_2'
-)) {
-if ($votePanelSource.Contains($forbiddenVotePanelFragment)) {
-Add-ValidationError "The remap/vote panel restored a global typo or dead timer: $forbiddenVotePanelFragment"
-}
-}
-if ([regex]::IsMatch(
-$votePanelSource,
-'(?s)Network\.BroadcastGameConfig\(\);\s*Network\.BroadcastPlayerInfo\(\);\s*Network\.BroadcastGameConfig\(\);'
-)) {
-Add-ValidationError 'The remap/vote panel restored its repeated GameConfig/PlayerInfo broadcast burst.'
-}
-if ([regex]::Matches($votePanelSource, 'GameCoreEventPublishComplete\.Add\(OnRefresh\)').Count -ne 1 -or
-[regex]::Matches($votePanelSource, 'GameCoreEventPublishComplete\.Remove\(OnRefresh\)').Count -ne 1) {
-Add-ValidationError 'The remap/vote refresh callback must have exactly one guarded add/remove implementation.'
-}
-if (-not [regex]::IsMatch(
-$votePanelSource,
-'(?s)function OnLocalHostRestart\(\).*?if localID ~= hostID then.*?return.*?SetRefreshTracking\(true\).*?Network\.RestartGame\(\)'
-)) {
-Add-ValidationError 'Only the current host may start a remap, and refresh tracking must be armed before restart.'
-}
-}
+$multiplayerControllerSpecs = @(
+    [pscustomobject]@{
+        RelativePath = 'ui\Additions\VotePanel.lua'
+        MissingMessage = 'The remap/vote panel is missing.'
+        CheckFunction = 'Get-ZylVotePanelContractIssues'
+        DriftFrom = 'local b_remap_armed = false'
+        DriftTo = 'local b_RemapArmed = false'
+        Label = 'Vote panel'
+    },
+    [pscustomobject]@{
+        RelativePath = 'ui\Additions\DropControl.lua'
+        MissingMessage = 'The multiplayer drop controller is missing.'
+        CheckFunction = 'Get-ZylDropControlContractIssues'
+        DriftFrom = 'not UpdateData(playerID, true)'
+        DriftTo = 'UpdateData(playerID, true)'
+        Label = 'Drop controller'
+    },
+    [pscustomobject]@{
+        RelativePath = 'ui\Additions\MPHOptions.lua'
+        MissingMessage = 'The multiplayer options/resync controller is missing.'
+        CheckFunction = 'Get-ZylResyncControllerContractIssues'
+        DriftFrom = 'if m_lastResyncTickSecond == now then'
+        DriftTo = 'if false then'
+        Label = 'Multiplayer resync controller'
+    },
+    [pscustomobject]@{
+        RelativePath = 'ui\Additions\SuddenDeathPanel.lua'
+        MissingMessage = 'The sudden-death panel is missing.'
+        CheckFunction = 'Get-ZylSuddenDeathContractIssues'
+        DriftFrom = 'if m_lastBroadcastTurn == currentTurn then'
+        DriftTo = 'if false then'
+        Label = 'Sudden-death controller'
+    }
+)
+foreach ($controllerSpec in $multiplayerControllerSpecs) {
+    $controllerPath = Join-Path $modRoot $controllerSpec.RelativePath
+    if (-not (Test-Path -LiteralPath $controllerPath -PathType Leaf)) {
+        Add-ValidationError $controllerSpec.MissingMessage
+        continue
+    }
 
-$dropControlPath = Join-Path $modRoot 'ui\Additions\DropControl.lua'
-if (-not (Test-Path -LiteralPath $dropControlPath -PathType Leaf)) {
-Add-ValidationError 'The multiplayer drop controller is missing.'
-}
-else {
-$dropControlSource = Get-Content -LiteralPath $dropControlPath -Raw
-foreach ($requiredDropControlFragment in @(
-'local UIEvents = ExposedMembers.LuaEvents;',
-'local UpdateData',
-'not UpdateData(playerID, true)',
-'UpdateData(playerID, false)',
-'if player.IsDropped == true then',
-'player.ElapsedTime = 0',
-'RestoreHostPauseState()'
-)) {
-if (-not $dropControlSource.Contains($requiredDropControlFragment)) {
-Add-ValidationError "The drop controller is missing its idempotency or pause-state guard: $requiredDropControlFragment"
-}
-}
-if (-not [regex]::IsMatch(
-$dropControlSource,
-'(?s)function OnShutdown\(\).*?SetTicking\(false\).*?RestoreHostPauseState\(\)'
-)) {
-Add-ValidationError 'The drop controller does not return a suite-requested pause during shutdown.'
-}
-if ([regex]::Matches($dropControlSource, 'GameCoreEventPublishComplete\.Add\s*\(\s*OnTimeTicks\s*\)').Count -ne 1 -or
-[regex]::Matches($dropControlSource, 'GameCoreEventPublishComplete\.Remove\s*\(\s*OnTimeTicks\s*\)').Count -ne 1) {
-Add-ValidationError 'The drop controller timer must have exactly one guarded add/remove implementation.'
-}
-Test-ZylLuaHasNoUnguardedPrint -Source $dropControlSource -Label 'Drop controller'
-if ([regex]::IsMatch($dropControlSource, '(?m)^UIEvents\s*=')) {
-Add-ValidationError 'The drop controller restored a global UIEvents alias.'
-}
-}
-
-$mphOptionsPath = Join-Path $modRoot 'ui\Additions\MPHOptions.lua'
-if (-not (Test-Path -LiteralPath $mphOptionsPath -PathType Leaf)) {
-Add-ValidationError 'The multiplayer options/resync controller is missing.'
-}
-else {
-$mphOptionsSource = Get-Content -LiteralPath $mphOptionsPath -Raw
-foreach ($requiredMphOptionsFragment in @(
-'local function SetResyncTicking(enabled)',
-'Events.SystemUpdateUI.Add(OnResyncTick)',
-'Events.SystemUpdateUI.Remove(OnResyncTick)',
-'if m_lastResyncTickSecond == now then',
-'m_cachedMapFingerprint = ComputeMapFingerprint()',
-'if m_cachedMapFingerprint == nil then',
-'if check_seed == nil then',
-'if b_debug and (string.lower(text)== ".mph_ui_requestsnap"'
-)) {
-if (-not $mphOptionsSource.Contains($requiredMphOptionsFragment)) {
-Add-ValidationError "The multiplayer resync controller is missing its throttle/cache/input guard: $requiredMphOptionsFragment"
-}
-}
-foreach ($forbiddenMphOptionsFragment in @(
-'Events.GameCoreEventPublishComplete.Add( OnResyncTick )',
-'print(text)',
-'g_local_turn',
-'g_local_seed',
-'.mph_ui_checkseed_id'
-)) {
-if ($mphOptionsSource.Contains($forbiddenMphOptionsFragment)) {
-Add-ValidationError "The multiplayer resync controller restored a hot loop, chat log leak or dead seed protocol: $forbiddenMphOptionsFragment"
-}
-}
-if ([regex]::Matches($mphOptionsSource, 'Events\.SystemUpdateUI\.Add\(OnResyncTick\)').Count -ne 1 -or
-[regex]::Matches($mphOptionsSource, 'Events\.SystemUpdateUI\.Remove\(OnResyncTick\)').Count -ne 1) {
-Add-ValidationError 'The resync timeout must have exactly one guarded SystemUpdateUI add/remove implementation.'
-}
-Test-ZylLuaHasNoUnguardedPrint -Source $mphOptionsSource -Label 'Multiplayer options controller'
-}
-
-$suddenDeathPanelPath = Join-Path $modRoot 'ui\Additions\SuddenDeathPanel.lua'
-if (-not (Test-Path -LiteralPath $suddenDeathPanelPath -PathType Leaf)) {
-Add-ValidationError 'The sudden-death panel is missing.'
-}
-else {
-$suddenDeathPanelSource = Get-Content -LiteralPath $suddenDeathPanelPath -Raw
-foreach ($requiredSuddenDeathFragment in @(
-'local function SetTicking(enabled)',
-'if m_lastBroadcastTurn == currentTurn then',
-'m_lastBroadcastTurn = currentTurn',
-'if adjustedTime == nil or adjustedTime <= 0 then',
-'if tmp_AI_ID ~= nil and Players[tmp_AI_ID] ~= nil',
-'SetTicking(false)',
-'SetTicking(true)'
-)) {
-if (-not $suddenDeathPanelSource.Contains($requiredSuddenDeathFragment)) {
-Add-ValidationError "The sudden-death controller is missing its timer/input guard: $requiredSuddenDeathFragment"
-}
-}
-foreach ($forbiddenSuddenDeathFragment in @(
-'include("InstanceManager")',
-'include("PopupDialog")',
-'m_elapsed_time = m_elapsed_time',
-'Events.GameCoreEventPublishComplete.Add ( OnTimeTicks )'
-)) {
-if ($suddenDeathPanelSource.Contains($forbiddenSuddenDeathFragment)) {
-Add-ValidationError "The sudden-death controller restored an unused dependency, no-op or unmanaged tick: $forbiddenSuddenDeathFragment"
-}
-}
-if ([regex]::Matches($suddenDeathPanelSource, 'GameCoreEventPublishComplete\.Add\(OnTimeTicks\)').Count -ne 1 -or
-[regex]::Matches($suddenDeathPanelSource, 'GameCoreEventPublishComplete\.Remove\(OnTimeTicks\)').Count -ne 1) {
-Add-ValidationError 'The sudden-death timer must have exactly one guarded add/remove implementation.'
-}
-Test-ZylLuaHasNoUnguardedPrint -Source $suddenDeathPanelSource -Label 'Sudden-death controller'
+    $controllerSource = Get-Content -LiteralPath $controllerPath -Raw
+    $checkFunction = $controllerSpec.CheckFunction
+    $controllerIssues = @(& $checkFunction -Source $controllerSource)
+    $driftSource = $controllerSource.Replace($controllerSpec.DriftFrom, $controllerSpec.DriftTo)
+    if ($controllerIssues.Count -ne 0 -or
+            $driftSource -eq $controllerSource -or
+            @(& $checkFunction -Source $driftSource).Count -eq 0) {
+        Add-ValidationError "$($controllerSpec.Label) contract helper failed its positive/negative self-test."
+    }
+    foreach ($controllerIssue in $controllerIssues) {
+        Add-ValidationError $controllerIssue
+    }
 }
 
 $stagingRoomIdentityXmlPath = Join-Path $modRoot 'ui\stagingroom.xml'
