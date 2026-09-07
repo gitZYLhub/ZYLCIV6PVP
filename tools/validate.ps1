@@ -64,6 +64,12 @@ if (-not (Test-Path -LiteralPath $runtimeSafetyChecksPath -PathType Leaf)) {
 }
 . $runtimeSafetyChecksPath
 
+$databaseContractChecksPath = Join-Path $PSScriptRoot 'validation\DatabaseContractChecks.ps1'
+if (-not (Test-Path -LiteralPath $databaseContractChecksPath -PathType Leaf)) {
+    throw "Database contract validation helpers not found: $databaseContractChecksPath"
+}
+. $databaseContractChecksPath
+
 $missingRemovalFixture = @(Get-ZylLuaEventLifecycleIssues -Source 'Events.Example.Add(OnExample)' -Label 'Fixture')
 $balancedLifecycleFixture = @(Get-ZylLuaEventLifecycleIssues -Source @'
 Events.Example.Add(OnExample)
@@ -140,6 +146,33 @@ local legacy = "NO_MORE_STACK"
 '@ -Label 'Fixture.lua')
 if ($safeRuntimeTextFixture.Count -ne 0 -or $unsafeRuntimeTextFixture.Count -ne 3) {
     Add-ValidationError 'Active runtime safety helper failed its positive/negative self-test.'
+}
+
+$validEraDurationFixture = @(
+    'GameEraMinimumTurns',
+    'GameEraMaximumTurns'
+)
+foreach ($eraDurationFixture in @(
+        @('ERA_ANCIENT', 50),
+        @('ERA_CLASSICAL', 46),
+        @('ERA_MEDIEVAL', 46),
+        @('ERA_RENAISSANCE', 42),
+        @('ERA_INDUSTRIAL', 42),
+        @('ERA_MODERN', 40),
+        @('ERA_ATOMIC', 40),
+        @('ERA_INFORMATION', 40)
+    )) {
+    $validEraDurationFixture += "WHEN '$($eraDurationFixture[0])' THEN $($eraDurationFixture[1])"
+    $validEraDurationFixture += "WHEN '$($eraDurationFixture[0])' THEN $($eraDurationFixture[1])"
+}
+$validEraDurationFixture = $validEraDurationFixture -join "`n"
+$invalidEraDurationFixture = $validEraDurationFixture.Replace(
+    "WHEN 'ERA_ANCIENT' THEN 50",
+    "WHEN 'ERA_ANCIENT' THEN 51"
+)
+if (@(Get-ZylEraDurationSqlIssues -Source $validEraDurationFixture).Count -ne 0 -or
+        @(Get-ZylEraDurationSqlIssues -Source $invalidEraDurationFixture).Count -ne 1) {
+    Add-ValidationError 'Era-duration database contract helper failed its positive/negative self-test.'
 }
 
 if (-not (Test-Path -LiteralPath $modInfoPath)) {
@@ -2982,76 +3015,11 @@ if (Test-Path -LiteralPath $turnProcessingPath) {
 	Test-ZylLuaHasNoUnguardedPrint -Source $turnProcessingSource -Label 'Turn processing'
 }
 
-$eraLengthSqlPath = Join-Path $modRoot 'sql\ZYL_EraLengthOptimization.sql'
-if (-not (Test-Path -LiteralPath $eraLengthSqlPath)) {
-    Add-ValidationError 'The optional world-era duration SQL is missing.'
-}
-else {
-    $eraLengthSource = Get-Content -Raw -LiteralPath $eraLengthSqlPath
-	$fixedEraDurations = [ordered]@{
-		'ERA_ANCIENT' = 50
-		'ERA_CLASSICAL' = 46
-		'ERA_MEDIEVAL' = 46
-		'ERA_RENAISSANCE' = 42
-		'ERA_INDUSTRIAL' = 42
-		'ERA_MODERN' = 40
-		'ERA_ATOMIC' = 40
-		'ERA_INFORMATION' = 40
-	}
-	foreach ($fixedEraDuration in $fixedEraDurations.GetEnumerator()) {
-		$durationPattern = "WHEN\s+'$([regex]::Escape($fixedEraDuration.Key))'\s+THEN\s+$($fixedEraDuration.Value)"
-		if ([regex]::Matches($eraLengthSource, $durationPattern, [System.Text.RegularExpressions.RegexOptions]::IgnoreCase).Count -ne 2) {
-			Add-ValidationError "Optional world-era duration must set both minimum and maximum for $($fixedEraDuration.Key) to $($fixedEraDuration.Value)."
-		}
-	}
-	if ($eraLengthSource -notmatch 'GameEraMinimumTurns' -or $eraLengthSource -notmatch 'GameEraMaximumTurns') {
-		Add-ValidationError 'Optional world-era duration override must set both the minimum and maximum duration columns.'
-	}
-}
-
-$eraThresholdSqlPath = Join-Path $modRoot 'Components\BBG\sql\XP1\Other_XP1_or_XP2.sql'
-if (-not (Test-Path -LiteralPath $eraThresholdSqlPath)) {
-	Add-ValidationError 'The BBG era-threshold SQL is missing.'
-}
-else {
-	$eraThresholdSource = Get-Content -Raw -LiteralPath $eraThresholdSqlPath
-	foreach ($requiredEraThreshold in @(
-		"UPDATE GlobalParameters SET Value=20 WHERE Name='DARK_AGE_SCORE_BASE_THRESHOLD';",
-		"UPDATE GlobalParameters SET Value=25 WHERE Name='GOLDEN_AGE_SCORE_BASE_THRESHOLD';"
-	)) {
-		if (-not $eraThresholdSource.Contains($requiredEraThreshold)) {
-			Add-ValidationError "The final era-threshold override is missing: $requiredEraThreshold"
-		}
-	}
-}
-
-if (Test-Path -LiteralPath $zylConfigPath) {
-    $eraLengthOptions = @($zylConfig.SelectNodes('/GameInfo/Parameters/Row[@ParameterId="ZYL_ERA_LENGTH_OPTIMIZATION"]'))
-    if ($eraLengthOptions.Count -ne 2 -or
-        @($eraLengthOptions | Where-Object { $_.GetAttribute('DefaultValue') -ne '1' }).Count -gt 0 -or
-        @($eraLengthOptions | Where-Object { $_.GetAttribute('Key2') -in @('RULESET_EXPANSION_1', 'RULESET_EXPANSION_2') }).Count -ne 2) {
-        Add-ValidationError 'The optional world-era duration lobby toggle must exist for both expansion rulesets and default to enabled.'
-    }
-}
-
-$eraLengthCriterion = $modInfo.SelectSingleNode('/Mod/ActionCriteria/Criteria[@id="ZYL_EraLengthOptimization" and RuleSetInUse="RULESET_EXPANSION_1,RULESET_EXPANSION_2" and ConfigurationValueMatches[ConfigurationId="ZYL_ERA_LENGTH_OPTIMIZATION" and Value="1"]]')
-if ($null -eq $eraLengthCriterion) {
-    Add-ValidationError 'The optional world-era duration action criterion is missing or malformed.'
-}
-$eraLengthAction = $modInfo.SelectSingleNode('/Mod/InGameActions/UpdateDatabase[@id="ZYL_EraLengthOptimization" and Criteria="ZYL_EraLengthOptimization" and File="sql/ZYL_EraLengthOptimization.sql"]')
-if ($null -eq $eraLengthAction) {
-    Add-ValidationError 'The optional world-era duration gameplay action is missing or malformed.'
-}
-foreach ($timerTextPath in @('lang\Text_CN.xml', 'lang\Text_EN.xml')) {
-    $fullTimerTextPath = Join-Path $modRoot $timerTextPath
-    if (Test-Path -LiteralPath $fullTimerTextPath) {
-        $timerText = Load-XmlDocument $fullTimerTextPath
-        foreach ($timerTag in @('TIMER_CASUAL_BALANCED_NAME', 'TIMER_CASUAL_BALANCED_DESC', 'TIMER_CASUAL_RELAXED_NAME', 'TIMER_CASUAL_RELAXED_DESC')) {
-            if ($null -eq $timerText.SelectSingleNode("/GameData/LocalizedText/Replace[@Tag='$timerTag']/Text")) {
-                Add-ValidationError "$timerTextPath is missing $timerTag."
-            }
-        }
-    }
+foreach ($eraContractIssue in @(Get-ZylEraConfigurationContractIssues `
+        -ProjectRoot $modRoot `
+        -ModInfo $modInfo `
+        -ZylConfig $zylConfig)) {
+    Add-ValidationError $eraContractIssue
 }
 
 # The final lobby defaults are deliberately a separate, late-loading action.
