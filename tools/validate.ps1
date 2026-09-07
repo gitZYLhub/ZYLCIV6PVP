@@ -2595,6 +2595,18 @@ Add-ValidationError 'Staging room bypasses its opt-in debug logger with a direct
 if ([regex]::Matches($stagingRoomSource, ',\s*GetNextID\s*\(\s*\)').Count -ne 0) {
 Add-ValidationError 'Staging-room debug logging must not call the stateful GetNextID function.'
 }
+if (-not [regex]::IsMatch(
+$stagingRoomSource,
+'(?s)function OnZYLRandomTeams\(\).*?for index, playerID in ipairs\(participants\) do\s*PlayerConfigurations\[playerID\]:SetTeam\(\(index - 1\) % 2\)\s*end\s*Network\.BroadcastPlayerInfo\(\)'
+)) {
+Add-ValidationError 'Random-team assignment must batch all team mutations into one PlayerInfo broadcast.'
+}
+if (-not [regex]::IsMatch(
+$stagingRoomSource,
+'(?s)function OnZYLToggleEmptySlots\(\).*?for _, playerID in ipairs\(openSlots\) do\s*PlayerConfigurations\[playerID\]:SetSlotStatus\(SlotStatus\.SS_CLOSED\)\s*end\s*Network\.BroadcastPlayerInfo\(\)'
+)) {
+Add-ValidationError 'Bulk empty-slot closure must batch all slot mutations into one PlayerInfo broadcast.'
+}
 }
 
 $votePanelPath = Join-Path $modRoot 'ui\Additions\VotePanel.lua'

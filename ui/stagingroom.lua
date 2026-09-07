@@ -7254,8 +7254,8 @@ function OnZYLRandomTeams()
 	end
 	for index, playerID in ipairs(participants) do
 		PlayerConfigurations[playerID]:SetTeam((index - 1) % 2)
-		Network.BroadcastPlayerInfo(playerID)
 	end
+	Network.BroadcastPlayerInfo()
 	UpdateTeamList(true)
 	UpdateAllPlayerEntries()
 	CheckTeamsValid()
@@ -7280,8 +7280,8 @@ function OnZYLToggleEmptySlots()
 	if #openSlots > 0 then
 		for _, playerID in ipairs(openSlots) do
 			PlayerConfigurations[playerID]:SetSlotStatus(SlotStatus.SS_CLOSED)
-			Network.BroadcastPlayerInfo(playerID)
 		end
+		Network.BroadcastPlayerInfo()
 	elseif firstClosed >= 0 then
 		PlayerConfigurations[firstClosed]:SetSlotStatus(SlotStatus.SS_OPEN)
 		Network.BroadcastPlayerInfo(firstClosed)
