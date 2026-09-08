@@ -76,6 +76,12 @@ if (-not (Test-Path -LiteralPath $teamPvpSocietyChecksPath -PathType Leaf)) {
 }
 . $teamPvpSocietyChecksPath
 
+$expandedResourceChecksPath = Join-Path $PSScriptRoot 'validation\ExpandedResourceChecks.ps1'
+if (-not (Test-Path -LiteralPath $expandedResourceChecksPath -PathType Leaf)) {
+    throw "BBG Expanded resource validation helpers not found: $expandedResourceChecksPath"
+}
+. $expandedResourceChecksPath
+
 $releaseChecksPath = Join-Path $PSScriptRoot 'validation\ReleaseChecks.ps1'
 if (-not (Test-Path -LiteralPath $releaseChecksPath -PathType Leaf)) {
     throw "Release validation helpers not found: $releaseChecksPath"
@@ -2356,210 +2362,40 @@ if (Test-Path -LiteralPath $teamPvpSocietyGameplayPath -PathType Leaf) {
     }
 }
 
-# BBG Expanded's six resources are self-contained. Validate the complete art
-# manifest, the exact gameplay IDs, the BBG balance layer and the conditional
-# hand-off to a separately enabled full BBG Expanded package.
-$expandedResourceRoot = Join-Path $modRoot 'CIVITASResources'
-$expandedResourceTypes = @(
-    'RESOURCE_P0K_PENGUINS',
-    'RESOURCE_CVS_POMEGRANATES',
-    'RESOURCE_P0K_PAPYRUS',
-    'RESOURCE_P0K_MAPLE',
-    'RESOURCE_P0K_OPAL',
-    'RESOURCE_P0K_PLUMS'
+# BBG Expanded's six resources, art payload, Monopolies extension and
+# external-package hand-off form one vertical integration contract.
+$expandedResourceValidationParameters = @{
+    ProjectRoot = $modRoot
+    ModInfo = $modInfo
+    CriteriaMap = $criteriaMap
+    ActionIdMap = $actionIdMap
+    ListedFileMap = $listedFileMap
+}
+$expandedResourceIssues = @(
+    Get-ZylExpandedResourceContractIssues @expandedResourceValidationParameters
 )
-$expandedResourceCorePath = Join-Path $expandedResourceRoot 'Core\p0k_Resources.sql'
+foreach ($issue in $expandedResourceIssues) {
+    Add-ValidationError $issue
+}
+
+# Prove that the extracted balance contract rejects a resource-placement drift.
 $expandedResourceBalancePath = Join-Path $modRoot 'Components\BBG\sql\BBG_Expanded\Resources.sql'
-if (-not (Test-Path -LiteralPath $expandedResourceCorePath)) {
-    Add-ValidationError 'BBG Expanded resource core SQL is missing.'
-}
-else {
-    $expandedResourceCoreSql = Get-Content -LiteralPath $expandedResourceCorePath -Raw
-    foreach ($resourceType in $expandedResourceTypes) {
-        if (-not $expandedResourceCoreSql.Contains("('$resourceType'")) {
-            Add-ValidationError "BBG Expanded resource core is missing $resourceType."
-        }
-    }
-    foreach ($resourceTag in @(
-        'CLASS_GODDESS_OF_FESTIVALS',
-        'CLASS_ORAL_TRADITION',
-        'CLASS_SCIENCE',
-        'CLASS_PRODUCTION'
-    )) {
-        if (-not $expandedResourceCoreSql.Contains($resourceTag)) {
-            Add-ValidationError "BBG Expanded resource core is missing Pantheon/yield tag $resourceTag."
-        }
-    }
-}
-if (-not (Test-Path -LiteralPath $expandedResourceBalancePath)) {
-    Add-ValidationError 'BBG Expanded resource balance SQL is missing.'
-}
-else {
-    $expandedResourceBalanceSql = Get-Content -LiteralPath $expandedResourceBalancePath -Raw
-    foreach ($token in @(
+if (Test-Path -LiteralPath $expandedResourceBalancePath -PathType Leaf) {
+    $expandedResourceBalanceSource = Get-Content -LiteralPath $expandedResourceBalancePath -Raw
+    $expandedResourceDriftSource = $expandedResourceBalanceSource.Replace(
         "('RESOURCE_P0K_PENGUINS', 'TERRAIN_COAST')",
-        "('IMPROVEMENT_FISHING_BOATS', 'RESOURCE_P0K_PENGUINS', 1)",
-        "('RESOURCE_P0K_PAPYRUS', 'YIELD_PRODUCTION', 1)"
-    )) {
-        if (-not $expandedResourceBalanceSql.Contains($token)) {
-            Add-ValidationError "BBG Expanded resource balance is missing required behavior: $token"
-        }
-    }
-}
-
-$expandedResourceFiles = @(Get-ChildItem -LiteralPath $expandedResourceRoot -Recurse -File)
-if ($expandedResourceFiles.Count -ne 325) {
-    Add-ValidationError "BBG Expanded resource package must contain 324 upstream files plus its license; found $($expandedResourceFiles.Count)."
-}
-foreach ($resourceFile in $expandedResourceFiles) {
-    $relativeResourceFile = $resourceFile.FullName.Substring($modRoot.Length + 1)
-    if (-not $listedFileMap.ContainsKey((Normalize-RelativePath $relativeResourceFile))) {
-        Add-ValidationError "BBG Expanded resource asset is absent from the manifest: $relativeResourceFile"
-    }
-}
-
-$resourceDepPath = Join-Path $expandedResourceRoot 'CIVITAS Resources.dep'
-if (-not (Test-Path -LiteralPath $resourceDepPath)) {
-    Add-ValidationError 'BBG Expanded resource art dependency is missing.'
-}
-else {
-    $resourceDep = Load-XmlDocument $resourceDepPath
-    $resourceArtDefs = @($resourceDep.SelectNodes('//*[local-name()="ArtDefPath" or local-name()="ArtDefDependencyPaths"]//Element') |
-        ForEach-Object { $_.GetAttribute('text') } | Where-Object { $_ -like '*.artdef' } | Sort-Object -Unique)
-    foreach ($resourceArtDef in $resourceArtDefs) {
-        if (-not (Test-Path -LiteralPath (Join-Path $expandedResourceRoot (Join-Path 'ArtDefs' $resourceArtDef)))) {
-            Add-ValidationError "BBG Expanded resource ArtDef is missing: $resourceArtDef"
-        }
-    }
-    $resourcePackages = @($resourceDep.SelectNodes('//*[local-name()="PackageDependencies"]/Element') |
-        ForEach-Object { $_.GetAttribute('text') } | Where-Object { -not [string]::IsNullOrWhiteSpace($_) } | Sort-Object -Unique)
-    foreach ($platform in @('Windows', 'MacOS')) {
-        foreach ($resourcePackage in $resourcePackages) {
-            $resourcePackagePath = Join-Path $expandedResourceRoot ("Platforms\$platform\BLPs\$($resourcePackage.Replace('/', '\'))")
-            if (-not (Test-Path -LiteralPath $resourcePackagePath)) {
-                Add-ValidationError "BBG Expanded resource art package is missing: $resourcePackagePath"
-            }
-        }
-    }
-}
-
-$externalExpandedIds = @(
-    '2a0aa96a-a31c-4ce2-87ec-09144f6f3e00',
-    '2a0aa96a-a31c-4ce2-87ec-09152f6f3888',
-    '2a0aa96a-a31c-4ce2-87ec-09152f6f3e00'
-)
-$noExternalExpandedCriterion = $criteriaMap['zyl_noexternalbbgexpanded']
-if ($null -eq $noExternalExpandedCriterion) {
-    Add-ValidationError 'The external BBG Expanded hand-off criterion is missing.'
-}
-else {
-    foreach ($expandedId in $externalExpandedIds) {
-        $inverseNode = $noExternalExpandedCriterion.SelectSingleNode("./ModInUse[@inverse='1' and .='$expandedId']")
-        if ($null -eq $inverseNode) {
-            Add-ValidationError "The external BBG Expanded hand-off criterion is missing $expandedId."
-        }
-    }
-}
-$monopoliesCriterion = $criteriaMap['zyl_monopoliesmode']
-if ($null -eq $monopoliesCriterion -or
-        $null -eq $monopoliesCriterion.SelectSingleNode("./ConfigurationValueMatches[Group='Game' and ConfigurationId='GAMEMODE_MONOPOLIES' and Value='1']")) {
-    Add-ValidationError 'BBG Expanded corporation content is not gated by the Monopolies mode.'
-}
-
-$expectedExpandedResourceActions = @{
-    'zyl_bbgexpandedresources' = @('CIVITASResources/Core/p0k_Resources.sql')
-    'zyl_bbgexpandedresourcesart' = @('CIVITASResources/CIVITAS Resources.dep')
-    'zyl_bbgexpandedresourcesicons' = @('CIVITASResources/Core/CVS_Resource_Icon_Definitions.sql')
-    'zyl_bbgexpandedresourcestext' = @('CIVITASResources/Core/p0k_Resources_Localisation.sql')
-    'zyl_bbgexpandedresourcesmode' = @(
-        'CIVITASResources/Core_MODE/p0k_Resources_MODE_Industries.sql',
-        'CIVITASResources/Core_MODE/p0k_Resources_MODE_Products.sql',
-        'CIVITASResources/Core_MODE/p0k_Resources_MODE_Projects.sql'
+        "('RESOURCE_P0K_PENGUINS', 'TERRAIN_OCEAN')"
     )
-    'zyl_bbgexpandedresourcesmodeicons' = @('CIVITASResources/Core_MODE/p0k_Resources_MODE_Icon_Definitions.sql')
-    'zyl_bbgexpandedresourcesmodetext' = @('CIVITASResources/Core_MODE/p0k_Resources_MODE_Localisation.sql')
-    'zyl_bbgexpandedresourcesbalance' = @('Components/BBG/sql/BBG_Expanded/Resources.sql')
-}
-foreach ($entry in $expectedExpandedResourceActions.GetEnumerator()) {
-    $action = $actionIdMap[$entry.Key]
-    if ($null -eq $action -or $null -eq $action.SelectSingleNode("./Criteria[.='ZYL_NoExternalBBGExpanded']")) {
-        Add-ValidationError "BBG Expanded resource action is missing or not hand-off gated: $($entry.Key)"
-        continue
+    $expandedResourceDriftIssues = @(
+        Get-ZylExpandedResourceContractIssues @expandedResourceValidationParameters `
+            -BalanceSourceOverride $expandedResourceDriftSource
+    )
+    $expectedExpandedResourceDriftIssue =
+        "BBG Expanded resource balance is missing required behavior: ('RESOURCE_P0K_PENGUINS', 'TERRAIN_COAST')"
+    if ($expandedResourceDriftSource -eq $expandedResourceBalanceSource -or
+            $expandedResourceDriftIssues -notcontains $expectedExpandedResourceDriftIssue) {
+        Add-ValidationError 'BBG Expanded resource validation self-test did not reject a placement drift.'
     }
-    foreach ($expectedFile in $entry.Value) {
-        if ($null -eq $action.SelectSingleNode("./File[.='$expectedFile']")) {
-            Add-ValidationError "BBG Expanded resource action $($entry.Key) is missing $expectedFile."
-        }
-    }
-    if ($entry.Key -like 'zyl_bbgexpandedresourcesmode*' -and
-            $null -eq $action.SelectSingleNode("./Criteria[.='ZYL_MonopoliesMode']")) {
-        Add-ValidationError "BBG Expanded company-mode action is not mode-gated: $($entry.Key)"
-    }
-}
-
-# The upstream resource localizers generate English BaseGameText rows at
-# runtime, so XML-only audits cannot see their Chinese counterparts.  Keep the
-# final LocalizedText SQL active and verify every generated tag family.
-if (-not (Test-Path -LiteralPath $bbgExpandedChinesePath)) {
-    Add-ValidationError 'The BBG Expanded Simplified Chinese dynamic-text layer is missing.'
-}
-else {
-    $expandedChineseSql = Get-Content -LiteralPath $bbgExpandedChinesePath -Raw
-    if ($expandedChineseSql -notmatch '(?is)INSERT\s+OR\s+REPLACE\s+INTO\s+LocalizedText\s*\(\s*Language\s*,\s*Tag\s*,\s*Text\s*\)') {
-        Add-ValidationError 'BBG Expanded Chinese SQL does not insert into LocalizedText(Language, Tag, Text).'
-    }
-    if ($expandedChineseSql.Contains('TO_TRANSLATE') -or $expandedChineseSql.Contains('???')) {
-        Add-ValidationError 'BBG Expanded Chinese SQL contains an untranslated placeholder.'
-    }
-
-    $expectedExpandedChineseTags = [System.Collections.Generic.List[string]]::new()
-    foreach ($resourceShort in @(
-        'P0K_PENGUINS', 'CVS_POMEGRANATES', 'P0K_PAPYRUS',
-        'P0K_MAPLE', 'P0K_OPAL', 'P0K_PLUMS'
-    )) {
-        $expectedExpandedChineseTags.Add("LOC_RESOURCE_${resourceShort}_NAME")
-        $expectedExpandedChineseTags.Add("LOC_PEDIA_RESOURCES_PAGE_RESOURCE_${resourceShort}_CHAPTER_HISTORY_PARA_1")
-        $expectedExpandedChineseTags.Add("LOC_PROJECT_CREATE_CORPORATION_PRODUCT_${resourceShort}_NAME")
-        $expectedExpandedChineseTags.Add("LOC_PROJECT_CREATE_CORPORATION_PRODUCT_${resourceShort}_SHORT_NAME")
-        $expectedExpandedChineseTags.Add("LOC_PROJECT_CREATE_CORPORATION_PRODUCT_${resourceShort}_DESCRIPTION")
-        $expectedExpandedChineseTags.Add("LOC_PEDIA_CONCEPTS_${resourceShort}")
-        foreach ($productIndex in 1..5) {
-            $expectedExpandedChineseTags.Add("LOC_GREATWORK_PRODUCT_${resourceShort}_${productIndex}_NAME")
-        }
-    }
-    foreach ($effect in @(
-        'CITY_GROWTH_DISCOUNT', 'MILITARY_UNIT_DISCOUNT',
-        'CIVILIAN_UNIT_DISCOUNT', 'BUILDING_DISCOUNT', 'GOLD_YIELD_BONUS',
-        'FAITH_YIELD_BONUS', 'SCIENCE_YIELD_BONUS', 'CULTURE_YIELD_BONUS'
-    )) {
-        $expectedExpandedChineseTags.Add("LOC_P0K_RESOURCE_${effect}_DESCRIPTION")
-        $expectedExpandedChineseTags.Add("LOC_INDUSTRY_${effect}_DESCRIPTION")
-    }
-    $expectedExpandedChineseTags.Add('LOC_BELIEF_GODDESS_OF_FESTIVALS_DESCRIPTION')
-    $expectedExpandedChineseTags.Add('LOC_BELIEF_ORAL_TRADITION_DESCRIPTION')
-
-    foreach ($tag in $expectedExpandedChineseTags) {
-        $escapedTag = [regex]::Escape($tag)
-        if ($expandedChineseSql -notmatch "(?i)'zh_Hans_CN'\s*,\s*'$escapedTag'") {
-            Add-ValidationError "BBG Expanded dynamic Simplified Chinese Tag is missing: $tag"
-        }
-    }
-
-    $expandedChineseAction = $actionIdMap['zyl_bbgexpandedchinesetext']
-    if ($null -eq $expandedChineseAction -or
-            $expandedChineseAction.LocalName -ne 'UpdateText' -or
-            $null -eq $expandedChineseAction.SelectSingleNode("./File[.='lang/ZYL_BBGExpanded_Chinese.sql']") -or
-            $expandedChineseAction.SelectSingleNode('./Properties/LoadOrder').InnerText.Trim() -ne '259999995') {
-        Add-ValidationError 'BBG Expanded Chinese SQL is not loaded as the final dynamic resource-text action.'
-    }
-    if (-not $listedFileMap.ContainsKey((Normalize-RelativePath 'lang/ZYL_BBGExpanded_Chinese.sql'))) {
-        Add-ValidationError 'BBG Expanded Chinese SQL is absent from the ModInfo <Files> manifest.'
-    }
-}
-
-$standaloneResourcesBlock = $modInfo.SelectSingleNode("/Mod/Blocks/Mod[@id='664d17a5-f3be-493a-9332-8e20da1166fa']")
-if ($null -eq $standaloneResourcesBlock) {
-    Add-ValidationError 'Standalone CIVITAS Resources Expanded is not blocked after being embedded.'
 }
 
 

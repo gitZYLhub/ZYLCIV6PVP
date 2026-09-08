@@ -456,4 +456,14 @@
 - 修改：迁移 `.dep`/ArtDef、Gameplay SQL 高风险数值与关系、吸血鬼城堡资源清理脚本、镀金船厂、三语文本、LightweightBalance 资源移除，以及秘密结社模式 Criteria、7 个数据库动作、1 个美术动作、脚本动作和 Files 清单检查。主入口以 35 行调度/自检替换 476 行内联检查，由 3539 行降至 3098 行；新增领域模块 518 行。
 - 验证：真实工程返回 0 个问题；内存中把 `DiscoverAtCityStateBaseChance = 100000` 改为 `1` 后，模块准确报告缺失高风险行为。PowerShell 7 与 Windows PowerShell 5.1 全量校验均通过 203 XML、108 Criteria、283 Actions、1077 Files、549 活跃引用、48 休眠文件和 70 源码专用文件。universal 产物保持 1072 文件、776,223,699 字节和聚合 SHA-256 `98c315d0cd9c54ab19c49f3fd760c47258e88c80c491f3c0c28055438d20c55d`。
 - 风险/待办：静态契约不能证明四结社在开/关模式、不同解锁时代、存读档和多人同步下的实际效果，也不能证明吸血鬼城堡清理资源时各客户端一致；相关组合仍需 Civ VI 实机及双客户端测试。
-- 提交：本次提交（Team PVP 秘密结社纵向契约模块化）。
+- 提交：`8c7860d refactor: extract team pvp society checks`。
+
+### 2026-09-08 / M2-BBG Expanded 六资源纵向契约模块化
+
+- 目标：把六种内嵌 BBG Expanded 资源从数据、资产、模式扩展、外部模组交接到最终中文文本的完整闭包迁入独立模块，避免上游资源更新后出现半加载。
+- 范围：校验工具、架构、计划、测试矩阵和工作日志；不修改资源 SQL、美术资产、依赖文件、ModInfo、玩家行为或版本号。
+- 设计决定：`ExpandedResourceChecks.ps1` 统一消费工程、ModInfo 和资产图视图，只返回领域问题；平衡 SQL 支持仅供反例使用的内存覆盖。动态中文文本动作的 `LoadOrder` 先判空再读取，损坏图会被完整汇总而不会中断校验。
+- 修改：迁移六种资源类型及万神殿/产出标签、企鹅海岸与渔船及纸莎草平衡、325 个上游文件、ArtDef/Windows/macOS BLP、3 个外部完整模组 ID、公司模式 Criteria、8 组资源动作、动态简中标签族/最终 LoadOrder/Files 和独立 CIVITAS Resources 阻断。主入口以 34 行装载/调度/自检替换 198 行内联检查，由 3098 行降至 2934 行；新增领域模块 250 行。
+- 验证：真实工程返回 0 个问题；内存中把企鹅允许地形从 `TERRAIN_COAST` 改为 `TERRAIN_OCEAN` 后准确拒绝。PowerShell 7 与 Windows PowerShell 5.1 全量校验均通过 203 XML、108 Criteria、283 Actions、1077 Files、549 活跃引用、48 休眠文件和 71 源码专用文件。universal 产物保持 1072 文件、776,223,699 字节和聚合 SHA-256 `98c315d0cd9c54ab19c49f3fd760c47258e88c80c491f3c0c28055438d20c55d`。
+- 风险/待办：静态契约不能证明六种资源的地图生成密度、美术显示、公司产品和外部完整 BBG Expanded 启用时的实际交接；仍需在公司模式开/关、两种扩展规则与 Windows/macOS 中实机验证。
+- 提交：本次提交（BBG Expanded 六资源纵向契约模块化）。
