@@ -58,6 +58,7 @@ local g_timer = 0
 local g_tick_size = 5 -- Time between refresh in second
 local b_tick = false
 local g_full_refresh_requested = true
+local g_tournament_settings_dirty = true
 local g_player_status = {} 
 local MPH_HANDSHAKE_GRACE_SECONDS = 20
 local MPH_HANDSHAKE_RETRY_SECONDS = 4
@@ -481,6 +482,7 @@ end
 -- OnGameConfigChanged
 -------------------------------------------------
 function OnGameConfigChanged()
+	g_tournament_settings_dirty = true
 	Refresh()	  
 	QuickRefresh()
 	g_full_refresh_requested = false
@@ -526,6 +528,7 @@ local function RefreshTickSettings()
 			g_timer = 0
 		end
 	end
+	g_tournament_settings_dirty = false
 end
 
 function OnTick()
@@ -1560,7 +1563,9 @@ function Refresh()
 	local hostID = Network.GetGameHostPlayerID()
 	local player_ids = GameConfiguration.GetMultiplayerPlayerIDs();
 	local banFormat = GameConfiguration.GetValue("CPL_BAN_FORMAT")
-	RefreshTickSettings()
+	if g_tournament_settings_dirty then
+		RefreshTickSettings()
+	end
 	g_refreshing = g_refreshing.."."
 	if string.len(g_refreshing) > 30 then
 		g_refreshing = "Refreshing"
@@ -6989,6 +6994,7 @@ end
 function OnShow()
 	-- Fetch g_currentMaxPlayers because it might be stale due to loading a save.
 	g_full_refresh_requested = true
+	g_tournament_settings_dirty = true
 	g_Anon = GameConfiguration.GetValue('GAMEMODE_ANONYMOUS')
 	ZYLDebugLog("g_Anon", g_Anon)
 	g_currentMaxPlayers = math.min(MapConfiguration.GetMaxMajorPlayers(), 50);

@@ -34,6 +34,8 @@ function Get-ZylStagingRoomContractIssues {
             'if now < g_last_tick_time + g_tick_size then',
             'local g_full_refresh_requested = true',
             'local needsFullRefresh = g_full_refresh_requested or g_phase ~= PHASE_DEFAULT',
+            'local g_tournament_settings_dirty = true',
+            'g_tournament_settings_dirty = false',
             'Events.GameCoreEventPublishComplete.Remove(OnTick);',
             'LuaEvents.Multiplayer_ExitShell.Remove(OnHandleExitRequest);',
             'if GameConfiguration.GetValue(key) ~= value then',
@@ -91,7 +93,11 @@ function Get-ZylStagingRoomContractIssues {
                 $fullRefreshMatch.Value,
                 'GameConfiguration\.GetValue\("DRAFT_(?:SLOT_ORDER|TIMER)"\)'
             ).Count -ne 0 -or
-            -not $fullRefreshMatch.Value.Contains('RefreshTickSettings()')) {
+            -not [regex]::IsMatch(
+                $fullRefreshMatch.Value,
+                '(?s)if g_tournament_settings_dirty then\s*' +
+                'RefreshTickSettings\(\)\s*end'
+            )) {
         $issues.Add('Staging-room periodic refresh restored duplicate tournament-setting reads.')
     }
 
@@ -600,6 +606,13 @@ function Get-ZylMultiplayerUiRuntimeSelfTestIssues {
             DriftFrom = 'local needsFullRefresh = g_full_refresh_requested or g_phase ~= PHASE_DEFAULT'
             DriftTo = 'local needsFullRefresh = true'
             FailureMessage = 'Staging-room refresh self-test did not reject an unconditional full scan.'
+        },
+        [pscustomobject]@{
+            RelativePath = 'ui\stagingroom.lua'
+            CheckFunction = 'Get-ZylStagingRoomContractIssues'
+            DriftFrom = 'if g_tournament_settings_dirty then'
+            DriftTo = 'if true then'
+            FailureMessage = 'Staging-room settings self-test did not reject periodic configuration reads.'
         },
         [pscustomobject]@{
             RelativePath = 'ui\Additions\VotePanel.lua'

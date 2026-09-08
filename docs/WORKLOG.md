@@ -606,4 +606,14 @@
 - 修改：OnTick 增加请求/赛事门控，并在会改变房间阶段或上下文可见性的六条路径维护请求标志；`Get-ZylStagingRoomContractIssues` 新增 OnTick 结构和调用次数断言，联机模块新增把门控强制为 `true` 的第八类内存反例。
 - 验证：门控源码在 PowerShell 7 与 Windows PowerShell 5.1 下通过完整静态校验；内存中恢复无条件全量刷新后会被 staging-room 契约拒绝。当前环境没有独立 Lua 解析器，实际 Civ VI 空闲 60 秒计数、赛事 Ban/Pick 和成员/房主事件刷新仍需实机验证。三种 profile 均构建通过：universal 1072 文件、776,224,089 字节、SHA-256 `d4b96cdaa1123aa5fd654e4f6a741248b27aa850ae62b08cd27e34067916219a`；Windows 903 文件、442,483,152 字节、`554d798d324c1d2c51420dc450426db004f4a31081cbc2f93ef648ca7f6403a9`；macOS 903 文件、442,482,814 字节、`c5bf50979a28c6f53ee7d2857ad78e563346ebd2b739f08a03471e9fb3b8c4ce`。
 - 风险/待办：Firaxis 可能存在不触发已登记事件的隐式 UI 状态变化；若实测发现，应为对应事件补充请求标志，而不是恢复普通阶段固定全量轮询。优先执行 P01、G05/G06、N02/N03/N06。
-- 提交：本次提交（普通大厅周期全量刷新门控）。
+- 提交：`2e4ee53 perf: gate idle lobby full refreshes`。
+
+### 2026-09-09 / M3-赛事设置脏缓存
+
+- 目标：停止 Ban/Pick 赛事阶段每秒重复读取只会随游戏配置事件改变的 `DRAFT_SLOT_ORDER` 和 `DRAFT_TIMER`。
+- 范围：`ui/stagingroom.lua`、联机静态契约、架构、计划、测试矩阵、更新日志和工作日志；不改变选人规则、倒计时公式、ModInfo、版本号或网络协议。
+- 设计决定：新增 `g_tournament_settings_dirty`，初始化和重新显示时为脏；`OnGameConfigChanged` 在调用完整刷新前标脏，`RefreshTickSettings` 读取两项后清除。`Refresh()` 只在脏时调用该函数，赛事周期仍各读取一次 Quick/Full 所需的 `CPL_BAN_FORMAT`，不在本批次改变函数参数或阶段状态机。
+- 修改：把赛事设置读取从每次 `Refresh()` 改为事件失效缓存；静态契约要求脏标志、清除点和条件调用同时存在，并增加把条件改回恒真的第九类联机内存反例。
+- 验证：PowerShell 7 与 Windows PowerShell 5.1 完整校验均通过 203 XML、108 Criteria、283 Actions、1077 Files、549 活跃引用、48 休眠文件和 84 源码专用文件；内存反例恢复周期读取后被准确拒绝。当前环境无 Lua 解释器；赛事设置变更、重开/重新显示和倒计时仍需 G05/G06/G13 实机回归。三种 profile 均构建通过：universal 1072 文件、776,224,282 字节、SHA-256 `b6f8b33c83d8e2390de001c059b8b345f33591579e9451ad3134bf7029f04262`；Windows 903 文件、442,483,345 字节、`6d1d7d8c0d5ad5217c9fa6bf694d6489129fe30529f12c15597d9a8596787daa`；macOS 903 文件、442,483,007 字节、`8fb141c23690fac1981598584b9b6e0575303e32d2d36af177b78be6a5ae9754`。
+- 风险/待办：依赖 Civ VI 对 `DRAFT_*` 变化触发 `GameConfigChanged`；若实测发现特定本地修改不触发，应在对应写入入口标脏，不能恢复周期读取。
+- 提交：本次提交（赛事设置脏缓存）。
