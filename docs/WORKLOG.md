@@ -409,4 +409,14 @@
 - 修改：迁移 14 个运行文件、双入口启用条件、自定义模式依赖、5 个连续 LoadOrder 动作、4 条旧 BBG 路径排斥、Amani 食物/生产收益、路线缓存序列化和 7 个排序处理器。主入口以 20 行调度/自检替换 100 行内联检查，由 3847 行降至 3767 行；UI 模块由 234 行扩展到 407 行。
 - 验证：真实 `TradeSupport.lua` 返回 0 个问题；把 `GetBBGAmaniTradeRouteYieldBonus` 替换为遗留接口名的内存反例被拒绝。PowerShell 7 与 Windows PowerShell 5.1 全量校验均通过 203 XML、108 Criteria、283 Actions、1077 Files、549 活跃引用、48 休眠文件和 69 源码专用文件。
 - 风险/待办：静态检查无法证明路线列表在大地图/大量城市下的帧耗、排序稳定性或 Amani 实际收益显示；需在游戏内与 BBG 总督、跨洲路线和存读档缓存组合实测。Better Deal Window 与外交条集成仍待模块化。
-- 提交：本次提交（Better Trade Screen 契约模块化）。
+- 提交：`dadff11 refactor: extract better trade screen checks`。
+
+### 2026-09-08 / M2-外交交易与地图标记集成契约模块化
+
+- 目标：把 Better Deal Window、Detailed Map Tacks、NHK 和外交条的跨组件集成约束收拢到 UI 模块，确保每个 Civ VI UI Context 只有一个最终所有者。
+- 范围：校验工具、架构、计划和工作日志；不修改外交/地图标记 Lua/XML、ModInfo、玩家行为或版本号。
+- 设计决定：聚合函数消费 Action 节点、Files/活跃引用与 ModInfo 阻断表；外交条、BDW 入口和 MPH 兼容层各用纯源码函数。查找 ReplaceUIScript 时先验证节点存在，避免损坏动作图使校验器本身空引用崩溃。
+- 修改：迁移 4 个唯一替换 Context、3 个外部 Mod 阻断 ID、12 个集成文件、外交条 21 个控件/顺序/默认隐藏和 25 个可见性令牌、XP2 成对导入、旧 MPH/DMT 路径排斥、BDW 商品模式与 9 个交易限制、DMT 禁标记和 NHK 三监听器去重。主入口以 22 行聚合/自检替换 191 行内联检查，由 3767 行降至 3598 行；UI 模块由 407 行扩展到 706 行。
+- 验证：真实 BDW XP2 入口返回 0 个问题；把 `ZYLPVP_BDW_MPH_Compatibility` 替换为遗留兼容模块名的内存反例被拒绝。PowerShell 7 与 Windows PowerShell 5.1 全量校验均通过 203 XML、108 Criteria、283 Actions、1077 Files、549 活跃引用、48 休眠文件和 69 源码专用文件。
+- 风险/待办：静态所有权无法证明外交交易窗口在商品模式、所有禁交易组合和不同比例 UI 下正确显示，也不能替代地图标记热键实测；这些组合仍需游戏内覆盖。
+- 提交：本次提交（外交交易与地图标记集成契约模块化）。

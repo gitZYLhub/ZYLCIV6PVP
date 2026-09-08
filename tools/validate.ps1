@@ -3478,61 +3478,29 @@ foreach ($removedReference in $removedReferences) {
     }
 }
 
-# Better Deal Window and Detailed Map Tacks are merged through one final owner
-# per UI context. This guards against accidentally restoring their upstream
-# replacement actions or the old, previously inert MPH deal-view file.
-$integratedUiContexts = @{
-    'diplomacydealview' = 'Components\BetterDealWindow\DiplomacyDealView_ZYLPVP_Expansion2.lua'
-	'diplomacyribbon' = 'ui\Replacements\DiplomacyRibbon_ZYL.lua'
-    'mappinmanager' = 'Components\DetailedMapTacks\ui\mappinmanager_dmt.lua'
-    'mappinpopup' = 'Components\DetailedMapTacks\ui\mappinpopup_dmt.lua'
+# Better Deal Window, Detailed Map Tacks and the diplomacy ribbon share one
+# explicitly owned, compatibility-checked UI integration chain.
+foreach ($integratedUiIssue in @(Get-ZylIntegratedDealMapUiContractIssues `
+        -ProjectRoot $modRoot `
+        -ActionNodes @($actionNodes) `
+        -ListedFileMap $listedFileMap `
+        -ActionReferenceMap $actionReferenceMap `
+        -ModInfo $modInfo)) {
+    Add-ValidationError $integratedUiIssue
 }
-foreach ($entry in $integratedUiContexts.GetEnumerator()) {
-    $matches = @($actionNodes | Where-Object {
-        $_.LocalName -eq 'ReplaceUIScript' -and
-        $_.SelectSingleNode('./Properties/LuaContext').InnerText.Trim().ToLowerInvariant() -eq $entry.Key
-    })
-    if ($matches.Count -ne 1) {
-        Add-ValidationError "Expected exactly one $($entry.Key) replacement; found $($matches.Count)."
-        continue
-    }
-    $actualPath = Normalize-RelativePath $matches[0].SelectSingleNode('./Properties/LuaReplace').InnerText
-    if ($actualPath -ne (Normalize-RelativePath $entry.Value)) {
-        Add-ValidationError "Unexpected $($entry.Key) replacement: $actualPath"
-    }
-}
-
-foreach ($blockedId in @(
-    'fbb7b86a-9ac9-4a8e-9439-9ded6aceda0e',
-    '4ecfcc62-5471-4435-b295-590df213e8d8',
-    '8d4fa23a-ef43-440c-8422-2bec11f8f5d7'
-)) {
-    if ($null -eq $modInfo.SelectSingleNode("/Mod/Blocks/Mod[@id='$blockedId']")) {
-        Add-ValidationError "Integrated external UI Mod ID is not blocked: $blockedId"
-    }
-}
-
-$requiredIntegratedUiFiles = @(
-	'ui\Replacements\DiplomacyRibbon.xml',
-	'ui\Replacements\DiplomacyRibbon_ZYL.lua',
-    'Components\BetterDealWindow\DiplomacyDealView.lua',
-    'Components\BetterDealWindow\DiplomacyDealView.xml',
-    'Components\BetterDealWindow\DiplomacyDealView_Expansion2.lua',
-    'Components\BetterDealWindow\DiplomacyDealView_ZYLPVP_Expansion2.lua',
-    'Components\BetterDealWindow\ZYLPVP_BDW_MPH_Compatibility.lua',
-    'Components\DetailedMapTacks\ui\dmt_yieldcalculator.lua',
-    'Components\DetailedMapTacks\ui\dmt_yieldcalculator.xml',
-    'Components\DetailedMapTacks\ui\mappinmanager.xml',
-    'Components\DetailedMapTacks\ui\mappinmanager_dmt.lua',
-    'Components\DetailedMapTacks\ui\mappinpopup_dmt.lua'
-)
-foreach ($requiredFile in $requiredIntegratedUiFiles) {
-    $key = Normalize-RelativePath $requiredFile
-    if (-not (Test-Path -LiteralPath (Join-Path $modRoot $requiredFile))) {
-        Add-ValidationError "Integrated UI file is missing: $requiredFile"
-    }
-    elseif (-not $listedFileMap.ContainsKey($key) -or -not $actionReferenceMap.ContainsKey($key)) {
-        Add-ValidationError "Integrated UI file is not both published and active: $requiredFile"
+$bdwEntryPath = Join-Path $modRoot 'Components\BetterDealWindow\DiplomacyDealView_ZYLPVP_Expansion2.lua'
+if (Test-Path -LiteralPath $bdwEntryPath -PathType Leaf) {
+    $bdwEntrySource = Get-Content -LiteralPath $bdwEntryPath -Raw
+    $bdwEntryIssues = @(Get-ZylBetterDealWindowEntryIssues -Source $bdwEntrySource)
+    $bdwEntryDriftSource = $bdwEntrySource.Replace(
+        'include("ZYLPVP_BDW_MPH_Compatibility")',
+        'include("Legacy_BDW_MPH_Compatibility")'
+    )
+    if ($bdwEntryIssues.Count -ne 0 -or
+            $bdwEntryDriftSource -eq $bdwEntrySource -or
+            @(Get-ZylBetterDealWindowEntryIssues `
+                -Source $bdwEntryDriftSource).Count -eq 0) {
+        Add-ValidationError 'Integrated deal/map UI helper failed its positive/negative self-test.'
     }
 }
 
@@ -3559,143 +3527,6 @@ if (Test-Path -LiteralPath $betterTradeSupportPath -PathType Leaf) {
             @(Get-ZylBetterTradeSupportIssues `
                 -Source $betterTradeSupportDriftSource).Count -eq 0) {
         Add-ValidationError 'Better Trade Screen helper failed its positive/negative self-test.'
-    }
-}
-
-$diplomacyRibbonPath = Join-Path $modRoot 'ui\Replacements\DiplomacyRibbon_ZYL.lua'
-$diplomacyRibbonLayoutPath = Join-Path $modRoot 'ui\Replacements\DiplomacyRibbon.xml'
-if (Test-Path -LiteralPath $diplomacyRibbonLayoutPath) {
-	$diplomacyRibbonLayout = Load-XmlDocument $diplomacyRibbonLayoutPath
-	foreach ($controlId in @(
-		'LeaderContainer', 'StatStack', 'Score', 'Military', 'Science', 'Culture',
-		'Gold', 'Faith', 'Favor', 'Food_Total', 'Production_Total', 'GoldPerTurn',
-		'FaithperTurn', 'ScienceButton', 'ResearchIcon', 'ScienceProgressMeter',
-		'CultureButton', 'CultureIcon', 'CultureProgressMeter', 'TPT_Control_1'
-	)) {
-		if ($null -eq $diplomacyRibbonLayout.SelectSingleNode("//*[@ID='$controlId']")) {
-			Add-ValidationError "Diplomacy-ribbon layout is missing control $controlId."
-		}
-	}
-	$tptControl = $diplomacyRibbonLayout.SelectSingleNode('//*[@ID="TPT_Control_1"]')
-	if ($null -ne $tptControl -and $tptControl.GetAttribute('Hidden') -eq '1') {
-		Add-ValidationError 'Diplomacy-ribbon page switch control is hidden.'
-	}
-	$playerNameControl = $diplomacyRibbonLayout.SelectSingleNode('//*[@ID="PlayerName"]')
-	if ($null -eq $playerNameControl -or $playerNameControl.LocalName -ne 'ScrollTextField') {
-		Add-ValidationError 'Diplomacy-ribbon PlayerName must retain the Team PVP Tools ScrollTextField control.'
-	}
-	$expectedStatOrder = @(
-		'PlayerName', 'PlayerNameLen', 'CivName', 'Score', 'Military', 'Cities',
-		'Science', 'Food_Total', 'Culture', 'Production_Total', 'Gold', 'GoldPerTurn',
-		'Faith', 'FaithperTurn', 'Favor', 'FavorperTurn', 'ScienceButton', 'ScienceText',
-		'ScienceTurnsLeft', 'CultureButton', 'CultureText', 'CultureTurnsLeft'
-	)
-	$actualStatOrder = @($diplomacyRibbonLayout.SelectNodes('//*[@ID="StatStack"]/*[@ID]') | ForEach-Object { $_.GetAttribute('ID') })
-	if (($actualStatOrder -join '|') -ne ($expectedStatOrder -join '|')) {
-		Add-ValidationError 'Diplomacy-ribbon StatStack control order no longer matches Team PVP Tools DPR.'
-	}
-	foreach ($hiddenControlId in @('Cities', 'Food_Total', 'Production_Total', 'GoldPerTurn', 'FaithperTurn', 'FavorperTurn', 'ScienceButton', 'ScienceText', 'ScienceTurnsLeft', 'CultureButton', 'CultureText', 'CultureTurnsLeft')) {
-		$hiddenControl = $diplomacyRibbonLayout.SelectSingleNode("//*[@ID='$hiddenControlId']")
-		if ($null -eq $hiddenControl -or $hiddenControl.GetAttribute('Hidden') -ne '1') {
-			Add-ValidationError "Diplomacy-ribbon control $hiddenControlId must retain the Team PVP Tools default hidden state."
-		}
-	}
-}
-if (Test-Path -LiteralPath $diplomacyRibbonPath) {
-	$diplomacyRibbonSource = Get-Content -Raw -LiteralPath $diplomacyRibbonPath
-	foreach ($requiredToken in @(
-		'include("InstanceManager")',
-		'include("LeaderIcon")',
-		'function LeaderIcon:GetToolTipString(playerID)',
-		'local uiPortraitButton  = oLeaderIcon.Controls.SelectButton',
-		'GameConfiguration.GetValue("ZYL_DIPLOMACY_RIBBON_MODE")',
-		'localPlayerDiplomacy:GetVisibilityOn(playerID)',
-		'Model == 1 and not IsTeamPlayer[playerID]',
-		'iTeamAccessLevel = pPlayerDiplomacy:GetVisibilityOn(playerID)',
-		'playerID == localplayerID or (Model == 1 and IsTeamPlayer[playerID])',
-		'ZYLCanReveal(accessLevel, 1)',
-		'ZYLCanReveal(accessLevel, 2)',
-		'ZYLCanReveal(accessLevel, 3)',
-		'ZYLCanReveal(accessLevel, 4)',
-		'local value = ZYLCanReveal(accessLevel, 3) and tostring(math.floor(pPlayer:GetTreasury():GetGoldBalance())) or Invisible',
-		'local Invisible = "?"',
-		'uiLeader.Gold:SetText("[ICON_Gold]"',
-		'uiLeader.Faith:SetText("[ICON_Faith]"',
-		'local CanHide = m_TechCivisProgress or isMasked',
-		'uiLeader.TPT_Control_1:RegisterCallback( Mouse.eLClick, OnMouseClick_TPT_Control_1L)',
-		'uiLeader.TPT_Control_1:RegisterCallback( Mouse.eRClick, OnMouseClick_TPT_Control_1R)',
-		'function ZYLSetResearchLocked',
-		'LOC_ZYL_DIPLOMACY_RIBBON_RESEARCH_LOCKED_TT',
-		'result = Locale.Lookup("LOC_DIPLOPANEL_UNMET_PLAYER");',
-		'local isMasked = false;',
-		'uiLeader.ActiveLeaderAndStats:SetSizeVal( pSize_LeaderContainer.x + LEADER_ART_OFFSET_X, pSize_StatStack.y + LEADER_ART_OFFSET_Y + 65 )'
-	)) {
-		if (-not $diplomacyRibbonSource.Contains($requiredToken)) {
-			Add-ValidationError "Diplomacy-ribbon TPT layout or visibility overlay is missing: $requiredToken"
-		}
-	}
-}
-
-$ribbonImport = $modInfo.SelectSingleNode('/Mod/InGameActions/ImportFiles[@id="ZYL_DiplomacyRibbonFiles_XP2" and Criteria="Expansion2"]')
-if ($null -eq $ribbonImport -or
-	$null -eq $ribbonImport.SelectSingleNode('./File[.="ui/Replacements/DiplomacyRibbon.xml"]') -or
-	$null -eq $ribbonImport.SelectSingleNode('./File[.="ui/Replacements/DiplomacyRibbon_ZYL.lua"]')) {
-	Add-ValidationError 'The XP2 Team PVP Tools diplomacy-ribbon layout and visibility-overlaid script must be imported together.'
-}
-
-$oldMphDealPath = Normalize-RelativePath 'ui\Replacements\diplomacydealview_MPH.lua'
-if ($listedFileMap.ContainsKey($oldMphDealPath) -or $actionReferenceMap.ContainsKey($oldMphDealPath)) {
-    Add-ValidationError 'The old standalone MPH DiplomacyDealView script is still active.'
-}
-$dmtDuplicateConfig = Normalize-RelativePath 'Components\DetailedMapTacks\config\dmt_config.xml'
-if ($listedFileMap.ContainsKey($dmtDuplicateConfig) -or $actionReferenceMap.ContainsKey($dmtDuplicateConfig)) {
-    Add-ValidationError 'DMT duplicate hotkey database is active instead of the merged NHK config.'
-}
-
-$bdwEntryPath = Join-Path $modRoot 'Components\BetterDealWindow\DiplomacyDealView_ZYLPVP_Expansion2.lua'
-$bdwCompatibilityPath = Join-Path $modRoot 'Components\BetterDealWindow\ZYLPVP_BDW_MPH_Compatibility.lua'
-$dmtManagerPath = Join-Path $modRoot 'Components\DetailedMapTacks\ui\mappinmanager_dmt.lua'
-$nhkMapPinPath = Join-Path $modRoot 'NHK\UI\MapPin_HotKey.lua'
-if (Test-Path -LiteralPath $bdwEntryPath) {
-    $bdwEntry = Get-Content -LiteralPath $bdwEntryPath -Raw
-    foreach ($requiredToken in @(
-        'include("DiplomacyDealView_Expansion2")',
-        'GAMEMODE_MONOPOLIES',
-        'GREATWORKOBJECT_PRODUCT',
-        'include("ZYLPVP_BDW_MPH_Compatibility")'
-    )) {
-        if (-not $bdwEntry.Contains($requiredToken)) {
-            Add-ValidationError "BDW entry point is missing compatibility token: $requiredToken"
-        }
-    }
-}
-if (Test-Path -LiteralPath $bdwCompatibilityPath) {
-    $bdwCompatibility = Get-Content -LiteralPath $bdwCompatibilityPath -Raw
-    foreach ($optionName in @(
-        'DIPLOMATIC_DEAL', 'NO_TRADING_GOLD', 'NO_TRADING_FAVOR',
-        'NO_TRADING_STRATEGICS', 'NO_TRADING_LUXURIES', 'NO_TRADING_CITIES',
-        'NO_TRADING_CAPTIVES', 'NO_TRADING_GREATWORKS', 'NO_TRADING_AGREEMENTS'
-    )) {
-        if (-not $bdwCompatibility.Contains($optionName)) {
-            Add-ValidationError "BDW/MPH compatibility is missing lobby option: $optionName"
-        }
-    }
-}
-if (Test-Path -LiteralPath $dmtManagerPath) {
-    $dmtManager = Get-Content -LiteralPath $dmtManagerPath -Raw
-    if (-not $dmtManager.Contains('GameConfiguration.GetValue("CPL_NO_PINS")')) {
-        Add-ValidationError 'DMT input handling does not preserve the MPH no-pins rule.'
-    }
-}
-if (Test-Path -LiteralPath $nhkMapPinPath) {
-    $nhkMapPin = Get-Content -LiteralPath $nhkMapPinPath -Raw
-    foreach ($duplicateListener in @('AddMapTack', 'DeleteMapTack', 'ToggleMapTackVisibility')) {
-        if ($nhkMapPin.Contains($duplicateListener)) {
-            Add-ValidationError "NHK still duplicates DMT's $duplicateListener listener."
-        }
-    }
-    if (-not $nhkMapPin.Contains('AddMapMessage')) {
-        Add-ValidationError 'NHK chat-map-pin shortcut was removed during DMT integration.'
     }
 }
 
