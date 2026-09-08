@@ -212,6 +212,15 @@ function Get-ZylStagingRoomContractIssues {
             'the synchronized playerID index.'
         )
     }
+    if (-not $refreshStatusIdMatch.Success -or
+            -not $refreshStatusIdMatch.Value.Contains(
+                'if player.Status == 3 or player.Status == 66 or player.Status == 99 then'
+            )) {
+        $issues.Add(
+            'Staging-room version replies must not reopen a completed, failed ' +
+            'or host handshake state.'
+        )
+    }
 
     foreach ($lifecycleIssue in @(Get-ZylLuaEventLifecycleIssues `
             -Source $Source `
@@ -695,6 +704,13 @@ function Get-ZylMultiplayerUiRuntimeSelfTestIssues {
             DriftFrom = 'local player = g_player_status_by_id[playerID]'
             DriftTo = 'local player = nil'
             FailureMessage = 'Staging-room status-index self-test did not reject a missing direct lookup.'
+        },
+        [pscustomobject]@{
+            RelativePath = 'ui\stagingroom.lua'
+            CheckFunction = 'Get-ZylStagingRoomContractIssues'
+            DriftFrom = 'if player.Status == 3 or player.Status == 66 or player.Status == 99 then'
+            DriftTo = 'if false then'
+            FailureMessage = 'Staging-room handshake self-test did not reject a reopened terminal state.'
         },
         [pscustomobject]@{
             RelativePath = 'ui\Additions\VotePanel.lua'

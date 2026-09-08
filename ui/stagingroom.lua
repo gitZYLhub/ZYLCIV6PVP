@@ -742,6 +742,9 @@ function RefreshStatusID(playerID,version,bbs_version,bbg_version)
 			else -- we are receiving a version number
 			local player = g_player_status_by_id[playerID]
 			if player ~= nil and isConnected and playerConfig ~= nil then
+				if player.Status == 3 or player.Status == 66 or player.Status == 99 then
+					return
+				end
 				player.Status = 2
 				player.Version = tostring(version)
 				player.HandshakeStartedAt = nil

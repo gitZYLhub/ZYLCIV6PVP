@@ -636,4 +636,14 @@
 - 修改：`RefreshStatusID` 移除两个全数组扫描，`GetStatus_SpecificID` 改为 O(1)；连接已建立但 `PlayerConfigurations[playerID]` 尚未就绪时不再空引用崩溃，而是保留/等待后续事件。静态契约要求所有插入都集中在帮助函数、单玩家函数不得出现 `pairs/ipairs(g_player_status)`，并增加移除索引读取的第十二类联机内存反例。
 - 验证：PowerShell 7 与 Windows PowerShell 5.1 完整校验均通过 203 XML、108 Criteria、283 Actions、1077 Files、549 活跃引用、48 休眠文件和 84 源码专用文件；移除直接索引的内存反例被准确拒绝。剥离 Civ VI 专有类型注解后，Python `luaparser` 对完整 staging room 的 AST 解析通过。三种 profile 均构建通过：universal 1072 文件、776,224,728 字节、SHA-256 `d856b3cf01030aebedcd259c1f5de749a46e76e83329b245fcae8059f2eff1c8`；Windows 903 文件、442,483,791 字节、`fcd6eb80b9faaf174ffa376683141ae663a08b1b119ff28adb883396f9332f00`；macOS 903 文件、442,483,453 字节、`8e69feb5ea9c15118dcf811aad30efd71bda5ed002d567fa0c085d5f8baa33ec`。12 人加入、重复版本回复、断线/重连和房主迁移仍需 G05/G06/G12/N02/N03 实机回归。
 - 风险/待办：数组和索引必须始终同源；契约已禁止旁路插入，但真实事件乱序仍可能暴露 stale entry，需要双客户端日志确认。
-- 提交：本次提交（多人握手状态 playerID 索引）。
+- 提交：`94e2334 perf: index multiplayer handshake status`。
+
+### 2026-09-09 / M3-版本回复终态幂等
+
+- 目标：阻止重复或迟到的客户端版本回复把已完成、已失败或房主握手记录重新置为待验证，避免重复反馈和错误状态倒退。
+- 范围：`ui/stagingroom.lua`、联机静态契约、架构、计划、测试矩阵、更新日志和工作日志；不修改握手消息格式、超时/重试值、ModInfo、版本号或数据库。
+- 设计决定：`RefreshStatusID` 在处理版本号前直接读取 playerID 索引；状态 3（成功）、66（版本错误）和 99（房主）均视为本轮终态并忽略后续回复。手动 Mod Check 和断线重连仍先通过现有清空/重建路径显式开启新一轮握手，因此不会被终态守卫永久锁死。
+- 修改：在版本回复分支加入终态提前返回；联机契约固定守卫，并新增把守卫替换为恒假的第十三类内存漂移，防止后续重构重新开放终态。
+- 验证：剥离 Civ VI 专有类型注解后，Python `luaparser` 对完整 staging room 的 AST 解析通过；PowerShell 语法解析、PowerShell 7 与 Windows PowerShell 5.1 全量校验均通过 203 XML、108 Criteria、283 Actions、1077 Files、549 活跃引用、48 休眠文件和 84 源码专用文件；终态重开内存反例被准确拒绝。三种 profile 均重建闭合：universal 1072 文件、776,224,825 字节、SHA-256 `a6dc55c428ef83c02eee4f9720227df6fa8ecc70265680d75183c96f1743a7b1`；Windows 903 文件、442,483,888 字节、`58a8696aa490c676df36967d53bd27e2c216f40878cfa9994598b146a4bbbe6e`；macOS 903 文件、442,483,550 字节、`78a466911396830b308517d121eff82a0a851b9968f4320c62b765446a03447e`。
+- 风险/待办：静态契约验证终态不会被单条回复重开，但仍需 G05/G06/G12/N02/N03/N04 实机覆盖成功后重复回复、错误后迟到回复、手动复查、重连和房主迁移。
+- 提交：本次提交（版本回复终态幂等）。
