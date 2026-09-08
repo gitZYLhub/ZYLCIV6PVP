@@ -88,6 +88,12 @@ if (-not (Test-Path -LiteralPath $pantheonChecksPath -PathType Leaf)) {
 }
 . $pantheonChecksPath
 
+$startingBonusChecksPath = Join-Path $PSScriptRoot 'validation\StartingBonusChecks.ps1'
+if (-not (Test-Path -LiteralPath $startingBonusChecksPath -PathType Leaf)) {
+    throw "Starting bonus validation helpers not found: $startingBonusChecksPath"
+}
+. $startingBonusChecksPath
+
 $releaseChecksPath = Join-Path $PSScriptRoot 'validation\ReleaseChecks.ps1'
 if (-not (Test-Path -LiteralPath $releaseChecksPath -PathType Leaf)) {
     throw "Release validation helpers not found: $releaseChecksPath"
@@ -1938,40 +1944,6 @@ if (Test-Path -LiteralPath $zylConfigPath) {
 		$null -eq ($ribbonModeValues | Where-Object { $_.GetAttribute('Value') -eq '1' })) {
 		Add-ValidationError 'The diplomacy-ribbon domain must contain exactly FFA (0) and Team (1).'
 	}
-	$startingBonusPlayerParameter = $zylConfig.SelectSingleNode('/GameInfo/Parameters/Row[@ParameterId="ZYL_STARTING_BONUS_PLAYER"]')
-	if ($null -eq $startingBonusPlayerParameter -or
-			$startingBonusPlayerParameter.GetAttribute('ConfigurationId') -ne 'ZYL_STARTING_BONUS_PLAYER' -or
-			$startingBonusPlayerParameter.GetAttribute('Domain') -ne 'ZylStartingBonusPlayers' -or
-			$startingBonusPlayerParameter.GetAttribute('DefaultValue') -ne '0' -or
-			$startingBonusPlayerParameter.GetAttribute('ChangeableAfterGameStart') -ne '0') {
-		Add-ValidationError 'The starting-bonus player lobby option is missing or malformed.'
-	}
-	$startingBonusTypeParameter = $zylConfig.SelectSingleNode('/GameInfo/Parameters/Row[@ParameterId="ZYL_STARTING_BONUS_TYPE"]')
-	if ($null -eq $startingBonusTypeParameter -or
-			$startingBonusTypeParameter.GetAttribute('ConfigurationId') -ne 'ZYL_STARTING_BONUS_TYPE' -or
-			$startingBonusTypeParameter.GetAttribute('Domain') -ne 'ZylStartingBonusTypes' -or
-			$startingBonusTypeParameter.GetAttribute('DefaultValue') -ne '0' -or
-			$startingBonusTypeParameter.GetAttribute('ChangeableAfterGameStart') -ne '0') {
-		Add-ValidationError 'The starting-bonus type lobby option is missing or malformed.'
-	}
-	$startingBonusPlayerValues = @($zylConfig.SelectNodes('/GameInfo/DomainValues/Row[@Domain="ZylStartingBonusPlayers"]'))
-	if ($startingBonusPlayerValues.Count -ne 13) {
-		Add-ValidationError "The starting-bonus player domain must contain None plus players 1-12; found $($startingBonusPlayerValues.Count) rows."
-	}
-	foreach ($value in 0..12) {
-		if ($null -eq ($startingBonusPlayerValues | Where-Object { $_.GetAttribute('Value') -eq $value.ToString() })) {
-			Add-ValidationError "The starting-bonus player domain is missing value $value."
-		}
-	}
-	$startingBonusTypeValues = @($zylConfig.SelectNodes('/GameInfo/DomainValues/Row[@Domain="ZylStartingBonusTypes"]'))
-	if ($startingBonusTypeValues.Count -ne 4) {
-		Add-ValidationError "The starting-bonus type domain must contain exactly four choices; found $($startingBonusTypeValues.Count) rows."
-	}
-foreach ($value in 0..3) {
-if ($null -eq ($startingBonusTypeValues | Where-Object { $_.GetAttribute('Value') -eq $value.ToString() })) {
-Add-ValidationError "The starting-bonus type domain is missing value $value."
-}
-}
 
 }
 
@@ -1999,37 +1971,36 @@ if (Test-Path -LiteralPath $identityPanelLuaPath -PathType Leaf) {
     }
 }
 
-$startingBonusScriptPath = Join-Path $modRoot 'scripts\ZYL_StartingPlayerBonus.lua'
-if (-not (Test-Path -LiteralPath $startingBonusScriptPath)) {
-	Add-ValidationError 'The starting-player bonus gameplay script is missing.'
+$startingBonusValidationParameters = @{
+    ProjectRoot = $modRoot
+    ActionIdMap = $actionIdMap
+    ListedFileMap = $listedFileMap
 }
-else {
-	$startingBonusScript = Get-Content -LiteralPath $startingBonusScriptPath -Raw
-	foreach ($requiredStartingBonusFragment in @(
-		'ZYL_STARTING_BONUS_PLAYER',
-		'ZYL_STARTING_BONUS_TYPE',
-		'ZYL_STARTING_BONUS_APPLIED',
-		'candidateConfig:IsHuman()',
-		'table.sort(eligiblePlayerIDs)',
-		'Game.GetCurrentGameTurn() ~= GameConfiguration.GetStartTurn()',
-		'player:SetProperty(APPLIED_PROPERTY, selectedBonus)',
-		'playerUnits:Create(unitTypeIndex',
-		'GameEvents.OnGameTurnStarted.Add(TryGrantStartingBonus)'
-	)) {
-		if (-not $startingBonusScript.Contains($requiredStartingBonusFragment)) {
-			Add-ValidationError "Starting-player bonus script is missing: $requiredStartingBonusFragment"
-		}
-	}
+$startingBonusIssues = @(
+    Get-ZylStartingBonusContractIssues @startingBonusValidationParameters
+)
+foreach ($issue in $startingBonusIssues) {
+    Add-ValidationError $issue
 }
 
-$startingBonusAction = $actionIdMap['zyl_startingplayerbonusgameplay']
-if ($null -eq $startingBonusAction -or
-		$startingBonusAction.LocalName -ne 'AddGameplayScripts' -or
-		$startingBonusAction.SelectSingleNode('./File[.="scripts/ZYL_StartingPlayerBonus.lua"]') -eq $null) {
-	Add-ValidationError 'The starting-player bonus script is not registered as a gameplay action.'
-}
-if (-not $listedFileMap.ContainsKey((Normalize-RelativePath 'scripts/ZYL_StartingPlayerBonus.lua'))) {
-Add-ValidationError 'The starting-player bonus script is absent from the ModInfo file manifest.'
+# Prove that the synchronized grant keeps its persisted idempotency write.
+$startingBonusScriptPath = Join-Path $modRoot 'scripts\ZYL_StartingPlayerBonus.lua'
+if (Test-Path -LiteralPath $startingBonusScriptPath -PathType Leaf) {
+    $startingBonusScriptSource = Get-Content -LiteralPath $startingBonusScriptPath -Raw
+    $startingBonusScriptDriftSource = $startingBonusScriptSource.Replace(
+        'player:SetProperty(APPLIED_PROPERTY, selectedBonus)',
+        'player:SetProperty(APPLIED_PROPERTY_DRIFT, selectedBonus)'
+    )
+    $startingBonusDriftIssues = @(
+        Get-ZylStartingBonusContractIssues @startingBonusValidationParameters `
+            -StartingBonusScriptOverride $startingBonusScriptDriftSource
+    )
+    $expectedStartingBonusDriftIssue =
+        'Starting-player bonus script is missing: player:SetProperty(APPLIED_PROPERTY, selectedBonus)'
+    if ($startingBonusScriptDriftSource -eq $startingBonusScriptSource -or
+            $startingBonusDriftIssues -notcontains $expectedStartingBonusDriftIssue) {
+        Add-ValidationError 'Starting bonus validation self-test did not reject a broken idempotency write.'
+    }
 }
 
 $stagingRoomPath = Join-Path $modRoot 'ui\stagingroom.lua'
@@ -2440,89 +2411,6 @@ if (Test-Path -LiteralPath $selectedPantheonPath -PathType Leaf) {
     }
 }
 
-# The initial Settler movement package must remain limited to the period before
-# the first Palace exists. It intentionally includes all four parts of the
-# LightweightBalance behavior: +1 movement, terrain, river and shore handling.
-$startingSettlerPath = Join-Path $modRoot 'sql\ZYL_StartingSettler.sql'
-$startingSettlerModifierIds = @(
-    'ZYL_STARTING_SETTLER_MOVEMENT',
-    'ZYL_STARTING_SETTLER_IGNORE_TERRAIN',
-    'ZYL_STARTING_SETTLER_IGNORE_RIVERS',
-    'ZYL_STARTING_SETTLER_IGNORE_SHORES'
-)
-if (-not (Test-Path -LiteralPath $startingSettlerPath)) {
-    Add-ValidationError 'Initial Settler movement SQL is missing.'
-}
-else {
-    $startingSettlerSql = Get-Content -LiteralPath $startingSettlerPath -Raw
-    foreach ($startingSettlerModifierId in $startingSettlerModifierIds) {
-        if (-not $startingSettlerSql.Contains("'TRAIT_LEADER_MAJOR_CIV', '$startingSettlerModifierId'")) {
-            Add-ValidationError "Initial Settler modifier is not attached to major civilizations: $startingSettlerModifierId"
-        }
-    }
-    foreach ($requiredStartingSettlerToken in @(
-        'EFFECT_ADJUST_UNIT_IGNORE_TERRAIN_COST',
-        'MODIFIER_PLAYER_UNITS_ADJUST_MOVEMENT',
-        'MODIFIER_PLAYER_UNITS_ADJUST_IGNORE_RIVERS',
-        'MODIFIER_PLAYER_UNITS_ADJUST_IGNORE_SHORES',
-        'REQUIREMENT_UNIT_TYPE_MATCHES',
-        'UNIT_SETTLER',
-        'REQUIREMENT_PLAYER_HAS_AT_LEAST_NUM_BUILDINGS',
-        'BUILDING_PALACE'
-    )) {
-        if (-not $startingSettlerSql.Contains($requiredStartingSettlerToken)) {
-            Add-ValidationError "Initial Settler SQL is missing required behavior: $requiredStartingSettlerToken"
-        }
-    }
-    if ($startingSettlerSql -notmatch "(?s)'ZYL_REQUIRES_PLAYER_HAS_NO_PALACE',\s*'REQUIREMENT_PLAYER_HAS_AT_LEAST_NUM_BUILDINGS',\s*1") {
-        Add-ValidationError 'Initial Settler Palace requirement is not inverted; the bonus would affect later Settlers.'
-    }
-
-    $startingSettlerAction = $actionIdMap['zyl_startingsettlermovement']
-    if ($null -eq $startingSettlerAction -or
-            $startingSettlerAction.SelectSingleNode("./File[.='sql/ZYL_StartingSettler.sql']") -eq $null) {
-        Add-ValidationError 'Initial Settler SQL is not loaded by ModInfo.'
-    }
-    if (-not $listedFileMap.ContainsKey((Normalize-RelativePath 'sql/ZYL_StartingSettler.sql'))) {
-        Add-ValidationError 'Initial Settler SQL is absent from the ModInfo file manifest.'
-    }
-
-}
-
-$zylTextPath = Join-Path $modRoot 'lang\ZYL_Text.xml'
-if (Test-Path -LiteralPath $zylTextPath) {
-    $zylText = Load-XmlDocument $zylTextPath
-	$startingBonusTextTags = @(
-		'LOC_ZYL_STARTING_BONUS_PLAYER_NAME',
-		'LOC_ZYL_STARTING_BONUS_PLAYER_DESC',
-		'LOC_ZYL_STARTING_BONUS_TYPE_NAME',
-		'LOC_ZYL_STARTING_BONUS_TYPE_DESC',
-		'LOC_ZYL_STARTING_BONUS_NONE',
-		'LOC_ZYL_STARTING_BONUS_PLAYER_SLOT_DESC',
-		'LOC_ZYL_STARTING_BONUS_BUILDER',
-		'LOC_ZYL_STARTING_BONUS_SCOUT',
-		'LOC_ZYL_STARTING_BONUS_BUILDER_SCOUT'
-	)
-	foreach ($language in @('en_US', 'zh_Hans_CN', 'zh_Hant_HK')) {
-		foreach ($tag in $startingBonusTextTags) {
-			if ($null -eq $zylText.SelectSingleNode("/GameData/LocalizedText/Row[@Tag='$tag' and @Language='$language']/Text")) {
-				Add-ValidationError "Starting-player bonus localization is missing $tag for $language."
-			}
-		}
-		foreach ($playerNumber in 1..12) {
-			$playerTag = "LOC_ZYL_STARTING_BONUS_PLAYER_$playerNumber"
-			if ($null -eq $zylText.SelectSingleNode("/GameData/LocalizedText/Row[@Tag='$playerTag' and @Language='$language']/Text")) {
-				Add-ValidationError "Starting-player bonus localization is missing $playerTag for $language."
-			}
-		}
-	}
-    foreach ($language in @('en_US', 'zh_Hans_CN', 'zh_Hant_HK')) {
-        $settlerText = $zylText.SelectSingleNode("/GameData/LocalizedText/Replace[@Tag='LOC_UNIT_SETTLER_DESCRIPTION' and @Language='$language']/Text")
-        if ($null -eq $settlerText -or -not $settlerText.InnerText.Contains('+1 [ICON_Movement]')) {
-            Add-ValidationError "Initial Settler description is missing for $language."
-        }
-    }
-}
 
 # Coastal/inland leader variants must remain exact aliases of their source
 # leaders.  Their only runtime distinction belongs in the map-placement Lua.
