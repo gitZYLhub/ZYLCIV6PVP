@@ -41,6 +41,10 @@ function Get-ZylStagingRoomContractIssues {
             'if g_mod_capabilities_dirty then',
             'local g_player_names_refresh_requested = true',
             'if g_player_names_refresh_requested or g_Anon ~= anonymousMode then',
+            'local g_player_status_by_id = {}',
+            'local function ClearPlayerStatusCache()',
+            'local function AddPlayerStatus(player)',
+            'g_player_status_by_id[player.ID] = player',
             'Events.GameCoreEventPublishComplete.Remove(OnTick);',
             'LuaEvents.Multiplayer_ExitShell.Remove(OnHandleExitRequest);',
             'if GameConfiguration.GetValue(key) ~= value then',
@@ -170,6 +174,43 @@ function Get-ZylStagingRoomContractIssues {
                 'UpdatePlayerEntry\(player\.ID\)'
             )) {
         $issues.Add('Staging-room handshake polling must update player cards only on status transitions.')
+    }
+
+    $refreshStatusIdMatch = [regex]::Match(
+        $Source,
+        '(?s)function RefreshStatusID\(playerID,version,bbs_version,bbg_version\)' +
+        '(.*?)\nend\s*\n\s*function ResetStatus\(\)'
+    )
+    $getSpecificStatusMatch = [regex]::Match(
+        $Source,
+        '(?s)function GetStatus_SpecificID\(playerID\)' +
+        '(.*?)\nend\s*\n\s*function RefreshStatus\(\)'
+    )
+    if (-not $refreshStatusIdMatch.Success -or
+            -not $getSpecificStatusMatch.Success -or
+            [regex]::Matches(
+                $refreshStatusIdMatch.Value,
+                '(?:i?pairs)\(g_player_status\)'
+            ).Count -ne 0 -or
+            [regex]::Matches(
+                $refreshStatusIdMatch.Value,
+                'g_player_status_by_id\[playerID\]'
+            ).Count -lt 2 -or
+            [regex]::Matches(
+                $getSpecificStatusMatch.Value,
+                '(?:i?pairs)\(g_player_status\)'
+            ).Count -ne 0 -or
+            -not $getSpecificStatusMatch.Value.Contains(
+                'local player = g_player_status_by_id[playerID]'
+            ) -or
+            [regex]::Matches(
+                $Source,
+                'table\.insert\(g_player_status,'
+            ).Count -ne 1) {
+        $issues.Add(
+            'Staging-room single-player status updates and lookups must use ' +
+            'the synchronized playerID index.'
+        )
     }
 
     foreach ($lifecycleIssue in @(Get-ZylLuaEventLifecycleIssues `
@@ -647,6 +688,13 @@ function Get-ZylMultiplayerUiRuntimeSelfTestIssues {
             DriftFrom = 'if g_player_names_refresh_requested or g_Anon ~= anonymousMode then'
             DriftTo = 'if true then'
             FailureMessage = 'Staging-room player-name self-test did not reject periodic roster scans.'
+        },
+        [pscustomobject]@{
+            RelativePath = 'ui\stagingroom.lua'
+            CheckFunction = 'Get-ZylStagingRoomContractIssues'
+            DriftFrom = 'local player = g_player_status_by_id[playerID]'
+            DriftTo = 'local player = nil'
+            FailureMessage = 'Staging-room status-index self-test did not reject a missing direct lookup.'
         },
         [pscustomobject]@{
             RelativePath = 'ui\Additions\VotePanel.lua'

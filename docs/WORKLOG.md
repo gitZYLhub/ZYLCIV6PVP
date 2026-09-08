@@ -626,4 +626,14 @@
 - 修改：稳定赛事周期不再调用 `GetEnabledMods`、遍历四个能力值或遍历所有玩家重绘昵称；`GetEnabledMods` 增加 nil 回退。静态契约要求两个失效条件、能力函数和全量昵称门控，并新增把两者改成恒真的第十/十一类联机内存反例。
 - 验证：PowerShell 7 与 Windows PowerShell 5.1 完整校验均通过 203 XML、108 Criteria、283 Actions、1077 Files、549 活跃引用、48 休眠文件和 84 源码专用文件；两个内存反例均被准确拒绝。当前环境无 Lua 解释器；匿名开关、玩家改名/加入和 Mod 下载完成后的 UI 结果仍需 G05/G06/G12/N06 实机回归。三种 profile 均构建通过：universal 1072 文件、776,224,872 字节、SHA-256 `f0ed26ef11dc0f6f05c9aa5b20ca49775e1de4f948ca1f328d411fb6c02df39f`；Windows 903 文件、442,483,935 字节、`85daa2cd0dadb252b104ec4e9ef644cd87a0996f310cf8475ca415d95804f525`；macOS 903 文件、442,483,597 字节、`444e3d3c41bf7ce5e802c272cf9cc70098f58bb40f337056116d8f82b817555b`。
 - 风险/待办：依赖 `GameConfigChanged`/`ModStatusUpdated` 覆盖启用 Mod 集合变化，且依赖现有单玩家事件覆盖稳定匿名模式下的加入/改名；若日志显示漏刷，应补对应失效入口，不恢复周期全扫。
-- 提交：本次提交（Mod 能力与玩家昵称子域缓存）。
+- 提交：`f8379b0 perf: cache lobby refresh subdomains`。
+
+### 2026-09-09 / M3-多人握手状态 playerID 索引
+
+- 目标：消除单玩家加入、版本回复和状态查询对 `g_player_status` 的线性扫描，同时保持现有有序数组的批量 UI 遍历顺序。
+- 范围：`ui/stagingroom.lua`、联机静态契约、架构、计划、测试矩阵、更新日志和工作日志；不修改握手消息格式、超时/重试值、ModInfo、版本号或数据库。
+- 设计决定：新增 `g_player_status_by_id`，`AddPlayerStatus` 同步写数组/索引，`ClearPlayerStatusCache` 原子清空两者；工程内六个插入点和四个清空点全部改用帮助函数。`RefreshStatusID` 每次只读取一次连接状态和玩家配置，已有/回复记录直接索引；批量 `RefreshStatus` 继续按数组顺序运行。
+- 修改：`RefreshStatusID` 移除两个全数组扫描，`GetStatus_SpecificID` 改为 O(1)；连接已建立但 `PlayerConfigurations[playerID]` 尚未就绪时不再空引用崩溃，而是保留/等待后续事件。静态契约要求所有插入都集中在帮助函数、单玩家函数不得出现 `pairs/ipairs(g_player_status)`，并增加移除索引读取的第十二类联机内存反例。
+- 验证：PowerShell 7 与 Windows PowerShell 5.1 完整校验均通过 203 XML、108 Criteria、283 Actions、1077 Files、549 活跃引用、48 休眠文件和 84 源码专用文件；移除直接索引的内存反例被准确拒绝。剥离 Civ VI 专有类型注解后，Python `luaparser` 对完整 staging room 的 AST 解析通过。三种 profile 均构建通过：universal 1072 文件、776,224,728 字节、SHA-256 `d856b3cf01030aebedcd259c1f5de749a46e76e83329b245fcae8059f2eff1c8`；Windows 903 文件、442,483,791 字节、`fcd6eb80b9faaf174ffa376683141ae663a08b1b119ff28adb883396f9332f00`；macOS 903 文件、442,483,453 字节、`8e69feb5ea9c15118dcf811aad30efd71bda5ed002d567fa0c085d5f8baa33ec`。12 人加入、重复版本回复、断线/重连和房主迁移仍需 G05/G06/G12/N02/N03 实机回归。
+- 风险/待办：数组和索引必须始终同源；契约已禁止旁路插入，但真实事件乱序仍可能暴露 stale entry，需要双客户端日志确认。
+- 提交：本次提交（多人握手状态 playerID 索引）。

@@ -61,7 +61,16 @@ local g_full_refresh_requested = true
 local g_tournament_settings_dirty = true
 local g_mod_capabilities_dirty = true
 local g_player_names_refresh_requested = true
-local g_player_status = {} 
+local g_player_status = {}
+local g_player_status_by_id = {}
+local function ClearPlayerStatusCache()
+	g_player_status = {}
+	g_player_status_by_id = {}
+end
+local function AddPlayerStatus(player)
+	table.insert(g_player_status, player)
+	g_player_status_by_id[player.ID] = player
+end
 local MPH_HANDSHAKE_GRACE_SECONDS = 20
 local MPH_HANDSHAKE_RETRY_SECONDS = 4
 local MPH_HANDSHAKE_MAX_RETRIES = 6
@@ -632,66 +641,66 @@ function RefreshStatusID(playerID,version,bbs_version,bbg_version)
 		return
 	end
 	local fresh_id = true
-	local localID = Network.GetLocalPlayerID()
 	local hostID = Network.GetGameHostPlayerID()
 	local versionBBS = GetLocalBBMVersion()
 	local versionBBG = GetLocalBBGVersion()
+	local isConnected = Network.IsPlayerConnected(playerID)
+	local playerConfig = PlayerConfigurations[playerID]
 	
 	if g_player_status ~= nil then
 		if version == nil then
-			for i, player in ipairs(g_player_status) do 
-				if player.ID == playerID then
-					if Network.IsPlayerConnected(playerID) then
-						player.Status = 0
-						player.Version = 0
-						player.HandshakeStartedAt = nil
-						player.HandshakeLastSentAt = nil
-						player.HandshakeAttempts = 0
-						if b_bbg_game == true then
-							player.bbg_id = s_bbg_id
-							player.bbg_v = 0
-						end
-						if b_bbs_game == true then
-							player.bbs_id = s_bbs_id
-							player.bbs_v = 0
-						end
-						player.Name = PlayerConfigurations[playerID]:GetPlayerName()
-						fresh_id = false
-						if player.ID == hostID then
-							player.Status = 99
-							player.Version = tostring(g_version)
-							if b_bbg_game == true then
-								player.bbg_id = s_bbg_id
-								player.bbg_v = versionBBG
-							end
-							if b_bbs_game == true then
-								player.bbs_id = s_bbs_id
-								player.bbs_v = versionBBS
-							end
-							fresh_id = false					
-						end
-						else
-						player.Status = -1
-						player.Version = 0
-						player.Name = "AI"
-						if b_bbg_game == true then
-							player.bbg_id = s_bbg_id
-							player.bbg_v = 0
-						end
-						if b_bbs_game == true then
-							player.bbs_id = s_bbs_id
-							player.bbs_v = 0
-						end
-						fresh_id = false					
+			local player = g_player_status_by_id[playerID]
+			if player ~= nil then
+				fresh_id = false
+				if isConnected and playerConfig ~= nil then
+					player.Status = 0
+					player.Version = 0
+					player.HandshakeStartedAt = nil
+					player.HandshakeLastSentAt = nil
+					player.HandshakeAttempts = 0
+					if b_bbg_game == true then
+						player.bbg_id = s_bbg_id
+						player.bbg_v = 0
 					end
+					if b_bbs_game == true then
+						player.bbs_id = s_bbs_id
+						player.bbs_v = 0
+					end
+					player.Name = playerConfig:GetPlayerName()
+					if player.ID == hostID then
+						player.Status = 99
+						player.Version = tostring(g_version)
+						if b_bbg_game == true then
+							player.bbg_id = s_bbg_id
+							player.bbg_v = versionBBG
+						end
+						if b_bbs_game == true then
+							player.bbs_id = s_bbs_id
+							player.bbs_v = versionBBS
+						end
+					end
+				elseif not isConnected then
+					player.Status = -1
+					player.Version = 0
+					player.Name = "AI"
+					if b_bbg_game == true then
+						player.bbg_id = s_bbg_id
+						player.bbg_v = 0
+					end
+					if b_bbs_game == true then
+						player.bbs_id = s_bbs_id
+						player.bbs_v = 0
+					end
+				else
+					ZYLDebugLog("Error:",playerID,"has no valid PlayerConfigurations[playerID]",isConnected)
 				end
 			end
 			
 			if fresh_id == true then
-				if Network.IsPlayerConnected(playerID) then
-					if PlayerConfigurations[playerID] ~= nil then
+				if isConnected then
+					if playerConfig ~= nil then
 						if playerID == hostID then
-							local tmp = { ID = playerID, Status = 99, Version = g_version, Name = PlayerConfigurations[playerID]:GetPlayerName()}
+							local tmp = { ID = playerID, Status = 99, Version = g_version, Name = playerConfig:GetPlayerName()}
 							if b_bbg_game == true then
 								tmp.bbg_id = s_bbg_id
 								tmp.bbg_v = versionBBG
@@ -700,9 +709,9 @@ function RefreshStatusID(playerID,version,bbs_version,bbg_version)
 								tmp.bbs_id = s_bbs_id
 								tmp.bbs_v = versionBBS
 							end
-							table.insert(g_player_status, tmp)
+							AddPlayerStatus(tmp)
 							else
-							local tmp = { ID = playerID, Status = 0, Version = 0, Name = PlayerConfigurations[playerID]:GetPlayerName()}
+							local tmp = { ID = playerID, Status = 0, Version = 0, Name = playerConfig:GetPlayerName()}
 							if b_bbg_game == true then
 								tmp.bbg_id = s_bbg_id
 								tmp.bbg_v = 0
@@ -711,10 +720,10 @@ function RefreshStatusID(playerID,version,bbs_version,bbg_version)
 								tmp.bbs_id = s_bbs_id
 								tmp.bbs_v = 0
 							end
-							table.insert(g_player_status, tmp)
+							AddPlayerStatus(tmp)
 						end
 						else
-						ZYLDebugLog("Error:",playerID,"has no valid PlayerConfigurations[playerID]",Network.IsPlayerConnected(playerID))
+						ZYLDebugLog("Error:",playerID,"has no valid PlayerConfigurations[playerID]",isConnected)
 					end
 					else
 					local tmp = { ID = playerID, Status = -1, Version = 0, Name = "AI"}
@@ -726,26 +735,22 @@ function RefreshStatusID(playerID,version,bbs_version,bbg_version)
 						tmp.bbs_id = s_bbs_id
 						tmp.bbs_v = 0
 					end
-					table.insert(g_player_status, tmp)
+					AddPlayerStatus(tmp)
 				end
 			end
 			
 			else -- we are receiving a version number
-			
-			for i, player in ipairs(g_player_status) do 
-				if player.ID == playerID then
-					if Network.IsPlayerConnected(playerID) then
-						player.Status = 2
-						player.Version = tostring(version)	
-						player.HandshakeStartedAt = nil
-						player.HandshakeLastSentAt = nil
-						player.HandshakeAttempts = 0
-						player.bbg_v = tostring(bbg_version)	
-						player.bbs_v = tostring(bbs_version)	
-						player.Name = PlayerConfigurations[playerID]:GetPlayerName()
-					end
-				end
-			end				
+			local player = g_player_status_by_id[playerID]
+			if player ~= nil and isConnected and playerConfig ~= nil then
+				player.Status = 2
+				player.Version = tostring(version)
+				player.HandshakeStartedAt = nil
+				player.HandshakeLastSentAt = nil
+				player.HandshakeAttempts = 0
+				player.bbg_v = tostring(bbg_version)
+				player.bbs_v = tostring(bbs_version)
+				player.Name = playerConfig:GetPlayerName()
+			end
 		end
 	end
 end
@@ -759,7 +764,7 @@ function ResetStatus()
 	local hostID = Network.GetGameHostPlayerID()
 	local versionBBS = GetLocalBBMVersion()
 	local versionBBG = GetLocalBBGVersion()
-	g_player_status = {}
+	ClearPlayerStatusCache()
 	local player_ids = GameConfiguration.GetMultiplayerPlayerIDs();
 	for i, iPlayer in ipairs(player_ids) do
 		if Network.IsPlayerConnected(iPlayer) then
@@ -773,7 +778,7 @@ function ResetStatus()
 					tmp.bbs_id = s_bbs_id
 					tmp.bbs_v = 0
 				end
-				table.insert(g_player_status, tmp)
+				AddPlayerStatus(tmp)
 				else
 				local tmp = { ID = iPlayer, Status = 99, Version = g_version, Name = PlayerConfigurations[iPlayer]:GetPlayerName()}
 				if b_bbg_game == true then
@@ -784,7 +789,7 @@ function ResetStatus()
 					tmp.bbs_id = s_bbs_id
 					tmp.bbs_v = versionBBS
 				end
-				table.insert(g_player_status, tmp)					
+				AddPlayerStatus(tmp)
 			end
 			else
 			local tmp = { ID = iPlayer, Status = -1, Version = g_version, Name = "AI"}
@@ -796,7 +801,7 @@ function ResetStatus()
 					tmp.bbs_id = s_bbs_id
 					tmp.bbs_v = versionBBS
 				end
-			table.insert(g_player_status, tmp)				
+			AddPlayerStatus(tmp)
 		end
 		
 	end
@@ -806,17 +811,11 @@ function GetStatus_SpecificID(playerID)
 	if GameConfiguration.GetGameState() ~= -901772834 then
 		return "Wrong State"
 	end
-	local localID = Network.GetLocalPlayerID()
-	local hostID = Network.GetGameHostPlayerID()
-	local status = "no player ID"
-	if g_player_status ~= nil and #g_player_status > 0 then
-		for i, player in pairs(g_player_status) do
-			if player.ID == playerID then
-				status = player.Status
-				return status
-			end
-		end
+	local player = g_player_status_by_id[playerID]
+	if player ~= nil then
+		return player.Status
 	end
+	return "no player ID"
 end
 
 function RefreshStatus()
@@ -915,7 +914,7 @@ function OnModCheck()
 	local localID = Network.GetLocalPlayerID()
 	local hostID = Network.GetGameHostPlayerID()
 	b_mods_ok = false
-	g_player_status = {}
+	ClearPlayerStatusCache()
 	ResetStatus()
 end
 
@@ -4670,7 +4669,7 @@ end
 function OnLeaveGameComplete()
 	-- We just left the game, we shouldn't be open anymore.
 	UIManager:DequeuePopup( ContextPtr );
-	g_player_status = {}
+	ClearPlayerStatusCache()
 	if g_phase ~= PHASE_DEFAULT then
 		HostReset()
 	end
@@ -4691,7 +4690,7 @@ end
 -------------------------------------------------
 
 function OnMultiplayerHostMigrated( newHostID : number )
-	g_player_status = {}
+	ClearPlayerStatusCache()
 	RefreshStatusID(newHostID)
 	if g_phase ~= PHASE_DEFAULT then
 		HostReset()
