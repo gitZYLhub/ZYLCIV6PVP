@@ -57,6 +57,7 @@ Manifest 迁移采用“分段替换而非一次重写”：`manifest/criteria`�
 - `DatabaseContractChecks.ps1` 逐步承接关键数据库最终值和其配置/动作/文本闭包；现覆盖时代长度/阈值/大厅开关/计时器文本，以及秘密结社 16 个晋升的幂等总督点返还与 DLC/模式 Criteria，并用正确/错误 SQL 片段自检。
 - `TeamPvpSocietyChecks.ps1` 纵向拥有 Team PVP Secret Societies 3.93 整合层：资源存在性、Gameplay SQL、吸血鬼城堡脚本、镀金船厂、三语文本、美术依赖、LightweightBalance 资源移除，以及秘密结社模式 Criteria/Action/Files 闭包统一由一个无副作用函数检查；入口通过内存修改城邦发现概率证明高风险平衡漂移会被拒绝。
 - `ExpandedResourceChecks.ps1` 纵向拥有 BBG Expanded 六种资源的核心/平衡 SQL、325 个上游文件、美术依赖与双平台包、公司模式扩展、外部完整模组交接、动态简体中文和独立模组阻断；入口以内存资源地形漂移反例自检，损坏的中文文本动作则返回领域错误而不会使校验器空引用退出。
+- `MonopoliesChecks.ps1` 纵向拥有行业、公司及产品的 50 个最终数值、枫糖住房例外、公司模式数据库/文本加载顺序、21 个简中效果标签和百科资源清单；入口以内存百分比漂移反例自检，缺失 LoadOrder 节点会作为问题汇总而不会中止校验。
 - `PantheonChecks.ps1` 纵向拥有 13 个 Lightweight Balance 精选万神殿与 ZYL 德鲁伊的允许/排除清单、关键数据库行为、三语文本、图标、地热矿山和 Gathering Storm 条件，以及独立 LightweightBalance 阻断；入口以内存删除德鲁伊注册的反例验证允许清单。
 - `MapChecks.ps1` 承接 Rich Mainland 的发布文件、Criteria/Action 图、地图/尺寸配置、本地化、旧引用禁用、城邦回退、战略资源兜底、海岸出生、画布宽度和 FFA 尺寸契约；领域函数只读取传入源码或工程快照并返回问题，总入口以真实地图源码和删除回退入口的内存反例自检。
 - `UiChecks.ps1` 承接 UI/QoL 的文件、Criteria/Action、上下文和安全源码契约；覆盖 TPT 功能、两类交易 UI、外交/地图标记集成、全局 Context、EndGame、万神殿稳定索引、大厅领袖图标回退和黑名单剪贴板导出，并以真实源码和错误动作图反例自检。
