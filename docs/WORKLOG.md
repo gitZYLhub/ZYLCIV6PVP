@@ -399,4 +399,14 @@
 - 修改：迁移六个大厅参数、隐藏发牌数据、五项依赖、两个计数域、禁止 Gameplay 文件/动作/清单、面板 Lua/XML、InGame UI 动作、大厅八控件、最终默认值、房主重置和 23 个三语文本标签。主入口以 28 行聚合/自检替换 266 行散落检查，由 4085 行降至 3847 行；新增身份模块 363 行。
 - 验证：真实 `IdentityRolePanel.lua` 返回 0 个问题；把本地玩家只读入口替换成 `Game:SetProperty` 的内存反例被拒绝。PowerShell 7 与 Windows PowerShell 5.1 全量校验均通过 203 XML、108 Criteria、283 Actions、1077 Files、549 活跃引用、48 休眠文件和 69 源码专用文件。
 - 风险/待办：静态闭包无法证明 3/6/12 人发牌、分离玩家、观察者排除、设置变化后旧牌失效和各客户端显示时序；G10、G12 与 N09 仍必须通过真实多人测试。
-- 提交：本次提交（身份模式纵向契约模块化）。
+- 提交：`b73cb41 refactor: extract identity mode validation checks`。
+
+### 2026-09-08 / M2-Better Trade Screen 契约模块化
+
+- 目标：把 Better Trade Screen Lite 的完整启用闭包迁入 UI 模块，防止只加载部分文件、LoadOrder 漂移或 BBG 旧交易链同时生效。
+- 范围：校验工具、架构、计划和工作日志；不修改交易 Lua/XML/SQL、ModInfo、玩家行为或版本号。
+- 设计决定：聚合函数负责 Files/活跃引用、Criteria、配置开关、动作和旧链排斥；`TradeSupport.lua` 与路线选择器使用独立纯源码函数，以便针对缓存/收益兼容和排序能力构造反例。缺失 LoadOrder 节点返回领域错误，不再因空引用中止整个校验。
+- 修改：迁移 14 个运行文件、双入口启用条件、自定义模式依赖、5 个连续 LoadOrder 动作、4 条旧 BBG 路径排斥、Amani 食物/生产收益、路线缓存序列化和 7 个排序处理器。主入口以 20 行调度/自检替换 100 行内联检查，由 3847 行降至 3767 行；UI 模块由 234 行扩展到 407 行。
+- 验证：真实 `TradeSupport.lua` 返回 0 个问题；把 `GetBBGAmaniTradeRouteYieldBonus` 替换为遗留接口名的内存反例被拒绝。PowerShell 7 与 Windows PowerShell 5.1 全量校验均通过 203 XML、108 Criteria、283 Actions、1077 Files、549 活跃引用、48 休眠文件和 69 源码专用文件。
+- 风险/待办：静态检查无法证明路线列表在大地图/大量城市下的帧耗、排序稳定性或 Amani 实际收益显示；需在游戏内与 BBG 总督、跨洲路线和存读档缓存组合实测。Better Deal Window 与外交条集成仍待模块化。
+- 提交：本次提交（Better Trade Screen 契约模块化）。

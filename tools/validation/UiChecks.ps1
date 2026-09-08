@@ -232,3 +232,176 @@ function Get-ZylTptUiContractIssues {
     }
     return @($issues)
 }
+
+function Get-ZylBetterTradeSupportIssues {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string]$Source
+    )
+
+    $issues = [System.Collections.Generic.List[string]]::new()
+    foreach ($requiredToken in @(
+            'include( "BTS_Serialize" )',
+            'GetBBGAmaniTradeRouteYieldBonus',
+            'LOC_GOVERNOR_THE_AMBASSADOR_NAME',
+            'GetBBGAmaniTradeRouteYieldBonus(routeInfo, FOOD_INDEX)',
+            'GetBBGAmaniTradeRouteYieldBonus(routeInfo, PRODUCTION_INDEX)',
+            'BTS_Serialize(m_LocalPlayerRunningRoutes)',
+            'BTS_Deserialize(dataDump)'
+        )) {
+        if (-not $Source.Contains($requiredToken)) {
+            $issues.Add("Better Trade Screen lost BBG/cache compatibility: $requiredToken")
+        }
+    }
+    return @($issues)
+}
+
+function Get-ZylBetterTradeRouteChooserIssues {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string]$Source
+    )
+
+    $issues = [System.Collections.Generic.List[string]]::new()
+    foreach ($sortHandler in @(
+            'OnSortByFood',
+            'OnSortByProduction',
+            'OnSortByGold',
+            'OnSortByScience',
+            'OnSortByCulture',
+            'OnSortByFaith',
+            'OnSortByTurnsToComplete'
+        )) {
+        if (-not $Source.Contains($sortHandler)) {
+            $issues.Add("Better Trade Screen route chooser is missing sort handler: $sortHandler")
+        }
+    }
+    return @($issues)
+}
+
+function Get-ZylBetterTradeScreenContractIssues {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string]$ProjectRoot,
+
+        [Parameter(Mandatory = $true)]
+        [object]$ListedFileMap,
+
+        [Parameter(Mandatory = $true)]
+        [object]$ActionReferenceMap,
+
+        [Parameter(Mandatory = $true)]
+        [object]$CriteriaMap,
+
+        [Parameter(Mandatory = $true)]
+        [object]$ActionIdMap
+    )
+
+    $issues = [System.Collections.Generic.List[string]]::new()
+    foreach ($requiredFile in @(
+            'BTS\Settings\BTS_Settings.sql',
+            'BTS\Settings\BTS_SettingsPanel.lua',
+            'BTS\Settings\BTS_SettingsPanel.xml',
+            'BTS\Settings\BTS_SettingsSchema.sql',
+            'BTS\Text\BTS_Text_EN.xml',
+            'BTS\Text\BTS_Text_Hans_CN.xml',
+            'BTS\UI\BTS_Serialize.lua',
+            'BTS\UI\TradeOverview.lua',
+            'BTS\UI\TradeOverview.xml',
+            'BTS\UI\TradeSupport.lua',
+            'BTS\UI\Choosers\TradeOriginChooser.lua',
+            'BTS\UI\Choosers\TradeOriginChooser.xml',
+            'BTS\UI\Choosers\TradeRouteChooser.lua',
+            'BTS\UI\Choosers\TradeRouteChooser.xml'
+        )) {
+        $key = Normalize-RelativePath $requiredFile
+        if (-not (Test-Path -LiteralPath (Join-Path $ProjectRoot $requiredFile) -PathType Leaf)) {
+            $issues.Add("Better Trade Screen file is missing: $requiredFile")
+        }
+        elseif (-not $ListedFileMap.ContainsKey($key) -or
+                -not $ActionReferenceMap.ContainsKey($key)) {
+            $issues.Add("Better Trade Screen file is not both published and active: $requiredFile")
+        }
+    }
+
+    $criterion = $CriteriaMap['settings_ui_bettertradescreen']
+    if ($null -eq $criterion -or
+            $criterion.GetAttribute('any') -ne '1' -or
+            $null -eq $criterion.SelectSingleNode(
+                "./ConfigurationValueMatches[ConfigurationId='SETTINGS_UI_BTS' and Value='1']"
+            ) -or
+            $null -eq $criterion.SelectSingleNode(
+                "./ConfigurationValueMatches[ConfigurationId='SETTINGS_UI' and Value='SETTINGS_UI_ENABLE_ALL']"
+            )) {
+        $issues.Add(
+            'Better Trade Screen is not enabled by its custom toggle and the master UI preset.'
+        )
+    }
+
+    $configPath = Join-Path $ProjectRoot 'Config\Config_UI.xml'
+    if (Test-Path -LiteralPath $configPath -PathType Leaf) {
+        $configXml = Load-XmlDocument $configPath
+        if ($null -eq $configXml.SelectSingleNode(
+                "/GameInfo/Parameters/Row[@ParameterId='SETTINGS_UI_BTS' and @ConfigurationId='SETTINGS_UI_BTS']"
+            )) {
+            $issues.Add('The custom UI list is missing its Better Trade Screen toggle.')
+        }
+        if ($null -eq $configXml.SelectSingleNode(
+                "/GameInfo/ParameterDependencies/Row[@ParameterId='SETTINGS_UI_BTS' and @ConfigurationId='SETTINGS_UI' and @ConfigurationValue='SETTINGS_UI_CUSTOM']"
+            )) {
+            $issues.Add('The Better Trade Screen toggle is not limited to custom UI mode.')
+        }
+    }
+
+    $expectedActions = @{
+        'zyl_bts_settingsschema' = @('UpdateDatabase', 'BTS/Settings/BTS_SettingsSchema.sql', '11008')
+        'zyl_bts_settings' = @('UpdateDatabase', 'BTS/Settings/BTS_Settings.sql', '11009')
+        'zyl_bts_settingspanel' = @('AddUserInterfaces', 'BTS/Settings/BTS_SettingsPanel.xml', '11010')
+        'zyl_bts_ui' = @('ImportFiles', 'BTS/UI/TradeSupport.lua', '11011')
+        'zyl_bts_text' = @('UpdateText', 'BTS/Text/BTS_Text_Hans_CN.xml', '11012')
+    }
+    foreach ($entry in $expectedActions.GetEnumerator()) {
+        $action = $ActionIdMap[$entry.Key]
+        $loadOrderNode = if ($null -ne $action) {
+            $action.SelectSingleNode('./Properties/LoadOrder')
+        }
+        else { $null }
+        if ($null -eq $action -or
+                $action.LocalName -ne $entry.Value[0] -or
+                $null -eq $action.SelectSingleNode("./File[.='$($entry.Value[1])']") -or
+                $null -eq $loadOrderNode -or
+                $loadOrderNode.InnerText.Trim() -ne $entry.Value[2] -or
+                $null -eq $action.SelectSingleNode(
+                    "./Criteria[.='SETTINGS_UI_BetterTradeScreen']"
+                )) {
+            $issues.Add("Better Trade Screen action is missing or malformed: $($entry.Key)")
+        }
+    }
+
+    foreach ($oldBbgTradePath in @(
+            'Components\BBG\ui\replacements\tradesupport.lua',
+            'Components\BBG\ui\replacements\tradeoverview_bbg.lua',
+            'Components\BBG\ui\replacements\compatibility\tradeoverview.lua',
+            'Components\BBG\ui\replacements\compatibility\traderoutechooser.lua'
+        )) {
+        if ($ActionReferenceMap.ContainsKey((Normalize-RelativePath $oldBbgTradePath))) {
+            $issues.Add("BBG trade UI is active alongside BTS: $oldBbgTradePath")
+        }
+    }
+
+    $supportPath = Join-Path $ProjectRoot 'BTS\UI\TradeSupport.lua'
+    if (Test-Path -LiteralPath $supportPath -PathType Leaf) {
+        foreach ($issue in @(Get-ZylBetterTradeSupportIssues `
+                -Source (Get-Content -LiteralPath $supportPath -Raw))) {
+            $issues.Add($issue)
+        }
+    }
+    $chooserPath = Join-Path $ProjectRoot 'BTS\UI\Choosers\TradeRouteChooser.lua'
+    if (Test-Path -LiteralPath $chooserPath -PathType Leaf) {
+        foreach ($issue in @(Get-ZylBetterTradeRouteChooserIssues `
+                -Source (Get-Content -LiteralPath $chooserPath -Raw))) {
+            $issues.Add($issue)
+        }
+    }
+    return @($issues)
+}
