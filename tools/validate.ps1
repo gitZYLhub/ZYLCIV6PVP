@@ -2285,52 +2285,30 @@ else {
     Add-ValidationError 'BBG front-end configuration is missing.'
 }
 
-# Secret Society promotions must refund their Governor Title. The BBG action
-# which owns this SQL is already gated by the Ethiopia Pack and Gathering Storm.
+# All sixteen Secret Society promotions refund one Governor Title through the
+# correctly gated BBG database action.
 $secretSocietiesPath = Join-Path $modRoot 'Components\BBG\sql\Secret_Societies.sql'
-$secretSocietyPromotions = @(
-    'GOVERNOR_PROMOTION_OWLS_OF_MINERVA_1',
-    'GOVERNOR_PROMOTION_OWLS_OF_MINERVA_2',
-    'GOVERNOR_PROMOTION_OWLS_OF_MINERVA_3',
-    'GOVERNOR_PROMOTION_OWLS_OF_MINERVA_4',
-    'GOVERNOR_PROMOTION_HERMETIC_ORDER_1',
-    'GOVERNOR_PROMOTION_HERMETIC_ORDER_2',
-    'GOVERNOR_PROMOTION_HERMETIC_ORDER_3',
-    'GOVERNOR_PROMOTION_HERMETIC_ORDER_4',
-    'GOVERNOR_PROMOTION_VOIDSINGERS_1',
-    'GOVERNOR_PROMOTION_VOIDSINGERS_2',
-    'GOVERNOR_PROMOTION_VOIDSINGERS_3',
-    'GOVERNOR_PROMOTION_VOIDSINGERS_4',
-    'GOVERNOR_PROMOTION_SANGUINE_PACT_1',
-    'GOVERNOR_PROMOTION_SANGUINE_PACT_2',
-    'GOVERNOR_PROMOTION_SANGUINE_PACT_3',
-    'GOVERNOR_PROMOTION_SANGUINE_PACT_4'
-)
-if (-not (Test-Path -LiteralPath $secretSocietiesPath)) {
+if (-not (Test-Path -LiteralPath $secretSocietiesPath -PathType Leaf)) {
     Add-ValidationError 'BBG Secret Societies SQL is missing.'
 }
 else {
-    $secretSocietiesSql = Get-Content -LiteralPath $secretSocietiesPath -Raw
-    if ($secretSocietiesSql -notmatch '(?is)INSERT\s+OR\s+IGNORE\s+INTO\s+GovernorPromotionModifiers') {
-        Add-ValidationError 'Secret Society title refunds are not inserted idempotently.'
+    $secretSocietiesSource = Get-Content -LiteralPath $secretSocietiesPath -Raw
+    $secretSocietyRefundIssues = @(Get-ZylSecretSocietyRefundContractIssues `
+        -Source $secretSocietiesSource `
+        -ModInfo $modInfo)
+    $secretSocietyRefundDriftSource = $secretSocietiesSource.Replace(
+        'CIVIC_GRANT_PLAYER_GOVERNOR_POINTS',
+        'CIVIC_LEGACY_GOVERNOR_POINTS'
+    )
+    if ($secretSocietyRefundIssues.Count -ne 0 -or
+            $secretSocietyRefundDriftSource -eq $secretSocietiesSource -or
+            @(Get-ZylSecretSocietyRefundContractIssues `
+                -Source $secretSocietyRefundDriftSource `
+                -ModInfo $modInfo).Count -eq 0) {
+        Add-ValidationError 'Secret Society refund helper failed its positive/negative self-test.'
     }
-    if (-not $secretSocietiesSql.Contains('CIVIC_GRANT_PLAYER_GOVERNOR_POINTS')) {
-        Add-ValidationError 'Secret Society promotions no longer refund a Governor Title.'
-    }
-    foreach ($secretSocietyPromotion in $secretSocietyPromotions) {
-        $occurrences = ([regex]::Matches($secretSocietiesSql, "(?<![A-Z0-9_])$([regex]::Escape($secretSocietyPromotion))(?![A-Z0-9_])")).Count
-        if ($occurrences -ne 1) {
-            Add-ValidationError "Secret Society refund list must contain $secretSocietyPromotion exactly once; found $occurrences."
-        }
-    }
-
-    $secretSocietyAction = $modInfo.SelectSingleNode('/Mod/InGameActions/UpdateDatabase[File="Components/BBG/sql/Secret_Societies.sql"]')
-    if ($null -eq $secretSocietyAction -or
-            $secretSocietyAction.SelectSingleNode("./File[.='Components/BBG/sql/Secret_Societies.sql']") -eq $null -or
-            $secretSocietyAction.SelectSingleNode("./Criteria[.='ZYLPVP_BBG_Ethiopia']") -eq $null -or
-            $secretSocietyAction.SelectSingleNode("./Criteria[.='ZYLPVP_BBG_XP2']") -eq $null -or
-            $secretSocietyAction.SelectSingleNode("./Criteria[.='ZYL_SecretSocietiesXP2']") -eq $null) {
-        Add-ValidationError 'BBG Secret Societies SQL is not gated by Ethiopia, Gathering Storm and the Secret Societies game mode.'
+    foreach ($secretSocietyRefundIssue in $secretSocietyRefundIssues) {
+        Add-ValidationError $secretSocietyRefundIssue
     }
 }
 

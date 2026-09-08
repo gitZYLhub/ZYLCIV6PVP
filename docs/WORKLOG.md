@@ -437,4 +437,13 @@
 - 修改：新增万神殿选择器早期事件/稳定 `row.Index` 缓存、Ban 下拉领袖纹理与默认图标回退、黑名单复制函数/剪贴板调用/按钮回调与 XML 控件闭包检查。主入口以 18 行聚合/自检替换 42 行内联检查，由 3585 行降至 3561 行；UI 模块由 787 行扩展到 888 行。
 - 验证：三份真实 UI 源码均通过；把 `InstanceButton[row.Index]` 退化为瞬态 `InstanceButton[row]` 的内存反例被拒绝。主入口搜索确认 UI 相关剩余项均为模块调用、自检或非 UI 数据契约。PowerShell 7 与 Windows PowerShell 5.1 全量校验均通过 203 XML、108 Criteria、283 Actions、1077 Files、549 活跃引用、48 休眠文件和 69 源码专用文件。
 - 风险/待办：UI 静态契约模块化已经完成，但早期万神殿事件、图标缺失降级、剪贴板权限及各种 UI 比例下的实际交互仍需 Civ VI 实机验证。
-- 提交：本次提交（剩余 UI 行为契约收尾）。
+- 提交：`fb9572f refactor: finish ui validation extraction`。
+
+### 2026-09-08 / M2-秘密结社总督点返还契约模块化
+
+- 目标：扩展数据库契约模块，固定所有秘密结社晋升返还一个总督点的完整数据与加载条件。
+- 范围：校验工具、架构、计划、测试矩阵和工作日志；不修改 BBG Secret Societies SQL、ModInfo、平衡值、玩家行为或版本号。
+- 修改：迁移 `INSERT OR IGNORE` 幂等约束、返还 Civic、猫头鹰/炼金/虚空/血族共 16 个晋升恰好一次，以及 Ethiopia、Gathering Storm、秘密结社模式三重 Criteria。主入口以 20 行调用/自检替换 42 行内联检查，由 3561 行降至 3539 行；数据库模块由 136 行扩展到 199 行。
+- 验证：真实 SQL 与 ModInfo 返回 0 个问题；把 `CIVIC_GRANT_PLAYER_GOVERNOR_POINTS` 替换为遗留 Civic 的内存反例被拒绝。PowerShell 7 与 Windows PowerShell 5.1 全量校验均通过 203 XML、108 Criteria、283 Actions、1077 Files、549 活跃引用、48 休眠文件和 69 源码专用文件。
+- 风险/待办：静态 SQL 只能证明记录和加载门存在，不能证明游戏内每次晋升实际只返还一次；需在秘密结社开/关、四结社与存读档组合实测总督点变化。
+- 提交：本次提交（秘密结社总督点返还契约模块化）。

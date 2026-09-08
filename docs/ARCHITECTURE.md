@@ -54,7 +54,7 @@ Manifest 迁移采用“分段替换而非一次重写”：`manifest/criteria`�
 - `ProjectChecks.ps1` 统一路径规范化、源码/生成目录分类、工程文件枚举、Workshop 外部缓存隔离、组装器本地输入边界和 XML 可解析性检查；它同样只返回问题列表，并由入口用安全/危险路径样例自检。
 - `AssetInventoryChecks.ps1` 生成发布文件、休眠文件、源码文件、Action/Criteria 身份与活跃引用的统一视图，检查磁盘、Files 与 Action 引用双向闭合；`manifest/dormant-files.txt` 取代隐藏在代码中的休眠白名单。
 - `RuntimeSafetyChecks.ps1` 只扫描资产视图中的活跃 Lua/SQL/XML，拒绝动态 `loadstring`、Workshop 自更新调用、已禁用反叠加机制和旧组件 Mod ID；休眠替代文件不会制造误报。
-- `DatabaseContractChecks.ps1` 逐步承接关键数据库最终值和其配置/动作/文本闭包；首批时代契约同时固定八个时代的最小/最大回合、黑暗/黄金时代阈值、双资料片大厅开关、Action/Criteria 和中英文计时器标签，并用正确/错误 SQL 片段自检。
+- `DatabaseContractChecks.ps1` 逐步承接关键数据库最终值和其配置/动作/文本闭包；现覆盖时代长度/阈值/大厅开关/计时器文本，以及秘密结社 16 个晋升的幂等总督点返还与 DLC/模式 Criteria，并用正确/错误 SQL 片段自检。
 - `MapChecks.ps1` 承接 Rich Mainland 的发布文件、Criteria/Action 图、地图/尺寸配置、本地化、旧引用禁用、城邦回退、战略资源兜底、海岸出生、画布宽度和 FFA 尺寸契约；领域函数只读取传入源码或工程快照并返回问题，总入口以真实地图源码和删除回退入口的内存反例自检。
 - `UiChecks.ps1` 承接 UI/QoL 的文件、Criteria/Action、上下文和安全源码契约；覆盖 TPT 功能、两类交易 UI、外交/地图标记集成、全局 Context、EndGame、万神殿稳定索引、大厅领袖图标回退和黑名单剪贴板导出，并以真实源码和错误动作图反例自检。
 - `IdentityChecks.ps1` 纵向拥有身份模式的大厅参数与依赖、隐藏发牌数据、默认值/房主重置、三语文本、只读游戏内面板、大厅控件和“不得进入 Gameplay”边界；发牌算法本身仍由 `MultiplayerChecks.ps1` 的大厅契约保护。

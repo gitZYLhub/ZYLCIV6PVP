@@ -134,3 +134,66 @@ function Get-ZylEraConfigurationContractIssues {
     }
     return @($issues)
 }
+
+function Get-ZylSecretSocietyRefundContractIssues {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string]$Source,
+
+        [Parameter(Mandatory = $true)]
+        [System.Xml.XmlDocument]$ModInfo
+    )
+
+    $issues = [System.Collections.Generic.List[string]]::new()
+    if ($Source -notmatch '(?is)INSERT\s+OR\s+IGNORE\s+INTO\s+GovernorPromotionModifiers') {
+        $issues.Add('Secret Society title refunds are not inserted idempotently.')
+    }
+    if (-not $Source.Contains('CIVIC_GRANT_PLAYER_GOVERNOR_POINTS')) {
+        $issues.Add('Secret Society promotions no longer refund a Governor Title.')
+    }
+    foreach ($promotion in @(
+            'GOVERNOR_PROMOTION_OWLS_OF_MINERVA_1',
+            'GOVERNOR_PROMOTION_OWLS_OF_MINERVA_2',
+            'GOVERNOR_PROMOTION_OWLS_OF_MINERVA_3',
+            'GOVERNOR_PROMOTION_OWLS_OF_MINERVA_4',
+            'GOVERNOR_PROMOTION_HERMETIC_ORDER_1',
+            'GOVERNOR_PROMOTION_HERMETIC_ORDER_2',
+            'GOVERNOR_PROMOTION_HERMETIC_ORDER_3',
+            'GOVERNOR_PROMOTION_HERMETIC_ORDER_4',
+            'GOVERNOR_PROMOTION_VOIDSINGERS_1',
+            'GOVERNOR_PROMOTION_VOIDSINGERS_2',
+            'GOVERNOR_PROMOTION_VOIDSINGERS_3',
+            'GOVERNOR_PROMOTION_VOIDSINGERS_4',
+            'GOVERNOR_PROMOTION_SANGUINE_PACT_1',
+            'GOVERNOR_PROMOTION_SANGUINE_PACT_2',
+            'GOVERNOR_PROMOTION_SANGUINE_PACT_3',
+            'GOVERNOR_PROMOTION_SANGUINE_PACT_4'
+        )) {
+        $occurrences = [regex]::Matches(
+            $Source,
+            "(?<![A-Z0-9_])$([regex]::Escape($promotion))(?![A-Z0-9_])"
+        ).Count
+        if ($occurrences -ne 1) {
+            $issues.Add(
+                "Secret Society refund list must contain $promotion exactly once; " +
+                "found $occurrences."
+            )
+        }
+    }
+
+    $action = $ModInfo.SelectSingleNode(
+        '/Mod/InGameActions/UpdateDatabase[File="Components/BBG/sql/Secret_Societies.sql"]'
+    )
+    if ($null -eq $action -or
+            $null -eq $action.SelectSingleNode(
+                './File[.="Components/BBG/sql/Secret_Societies.sql"]'
+            ) -or
+            $null -eq $action.SelectSingleNode('./Criteria[.="ZYLPVP_BBG_Ethiopia"]') -or
+            $null -eq $action.SelectSingleNode('./Criteria[.="ZYLPVP_BBG_XP2"]') -or
+            $null -eq $action.SelectSingleNode('./Criteria[.="ZYL_SecretSocietiesXP2"]')) {
+        $issues.Add(
+            'BBG Secret Societies SQL is not gated by Ethiopia, Gathering Storm and the Secret Societies game mode.'
+        )
+    }
+    return @($issues)
+}
