@@ -446,4 +446,14 @@
 - 修改：迁移 `INSERT OR IGNORE` 幂等约束、返还 Civic、猫头鹰/炼金/虚空/血族共 16 个晋升恰好一次，以及 Ethiopia、Gathering Storm、秘密结社模式三重 Criteria。主入口以 20 行调用/自检替换 42 行内联检查，由 3561 行降至 3539 行；数据库模块由 136 行扩展到 199 行。
 - 验证：真实 SQL 与 ModInfo 返回 0 个问题；把 `CIVIC_GRANT_PLAYER_GOVERNOR_POINTS` 替换为遗留 Civic 的内存反例被拒绝。PowerShell 7 与 Windows PowerShell 5.1 全量校验均通过 203 XML、108 Criteria、283 Actions、1077 Files、549 活跃引用、48 休眠文件和 69 源码专用文件。
 - 风险/待办：静态 SQL 只能证明记录和加载门存在，不能证明游戏内每次晋升实际只返还一次；需在秘密结社开/关、四结社与存读档组合实测总督点变化。
-- 提交：本次提交（秘密结社总督点返还契约模块化）。
+- 提交：`738ee33 refactor: extract secret society refund checks`。
+
+### 2026-09-08 / M2-Team PVP 秘密结社纵向契约模块化
+
+- 目标：把 Team PVP Secret Societies 3.93 与 LightweightBalance 资源便利规则的完整闭包从总入口迁入独立纵向模块，避免平衡数据、脚本、美术、文本和加载图只更新其中一层。
+- 范围：校验工具、架构、计划、测试矩阵和工作日志；不修改 Gameplay SQL、吸血鬼城堡 Lua、XML、本地化、美术资源、ModInfo、玩家行为或版本号。
+- 设计决定：`TeamPvpSocietyChecks.ps1` 一次接收工程根目录、ModInfo、Criteria、Action 和 Files 视图，统一检查全部资源及加载闭包并只返回问题列表；可选 SQL 文本覆盖仅用于无磁盘副作用的反例。含中文契约文本的模块显式保存为 UTF-8 BOM，兼容 Windows PowerShell 5.1。
+- 修改：迁移 `.dep`/ArtDef、Gameplay SQL 高风险数值与关系、吸血鬼城堡资源清理脚本、镀金船厂、三语文本、LightweightBalance 资源移除，以及秘密结社模式 Criteria、7 个数据库动作、1 个美术动作、脚本动作和 Files 清单检查。主入口以 35 行调度/自检替换 476 行内联检查，由 3539 行降至 3098 行；新增领域模块 518 行。
+- 验证：真实工程返回 0 个问题；内存中把 `DiscoverAtCityStateBaseChance = 100000` 改为 `1` 后，模块准确报告缺失高风险行为。PowerShell 7 与 Windows PowerShell 5.1 全量校验均通过 203 XML、108 Criteria、283 Actions、1077 Files、549 活跃引用、48 休眠文件和 70 源码专用文件。universal 产物保持 1072 文件、776,223,699 字节和聚合 SHA-256 `98c315d0cd9c54ab19c49f3fd760c47258e88c80c491f3c0c28055438d20c55d`。
+- 风险/待办：静态契约不能证明四结社在开/关模式、不同解锁时代、存读档和多人同步下的实际效果，也不能证明吸血鬼城堡清理资源时各客户端一致；相关组合仍需 Civ VI 实机及双客户端测试。
+- 提交：本次提交（Team PVP 秘密结社纵向契约模块化）。
