@@ -466,4 +466,14 @@
 - 修改：迁移六种资源类型及万神殿/产出标签、企鹅海岸与渔船及纸莎草平衡、325 个上游文件、ArtDef/Windows/macOS BLP、3 个外部完整模组 ID、公司模式 Criteria、8 组资源动作、动态简中标签族/最终 LoadOrder/Files 和独立 CIVITAS Resources 阻断。主入口以 34 行装载/调度/自检替换 198 行内联检查，由 3098 行降至 2934 行；新增领域模块 250 行。
 - 验证：真实工程返回 0 个问题；内存中把企鹅允许地形从 `TERRAIN_COAST` 改为 `TERRAIN_OCEAN` 后准确拒绝。PowerShell 7 与 Windows PowerShell 5.1 全量校验均通过 203 XML、108 Criteria、283 Actions、1077 Files、549 活跃引用、48 休眠文件和 71 源码专用文件。universal 产物保持 1072 文件、776,223,699 字节和聚合 SHA-256 `98c315d0cd9c54ab19c49f3fd760c47258e88c80c491f3c0c28055438d20c55d`。
 - 风险/待办：静态契约不能证明六种资源的地图生成密度、美术显示、公司产品和外部完整 BBG Expanded 启用时的实际交接；仍需在公司模式开/关、两种扩展规则与 Windows/macOS 中实机验证。
-- 提交：本次提交（BBG Expanded 六资源纵向契约模块化）。
+- 提交：`1a5a3d5 refactor: extract expanded resource checks`。
+
+### 2026-09-08 / M2-精选万神殿与地热矿山纵向契约模块化
+
+- 目标：把 13 个 Lightweight Balance 精选万神殿、ZYL 德鲁伊与 Gathering Storm 地热矿山从数据到加载图的完整闭包迁入独立模块。
+- 范围：校验工具、架构、计划、测试矩阵和工作日志；不修改万神殿/地热 SQL、文本、图标、ModInfo、玩家行为或版本号。
+- 设计决定：`PantheonChecks.ps1` 统一管理允许和排除清单、关键行为、三语本地化、图标、Action/Files、Gathering Storm Criteria 与独立 LightweightBalance 阻断，只返回领域问题；万神殿 SQL 可用内存覆盖构造反例。
+- 修改：迁移 14 个允许信仰、7 个排除信仰、征战之路文化值、9 个关键机制令牌、84 个三语名称/描述节点、14 个图标、地热矿山四项约束、4 个动作/文件、扩展规则门和模组阻断。主入口以 36 行装载/调度/自检替换 122 行内联检查，由 2934 行降至 2848 行；新增领域模块 158 行。
+- 验证：真实工程返回 0 个问题；内存中移除德鲁伊 `KIND_BELIEF` 注册后准确报告缺失。PowerShell 7 与 Windows PowerShell 5.1 全量校验均通过 203 XML、108 Criteria、283 Actions、1077 Files、549 活跃引用、48 休眠文件和 72 源码专用文件。universal 产物保持 1072 文件、776,223,699 字节和聚合 SHA-256 `98c315d0cd9c54ab19c49f3fd760c47258e88c80c491f3c0c28055438d20c55d`。
+- 风险/待办：静态契约不能证明万神殿选择界面、相邻加成、公司/秘密结社组合和地热裂缝矿山在游戏内的实际产出；仍需在基础规则与 Gathering Storm、新局/读档及多人组合中实测。
+- 提交：本次提交（精选万神殿与地热矿山纵向契约模块化）。
