@@ -142,6 +142,12 @@ if (-not (Test-Path -LiteralPath $finalGameplayChecksPath -PathType Leaf)) {
 }
 . $finalGameplayChecksPath
 
+$lobbyConfigurationChecksPath = Join-Path $PSScriptRoot 'validation\LobbyConfigurationChecks.ps1'
+if (-not (Test-Path -LiteralPath $lobbyConfigurationChecksPath -PathType Leaf)) {
+    throw "Lobby configuration validation helpers not found: $lobbyConfigurationChecksPath"
+}
+. $lobbyConfigurationChecksPath
+
 $releaseChecksPath = Join-Path $PSScriptRoot 'validation\ReleaseChecks.ps1'
 if (-not (Test-Path -LiteralPath $releaseChecksPath -PathType Leaf)) {
     throw "Release validation helpers not found: $releaseChecksPath"
@@ -795,40 +801,76 @@ if (Test-Path -LiteralPath $forcedEndLuaPath -PathType Leaf) {
 }
 
 $zylConfigPath = Join-Path $modRoot 'configuration\Config_ZYL.xml'
-if (Test-Path -LiteralPath $zylConfigPath) {
+$zylConfig = $null
+if (Test-Path -LiteralPath $zylConfigPath -PathType Leaf) {
     $zylConfig = Load-XmlDocument $zylConfigPath
-    $warningNode = $zylConfig.SelectSingleNode('/GameInfo/Parameters/Row[@ParameterId="TOOLS_15_TIME"]')
-    if ($null -eq $warningNode -or $warningNode.GetAttribute('DefaultValue') -ne '1') {
-        Add-ValidationError 'The 15-second warning must default to enabled.'
-    }
-    $zylConfigRows = @($zylConfig.SelectNodes('/GameInfo/Parameters/Row'))
-    foreach ($parameterId in @('TOOLS_COMMAND', 'TOOLS_15_TIME')) {
-        if ($null -eq ($zylConfigRows | Where-Object { $_.GetAttribute('ParameterId') -eq $parameterId })) {
-            Add-ValidationError "Config_ZYL.xml is missing $parameterId."
-        }
-    }
-	$ribbonModeOptions = @($zylConfig.SelectNodes('/GameInfo/Parameters/Row[@ParameterId="ZYL_DIPLOMACY_RIBBON_MODE"]'))
-	if ($ribbonModeOptions.Count -ne 1 -or
-		$ribbonModeOptions[0].GetAttribute('Key2') -ne 'RULESET_EXPANSION_2' -or
-		$ribbonModeOptions[0].GetAttribute('Domain') -ne 'ZylDiplomacyRibbonModes' -or
-		$ribbonModeOptions[0].GetAttribute('DefaultValue') -ne '0') {
-		Add-ValidationError 'The diplomacy-ribbon mode must be an Expansion 2 lobby option using ZylDiplomacyRibbonModes and defaulting to FFA (0).'
-	}
-	$ribbonModeValues = @($zylConfig.SelectNodes('/GameInfo/DomainValues/Row[@Domain="ZylDiplomacyRibbonModes"]'))
-	if ($ribbonModeValues.Count -ne 2 -or
-		$null -eq ($ribbonModeValues | Where-Object { $_.GetAttribute('Value') -eq '0' }) -or
-		$null -eq ($ribbonModeValues | Where-Object { $_.GetAttribute('Value') -eq '1' })) {
-		Add-ValidationError 'The diplomacy-ribbon domain must contain exactly FFA (0) and Team (1).'
-	}
-
 }
 
-foreach ($identityIssue in @(Get-ZylIdentityContractIssues `
-        -ProjectRoot $modRoot `
-        -ConfigurationXml $zylConfig `
-        -ListedFileMap $listedFileMap `
-        -ActionIdMap $actionIdMap)) {
-    Add-ValidationError $identityIssue
+$lobbyConfigurationValidationParameters = @{
+    ProjectRoot = $modRoot
+    ModInfo = $modInfo
+    ActionIdMap = $actionIdMap
+    ZylConfig = $zylConfig
+}
+$lobbyConfigurationIssues = @(
+    Get-ZylLobbyConfigurationContractIssues @lobbyConfigurationValidationParameters
+)
+foreach ($issue in $lobbyConfigurationIssues) {
+    Add-ValidationError $issue
+}
+
+# Prove that a final lobby default cannot silently drift.
+$lobbyDefaultsPath = Join-Path $modRoot 'configuration\ZYL_LobbyDefaults.xml'
+if (Test-Path -LiteralPath $lobbyDefaultsPath -PathType Leaf) {
+    $lobbyDefaultsDrift = Load-XmlDocument $lobbyDefaultsPath
+    $smartTimerDefaultNode = $lobbyDefaultsDrift.SelectSingleNode(
+        '/GameInfo/Parameters/Update[Where/@ParameterId="CPL_SMARTTIMER"]/Set'
+    )
+    if ($null -eq $smartTimerDefaultNode) {
+        Add-ValidationError 'Lobby configuration self-test fixture is missing CPL_SMARTTIMER.'
+    }
+    else {
+        $smartTimerDefaultNode.SetAttribute('DefaultValue', '8')
+        $lobbyDefaultDriftIssues = @(
+            Get-ZylLobbyConfigurationContractIssues @lobbyConfigurationValidationParameters `
+                -LobbyDefaultsOverride $lobbyDefaultsDrift
+        )
+        if ($lobbyDefaultDriftIssues -notcontains
+                'Final lobby default CPL_SMARTTIMER must be 9.') {
+            Add-ValidationError 'Lobby configuration self-test did not reject a default drift.'
+        }
+    }
+}
+
+# Keep the turn-processing limit helper covered through the extracted contract.
+$turnProcessingPath = Join-Path $modRoot 'ui\Additions\TurnProcessing.lua'
+if (Test-Path -LiteralPath $turnProcessingPath -PathType Leaf) {
+    $turnProcessingSource = Get-Content -Raw -LiteralPath $turnProcessingPath
+    $turnProcessingDriftSource = $turnProcessingSource.Replace(
+        'if g_timeCommandUses >= MAX_TIME_EXTENSIONS_PER_TURN then return end',
+        'if false then return end'
+    )
+    $turnProcessingDriftIssues = @(
+        Get-ZylLobbyConfigurationContractIssues @lobbyConfigurationValidationParameters `
+            -TurnProcessingSourceOverride $turnProcessingDriftSource
+    )
+    $expectedTurnProcessingDriftIssue =
+        'P++ per-turn limit logic is missing: ' +
+        'if g_timeCommandUses >= MAX_TIME_EXTENSIONS_PER_TURN then return end'
+    if ($turnProcessingDriftSource -eq $turnProcessingSource -or
+            $turnProcessingDriftIssues -notcontains $expectedTurnProcessingDriftIssue) {
+        Add-ValidationError 'Lobby configuration self-test did not reject a timer-limit drift.'
+    }
+}
+
+if ($null -ne $zylConfig) {
+    foreach ($identityIssue in @(Get-ZylIdentityContractIssues `
+            -ProjectRoot $modRoot `
+            -ConfigurationXml $zylConfig `
+            -ListedFileMap $listedFileMap `
+            -ActionIdMap $actionIdMap)) {
+        Add-ValidationError $identityIssue
+    }
 }
 $identityPanelLuaPath = Join-Path $modRoot 'ui\Additions\IdentityRolePanel.lua'
 if (Test-Path -LiteralPath $identityPanelLuaPath -PathType Leaf) {
@@ -979,175 +1021,6 @@ Add-ValidationError "Main-menu lifecycle guard is missing: $requiredMainMenuLife
 }
 Test-ZylLuaEventLifecycle -Source $mainMenuSource -Label 'Main menu'
 Test-ZylLuaHasNoUnguardedPrint -Source $mainMenuSource -Label 'Main menu'
-}
-
-# The two custom Casual timers remain distinct options. Casual (Relaxed) is
-# the default and uses the requested turn + 70 + 4C + 2U + delta formula.
-$cplConfigPath = Join-Path $modRoot 'configuration\Config.xml'
-$turnProcessingPath = Join-Path $modRoot 'ui\Additions\TurnProcessing.lua'
-if (Test-Path -LiteralPath $cplConfigPath) {
-    $cplConfig = Load-XmlDocument $cplConfigPath
-	$smartTimerParameter = $cplConfig.SelectSingleNode('/GameInfo/Parameters/Row[@ParameterId="CPL_SMARTTIMER"]')
-	if ($null -eq $smartTimerParameter -or $smartTimerParameter.GetAttribute('DefaultValue') -ne '9') {
-		Add-ValidationError 'The base smart-timer lobby parameter must default to Casual (Relaxed), value 9.'
-	}
-    $balancedTimerOption = $cplConfig.SelectSingleNode('/GameInfo/DomainValues/Row[@Domain="TimerLimits" and @Value="8"]')
-    if ($null -eq $balancedTimerOption -or
-        $balancedTimerOption.GetAttribute('Name') -ne 'TIMER_CASUAL_BALANCED_NAME' -or
-        $balancedTimerOption.GetAttribute('Description') -ne 'TIMER_CASUAL_BALANCED_DESC') {
-        Add-ValidationError 'The balanced Casual timer option (TimerLimits value 8) is missing or malformed.'
-    }
-	$relaxedTimerOption = $cplConfig.SelectSingleNode('/GameInfo/DomainValues/Row[@Domain="TimerLimits" and @Value="9"]')
-	if ($null -eq $relaxedTimerOption -or
-		$relaxedTimerOption.GetAttribute('Name') -ne 'TIMER_CASUAL_RELAXED_NAME' -or
-		$relaxedTimerOption.GetAttribute('Description') -ne 'TIMER_CASUAL_RELAXED_DESC') {
-		Add-ValidationError 'The relaxed Casual timer option (TimerLimits value 9) is missing or malformed.'
-	}
-}
-if (-not (Test-Path -LiteralPath $turnProcessingPath -PathType Leaf)) {
-    Add-ValidationError 'The turn-processing controller is missing.'
-}
-else {
-    $turnProcessingSource = Get-Content -Raw -LiteralPath $turnProcessingPath
-    $turnProcessingIssues = @(Get-ZylTurnProcessingContractIssues -Source $turnProcessingSource)
-    $turnProcessingDriftSource = $turnProcessingSource.Replace(
-        'if g_timeCommandUses >= MAX_TIME_EXTENSIONS_PER_TURN then return end',
-        'if false then return end'
-    )
-    if ($turnProcessingIssues.Count -ne 0 -or
-            $turnProcessingDriftSource -eq $turnProcessingSource -or
-            @(Get-ZylTurnProcessingContractIssues -Source $turnProcessingDriftSource).Count -eq 0) {
-        Add-ValidationError 'Turn-processing contract helper failed its positive/negative self-test.'
-    }
-    foreach ($turnProcessingIssue in $turnProcessingIssues) {
-        Add-ValidationError $turnProcessingIssue
-    }
-}
-
-foreach ($eraContractIssue in @(Get-ZylEraConfigurationContractIssues `
-        -ProjectRoot $modRoot `
-        -ModInfo $modInfo `
-        -ZylConfig $zylConfig)) {
-    Add-ValidationError $eraContractIssue
-}
-
-# The final lobby defaults are deliberately a separate, late-loading action.
-# Config_ZYL.xml also owns the two TPT rows, but its old mixed Update block ran
-# before MPH/BBG had created their Parameters and therefore matched zero rows.
-$lobbyDefaultsPath = Join-Path $modRoot 'configuration\ZYL_LobbyDefaults.xml'
-if (-not (Test-Path -LiteralPath $lobbyDefaultsPath)) {
-    Add-ValidationError 'The final lobby-default configuration is missing.'
-}
-else {
-    $lobbyDefaults = Load-XmlDocument $lobbyDefaultsPath
-    $expectedLobbyDefaults = @{
-        'TOOLS_COMMAND' = '1'
-        'TOOLS_15_TIME' = '1'
-        'CPL_SMARTTIMER' = '9'
-        'ZYL_ERA_LENGTH_OPTIMIZATION' = '1'
-		'ZYL_DIPLOMACY_RIBBON_MODE' = '0'
-		'ZYL_STARTING_BONUS_PLAYER' = '0'
-		'ZYL_STARTING_BONUS_TYPE' = '0'
-        'BBCC_SETTING' = '0'
-        'BBCC_SETTING_YIELD' = '2'
-		'SettlersConfig' = '0'
-        'BarbariansSetting' = '-1'
-        'NoBarbarians' = '1'
-        'GameMode_Monopolies' = '1'
-        'GameMode_SecretSocieties' = '1'
-        'ZYLRM_TEAM_RouteLevel' = '1'
-        'ZYLRM_FFA_RouteLevel' = '1'
-    }
-    foreach ($entry in $expectedLobbyDefaults.GetEnumerator()) {
-        $node = $lobbyDefaults.SelectSingleNode("/GameInfo/Parameters/Update[Where/@ParameterId='$($entry.Key)']/Set")
-        if ($null -eq $node -or $node.GetAttribute('DefaultValue') -ne $entry.Value) {
-            Add-ValidationError "Final lobby default $($entry.Key) must be $($entry.Value)."
-        }
-    }
-    $lobbyAction = $actionIdMap['zyl_lobbydefaults']
-    if ($null -eq $lobbyAction) {
-        Add-ValidationError 'Final lobby-default ModInfo action is missing.'
-    }
-    else {
-        if ($lobbyAction.ParentNode.LocalName -ne 'FrontEndActions' -or $lobbyAction.LocalName -ne 'UpdateDatabase') {
-            Add-ValidationError 'Final lobby-default action must be a FrontEndActions UpdateDatabase action.'
-        }
-        $loadOrderNode = $lobbyAction.SelectSingleNode('./Properties/LoadOrder')
-        if ($null -eq $loadOrderNode -or [int64]$loadOrderNode.InnerText.Trim() -lt 300000000) {
-            Add-ValidationError 'Final lobby-default action must load at or after 300000000.'
-        }
-        $cplAction = $actionIdMap['cpl_settings']
-        if ($null -ne $cplAction) {
-            $cplLoadOrderNode = $cplAction.SelectSingleNode('./Properties/LoadOrder')
-            if ($null -ne $cplLoadOrderNode -and [int64]$loadOrderNode.InnerText.Trim() -le [int64]$cplLoadOrderNode.InnerText.Trim()) {
-                Add-ValidationError 'Final lobby-default action must load after CPL_SETTINGS.'
-            }
-        }
-        $lobbyActionFile = @($lobbyAction.SelectNodes('./File') | ForEach-Object { Normalize-RelativePath $_.InnerText })
-        if ((Normalize-RelativePath 'configuration/ZYL_LobbyDefaults.xml') -notin $lobbyActionFile) {
-            Add-ValidationError 'Final lobby-default action does not reference ZYL_LobbyDefaults.xml.'
-        }
-    }
-}
-
-$hostGamePath = Join-Path $modRoot 'ui\hostgame.lua'
-if (Test-Path -LiteralPath $hostGamePath) {
-    $kickVotingCalls = @(Select-String -LiteralPath $hostGamePath -SimpleMatch 'GameConfiguration.SetKickVoting(true);')
-    if ($kickVotingCalls.Count -lt 2) {
-        Add-ValidationError 'Kick voting must be enabled in fresh-host and restore-default flows.'
-    }
-    $hostGameLua = Get-Content -LiteralPath $hostGamePath -Raw
-    $applyDefaultCalls = @([regex]::Matches($hostGameLua, 'ApplyZYLLobbyDefaults\s*\(\s*\)'))
-    if ($applyDefaultCalls.Count -lt 4) {
-        Add-ValidationError 'Host game must apply ZYLPVPMOD defaults for fresh rooms, Restore Defaults and MPH preset None.'
-    }
-	foreach ($requiredDefault in @(
-		'{ "CPL_SMARTTIMER", 9 }',
-		'{ "ZYL_ERA_LENGTH_OPTIMIZATION", 1 }',
-		'{ "ZYL_DIPLOMACY_RIBBON_MODE", 0 }',
-		'{ "ZYL_STARTING_BONUS_PLAYER", 0 }',
-		'{ "ZYL_STARTING_BONUS_TYPE", 0 }',
-		'{ "SettlersConfig", 0 }'
-	)) {
-		if (-not $hostGameLua.Contains($requiredDefault)) {
-			Add-ValidationError "Host game is missing the requested lobby default: $requiredDefault"
-		}
-	}
-	foreach ($requiredHostLifecycleFragment in @(
-		'local b_debug = false;',
-		'function OnFinishedGameplayContentConfigure(result)',
-		'Events.FinishedGameplayContentConfigure.Add(OnFinishedGameplayContentConfigure);',
-		'Events.FinishedGameplayContentConfigure.Remove(OnFinishedGameplayContentConfigure);',
-		'hostID == nil or localID == nil or hostID < 0 or localID ~= hostID'
-	)) {
-		if (-not $hostGameLua.Contains($requiredHostLifecycleFragment)) {
-			Add-ValidationError "Host-game lifecycle or authority guard is missing: $requiredHostLifecycleFragment"
-		}
-	}
-	foreach ($forbiddenHostFragment in @(
-		'Events.FinishedGameplayContentConfigure.Add(function',
-		'Network.BroadcastPlayerInfo()',
-		'SpawnRecalculation',
-		'OnUpdateUI()'
-	)) {
-		if ($hostGameLua.Contains($forbiddenHostFragment)) {
-			Add-ValidationError "Host game restored a dead path or unrelated broadcast: $forbiddenHostFragment"
-		}
-	}
-	Test-ZylLuaEventLifecycle -Source $hostGameLua -Label 'Host game'
-	Test-ZylLuaHasNoUnguardedPrint -Source $hostGameLua -Label 'Host game'
-}
-
-$bbgConfigPath = Join-Path $modRoot 'Components\BBG\config\config.xml'
-if (Test-Path -LiteralPath $bbgConfigPath) {
-    $bbgConfig = Load-XmlDocument $bbgConfigPath
-    $settlersParameter = $bbgConfig.SelectSingleNode('/GameInfo/Parameters/Row[@ParameterId="SettlersConfig"]')
-    if ($null -eq $settlersParameter -or $settlersParameter.GetAttribute('DefaultValue') -ne '0') {
-        Add-ValidationError 'BBG captured-settler option must default to Send Home (0).'
-    }
-}
-else {
-    Add-ValidationError 'BBG front-end configuration is missing.'
 }
 
 # All sixteen Secret Society promotions refund one Governor Title through the
