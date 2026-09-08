@@ -2885,67 +2885,24 @@ if (Test-Path -LiteralPath $cplConfigPath) {
 		Add-ValidationError 'The relaxed Casual timer option (TimerLimits value 9) is missing or malformed.'
 	}
 }
-if (Test-Path -LiteralPath $turnProcessingPath) {
+if (-not (Test-Path -LiteralPath $turnProcessingPath -PathType Leaf)) {
+    Add-ValidationError 'The turn-processing controller is missing.'
+}
+else {
     $turnProcessingSource = Get-Content -Raw -LiteralPath $turnProcessingPath
-    foreach ($requiredCommandFragment in @(
-        'local MAX_TIME_EXTENSIONS_PER_TURN = 6',
-        'local g_timeCommandUses = 0',
+    $turnProcessingIssues = @(Get-ZylTurnProcessingContractIssues -Source $turnProcessingSource)
+    $turnProcessingDriftSource = $turnProcessingSource.Replace(
         'if g_timeCommandUses >= MAX_TIME_EXTENSIONS_PER_TURN then return end',
-        'g_timeCommandUses = g_timeCommandUses + 1',
-        'g_timeCommandUses = 0'
-    )) {
-        if (-not $turnProcessingSource.Contains($requiredCommandFragment)) {
-            Add-ValidationError "P++ per-turn limit logic is missing: $requiredCommandFragment"
-        }
+        'if false then return end'
+    )
+    if ($turnProcessingIssues.Count -ne 0 -or
+            $turnProcessingDriftSource -eq $turnProcessingSource -or
+            @(Get-ZylTurnProcessingContractIssues -Source $turnProcessingDriftSource).Count -eq 0) {
+        Add-ValidationError 'Turn-processing contract helper failed its positive/negative self-test.'
     }
-    foreach ($requiredTimerFragment in @(
-        'max_cities = math.max(max_cities, city_count)',
-        'max_units = math.max(max_units, unit_count)',
-        'if timerMode == 8 then',
-        'timer = 95 + max_cities * 4 + max_units + g_timeshift',
-        'timer = timer + 40',
-        'timer = timer + 20'
-    )) {
-        if (-not $turnProcessingSource.Contains($requiredTimerFragment)) {
-            Add-ValidationError "Balanced Casual timer logic is missing: $requiredTimerFragment"
-        }
-	}
-	foreach ($requiredRelaxedTimerFragment in @(
-		'if timerMode == 9 then',
-		'local delta = g_timeshift',
-		'delta = delta - 25',
-		'delta = delta + 40',
-		'delta = delta + 20',
-		'timer = currentTurn + 70 + max_cities * 4 + max_units * 2 + delta'
-	)) {
-		if (-not $turnProcessingSource.Contains($requiredRelaxedTimerFragment)) {
-			Add-ValidationError "Relaxed Casual timer logic is missing: $requiredRelaxedTimerFragment"
-		}
-	}
-	foreach ($requiredTimerLifecycleFragment in @(
-		'local g_lastAppliedTimerType = nil',
-		'local function IsTurnProcessingEnabled()',
-		'local timerMode = tonumber(GameConfiguration.GetValue("CPL_SMARTTIMER")) or 1',
-		'if timeValue ~= nil and tonumber(GameConfiguration.GetValue("TURN_TIMER_TIME")) ~= tonumber(timeValue) then',
-		'if timerType ~= nil and timerType ~= g_lastAppliedTimerType then',
-		'if changed then',
-		'if g_temporaryNoTimer then return end',
-		'local adjustedValue = tonumber(time_value)',
-		'SetTicking(false)'
-	)) {
-		if (-not $turnProcessingSource.Contains($requiredTimerLifecycleFragment)) {
-			Add-ValidationError "Turn-processing lifecycle or input guard is missing: $requiredTimerLifecycleFragment"
-		}
-	}
-	foreach ($forbiddenTimerFragment in @(
-		'g_startupGateActive',
-		'UpdateStartupGate'
-	)) {
-		if ($turnProcessingSource.Contains($forbiddenTimerFragment)) {
-			Add-ValidationError "Turn-processing still references dead startup-gate state: $forbiddenTimerFragment"
-		}
-	}
-	Test-ZylLuaHasNoUnguardedPrint -Source $turnProcessingSource -Label 'Turn processing'
+    foreach ($turnProcessingIssue in $turnProcessingIssues) {
+        Add-ValidationError $turnProcessingIssue
+    }
 }
 
 foreach ($eraContractIssue in @(Get-ZylEraConfigurationContractIssues `

@@ -368,3 +368,73 @@ function Get-ZylSuddenDeathContractIssues {
     }
     return @($issues)
 }
+
+function Get-ZylTurnProcessingContractIssues {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string]$Source
+    )
+
+    $issues = [System.Collections.Generic.List[string]]::new()
+    foreach ($requiredFragment in @(
+            'local MAX_TIME_EXTENSIONS_PER_TURN = 6',
+            'local g_timeCommandUses = 0',
+            'if g_timeCommandUses >= MAX_TIME_EXTENSIONS_PER_TURN then return end',
+            'g_timeCommandUses = g_timeCommandUses + 1',
+            'g_timeCommandUses = 0'
+        )) {
+        if (-not $Source.Contains($requiredFragment)) {
+            $issues.Add("P++ per-turn limit logic is missing: $requiredFragment")
+        }
+    }
+    foreach ($requiredFragment in @(
+            'max_cities = math.max(max_cities, city_count)',
+            'max_units = math.max(max_units, unit_count)',
+            'if timerMode == 8 then',
+            'timer = 95 + max_cities * 4 + max_units + g_timeshift',
+            'timer = timer + 40',
+            'timer = timer + 20'
+        )) {
+        if (-not $Source.Contains($requiredFragment)) {
+            $issues.Add("Balanced Casual timer logic is missing: $requiredFragment")
+        }
+    }
+    foreach ($requiredFragment in @(
+            'if timerMode == 9 then',
+            'local delta = g_timeshift',
+            'delta = delta - 25',
+            'delta = delta + 40',
+            'delta = delta + 20',
+            'timer = currentTurn + 70 + max_cities * 4 + max_units * 2 + delta'
+        )) {
+        if (-not $Source.Contains($requiredFragment)) {
+            $issues.Add("Relaxed Casual timer logic is missing: $requiredFragment")
+        }
+    }
+    foreach ($requiredFragment in @(
+            'local g_lastAppliedTimerType = nil',
+            'local function IsTurnProcessingEnabled()',
+            'local timerMode = tonumber(GameConfiguration.GetValue("CPL_SMARTTIMER")) or 1',
+            'if timeValue ~= nil and tonumber(GameConfiguration.GetValue("TURN_TIMER_TIME")) ~= tonumber(timeValue) then',
+            'if timerType ~= nil and timerType ~= g_lastAppliedTimerType then',
+            'if changed then',
+            'if g_temporaryNoTimer then return end',
+            'local adjustedValue = tonumber(time_value)',
+            'SetTicking(false)'
+        )) {
+        if (-not $Source.Contains($requiredFragment)) {
+            $issues.Add("Turn-processing lifecycle or input guard is missing: $requiredFragment")
+        }
+    }
+    foreach ($forbiddenFragment in @('g_startupGateActive', 'UpdateStartupGate')) {
+        if ($Source.Contains($forbiddenFragment)) {
+            $issues.Add("Turn-processing still references dead startup-gate state: $forbiddenFragment")
+        }
+    }
+    foreach ($printIssue in @(Get-ZylLuaUnguardedPrintIssues `
+            -Source $Source `
+            -Label 'Turn processing')) {
+        $issues.Add($printIssue)
+    }
+    return @($issues)
+}
