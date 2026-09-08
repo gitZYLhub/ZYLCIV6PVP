@@ -148,6 +148,12 @@ if (-not (Test-Path -LiteralPath $lobbyConfigurationChecksPath -PathType Leaf)) 
 }
 . $lobbyConfigurationChecksPath
 
+$artIntegrationChecksPath = Join-Path $PSScriptRoot 'validation\ArtIntegrationChecks.ps1'
+if (-not (Test-Path -LiteralPath $artIntegrationChecksPath -PathType Leaf)) {
+    throw "Art integration validation helpers not found: $artIntegrationChecksPath"
+}
+. $artIntegrationChecksPath
+
 $releaseChecksPath = Join-Path $PSScriptRoot 'validation\ReleaseChecks.ps1'
 if (-not (Test-Path -LiteralPath $releaseChecksPath -PathType Leaf)) {
     throw "Release validation helpers not found: $releaseChecksPath"
@@ -1218,51 +1224,42 @@ foreach ($endGameUiIssue in @(Get-ZylEndGameUiOwnershipIssues `
     Add-ValidationError $endGameUiIssue
 }
 
-# Confirm BBM art is rooted where NaturalWondersMod.dep expects it.
-$artAction = @($actionNodes | Where-Object {
-    $_.LocalName -eq 'UpdateArt' -and $_.SelectSingleNode('.//File').InnerText -ieq 'NaturalWondersMod.dep'
-})
-if ($artAction.Count -ne 1) {
-    Add-ValidationError "Expected exactly one root NaturalWondersMod.dep UpdateArt action; found $($artAction.Count)."
+# BBM's root dependency, ArtDefs, platform packages and removed upstream
+# references form one art-loading compatibility boundary.
+$artIntegrationValidationParameters = @{
+    ProjectRoot = $modRoot
+    ActionNodes = @($actionNodes)
+    ListedFileMap = $listedFileMap
+    ActionReferenceMap = $actionReferenceMap
 }
-$depPath = Join-Path $modRoot 'NaturalWondersMod.dep'
-if (Test-Path -LiteralPath $depPath) {
-    $dep = Load-XmlDocument $depPath
-    $artDefNames = @($dep.SelectNodes('//*[local-name()="ArtDefPath" or local-name()="ArtDefDependencyPaths"]//Element') |
-        ForEach-Object { $_.GetAttribute('text') } |
-        Where-Object { $_ -like '*.artdef' } |
-        Sort-Object -Unique)
-    foreach ($artDefName in $artDefNames) {
-        if (-not (Test-Path -LiteralPath (Join-Path $modRoot (Join-Path 'ArtDefs' $artDefName)))) {
-            Add-ValidationError "BBM art definition dependency missing: ArtDefs\$artDefName"
-        }
-    }
-    $packageNames = @($dep.SelectNodes('//*[local-name()="PackageDependencies"]/Element') |
-        ForEach-Object { $_.GetAttribute('text') } |
-        Where-Object { -not [string]::IsNullOrWhiteSpace($_) } |
-        Sort-Object -Unique)
-    foreach ($platform in @('Windows', 'MacOS')) {
-        foreach ($packageName in $packageNames) {
-            $packagePath = Join-Path $modRoot ("Platforms\$platform\BLPs\$($packageName.Replace('/', '\'))")
-            if (-not (Test-Path -LiteralPath $packagePath)) {
-                Add-ValidationError "BBM art package dependency missing: $packagePath"
-            }
-        }
-    }
+$artIntegrationIssues = @(
+    Get-ZylArtIntegrationContractIssues @artIntegrationValidationParameters
+)
+foreach ($issue in $artIntegrationIssues) {
+    Add-ValidationError $issue
 }
 
-# Guard the broken references removed from the two upstream ModInfos.
-$removedReferences = @(
-    'Components\BBG\sql\DLC_Indonesia_Khmer\_dlc_indo_khmer_utils.sql',
-    'Components\BBG\sql\DLC_Indonesia_Khmer\Other.sql',
-    'Components\BBG\sql\LP\lp_arabia_saladin_sultan.sql',
-    'Components\BBM\Data\BBS_D.lua',
-    'Components\BBM\Data\BBS Maps\Utility\BBS_Balance.lua'
-)
-foreach ($removedReference in $removedReferences) {
-    $key = Normalize-RelativePath $removedReference
-    if ($listedFileMap.ContainsKey($key) -or $actionReferenceMap.ContainsKey($key)) {
-        Add-ValidationError "Removed upstream reference returned: $removedReference"
+# Prove that a dependency descriptor cannot point at a missing ArtDef.
+$bbmDependencyPath = Join-Path $modRoot 'NaturalWondersMod.dep'
+if (Test-Path -LiteralPath $bbmDependencyPath -PathType Leaf) {
+    $bbmDependencyDrift = Load-XmlDocument $bbmDependencyPath
+    $bbmArtDefDriftNode = $bbmDependencyDrift.SelectSingleNode(
+        '//*[local-name()="ArtDefPath" or ' +
+        'local-name()="ArtDefDependencyPaths"]//Element[@text][1]'
+    )
+    if ($null -eq $bbmArtDefDriftNode) {
+        Add-ValidationError 'Art integration self-test fixture has no ArtDef dependency.'
+    }
+    else {
+        $bbmArtDefDriftNode.SetAttribute('text', '__selftest_missing__.artdef')
+        $artIntegrationDriftIssues = @(
+            Get-ZylArtIntegrationContractIssues @artIntegrationValidationParameters `
+                -DependencyOverride $bbmDependencyDrift
+        )
+        if ($artIntegrationDriftIssues -notcontains
+                'BBM art definition dependency missing: ArtDefs\__selftest_missing__.artdef') {
+            Add-ValidationError 'Art integration self-test did not reject a missing ArtDef.'
+        }
     }
 }
 

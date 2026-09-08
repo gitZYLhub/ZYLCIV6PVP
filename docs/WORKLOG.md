@@ -566,4 +566,14 @@
 - 修改：迁移 15 秒警告、外交条模式、Balanced/Relaxed Casual 定义与 P++ 限制、时代长度、16 个最终大厅默认值及动作顺序、房主 Fresh/Restore/MPH None 应用路径、房主权限与事件注销、BBG `SettlersConfig=0`。主入口由 1489 行降至 1362 行；新增领域模块 343 行。
 - 验证：真实工程返回 0 个问题；内存中把最终 `CPL_SMARTTIMER` 默认值由 9 改为 8，以及移除每回合 P++ 次数上限，均被准确拒绝。PowerShell 7 与 Windows PowerShell 5.1 全量校验均通过 203 XML、108 Criteria、283 Actions、1077 Files、549 活跃引用、48 休眠文件和 82 源码专用文件。universal 产物保持 1072 文件、776,223,699 字节和聚合 SHA-256 `98c315d0cd9c54ab19c49f3fd760c47258e88c80c491f3c0c28055438d20c55d`。
 - 风险/待办：静态配置契约不能证明 Firaxis 前端数据库的最终合并值，也不能覆盖房主切换、Restore Defaults、MPH None 和 P++ 输入在真实联机房间中的时序；这些仍需双客户端实测。
-- 提交：本次提交（最终大厅配置与房主流程模块化）。
+- 提交：`4768093 refactor: extract lobby configuration checks`。
+
+### 2026-09-08 / M2-BBM 根美术依赖与坏引用边界模块化
+
+- 目标：把 BBM 根级 `.dep` 装载链和已清理的上游坏引用集中到独立兼容性契约，避免艺术资源升级时只检查“文件存在”而漏掉动作或平台依赖。
+- 范围：校验工具、架构、计划、测试矩阵和工作日志；不修改 `.dep`、ArtDef、BLP、ModInfo、运行包内容、玩家行为或版本号。
+- 设计决定：`ArtIntegrationChecks.ps1` 同时消费 Action、Files 与活跃引用视图，安全处理没有 File 子节点的 UpdateArt 动作，读取 `NaturalWondersMod.dep` 后核对根 `ArtDefs` 和 Windows/macOS BLP。依赖 XML 支持内存覆盖，模块只返回问题；缺失 dep 现在给出领域错误而不是依赖后续空引用。
+- 修改：迁移唯一根 UpdateArt 动作、dep 中所有 ArtDef/PackageDependencies 双平台闭包，以及 BBG 印度尼西亚/高棉、苏丹萨拉丁和 BBM 两条失效文件引用防回流检查。主入口由 1362 行降至 1359 行；新增领域模块 99 行。
+- 验证：真实工程返回 0 个问题；内存中把首个 ArtDef 依赖改为 `__selftest_missing__.artdef` 后准确拒绝。PowerShell 7 与 Windows PowerShell 5.1 全量校验均通过 203 XML、108 Criteria、283 Actions、1077 Files、549 活跃引用、48 休眠文件和 83 源码专用文件。universal 产物保持 1072 文件、776,223,699 字节和聚合 SHA-256 `98c315d0cd9c54ab19c49f3fd760c47258e88c80c491f3c0c28055438d20c55d`。
+- 风险/待办：静态闭包不能证明 Civ VI 在 Windows/macOS 上实际解析 `.dep`、ArtDef 和 BLP 成功，也不能验证纹理/模型视觉结果；两平台包仍需实机加载和地图生成抽样。
+- 提交：本次提交（BBM 根美术依赖与坏引用边界模块化）。

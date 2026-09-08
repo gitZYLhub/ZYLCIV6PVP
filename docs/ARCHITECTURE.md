@@ -62,6 +62,7 @@ Manifest 迁移采用“分段替换而非一次重写”：`manifest/criteria`�
 - `UpstreamBalanceChecks.ps1` 统一保护最终覆盖动作顺序、灾害关闭值、科技倍率禁用、城邦住房，以及马里、高棉、克里、大哥伦比亚、高卢/维钦托利、图拉真等上游 SQL 与多份文本副本；入口以内存移除曼萨·穆萨黄金时代路线标识的反例验证上游保留规则。
 - `FinalGameplayChecks.ps1` 负责上游加载后的最终数据库状态：城市住房/科技、毛利、马里、高棉、克里、大哥伦比亚、高卢、俄罗斯、法国、苏莱曼、时代着力点、约翰内斯堡与损坏 Modifier 链清理，并复核毛利/德国/BBG 总督源；入口以内存删除无水城市住房键的反例验证最终层。
 - `LobbyConfigurationChecks.ps1` 纵向拥有 ZYL/CPL/BBG 前端配置、两档 Casual 计时器、可选时代长度、最终大厅默认值及其晚加载动作、房主重置/权限/生命周期；入口以内存改变智能计时默认值和移除 P++ 次数上限的反例保护配置与运行时两端一致。
+- `ArtIntegrationChecks.ps1` 保护 BBM 根级 `NaturalWondersMod.dep` 的唯一 UpdateArt 动作、ArtDef 与 Windows/macOS BLP 依赖闭包，并阻止五条已清理的 BBG/BBM 上游坏引用回流；入口以内存改写 ArtDef 路径的反例验证缺失依赖会被拒绝。
 - `TeamPvpSocietyChecks.ps1` 纵向拥有 Team PVP Secret Societies 3.93 整合层：资源存在性、Gameplay SQL、吸血鬼城堡脚本、镀金船厂、三语文本、美术依赖、LightweightBalance 资源移除，以及秘密结社模式 Criteria/Action/Files 闭包统一由一个无副作用函数检查；入口通过内存修改城邦发现概率证明高风险平衡漂移会被拒绝。
 - `ExpandedResourceChecks.ps1` 纵向拥有 BBG Expanded 六种资源的核心/平衡 SQL、325 个上游文件、美术依赖与双平台包、公司模式扩展、外部完整模组交接、动态简体中文和独立模组阻断；入口以内存资源地形漂移反例自检，损坏的中文文本动作则返回领域错误而不会使校验器空引用退出。
 - `MonopoliesChecks.ps1` 纵向拥有行业、公司及产品的 50 个最终数值、枫糖住房例外、公司模式数据库/文本加载顺序、21 个简中效果标签和百科资源清单；入口以内存百分比漂移反例自检，缺失 LoadOrder 节点会作为问题汇总而不会中止校验。
