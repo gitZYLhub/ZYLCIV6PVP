@@ -82,6 +82,12 @@ if (-not (Test-Path -LiteralPath $multiplayerChecksPath -PathType Leaf)) {
 }
 . $multiplayerChecksPath
 
+$mapChecksPath = Join-Path $PSScriptRoot 'validation\MapChecks.ps1'
+if (-not (Test-Path -LiteralPath $mapChecksPath -PathType Leaf)) {
+    throw "Map validation helpers not found: $mapChecksPath"
+}
+. $mapChecksPath
+
 $missingRemovalFixture = @(Get-ZylLuaEventLifecycleIssues -Source 'Events.Example.Add(OnExample)' -Label 'Fixture')
 $balancedLifecycleFixture = @(Get-ZylLuaEventLifecycleIssues -Source @'
 Events.Example.Add(OnExample)
@@ -1825,267 +1831,29 @@ else {
     }
 }
 
-# Rich Mainland split invariants: keep both public maps, all FFA player-count
-# sizes and their gameplay defaults from regressing during future integrations.
-$richMainlandManifestFiles = @(
-    'Components/BBM/Configuration/ZYL_RichMainland_Config.xml',
-    'Components/BBM/Lang/ZYL_RichMainland_Text.xml',
-    'Components/BBM/Data/BBS Maps/zyl_team_rich_mainland.lua',
-    'Components/BBM/Data/BBS Maps/zyl_ffa_rich_mainland.lua',
-    'Components/BBM/Data/BBS Maps/zyl_rich_mainland_core.lua',
-    'Components/BBM/Data/BBS Maps/ZYLRM/ConfigureCommon.sql',
-    'Components/BBM/Data/BBS Maps/ZYLRM/ConfigureTeam.sql',
-    'Components/BBM/Data/BBS Maps/ZYLRM/ConfigureFFA.sql',
-    'Components/BBM/Data/BBS Maps/Utility/ZYL_RVC_AssignStartingPlots.lua',
-    'Components/BBM/Data/BBS Maps/Utility/ZYL_RVC_Balance.lua',
-    'Components/BBM/Data/BBS Maps/Utility/ZYL_RVC_BBS_TerrainGenerator.lua',
-    'Components/BBM/Data/BBS Maps/Utility/ZYL_RVC_CoastalLowlands.lua',
-    'Components/BBM/Data/BBS Maps/Utility/ZYL_RVC_DW_TerrainGenerator.lua',
-    'Components/BBM/Data/BBS Maps/Utility/ZYL_RVC_FeatureGenerator.lua',
-    'Components/BBM/Data/BBS Maps/Utility/ZYL_RVC_MapUtilities.lua',
-    'Components/BBM/Data/BBS Maps/Utility/ZYL_RVC_MountainsCliffs.lua',
-    'Components/BBM/Data/BBS Maps/Utility/ZYL_RVC_ResourceGenerator.lua',
-    'Components/BBM/Data/BBS Maps/Utility/ZYL_RVC_RiversLakes.lua'
-)
-foreach ($requiredFile in $richMainlandManifestFiles) {
-    if (-not $listedFileMap.ContainsKey((Normalize-RelativePath $requiredFile))) {
-        Add-ValidationError "Rich Mainland file absent from <Files>: $requiredFile"
-    }
+# Rich Mainland publishes two map variants and protects their map-generation
+# fallbacks, deterministic retry path, canvas geometry and ModInfo graph.
+foreach ($richMainlandIssue in @(Get-ZylRichMainlandContractIssues `
+        -ProjectRoot $modRoot `
+        -ListedFileMap $listedFileMap `
+        -CriteriaMap $criteriaMap `
+        -ActionIdMap $actionIdMap)) {
+    Add-ValidationError $richMainlandIssue
 }
-
-$richMainlandCriteria = @{
-    'zyl_richmainland' = @('zyl_ffa_rich_mainland.lua', 'zyl_team_rich_mainland.lua')
-    'zyl_richmainland_team' = @('zyl_team_rich_mainland.lua')
-    'zyl_richmainland_ffa' = @('zyl_ffa_rich_mainland.lua')
-}
-
-# Rich Mainland runtime safeguards: missing city-state starts are recovered by
-# a distance-tiered full-map search, and the early horse/iron guarantee has a
-# deterministic safe fallback.  These checks prevent a future source sync
-# from silently restoring the old "temporary tile then delete the CS" path.
 $richMainlandAssignPath = Join-Path $modRoot 'Components\BBM\Data\BBS Maps\Utility\ZYL_RVC_AssignStartingPlots.lua'
-if (Test-Path -LiteralPath $richMainlandAssignPath) {
-    $richMainlandAssignLua = Get-Content -LiteralPath $richMainlandAssignPath -Raw
-    foreach ($requiredToken in @(
+if (Test-Path -LiteralPath $richMainlandAssignPath -PathType Leaf) {
+    $richMainlandAssignSource = Get-Content -LiteralPath $richMainlandAssignPath -Raw
+    $richMainlandAssignIssues = @(Get-ZylRichMainlandAssignStartingPlotsIssues `
+        -Source $richMainlandAssignSource)
+    $richMainlandAssignDriftSource = $richMainlandAssignSource.Replace(
         '__PlaceMissingMinorCivsRelaxed',
-        '__FindRelaxedMinorStart',
-        'ZYL_RVC_MINOR_DISTANCE_TIERS',
-        'MinMajor = 6, MinMinor = 3',
-        'bError_minor == false',
-        'Error Minor Player is still missing after relaxed fallback',
-        'CUSTOM_HYDROPHOBIC',
-        'ZYL_RVC_HYDROPHOBIC_MIN_WALKABLE_RATIO = 0.60',
-        'ZYL_RVC_HYDROPHOBIC_COAST_FREE_RANGE = 3',
-        'ZYL_RVC_HYDROPHOBIC_COAST_SCORE_RANGE = 5',
-        'ZYL_RVC_EvaluateHydrophobicStart',
-        'walkableRatio <= ZYL_RVC_HYDROPHOBIC_MIN_WALKABLE_RATIO',
-        'ZYL_RVC_EW_COAST_START_BONUS = 50000000',
-		'ZYL_RVC_TARGET_COAST_START_BONUS = 200000000',
-		'ZYL_RVC_OTHER_EW_COAST_START_BONUS = 100000000',
-        'ZYL_RVC_GetCoastOrientation',
-		'ZYL_RVC_IsEastWestCoastOrientation',
-		'__InitCoastalSideTargets',
-		'__GetCoastalTargetSide',
-		'__LogCoastalSideQuota',
-		'coastalSideCounts = { WEST = 0, EAST = 0 }',
-		'counts.WEST < counts.EAST',
-		'counts.EAST < counts.WEST',
-		'self.coastalSideCounts[ratedBias.CoastOrientation]',
-		"SEAS_CIVILIZATION[row.CivilizationType] = true",
-		"including BBG's land-start",
-        'Areas.FindBiggestArea(false)',
-        'plotArea:GetID() ~= ZYL_RVC_MAINLAND_AREA_ID',
-        'eastWestSeaMargin',
-        'northSouthSeaMargin = 6',
-		'ratedPlot.CoastOrientation == targetSide',
-		'targetSide = positiveSide and "EAST" or "WEST"',
-		'index % 2 == 1 and firstSide',
-		'ZYLRM_COAST_WEST_STARTS',
-		'ZYLRM_COAST_EAST_STARTS',
-		'ZYL RVC coastal side quota:',
-		'bestUniformInstance:__LogCoastalSideQuota()',
-        'self.oceanStartFallbackPlayers[iPlayer] == true',
-        'ZYLRM_COAST_ORIENTATION_',
-        'local categoryOrder = major == true and { "COAST", "INLAND" } or { "ALL" };',
-        'ZYL_RVC_IsFFAUniformDistributionEnabled',
-        'ZYL_RVC_ValidateFFAUniformDistribution',
-        'ZYL_RICH_MAINLAND_VARIANT.ffa ~= true',
-        'MapConfiguration.GetValue("ZYL_RVC_UniformDistribution")',
-        'instance.iPlacementAttempt >= 17',
-        'smallestZone > 0',
-        'coverage >= requiredCoverage',
-        'uniformDistributionOnlyFailure',
-        'FFA uniform retry keeps major-civilization distance',
-        'self.ffaUniformDistributionEnabled == true and regionIndex > 0',
-        '20 attempts exhausted; using best saved placement',
-        'for i = 1,20 do'
-    )) {
-        if (-not $richMainlandAssignLua.Contains($requiredToken)) {
-            Add-ValidationError "Rich Mainland city-state fallback is missing: $requiredToken"
-        }
-    }
-    if ($richMainlandAssignLua -match 'Map\.GetPlotByIndex\(PlayerManager\.GetAliveMajorsCount\(\)\+PlayerManager\.GetAliveMinorsCount\(\)\+count\)') {
-        Add-ValidationError 'Rich Mainland still assigns missing city-states to an arbitrary map-index tile.'
-    }
-    if ($richMainlandAssignLua -match '(?m)^\s*GenerateMap\s*\(' -or
-            $richMainlandAssignLua -match 'Network\.RestartGame\s*\(') {
-        Add-ValidationError 'FFA uniform distribution must use finite placement retries, not recursive map generation or a network restart.'
-    }
-}
-
-$richMainlandBalancePath = Join-Path $modRoot 'Components\BBM\Data\BBS Maps\Utility\ZYL_RVC_Balance.lua'
-if (Test-Path -LiteralPath $richMainlandBalancePath) {
-    $richMainlandBalanceLua = Get-Content -LiteralPath $richMainlandBalancePath -Raw
-    foreach ($requiredToken in @(
-        'ZYL_RVC_PlaceGuaranteedEarlyStrategic',
-        'empty desert converted to plains',
-        'ordinary bonus resource replaced',
-        'protectedStartPlots',
-        'ZYLRM_EARLY_STRATEGIC_FALLBACKS'
-    )) {
-        if (-not $richMainlandBalanceLua.Contains($requiredToken)) {
-            Add-ValidationError "Rich Mainland strategic fallback is missing: $requiredToken"
-        }
-    }
-    if ($richMainlandBalanceLua -match 'Removing city-state player|has been eliminated \(too close to') {
-        Add-ValidationError 'Rich Mainland balance script still deletes city-states during post-placement distance checks.'
-    }
-}
-$richMainlandCorePath = Join-Path $modRoot 'Components\BBM\Data\BBS Maps\zyl_rich_mainland_core.lua'
-if (Test-Path -LiteralPath $richMainlandCorePath) {
-    $richMainlandCoreLua = Get-Content -LiteralPath $richMainlandCorePath -Raw
-    foreach ($requiredToken in @(
-        'function ZYL_EnsureCoastalStartReefResource()',
-        'startPlot:IsCoastalLand()',
-        'RelocateRingTwoResource',
-        'ZYL RVC ring-two Turtles or Fish',
-        'ZYLRM_COASTAL_START_REEF_RESOURCE',
-        'ZYL_RVC_EnforceSeaResourceRules();' + [Environment]::NewLine + "`tZYL_EnsureCoastalStartReefResource();"
-    )) {
-        if (-not $richMainlandCoreLua.Contains($requiredToken)) {
-            Add-ValidationError "Rich Mainland coastal-start reef guarantee is missing: $requiredToken"
-        }
-    }
-
-    # Each variant keeps a distinct content canvas and reserves only its added
-    # columns for the wrap-seam deep-ocean barrier.  FFA therefore retains the
-    # former widened land canvas while adding four new ocean columns.
-    foreach ($requiredToken in @(
-		'local contentWidths = ZYL_RICH_MAINLAND_VARIANT.contentWidthsByHeight or baseWidths;',
-		'g_iBaseW = math.min(g_iW, tonumber(contentWidths[g_iH]) or g_iLegacyW);',
-		'g_iAddedOceanWidth = math.max(0, g_iW - g_iBaseW);',
-		'g_iContentOffsetX = math.floor(g_iAddedOceanWidth / 2);',
-		'g_fHorizontalScale = IS_FFA and (g_iLegacyW > 0 and g_iBaseW / g_iLegacyW or 1) or 1;',
-		'ZYL_EnforceCentralOceanBarrier(terrainTypes);',
-		'for _, y in ipairs({ 0, 1, g_iH - 1 }) do',
-        'terrainTypes[index] = g_TERRAIN_TYPE_OCEAN;',
-		'ZYL_RemovePolarShallowSea();',
-        'local ZYL_RICH_MAINLAND_ISLAND_LAND_MULTIPLIER = 1.20;',
-        'local ZYL_RICH_MAINLAND_ISLAND_GRAIN = 4;',
-        'math.floor(100 - targetIslandLandPercent + 0.5)',
-        'math.floor(wonderTarget + 0.5)'
-    )) {
-        if (-not $richMainlandCoreLua.Contains($requiredToken)) {
-            Add-ValidationError "Rich Mainland widened-canvas/island/polar invariant is missing: $requiredToken"
-        }
-    }
-    foreach ($forbiddenToken in @(
-        'g_iBaseW = g_iW;',
-        'g_iAddedOceanWidth = 0;',
-        'if IS_TEAM then ZYL_EnforceCentralOceanBarrier',
-        'local isPolarRoute',
-        'args.iWaterPercent = 67;'
-    )) {
-        if ($richMainlandCoreLua.Contains($forbiddenToken)) {
-            Add-ValidationError "Old Rich Mainland central-ocean/polar/island behavior returned: $forbiddenToken"
-        }
-    }
-}
-
-$richMainlandFfaEntryPath = Join-Path $modRoot 'Components\BBM\Data\BBS Maps\zyl_ffa_rich_mainland.lua'
-$richMainlandFfaSqlPath = Join-Path $modRoot 'Components\BBM\Data\BBS Maps\ZYLRM\ConfigureFFA.sql'
-if (Test-Path -LiteralPath $richMainlandFfaEntryPath) {
-    $richMainlandFfaEntry = Get-Content -LiteralPath $richMainlandFfaEntryPath -Raw
-    foreach ($requiredToken in @(
-        'contentWidthsByHeight = {',
-        '[34] = 58,', '[42] = 60,', '[48] = 62,', '[56] = 64,',
-        '[62] = 66,', '[68] = 68,', '[74] = 70,', '[80] = 72,',
-        '[84] = 74,', '[88] = 78,', '[92] = 80,'
-    )) {
-        if (-not $richMainlandFfaEntry.Contains($requiredToken)) {
-            Add-ValidationError "FFA preserved content width is missing: $requiredToken"
-        }
-    }
-}
-else {
-    Add-ValidationError 'FFA Rich Mainland entry script is missing.'
-}
-if (Test-Path -LiteralPath $richMainlandFfaSqlPath) {
-    $richMainlandFfaSql = Get-Content -LiteralPath $richMainlandFfaSqlPath -Raw
-    foreach ($requiredToken in @(
-        'GridWidth=62, GridHeight=34', 'GridWidth=66, GridHeight=48',
-        'GridWidth=70, GridHeight=62', 'GridWidth=74, GridHeight=74',
-        'GridWidth=78, GridHeight=84', 'GridWidth=84, GridHeight=92',
-        "3, 3, 64, 42, 3, 2)", "5, 4, 68, 56, 4, 3)",
-        "7, 5, 72, 68, 4, 4)", "9, 6, 76, 80, 5, 5)",
-        "11, 7, 82, 88, 6, 6)"
-    )) {
-        if (-not $richMainlandFfaSql.Contains($requiredToken)) {
-            Add-ValidationError "FFA runtime width must preserve the old content canvas plus four ocean columns: $requiredToken"
-        }
-    }
-}
-else {
-    Add-ValidationError 'FFA Rich Mainland runtime configuration is missing.'
-}
-foreach ($entry in $richMainlandCriteria.GetEnumerator()) {
-    if (-not $criteriaMap.ContainsKey($entry.Key)) {
-        Add-ValidationError "Rich Mainland criterion is missing: $($entry.Key)"
-        continue
-    }
-    $criterionNode = $criteriaMap[$entry.Key]
-    $actualMapScripts = @($criterionNode.SelectNodes('./ConfigurationValueMatches') | Where-Object {
-        $_.SelectSingleNode('./Group').InnerText -eq 'Map' -and
-        $_.SelectSingleNode('./ConfigurationId').InnerText -eq 'MAP_SCRIPT'
-    } | ForEach-Object { $_.SelectSingleNode('./Value').InnerText } | Sort-Object)
-    $expectedMapScripts = @($entry.Value | Sort-Object)
-    if (($actualMapScripts -join '|') -ne ($expectedMapScripts -join '|')) {
-        Add-ValidationError "Rich Mainland criterion $($entry.Key) has unexpected map scripts: $($actualMapScripts -join ', ')"
-    }
-}
-if ($criteriaMap.ContainsKey('zyl_richmainland') -and
-        $criteriaMap['zyl_richmainland'].GetAttribute('any') -ne '1') {
-    Add-ValidationError 'The shared Rich Mainland criterion must use OR semantics (any=1).'
-}
-
-$richMainlandActions = @(
-    @('zyl_richmainland_config', 'FrontEndActions', 'UpdateDatabase', 'Components/BBM/Configuration/ZYL_RichMainland_Config.xml', ''),
-    @('zyl_richmainland_text', 'FrontEndActions', 'UpdateText', 'Components/BBM/Lang/ZYL_RichMainland_Text.xml', ''),
-    @('zyl_richmainland_mapscripts', 'InGameActions', 'ImportFiles', 'Components/BBM/Data/BBS Maps/zyl_rich_mainland_core.lua', ''),
-    @('zyl_richmainland_common', 'InGameActions', 'UpdateDatabase', 'Components/BBM/Data/BBS Maps/ZYLRM/ConfigureCommon.sql', 'ZYL_RichMainland'),
-    @('zyl_richmainland_team_config', 'InGameActions', 'UpdateDatabase', 'Components/BBM/Data/BBS Maps/ZYLRM/ConfigureTeam.sql', 'ZYL_RichMainland_Team'),
-    @('zyl_richmainland_ffa_config', 'InGameActions', 'UpdateDatabase', 'Components/BBM/Data/BBS Maps/ZYLRM/ConfigureFFA.sql', 'ZYL_RichMainland_FFA')
-)
-foreach ($requiredAction in $richMainlandActions) {
-    $actionKey = $requiredAction[0]
-    if (-not $actionIdMap.ContainsKey($actionKey)) {
-        Add-ValidationError "Rich Mainland action is missing: $actionKey"
-        continue
-    }
-    $actionNode = $actionIdMap[$actionKey]
-    if ($actionNode.ParentNode.LocalName -ne $requiredAction[1] -or $actionNode.LocalName -ne $requiredAction[2]) {
-        Add-ValidationError "Rich Mainland action $actionKey is in the wrong section or has the wrong type."
-    }
-    $expectedFileKey = Normalize-RelativePath $requiredAction[3]
-    $actualFileKeys = @($actionNode.SelectNodes('./File') | ForEach-Object { Normalize-RelativePath $_.InnerText })
-    if ($expectedFileKey -notin $actualFileKeys) {
-        Add-ValidationError "Rich Mainland action $actionKey does not reference $($requiredAction[3])."
-    }
-    if (-not [string]::IsNullOrWhiteSpace($requiredAction[4])) {
-        $actualCriteria = @($actionNode.SelectNodes('./Criteria') | ForEach-Object { $_.InnerText.Trim() })
-        if ($requiredAction[4] -notin $actualCriteria) {
-            Add-ValidationError "Rich Mainland action $actionKey is missing criterion $($requiredAction[4])."
-        }
+        '__PlaceMissingMinorCivsLegacy'
+    )
+    if ($richMainlandAssignIssues.Count -ne 0 -or
+            $richMainlandAssignDriftSource -eq $richMainlandAssignSource -or
+            @(Get-ZylRichMainlandAssignStartingPlotsIssues `
+                -Source $richMainlandAssignDriftSource).Count -eq 0) {
+        Add-ValidationError 'Rich Mainland map helper failed its positive/negative self-test.'
     }
 }
 

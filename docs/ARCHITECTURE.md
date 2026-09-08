@@ -55,6 +55,7 @@ Manifest 迁移采用“分段替换而非一次重写”：`manifest/criteria`�
 - `AssetInventoryChecks.ps1` 生成发布文件、休眠文件、源码文件、Action/Criteria 身份与活跃引用的统一视图，检查磁盘、Files 与 Action 引用双向闭合；`manifest/dormant-files.txt` 取代隐藏在代码中的休眠白名单。
 - `RuntimeSafetyChecks.ps1` 只扫描资产视图中的活跃 Lua/SQL/XML，拒绝动态 `loadstring`、Workshop 自更新调用、已禁用反叠加机制和旧组件 Mod ID；休眠替代文件不会制造误报。
 - `DatabaseContractChecks.ps1` 逐步承接关键数据库最终值和其配置/动作/文本闭包；首批时代契约同时固定八个时代的最小/最大回合、黑暗/黄金时代阈值、双资料片大厅开关、Action/Criteria 和中英文计时器标签，并用正确/错误 SQL 片段自检。
+- `MapChecks.ps1` 承接 Rich Mainland 的发布文件、Criteria/Action 图、城邦回退、战略资源兜底、海岸出生、画布宽度和 FFA 尺寸契约；领域函数只读取传入源码或工程快照并返回问题，总入口以真实地图源码和删除回退入口的内存反例自检。
 - `ReleaseChecks.ps1` 统一 universal/windows/macos 路径选择、跨平台资产成对约束、Action 不直指平台二进制、资产定义不硬编码平台目录和发布器实现边界；根目录与任意嵌套目录中的 `Platforms/MacOS`、`Platforms/Windows` 都按同一规则识别。
 - `MultiplayerChecks.ps1` 承接大厅身份配置、事件生命周期、正式日志、周期读取、握手状态转换、批量广播、随机领袖、匿名昵称，以及投票重开、断线控制、重同步、突然死亡和主回合计时器契约；它只接收 Lua 文本并返回问题列表，总入口用真实源码正例及按控制器构造的漂移反例自检。
 - `tools/report_modinfo_graph.ps1` 将完整规范图写入已忽略的 `artifacts/reports`，用于拆分前后定位差异；报告不进入 Workshop 包，也不是新的手工真值源。
