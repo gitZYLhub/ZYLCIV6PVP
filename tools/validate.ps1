@@ -88,6 +88,12 @@ if (-not (Test-Path -LiteralPath $mapChecksPath -PathType Leaf)) {
 }
 . $mapChecksPath
 
+$uiChecksPath = Join-Path $PSScriptRoot 'validation\UiChecks.ps1'
+if (-not (Test-Path -LiteralPath $uiChecksPath -PathType Leaf)) {
+    throw "UI validation helpers not found: $uiChecksPath"
+}
+. $uiChecksPath
+
 $missingRemovalFixture = @(Get-ZylLuaEventLifecycleIssues -Source 'Events.Example.Add(OnExample)' -Label 'Fixture')
 $balancedLifecycleFixture = @(Get-ZylLuaEventLifecycleIssues -Source @'
 Events.Example.Add(OnExample)
@@ -1858,172 +1864,28 @@ if (Test-Path -LiteralPath $richMainlandAssignPath -PathType Leaf) {
     }
 }
 
-# The local settings and README expose TPT's bottom-right force-end-turn
-# button.  Keep its UI, text and paired Lua published and active; this catches
-# the otherwise silent state where the setting exists but no button is loaded.
-$forcedEndButtonFiles = @(
-    'FEB/ForcedEndButton_Text.xml',
-    'FEB/UI/ForcedEndButton.lua',
-    'FEB/UI/ForcedEndButton.xml'
-)
-foreach ($requiredFile in $forcedEndButtonFiles) {
-    if (-not $listedFileMap.ContainsKey((Normalize-RelativePath $requiredFile))) {
-        Add-ValidationError "Force-end-turn button file absent from <Files>: $requiredFile"
-    }
+# TPT UI/QoL features must remain wired to the intended contexts, criteria
+# and safe runtime implementations.
+foreach ($tptUiIssue in @(Get-ZylTptUiContractIssues `
+        -ProjectRoot $modRoot `
+        -ListedFileMap $listedFileMap `
+        -CriteriaMap $criteriaMap `
+        -ActionIdMap $actionIdMap)) {
+    Add-ValidationError $tptUiIssue
 }
-
-$forcedEndTextAction = $actionIdMap['zyl_forcedendbuttontext']
-if ($null -eq $forcedEndTextAction -or
-        $forcedEndTextAction.LocalName -ne 'UpdateText' -or
-        $null -eq $forcedEndTextAction.SelectSingleNode("./File[.='FEB/ForcedEndButton_Text.xml']")) {
-    Add-ValidationError 'Force-end-turn button localization is not loaded by ModInfo.'
-}
-
-$forcedEndUiAction = $actionIdMap['zyl_forcedendbutton']
-if ($null -eq $forcedEndUiAction -or $forcedEndUiAction.LocalName -ne 'AddUserInterfaces') {
-    Add-ValidationError 'Force-end-turn button UI action is missing.'
-}
-else {
-    if ($forcedEndUiAction.SelectSingleNode('./Properties/Context').InnerText -ne 'InGame') {
-        Add-ValidationError 'Force-end-turn button must load in the InGame UI context.'
-    }
-    if ($null -eq $forcedEndUiAction.SelectSingleNode("./File[.='FEB/UI/ForcedEndButton.xml']")) {
-        Add-ValidationError 'Force-end-turn button UI action references the wrong layout.'
-    }
-}
-
 $forcedEndLuaPath = Join-Path $modRoot 'FEB\UI\ForcedEndButton.lua'
-if (-not (Test-Path -LiteralPath $forcedEndLuaPath)) {
-    Add-ValidationError 'Force-end-turn button Lua is missing.'
-}
-else {
-    $forcedEndLua = Get-Content -LiteralPath $forcedEndLuaPath -Raw
-    $requestCount = ([regex]::Matches(
-        $forcedEndLua,
-        'UI\.RequestAction\s*\(\s*ActionTypes\.ACTION_ENDTURN'
-    )).Count
-    if ($requestCount -ne 1) {
-        Add-ValidationError "Force-end-turn button must issue exactly one end-turn request; found $requestCount."
-    }
-    foreach ($forbiddenToken in @(
-        'ACTION_UNREADYTURN',
-        'GameCoreEventPublishComplete.Add',
-        'LuaEvents.ForcedEndTurn()'
-    )) {
-        if ($forcedEndLua.Contains($forbiddenToken)) {
-            Add-ValidationError "Force-end-turn button restored an old retry/toggle path: $forbiddenToken"
-        }
-    }
-}
-
-# TPT front-end/QoL modules that are easy to leave on disk without activating.
-# Validate both the ModInfo wiring and the behavior each file is meant to own.
-$lanNameAction = $actionIdMap['zyl_lanplayernamelength']
-if ($null -eq $lanNameAction -or
-        $lanNameAction.ParentNode.LocalName -ne 'FrontEndActions' -or
-        $lanNameAction.LocalName -ne 'ImportFiles' -or
-        $null -eq $lanNameAction.SelectSingleNode("./File[.='Option/Options.xml']")) {
-    Add-ValidationError 'The 128-character LAN player-name Options replacement is not active in FrontEndActions.'
-}
-$optionsPath = Join-Path $modRoot 'Option\Options.xml'
-if (-not (Test-Path -LiteralPath $optionsPath)) {
-    Add-ValidationError 'The LAN player-name Options replacement is missing.'
-}
-else {
-    $optionsXml = Load-XmlDocument $optionsPath
-    $lanNameEdit = $optionsXml.SelectSingleNode("//*[@ID='LANPlayerNameEdit']")
-    if ($null -eq $lanNameEdit -or $lanNameEdit.GetAttribute('MaxLength') -ne '128') {
-        Add-ValidationError 'LANPlayerNameEdit must retain MaxLength=128.'
-    }
-}
-
-$noticeScriptAction = $actionIdMap['zyl_gamefeaturenotices']
-if ($null -eq $noticeScriptAction -or
-        $noticeScriptAction.LocalName -ne 'AddGameplayScripts' -or
-        $null -eq $noticeScriptAction.SelectSingleNode("./File[.='NT/Notice.lua']")) {
-    Add-ValidationError 'The TPT start-of-game feature notice script is not active.'
-}
-$noticeTextAction = $actionIdMap['zyl_gamefeaturenoticestext']
-if ($null -eq $noticeTextAction -or
-        $noticeTextAction.LocalName -ne 'UpdateText' -or
-        $null -eq $noticeTextAction.SelectSingleNode("./File[.='NT/Notice_Text.xml']")) {
-    Add-ValidationError 'The TPT start-of-game feature notice text is not active.'
-}
-
-$noPinsCriterion = $criteriaMap['zyl_nomappins']
-if ($null -eq $noPinsCriterion) {
-    Add-ValidationError 'The no-map-pins UI criterion is missing.'
-}
-else {
-    $noPinsMatch = $noPinsCriterion.SelectSingleNode(
-        "./ConfigurationValueMatches[Group='Game' and ConfigurationId='CPL_NO_PINS' and Value='1']"
+if (Test-Path -LiteralPath $forcedEndLuaPath -PathType Leaf) {
+    $forcedEndSource = Get-Content -LiteralPath $forcedEndLuaPath -Raw
+    $forcedEndIssues = @(Get-ZylForcedEndButtonIssues -Source $forcedEndSource)
+    $forcedEndDriftSource = $forcedEndSource.Replace(
+        'ActionTypes.ACTION_ENDTURN',
+        'ActionTypes.ACTION_UNREADYTURN'
     )
-    if ($null -eq $noPinsMatch) {
-        Add-ValidationError 'The no-map-pins UI criterion does not match CPL_NO_PINS=1.'
+    if ($forcedEndIssues.Count -ne 0 -or
+            $forcedEndDriftSource -eq $forcedEndSource -or
+            @(Get-ZylForcedEndButtonIssues -Source $forcedEndDriftSource).Count -eq 0) {
+        Add-ValidationError 'TPT UI helper failed its positive/negative self-test.'
     }
-}
-$hidePinsAction = $actionIdMap['zyl_hidemappinlistbutton']
-if ($null -eq $hidePinsAction -or
-        $hidePinsAction.LocalName -ne 'AddUserInterfaces' -or
-        $null -eq $hidePinsAction.SelectSingleNode("./Criteria[.='ZYL_NoMapPins']") -or
-        $null -eq $hidePinsAction.SelectSingleNode("./File[.='RMP/UI/Hide_MapPinListButton.xml']")) {
-    Add-ValidationError 'CPL_NO_PINS does not activate the map-pin list button hider.'
-}
-$hidePinsPanelAction = $actionIdMap['zyl_hidemappinlistpanel']
-if ($null -eq $hidePinsPanelAction -or
-        $hidePinsPanelAction.LocalName -ne 'ReplaceUIScript' -or
-        $hidePinsPanelAction.SelectSingleNode('./Properties/LuaContext').InnerText -ne 'MapPinListPanel' -or
-        $hidePinsPanelAction.SelectSingleNode('./Properties/LuaReplace').InnerText -ne 'RMP/UI/MapPinListPanel.lua' -or
-        $null -eq $hidePinsPanelAction.SelectSingleNode("./Criteria[.='ZYL_NoMapPins']")) {
-    Add-ValidationError 'CPL_NO_PINS does not replace MapPinListPanel with the empty implementation.'
-}
-$hidePinsPanelFilesAction = $actionIdMap['zyl_hidemappinlistpanelfiles']
-if ($null -eq $hidePinsPanelFilesAction -or
-        $hidePinsPanelFilesAction.LocalName -ne 'ImportFiles' -or
-        $null -eq $hidePinsPanelFilesAction.SelectSingleNode("./File[.='RMP/UI/MapPinListPanel.xml']") -or
-        $null -eq $hidePinsPanelFilesAction.SelectSingleNode("./File[.='RMP/UI/MapPinListPanel.lua']")) {
-    Add-ValidationError 'The empty no-pins MapPinListPanel layout/script pair is not imported.'
-}
-
-$randomPromotionConfig = $actionIdMap['zyl_randompromotionhotkeyconfig']
-if ($null -eq $randomPromotionConfig -or
-        $randomPromotionConfig.ParentNode.LocalName -ne 'FrontEndActions' -or
-        $randomPromotionConfig.LocalName -ne 'UpdateDatabase' -or
-        $null -eq $randomPromotionConfig.SelectSingleNode("./File[.='NHK/Config_NewUnitOperation.xml']")) {
-    Add-ValidationError 'The safe TPT random-promotion shortcut is absent from the front-end input configuration.'
-}
-$randomPromotionUi = $actionIdMap['zyl_randompromotionhotkey']
-if ($null -eq $randomPromotionUi -or
-        $randomPromotionUi.LocalName -ne 'AddUserInterfaces' -or
-        $null -eq $randomPromotionUi.SelectSingleNode("./Criteria[.='TPT_NEW_HOTKEYS']") -or
-        $null -eq $randomPromotionUi.SelectSingleNode("./File[.='NHK/UI/NewUnitOperation.xml']")) {
-    Add-ValidationError 'The safe TPT random-promotion shortcut UI is not active when new hotkeys are enabled.'
-}
-$randomPromotionLuaPath = Join-Path $modRoot 'NHK\UI\NewUnitOperation.lua'
-if (-not (Test-Path -LiteralPath $randomPromotionLuaPath)) {
-    Add-ValidationError 'The safe random-promotion shortcut script is missing.'
-}
-else {
-    $randomPromotionLua = Get-Content -LiteralPath $randomPromotionLuaPath -Raw
-    foreach ($forbiddenToken in @(
-        'Modding.UpdateSubscription',
-        'function AntiCheat',
-        'function KillCheat',
-        'Events.TurnEnd.Add'
-    )) {
-        if ($randomPromotionLua.IndexOf($forbiddenToken, [System.StringComparison]::Ordinal) -ge 0) {
-            Add-ValidationError "The removed NewUnitOperation anti-cheat/update path returned: $forbiddenToken"
-        }
-    }
-}
-
-$bbgUnitPanelPath = Join-Path $modRoot 'Components\BBG\ui\replacements\unitpanel_bbg.lua'
-if (-not (Test-Path -LiteralPath $bbgUnitPanelPath) -or
-        (Get-Content -LiteralPath $bbgUnitPanelPath -Raw).IndexOf(
-            'function OnUnitActionClicked_FoundCity',
-            [System.StringComparison]::Ordinal
-        ) -lt 0) {
-    Add-ValidationError 'TPT found-city confirmation removal is not merged into BBG UnitPanel ownership.'
 }
 
 $zylConfigPath = Join-Path $modRoot 'configuration\Config_ZYL.xml'
