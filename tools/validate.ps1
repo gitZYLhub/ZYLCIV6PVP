@@ -94,6 +94,12 @@ if (-not (Test-Path -LiteralPath $uiChecksPath -PathType Leaf)) {
 }
 . $uiChecksPath
 
+$identityChecksPath = Join-Path $PSScriptRoot 'validation\IdentityChecks.ps1'
+if (-not (Test-Path -LiteralPath $identityChecksPath -PathType Leaf)) {
+    throw "Identity validation helpers not found: $identityChecksPath"
+}
+. $identityChecksPath
+
 $missingRemovalFixture = @(Get-ZylLuaEventLifecycleIssues -Source 'Events.Example.Add(OnExample)' -Label 'Fixture')
 $balancedLifecycleFixture = @(Get-ZylLuaEventLifecycleIssues -Source @'
 Events.Example.Add(OnExample)
@@ -1949,75 +1955,30 @@ Add-ValidationError "The starting-bonus type domain is missing value $value."
 }
 }
 
-$identityParameterExpectations = @{
-'ZYL_IDENTITY_MODE' = @('bool', '0')
-'ZYL_IDENTITY_LOYALIST_COUNT' = @('ZylIdentityCounts', '2')
-'ZYL_IDENTITY_REBEL_COUNT' = @('ZylIdentityRebelCounts', '3')
-'ZYL_IDENTITY_SPY_COUNT' = @('ZylIdentityCounts', '1')
-'ZYL_IDENTITY_SEPARATE_PLAYER_1' = @('ZylStartingBonusPlayers', '0')
-'ZYL_IDENTITY_SEPARATE_PLAYER_2' = @('ZylStartingBonusPlayers', '0')
 }
-foreach ($entry in $identityParameterExpectations.GetEnumerator()) {
-$parameter = $zylConfig.SelectSingleNode("/GameInfo/Parameters/Row[@ParameterId='$($entry.Key)']")
-if ($null -eq $parameter -or
-$parameter.GetAttribute('ConfigurationId') -ne $entry.Key -or
-$parameter.GetAttribute('ConfigurationGroup') -ne 'Game' -or
-$parameter.GetAttribute('Domain') -ne $entry.Value[0] -or
-$parameter.GetAttribute('DefaultValue') -ne $entry.Value[1] -or
-$parameter.GetAttribute('ChangeableAfterGameStart') -ne '0' -or
-$parameter.GetAttribute('SupportsSinglePlayer') -ne '0' -or
-$parameter.GetAttribute('SupportsPlayByCloud') -ne '0' -or
-$parameter.GetAttribute('SupportsHotSeat') -ne '0' -or
-$parameter.GetAttribute('SupportsLANMultiplayer') -ne '1' -or
-$parameter.GetAttribute('SupportsInternetMultiplayer') -ne '1') {
-Add-ValidationError "Identity-game lobby parameter is missing or malformed: $($entry.Key)"
+
+foreach ($identityIssue in @(Get-ZylIdentityContractIssues `
+        -ProjectRoot $modRoot `
+        -ConfigurationXml $zylConfig `
+        -ListedFileMap $listedFileMap `
+        -ActionIdMap $actionIdMap)) {
+    Add-ValidationError $identityIssue
 }
-}
-$identityDealParameter = $zylConfig.SelectSingleNode("/GameInfo/Parameters/Row[@ParameterId='ZYL_IDENTITY_DEAL']")
-if ($null -eq $identityDealParameter -or
-$identityDealParameter.GetAttribute('ConfigurationId') -ne 'ZYL_IDENTITY_DEAL' -or
-$identityDealParameter.GetAttribute('ConfigurationGroup') -ne 'Game' -or
-$identityDealParameter.GetAttribute('Domain') -ne 'text' -or
-$identityDealParameter.GetAttribute('DefaultValue') -ne '' -or
-$identityDealParameter.GetAttribute('Visible') -ne '0' -or
-$identityDealParameter.GetAttribute('ChangeableAfterGameStart') -ne '0' -or
-$identityDealParameter.GetAttribute('SupportsSinglePlayer') -ne '0' -or
-$identityDealParameter.GetAttribute('SupportsPlayByCloud') -ne '0' -or
-$identityDealParameter.GetAttribute('SupportsHotSeat') -ne '0' -or
-$identityDealParameter.GetAttribute('SupportsLANMultiplayer') -ne '1' -or
-$identityDealParameter.GetAttribute('SupportsInternetMultiplayer') -ne '1') {
-Add-ValidationError 'The hidden lobby identity-deal parameter is missing or malformed.'
-}
-foreach ($parameterId in @(
-'ZYL_IDENTITY_LOYALIST_COUNT',
-'ZYL_IDENTITY_REBEL_COUNT',
-'ZYL_IDENTITY_SPY_COUNT',
-'ZYL_IDENTITY_SEPARATE_PLAYER_1',
-'ZYL_IDENTITY_SEPARATE_PLAYER_2'
-)) {
-$dependency = $zylConfig.SelectSingleNode("/GameInfo/ParameterDependencies/Row[@ParameterId='$parameterId' and @ConfigurationGroup='Game' and @ConfigurationId='ZYL_IDENTITY_MODE' and @Operator='Equals' and @ConfigurationValue='1']")
-if ($null -eq $dependency) {
-Add-ValidationError "Identity-game dependent option is not gated by ZYL_IDENTITY_MODE: $parameterId"
-}
-}
-$identityCountValues = @($zylConfig.SelectNodes('/GameInfo/DomainValues/Row[@Domain="ZylIdentityCounts"]'))
-if ($identityCountValues.Count -ne 12) {
-Add-ValidationError "The identity-count domain must contain values 0-11; found $($identityCountValues.Count) rows."
-}
-foreach ($value in 0..11) {
-if ($null -eq ($identityCountValues | Where-Object { $_.GetAttribute('Value') -eq $value.ToString() })) {
-Add-ValidationError "The identity-count domain is missing value $value."
-}
-}
-$identityRebelValues = @($zylConfig.SelectNodes('/GameInfo/DomainValues/Row[@Domain="ZylIdentityRebelCounts"]'))
-if ($identityRebelValues.Count -ne 11) {
-Add-ValidationError "The identity Rebel-count domain must contain values 1-11; found $($identityRebelValues.Count) rows."
-}
-foreach ($value in 1..11) {
-if ($null -eq ($identityRebelValues | Where-Object { $_.GetAttribute('Value') -eq $value.ToString() })) {
-Add-ValidationError "The identity Rebel-count domain is missing value $value."
-}
-}
+$identityPanelLuaPath = Join-Path $modRoot 'ui\Additions\IdentityRolePanel.lua'
+if (Test-Path -LiteralPath $identityPanelLuaPath -PathType Leaf) {
+    $identityPanelSource = Get-Content -LiteralPath $identityPanelLuaPath -Raw
+    $identityPanelIssues = @(Get-ZylIdentityRolePanelSourceIssues `
+        -Source $identityPanelSource)
+    $identityPanelDriftSource = $identityPanelSource.Replace(
+        'Game.GetLocalPlayer()',
+        'Game:SetProperty('
+    )
+    if ($identityPanelIssues.Count -ne 0 -or
+            $identityPanelDriftSource -eq $identityPanelSource -or
+            @(Get-ZylIdentityRolePanelSourceIssues `
+                -Source $identityPanelDriftSource).Count -eq 0) {
+        Add-ValidationError 'Identity contract helper failed its positive/negative self-test.'
+    }
 }
 
 $startingBonusScriptPath = Join-Path $modRoot 'scripts\ZYL_StartingPlayerBonus.lua'
@@ -2051,100 +2012,6 @@ if ($null -eq $startingBonusAction -or
 }
 if (-not $listedFileMap.ContainsKey((Normalize-RelativePath 'scripts/ZYL_StartingPlayerBonus.lua'))) {
 Add-ValidationError 'The starting-player bonus script is absent from the ModInfo file manifest.'
-}
-
-# Identity roles are dealt only in the lobby. The optional in-game panel is a
-# read-only view of that synchronized configuration and must never register a
-# Gameplay script or write teams, diplomacy, wars, victory state or properties.
-$identityGameplayPath = Join-Path $modRoot 'scripts\ZYL_IdentityGame.lua'
-if (Test-Path -LiteralPath $identityGameplayPath) {
-Add-ValidationError 'Lobby-only identity mode must not include a Gameplay identity script.'
-}
-if ($null -ne $actionIdMap['zyl_identitygamegameplay']) {
-Add-ValidationError 'Lobby-only identity mode must not register an identity AddGameplayScripts action.'
-}
-if ($listedFileMap.ContainsKey((Normalize-RelativePath 'scripts/ZYL_IdentityGame.lua'))) {
-Add-ValidationError 'Lobby-only identity mode must not list a Gameplay identity script in ModInfo.'
-}
-
-$identityPanelLuaPath = Join-Path $modRoot 'ui\Additions\IdentityRolePanel.lua'
-$identityPanelXmlPath = Join-Path $modRoot 'ui\Additions\IdentityRolePanel.xml'
-if (-not (Test-Path -LiteralPath $identityPanelLuaPath)) {
-Add-ValidationError 'The identity-role UI Lua file is missing.'
-}
-else {
-$identityPanelSource = Get-Content -LiteralPath $identityPanelLuaPath -Raw
-foreach ($requiredIdentityUiFragment in @(
-'ZYL_IDENTITY_DEAL',
-'local function ParseLobbyDeal()',
-'GameConfiguration.GetValue(DEAL_CONFIG)',
-'string.match(payload, "^(%d+)|(%d+)|([%d,]+)|([%d:,]+)$")',
-'counts[ROLE_LOYALIST] ~= loyalistCount',
-'CampFor(assignments[firstPlayerID], firstPlayerID)',
-'or (firstSelected > 0 and firstSelected == secondSelected)',
-'Game.GetLocalPlayer()',
-'LOC_ZYL_IDENTITY_NAME_SEPARATOR',
-'LOC_ZYL_IDENTITY_ERROR_DATA',
-'ContextPtr:SetInputHandler(OnInputHandler, true)',
-'Events.LocalPlayerChanged.Add(OnLocalPlayerChanged)'
-)) {
-if (-not $identityPanelSource.Contains($requiredIdentityUiFragment)) {
-Add-ValidationError "Identity-role UI is missing: $requiredIdentityUiFragment"
-}
-}
-if ($identityPanelSource.Contains('table.concat(teammates, "、")')) {
-Add-ValidationError 'Identity-role UI hard-codes a Chinese teammate separator instead of using localization.'
-}
-foreach ($forbiddenIdentityUiFragment in @(
-'Game:SetProperty(',
-'GameEvents.',
-'SetTeam(',
-'DiplomacyManager',
-'DiplomaticAI',
-'DeclareWar('
-)) {
-if ($identityPanelSource.Contains($forbiddenIdentityUiFragment)) {
-Add-ValidationError "The read-only identity panel contains gameplay mutation code: $forbiddenIdentityUiFragment"
-}
-}
-}
-if (-not (Test-Path -LiteralPath $identityPanelXmlPath)) {
-Add-ValidationError 'The identity-role UI XML file is missing.'
-}
-else {
-$identityPanelXml = Load-XmlDocument $identityPanelXmlPath
-foreach ($controlId in @(
-'RoleButtonContainer',
-'RoleButton',
-'Overlay',
-'PlayerOrder',
-'MaskContainer',
-'IdentityContainer',
-'ErrorContainer',
-'RevealButton',
-'HideButton',
-'CloseButton'
-)) {
-if ($null -eq $identityPanelXml.SelectSingleNode("//*[@ID='$controlId']")) {
-Add-ValidationError "Identity-role UI XML is missing control: $controlId"
-}
-}
-}
-
-$identityUiAction = $actionIdMap['zyl_identityrolepanel']
-if ($null -eq $identityUiAction -or
-$identityUiAction.LocalName -ne 'AddUserInterfaces' -or
-$identityUiAction.SelectSingleNode('./Properties/Context[.="InGame"]') -eq $null -or
-$identityUiAction.SelectSingleNode('./File[.="ui/Additions/IdentityRolePanel.xml"]') -eq $null) {
-Add-ValidationError 'The identity-role panel is not registered as an InGame UI action.'
-}
-foreach ($identityUiRelativePath in @(
-'ui/Additions/IdentityRolePanel.lua',
-'ui/Additions/IdentityRolePanel.xml'
-)) {
-if (-not $listedFileMap.ContainsKey((Normalize-RelativePath $identityUiRelativePath))) {
-Add-ValidationError "The identity-role UI file is absent from the ModInfo file manifest: $identityUiRelativePath"
-}
 }
 
 $stagingRoomPath = Join-Path $modRoot 'ui\stagingroom.lua'
@@ -2229,54 +2096,6 @@ foreach ($controllerSpec in $multiplayerControllerSpecs) {
     }
 }
 
-$stagingRoomIdentityXmlPath = Join-Path $modRoot 'ui\stagingroom.xml'
-if (-not (Test-Path -LiteralPath $stagingRoomIdentityXmlPath)) {
-Add-ValidationError 'The staging-room XML replacement is missing.'
-}
-else {
-$stagingRoomIdentityXml = Load-XmlDocument $stagingRoomIdentityXmlPath
-foreach ($controlId in @(
-'IdentityDealButton',
-'IdentityViewButton',
-'IdentityLobbyOverlay',
-'IdentityLobbyMaskContainer',
-'IdentityLobbyRevealButton',
-'IdentityLobbyRoleContainer',
-'IdentityLobbyHideButton',
-'IdentityLobbyCloseButton'
-)) {
-if ($null -eq $stagingRoomIdentityXml.SelectSingleNode("//*[@ID='$controlId']")) {
-Add-ValidationError "Staging-room identity UI XML is missing control: $controlId"
-}
-}
-}
-
-$identityDefaults = @{
-'ZYL_IDENTITY_MODE' = '0'
-'ZYL_IDENTITY_LOYALIST_COUNT' = '2'
-'ZYL_IDENTITY_REBEL_COUNT' = '3'
-'ZYL_IDENTITY_SPY_COUNT' = '1'
-'ZYL_IDENTITY_SEPARATE_PLAYER_1' = '0'
-'ZYL_IDENTITY_SEPARATE_PLAYER_2' = '0'
-}
-$identityDefaultsPath = Join-Path $modRoot 'configuration\ZYL_LobbyDefaults.xml'
-if (-not (Test-Path -LiteralPath $identityDefaultsPath)) {
-Add-ValidationError 'The lobby-defaults XML is missing.'
-}
-else {
-$identityDefaultsXml = Load-XmlDocument $identityDefaultsPath
-foreach ($entry in $identityDefaults.GetEnumerator()) {
-$defaultNode = $identityDefaultsXml.SelectSingleNode("/GameInfo/Parameters/Update[Where/@ParameterId='$($entry.Key)']/Set")
-if ($null -eq $defaultNode -or $defaultNode.GetAttribute('DefaultValue') -ne $entry.Value) {
-Add-ValidationError "Identity-game lobby default is missing or incorrect: $($entry.Key)"
-}
-}
-$dealDefaultNode = $identityDefaultsXml.SelectSingleNode("/GameInfo/Parameters/Update[Where/@ParameterId='ZYL_IDENTITY_DEAL']/Set")
-if ($null -eq $dealDefaultNode -or $dealDefaultNode.GetAttribute('DefaultValue') -ne '') {
-Add-ValidationError 'Identity-game lobby deal data does not reset to an empty value.'
-}
-}
-
 $mainMenuPath = Join-Path $modRoot 'ui\mainmenu.lua'
 if (-not (Test-Path -LiteralPath $mainMenuPath -PathType Leaf)) {
 Add-ValidationError 'The main-menu replacement is missing.'
@@ -2295,63 +2114,6 @@ Add-ValidationError "Main-menu lifecycle guard is missing: $requiredMainMenuLife
 }
 Test-ZylLuaEventLifecycle -Source $mainMenuSource -Label 'Main menu'
 Test-ZylLuaHasNoUnguardedPrint -Source $mainMenuSource -Label 'Main menu'
-}
-
-$hostGamePath = Join-Path $modRoot 'ui\hostgame.lua'
-if (-not (Test-Path -LiteralPath $hostGamePath)) {
-Add-ValidationError 'The host-game replacement is missing.'
-}
-else {
-$hostGameSource = Get-Content -LiteralPath $hostGamePath -Raw
-foreach ($entry in $identityDefaults.GetEnumerator()) {
-$requiredHostDefault = '{ "' + $entry.Key + '", ' + $entry.Value + ' }'
-if (-not $hostGameSource.Contains($requiredHostDefault)) {
-Add-ValidationError "Host-game reset defaults are missing the identity setting: $($entry.Key)"
-}
-}
-if (-not $hostGameSource.Contains('{ "ZYL_IDENTITY_DEAL", "" }')) {
-Add-ValidationError 'Host-game reset defaults do not clear the identity lobby deal.'
-}
-}
-
-$identityTextPath = Join-Path $modRoot 'lang\ZYL_Text.xml'
-if (-not (Test-Path -LiteralPath $identityTextPath)) {
-Add-ValidationError 'The identity-game localization file is missing.'
-}
-else {
-$identityTextXml = Load-XmlDocument $identityTextPath
-$identityTextTags = @(
-'LOC_ZYL_IDENTITY_MODE_NAME',
-'LOC_ZYL_IDENTITY_MODE_DESC',
-'LOC_ZYL_IDENTITY_DEAL_DATA_NAME',
-'LOC_ZYL_IDENTITY_DEAL_DATA_DESC',
-'LOC_ZYL_IDENTITY_DEAL_BUTTON',
-'LOC_ZYL_IDENTITY_REDEAL_BUTTON',
-'LOC_ZYL_IDENTITY_DEAL_BUTTON_TT',
-'LOC_ZYL_IDENTITY_VIEW_BUTTON',
-'LOC_ZYL_IDENTITY_WAITING_BUTTON',
-'LOC_ZYL_IDENTITY_PANEL_TITLE',
-'LOC_ZYL_IDENTITY_PLAYER_ORDER',
-'LOC_ZYL_IDENTITY_ROLE_LORD',
-'LOC_ZYL_IDENTITY_ROLE_LOYALIST',
-'LOC_ZYL_IDENTITY_ROLE_REBEL',
-'LOC_ZYL_IDENTITY_ROLE_SPY',
-'LOC_ZYL_IDENTITY_REBEL_TEAM_LABEL',
-'LOC_ZYL_IDENTITY_NAME_SEPARATOR',
-'LOC_ZYL_IDENTITY_ERROR_COUNT',
-'LOC_ZYL_IDENTITY_ERROR_SELECTION',
-'LOC_ZYL_IDENTITY_ERROR_NO_SOLUTION',
-'LOC_ZYL_IDENTITY_ERROR_NOT_DEALT',
-'LOC_ZYL_IDENTITY_ERROR_STALE',
-'LOC_ZYL_IDENTITY_ERROR_DATA'
-)
-foreach ($language in @('zh_Hans_CN', 'en_US', 'zh_Hant_HK')) {
-foreach ($tag in $identityTextTags) {
-if ($null -eq $identityTextXml.SelectSingleNode("/GameData/LocalizedText/Row[@Tag='$tag' and @Language='$language']/Text")) {
-Add-ValidationError "Identity-game localization is missing $language / $tag."
-}
-}
-}
 }
 
 # The two custom Casual timers remain distinct options. Casual (Relaxed) is

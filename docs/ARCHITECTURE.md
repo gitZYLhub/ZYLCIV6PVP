@@ -57,6 +57,7 @@ Manifest 迁移采用“分段替换而非一次重写”：`manifest/criteria`�
 - `DatabaseContractChecks.ps1` 逐步承接关键数据库最终值和其配置/动作/文本闭包；首批时代契约同时固定八个时代的最小/最大回合、黑暗/黄金时代阈值、双资料片大厅开关、Action/Criteria 和中英文计时器标签，并用正确/错误 SQL 片段自检。
 - `MapChecks.ps1` 承接 Rich Mainland 的发布文件、Criteria/Action 图、地图/尺寸配置、本地化、旧引用禁用、城邦回退、战略资源兜底、海岸出生、画布宽度和 FFA 尺寸契约；领域函数只读取传入源码或工程快照并返回问题，总入口以真实地图源码和删除回退入口的内存反例自检。
 - `UiChecks.ps1` 逐步承接 UI/QoL 的文件、Criteria/Action、上下文和安全源码契约；首批覆盖强制结束回合、LAN 名称长度、开局提示、禁地图标记、随机晋升快捷键与 BBG UnitPanel 合并所有权，并以真实按钮源码和错误动作反例自检。
+- `IdentityChecks.ps1` 纵向拥有身份模式的大厅参数与依赖、隐藏发牌数据、默认值/房主重置、三语文本、只读游戏内面板、大厅控件和“不得进入 Gameplay”边界；发牌算法本身仍由 `MultiplayerChecks.ps1` 的大厅契约保护。
 - `ReleaseChecks.ps1` 统一 universal/windows/macos 路径选择、跨平台资产成对约束、Action 不直指平台二进制、资产定义不硬编码平台目录和发布器实现边界；根目录与任意嵌套目录中的 `Platforms/MacOS`、`Platforms/Windows` 都按同一规则识别。
 - `MultiplayerChecks.ps1` 承接大厅身份配置、事件生命周期、正式日志、周期读取、握手状态转换、批量广播、随机领袖、匿名昵称，以及投票重开、断线控制、重同步、突然死亡和主回合计时器契约；它只接收 Lua 文本并返回问题列表，总入口用真实源码正例及按控制器构造的漂移反例自检。
 - `tools/report_modinfo_graph.ps1` 将完整规范图写入已忽略的 `artifacts/reports`，用于拆分前后定位差异；报告不进入 Workshop 包，也不是新的手工真值源。
