@@ -704,3 +704,84 @@ function Get-ZylIntegratedDealMapUiContractIssues {
     }
     return @($issues)
 }
+
+function Get-ZylUiContextOwnerIssues {
+    param(
+        [Parameter(Mandatory = $true)]
+        [AllowEmptyCollection()]
+        [object[]]$ActionNodes
+    )
+
+    $issues = [System.Collections.Generic.List[string]]::new()
+    $contextOwners = @{}
+    foreach ($actionNode in @($ActionNodes | Where-Object {
+                $_.LocalName -eq 'ReplaceUIScript'
+            })) {
+        $contextNode = $actionNode.SelectSingleNode('./Properties/LuaContext')
+        $replaceNode = $actionNode.SelectSingleNode('./Properties/LuaReplace')
+        if ($null -eq $contextNode -or $null -eq $replaceNode) {
+            $issues.Add("Incomplete ReplaceUIScript action: $($actionNode.GetAttribute('id'))")
+            continue
+        }
+        $replacePath = $replaceNode.InnerText.Trim().Replace('\', '/')
+        $owner = 'Toolbox'
+        if ($replacePath.StartsWith(
+                'Components/BBG/',
+                [System.StringComparison]::OrdinalIgnoreCase
+            )) {
+            $owner = 'BBG'
+        }
+        elseif ($replacePath.StartsWith(
+                'Components/BBM/',
+                [System.StringComparison]::OrdinalIgnoreCase
+            )) {
+            $owner = 'BBM'
+        }
+        $contextKey = $contextNode.InnerText.Trim().ToLowerInvariant()
+        if (-not $contextOwners.ContainsKey($contextKey)) {
+            $contextOwners[$contextKey] = [System.Collections.Generic.List[string]]::new()
+        }
+        if (-not $contextOwners[$contextKey].Contains($owner)) {
+            $contextOwners[$contextKey].Add($owner)
+        }
+    }
+    foreach ($contextKey in $contextOwners.Keys) {
+        if ($contextOwners[$contextKey].Count -gt 1) {
+            $issues.Add(
+                "LuaReplace context has cross-component owners: " +
+                "$contextKey => $($contextOwners[$contextKey] -join ', ')"
+            )
+        }
+    }
+    return @($issues)
+}
+
+function Get-ZylEndGameUiOwnershipIssues {
+    param(
+        [Parameter(Mandatory = $true)]
+        [object]$ListedFileMap,
+
+        [Parameter(Mandatory = $true)]
+        [object]$ActionReferenceMap
+    )
+
+    $issues = [System.Collections.Generic.List[string]]::new()
+    $mphEndGame = Normalize-RelativePath 'ui/Replacements/endgamemenu.xml'
+    $bbgEndGameXml = Normalize-RelativePath `
+        'Components/BBG/ui/replacements/endgamemenu.xml'
+    $bbgEndGameLua = Normalize-RelativePath `
+        'Components/BBG/ui/replacements/endgamemenu_bbg.lua'
+    if (-not $ListedFileMap.ContainsKey($mphEndGame)) {
+        $issues.Add('MPH EndGameMenu XML is not published.')
+    }
+    if ($ListedFileMap.ContainsKey($bbgEndGameXml)) {
+        $issues.Add('BBG duplicate EndGameMenu XML is still published.')
+    }
+    if ($ActionReferenceMap.ContainsKey($bbgEndGameXml)) {
+        $issues.Add('BBG duplicate EndGameMenu XML is still loaded.')
+    }
+    if (-not $ActionReferenceMap.ContainsKey($bbgEndGameLua)) {
+        $issues.Add('BBG EndGameMenu Lua extension is not loaded.')
+    }
+    return @($issues)
+}

@@ -419,4 +419,13 @@
 - 修改：迁移 4 个唯一替换 Context、3 个外部 Mod 阻断 ID、12 个集成文件、外交条 21 个控件/顺序/默认隐藏和 25 个可见性令牌、XP2 成对导入、旧 MPH/DMT 路径排斥、BDW 商品模式与 9 个交易限制、DMT 禁标记和 NHK 三监听器去重。主入口以 22 行聚合/自检替换 191 行内联检查，由 3767 行降至 3598 行；UI 模块由 407 行扩展到 706 行。
 - 验证：真实 BDW XP2 入口返回 0 个问题；把 `ZYLPVP_BDW_MPH_Compatibility` 替换为遗留兼容模块名的内存反例被拒绝。PowerShell 7 与 Windows PowerShell 5.1 全量校验均通过 203 XML、108 Criteria、283 Actions、1077 Files、549 活跃引用、48 休眠文件和 69 源码专用文件。
 - 风险/待办：静态所有权无法证明外交交易窗口在商品模式、所有禁交易组合和不同比例 UI 下正确显示，也不能替代地图标记热键实测；这些组合仍需游戏内覆盖。
-- 提交：本次提交（外交交易与地图标记集成契约模块化）。
+- 提交：`52300f9 refactor: extract integrated ui checks`。
+
+### 2026-09-08 / M2-全局 UI Context 与 EndGame 所有权模块化
+
+- 目标：把所有 ReplaceUIScript 的跨组件所有权规则和 EndGame 组合所有权迁入 UI 模块，防止集成更新重新引入双重替换。
+- 范围：校验工具、架构、计划和工作日志；不修改 UI 资产、ModInfo、玩家行为或版本号。
+- 修改：`Get-ZylUiContextOwnerIssues` 对每个替换动作验证 Context/LuaReplace 完整性，按 Toolbox/BBG/BBM 归属聚合并拒绝跨组件共占；`Get-ZylEndGameUiOwnershipIssues` 固定 MPH XML 发布、BBG 重复 XML 排除和 BBG Lua 扩展加载。主入口以 21 行调用/夹具替换 34 行内联检查，由 3598 行降至 3585 行；UI 模块由 706 行扩展到 787 行。
+- 验证：当前动作图返回 0 个 Context 所有权问题；内存 XML 中由 BBG 与 Toolbox 同时替换 `Fixture` 的反例恰好返回 1 个冲突。PowerShell 7 与 Windows PowerShell 5.1 全量校验均通过 203 XML、108 Criteria、283 Actions、1077 Files、549 活跃引用、48 休眠文件和 69 源码专用文件。
+- 风险/待办：所有权检查按路径命名空间判定组件，未来新增嵌入组件时必须扩展分类；运行时加载顺序和 EndGame 实际按钮行为仍需游戏内验证。
+- 提交：本次提交（全局 UI Context 与 EndGame 所有权模块化）。

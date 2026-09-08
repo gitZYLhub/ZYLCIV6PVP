@@ -3393,42 +3393,29 @@ foreach ($coastBiasLuaPath in $coastBiasLuaPaths) {
     }
 }
 
-# Multiple actions from one component may form an intentional include chain,
-# but two integrated components must never own the same Lua context.
-$contextOwners = @{}
-foreach ($actionNode in @($actionNodes | Where-Object { $_.LocalName -eq 'ReplaceUIScript' })) {
-    $contextNode = $actionNode.SelectSingleNode('./Properties/LuaContext')
-    $replaceNode = $actionNode.SelectSingleNode('./Properties/LuaReplace')
-    if ($null -eq $contextNode -or $null -eq $replaceNode) {
-        Add-ValidationError "Incomplete ReplaceUIScript action: $($actionNode.GetAttribute('id'))"
-        continue
-    }
-    $replacePath = $replaceNode.InnerText.Trim().Replace('\', '/')
-    $owner = 'Toolbox'
-    if ($replacePath.StartsWith('Components/BBG/', [System.StringComparison]::OrdinalIgnoreCase)) { $owner = 'BBG' }
-    elseif ($replacePath.StartsWith('Components/BBM/', [System.StringComparison]::OrdinalIgnoreCase)) { $owner = 'BBM' }
-    $contextKey = $contextNode.InnerText.Trim().ToLowerInvariant()
-    if (-not $contextOwners.ContainsKey($contextKey)) {
-        $contextOwners[$contextKey] = [System.Collections.Generic.List[string]]::new()
-    }
-    if (-not $contextOwners[$contextKey].Contains($owner)) {
-        $contextOwners[$contextKey].Add($owner)
-    }
+# UI replacement contexts have one cross-component owner; EndGame combines
+# MPH's complete layout with BBG's Lua extension.
+$uiContextOwnerIssues = @(Get-ZylUiContextOwnerIssues -ActionNodes @($actionNodes))
+$uiContextOwnerFixture = [System.Xml.XmlDocument]::new()
+$uiContextOwnerFixture.LoadXml(@'
+<Actions>
+  <ReplaceUIScript id="fixture-bbg"><Properties><LuaContext>Fixture</LuaContext><LuaReplace>Components/BBG/ui/fixture.lua</LuaReplace></Properties></ReplaceUIScript>
+  <ReplaceUIScript id="fixture-toolbox"><Properties><LuaContext>Fixture</LuaContext><LuaReplace>ui/fixture.lua</LuaReplace></Properties></ReplaceUIScript>
+</Actions>
+'@)
+$uiContextOwnerDriftIssues = @(Get-ZylUiContextOwnerIssues `
+    -ActionNodes @($uiContextOwnerFixture.DocumentElement.ChildNodes))
+if ($uiContextOwnerIssues.Count -ne 0 -or $uiContextOwnerDriftIssues.Count -ne 1) {
+    Add-ValidationError 'UI context-owner helper failed its positive/negative self-test.'
 }
-foreach ($contextKey in $contextOwners.Keys) {
-    if ($contextOwners[$contextKey].Count -gt 1) {
-        Add-ValidationError "LuaReplace context has cross-component owners: $contextKey => $($contextOwners[$contextKey] -join ', ')"
-    }
+foreach ($uiContextOwnerIssue in $uiContextOwnerIssues) {
+    Add-ValidationError $uiContextOwnerIssue
 }
-
-# MPH owns the complete EndGameMenu XML; BBG supplies only its Lua extension.
-$mphEndGame = Normalize-RelativePath 'ui/Replacements/endgamemenu.xml'
-$bbgEndGameXml = Normalize-RelativePath 'Components/BBG/ui/replacements/endgamemenu.xml'
-$bbgEndGameLua = Normalize-RelativePath 'Components/BBG/ui/replacements/endgamemenu_bbg.lua'
-if (-not $listedFileMap.ContainsKey($mphEndGame)) { Add-ValidationError 'MPH EndGameMenu XML is not published.' }
-if ($listedFileMap.ContainsKey($bbgEndGameXml)) { Add-ValidationError 'BBG duplicate EndGameMenu XML is still published.' }
-if ($actionReferenceMap.ContainsKey($bbgEndGameXml)) { Add-ValidationError 'BBG duplicate EndGameMenu XML is still loaded.' }
-if (-not $actionReferenceMap.ContainsKey($bbgEndGameLua)) { Add-ValidationError 'BBG EndGameMenu Lua extension is not loaded.' }
+foreach ($endGameUiIssue in @(Get-ZylEndGameUiOwnershipIssues `
+        -ListedFileMap $listedFileMap `
+        -ActionReferenceMap $actionReferenceMap)) {
+    Add-ValidationError $endGameUiIssue
+}
 
 # Confirm BBM art is rooted where NaturalWondersMod.dep expects it.
 $artAction = @($actionNodes | Where-Object {
