@@ -70,6 +70,12 @@ if (-not (Test-Path -LiteralPath $databaseContractChecksPath -PathType Leaf)) {
 }
 . $databaseContractChecksPath
 
+$databaseWriteSetPath = Join-Path $PSScriptRoot 'validation\DatabaseWriteSet.ps1'
+if (-not (Test-Path -LiteralPath $databaseWriteSetPath -PathType Leaf)) {
+    throw "Database write-set helpers not found: $databaseWriteSetPath"
+}
+. $databaseWriteSetPath
+
 $teamPvpSocietyChecksPath = Join-Path $PSScriptRoot 'validation\TeamPvpSocietyChecks.ps1'
 if (-not (Test-Path -LiteralPath $teamPvpSocietyChecksPath -PathType Leaf)) {
     throw "Team PVP Secret Societies validation helpers not found: $teamPvpSocietyChecksPath"
@@ -295,6 +301,50 @@ if (@(Get-ZylEraDurationSqlIssues -Source $validEraDurationFixture).Count -ne 0 
     Add-ValidationError 'Era-duration database contract helper failed its positive/negative self-test.'
 }
 
+$databaseSqlFixture = @'
+-- INSERT INTO IgnoredComment VALUES (1);
+CREATE TEMPORARY TABLE "Scratch" (Id INTEGER);
+INSERT OR REPLACE INTO "Types" (Type) VALUES ('DELETE FROM IgnoredString; -- still text');
+UPDATE OR IGNORE ModifierArguments SET Value = 'x' WHERE Name = 'Amount';
+DELETE FROM [OldRows] WHERE Id = 1;
+INSERT INTO Notes(Text) VALUES ('semi;colon');
+DROP TABLE IF EXISTS Scratch;
+'@
+$databaseSqlFixtureOperations = @(Get-ZylSqlWriteOperations -Source $databaseSqlFixture)
+$databaseSqlFixtureSummary = @($databaseSqlFixtureOperations | ForEach-Object {
+    $_.operation + ':' + $_.table + ':' + [string]$_.conflictMode
+}) -join '|'
+$expectedDatabaseSqlFixtureSummary = @(
+    'create-table:Scratch:',
+    'insert:Types:replace',
+    'update:ModifierArguments:ignore',
+    'delete:OldRows:',
+    'insert:Notes:',
+    'drop-table:Scratch:'
+) -join '|'
+$databaseXmlFixture = [System.Xml.XmlDocument]::new()
+$databaseXmlFixture.LoadXml(@'
+<GameInfo>
+  <Types><Row /><InsertOrIgnore /><Replace /><Update /><Delete /></Types>
+</GameInfo>
+'@)
+$databaseXmlDriftFixture = [System.Xml.XmlDocument]::new()
+$databaseXmlDriftFixture.LoadXml('<GameInfo><Types><Merge /></Types></GameInfo>')
+$databaseSqlDriftOperations = @(Get-ZylSqlWriteOperations -Source 'UPDATE Broken;')
+$databaseXmlFixtureOperations = @(Get-ZylXmlWriteOperations -Document $databaseXmlFixture)
+$databaseXmlDriftOperations = @(Get-ZylXmlWriteOperations -Document $databaseXmlDriftFixture)
+if ($databaseSqlFixtureSummary -ne $expectedDatabaseSqlFixtureSummary -or
+        $databaseXmlFixtureOperations.Count -ne 5 -or
+        @($databaseXmlFixtureOperations | Where-Object {
+                $_.operation.StartsWith('unknown:', [System.StringComparison]::Ordinal)
+            }).Count -ne 0 -or
+        $databaseXmlDriftOperations.Count -ne 1 -or
+        $databaseXmlDriftOperations[0].operation -ne 'unknown:Merge' -or
+        $databaseSqlDriftOperations.Count -ne 1 -or
+        $databaseSqlDriftOperations[0].operation -ne 'unknown:update') {
+    Add-ValidationError 'Database write-set scanner failed its SQL/XML positive/negative self-test.'
+}
+
 $pairedPlatformFixture = [System.Xml.XmlDocument]::new()
 $pairedPlatformFixture.LoadXml(@'
 <Mod>
@@ -409,6 +459,56 @@ foreach ($xmlIssue in @(Get-ZylXmlArtifactIssues -XmlFiles $xmlFiles)) {
 $modInfo = Load-XmlDocument $modInfoPath
 foreach ($platformAssetIssue in @(Get-ZylPlatformAssetPairIssues -ModInfo $modInfo)) {
     Add-ValidationError $platformAssetIssue
+}
+$databaseWriteSetAnalysis = Get-ZylDatabaseWriteSetAnalysis `
+    -ProjectRoot $modRoot `
+    -ModInfo $modInfo
+foreach ($databaseWriteSetIssue in @($databaseWriteSetAnalysis.issues)) {
+    Add-ValidationError $databaseWriteSetIssue
+}
+$databaseWriteSetContractPath = Join-Path $modRoot 'manifest\database-write-set-contract.json'
+if (-not (Test-Path -LiteralPath $databaseWriteSetContractPath -PathType Leaf)) {
+    Add-ValidationError 'Database write-set contract is missing.'
+}
+else {
+    try {
+        $databaseWriteSetContract = Get-Content `
+            -LiteralPath $databaseWriteSetContractPath `
+            -Raw | ConvertFrom-Json
+        $databaseSemanticView = Get-ZylDatabaseWriteSetSemanticView `
+            -Analysis $databaseWriteSetAnalysis
+        $databaseAnalysisSha256 = Get-ZylSha256ForText -Text (
+            ConvertTo-ZylCanonicalJson -InputObject $databaseSemanticView
+        )
+        foreach ($databaseWriteSetContractIssue in @(
+                Get-ZylDatabaseWriteSetContractIssues `
+                    -Analysis $databaseWriteSetAnalysis `
+                    -AnalysisSha256 $databaseAnalysisSha256 `
+                    -Contract $databaseWriteSetContract
+            )) {
+            Add-ValidationError $databaseWriteSetContractIssue
+        }
+        $databaseWriteSetDriftContract = ConvertFrom-Json (
+            $databaseWriteSetContract | ConvertTo-Json -Depth 20
+        )
+        $databaseWriteSetDriftContract.expectedCurrentAnalysisSha256 = '0' * 64
+        $databaseWriteSetDriftIssues = @(
+            Get-ZylDatabaseWriteSetContractIssues `
+                -Analysis $databaseWriteSetAnalysis `
+                -AnalysisSha256 $databaseAnalysisSha256 `
+                -Contract $databaseWriteSetDriftContract
+        )
+        if (@($databaseWriteSetDriftIssues | Where-Object {
+                    $_ -like 'Database write-set drifted from expected current fingerprint:*'
+                }).Count -ne 1) {
+            Add-ValidationError 'Database write-set contract self-test did not reject fingerprint drift.'
+        }
+    }
+    catch {
+        Add-ValidationError (
+            'Database write-set contract could not be loaded: ' + $_.Exception.Message
+        )
+    }
 }
 $criteriaSourceDirectory = Join-Path $modRoot 'manifest\criteria'
 $frontEndActionsSourceDirectory = Join-Path $modRoot 'manifest\actions\frontend'

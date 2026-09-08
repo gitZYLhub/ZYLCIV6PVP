@@ -55,6 +55,7 @@ Manifest 迁移采用“分段替换而非一次重写”：`manifest/criteria`�
 - `AssetInventoryChecks.ps1` 生成发布文件、休眠文件、源码文件、Action/Criteria 身份与活跃引用的统一视图，检查磁盘、Files 与 Action 引用双向闭合；`manifest/dormant-files.txt` 取代隐藏在代码中的休眠白名单。
 - `RuntimeSafetyChecks.ps1` 只扫描资产视图中的活跃 Lua/SQL/XML，拒绝动态 `loadstring`、Workshop 自更新调用、已禁用反叠加机制和旧组件 Mod ID；休眠替代文件不会制造误报。
 - `DatabaseContractChecks.ps1` 逐步承接关键数据库最终值和其配置/动作/文本闭包；现覆盖时代长度/阈值/大厅开关/计时器文本、秘密结社 16 个晋升的幂等总督点返还与 DLC/模式 Criteria，以及旅游/伟人移动/迦太基购买参数和总督最终值修复，并用正确/错误 SQL 片段自检。
+- `DatabaseWriteSet.ps1` 从 FrontEnd/InGame 的 `UpdateDatabase` 动作提取加载域、顺序、Criteria 与唯一 SQL/XML 源；SQL 扫描器正确跳过注释并保护引号内分号，XML 扫描器识别 `Row/InsertOrIgnore/Replace/Update/Delete`，最后按表汇总操作、多源触及和零写入源。`manifest/database-write-set-contract.json` 同时保留冻结 1.3.0 指纹和可演进的当前指纹，避免为了后续等价精简而覆盖历史基线。
 - `BbgLocalizationChecks.ps1` 纵向拥有 BBG 7.4.6 简中同步层、误标为中文的拉丁文本补救、关键中英文正/负文本规则和全包英文/简中标签闭合；入口以内存修改拜占庭关键译文的反例自检，缺失 Text 节点会返回可定位问题。
 - `BbgIconChecks.ps1` 从嵌入 BBG SQL 动态发现新增政策，并统一验证政策/四结社晋升的图标定义或 stock alias 以及 InGame UpdateIcons 动作；入口以内存删除政策 alias 的反例防止空图标和 UI 日志刷屏。
 - `GameplayLocalizationChecks.ps1` 纵向拥有最终玩法覆盖层的中英文说明，以及毛利、马里、柬埔寨、克里、萨拉丁、瑞典、法国、俄罗斯等跨上游副本一致性；测试覆盖文本始终显式按 UTF-8 读取，避免 Windows PowerShell 5.1 的本地代码页破坏中文。
@@ -75,7 +76,7 @@ Manifest 迁移采用“分段替换而非一次重写”：`manifest/criteria`�
 - `LeaderVariantChecks.ps1` 纵向拥有北条、腓力二世和威廉明娜三个内陆变体的 Gameplay/Config 克隆、重复领袖关系、递归文本防护、图标/颜色、美术、八个 ModInfo 动作及 BBM/Rich Mainland 出生点分流；入口以内存破坏 Trait 克隆的反例保证变体不会演化成第二套玩法数据。
 - `ReleaseChecks.ps1` 统一 universal/windows/macos 路径选择、跨平台资产成对约束、Action 不直指平台二进制、资产定义不硬编码平台目录和发布器实现边界；根目录与任意嵌套目录中的 `Platforms/MacOS`、`Platforms/Windows` 都按同一规则识别。
 - `MultiplayerChecks.ps1` 承接大厅身份配置、事件生命周期、正式日志、周期读取、请求式完整刷新，赛事设置/启用 Mod 能力/玩家昵称三个失效缓存，以及多人状态的有序数组 + playerID 索引；另保护握手转换与终态幂等、批量广播、随机领袖、投票重开、断线、重同步、突然死亡、主菜单和主回合计时器。领域调度器统一读取六个 UI 源，独立自检函数对默认阶段全扫、三个缓存、状态索引、终态重开及其他联机路径构造十三类内存漂移。
-- `tools/report_modinfo_graph.ps1` 将完整规范图写入已忽略的 `artifacts/reports`，用于拆分前后定位差异；报告不进入 Workshop 包，也不是新的手工真值源。
+- `tools/report_modinfo_graph.ps1` 将完整规范图写入已忽略的 `artifacts/reports`，用于拆分前后定位差异；`tools/report_database_writes.ps1` 输出逐动作、逐源、逐操作和逐表的数据库写集合，并显示是否偏离冻结指纹。两种报告都不进入 Workshop 包，也不是新的手工真值源。
 - 领域模块返回问题或调用统一的 `Add-ValidationError`，不得自行终止整个校验流程；只有入口脚本负责最终退出码与摘要。
 - 抽取模块时必须保持原断言有效，并至少提供一个应通过和一个应失败的内建样例，防止“为了拆文件而让校验失效”。
 

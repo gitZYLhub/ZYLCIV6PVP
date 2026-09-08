@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "frozenVersion": "1.3.0",
+  "frozenCommit": "1852e1d4ddc5abcfc4507885fc1141866a9154e0",
+  "frozenAnalysisSha256": "29aa1f00656a94493c5ea1c443d169d3c0eaf806c2cdb5dc259a15aef6c37e56",
+  "expectedCurrentAnalysisSha256": "29aa1f00656a94493c5ea1c443d169d3c0eaf806c2cdb5dc259a15aef6c37e56",
+  "counts": {
+    "databaseActions": 145,
+    "sourceReferences": 286,
+    "uniqueSources": 254,
+    "sqlSources": 234,
+    "xmlSources": 20,
+    "writeOperations": 6192,
+    "tables": 223,
+    "overlappingTables": 135,
+    "noWriteSources": 5
+  },
+  "noWriteSources": [
+    "Components/BBG/sql/Base/GreatWorks.sql",
+    "Components/BBG/sql/LP/lp_qin_unifier_xp1.sql",
+    "Components/BBG/sql/LP/lp_qin_unifier_xp2.sql",
+    "Components/BBG/sql/NFP/mali_dlc_babylon.sql",
+    "Components/BBG/sql/XP1/Netherlands.sql"
+  ]
+}

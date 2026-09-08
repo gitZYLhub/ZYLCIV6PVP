@@ -646,4 +646,15 @@
 - 修改：在版本回复分支加入终态提前返回；联机契约固定守卫，并新增把守卫替换为恒假的第十三类内存漂移，防止后续重构重新开放终态。
 - 验证：剥离 Civ VI 专有类型注解后，Python `luaparser` 对完整 staging room 的 AST 解析通过；PowerShell 语法解析、PowerShell 7 与 Windows PowerShell 5.1 全量校验均通过 203 XML、108 Criteria、283 Actions、1077 Files、549 活跃引用、48 休眠文件和 84 源码专用文件；终态重开内存反例被准确拒绝。三种 profile 均重建闭合：universal 1072 文件、776,224,825 字节、SHA-256 `a6dc55c428ef83c02eee4f9720227df6fa8ecc70265680d75183c96f1743a7b1`；Windows 903 文件、442,483,888 字节、`58a8696aa490c676df36967d53bd27e2c216f40878cfa9994598b146a4bbbe6e`；macOS 903 文件、442,483,550 字节、`78a466911396830b308517d121eff82a0a851b9968f4320c62b765446a03447e`。
 - 风险/待办：静态契约验证终态不会被单条回复重开，但仍需 G05/G06/G12/N02/N03/N04 实机覆盖成功后重复回复、错误后迟到回复、手动复查、重连和房主迁移。
-- 提交：本次提交（版本回复终态幂等）。
+- 提交：`7ce1d3e fix: keep handshake terminal states idempotent`。
+
+### 2026-09-09 / M5-数据库表级写集合基线
+
+- 目标：把所有实际加载的数据库源、条件、顺序和触及表变成可重复查询的机器报告，为后续识别死写、重复覆盖和兼容性冲突建立冻结证据。
+- 范围：新增数据库写集合校验模块、报告器和契约文件，接入总校验并更新架构、计划、测试矩阵、Manifest 说明和工作日志；不修改任何运行数据库源、ModInfo、版本号或发布文件。
+- 设计决定：扫描范围取 FrontEnd/InGame 的全部 `UpdateDatabase`，而不是按扩展名猜测磁盘文件；同一源的多动作/多 Criteria 引用分别保留。SQL 解析按引号/注释安全地切分语句，识别 insert/replace/update/delete/create/drop/alter table；XML 只接受 Civ VI 数据动作 `Row/InsertOrIgnore/Replace/Update/Delete`。逐操作行号仅用于定位，不进入语义指纹，注释和空行变化不会伪造写集合漂移。
+- 修改：新增 `DatabaseWriteSet.ps1`、`report_database_writes.ps1` 和 `database-write-set-contract.json`；契约永久保存冻结 1.3.0 指纹，同时单独维护当前预期指纹。计划中的旧口径 247 已按真实动作图修正为 145 个动作、286 次引用、254 个唯一源（234 SQL、20 XML）。
+- 结果：当前共识别 6192 次表级写操作、223 张表和 135 张由多个源触及的表；发现 5 个活跃 SQL 只有注释而无写入：`Base/GreatWorks.sql`、两个秦始皇统一者 LP 条件文件、`mali_dlc_babylon.sql` 和 XP1 `Netherlands.sql`。多源触及仅作为主键级分析候选，不直接判定冲突。
+- 验证：SQL 自检覆盖注释假语句、引号内分号、四种标识符引用、冲突模式和六类写法，并拒绝缺少 `SET` 的畸形 UPDATE；XML 正例覆盖五种动作，`Merge` 反例被拒绝；指纹漂移反例被契约拒绝。冻结原目录与当前目录分别扫描得到相同语义 SHA-256 `29aa1f00656a94493c5ea1c443d169d3c0eaf806c2cdb5dc259a15aef6c37e56`。PowerShell 7 与 Windows PowerShell 5.1 全量校验均通过 203 XML、108 Criteria、283 Actions、1077 Files、549 活跃引用、48 休眠文件和 87 源码专用文件；两套运行时生成的 934,527 字节报告逐字节一致，文件 SHA-256 为 `29c8c14dc8d68c4994f28964c8d80d1f24053e60e2a4f3681cbee3afd59929b3`。
+- 风险/待办：本批只证明“哪些源以何种操作触及哪些表”，尚不能区分条件互斥、同主键覆盖或最终值等价；下一批应提取 INSERT/XML 行的键候选，并对 UPDATE/DELETE 的 WHERE 范围建立保守分类，不能按 135 张重叠表或 5 个零写源直接批量删除。
+- 提交：本次提交（数据库表级写集合基线）。

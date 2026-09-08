@@ -3,6 +3,7 @@
 本目录保存用于生成 `ZYLPVPMOD.modinfo` 的开发源，不进入 Civilization VI 运行包。
 
 - `baseline-1.3.0-action-graph.json`：冻结版 Action/Criteria/Files 语义指纹。
+- `database-write-set-contract.json`：冻结 1.3.0 与当前分支的数据库写集合指纹、计数和零写入源清单；未来有意重构只更新 `expectedCurrentAnalysisSha256`，不得覆盖冻结指纹。
 - `criteria/*.xml`：按责任域拆分的 Criteria；`manifestOrder` 仅用于恢复冻结版全局顺序，组装时会移除。
 - `actions/frontend/*.xml`：按责任域拆分的 FrontEndActions。
 - `actions/ingame/*.xml`：按责任域拆分的 InGameActions。
