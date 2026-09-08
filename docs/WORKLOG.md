@@ -596,4 +596,14 @@
 - 修改：迁移 staging room 正例、线性洗牌和握手状态转换反例，VotePanel/DropControl/MPHOptions/SuddenDeathPanel 四个控制器正反例，以及 main menu 调试开关、Shutdown、跨平台大厅/系统更新事件注销和正式日志检查；新增主菜单 Shutdown 漂移反例。主入口由 1349 行降至 1257 行，`MultiplayerChecks.ps1` 由 440 行扩展至 619 行。
 - 验证：六个真实 UI 源返回 0 个问题，七个内存漂移全部被对应领域函数拒绝。PowerShell 7 与 Windows PowerShell 5.1 全量校验均通过 203 XML、108 Criteria、283 Actions、1077 Files、549 活跃引用、48 休眠文件和 84 源码专用文件。universal 产物保持 1072 文件、776,223,699 字节和聚合 SHA-256 `98c315d0cd9c54ab19c49f3fd760c47258e88c80c491f3c0c28055438d20c55d`。
 - 风险/待办：静态 Lua 片段不能证明事件在 Civ VI 热载入、掉线重连和房主切换时只注册一次，也不能测量状态广播顺序；仍需双客户端执行 N02/N03/N05/N06。
-- 提交：本次提交（多人 UI 运行时调度与自检收拢）。
+- 提交：`06662e0 refactor: centralize multiplayer ui validation`。
+
+### 2026-09-09 / M3-普通大厅周期全量刷新门控
+
+- 目标：停止普通等待室在状态稳定时每 4–5 秒重复执行完整 `QuickRefresh + Refresh`，同时保留赛事阶段动画/流程刷新和版本握手重试。
+- 范围：`ui/stagingroom.lua`、联机静态契约、架构、计划、测试矩阵、更新日志和工作日志；不改变 ModInfo、SQL、平衡值、版本号或握手协议。
+- 设计决定：新增 `g_full_refresh_requested`。首次显示、配置变化、HostReset、玩家加入/离开和房主迁移显式请求刷新；普通阶段的 OnTick 仅在该标志为真时执行一次全量刷新，`g_phase ~= PHASE_DEFAULT` 的赛事阶段仍持续刷新，`RefreshStatus` 与轻量编辑按钮状态保持独立周期执行。配置事件已同步完成刷新后清除请求，避免下一周期重复。
+- 修改：OnTick 增加请求/赛事门控，并在会改变房间阶段或上下文可见性的六条路径维护请求标志；`Get-ZylStagingRoomContractIssues` 新增 OnTick 结构和调用次数断言，联机模块新增把门控强制为 `true` 的第八类内存反例。
+- 验证：门控源码在 PowerShell 7 与 Windows PowerShell 5.1 下通过完整静态校验；内存中恢复无条件全量刷新后会被 staging-room 契约拒绝。当前环境没有独立 Lua 解析器，实际 Civ VI 空闲 60 秒计数、赛事 Ban/Pick 和成员/房主事件刷新仍需实机验证。三种 profile 均构建通过：universal 1072 文件、776,224,089 字节、SHA-256 `d4b96cdaa1123aa5fd654e4f6a741248b27aa850ae62b08cd27e34067916219a`；Windows 903 文件、442,483,152 字节、`554d798d324c1d2c51420dc450426db004f4a31081cbc2f93ef648ca7f6403a9`；macOS 903 文件、442,482,814 字节、`c5bf50979a28c6f53ee7d2857ad78e563346ebd2b739f08a03471e9fb3b8c4ce`。
+- 风险/待办：Firaxis 可能存在不触发已登记事件的隐式 UI 状态变化；若实测发现，应为对应事件补充请求标志，而不是恢复普通阶段固定全量轮询。优先执行 P01、G05/G06、N02/N03/N06。
+- 提交：本次提交（普通大厅周期全量刷新门控）。

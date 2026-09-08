@@ -57,6 +57,7 @@ local g_last_tick_time = nil
 local g_timer = 0
 local g_tick_size = 5 -- Time between refresh in second
 local b_tick = false
+local g_full_refresh_requested = true
 local g_player_status = {} 
 local MPH_HANDSHAKE_GRACE_SECONDS = 20
 local MPH_HANDSHAKE_RETRY_SECONDS = 4
@@ -482,6 +483,7 @@ end
 function OnGameConfigChanged()
 	Refresh()	  
 	QuickRefresh()
+	g_full_refresh_requested = false
 	if(ContextPtr:IsHidden() == false) then
 		RealizeGameSetup(); -- Rebuild the game settings UI.
 		RebuildTeamPulldowns();	-- NoTeams setting might have changed.
@@ -541,8 +543,12 @@ function OnTick()
 	if b_tick == true then
 		b_tick = false
 	end
-	QuickRefresh()
-	Refresh()
+	local needsFullRefresh = g_full_refresh_requested or g_phase ~= PHASE_DEFAULT
+	if needsFullRefresh then
+		g_full_refresh_requested = false
+		QuickRefresh()
+		Refresh()
+	end
 	RefreshStatus()
 	ShowHideEditButton()
 end
@@ -2567,6 +2573,7 @@ function HostReset()
 	g_disabled_civ = false
 	g_disabled_slot_settings = false
 	g_phase = PHASE_DEFAULT
+	g_full_refresh_requested = true
 	g_hide_player = 0
 	PlayerEntryVisibility()
 	g_banned_leader = nil
@@ -4468,7 +4475,8 @@ function OnMultplayerPlayerConnected( playerID )
 	if Network.GetLocalPlayerID() ~= Network.GetGameHostPlayerID() then
 		SendVersion()
 	end
-	g_phase = PHASE_DEFAULT						  
+	g_phase = PHASE_DEFAULT
+	g_full_refresh_requested = true
 	if( ContextPtr:IsHidden() == false ) then
 		if GameConfiguration.GetValue("GAMEMODE_ANONYMOUS") == false then
 			OnChat( playerID, -1, PlayerConnectedChatStr, false );
@@ -4508,7 +4516,8 @@ function OnMultiplayerPrePlayerDisconnected( playerID )
 	if g_phase ~= PHASE_DEFAULT and g_phase ~= PHASE_READY then
 		HostReset()
 	end
-	g_phase = PHASE_DEFAULT								  	 
+	g_phase = PHASE_DEFAULT
+	g_full_refresh_requested = true
 	if( ContextPtr:IsHidden() == false ) then
 		local playerCfg = PlayerConfigurations[playerID];
 		if(playerCfg:IsHuman()) then
@@ -4646,6 +4655,7 @@ function OnLeaveGameComplete()
 		HostReset()
 	end
 	g_phase = PHASE_DEFAULT
+	g_full_refresh_requested = true
 end
 
 -------------------------------------------------
@@ -4666,7 +4676,8 @@ function OnMultiplayerHostMigrated( newHostID : number )
 	if g_phase ~= PHASE_DEFAULT then
 		HostReset()
 	end
-	g_phase = PHASE_DEFAULT			  	 
+	g_phase = PHASE_DEFAULT
+	g_full_refresh_requested = true
 	if(ContextPtr:IsHidden() == false) then
 		-- If the local machine has become the host, we need to rebuild the UI so host privileges are displayed.
 		local localPlayerID = Network.GetLocalPlayerID();
@@ -6977,6 +6988,7 @@ end
 -------------------------------------------------
 function OnShow()
 	-- Fetch g_currentMaxPlayers because it might be stale due to loading a save.
+	g_full_refresh_requested = true
 	g_Anon = GameConfiguration.GetValue('GAMEMODE_ANONYMOUS')
 	ZYLDebugLog("g_Anon", g_Anon)
 	g_currentMaxPlayers = math.min(MapConfiguration.GetMaxMajorPlayers(), 50);

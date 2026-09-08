@@ -32,6 +32,8 @@ function Get-ZylStagingRoomContractIssues {
     foreach ($requiredLifecycleFragment in @(
             'local function RefreshTickSettings()',
             'if now < g_last_tick_time + g_tick_size then',
+            'local g_full_refresh_requested = true',
+            'local needsFullRefresh = g_full_refresh_requested or g_phase ~= PHASE_DEFAULT',
             'Events.GameCoreEventPublishComplete.Remove(OnTick);',
             'LuaEvents.Multiplayer_ExitShell.Remove(OnHandleExitRequest);',
             'if GameConfiguration.GetValue(key) ~= value then',
@@ -91,6 +93,33 @@ function Get-ZylStagingRoomContractIssues {
             ).Count -ne 0 -or
             -not $fullRefreshMatch.Value.Contains('RefreshTickSettings()')) {
         $issues.Add('Staging-room periodic refresh restored duplicate tournament-setting reads.')
+    }
+
+    $onTickMatch = [regex]::Match(
+        $Source,
+        '(?s)function OnTick\(\)(.*?)\nend\s*\n\s*function GetLocalModVersion'
+    )
+    if (-not $onTickMatch.Success -or
+            -not [regex]::IsMatch(
+                $onTickMatch.Value,
+                '(?s)local needsFullRefresh = g_full_refresh_requested or ' +
+                'g_phase ~= PHASE_DEFAULT\s*' +
+                'if needsFullRefresh then\s*' +
+                'g_full_refresh_requested = false\s*' +
+                'QuickRefresh\(\)\s*Refresh\(\)\s*end\s*RefreshStatus\(\)'
+            ) -or
+            [regex]::Matches(
+                $onTickMatch.Value,
+                '(?m)^\s*QuickRefresh\(\)\s*$'
+            ).Count -ne 1 -or
+            [regex]::Matches(
+                $onTickMatch.Value,
+                '(?m)^\s*Refresh\(\)\s*$'
+            ).Count -ne 1) {
+        $issues.Add(
+            'Staging-room default phase must not run a periodic full refresh ' +
+            'without an explicit refresh request.'
+        )
     }
 
     $refreshStatusMatch = [regex]::Match(
@@ -564,6 +593,13 @@ function Get-ZylMultiplayerUiRuntimeSelfTestIssues {
             DriftFrom = 'if isConnected and player.Status ~= previousStatus'
             DriftTo = 'if isConnected'
             FailureMessage = 'Staging-room handshake self-test did not reject a transition drift.'
+        },
+        [pscustomobject]@{
+            RelativePath = 'ui\stagingroom.lua'
+            CheckFunction = 'Get-ZylStagingRoomContractIssues'
+            DriftFrom = 'local needsFullRefresh = g_full_refresh_requested or g_phase ~= PHASE_DEFAULT'
+            DriftTo = 'local needsFullRefresh = true'
+            FailureMessage = 'Staging-room refresh self-test did not reject an unconditional full scan.'
         },
         [pscustomobject]@{
             RelativePath = 'ui\Additions\VotePanel.lua'
