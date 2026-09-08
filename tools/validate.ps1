@@ -154,6 +154,12 @@ if (-not (Test-Path -LiteralPath $artIntegrationChecksPath -PathType Leaf)) {
 }
 . $artIntegrationChecksPath
 
+$packageIdentityChecksPath = Join-Path $PSScriptRoot 'validation\PackageIdentityChecks.ps1'
+if (-not (Test-Path -LiteralPath $packageIdentityChecksPath -PathType Leaf)) {
+    throw "Package identity validation helpers not found: $packageIdentityChecksPath"
+}
+. $packageIdentityChecksPath
+
 $releaseChecksPath = Join-Path $PSScriptRoot 'validation\ReleaseChecks.ps1'
 if (-not (Test-Path -LiteralPath $releaseChecksPath -PathType Leaf)) {
     throw "Release validation helpers not found: $releaseChecksPath"
@@ -416,52 +422,41 @@ foreach ($manifestIssue in @(Get-ZylGeneratedManifestSourceIssues `
         -FilesSourceDirectory $filesSourceDirectory)) {
     Add-ValidationError $manifestIssue
 }
-if ($modInfo.DocumentElement.GetAttribute('id') -ne $expectedModId) {
-    Add-ValidationError "Unexpected Mod ID: $($modInfo.DocumentElement.GetAttribute('id'))"
+$packageIdentityValidationParameters = @{
+    ProjectRoot = $modRoot
+    ModInfo = $modInfo
+    ExpectedModId = $expectedModId
+    ExpectedPackageName = $expectedPackageName
+    ExpectedSemanticVersion = $expectedSemanticVersion
+    ExpectedModInfoVersion = $expectedModInfoVersion
 }
-if ($modInfo.DocumentElement.GetAttribute('version') -ne $expectedModInfoVersion -or
-		$modInfo.SelectSingleNode('/Mod/Properties/Version').InnerText -ne $expectedModInfoVersion -or
-		$modInfo.SelectSingleNode('/Mod/Properties/ToolboxVersion').InnerText -ne $expectedSemanticVersion) {
-	Add-ValidationError "Package version metadata must match tools/project.json ($expectedSemanticVersion / ModInfo $expectedModInfoVersion)."
+$packageIdentityIssues = @(
+    Get-ZylPackageIdentityContractIssues @packageIdentityValidationParameters
+)
+foreach ($issue in $packageIdentityIssues) {
+    Add-ValidationError $issue
 }
-if ($modInfo.SelectSingleNode('/Mod/Properties/Name').InnerText -ne 'LOC_ZYLPVPMOD_TITLE') {
-    Add-ValidationError 'The ModInfo title is not the ZYLPVPMOD localization key.'
-}
-$workshopTitleEnglish = $modInfo.SelectSingleNode("/Mod/LocalizedText/Text[@id='LOC_ZYLPVPMOD_TITLE']/en_US")
-$workshopTitleChinese = $modInfo.SelectSingleNode("/Mod/LocalizedText/Text[@id='LOC_ZYLPVPMOD_TITLE']/zh_Hans_CN")
-$expectedPackageTitle = "$expectedPackageName $expectedSemanticVersion"
-if ($null -eq $workshopTitleEnglish -or $workshopTitleEnglish.InnerText -ne $expectedPackageTitle -or
-		$null -eq $workshopTitleChinese -or $workshopTitleChinese.InnerText -ne $expectedPackageTitle) {
-	Add-ValidationError "The localized ModInfo title must be $expectedPackageTitle."
-}
+
+# Prove that the multiplayer handshake cannot drift from project metadata.
 $multiplayerHelperPath = Join-Path $modRoot 'data\MP_helper.lua'
-if (-not (Test-Path -LiteralPath $multiplayerHelperPath) -or
-		-not (Get-Content -LiteralPath $multiplayerHelperPath -Raw).Contains("local g_version = `"$expectedPackageName v$expectedSemanticVersion`"")) {
-	Add-ValidationError "The multiplayer version handshake must identify $expectedPackageName v$expectedSemanticVersion."
-}
-else {
-	$multiplayerHelperSource = Get-Content -LiteralPath $multiplayerHelperPath -Raw
-	foreach ($requiredHelperFragment in @(
-		'if Drop_Data[playerID] ~= nil then',
-		'local savedMovesByUnitID = {}',
-		'UnitManager.ChangeMovesRemaining(unit, savedMoves - currentMoves)',
-		'local function DebugLog(...)'
-	)) {
-		if (-not $multiplayerHelperSource.Contains($requiredHelperFragment)) {
-			Add-ValidationError "The multiplayer helper is missing its deterministic drop/reconnect guard: $requiredHelperFragment"
-		}
-	}
-	foreach ($forbiddenHelperFragment in @(
-		'Game.GetRandNum',
-		'GameEvents.OnGameTurnStarted.Add(OnGameTurnStarted)',
-		'UnitManager.ChangeMovesRemaining(unit, -99)',
-		'function Tablelength(',
-		'function FindTableIndex('
-	)) {
-		if ($multiplayerHelperSource.Contains($forbiddenHelperFragment)) {
-			Add-ValidationError "The multiplayer helper restored a random-stream, non-idempotent or dead-code path: $forbiddenHelperFragment"
-		}
-	}
+if (Test-Path -LiteralPath $multiplayerHelperPath -PathType Leaf) {
+    $multiplayerHelperSource = Get-Content -LiteralPath $multiplayerHelperPath -Raw
+    $expectedHandshake = "local g_version = `"$expectedPackageName v$expectedSemanticVersion`""
+    $multiplayerHelperDrift = $multiplayerHelperSource.Replace(
+        $expectedHandshake,
+        'local g_version = "ZYLPVPMOD vDRIFT"'
+    )
+    $packageIdentityDriftIssues = @(
+        Get-ZylPackageIdentityContractIssues @packageIdentityValidationParameters `
+            -MultiplayerHelperSourceOverride $multiplayerHelperDrift
+    )
+    $expectedHandshakeDriftIssue =
+        "The multiplayer version handshake must identify " +
+        "$expectedPackageName v$expectedSemanticVersion."
+    if ($multiplayerHelperDrift -eq $multiplayerHelperSource -or
+            $packageIdentityDriftIssues -notcontains $expectedHandshakeDriftIssue) {
+        Add-ValidationError 'Package identity self-test did not reject a handshake drift.'
+    }
 }
 
 # The Industries/Corporations balance values, mode-gated load order and final
@@ -1341,11 +1336,6 @@ foreach ($runtimeSafetyIssue in @(Get-ZylActiveRuntimeSafetyIssues `
         -ProjectRoot $modRoot `
         -ActionReferenceMap $actionReferenceMap)) {
     Add-ValidationError $runtimeSafetyIssue
-}
-
-$descriptionZhNode = $modInfo.SelectSingleNode("/Mod/LocalizedText/Text[@id='LOC_ZYLPVPMOD_DESCRIPTION']/zh_Hans_CN")
-if ($null -eq $descriptionZhNode -or $descriptionZhNode.InnerText.Contains('保教')) {
-    Add-ValidationError 'The generated Chinese ModInfo description still contains the 保教/保留 typo.'
 }
 
 if ($validationErrors.Count -gt 0) {

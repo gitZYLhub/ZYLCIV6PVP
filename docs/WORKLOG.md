@@ -576,4 +576,14 @@
 - 修改：迁移唯一根 UpdateArt 动作、dep 中所有 ArtDef/PackageDependencies 双平台闭包，以及 BBG 印度尼西亚/高棉、苏丹萨拉丁和 BBM 两条失效文件引用防回流检查。主入口由 1362 行降至 1359 行；新增领域模块 99 行。
 - 验证：真实工程返回 0 个问题；内存中把首个 ArtDef 依赖改为 `__selftest_missing__.artdef` 后准确拒绝。PowerShell 7 与 Windows PowerShell 5.1 全量校验均通过 203 XML、108 Criteria、283 Actions、1077 Files、549 活跃引用、48 休眠文件和 83 源码专用文件。universal 产物保持 1072 文件、776,223,699 字节和聚合 SHA-256 `98c315d0cd9c54ab19c49f3fd760c47258e88c80c491f3c0c28055438d20c55d`。
 - 风险/待办：静态闭包不能证明 Civ VI 在 Windows/macOS 上实际解析 `.dep`、ArtDef 和 BLP 成功，也不能验证纹理/模型视觉结果；两平台包仍需实机加载和地图生成抽样。
-- 提交：本次提交（BBM 根美术依赖与坏引用边界模块化）。
+- 提交：`4d36112 refactor: extract art integration checks`。
+
+### 2026-09-08 / M2-包身份与多人握手契约模块化
+
+- 目标：把项目单一版本源、ModInfo 可见身份和 Gameplay 多人握手收敛为一个跨前端/游戏内契约，避免以后改名或升版时只更新一半。
+- 范围：校验工具、架构、计划、测试矩阵和工作日志；不修改 `project.json`、ModInfo、`MP_helper.lua`、运行包内容、玩家行为或版本号。
+- 设计决定：`PackageIdentityChecks.ps1` 读取项目期望值和 ModInfo/XML 视图，只返回问题；多人辅助源支持内存覆盖。ModInfo 的属性节点、标题/描述节点及辅助文件缺失时现在给出可定位错误，不再通过直接 `.InnerText` 访问提前中止总校验；中文错字以 Unicode 码位构造，模块保持 ASCII 并兼容 Windows PowerShell 5.1。
+- 修改：迁移 Mod ID、三处版本值、本地化标题键、英/简中标题、简中描述已知错字、`MP_helper.lua` 版本握手、掉线恢复的保存移动力路径、正式日志包装，以及随机流/旧清空移动力/死函数禁用项。主入口由 1359 行降至 1349 行；新增领域模块 134 行。
+- 验证：真实工程返回 0 个问题；内存中把 `ZYLPVPMOD v1.3.0` 握手改为漂移版本后准确拒绝。PowerShell 7 与 Windows PowerShell 5.1 全量校验均通过 203 XML、108 Criteria、283 Actions、1077 Files、549 活跃引用、48 休眠文件和 84 源码专用文件。universal 产物保持 1072 文件、776,223,699 字节和聚合 SHA-256 `98c315d0cd9c54ab19c49f3fd760c47258e88c80c491f3c0c28055438d20c55d`。
+- 风险/待办：静态字符串一致只能保证双方声明同版，不能证明 Steam 实际分发内容一致或断线重连状态正确恢复；版本不一致阻断和移动力恢复仍需双客户端实测。
+- 提交：本次提交（包身份与多人握手契约模块化）。
