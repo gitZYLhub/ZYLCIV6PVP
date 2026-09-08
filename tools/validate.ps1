@@ -124,6 +124,12 @@ if (-not (Test-Path -LiteralPath $gameplayLocalizationChecksPath -PathType Leaf)
 }
 . $gameplayLocalizationChecksPath
 
+$bbgTooltipChecksPath = Join-Path $PSScriptRoot 'validation\BbgTooltipChecks.ps1'
+if (-not (Test-Path -LiteralPath $bbgTooltipChecksPath -PathType Leaf)) {
+    throw "BBG tooltip validation helpers not found: $bbgTooltipChecksPath"
+}
+. $bbgTooltipChecksPath
+
 $releaseChecksPath = Join-Path $PSScriptRoot 'validation\ReleaseChecks.ps1'
 if (-not (Test-Path -LiteralPath $releaseChecksPath -PathType Leaf)) {
     throw "Release validation helpers not found: $releaseChecksPath"
@@ -1245,147 +1251,68 @@ if (Test-Path -LiteralPath $gameplayOverrideTextPath -PathType Leaf) {
     }
 }
 
-# Lock the embedded BBG leader/unit tooltips whose upstream localizations were
-# stale or ambiguous relative to the gameplay database.
+# Embedded BBG leader/unit/Great Person tooltips must match their final
+# gameplay bindings and values.
+$bbgTooltipIssues = @(
+    Get-ZylBbgTooltipContractIssues -ProjectRoot $modRoot
+)
+foreach ($issue in $bbgTooltipIssues) {
+    Add-ValidationError $issue
+}
+
+# Prove that Saladin's combat radius cannot regress to the stale tooltip.
 $bbgEnglishPath = Join-Path $modRoot 'Components\BBG\lang\english.xml'
-$bbgChinesePath = Join-Path $modRoot 'Components\BBG\lang\chinese.xml'
-if (-not (Test-Path -LiteralPath $bbgEnglishPath) -or -not (Test-Path -LiteralPath $bbgChinesePath)) {
-	Add-ValidationError 'Embedded BBG English or Chinese localization is missing.'
-}
-else {
-	$bbgEnglishXml = Load-XmlDocument $bbgEnglishPath
-	$bbgChineseXml = Load-XmlDocument $bbgChinesePath
-
-	$sultanEnglishNode = $bbgEnglishXml.SelectSingleNode("/GameData/LocalizedText/*[@Tag='LOC_BBG_SULTAN_COMBAT_ADJACENT_APOSTLE_ABILITY_DESC' and @Language='en_US']/Text")
-	if ($null -eq $sultanEnglishNode -or -not $sultanEnglishNode.InnerText.Contains('within 2 tiles')) {
-		Add-ValidationError 'Saladin (Sultan) English combat tooltip must target military units within 2 tiles of an Apostle.'
-	}
-
-	$tagmaChineseNode = $bbgChineseXml.SelectSingleNode("/GameData/LocalizedText/*[@Tag='LOC_ABILITY_TAGMA_DESCRIPTION' and @Language='zh_Hans_CN']/Text")
-	foreach ($requiredFragment in @('普通陆地战斗单位', '+2 [ICON_Strength]', '宗教单位', '+2 [ICON_RELIGION]')) {
-		if ($null -eq $tagmaChineseNode -or -not $tagmaChineseNode.InnerText.Contains($requiredFragment)) {
-			Add-ValidationError "Tagma Chinese ability tooltip is missing: $requiredFragment"
-		}
-	}
-
-	$norwayChineseNode = $bbgChineseXml.SelectSingleNode("/GameData/LocalizedText/*[@Tag='LOC_TRAIT_LEADER_THUNDERBOLT_EXPANSION2_DESCRIPTION' and @Language='zh_Hans_CN']/Text")
-	foreach ($requiredFragment in @('造船术', '海洋单元格', '营地')) {
-		if ($null -eq $norwayChineseNode -or -not $norwayChineseNode.InnerText.Contains($requiredFragment)) {
-			Add-ValidationError "Norway Chinese Gathering Storm tooltip is missing: $requiredFragment"
-		}
-	}
-
-	$kublaiEnglishNode = $bbgEnglishXml.SelectSingleNode("/GameData/LocalizedText/*[@Tag='LOC_TRAIT_LEADER_KUBLAI_DESCRIPTION' and @Language='en_US']/Text")
-	if ($null -eq $kublaiEnglishNode -or -not $kublaiEnglishNode.InnerText.Contains('adjacent to another Great Wall') -or -not $kublaiEnglishNode.InnerText.Contains('+1 [ICON_CULTURE]')) {
-		Add-ValidationError 'Kublai English tooltip is missing the conditional Great Wall Culture bonus.'
-	}
-	$kublaiChineseNode = $bbgChineseXml.SelectSingleNode("/GameData/LocalizedText/*[@Tag='LOC_TRAIT_LEADER_KUBLAI_DESCRIPTION' and @Language='zh_Hans_CN']/Text")
-	foreach ($requiredFragment in @('与另一座长城相邻', '+1 [ICON_CULTURE]')) {
-		if ($null -eq $kublaiChineseNode -or -not $kublaiChineseNode.InnerText.Contains($requiredFragment)) {
-			Add-ValidationError "Kublai Chinese tooltip is missing: $requiredFragment"
-		}
-	}
-}
-
-$ramsesGameplayPath = Join-Path $modRoot 'Components\BBG\sql\LP\Ramses.sql'
-if (-not (Test-Path -LiteralPath $ramsesGameplayPath)) {
-	Add-ValidationError 'Ramses BBG gameplay SQL is missing.'
-}
-else {
-	$ramsesGameplaySql = Get-Content -LiteralPath $ramsesGameplayPath -Raw
-	foreach ($modifierId in @(
-		'BBG_RAMSES_FLOODPLAINS_RESOURCE_FAITH_ON_BONUS_RESOURCE',
-		'BBG_RAMSES_FLOODPLAINS_RESOURCE_FAITH_ON_LUX_RESOURCE',
-		'BBG_RAMSES_FLOODPLAINS_RESOURCE_FAITH_ON_STRAT_RESOURCE',
-		'BBG_RAMSES_FLOODPLAINS_RESOURCE_FOOD_ON_BONUS_RESOURCE',
-		'BBG_RAMSES_FLOODPLAINS_RESOURCE_FOOD_ON_LUX_RESOURCE',
-		'BBG_RAMSES_FLOODPLAINS_RESOURCE_FOOD_ON_STRAT_RESOURCE'
-	)) {
-		$escapedModifierId = [regex]::Escape($modifierId)
-		if ($ramsesGameplaySql -notmatch "(?s)\(\s*'TRAIT_LEADER_RAMSES'\s*,\s*'$escapedModifierId'\s*\)") {
-			Add-ValidationError "Ramses floodplain-resource modifier is not bound to his leader trait: $modifierId"
-		}
-	}
-}
-
-# Great People whose BBG actions were rewritten must not retain the obsolete
-# vanilla tooltip details.  Aethelflaed now creates a plain Trebuchet (the
-# modifier no longer grants a free promotion); Drake's production bonus is
-# 25% in the final BBG rules, not the stale 20% value in the embedded source.
-$greatPersonChinesePath = Join-Path $modRoot 'lang\ZYL_BBG74_Chinese_Text.xml'
-if (-not (Test-Path -LiteralPath $greatPersonChinesePath)) {
-	Add-ValidationError 'BBG Great People Chinese overlay is missing.'
-}
-else {
-	$greatPersonChineseXml = Load-XmlDocument $greatPersonChinesePath
-	$aethelflaedTextNode = $greatPersonChineseXml.SelectSingleNode("/GameData/LocalizedText/*[@Tag='LOC_GREATPERSON_AETHELFLAED_ACTIVE' and @Language='zh_Hans_CN']/Text")
-	if ($null -eq $aethelflaedTextNode -or -not $aethelflaedTextNode.InnerText.Contains('投石机') -or $aethelflaedTextNode.InnerText.Contains('强化等级')) {
-		Add-ValidationError 'Aethelflaed Chinese tooltip must describe only a Trebuchet in the capital.'
-	}
-	$drakeTextNode = $greatPersonChineseXml.SelectSingleNode("/GameData/LocalizedText/*[@Tag='LOC_GREATPERSON_FRANCIS_DRAKE_EXPANSION2_ACTIVE' and @Language='zh_Hans_CN']/Text")
-	if ($null -eq $drakeTextNode -or -not $drakeTextNode.InnerText.Contains('+25%') -or $drakeTextNode.InnerText.Contains('+20%')) {
-		Add-ValidationError 'Francis Drake Chinese tooltip must use the final +25% naval production bonus.'
-	}
-	foreach ($dharmaTag in @('LOC_TRAIT_CIVILIZATION_DHARMA_DESCRIPTION', 'LOC_TRAIT_CIVILIZATION_DHARMA_EXPANSION2_DESCRIPTION')) {
-		$dharmaTextNode = $greatPersonChineseXml.SelectSingleNode("/GameData/LocalizedText/*[@Tag='$dharmaTag' and @Language='zh_Hans_CN']/Text")
-		if ($null -eq $dharmaTextNode -or -not $dharmaTextNode.InnerText.Contains('信奉您的主流宗教') -or -not $dharmaTextNode.InnerText.Contains('+1 [ICON_AMENITIES]') -or $dharmaTextNode.InnerText.Contains('拥有多个宗教')) {
-			Add-ValidationError "India Dharma Chinese tooltip is stale or incomplete: $dharmaTag"
-		}
-	}
-	foreach ($escorialTag in @('LOC_TRAIT_LEADER_EL_ESCORIAL_DESCRIPTION', 'LOC_TRAIT_LEADER_EL_ESCORIAL_EXPANSION2_DESCRIPTION')) {
-		$escorialTextNode = $greatPersonChineseXml.SelectSingleNode("/GameData/LocalizedText/*[@Tag='$escorialTag' and @Language='zh_Hans_CN']/Text")
-		if ($null -eq $escorialTextNode -or -not $escorialTextNode.InnerText.Contains('信奉其他宗教的玩家') -or $escorialTextNode.InnerText.Contains('信仰其他宗教的单位')) {
-			Add-ValidationError "Philip II Chinese tooltip must target players following other religions: $escorialTag"
-		}
-	}
-}
-
-$gameplayOverridePath = Join-Path $modRoot 'sql\ZYL_GameplayOverrides.sql'
-if (-not (Test-Path -LiteralPath $gameplayOverridePath)) {
-	Add-ValidationError 'ZYL gameplay override SQL is missing.'
-}
-else {
-	$gameplayOverrideSql = Get-Content -LiteralPath $gameplayOverridePath -Raw
-	foreach ($stadiumInvariant in @(
-		"WHERE ModifierId = 'TRAIT_GRANT_CULTURE_UNIT_TRAINED'",
-		"AND Name = 'UnitProductionPercent'",
-		"WHERE ModifierId = 'FERRIS_WHEEL_TOURISM'",
-		"WHERE ModifierId = 'AQUATICS_CENTER_WONDER_TOURISM'",
-		"WHERE ModifierId = 'STADIUM_10_POPULATION_TOURISM'",
-		"WHERE ModifierId = 'STADIUM_20_POPULATION_TOURISM'",
-		"WHERE ModifierId = 'GREATPERSON_MOVEMENT_AOE_INFORMATION_SEA'",
-		"AND Name = 'ModifierId'",
-		"AND Value = 'ABILITY_GREAT_ADMIRAL_MOVEMENT'",
-		"'MINOR_CIV_CARTHAGE_BARRACKS_STABLE_PURCHASE_BONUS'",
-		"'MINOR_CIV_CARTHAGE_ARMORY_PURCHASE_BONUS'",
-		"'MINOR_CIV_CARTHAGE_MILITARY_ACADEMY_PURCHASE_BONUS'",
-		"SET Value = 'DOMAIN_LAND'",
-		"AND Name = 'UnitDomain'",
-		"SET Value = '25'",
-		"SET Value = '6'",
-		"SET Value = '15'"
-	)) {
-		if (-not $gameplayOverrideSql.Contains($stadiumInvariant)) {
-			Add-ValidationError "Malformed BBG ModifierArguments repair is missing invariant: $stadiumInvariant"
-		}
-	}
-}
-if (-not (Test-Path -LiteralPath $governorOverridePath)) {
-    Add-ValidationError 'ZYL governor override SQL is missing.'
-}
-else {
-    $governorOverrideSql = Get-Content -LiteralPath $governorOverridePath -Raw
-    foreach ($requiredToken in @(
-		"GovernorType = 'GOVERNOR_THE_BUILDER'",
-		'SET TransitionStrength = 150',
-        'SURPLUS_LOGISTICS_EXTRA_GROWTH',
-        'EXPEDITION_ADJUST_SETTLERS_CONSUME_POPULATION',
-        'BBG_GOVERNOR_MAGNUS_PROD_IZ',
-        "SET Value = '40'"
-    )) {
-        if (-not $governorOverrideSql.Contains($requiredToken)) {
-            Add-ValidationError "Governor override SQL is missing invariant: $requiredToken"
+if (Test-Path -LiteralPath $bbgEnglishPath -PathType Leaf) {
+    $bbgTooltipDriftDocument = Load-XmlDocument $bbgEnglishPath
+    $bbgTooltipDriftNode = $bbgTooltipDriftDocument.SelectSingleNode(
+        "/GameData/LocalizedText/*[@Tag='LOC_BBG_SULTAN_COMBAT_ADJACENT_APOSTLE_ABILITY_DESC' and @Language='en_US']/Text"
+    )
+    if ($null -eq $bbgTooltipDriftNode) {
+        Add-ValidationError 'BBG tooltip validation self-test fixture is missing the Sultan row.'
+    }
+    else {
+        $bbgTooltipOriginalText = $bbgTooltipDriftNode.InnerText
+        $bbgTooltipDriftNode.InnerText =
+            $bbgTooltipOriginalText.Replace('within 2 tiles', 'within 1 tile')
+        $bbgTooltipDriftIssues = @(
+            Get-ZylBbgTooltipContractIssues -ProjectRoot $modRoot `
+                -EnglishDocumentOverride $bbgTooltipDriftDocument
+        )
+        $expectedBbgTooltipDriftIssue =
+            'Saladin (Sultan) English combat tooltip must target military units within 2 tiles of an Apostle.'
+        if ($bbgTooltipDriftNode.InnerText -eq $bbgTooltipOriginalText -or
+                $bbgTooltipDriftIssues -notcontains $expectedBbgTooltipDriftIssue) {
+            Add-ValidationError 'BBG tooltip validation self-test did not reject a stale combat radius.'
         }
+    }
+}
+
+# Late repairs for malformed BBG ModifierArguments and final governor values
+# remain part of the database contract module.
+$finalDatabaseRepairIssues = @(
+    Get-ZylFinalDatabaseRepairIssues -ProjectRoot $modRoot
+)
+foreach ($issue in $finalDatabaseRepairIssues) {
+    Add-ValidationError $issue
+}
+
+# Prove that a removed tourism repair is rejected in memory.
+$gameplayOverridePath = Join-Path $modRoot 'sql\ZYL_GameplayOverrides.sql'
+if (Test-Path -LiteralPath $gameplayOverridePath -PathType Leaf) {
+    $finalRepairGameplaySource = Get-Content -LiteralPath $gameplayOverridePath -Raw
+    $finalRepairGameplayDriftSource = $finalRepairGameplaySource.Replace(
+        "WHERE ModifierId = 'FERRIS_WHEEL_TOURISM'",
+        "WHERE ModifierId = 'FERRIS_WHEEL_TOURISM_DRIFT'"
+    )
+    $finalDatabaseRepairDriftIssues = @(
+        Get-ZylFinalDatabaseRepairIssues -ProjectRoot $modRoot `
+            -GameplaySourceOverride $finalRepairGameplayDriftSource
+    )
+    $expectedFinalDatabaseRepairDriftIssue =
+        "Malformed BBG ModifierArguments repair is missing invariant: WHERE ModifierId = 'FERRIS_WHEEL_TOURISM'"
+    if ($finalRepairGameplayDriftSource -eq $finalRepairGameplaySource -or
+            $finalDatabaseRepairDriftIssues -notcontains $expectedFinalDatabaseRepairDriftIssue) {
+        Add-ValidationError 'Final database repair self-test did not reject a missing tourism repair.'
     }
 }
 

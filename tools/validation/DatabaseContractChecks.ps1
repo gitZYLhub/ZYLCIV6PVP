@@ -197,3 +197,82 @@ function Get-ZylSecretSocietyRefundContractIssues {
     }
     return @($issues)
 }
+
+function Get-ZylFinalDatabaseRepairIssues {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string]$ProjectRoot,
+
+        [AllowEmptyString()]
+        [string]$GameplaySourceOverride,
+
+        [AllowEmptyString()]
+        [string]$GovernorSourceOverride
+    )
+
+    $issues = [System.Collections.Generic.List[string]]::new()
+    $gameplayOverridePath = Join-Path $ProjectRoot 'sql\ZYL_GameplayOverrides.sql'
+    if (-not (Test-Path -LiteralPath $gameplayOverridePath -PathType Leaf)) {
+        $issues.Add('ZYL gameplay override SQL is missing.')
+    }
+    else {
+        $gameplayOverrideSql = if ($PSBoundParameters.ContainsKey('GameplaySourceOverride')) {
+            $GameplaySourceOverride
+        }
+        else {
+            Get-Content -LiteralPath $gameplayOverridePath -Raw
+        }
+        foreach ($requiredToken in @(
+            "WHERE ModifierId = 'TRAIT_GRANT_CULTURE_UNIT_TRAINED'",
+            "AND Name = 'UnitProductionPercent'",
+            "WHERE ModifierId = 'FERRIS_WHEEL_TOURISM'",
+            "WHERE ModifierId = 'AQUATICS_CENTER_WONDER_TOURISM'",
+            "WHERE ModifierId = 'STADIUM_10_POPULATION_TOURISM'",
+            "WHERE ModifierId = 'STADIUM_20_POPULATION_TOURISM'",
+            "WHERE ModifierId = 'GREATPERSON_MOVEMENT_AOE_INFORMATION_SEA'",
+            "AND Name = 'ModifierId'",
+            "AND Value = 'ABILITY_GREAT_ADMIRAL_MOVEMENT'",
+            "'MINOR_CIV_CARTHAGE_BARRACKS_STABLE_PURCHASE_BONUS'",
+            "'MINOR_CIV_CARTHAGE_ARMORY_PURCHASE_BONUS'",
+            "'MINOR_CIV_CARTHAGE_MILITARY_ACADEMY_PURCHASE_BONUS'",
+            "SET Value = 'DOMAIN_LAND'",
+            "AND Name = 'UnitDomain'",
+            "SET Value = '25'",
+            "SET Value = '6'",
+            "SET Value = '15'"
+        )) {
+            if (-not $gameplayOverrideSql.Contains($requiredToken)) {
+                $issues.Add(
+                    "Malformed BBG ModifierArguments repair is missing invariant: $requiredToken"
+                )
+            }
+        }
+    }
+
+    $governorOverridePath = Join-Path $ProjectRoot 'sql\ZYL_GovernorOverrides.sql'
+    if (-not (Test-Path -LiteralPath $governorOverridePath -PathType Leaf)) {
+        $issues.Add('ZYL governor override SQL is missing.')
+    }
+    else {
+        $governorOverrideSql = if ($PSBoundParameters.ContainsKey('GovernorSourceOverride')) {
+            $GovernorSourceOverride
+        }
+        else {
+            Get-Content -LiteralPath $governorOverridePath -Raw
+        }
+        foreach ($requiredToken in @(
+            "GovernorType = 'GOVERNOR_THE_BUILDER'",
+            'SET TransitionStrength = 150',
+            'SURPLUS_LOGISTICS_EXTRA_GROWTH',
+            'EXPEDITION_ADJUST_SETTLERS_CONSUME_POPULATION',
+            'BBG_GOVERNOR_MAGNUS_PROD_IZ',
+            "SET Value = '40'"
+        )) {
+            if (-not $governorOverrideSql.Contains($requiredToken)) {
+                $issues.Add("Governor override SQL is missing invariant: $requiredToken")
+            }
+        }
+    }
+
+    return @($issues)
+}
