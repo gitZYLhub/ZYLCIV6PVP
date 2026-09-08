@@ -201,6 +201,177 @@ function Get-ZylRichMainlandFfaConfigurationIssues {
     return @($issues)
 }
 
+function Get-ZylRichMainlandConfigurationIssues {
+    param(
+        [Parameter(Mandatory = $true)]
+        [System.Xml.XmlDocument]$ConfigurationXml,
+
+        [Parameter(Mandatory = $true)]
+        [AllowNull()]
+        [System.Xml.XmlDocument]$LocalizationXml
+    )
+
+    $issues = [System.Collections.Generic.List[string]]::new()
+    $expectedMaps = @('zyl_team_rich_mainland.lua', 'zyl_ffa_rich_mainland.lua')
+    $actualMaps = @($ConfigurationXml.SelectNodes('/GameInfo/Maps/Row') | ForEach-Object {
+            $_.GetAttribute('File')
+        })
+    if (($actualMaps -join '|') -ne ($expectedMaps -join '|')) {
+        $issues.Add("Unexpected Rich Mainland map entries: $($actualMaps -join ', ')")
+    }
+
+    $teamSizes = @($ConfigurationXml.SelectNodes(
+            '/GameInfo/MapSizes/Row[@Domain="zyl_team_rich_mainland.lua"]'
+        ))
+    $ffaSizes = @($ConfigurationXml.SelectNodes(
+            '/GameInfo/MapSizes/Row[@Domain="zyl_ffa_rich_mainland.lua"]'
+        ))
+    if ($teamSizes.Count -ne 6) {
+        $issues.Add("Team Rich Mainland must expose 6 sizes; found $($teamSizes.Count).")
+    }
+    if ($ffaSizes.Count -ne 11) {
+        $issues.Add("FFA Rich Mainland must expose 11 sizes; found $($ffaSizes.Count).")
+    }
+    $ffaPlayers = @($ffaSizes | ForEach-Object {
+            [int]$_.GetAttribute('DefaultPlayers')
+        } | Sort-Object)
+    if (($ffaPlayers -join ',') -ne ((2..12) -join ',')) {
+        $issues.Add("FFA Rich Mainland player-size coverage is not 2-12: $($ffaPlayers -join ',')")
+    }
+
+    $uniformParameters = @($ConfigurationXml.SelectNodes(
+            '/GameInfo/Parameters/Row[@ConfigurationId="ZYL_RVC_UniformDistribution"]'
+        ))
+    if ($uniformParameters.Count -ne 1) {
+        $issues.Add(
+            "FFA Rich Mainland must own exactly one uniform-distribution option; " +
+            "found $($uniformParameters.Count)."
+        )
+    }
+    else {
+        $uniformParameter = $uniformParameters[0]
+        if ($uniformParameter.GetAttribute('Key2') -ne 'zyl_ffa_rich_mainland.lua' -or
+                $uniformParameter.GetAttribute('ParameterId') -ne 'ZYLRM_FFA_UniformDistribution' -or
+                $uniformParameter.GetAttribute('Domain') -ne 'bool' -or
+                $uniformParameter.GetAttribute('DefaultValue') -ne '1' -or
+                $uniformParameter.GetAttribute('Name') -ne 'LOC_ZYLRM_FFA_UNIFORM_DISTRIBUTION_NAME' -or
+                $uniformParameter.GetAttribute('Description') -ne 'LOC_ZYLRM_FFA_UNIFORM_DISTRIBUTION_DESCRIPTION') {
+            $issues.Add(
+                'The experimental uniform-distribution option must be FFA-only, boolean, localized and enabled by default.'
+            )
+        }
+    }
+
+    if ($null -eq $LocalizationXml) {
+        $issues.Add('Rich Mainland localization is missing.')
+    }
+    else {
+        foreach ($language in @('zh_Hans_CN', 'en_US')) {
+            foreach ($tag in @(
+                    'LOC_ZYLRM_FFA_UNIFORM_DISTRIBUTION_NAME',
+                    'LOC_ZYLRM_FFA_UNIFORM_DISTRIBUTION_DESCRIPTION'
+                )) {
+                $textNode = $LocalizationXml.SelectSingleNode(
+                    "/GameData/LocalizedText/Row[@Tag='$tag' and @Language='$language']/Text"
+                )
+                if ($null -eq $textNode -or [string]::IsNullOrWhiteSpace($textNode.InnerText)) {
+                    $issues.Add("FFA uniform-distribution localization is missing: $language / $tag")
+                }
+            }
+        }
+    }
+
+    foreach ($ffaSize in $ffaSizes) {
+        if ($ffaSize.GetAttribute('MaxPlayers') -ne $ffaSize.GetAttribute('DefaultPlayers')) {
+            $issues.Add(
+                "FFA size $($ffaSize.GetAttribute('MapSizeType')) allows more players than its land-area guarantee."
+            )
+        }
+    }
+
+    $parameterDefaults = @{
+        'zyl_team_rich_mainland.lua|BBS_Team_Spawn' = '1'
+        'zyl_ffa_rich_mainland.lua|BBS_Team_Spawn' = '0'
+        'zyl_team_rich_mainland.lua|RouteLevel' = '1'
+        'zyl_ffa_rich_mainland.lua|RouteLevel' = '1'
+    }
+    foreach ($entry in $parameterDefaults.GetEnumerator()) {
+        $parts = $entry.Key.Split('|')
+        $node = $ConfigurationXml.SelectSingleNode(
+            "/GameInfo/Parameters/Row[@Key2='$($parts[0])' and @ConfigurationId='$($parts[1])']"
+        )
+        if ($null -eq $node -or $node.GetAttribute('DefaultValue') -ne $entry.Value) {
+            $issues.Add("Rich Mainland default $($entry.Key) must be $($entry.Value).")
+        }
+    }
+
+    $expectedCityStates = @{
+        'zyl_team_rich_mainland.lua|MAPSIZE_DUEL' = 5
+        'zyl_team_rich_mainland.lua|MAPSIZE_TINY' = 8
+        'zyl_team_rich_mainland.lua|MAPSIZE_SMALL' = 10
+        'zyl_team_rich_mainland.lua|MAPSIZE_STANDARD' = 12
+        'zyl_team_rich_mainland.lua|MAPSIZE_LARGE' = 14
+        'zyl_team_rich_mainland.lua|MAPSIZE_HUGE' = 17
+        'zyl_ffa_rich_mainland.lua|MAPSIZE_DUEL' = 5
+        'zyl_ffa_rich_mainland.lua|MAPSIZE_ZYL_FFA_3' = 6
+        'zyl_ffa_rich_mainland.lua|MAPSIZE_TINY' = 8
+        'zyl_ffa_rich_mainland.lua|MAPSIZE_ZYL_FFA_5' = 9
+        'zyl_ffa_rich_mainland.lua|MAPSIZE_SMALL' = 10
+        'zyl_ffa_rich_mainland.lua|MAPSIZE_ZYL_FFA_7' = 11
+        'zyl_ffa_rich_mainland.lua|MAPSIZE_STANDARD' = 12
+        'zyl_ffa_rich_mainland.lua|MAPSIZE_ZYL_FFA_9' = 13
+        'zyl_ffa_rich_mainland.lua|MAPSIZE_LARGE' = 14
+        'zyl_ffa_rich_mainland.lua|MAPSIZE_ZYL_FFA_11' = 16
+        'zyl_ffa_rich_mainland.lua|MAPSIZE_HUGE' = 17
+    }
+    foreach ($entry in $expectedCityStates.GetEnumerator()) {
+        $parts = $entry.Key.Split('|')
+        $node = $ConfigurationXml.SelectSingleNode(
+            "/GameInfo/MapSizes/Row[@Domain='$($parts[0])' and @MapSizeType='$($parts[1])']"
+        )
+        if ($null -eq $node -or
+                [int]$node.GetAttribute('DefaultCityStates') -ne [int]$entry.Value) {
+            $issues.Add("Rich Mainland default city states $($entry.Key) must be $($entry.Value).")
+        }
+    }
+    return @($issues)
+}
+
+function Get-ZylBbmMapSizeConfigurationIssues {
+    param(
+        [Parameter(Mandatory = $true)]
+        [System.Xml.XmlDocument]$ConfigurationXml
+    )
+
+    $issues = [System.Collections.Generic.List[string]]::new()
+    $expectedCityStates = @{
+        'ExtraStandardMapSizes|MAPSIZE_DUEL' = 5
+        'ExtraStandardMapSizes|MAPSIZE_TINY' = 8
+        'ExtraStandardMapSizes|MAPSIZE_SMALL' = 11
+        'ExtraStandardMapSizes|MAPSIZE_STANDARD' = 14
+        'ExtraStandardMapSizes|MAPSIZE_LARGE' = 17
+        'ExtraStandardMapSizes|MAPSIZE_HUGE' = 20
+        'ExtraStandardMapSizes|MAPSIZE_ENORMOUS' = 26
+        'StandardMapSizes|MAPSIZE_DUEL' = 5
+        'StandardMapSizes|MAPSIZE_TINY' = 8
+        'StandardMapSizes|MAPSIZE_SMALL' = 11
+        'StandardMapSizes|MAPSIZE_STANDARD' = 14
+        'StandardMapSizes|MAPSIZE_LARGE' = 17
+        'StandardMapSizes|MAPSIZE_HUGE' = 20
+    }
+    foreach ($entry in $expectedCityStates.GetEnumerator()) {
+        $parts = $entry.Key.Split('|')
+        $node = $ConfigurationXml.SelectSingleNode(
+            "/GameInfo/MapSizes/Replace[@Domain='$($parts[0])' and @MapSizeType='$($parts[1])']"
+        )
+        if ($null -eq $node -or
+                [int]$node.GetAttribute('DefaultCityStates') -ne [int]$entry.Value) {
+            $issues.Add("BBM default city states $($entry.Key) must be $($entry.Value).")
+        }
+    }
+    return @($issues)
+}
+
 function Get-ZylRichMainlandContractIssues {
     param(
         [Parameter(Mandatory = $true)]
@@ -213,7 +384,10 @@ function Get-ZylRichMainlandContractIssues {
         [object]$CriteriaMap,
 
         [Parameter(Mandatory = $true)]
-        [object]$ActionIdMap
+        [object]$ActionIdMap,
+
+        [Parameter(Mandatory = $true)]
+        [System.Xml.XmlDocument]$ModInfo
     )
 
     $issues = [System.Collections.Generic.List[string]]::new()
@@ -281,6 +455,46 @@ function Get-ZylRichMainlandContractIssues {
         $source = Get-Content -LiteralPath $sourcePath -Raw
         $checkFunction = $sourceCheck.Function
         Add-ZylMapIssues -Issues $issues -AdditionalIssues @(& $checkFunction -Source $source)
+    }
+
+    $configurationPath = Join-Path $ProjectRoot 'Components\BBM\Configuration\ZYL_RichMainland_Config.xml'
+    if (-not (Test-Path -LiteralPath $configurationPath -PathType Leaf)) {
+        $issues.Add('Rich Mainland configuration is missing.')
+    }
+    else {
+        $configurationXml = Load-XmlDocument $configurationPath
+        $localizationPath = Join-Path $ProjectRoot 'Components\BBM\Lang\ZYL_RichMainland_Text.xml'
+        $localizationXml = $null
+        if (Test-Path -LiteralPath $localizationPath -PathType Leaf) {
+            $localizationXml = Load-XmlDocument $localizationPath
+        }
+        Add-ZylMapIssues -Issues $issues -AdditionalIssues @(
+            Get-ZylRichMainlandConfigurationIssues `
+                -ConfigurationXml $configurationXml `
+                -LocalizationXml $localizationXml
+        )
+    }
+
+    $bbmConfigurationPath = Join-Path $ProjectRoot 'Components\BBM\Configuration\Config.xml'
+    if (-not (Test-Path -LiteralPath $bbmConfigurationPath -PathType Leaf)) {
+        $issues.Add('BBM map-size configuration is missing.')
+    }
+    else {
+        Add-ZylMapIssues -Issues $issues -AdditionalIssues @(
+            Get-ZylBbmMapSizeConfigurationIssues `
+                -ConfigurationXml (Load-XmlDocument $bbmConfigurationPath)
+        )
+    }
+
+    foreach ($legacyReference in @(
+            'zyl_mountainous_rich_mainland.lua',
+            'ZYL_MountainousRichMainland_Config.xml',
+            'ZYL_MountainousRichMainland_Text.xml',
+            'ZYLMRM/ConfigureMap.sql'
+        )) {
+        if ($ModInfo.OuterXml -like "*$legacyReference*") {
+            $issues.Add("Legacy Rich Mainland reference returned to ModInfo: $legacyReference")
+        }
     }
 
     $criteria = @{

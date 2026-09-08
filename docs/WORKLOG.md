@@ -370,4 +370,13 @@
 - 修改：用 26 行装载/调度/自检替换主入口 258 行 Rich Mainland 内联检查；主入口由 4593 行降至 4361 行，新地图模块 347 行。补充空问题集合在 Windows PowerShell 5.1/PowerShell 7 下的显式兼容标记。
 - 验证：当前清单、动作图及五份源码对模块返回 0 个问题；把 `__PlaceMissingMinorCivsRelaxed` 改成遗留入口名的内存反例被拒绝。PowerShell 7 与 Windows PowerShell 5.1 全量校验均通过 203 XML、108 Criteria、283 Actions、1077 Files、549 活跃引用、48 休眠文件和 67 源码专用文件。
 - 风险/待办：静态契约只能证明高风险保护仍在源码和加载图中，不能证明固定种子输出、生成耗时或不同地图尺寸的实际出生质量；S08 继续保持未覆盖，必须通过 Civ VI 地图生成夹具或实机日志补齐。
-- 提交：本次提交（Rich Mainland 地图契约校验模块化）。
+- 提交：`dd456f6 refactor: extract rich mainland validation checks`。
+
+### 2026-09-08 / M2-Rich Mainland 配置契约归并
+
+- 目标：消除仍夹在 TPT/UI 区域的 Rich Mainland 配置断言，使该地图域的加载图、源码、配置和本地化由同一模块完整拥有。
+- 范围：校验工具、架构、计划和工作日志；不修改地图配置、文本、地图脚本、ModInfo、运行行为或版本号。
+- 修改：地图模块新增纯 XML 检查，覆盖 Team/FFA 地图条目、6/11 个尺寸、FFA 2–12 人覆盖、均匀分布参数与双语文本、路线/团队出生默认值、各尺寸城邦数、BBM 标准尺寸城邦数和四个旧 Mountainous 引用禁用；聚合函数新增只读 ModInfo 输入。主入口删除 138 行散落检查，由 4361 行降至 4223 行；地图模块由 347 行扩展到 561 行。
+- 验证：PowerShell 7 与 Windows PowerShell 5.1 全量校验均通过 203 XML、108 Criteria、283 Actions、1077 Files、549 活跃引用、48 休眠文件和 67 源码专用文件；原有地图源码内存反例继续被拒绝。
+- 风险/待办：配置闭包完整仍不等于地图生成结果确定；固定种子摘要、尺寸生成时长和出生质量实测仍是 M7/S08 的未完成发布门。
+- 提交：本次提交（Rich Mainland 配置契约归并）。
