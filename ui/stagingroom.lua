@@ -59,6 +59,8 @@ local g_tick_size = 5 -- Time between refresh in second
 local b_tick = false
 local g_full_refresh_requested = true
 local g_tournament_settings_dirty = true
+local g_mod_capabilities_dirty = true
+local g_player_names_refresh_requested = true
 local g_player_status = {} 
 local MPH_HANDSHAKE_GRACE_SECONDS = 20
 local MPH_HANDSHAKE_RETRY_SECONDS = 4
@@ -483,6 +485,7 @@ end
 -------------------------------------------------
 function OnGameConfigChanged()
 	g_tournament_settings_dirty = true
+	g_mod_capabilities_dirty = true
 	Refresh()	  
 	QuickRefresh()
 	g_full_refresh_requested = false
@@ -529,6 +532,37 @@ local function RefreshTickSettings()
 		end
 	end
 	g_tournament_settings_dirty = false
+end
+
+local function RefreshModCapabilities()
+	g_mod_capabilities_dirty = false
+	local hasBSM = false
+	local hasUnifiedPackage = false
+	local enabledMods = GameConfiguration.GetEnabledMods() or {}
+	for _, curMod in ipairs(enabledMods) do
+		-- Color unofficial mods to call them out.
+		if curMod.Id == "3291a787-4a93-445c-998d-e22034ab15b3" or curMod.Id == "c6e5ad32-0600-4a98-a7cd-5854a1abcaaf" then
+			hasBSM = true
+		end
+		if curMod.Id == ZYLPVP_MOD_ID then
+			-- The unified package owns all three capabilities. Keep MPH's
+			-- hidden configuration flags enabled for its existing presets.
+			hasUnifiedPackage = true
+		end
+	end
+	local capabilityValues = {
+		{ "MOD_BSM_ID", hasBSM },
+		{ "MOD_BBS_ID", hasUnifiedPackage },
+		{ "MOD_BBG_ID", hasUnifiedPackage },
+		{ "MOD_MPH_ID", hasUnifiedPackage }
+	}
+	for _, entry in ipairs(capabilityValues) do
+		local key = entry[1]
+		local value = entry[2]
+		if GameConfiguration.GetValue(key) ~= value then
+			GameConfiguration.SetValue(key, value)
+		end
+	end
 end
 
 function OnTick()
@@ -1566,52 +1600,32 @@ function Refresh()
 	if g_tournament_settings_dirty then
 		RefreshTickSettings()
 	end
+	if g_mod_capabilities_dirty then
+		RefreshModCapabilities()
+	end
 	g_refreshing = g_refreshing.."."
 	if string.len(g_refreshing) > 30 then
 		g_refreshing = "Refreshing"
 	end	
-	local hasBSM = false
-	local hasUnifiedPackage = false
-	local enabledMods = GameConfiguration.GetEnabledMods();
-	for _, curMod in ipairs(enabledMods) do
-		-- Color unofficial mods to call them out.
-		if curMod.Id == "3291a787-4a93-445c-998d-e22034ab15b3" or curMod.Id == "c6e5ad32-0600-4a98-a7cd-5854a1abcaaf" then
-			hasBSM = true
-		end			
-		if curMod.Id == ZYLPVP_MOD_ID then
-			-- The unified package owns all three capabilities.  Keep MPH's
-			-- hidden configuration flags enabled for its existing presets.
-			hasUnifiedPackage = true
-		end
-	end
-	local capabilityValues = {
-		{ "MOD_BSM_ID", hasBSM },
-		{ "MOD_BBS_ID", hasUnifiedPackage },
-		{ "MOD_BBG_ID", hasUnifiedPackage },
-		{ "MOD_MPH_ID", hasUnifiedPackage }
-	}
-	for _, entry in ipairs(capabilityValues) do
-		local key = entry[1]
-		local value = entry[2]
-		if GameConfiguration.GetValue(key) ~= value then
-			GameConfiguration.SetValue(key, value)
-		end
-	end
-	
 	-- Anonymous WIP
-	if GameConfiguration.GetValue("GAMEMODE_ANONYMOUS") == true then 
-		for i, iPlayer in ipairs(player_ids) do	
-			local playerEntry = g_PlayerEntries[iPlayer]
-			if playerEntry ~= nil then
-				playerEntry.PlayerName:SetText("Anon_"..iPlayer)
+	local anonymousMode = GameConfiguration.GetValue("GAMEMODE_ANONYMOUS") == true
+	if g_player_names_refresh_requested or g_Anon ~= anonymousMode then
+		g_player_names_refresh_requested = false
+		g_Anon = anonymousMode
+		if anonymousMode then
+			for _, iPlayer in ipairs(player_ids) do
+				local playerEntry = g_PlayerEntries[iPlayer]
+				if playerEntry ~= nil then
+					playerEntry.PlayerName:SetText("Anon_"..iPlayer)
+				end
 			end
-		end
 		else
-		for i, iPlayer in ipairs(player_ids) do	
-			local playerEntry = g_PlayerEntries[iPlayer]
-			local pPlayerConfig = PlayerConfigurations[iPlayer]
-			if playerEntry ~= nil and pPlayerConfig ~= nil then
-				playerEntry.PlayerName:LocalizeAndSetText(pPlayerConfig:GetSlotName())
+			for _, iPlayer in ipairs(player_ids) do
+				local playerEntry = g_PlayerEntries[iPlayer]
+				local pPlayerConfig = PlayerConfigurations[iPlayer]
+				if playerEntry ~= nil and pPlayerConfig ~= nil then
+					playerEntry.PlayerName:LocalizeAndSetText(pPlayerConfig:GetSlotName())
+				end
 			end
 		end
 	end
@@ -4542,7 +4556,8 @@ end
 
 function OnModStatusUpdated(playerID: number, modState : number, bytesDownloaded : number, bytesTotal : number,
 							modsRemaining : number, modsRequired : number)
-	
+	g_mod_capabilities_dirty = true
+	g_full_refresh_requested = true
 	if(modState == 1) then -- MOD_STATE_DOWNLOADING
 		local modStatusString = downloadPendingStr;
 		modStatusString = modStatusString .. "[NEWLINE][Icon_AdditionalContent]" .. tostring(modsRemaining) .. "/" .. tostring(modsRequired);
@@ -6995,6 +7010,8 @@ function OnShow()
 	-- Fetch g_currentMaxPlayers because it might be stale due to loading a save.
 	g_full_refresh_requested = true
 	g_tournament_settings_dirty = true
+	g_mod_capabilities_dirty = true
+	g_player_names_refresh_requested = true
 	g_Anon = GameConfiguration.GetValue('GAMEMODE_ANONYMOUS')
 	ZYLDebugLog("g_Anon", g_Anon)
 	g_currentMaxPlayers = math.min(MapConfiguration.GetMaxMajorPlayers(), 50);

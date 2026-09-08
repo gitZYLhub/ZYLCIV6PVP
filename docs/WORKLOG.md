@@ -616,4 +616,14 @@
 - 修改：把赛事设置读取从每次 `Refresh()` 改为事件失效缓存；静态契约要求脏标志、清除点和条件调用同时存在，并增加把条件改回恒真的第九类联机内存反例。
 - 验证：PowerShell 7 与 Windows PowerShell 5.1 完整校验均通过 203 XML、108 Criteria、283 Actions、1077 Files、549 活跃引用、48 休眠文件和 84 源码专用文件；内存反例恢复周期读取后被准确拒绝。当前环境无 Lua 解释器；赛事设置变更、重开/重新显示和倒计时仍需 G05/G06/G13 实机回归。三种 profile 均构建通过：universal 1072 文件、776,224,282 字节、SHA-256 `b6f8b33c83d8e2390de001c059b8b345f33591579e9451ad3134bf7029f04262`；Windows 903 文件、442,483,345 字节、`6d1d7d8c0d5ad5217c9fa6bf694d6489129fe30529f12c15597d9a8596787daa`；macOS 903 文件、442,483,007 字节、`8fb141c23690fac1981598584b9b6e0575303e32d2d36af177b78be6a5ae9754`。
 - 风险/待办：依赖 Civ VI 对 `DRAFT_*` 变化触发 `GameConfigChanged`；若实测发现特定本地修改不触发，应在对应写入入口标脏，不能恢复周期读取。
-- 提交：本次提交（赛事设置脏缓存）。
+- 提交：`574aab0 perf: cache tournament lobby settings`。
+
+### 2026-09-09 / M3-Mod 能力与玩家昵称子域缓存
+
+- 目标：移除赛事阶段每秒遍历启用 Mod 和全部玩家槽的两个稳定子域，同时保持匿名昵称切换、玩家变动和 Mod 下载后的即时一致性。
+- 范围：`ui/stagingroom.lua`、联机静态契约、架构、计划、测试矩阵、更新日志和工作日志；不修改 ModInfo、匿名模式规则、玩家名称协议、版本号或 Gameplay。
+- 设计决定：`RefreshModCapabilities` 从 `Refresh` 提取并由 `g_mod_capabilities_dirty` 驱动，配置事件、Mod 状态和重新显示使其失效；Mod 状态事件还请求一次完整刷新。全玩家昵称块由 `g_player_names_refresh_requested` 或匿名模式实际变化驱动，并同步更新 `g_Anon`；已有 `OnPlayerInfoChanged`/`Anonymise_ID` 保持单玩家定向路径。
+- 修改：稳定赛事周期不再调用 `GetEnabledMods`、遍历四个能力值或遍历所有玩家重绘昵称；`GetEnabledMods` 增加 nil 回退。静态契约要求两个失效条件、能力函数和全量昵称门控，并新增把两者改成恒真的第十/十一类联机内存反例。
+- 验证：PowerShell 7 与 Windows PowerShell 5.1 完整校验均通过 203 XML、108 Criteria、283 Actions、1077 Files、549 活跃引用、48 休眠文件和 84 源码专用文件；两个内存反例均被准确拒绝。当前环境无 Lua 解释器；匿名开关、玩家改名/加入和 Mod 下载完成后的 UI 结果仍需 G05/G06/G12/N06 实机回归。三种 profile 均构建通过：universal 1072 文件、776,224,872 字节、SHA-256 `f0ed26ef11dc0f6f05c9aa5b20ca49775e1de4f948ca1f328d411fb6c02df39f`；Windows 903 文件、442,483,935 字节、`85daa2cd0dadb252b104ec4e9ef644cd87a0996f310cf8475ca415d95804f525`；macOS 903 文件、442,483,597 字节、`444e3d3c41bf7ce5e802c272cf9cc70098f58bb40f337056116d8f82b817555b`。
+- 风险/待办：依赖 `GameConfigChanged`/`ModStatusUpdated` 覆盖启用 Mod 集合变化，且依赖现有单玩家事件覆盖稳定匿名模式下的加入/改名；若日志显示漏刷，应补对应失效入口，不恢复周期全扫。
+- 提交：本次提交（Mod 能力与玩家昵称子域缓存）。

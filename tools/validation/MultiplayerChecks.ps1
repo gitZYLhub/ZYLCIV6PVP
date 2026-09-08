@@ -36,6 +36,11 @@ function Get-ZylStagingRoomContractIssues {
             'local needsFullRefresh = g_full_refresh_requested or g_phase ~= PHASE_DEFAULT',
             'local g_tournament_settings_dirty = true',
             'g_tournament_settings_dirty = false',
+            'local g_mod_capabilities_dirty = true',
+            'local function RefreshModCapabilities()',
+            'if g_mod_capabilities_dirty then',
+            'local g_player_names_refresh_requested = true',
+            'if g_player_names_refresh_requested or g_Anon ~= anonymousMode then',
             'Events.GameCoreEventPublishComplete.Remove(OnTick);',
             'LuaEvents.Multiplayer_ExitShell.Remove(OnHandleExitRequest);',
             'if GameConfiguration.GetValue(key) ~= value then',
@@ -93,10 +98,25 @@ function Get-ZylStagingRoomContractIssues {
                 $fullRefreshMatch.Value,
                 'GameConfiguration\.GetValue\("DRAFT_(?:SLOT_ORDER|TIMER)"\)'
             ).Count -ne 0 -or
+            [regex]::Matches(
+                $fullRefreshMatch.Value,
+                'GameConfiguration\.GetEnabledMods\(\)'
+            ).Count -ne 0 -or
             -not [regex]::IsMatch(
                 $fullRefreshMatch.Value,
                 '(?s)if g_tournament_settings_dirty then\s*' +
                 'RefreshTickSettings\(\)\s*end'
+            ) -or
+            -not [regex]::IsMatch(
+                $fullRefreshMatch.Value,
+                '(?s)if g_mod_capabilities_dirty then\s*' +
+                'RefreshModCapabilities\(\)\s*end'
+            ) -or
+            -not [regex]::IsMatch(
+                $fullRefreshMatch.Value,
+                '(?s)if g_player_names_refresh_requested or ' +
+                'g_Anon ~= anonymousMode then\s*' +
+                'g_player_names_refresh_requested = false'
             )) {
         $issues.Add('Staging-room periodic refresh restored duplicate tournament-setting reads.')
     }
@@ -613,6 +633,20 @@ function Get-ZylMultiplayerUiRuntimeSelfTestIssues {
             DriftFrom = 'if g_tournament_settings_dirty then'
             DriftTo = 'if true then'
             FailureMessage = 'Staging-room settings self-test did not reject periodic configuration reads.'
+        },
+        [pscustomobject]@{
+            RelativePath = 'ui\stagingroom.lua'
+            CheckFunction = 'Get-ZylStagingRoomContractIssues'
+            DriftFrom = 'if g_mod_capabilities_dirty then'
+            DriftTo = 'if true then'
+            FailureMessage = 'Staging-room Mod capability self-test did not reject periodic scans.'
+        },
+        [pscustomobject]@{
+            RelativePath = 'ui\stagingroom.lua'
+            CheckFunction = 'Get-ZylStagingRoomContractIssues'
+            DriftFrom = 'if g_player_names_refresh_requested or g_Anon ~= anonymousMode then'
+            DriftTo = 'if true then'
+            FailureMessage = 'Staging-room player-name self-test did not reject periodic roster scans.'
         },
         [pscustomobject]@{
             RelativePath = 'ui\Additions\VotePanel.lua'
