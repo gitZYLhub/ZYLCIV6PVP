@@ -3517,36 +3517,25 @@ if (Test-Path -LiteralPath $betterTradeSupportPath -PathType Leaf) {
     }
 }
 
+foreach ($remainingUiIssue in @(Get-ZylRemainingUiContractIssues `
+        -ProjectRoot $modRoot)) {
+    Add-ValidationError $remainingUiIssue
+}
 $pantheonChooserPath = Join-Path $modRoot 'BPC\UI\PantheonChooser_TPT.lua'
-if (-not (Test-Path -LiteralPath $pantheonChooserPath)) {
-	Add-ValidationError 'TPT Pantheon chooser replacement is missing.'
-}
-else {
-	$pantheonChooserLua = Get-Content -LiteralPath $pantheonChooserPath -Raw
-	foreach ($requiredPantheonChooserToken in @(
-		'local beliefInst:table = InstanceButton[row.Index]',
-		'if beliefInst == nil then',
-		'InstanceButton = {}',
-		'InstanceButton[row.Index] = beliefInst'
-	)) {
-		if (-not $pantheonChooserLua.Contains($requiredPantheonChooserToken)) {
-			Add-ValidationError "TPT Pantheon chooser is missing the early-event/stable-index fix: $requiredPantheonChooserToken"
-		}
-	}
-	if ($pantheonChooserLua.Contains('InstanceButton[row]')) {
-		Add-ValidationError 'TPT Pantheon chooser still indexes instances by transient GameInfo row objects.'
-	}
-}
-
-$stagingRoomXmlPath = Join-Path $modRoot 'ui\stagingroom.xml'
-if (Test-Path -LiteralPath $stagingRoomXmlPath) {
-	$stagingRoomXml = Get-Content -LiteralPath $stagingRoomXmlPath -Raw
-	if ($stagingRoomXml -match '<Image\s+ID="BanPullDown_Icon"\s+Icon="Leaders45"') {
-		Add-ValidationError 'MPH staging room still sends the Leaders45 texture name to IconManager.'
-	}
-	if ($stagingRoomXml -notmatch '<Image\s+ID="BanPullDown_Icon"\s+Texture="Leaders45"\s+Icon="ICON_LEADER_DEFAULT"') {
-		Add-ValidationError 'MPH staging-room ban picker is missing its leader-texture fallback.'
-	}
+if (Test-Path -LiteralPath $pantheonChooserPath -PathType Leaf) {
+    $pantheonChooserSource = Get-Content -LiteralPath $pantheonChooserPath -Raw
+    $pantheonChooserIssues = @(Get-ZylPantheonChooserIssues `
+        -Source $pantheonChooserSource)
+    $pantheonChooserDriftSource = $pantheonChooserSource.Replace(
+        'InstanceButton[row.Index]',
+        'InstanceButton[row]'
+    )
+    if ($pantheonChooserIssues.Count -ne 0 -or
+            $pantheonChooserDriftSource -eq $pantheonChooserSource -or
+            @(Get-ZylPantheonChooserIssues `
+                -Source $pantheonChooserDriftSource).Count -eq 0) {
+        Add-ValidationError 'Remaining UI helper failed its positive/negative self-test.'
+    }
 }
 
 # Scan only active runtime text files for dangerous or disabled behavior.
@@ -3559,19 +3548,6 @@ foreach ($runtimeSafetyIssue in @(Get-ZylActiveRuntimeSafetyIssues `
 $descriptionZhNode = $modInfo.SelectSingleNode("/Mod/LocalizedText/Text[@id='LOC_ZYLPVPMOD_DESCRIPTION']/zh_Hans_CN")
 if ($null -eq $descriptionZhNode -or $descriptionZhNode.InnerText.Contains('保教')) {
     Add-ValidationError 'The generated Chinese ModInfo description still contains the 保教/保留 typo.'
-}
-
-$blacklistLuaPath = Join-Path $modRoot 'ui\Additions\BlacklistPanel.lua'
-$blacklistXmlPath = Join-Path $modRoot 'ui\Additions\BlacklistPanel.xml'
-if ((Test-Path -LiteralPath $blacklistLuaPath) -and (Test-Path -LiteralPath $blacklistXmlPath)) {
-    $blacklistLua = Get-Content -LiteralPath $blacklistLuaPath -Raw
-    $blacklistXml = Get-Content -LiteralPath $blacklistXmlPath -Raw
-    if (-not $blacklistLua.Contains('CopyBlackListToClipboard') -or
-            -not $blacklistLua.Contains('UIManager:SetClipboardString') -or
-            -not $blacklistLua.Contains('Controls.CopyBlackListButton:RegisterCallback') -or
-            -not $blacklistXml.Contains('ID="CopyBlackListButton"')) {
-        Add-ValidationError 'The blacklist manager no longer exposes the clipboard-export feature.'
-    }
 }
 
 if ($validationErrors.Count -gt 0) {

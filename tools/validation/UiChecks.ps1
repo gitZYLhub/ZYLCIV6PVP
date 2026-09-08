@@ -785,3 +785,104 @@ function Get-ZylEndGameUiOwnershipIssues {
     }
     return @($issues)
 }
+
+function Get-ZylPantheonChooserIssues {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string]$Source
+    )
+
+    $issues = [System.Collections.Generic.List[string]]::new()
+    foreach ($requiredToken in @(
+            'local beliefInst:table = InstanceButton[row.Index]',
+            'if beliefInst == nil then',
+            'InstanceButton = {}',
+            'InstanceButton[row.Index] = beliefInst'
+        )) {
+        if (-not $Source.Contains($requiredToken)) {
+            $issues.Add(
+                "TPT Pantheon chooser is missing the early-event/stable-index fix: $requiredToken"
+            )
+        }
+    }
+    if ($Source.Contains('InstanceButton[row]')) {
+        $issues.Add(
+            'TPT Pantheon chooser still indexes instances by transient GameInfo row objects.'
+        )
+    }
+    return @($issues)
+}
+
+function Get-ZylStagingRoomIconFallbackIssues {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string]$Source
+    )
+
+    $issues = [System.Collections.Generic.List[string]]::new()
+    if ($Source -match '<Image\s+ID="BanPullDown_Icon"\s+Icon="Leaders45"') {
+        $issues.Add('MPH staging room still sends the Leaders45 texture name to IconManager.')
+    }
+    if ($Source -notmatch '<Image\s+ID="BanPullDown_Icon"\s+Texture="Leaders45"\s+Icon="ICON_LEADER_DEFAULT"') {
+        $issues.Add('MPH staging-room ban picker is missing its leader-texture fallback.')
+    }
+    return @($issues)
+}
+
+function Get-ZylBlacklistClipboardIssues {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string]$LuaSource,
+
+        [Parameter(Mandatory = $true)]
+        [string]$XmlSource
+    )
+
+    $issues = [System.Collections.Generic.List[string]]::new()
+    if (-not $LuaSource.Contains('CopyBlackListToClipboard') -or
+            -not $LuaSource.Contains('UIManager:SetClipboardString') -or
+            -not $LuaSource.Contains('Controls.CopyBlackListButton:RegisterCallback') -or
+            -not $XmlSource.Contains('ID="CopyBlackListButton"')) {
+        $issues.Add('The blacklist manager no longer exposes the clipboard-export feature.')
+    }
+    return @($issues)
+}
+
+function Get-ZylRemainingUiContractIssues {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string]$ProjectRoot
+    )
+
+    $issues = [System.Collections.Generic.List[string]]::new()
+    $pantheonChooserPath = Join-Path $ProjectRoot 'BPC\UI\PantheonChooser_TPT.lua'
+    if (-not (Test-Path -LiteralPath $pantheonChooserPath -PathType Leaf)) {
+        $issues.Add('TPT Pantheon chooser replacement is missing.')
+    }
+    else {
+        foreach ($issue in @(Get-ZylPantheonChooserIssues `
+                -Source (Get-Content -LiteralPath $pantheonChooserPath -Raw))) {
+            $issues.Add($issue)
+        }
+    }
+
+    $stagingRoomXmlPath = Join-Path $ProjectRoot 'ui\stagingroom.xml'
+    if (Test-Path -LiteralPath $stagingRoomXmlPath -PathType Leaf) {
+        foreach ($issue in @(Get-ZylStagingRoomIconFallbackIssues `
+                -Source (Get-Content -LiteralPath $stagingRoomXmlPath -Raw))) {
+            $issues.Add($issue)
+        }
+    }
+
+    $blacklistLuaPath = Join-Path $ProjectRoot 'ui\Additions\BlacklistPanel.lua'
+    $blacklistXmlPath = Join-Path $ProjectRoot 'ui\Additions\BlacklistPanel.xml'
+    if ((Test-Path -LiteralPath $blacklistLuaPath -PathType Leaf) -and
+            (Test-Path -LiteralPath $blacklistXmlPath -PathType Leaf)) {
+        foreach ($issue in @(Get-ZylBlacklistClipboardIssues `
+                -LuaSource (Get-Content -LiteralPath $blacklistLuaPath -Raw) `
+                -XmlSource (Get-Content -LiteralPath $blacklistXmlPath -Raw))) {
+            $issues.Add($issue)
+        }
+    }
+    return @($issues)
+}

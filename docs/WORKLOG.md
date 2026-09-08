@@ -428,4 +428,13 @@
 - 修改：`Get-ZylUiContextOwnerIssues` 对每个替换动作验证 Context/LuaReplace 完整性，按 Toolbox/BBG/BBM 归属聚合并拒绝跨组件共占；`Get-ZylEndGameUiOwnershipIssues` 固定 MPH XML 发布、BBG 重复 XML 排除和 BBG Lua 扩展加载。主入口以 21 行调用/夹具替换 34 行内联检查，由 3598 行降至 3585 行；UI 模块由 706 行扩展到 787 行。
 - 验证：当前动作图返回 0 个 Context 所有权问题；内存 XML 中由 BBG 与 Toolbox 同时替换 `Fixture` 的反例恰好返回 1 个冲突。PowerShell 7 与 Windows PowerShell 5.1 全量校验均通过 203 XML、108 Criteria、283 Actions、1077 Files、549 活跃引用、48 休眠文件和 69 源码专用文件。
 - 风险/待办：所有权检查按路径命名空间判定组件，未来新增嵌入组件时必须扩展分类；运行时加载顺序和 EndGame 实际按钮行为仍需游戏内验证。
-- 提交：本次提交（全局 UI Context 与 EndGame 所有权模块化）。
+- 提交：`3c043f9 refactor: extract ui context ownership checks`。
+
+### 2026-09-08 / M2-剩余 UI 行为契约收尾
+
+- 目标：迁移主入口中最后三组具体 UI 行为断言，使总入口只负责装载、调度和反例，不再直接维护 UI Lua/XML 细节。
+- 范围：校验工具、架构、计划和工作日志；不修改万神殿、大厅、黑名单运行资产、ModInfo、玩家行为或版本号。
+- 修改：新增万神殿选择器早期事件/稳定 `row.Index` 缓存、Ban 下拉领袖纹理与默认图标回退、黑名单复制函数/剪贴板调用/按钮回调与 XML 控件闭包检查。主入口以 18 行聚合/自检替换 42 行内联检查，由 3585 行降至 3561 行；UI 模块由 787 行扩展到 888 行。
+- 验证：三份真实 UI 源码均通过；把 `InstanceButton[row.Index]` 退化为瞬态 `InstanceButton[row]` 的内存反例被拒绝。主入口搜索确认 UI 相关剩余项均为模块调用、自检或非 UI 数据契约。PowerShell 7 与 Windows PowerShell 5.1 全量校验均通过 203 XML、108 Criteria、283 Actions、1077 Files、549 活跃引用、48 休眠文件和 69 源码专用文件。
+- 风险/待办：UI 静态契约模块化已经完成，但早期万神殿事件、图标缺失降级、剪贴板权限及各种 UI 比例下的实际交互仍需 Civ VI 实机验证。
+- 提交：本次提交（剩余 UI 行为契约收尾）。
