@@ -62,6 +62,7 @@ Manifest 迁移采用“分段替换而非一次重写”：`manifest/criteria`�
 - `UiChecks.ps1` 承接 UI/QoL 的文件、Criteria/Action、上下文和安全源码契约；覆盖 TPT 功能、两类交易 UI、外交/地图标记集成、全局 Context、EndGame、万神殿稳定索引、大厅领袖图标回退和黑名单剪贴板导出，并以真实源码和错误动作图反例自检。
 - `IdentityChecks.ps1` 纵向拥有身份模式的大厅参数与依赖、隐藏发牌数据、默认值/房主重置、三语文本、只读游戏内面板、大厅控件和“不得进入 Gameplay”边界；发牌算法本身仍由 `MultiplayerChecks.ps1` 的大厅契约保护。
 - `StartingBonusChecks.ps1` 纵向拥有开局加成的大厅玩家/类型域、同步 Gameplay 发放脚本、持久化幂等标记、Action/Files、三语文本，以及初始移民在首座宫殿前的移动/地形/河流/上岸能力；入口以内存破坏属性写入的反例保护存读档与多人重复发放边界。
+- `LeaderVariantChecks.ps1` 纵向拥有北条、腓力二世和威廉明娜三个内陆变体的 Gameplay/Config 克隆、重复领袖关系、递归文本防护、图标/颜色、美术、八个 ModInfo 动作及 BBM/Rich Mainland 出生点分流；入口以内存破坏 Trait 克隆的反例保证变体不会演化成第二套玩法数据。
 - `ReleaseChecks.ps1` 统一 universal/windows/macos 路径选择、跨平台资产成对约束、Action 不直指平台二进制、资产定义不硬编码平台目录和发布器实现边界；根目录与任意嵌套目录中的 `Platforms/MacOS`、`Platforms/Windows` 都按同一规则识别。
 - `MultiplayerChecks.ps1` 承接大厅身份配置、事件生命周期、正式日志、周期读取、握手状态转换、批量广播、随机领袖、匿名昵称，以及投票重开、断线控制、重同步、突然死亡和主回合计时器契约；它只接收 Lua 文本并返回问题列表，总入口用真实源码正例及按控制器构造的漂移反例自检。
 - `tools/report_modinfo_graph.ps1` 将完整规范图写入已忽略的 `artifacts/reports`，用于拆分前后定位差异；报告不进入 Workshop 包，也不是新的手工真值源。

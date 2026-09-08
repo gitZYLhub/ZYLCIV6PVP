@@ -94,6 +94,12 @@ if (-not (Test-Path -LiteralPath $startingBonusChecksPath -PathType Leaf)) {
 }
 . $startingBonusChecksPath
 
+$leaderVariantChecksPath = Join-Path $PSScriptRoot 'validation\LeaderVariantChecks.ps1'
+if (-not (Test-Path -LiteralPath $leaderVariantChecksPath -PathType Leaf)) {
+    throw "Leader variant validation helpers not found: $leaderVariantChecksPath"
+}
+. $leaderVariantChecksPath
+
 $releaseChecksPath = Join-Path $PSScriptRoot 'validation\ReleaseChecks.ps1'
 if (-not (Test-Path -LiteralPath $releaseChecksPath -PathType Leaf)) {
     throw "Release validation helpers not found: $releaseChecksPath"
@@ -2412,159 +2418,36 @@ if (Test-Path -LiteralPath $selectedPantheonPath -PathType Leaf) {
 }
 
 
-# Coastal/inland leader variants must remain exact aliases of their source
-# leaders.  Their only runtime distinction belongs in the map-placement Lua.
-$leaderVariantRoot = Join-Path $modRoot 'LeaderVariants'
-$leaderGameplayPath = Join-Path $leaderVariantRoot 'ZYL_CoastLeaderVariants_Gameplay.sql'
-$leaderConfigPath = Join-Path $leaderVariantRoot 'ZYL_CoastLeaderVariants_Config.sql'
-$leaderTextPath = Join-Path $leaderVariantRoot 'ZYL_CoastLeaderVariants_Text.sql'
-$leaderIconPath = Join-Path $leaderVariantRoot 'ZYL_CoastLeaderVariants_Icons.sql'
-$leaderColorPath = Join-Path $leaderVariantRoot 'ZYL_CoastLeaderVariants_Colors.sql'
-$leaderVariantPaths = @(
-    $leaderGameplayPath,
-    $leaderConfigPath,
-    $leaderTextPath,
-    $leaderIconPath,
-    $leaderColorPath
+# Coastal/inland leader variants are exact data aliases whose only runtime
+# difference is owned by the map-placement scripts.
+$leaderVariantValidationParameters = @{
+    ProjectRoot = $modRoot
+    ActionIdMap = $actionIdMap
+}
+$leaderVariantIssues = @(
+    Get-ZylLeaderVariantContractIssues @leaderVariantValidationParameters
 )
-foreach ($leaderVariantPath in $leaderVariantPaths) {
-    if (-not (Test-Path -LiteralPath $leaderVariantPath)) {
-        Add-ValidationError "Leader variant resource is missing: $leaderVariantPath"
-    }
+foreach ($issue in $leaderVariantIssues) {
+    Add-ValidationError $issue
 }
 
-if (($leaderVariantPaths | Where-Object { -not (Test-Path -LiteralPath $_) }).Count -eq 0) {
-    $leaderGameplaySql = Get-Content -LiteralPath $leaderGameplayPath -Raw
-    $leaderConfigSql = Get-Content -LiteralPath $leaderConfigPath -Raw
-    $leaderTextSql = Get-Content -LiteralPath $leaderTextPath -Raw
-    $leaderIconSql = Get-Content -LiteralPath $leaderIconPath -Raw
-    $leaderColorSql = Get-Content -LiteralPath $leaderColorPath -Raw
-    $leaderVariants = @(
-        @{ Source = 'LEADER_HOJO'; Variant = 'LEADER_HOJO_INLAND' },
-        @{ Source = 'LEADER_PHILIP_II'; Variant = 'LEADER_PHILIP_II_INLAND' },
-        @{ Source = 'LEADER_WILHELMINA'; Variant = 'LEADER_WILHELMINA_INLAND' }
+# Prove that an incomplete trait clone is rejected without touching the SQL.
+$leaderVariantGameplayPath = Join-Path $modRoot 'LeaderVariants\ZYL_CoastLeaderVariants_Gameplay.sql'
+if (Test-Path -LiteralPath $leaderVariantGameplayPath -PathType Leaf) {
+    $leaderVariantGameplaySource = Get-Content -LiteralPath $leaderVariantGameplayPath -Raw
+    $leaderVariantGameplayDriftSource = $leaderVariantGameplaySource.Replace(
+        "SELECT 'LEADER_HOJO_INLAND', TraitType",
+        "SELECT 'LEADER_HOJO_INLAND_DRIFT', TraitType"
     )
-
-    foreach ($leaderVariant in $leaderVariants) {
-        $sourceLeader = $leaderVariant.Source
-        $inlandLeader = $leaderVariant.Variant
-        if ($leaderGameplaySql -notmatch "(?s)INSERT OR IGNORE INTO Types.*?'$([regex]::Escape($inlandLeader))'.*?'KIND_LEADER'") {
-            Add-ValidationError "Gameplay SQL does not register $inlandLeader as a leader type."
-        }
-        if (-not $leaderGameplaySql.Contains("SELECT '$inlandLeader', TraitType") -or
-                -not $leaderGameplaySql.Contains("FROM LeaderTraits WHERE LeaderType = '$sourceLeader';")) {
-            Add-ValidationError "$inlandLeader no longer clones the final traits of $sourceLeader."
-        }
-        $gameplayDuplicatePattern = "\(\s*'$([regex]::Escape($sourceLeader))'\s*,\s*'$([regex]::Escape($inlandLeader))'\s*\)"
-        if ($leaderGameplaySql -notmatch $gameplayDuplicatePattern) {
-            Add-ValidationError "$sourceLeader and $inlandLeader are not gameplay duplicate leaders."
-        }
-        if (-not $leaderConfigSql.Contains("SELECT Domain, CivilizationType, '$inlandLeader',")) {
-            Add-ValidationError "Config SQL does not clone lobby rows for $inlandLeader."
-        }
-        if (-not $leaderConfigSql.Contains("SELECT Map, '$inlandLeader'") -or
-                -not $leaderConfigSql.Contains("source.Type, '$inlandLeader'")) {
-            Add-ValidationError "Config SQL does not preserve true-start-map support for $inlandLeader."
-        }
-        if (-not $leaderConfigSql.Contains("AND d.OtherLeaderType = '$inlandLeader'")) {
-            Add-ValidationError "Config duplicate-leader insertion for $inlandLeader is not idempotent."
-        }
-        if (-not $leaderTextSql.Contains("instr(Tag, '$inlandLeader') = 0")) {
-            Add-ValidationError "Localization cloning for $inlandLeader can recursively clone itself."
-        }
-        $coastalLeader = $inlandLeader.Replace('_INLAND', '_COASTAL')
-        if (-not $leaderTextSql.Contains("instr(Tag, '$coastalLeader') = 0")) {
-            Add-ValidationError "Localization cloning for $inlandLeader can recursively clone its coastal label."
-        }
-        if (-not $leaderIconSql.Contains("'ICON_$inlandLeader'")) {
-            Add-ValidationError "Icon alias is missing for $inlandLeader."
-        }
-        if (-not $leaderColorSql.Contains("SELECT '$inlandLeader', Usage")) {
-            Add-ValidationError "Player-color alias is missing for $inlandLeader."
-        }
-    }
-
-    if ($leaderTextSql -match '_INLAND_INLAND|_INLAND_COASTAL') {
-        Add-ValidationError 'Recursive inland localization tags are present in leader variant SQL.'
-    }
-}
-
-$leaderArtPaths = @(
-    (Join-Path $modRoot 'ArtDefs\ZYL_CoastLeaderVariants_Leaders.artdef'),
-    (Join-Path $modRoot 'ArtDefs\ZYL_CoastLeaderVariants_FallbackLeaders.artdef')
-)
-foreach ($leaderArtPath in $leaderArtPaths) {
-    if (-not (Test-Path -LiteralPath $leaderArtPath)) {
-        Add-ValidationError "Leader variant ArtDef is missing: $leaderArtPath"
-        continue
-    }
-    $leaderArt = Load-XmlDocument $leaderArtPath
-    foreach ($inlandLeader in @('LEADER_HOJO_INLAND', 'LEADER_PHILIP_II_INLAND', 'LEADER_WILHELMINA_INLAND')) {
-        if ($null -eq $leaderArt.SelectSingleNode("//*[@text='$inlandLeader']")) {
-            Add-ValidationError "$inlandLeader is missing from $([System.IO.Path]::GetFileName($leaderArtPath))."
-        }
-    }
-}
-
-foreach ($actionId in @(
-    'ZYL_CoastLeaderVariants_Config',
-    'ZYL_CoastLeaderVariants_ConfigText',
-    'ZYL_CoastLeaderVariants_ConfigIcons',
-    'ZYL_CoastLeaderVariants_ConfigColors',
-    'ZYL_CoastLeaderVariants_Gameplay',
-    'ZYL_CoastLeaderVariants_GameplayText',
-    'ZYL_CoastLeaderVariants_GameplayIcons',
-    'ZYL_CoastLeaderVariants_GameplayColors'
-)) {
-    if (-not $actionIdMap.ContainsKey($actionId.ToLowerInvariant())) {
-        Add-ValidationError "Leader variant ModInfo action is missing: $actionId"
-    }
-}
-
-$coastBiasLuaPaths = @(
-    (Join-Path $modRoot 'Components\BBM\Data\BBS Maps\Utility\BBM_CivilizationAssign.lua'),
-    (Join-Path $modRoot 'Components\BBM\Data\BBS Maps\Utility\ZYL_RVC_AssignStartingPlots.lua')
-)
-foreach ($coastBiasLuaPath in $coastBiasLuaPaths) {
-    if (-not (Test-Path -LiteralPath $coastBiasLuaPath)) {
-        Add-ValidationError "Coast-bias placement script is missing: $coastBiasLuaPath"
-        continue
-    }
-    $coastBiasLua = Get-Content -LiteralPath $coastBiasLuaPath -Raw
-    foreach ($inlandLeader in @('LEADER_HOJO_INLAND', 'LEADER_PHILIP_II_INLAND', 'LEADER_WILHELMINA_INLAND')) {
-        if (-not $coastBiasLua.Contains($inlandLeader)) {
-            Add-ValidationError "$inlandLeader is not recognized by $([System.IO.Path]::GetFileName($coastBiasLuaPath))."
-        }
-    }
-    if (-not $coastBiasLua.Contains('row.TerrainType ~= "TERRAIN_COAST"')) {
-        Add-ValidationError "$([System.IO.Path]::GetFileName($coastBiasLuaPath)) does not filter coast in the Firaxis fallback pass."
-    }
-}
-if (Test-Path -LiteralPath $coastBiasLuaPaths[0]) {
-    $bbmCoastBiasLua = Get-Content -LiteralPath $coastBiasLuaPaths[0] -Raw
-    if (-not $bbmCoastBiasLua.Contains('and row.TerrainType == "TERRAIN_COAST"')) {
-        Add-ValidationError 'BBM placement does not remove the coast row from inland variants.'
-    }
-}
-if (Test-Path -LiteralPath $coastBiasLuaPaths[1]) {
-    $richMapCoastBiasLua = Get-Content -LiteralPath $coastBiasLuaPaths[1] -Raw
-    if (-not $richMapCoastBiasLua.Contains('and not ZYL_IsInlandCoastVariantPlayer(playerID)') -or
-            -not $richMapCoastBiasLua.Contains('and not ZYL_IsInlandCoastVariant(civ.LeaderType)')) {
-        Add-ValidationError 'Rich Mainland coast/inland distribution categories ignore the leader variant choice.'
-    }
-}
-
-foreach ($coastBiasLuaPath in $coastBiasLuaPaths) {
-    if (-not (Test-Path -LiteralPath $coastBiasLuaPath)) { continue }
-    $coastBiasLua = Get-Content -LiteralPath $coastBiasLuaPath -Raw
-    foreach ($obsoleteToken in @(
-        'ZYL_MAGNIFICENCE_LUXURY_BIAS_TIER',
-        'ZYL_FilterMagnificenceLuxuryStarts',
-        'g_ZYL_MagnificenceLuxuryBiasPatchInstalled'
-    )) {
-        if ($coastBiasLua.Contains($obsoleteToken)) {
-            Add-ValidationError "Obsolete leader-only France Luxury bias remains in $([System.IO.Path]::GetFileName($coastBiasLuaPath)): $obsoleteToken"
-        }
+    $leaderVariantDriftIssues = @(
+        Get-ZylLeaderVariantContractIssues @leaderVariantValidationParameters `
+            -GameplaySourceOverride $leaderVariantGameplayDriftSource
+    )
+    $expectedLeaderVariantDriftIssue =
+        'LEADER_HOJO_INLAND no longer clones the final traits of LEADER_HOJO.'
+    if ($leaderVariantGameplayDriftSource -eq $leaderVariantGameplaySource -or
+            $leaderVariantDriftIssues -notcontains $expectedLeaderVariantDriftIssue) {
+        Add-ValidationError 'Leader variant validation self-test did not reject an incomplete trait clone.'
     }
 }
 
