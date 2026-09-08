@@ -586,4 +586,14 @@
 - 修改：迁移 Mod ID、三处版本值、本地化标题键、英/简中标题、简中描述已知错字、`MP_helper.lua` 版本握手、掉线恢复的保存移动力路径、正式日志包装，以及随机流/旧清空移动力/死函数禁用项。主入口由 1359 行降至 1349 行；新增领域模块 134 行。
 - 验证：真实工程返回 0 个问题；内存中把 `ZYLPVPMOD v1.3.0` 握手改为漂移版本后准确拒绝。PowerShell 7 与 Windows PowerShell 5.1 全量校验均通过 203 XML、108 Criteria、283 Actions、1077 Files、549 活跃引用、48 休眠文件和 84 源码专用文件。universal 产物保持 1072 文件、776,223,699 字节和聚合 SHA-256 `98c315d0cd9c54ab19c49f3fd760c47258e88c80c491f3c0c28055438d20c55d`。
 - 风险/待办：静态字符串一致只能保证双方声明同版，不能证明 Steam 实际分发内容一致或断线重连状态正确恢复；版本不一致阻断和移动力恢复仍需双客户端实测。
-- 提交：本次提交（包身份与多人握手契约模块化）。
+- 提交：`3b3205f refactor: extract package identity checks`。
+
+### 2026-09-08 / M2-多人 UI 运行时调度与自检收拢
+
+- 目标：把主入口中等待室、四个联机控制器和主菜单的文件读取、函数选择及漂移夹具收回 `MultiplayerChecks.ps1`，让入口只负责编排领域和汇总错误。
+- 范围：校验工具、架构、计划、测试矩阵和工作日志；不修改任何 Lua 运行资产、ModInfo、联机协议、玩家行为或版本号。
+- 设计决定：新增 `Get-ZylMultiplayerUiRuntimeContractIssues` 统一处理六个源码入口，新增无副作用的 `Get-ZylMultiplayerUiRuntimeSelfTestIssues` 管理七类内存漂移；主菜单取得独立 `Get-ZylMainMenuContractIssues`，与其他控制器一样只返回生命周期/日志问题。缺文件由实际契约报告，自检则跳过不存在的夹具，避免同一根因重复噪声。
+- 修改：迁移 staging room 正例、线性洗牌和握手状态转换反例，VotePanel/DropControl/MPHOptions/SuddenDeathPanel 四个控制器正反例，以及 main menu 调试开关、Shutdown、跨平台大厅/系统更新事件注销和正式日志检查；新增主菜单 Shutdown 漂移反例。主入口由 1349 行降至 1257 行，`MultiplayerChecks.ps1` 由 440 行扩展至 619 行。
+- 验证：六个真实 UI 源返回 0 个问题，七个内存漂移全部被对应领域函数拒绝。PowerShell 7 与 Windows PowerShell 5.1 全量校验均通过 203 XML、108 Criteria、283 Actions、1077 Files、549 活跃引用、48 休眠文件和 84 源码专用文件。universal 产物保持 1072 文件、776,223,699 字节和聚合 SHA-256 `98c315d0cd9c54ab19c49f3fd760c47258e88c80c491f3c0c28055438d20c55d`。
+- 风险/待办：静态 Lua 片段不能证明事件在 Civ VI 热载入、掉线重连和房主切换时只注册一次，也不能测量状态广播顺序；仍需双客户端执行 N02/N03/N05/N06。
+- 提交：本次提交（多人 UI 运行时调度与自检收拢）。

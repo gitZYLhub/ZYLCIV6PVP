@@ -922,106 +922,14 @@ if (Test-Path -LiteralPath $startingBonusScriptPath -PathType Leaf) {
     }
 }
 
-$stagingRoomPath = Join-Path $modRoot 'ui\stagingroom.lua'
-if (-not (Test-Path -LiteralPath $stagingRoomPath)) {
-Add-ValidationError 'The staging-room replacement is missing.'
+foreach ($multiplayerUiIssue in @(Get-ZylMultiplayerUiRuntimeContractIssues `
+        -ProjectRoot $modRoot)) {
+    Add-ValidationError $multiplayerUiIssue
 }
-else {
-$stagingRoomSource = Get-Content -LiteralPath $stagingRoomPath -Raw
-$stagingRoomIssues = @(Get-ZylStagingRoomContractIssues -Source $stagingRoomSource)
-$shuffleDriftSource = $stagingRoomSource.Replace(
-'local swapIndex = math.random(index)',
-'local swapIndex = 1 + math.random(index)'
-)
-$transitionDriftSource = $stagingRoomSource.Replace(
-'if isConnected and player.Status ~= previousStatus',
-'if isConnected'
-)
-if ($stagingRoomIssues.Count -ne 0 -or
-$shuffleDriftSource -eq $stagingRoomSource -or
-$transitionDriftSource -eq $stagingRoomSource -or
-@(Get-ZylStagingRoomContractIssues -Source $shuffleDriftSource).Count -eq 0 -or
-@(Get-ZylStagingRoomContractIssues -Source $transitionDriftSource).Count -eq 0) {
-Add-ValidationError 'Staging-room contract module failed its positive/negative self-test.'
-}
-foreach ($stagingRoomIssue in $stagingRoomIssues) {
-Add-ValidationError $stagingRoomIssue
-}
-}
-
-$multiplayerControllerSpecs = @(
-    [pscustomobject]@{
-        RelativePath = 'ui\Additions\VotePanel.lua'
-        MissingMessage = 'The remap/vote panel is missing.'
-        CheckFunction = 'Get-ZylVotePanelContractIssues'
-        DriftFrom = 'local b_remap_armed = false'
-        DriftTo = 'local b_RemapArmed = false'
-        Label = 'Vote panel'
-    },
-    [pscustomobject]@{
-        RelativePath = 'ui\Additions\DropControl.lua'
-        MissingMessage = 'The multiplayer drop controller is missing.'
-        CheckFunction = 'Get-ZylDropControlContractIssues'
-        DriftFrom = 'not UpdateData(playerID, true)'
-        DriftTo = 'UpdateData(playerID, true)'
-        Label = 'Drop controller'
-    },
-    [pscustomobject]@{
-        RelativePath = 'ui\Additions\MPHOptions.lua'
-        MissingMessage = 'The multiplayer options/resync controller is missing.'
-        CheckFunction = 'Get-ZylResyncControllerContractIssues'
-        DriftFrom = 'if m_lastResyncTickSecond == now then'
-        DriftTo = 'if false then'
-        Label = 'Multiplayer resync controller'
-    },
-    [pscustomobject]@{
-        RelativePath = 'ui\Additions\SuddenDeathPanel.lua'
-        MissingMessage = 'The sudden-death panel is missing.'
-        CheckFunction = 'Get-ZylSuddenDeathContractIssues'
-        DriftFrom = 'if m_lastBroadcastTurn == currentTurn then'
-        DriftTo = 'if false then'
-        Label = 'Sudden-death controller'
-    }
-)
-foreach ($controllerSpec in $multiplayerControllerSpecs) {
-    $controllerPath = Join-Path $modRoot $controllerSpec.RelativePath
-    if (-not (Test-Path -LiteralPath $controllerPath -PathType Leaf)) {
-        Add-ValidationError $controllerSpec.MissingMessage
-        continue
-    }
-
-    $controllerSource = Get-Content -LiteralPath $controllerPath -Raw
-    $checkFunction = $controllerSpec.CheckFunction
-    $controllerIssues = @(& $checkFunction -Source $controllerSource)
-    $driftSource = $controllerSource.Replace($controllerSpec.DriftFrom, $controllerSpec.DriftTo)
-    if ($controllerIssues.Count -ne 0 -or
-            $driftSource -eq $controllerSource -or
-            @(& $checkFunction -Source $driftSource).Count -eq 0) {
-        Add-ValidationError "$($controllerSpec.Label) contract helper failed its positive/negative self-test."
-    }
-    foreach ($controllerIssue in $controllerIssues) {
-        Add-ValidationError $controllerIssue
-    }
-}
-
-$mainMenuPath = Join-Path $modRoot 'ui\mainmenu.lua'
-if (-not (Test-Path -LiteralPath $mainMenuPath -PathType Leaf)) {
-Add-ValidationError 'The main-menu replacement is missing.'
-}
-else {
-$mainMenuSource = Get-Content -LiteralPath $mainMenuPath -Raw
-foreach ($requiredMainMenuLifecycleFragment in @(
-'local b_debug = false',
-'ContextPtr:SetShutdown( OnShutdown );',
-'LuaEvents.EnterCrossPlayLobby.Remove(OnEnterCrossPlayLobby);',
-'Events.SystemUpdateUI.Remove(OnUpdateUI);'
-)) {
-if (-not $mainMenuSource.Contains($requiredMainMenuLifecycleFragment)) {
-Add-ValidationError "Main-menu lifecycle guard is missing: $requiredMainMenuLifecycleFragment"
-}
-}
-Test-ZylLuaEventLifecycle -Source $mainMenuSource -Label 'Main menu'
-Test-ZylLuaHasNoUnguardedPrint -Source $mainMenuSource -Label 'Main menu'
+foreach ($multiplayerUiSelfTestIssue in @(
+        Get-ZylMultiplayerUiRuntimeSelfTestIssues -ProjectRoot $modRoot
+    )) {
+    Add-ValidationError $multiplayerUiSelfTestIssue
 }
 
 # All sixteen Secret Society promotions refund one Governor Title through the

@@ -438,3 +438,182 @@ function Get-ZylTurnProcessingContractIssues {
     }
     return @($issues)
 }
+
+function Get-ZylMainMenuContractIssues {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string]$Source
+    )
+
+    $issues = [System.Collections.Generic.List[string]]::new()
+    foreach ($requiredFragment in @(
+            'local b_debug = false',
+            'ContextPtr:SetShutdown( OnShutdown );',
+            'LuaEvents.EnterCrossPlayLobby.Remove(OnEnterCrossPlayLobby);',
+            'Events.SystemUpdateUI.Remove(OnUpdateUI);'
+        )) {
+        if (-not $Source.Contains($requiredFragment)) {
+            $issues.Add("Main-menu lifecycle guard is missing: $requiredFragment")
+        }
+    }
+    foreach ($issue in @(Get-ZylLuaEventLifecycleIssues `
+            -Source $Source `
+            -Label 'Main menu')) {
+        $issues.Add($issue)
+    }
+    foreach ($issue in @(Get-ZylLuaUnguardedPrintIssues `
+            -Source $Source `
+            -Label 'Main menu')) {
+        $issues.Add($issue)
+    }
+    return @($issues)
+}
+
+function Get-ZylMultiplayerUiRuntimeContractIssues {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string]$ProjectRoot,
+
+        [hashtable]$SourceOverrides = @{}
+    )
+
+    $issues = [System.Collections.Generic.List[string]]::new()
+    $sourceSpecs = @(
+        [pscustomobject]@{
+            Key = 'StagingRoom'
+            RelativePath = 'ui\stagingroom.lua'
+            MissingMessage = 'The staging-room replacement is missing.'
+            CheckFunction = 'Get-ZylStagingRoomContractIssues'
+        },
+        [pscustomobject]@{
+            Key = 'VotePanel'
+            RelativePath = 'ui\Additions\VotePanel.lua'
+            MissingMessage = 'The remap/vote panel is missing.'
+            CheckFunction = 'Get-ZylVotePanelContractIssues'
+        },
+        [pscustomobject]@{
+            Key = 'DropControl'
+            RelativePath = 'ui\Additions\DropControl.lua'
+            MissingMessage = 'The multiplayer drop controller is missing.'
+            CheckFunction = 'Get-ZylDropControlContractIssues'
+        },
+        [pscustomobject]@{
+            Key = 'ResyncController'
+            RelativePath = 'ui\Additions\MPHOptions.lua'
+            MissingMessage = 'The multiplayer options/resync controller is missing.'
+            CheckFunction = 'Get-ZylResyncControllerContractIssues'
+        },
+        [pscustomobject]@{
+            Key = 'SuddenDeath'
+            RelativePath = 'ui\Additions\SuddenDeathPanel.lua'
+            MissingMessage = 'The sudden-death panel is missing.'
+            CheckFunction = 'Get-ZylSuddenDeathContractIssues'
+        },
+        [pscustomobject]@{
+            Key = 'MainMenu'
+            RelativePath = 'ui\mainmenu.lua'
+            MissingMessage = 'The main-menu replacement is missing.'
+            CheckFunction = 'Get-ZylMainMenuContractIssues'
+        }
+    )
+
+    foreach ($sourceSpec in $sourceSpecs) {
+        $source = if ($SourceOverrides.ContainsKey($sourceSpec.Key)) {
+            [string]$SourceOverrides[$sourceSpec.Key]
+        }
+        else {
+            $sourcePath = Join-Path $ProjectRoot $sourceSpec.RelativePath
+            if (Test-Path -LiteralPath $sourcePath -PathType Leaf) {
+                Get-Content -LiteralPath $sourcePath -Raw
+            }
+            else {
+                $null
+            }
+        }
+        if ($null -eq $source) {
+            $issues.Add($sourceSpec.MissingMessage)
+            continue
+        }
+
+        $checkFunction = $sourceSpec.CheckFunction
+        foreach ($issue in @(& $checkFunction -Source $source)) {
+            $issues.Add($issue)
+        }
+    }
+    return @($issues)
+}
+
+function Get-ZylMultiplayerUiRuntimeSelfTestIssues {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string]$ProjectRoot
+    )
+
+    $issues = [System.Collections.Generic.List[string]]::new()
+    $driftSpecs = @(
+        [pscustomobject]@{
+            RelativePath = 'ui\stagingroom.lua'
+            CheckFunction = 'Get-ZylStagingRoomContractIssues'
+            DriftFrom = 'local swapIndex = math.random(index)'
+            DriftTo = 'local swapIndex = 1 + math.random(index)'
+            FailureMessage = 'Staging-room shuffle self-test did not reject an index drift.'
+        },
+        [pscustomobject]@{
+            RelativePath = 'ui\stagingroom.lua'
+            CheckFunction = 'Get-ZylStagingRoomContractIssues'
+            DriftFrom = 'if isConnected and player.Status ~= previousStatus'
+            DriftTo = 'if isConnected'
+            FailureMessage = 'Staging-room handshake self-test did not reject a transition drift.'
+        },
+        [pscustomobject]@{
+            RelativePath = 'ui\Additions\VotePanel.lua'
+            CheckFunction = 'Get-ZylVotePanelContractIssues'
+            DriftFrom = 'local b_remap_armed = false'
+            DriftTo = 'local b_RemapArmed = false'
+            FailureMessage = 'Vote panel contract helper failed its negative self-test.'
+        },
+        [pscustomobject]@{
+            RelativePath = 'ui\Additions\DropControl.lua'
+            CheckFunction = 'Get-ZylDropControlContractIssues'
+            DriftFrom = 'not UpdateData(playerID, true)'
+            DriftTo = 'UpdateData(playerID, true)'
+            FailureMessage = 'Drop controller contract helper failed its negative self-test.'
+        },
+        [pscustomobject]@{
+            RelativePath = 'ui\Additions\MPHOptions.lua'
+            CheckFunction = 'Get-ZylResyncControllerContractIssues'
+            DriftFrom = 'if m_lastResyncTickSecond == now then'
+            DriftTo = 'if false then'
+            FailureMessage = 'Multiplayer resync controller helper failed its negative self-test.'
+        },
+        [pscustomobject]@{
+            RelativePath = 'ui\Additions\SuddenDeathPanel.lua'
+            CheckFunction = 'Get-ZylSuddenDeathContractIssues'
+            DriftFrom = 'if m_lastBroadcastTurn == currentTurn then'
+            DriftTo = 'if false then'
+            FailureMessage = 'Sudden-death controller helper failed its negative self-test.'
+        },
+        [pscustomobject]@{
+            RelativePath = 'ui\mainmenu.lua'
+            CheckFunction = 'Get-ZylMainMenuContractIssues'
+            DriftFrom = 'ContextPtr:SetShutdown( OnShutdown );'
+            DriftTo = 'ContextPtr:SetShutdown( nil );'
+            FailureMessage = 'Main-menu contract helper failed its negative self-test.'
+        }
+    )
+
+    foreach ($driftSpec in $driftSpecs) {
+        $sourcePath = Join-Path $ProjectRoot $driftSpec.RelativePath
+        if (-not (Test-Path -LiteralPath $sourcePath -PathType Leaf)) {
+            continue
+        }
+        $source = Get-Content -LiteralPath $sourcePath -Raw
+        $driftSource = $source.Replace($driftSpec.DriftFrom, $driftSpec.DriftTo)
+        $checkFunction = $driftSpec.CheckFunction
+        if ($driftSource -eq $source -or
+                @(& $checkFunction -Source $driftSource).Count -eq 0) {
+            $issues.Add($driftSpec.FailureMessage)
+        }
+    }
+    return @($issues)
+}
