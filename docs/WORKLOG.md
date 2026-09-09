@@ -701,4 +701,15 @@
 - 契约：`manifest/database-primary-key-contract.json` 固定当前分析 SHA-256 `4ec2ec940411b74e694ebda80d305437f3020e996c230ed007ba32c8a91d3abc`、覆盖计数与未解析原因；解析器有带逗号字符串、嵌套函数、转义字符串和 `INSERT ... SELECT` 正/负自检，契约有错误指纹反例。
 - 验证：PowerShell 7 与 Windows PowerShell 5.1 全量校验均通过 203 XML、108 Criteria、280 Actions、1071 Files、543 活跃引用、48 休眠文件和 93 源码专用文件；两套运行时生成的 5,615,311 字节完整数据库报告逐字节一致，SHA-256 为 `4763d26389e5a273fa8be5dc430d74f7526296d9d575df7f615ed828e28a0f33`。表级写集合 SHA-256 保持 `6e17ece0f355448df595dafbc10413c14202c96b22c248367cdc7c63c62fd202`；本批不改变发布包内容，最近三个发布包仍与 `d540bfa` 相同。
 - 风险/待办：当前不对 22 张项目自建表推断主键，不使用无显式主键表的唯一键替代主键，也不静态执行 362 个 `INSERT ... SELECT`。下一步从项目 `CREATE TABLE` 提取可验证键结构，并为 20 个重复候选组建立 Criteria/顺序审查；实机数据库与日志仍是最终等价性门槛。
-- 提交：本次提交（SQL/XML 主键候选分析）。
+- 提交：`21769d9 refactor: analyze literal database row keys`。
+
+### 2026-09-09 / M5-项目自建表主键补齐
+
+- 目标：消除主键候选分析中“项目自建表结构待定”的人为缺口，同时不为真实无主键的临时表、映射表或设置表臆造唯一性。
+- 范围：扩展 `DatabasePrimaryKeys.ps1` 的 `CREATE TABLE` 解析、主键分析契约、总校验自检、数据库报告输出及相关文档；不修改运行资产、建表 SQL、动作图、玩法值、ModInfo、包身份或版本号。
+- 设计决定：从 22 条活跃 `CREATE TABLE` 语句直接提取列序、临时表标记以及表级/列级 `PRIMARY KEY`，并将解析结果纳入主键分析语义指纹。只有声明了主键的自建表进入行候选；没有主键的 13 张表标记为 `mod-created-no-primary-key`。不会用列名习惯或当前数据碰巧唯一来推断主键。
+- 结果：22 张自建表全部成功解析，其中 9 张有显式主键、13 张无主键。完全解析的 INSERT/REPLACE 操作由 2846 增至 2862，未解析由 1442 降至 1426；行候选由 6632 增至 6725，覆盖表由 120 增至 127。新的未解析分布为 `insert-select` 372、`missing-primary-key-column` 196、`mod-created-no-primary-key` 18、`no-primary-key` 840；`BBCC_DynamicYields`、`CustomPlacement` 虽有键但仅由 `INSERT ... SELECT` 写入，因此没有静态行候选。重复主键仍为 20 组、同一动作仍为 0，本批不删除数据库代码。
+- 契约：主键分析基线推进到 `21769d9`，SHA-256 更新为 `3bb96c922c15895e331d896d02487a33c4a726c8fc0b6115d07098e4efbe9a28`；新增自建表总数/有键表数计数。内存自检覆盖临时表、`IF NOT EXISTS`、引号列名、列级主键、唯一约束和外键约束，防止把表约束误识别成列。
+- 验证：PowerShell 7 与 Windows PowerShell 5.1 全量校验均通过 203 XML、108 Criteria、280 Actions、1071 Files、543 活跃引用、48 休眠文件和 93 源码专用文件；两套运行时生成的 5,657,093 字节完整数据库报告逐字节一致，SHA-256 为 `4ccf38d5d74ebe58f566b68b7aefb17084989c46f30b9397ac0502357314cb06`。表级写集合 SHA-256 保持 `6e17ece0f355448df595dafbc10413c14202c96b22c248367cdc7c63c62fd202`，发布包内容不变。
+- 风险/待办：13 张无主键表不能参加主键冲突分析，372 个 `INSERT ... SELECT` 仍需未来用实际 SQLite 或受控查询求值。下一步为 20 个重复候选组补充 Criteria 相容性、动作顺序与最终值审查；实机数据库与日志仍是最终等价性门槛。
+- 提交：本次提交（项目自建表主键补齐）。

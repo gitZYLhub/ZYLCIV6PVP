@@ -367,6 +367,14 @@ SELECT TraitType, 'FIXTURE' FROM CivilizationTraits
 '@
 $databasePrimaryKeyLiteralFixture = ConvertFrom-ZylSqlLiteral -Text "'it''s stable'"
 $databasePrimaryKeyExpressionFixture = ConvertFrom-ZylSqlLiteral -Text 'lower(Type)'
+$databasePrimaryKeyCreateFixture = ConvertFrom-ZylSqlCreateTableStatement -Statement @'
+CREATE TEMPORARY TABLE IF NOT EXISTS "Fixture" (
+    "Id" TEXT PRIMARY KEY,
+    Value TEXT,
+    UNIQUE(Value),
+    FOREIGN KEY(Value) REFERENCES Other(Value)
+)
+'@
 if ($databasePrimaryKeySqlFixture.table -ne 'Modifiers' -or
         ($databasePrimaryKeySqlFixture.columns -join '|') -ne
             'ModifierId|ModifierType|RunOnce' -or
@@ -377,7 +385,12 @@ if ($databasePrimaryKeySqlFixture.table -ne 'Modifiers' -or
         $databasePrimaryKeySelectFixture.reason -ne 'insert-select' -or
         -not $databasePrimaryKeyLiteralFixture.resolved -or
         $databasePrimaryKeyLiteralFixture.value -ne "it's stable" -or
-        $databasePrimaryKeyExpressionFixture.resolved) {
+        $databasePrimaryKeyExpressionFixture.resolved -or
+        $databasePrimaryKeyCreateFixture.table -ne 'Fixture' -or
+        -not $databasePrimaryKeyCreateFixture.temporary -or
+        ($databasePrimaryKeyCreateFixture.columns -join '|') -ne 'Id|Value' -or
+        ($databasePrimaryKeyCreateFixture.primaryKey -join '|') -ne 'Id' -or
+        $null -ne $databasePrimaryKeyCreateFixture.reason) {
     Add-ValidationError 'Database primary-key parser failed its positive/negative self-test.'
 }
 

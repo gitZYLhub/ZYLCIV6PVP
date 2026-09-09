@@ -146,6 +146,7 @@ Write-Host "Overlaps   : $($analysis.counts.overlappingTables) tables touched by
 Write-Host "No writes  : $($analysis.counts.noWriteSources) active sources"
 Write-Host "Duplicates : $($analysis.counts.sameActionExactSqlDuplicateGroups) exact SQL groups within one action"
 Write-Host "Schema     : $($schemaCoverage.counts.official) official, $($schemaCoverage.counts.modCreated) mod-created, $($schemaCoverage.counts.external) external tables"
+Write-Host "Custom keys: $($primaryKeyAnalysis.counts.modCreatedTablesWithPrimaryKey) of $($primaryKeyAnalysis.counts.modCreatedTables) mod-created tables"
 Write-Host "Keys       : $($primaryKeyAnalysis.counts.rowCandidates) row candidates across $($primaryKeyAnalysis.counts.tablesWithCandidates) tables"
 Write-Host "Key repeats: $($primaryKeyAnalysis.counts.duplicateKeyGroups) groups, $($primaryKeyAnalysis.counts.sameActionDuplicateKeyGroups) within one action"
 Write-Host "SHA-256    : $($report.analysisSha256)"

@@ -340,6 +340,131 @@ function ConvertFrom-ZylSqlInsertStatement {
     }
 }
 
+function ConvertFrom-ZylSqlCreateTableStatement {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string]$Statement
+    )
+
+    $identifierPattern = '(?<table>"(?:[^"]|"")+"|''(?:[^'']|'''')+''|\[[^\]]+\]|`(?:[^`]|``)+`|[A-Za-z_][A-Za-z0-9_.$]*)'
+    $prefix = [regex]::Match(
+        $Statement,
+        "(?is)^\s*CREATE\s+(?<temporary>TEMP(?:ORARY)?\s+)?TABLE\s+(?:IF\s+NOT\s+EXISTS\s+)?$identifierPattern\s*\("
+    )
+    if (-not $prefix.Success) {
+        return [pscustomobject][ordered]@{
+            table = ''
+            temporary = $false
+            columns = @()
+            primaryKey = @()
+            reason = 'unsupported-create-table-prefix'
+        }
+    }
+    $openIndex = $prefix.Index + $prefix.Length - 1
+    $closeIndex = Find-ZylSqlClosingParenthesis -Text $Statement -OpenIndex $openIndex
+    if ($closeIndex -lt 0) {
+        return [pscustomobject][ordered]@{
+            table = ConvertFrom-ZylSqlIdentifier -Identifier $prefix.Groups['table'].Value
+            temporary = $prefix.Groups['temporary'].Success
+            columns = @()
+            primaryKey = @()
+            reason = 'unterminated-create-table-body'
+        }
+    }
+
+    $columns = [System.Collections.Generic.List[string]]::new()
+    $inlinePrimaryKey = [System.Collections.Generic.List[string]]::new()
+    $tablePrimaryKey = @()
+    $reason = $null
+    foreach ($definition in @(Split-ZylSqlTopLevelList -Text (
+                $Statement.Substring($openIndex + 1, $closeIndex - $openIndex - 1)
+            ))) {
+        $trimmed = $definition.Trim()
+        $tableKeyMatch = [regex]::Match(
+            $trimmed,
+            '(?is)^(?:CONSTRAINT\s+\S+\s+)?PRIMARY\s+KEY\s*\((?<columns>.*)\)\s*(?:ON\s+CONFLICT\s+\w+)?$'
+        )
+        if ($tableKeyMatch.Success) {
+            $tablePrimaryKey = @(
+                Split-ZylSqlTopLevelList -Text $tableKeyMatch.Groups['columns'].Value |
+                    ForEach-Object {
+                        $keyToken = ([string]$_).Trim()
+                        $keyToken = $keyToken -replace '(?is)\s+(?:ASC|DESC)\s*$', ''
+                        ConvertFrom-ZylSqlIdentifier -Identifier $keyToken
+                    }
+            )
+            continue
+        }
+        if ($trimmed -match '(?is)^(?:CONSTRAINT\s+\S+\s+)?(?:FOREIGN\s+KEY|UNIQUE|CHECK)\b') {
+            continue
+        }
+        $columnMatch = [regex]::Match(
+            $trimmed,
+            '^(?is)(?<column>"(?:[^"]|"")+"|''(?:[^'']|'''')+''|\[[^\]]+\]|`(?:[^`]|``)+`|[A-Za-z_][A-Za-z0-9_.$]*)'
+        )
+        if (-not $columnMatch.Success) {
+            $reason = 'unsupported-column-definition'
+            continue
+        }
+        $columnName = ConvertFrom-ZylSqlIdentifier -Identifier $columnMatch.Groups['column'].Value
+        $columns.Add($columnName)
+        if ($trimmed -match '(?is)\bPRIMARY\s+KEY\b') {
+            $inlinePrimaryKey.Add($columnName)
+        }
+    }
+    $primaryKey = if ($tablePrimaryKey.Count -gt 0) {
+        @($tablePrimaryKey)
+    }
+    else {
+        @($inlinePrimaryKey)
+    }
+    if ($columns.Count -eq 0 -and $null -eq $reason) {
+        $reason = 'missing-column-definitions'
+    }
+    return [pscustomobject][ordered]@{
+        table = ConvertFrom-ZylSqlIdentifier -Identifier $prefix.Groups['table'].Value
+        temporary = $prefix.Groups['temporary'].Success
+        columns = @($columns)
+        primaryKey = @($primaryKey)
+        reason = $reason
+    }
+}
+
+function Get-ZylModCreatedTableSchemas {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string]$ProjectRoot,
+
+        [Parameter(Mandatory = $true)]
+        [object]$WriteSetAnalysis
+    )
+
+    $schemas = [System.Collections.Generic.List[object]]::new()
+    foreach ($sourceFile in @($WriteSetAnalysis.sourceFiles | Where-Object format -eq 'sql')) {
+        if (@($sourceFile.operations | Where-Object operation -eq 'create-table').Count -eq 0) {
+            continue
+        }
+        $source = Get-Content -LiteralPath (Join-Path $ProjectRoot $sourceFile.path) -Raw
+        foreach ($statement in @(Split-ZylSqlStatements -Source $source)) {
+            $operations = @(Get-ZylSqlWriteOperations -Source $statement.text)
+            if ($operations.Count -ne 1 -or $operations[0].operation -ne 'create-table') {
+                continue
+            }
+            $schema = ConvertFrom-ZylSqlCreateTableStatement -Statement $statement.text
+            $schemas.Add([pscustomobject][ordered]@{
+                table = [string]$schema.table
+                temporary = [bool]$schema.temporary
+                columns = @($schema.columns)
+                primaryKey = @($schema.primaryKey)
+                path = [string]$sourceFile.path
+                line = [int]$statement.line
+                reason = $schema.reason
+            })
+        }
+    }
+    return @($schemas | Sort-Object table, path, line)
+}
+
 function Get-ZylCommonSchemaColumnOrder {
     param(
         [Parameter(Mandatory = $true)]
@@ -410,6 +535,13 @@ function Get-ZylDatabasePrimaryKeyAnalysis {
     foreach ($record in @($SchemaCoverage.tables)) {
         $coverageByTable[[string]$record.table] = $record
     }
+    $modCreatedSchemas = @(Get-ZylModCreatedTableSchemas `
+            -ProjectRoot $ProjectRoot `
+            -WriteSetAnalysis $WriteSetAnalysis)
+    $modSchemaByTable = @{}
+    foreach ($schema in $modCreatedSchemas) {
+        $modSchemaByTable[[string]$schema.table] = $schema
+    }
     $operations = [System.Collections.Generic.List[object]]::new()
     $candidates = [System.Collections.Generic.List[object]]::new()
     $reasonCounts = @{}
@@ -432,6 +564,18 @@ function Get-ZylDatabasePrimaryKeyAnalysis {
                 $parsed = ConvertFrom-ZylSqlInsertStatement -Statement $statement.text
                 $table = [string]$operation.table
                 $coverage = $coverageByTable[$table]
+                $modSchema = $modSchemaByTable[$table]
+                $primaryKey = if ($null -ne $coverage -and
+                        [string]$coverage.classification -eq 'mod-created' -and
+                        $null -ne $modSchema) {
+                    @($modSchema.primaryKey)
+                }
+                elseif ($null -ne $coverage) {
+                    @($coverage.primaryKey)
+                }
+                else {
+                    @()
+                }
                 $schemaReason = if ($null -eq $coverage) {
                     'unknown-table'
                 }
@@ -439,9 +583,17 @@ function Get-ZylDatabasePrimaryKeyAnalysis {
                     'external-schema'
                 }
                 elseif ([string]$coverage.classification -eq 'mod-created') {
-                    'mod-created-schema-pending'
+                    if ($null -eq $modSchema -or $null -ne $modSchema.reason) {
+                        'mod-created-schema-unresolved'
+                    }
+                    elseif ($primaryKey.Count -eq 0) {
+                        'mod-created-no-primary-key'
+                    }
+                    else {
+                        $null
+                    }
                 }
-                elseif (@($coverage.primaryKey).Count -eq 0) {
+                elseif ($primaryKey.Count -eq 0) {
                     'no-primary-key'
                 }
                 else {
@@ -450,9 +602,14 @@ function Get-ZylDatabasePrimaryKeyAnalysis {
                 $columns = @($parsed.columns)
                 $columnReason = $null
                 if ($null -eq $schemaReason -and -not $parsed.explicitColumns) {
-                    $columns = @(Get-ZylCommonSchemaColumnOrder `
-                            -Snapshot $SchemaSnapshot `
-                            -CoverageRecord $coverage)
+                    $columns = if ([string]$coverage.classification -eq 'mod-created') {
+                        @($modSchema.columns)
+                    }
+                    else {
+                        @(Get-ZylCommonSchemaColumnOrder `
+                                -Snapshot $SchemaSnapshot `
+                                -CoverageRecord $coverage)
+                    }
                     if ($columns.Count -eq 0) {
                         $columnReason = 'ambiguous-implicit-column-order'
                     }
@@ -473,7 +630,7 @@ function Get-ZylDatabasePrimaryKeyAnalysis {
                     }
                     $keyValues = [System.Collections.Generic.List[object]]::new()
                     if ($null -eq $currentReason) {
-                        foreach ($keyColumn in @($coverage.primaryKey)) {
+                        foreach ($keyColumn in @($primaryKey)) {
                             $keyIndex = -1
                             for ($columnIndex = 0; $columnIndex -lt $columns.Count; $columnIndex++) {
                                 if ([string]$columns[$columnIndex] -ieq [string]$keyColumn) {
@@ -577,6 +734,18 @@ function Get-ZylDatabasePrimaryKeyAnalysis {
                     }
                     $table = [string]$tableNode.LocalName
                     $coverage = $coverageByTable[$table]
+                    $modSchema = $modSchemaByTable[$table]
+                    $primaryKey = if ($null -ne $coverage -and
+                            [string]$coverage.classification -eq 'mod-created' -and
+                            $null -ne $modSchema) {
+                        @($modSchema.primaryKey)
+                    }
+                    elseif ($null -ne $coverage) {
+                        @($coverage.primaryKey)
+                    }
+                    else {
+                        @()
+                    }
                     $reason = if ($null -eq $coverage) {
                         'unknown-table'
                     }
@@ -584,9 +753,17 @@ function Get-ZylDatabasePrimaryKeyAnalysis {
                         'external-schema'
                     }
                     elseif ([string]$coverage.classification -eq 'mod-created') {
-                        'mod-created-schema-pending'
+                        if ($null -eq $modSchema -or $null -ne $modSchema.reason) {
+                            'mod-created-schema-unresolved'
+                        }
+                        elseif ($primaryKey.Count -eq 0) {
+                            'mod-created-no-primary-key'
+                        }
+                        else {
+                            $null
+                        }
                     }
-                    elseif (@($coverage.primaryKey).Count -eq 0) {
+                    elseif ($primaryKey.Count -eq 0) {
                         'no-primary-key'
                     }
                     else {
@@ -594,7 +771,7 @@ function Get-ZylDatabasePrimaryKeyAnalysis {
                     }
                     $keyValues = [System.Collections.Generic.List[object]]::new()
                     if ($null -eq $reason) {
-                        foreach ($keyColumn in @($coverage.primaryKey)) {
+                        foreach ($keyColumn in @($primaryKey)) {
                             $attribute = @($node.Attributes | Where-Object LocalName -ieq $keyColumn)
                             if ($attribute.Count -ne 1) {
                                 $reason = 'missing-primary-key-column'
@@ -704,6 +881,10 @@ function Get-ZylDatabasePrimaryKeyAnalysis {
     return [pscustomobject][ordered]@{
         schemaVersion = 1
         counts = [pscustomobject][ordered]@{
+            modCreatedTables = $modCreatedSchemas.Count
+            modCreatedTablesWithPrimaryKey = @(
+                $modCreatedSchemas | Where-Object { @($_.primaryKey).Count -gt 0 }
+            ).Count
             insertReplaceOperations = $operations.Count
             resolvedOperations = @($operations | Where-Object status -eq 'resolved').Count
             partiallyResolvedOperations = @($operations | Where-Object status -eq 'partial').Count
@@ -714,6 +895,7 @@ function Get-ZylDatabasePrimaryKeyAnalysis {
             sameActionDuplicateKeyGroups = @($duplicateGroups | Where-Object sameAction).Count
         }
         unresolvedReasonCounts = $orderedReasonCounts
+        modCreatedSchemas = @($modCreatedSchemas)
         operations = @($operations)
         rowCandidates = @($candidates)
         duplicateKeyGroups = @($duplicateGroups)
@@ -728,6 +910,7 @@ function Get-ZylDatabasePrimaryKeySemanticView {
 
     return [pscustomobject][ordered]@{
         schemaVersion = 1
+        modCreatedSchemas = @($Analysis.modCreatedSchemas)
         operations = @($Analysis.operations)
         rowCandidates = @(
             foreach ($candidate in @($Analysis.rowCandidates)) {
@@ -774,6 +957,8 @@ function Get-ZylDatabasePrimaryKeyContractIssues {
         )
     }
     foreach ($countProperty in @(
+            'modCreatedTables',
+            'modCreatedTablesWithPrimaryKey',
             'insertReplaceOperations',
             'resolvedOperations',
             'partiallyResolvedOperations',
