@@ -10,6 +10,7 @@
   "civ6SchemaSnapshotSha256": "2bf887e0437393706e0a6bdfdc4b01ef399e664e3ec1925005c5ee9b0376db4b",
   "civ6SchemaBuildId": "15296837",
   "databasePrimaryKeyContractFile": "manifest/database-primary-key-contract.json",
+  "databaseInsertSelectContractFile": "manifest/database-insert-select-contract.json",
   "databaseDuplicateKeyAllowlistFile": "manifest/database-duplicate-key-allowlist.json",
   "databaseFinalValueContractFile": "manifest/database-final-value-contract.json",
   "databaseFinalValueContractSha256": "fd04cd060a602c5344500d274aff017f09b9332600722ae2a6a47075ee113d5d",

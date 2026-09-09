@@ -10,6 +10,7 @@ $writeSetHelpersPath = Join-Path $PSScriptRoot 'validation\DatabaseWriteSet.ps1'
 $manifestGraphHelpersPath = Join-Path $PSScriptRoot 'validation\ManifestGraph.ps1'
 $databaseSchemaHelpersPath = Join-Path $PSScriptRoot 'validation\DatabaseSchemaChecks.ps1'
 $databasePrimaryKeyHelpersPath = Join-Path $PSScriptRoot 'validation\DatabasePrimaryKeys.ps1'
+$databaseInsertSelectHelpersPath = Join-Path $PSScriptRoot 'validation\DatabaseInsertSelects.ps1'
 $writeSetContractPath = Join-Path $modRoot 'manifest\database-write-set-contract.json'
 $externalDatabaseTablesPath = Join-Path $modRoot 'manifest\external-database-tables.json'
 foreach ($requiredPath in @(
@@ -18,6 +19,7 @@ foreach ($requiredPath in @(
         $manifestGraphHelpersPath,
         $databaseSchemaHelpersPath,
         $databasePrimaryKeyHelpersPath,
+        $databaseInsertSelectHelpersPath,
         $writeSetContractPath,
         $externalDatabaseTablesPath
     )) {
@@ -29,6 +31,7 @@ foreach ($requiredPath in @(
 . $manifestGraphHelpersPath
 . $databaseSchemaHelpersPath
 . $databasePrimaryKeyHelpersPath
+. $databaseInsertSelectHelpersPath
 
 $metadata = Get-Content -LiteralPath $metadataPath -Raw | ConvertFrom-Json
 $modInfoPath = Join-Path $modRoot ([string]$metadata.modInfoFile)
@@ -99,6 +102,28 @@ $primaryKeyContractIssues = @(Get-ZylDatabasePrimaryKeyContractIssues `
 if ($primaryKeyContractIssues.Count -gt 0) {
     throw "Database primary-key contract failed:`n- $($primaryKeyContractIssues -join "`n- ")"
 }
+$insertSelectAnalysis = Get-ZylDatabaseInsertSelectAnalysis `
+    -ProjectRoot $modRoot `
+    -WriteSetAnalysis $analysis `
+    -PrimaryKeyAnalysis $primaryKeyAnalysis
+$insertSelectSemanticView = Get-ZylDatabaseInsertSelectSemanticView `
+    -Analysis $insertSelectAnalysis
+$insertSelectAnalysisSha256 = Get-ZylSha256ForText -Text (
+    ConvertTo-ZylCanonicalJson -InputObject $insertSelectSemanticView
+)
+$insertSelectContractPath = Join-Path $modRoot (
+    [string]$metadata.databaseInsertSelectContractFile
+)
+$insertSelectContract = Get-Content `
+    -LiteralPath $insertSelectContractPath `
+    -Raw | ConvertFrom-Json
+$insertSelectContractIssues = @(Get-ZylDatabaseInsertSelectContractIssues `
+    -Analysis $insertSelectAnalysis `
+    -AnalysisSha256 $insertSelectAnalysisSha256 `
+    -Contract $insertSelectContract)
+if ($insertSelectContractIssues.Count -gt 0) {
+    throw "Database INSERT SELECT contract failed:`n- $($insertSelectContractIssues -join "`n- ")"
+}
 $duplicateKeyAllowlistPath = Join-Path $modRoot (
     [string]$metadata.databaseDuplicateKeyAllowlistFile
 )
@@ -138,6 +163,8 @@ $report = [pscustomobject][ordered]@{
     schemaCoverage = $schemaCoverage
     primaryKeyAnalysisSha256 = $primaryKeyAnalysisSha256
     primaryKeyAnalysis = $primaryKeyAnalysis
+    insertSelectAnalysisSha256 = $insertSelectAnalysisSha256
+    insertSelectAnalysis = $insertSelectAnalysis
     retainedDuplicateKeyGroups = @($duplicateKeyAllowlist.groups).Count
 }
 
@@ -164,5 +191,7 @@ Write-Host "Custom keys: $($primaryKeyAnalysis.counts.modCreatedTablesWithPrimar
 Write-Host "Keys       : $($primaryKeyAnalysis.counts.rowCandidates) row candidates across $($primaryKeyAnalysis.counts.tablesWithCandidates) tables"
 Write-Host "Key repeats: $($primaryKeyAnalysis.counts.duplicateKeyGroups) groups, $($primaryKeyAnalysis.counts.sameActionDuplicateKeyGroups) within one action"
 Write-Host "Same rows  : $($primaryKeyAnalysis.counts.identicalRowDuplicateKeyGroups) groups, $($primaryKeyAnalysis.counts.dominatedLaterIgnoreOccurrences) later ignores dominated"
+Write-Host "Select rows: $($insertSelectAnalysis.counts.statements) INSERT SELECT statements in $($insertSelectAnalysis.counts.files) files"
+Write-Host "Select mix : $($insertSelectAnalysis.counts.joins) joins, $($insertSelectAnalysis.counts.nestedSelect) nested, $($insertSelectAnalysis.counts.readsTargetTable) self-reading"
 Write-Host "Retained   : $(@($duplicateKeyAllowlist.groups).Count) compatibility duplicate-key groups"
 Write-Host "SHA-256    : $($report.analysisSha256)"

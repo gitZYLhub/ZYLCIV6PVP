@@ -115,6 +115,12 @@ if (-not (Test-Path -LiteralPath $databasePrimaryKeyPath -PathType Leaf)) {
 }
 . $databasePrimaryKeyPath
 
+$databaseInsertSelectPath = Join-Path $PSScriptRoot 'validation\DatabaseInsertSelects.ps1'
+if (-not (Test-Path -LiteralPath $databaseInsertSelectPath -PathType Leaf)) {
+    throw "Database INSERT SELECT helpers not found: $databaseInsertSelectPath"
+}
+. $databaseInsertSelectPath
+
 $databaseFinalValueChecksPath = Join-Path $PSScriptRoot 'validation\DatabaseFinalValueChecks.ps1'
 if (-not (Test-Path -LiteralPath $databaseFinalValueChecksPath -PathType Leaf)) {
     throw "Database final-value helpers not found: $databaseFinalValueChecksPath"
@@ -447,6 +453,40 @@ if ($databasePrimaryKeySqlFixture.table -ne 'Modifiers' -or
     Add-ValidationError 'Database primary-key parser failed its positive/negative self-test.'
 }
 
+$databaseInsertSelectShapeFixture = Get-ZylSqlInsertSelectShape `
+    -TargetTable 'TargetRows' `
+    -Statement @'
+INSERT INTO TargetRows(Id, Value)
+SELECT DISTINCT a.Id, 'FROM fake JOIN fake'
+FROM "SourceA" a
+LEFT JOIN [SourceB] b ON a.Id = b.Id
+WHERE EXISTS (SELECT 1 FROM `SourceC` c WHERE c.Id = a.Id)
+UNION SELECT Id, Value FROM TargetRows
+'@
+$databaseInsertSelectGuardFixture = Get-ZylSqlInsertSelectShape `
+    -TargetTable 'TargetRows' `
+    -Statement @'
+INSERT INTO TargetRows(Id) SELECT 'A' WHERE EXISTS (SELECT 1 FROM ProviderRows)
+'@
+if ($databaseInsertSelectShapeFixture.shape -ne 'compound' -or
+        ($databaseInsertSelectShapeFixture.sourceTables -join '|') -ne
+            'SourceA|SourceB|SourceC|TargetRows' -or
+        $databaseInsertSelectShapeFixture.selectCount -ne 3 -or
+        -not $databaseInsertSelectShapeFixture.hasTopLevelFrom -or
+        -not $databaseInsertSelectShapeFixture.hasJoin -or
+        -not $databaseInsertSelectShapeFixture.hasWhere -or
+        -not $databaseInsertSelectShapeFixture.hasCompound -or
+        -not $databaseInsertSelectShapeFixture.hasDistinct -or
+        -not $databaseInsertSelectShapeFixture.hasExists -or
+        -not $databaseInsertSelectShapeFixture.hasNestedSelect -or
+        -not $databaseInsertSelectShapeFixture.readsTargetTable -or
+        $databaseInsertSelectGuardFixture.shape -ne 'nested' -or
+        $databaseInsertSelectGuardFixture.hasTopLevelFrom -or
+        -not $databaseInsertSelectGuardFixture.hasExists -or
+        ($databaseInsertSelectGuardFixture.sourceTables -join '|') -ne 'ProviderRows') {
+    Add-ValidationError 'Database INSERT SELECT classifier failed its lexical/shape self-test.'
+}
+
 $civ6SchemaSnapshotPath = Join-Path $modRoot ([string]$projectMetadata.civ6SchemaSnapshotFile)
 if (-not (Test-Path -LiteralPath $civ6SchemaSnapshotPath -PathType Leaf)) {
     Add-ValidationError 'Civ VI schema-key snapshot is missing.'
@@ -698,6 +738,56 @@ if ($null -ne $civ6SchemaSnapshot) {
         catch {
             Add-ValidationError (
                 'Database primary-key contract could not be loaded: ' + $_.Exception.Message
+            )
+        }
+    }
+    $databaseInsertSelectAnalysis = Get-ZylDatabaseInsertSelectAnalysis `
+        -ProjectRoot $modRoot `
+        -WriteSetAnalysis $databaseWriteSetAnalysis `
+        -PrimaryKeyAnalysis $databasePrimaryKeyAnalysis
+    $databaseInsertSelectSemanticView = Get-ZylDatabaseInsertSelectSemanticView `
+        -Analysis $databaseInsertSelectAnalysis
+    $databaseInsertSelectAnalysisSha256 = Get-ZylSha256ForText -Text (
+        ConvertTo-ZylCanonicalJson -InputObject $databaseInsertSelectSemanticView
+    )
+    $databaseInsertSelectContractPath = Join-Path $modRoot (
+        [string]$projectMetadata.databaseInsertSelectContractFile
+    )
+    if (-not (Test-Path -LiteralPath $databaseInsertSelectContractPath -PathType Leaf)) {
+        Add-ValidationError 'Database INSERT SELECT contract is missing.'
+    }
+    else {
+        try {
+            $databaseInsertSelectContract = Get-Content `
+                -LiteralPath $databaseInsertSelectContractPath `
+                -Raw | ConvertFrom-Json
+            foreach ($databaseInsertSelectContractIssue in @(
+                    Get-ZylDatabaseInsertSelectContractIssues `
+                        -Analysis $databaseInsertSelectAnalysis `
+                        -AnalysisSha256 $databaseInsertSelectAnalysisSha256 `
+                        -Contract $databaseInsertSelectContract
+                )) {
+                Add-ValidationError $databaseInsertSelectContractIssue
+            }
+            $databaseInsertSelectDriftContract = ConvertFrom-Json (
+                $databaseInsertSelectContract | ConvertTo-Json -Depth 20
+            )
+            $databaseInsertSelectDriftContract.expectedCounts.statements++
+            $databaseInsertSelectDriftIssues = @(
+                Get-ZylDatabaseInsertSelectContractIssues `
+                    -Analysis $databaseInsertSelectAnalysis `
+                    -AnalysisSha256 $databaseInsertSelectAnalysisSha256 `
+                    -Contract $databaseInsertSelectDriftContract
+            )
+            if (@($databaseInsertSelectDriftIssues | Where-Object {
+                        $_ -like 'Database INSERT SELECT count drifted for statements:*'
+                    }).Count -ne 1) {
+                Add-ValidationError 'Database INSERT SELECT self-test did not reject count drift.'
+            }
+        }
+        catch {
+            Add-ValidationError (
+                'Database INSERT SELECT contract could not be loaded: ' + $_.Exception.Message
             )
         }
     }

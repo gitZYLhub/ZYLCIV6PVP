@@ -58,6 +58,7 @@ Manifest 迁移采用“分段替换而非一次重写”：`manifest/criteria`�
 - `DatabaseWriteSet.ps1` 从 FrontEnd/InGame 的 `UpdateDatabase` 动作提取加载域、顺序、Criteria 与唯一 SQL/XML 源；SQL 扫描器正确跳过注释并保护引号内分号，XML 扫描器识别 `Row/InsertOrIgnore/Replace/Update/Delete`，最后按表汇总操作、多源触及、零写入源，以及不同文件在同一动作内的精确重复 SQL。`manifest/database-write-set-contract.json` 同时保留冻结 1.3.0 指纹/计数和可演进的当前指纹/计数，避免为了后续等价精简而覆盖历史基线。
 - `DatabaseSchemaChecks.ps1` 校验由 `tools/schema/export_civ6_schema_keys.py` 一次性导出的官方 Schema 快照：基础、XP1、XP2 Gameplay 和 Configuration 分库保留各表列、复合主键、唯一键、源文件哈希与游戏 build id。写集合报告把 223 张触及表分为官方、项目自建和外部依赖；外部表必须登记提供者 Mod ID，并证明每个引用动作都受对应 `ModInUse` Criteria 保护。
 - `DatabasePrimaryKeys.ps1` 在 Schema 覆盖层之上解析官方表及项目 `CREATE TABLE` 的表级/列级主键与列序，并保守解析 SQL `VALUES`（显式列及列序一致时的隐式列）和 XML 属性行；只有全部主键字段为字面量时才输出行候选。`INSERT ... SELECT`、缺少主键字段和真实无主键表分别记录未解析原因；跨文件同主键分组同时比较完整字面量行、Criteria、动作顺序和冲突模式，只有更早无条件同值写入支配更晚 `INSERT OR IGNORE` 时才给出可移除位置。剩余重复必须被 `database-duplicate-key-allowlist.json` 完整覆盖，并符合独立提供者或上游/最终双层防线之一。
+- `DatabaseInsertSelects.ps1` 对所有动态 `INSERT ... SELECT` 做引号/注释安全的结构分类，记录目标表、直接源表、Action/Criteria、冲突模式、语句指纹、连接/嵌套/集合/存在性守卫以及是否自读目标表。主键分析中的 371 是未被更早 Schema 原因遮蔽的子集，源码总量 381 由独立契约固定；完整逐语句清单随数据库报告生成，防止把兼容查询或阶段式自读误删为重复代码。
 - `DatabaseFinalValueChecks.ps1` 校验 `database-final-value-contract.json` 的身份、哈希、确定性只读查询及覆盖闭包；`tools/database/capture_final_values.py` 以 SQLite `query_only` 打开实际 `DebugGameplay.sqlite`，比较精确列/行并输出语义哈希。报告只进入 `artifacts/`，省略本机绝对路径，记录数据库哈希、时间、Git 提交与脏状态；默认拒绝脏工作树、早于 HEAD 的数据库和未 checkpoint 的 WAL，诊断豁免不能被当作发布证据。
 - `DatabaseLogChecks.ps1` 校验加载日志契约不得豁免 Gameplay/Configuration 错误；`tools/logs/audit_database_log.py` 对实际 `Database.log` 强制三库外键验证闭合，逐条归类结构化 ERROR，并只允许同时命中 CurrentClickouts 标签、消息、scope 和相对文件的 Firaxis Live 噪声。SQLite 与日志工具复用 `tools/evidence_common.py` 的 Git 状态、哈希、仓库输入和 `artifacts/` 输出边界。
 - `BbgLocalizationChecks.ps1` 纵向拥有 BBG 7.4.6 简中同步层、误标为中文的拉丁文本补救、关键中英文正/负文本规则和全包英文/简中标签闭合；入口以内存修改拜占庭关键译文的反例自检，缺失 Text 节点会返回可定位问题。
@@ -80,7 +81,7 @@ Manifest 迁移采用“分段替换而非一次重写”：`manifest/criteria`�
 - `LeaderVariantChecks.ps1` 纵向拥有北条、腓力二世和威廉明娜三个内陆变体的 Gameplay/Config 克隆、重复领袖关系、递归文本防护、图标/颜色、美术、八个 ModInfo 动作及 BBM/Rich Mainland 出生点分流；入口以内存破坏 Trait 克隆的反例保证变体不会演化成第二套玩法数据。
 - `ReleaseChecks.ps1` 统一 universal/windows/macos 路径选择、跨平台资产成对约束、Action 不直指平台二进制、资产定义不硬编码平台目录和发布器实现边界；根目录与任意嵌套目录中的 `Platforms/MacOS`、`Platforms/Windows` 都按同一规则识别。
 - `MultiplayerChecks.ps1` 承接大厅身份配置、事件生命周期、正式日志、周期读取、请求式完整刷新，赛事设置/启用 Mod 能力/玩家昵称三个失效缓存，以及多人状态的有序数组 + playerID 索引；另保护握手转换与终态幂等、批量广播、随机领袖、投票重开、断线、重同步、突然死亡、主菜单和主回合计时器。领域调度器统一读取六个 UI 源，独立自检函数对默认阶段全扫、三个缓存、状态索引、终态重开及其他联机路径构造十三类内存漂移。
-- `tools/report_modinfo_graph.ps1` 将完整规范图写入已忽略的 `artifacts/reports`，用于拆分前后定位差异；`tools/report_database_writes.ps1` 输出逐动作、逐源、逐操作和逐表的数据库写集合，并显示是否偏离冻结指纹。两种报告都不进入 Workshop 包，也不是新的手工真值源。
+- `tools/report_modinfo_graph.ps1` 将完整规范图写入已忽略的 `artifacts/reports`，用于拆分前后定位差异；`tools/report_database_writes.ps1` 输出逐动作、逐源、逐操作、逐表和逐条动态插入的数据库清单，并显示是否偏离冻结指纹。两种报告都不进入 Workshop 包，也不是新的手工真值源。
 - 领域模块返回问题或调用统一的 `Add-ValidationError`，不得自行终止整个校验流程；只有入口脚本负责最终退出码与摘要。
 - 抽取模块时必须保持原断言有效，并至少提供一个应通过和一个应失败的内建样例，防止“为了拆文件而让校验失效”。
 
