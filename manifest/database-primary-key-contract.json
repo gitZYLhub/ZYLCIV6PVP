@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "baselineCommit": "28f5dbd2a048bb7c94fcaf782020db66da82da45",
+  "expectedAnalysisSha256": "4ec2ec940411b74e694ebda80d305437f3020e996c230ed007ba32c8a91d3abc",
+  "expectedCounts": {
+    "insertReplaceOperations": 4288,
+    "resolvedOperations": 2846,
+    "partiallyResolvedOperations": 0,
+    "unresolvedOperations": 1442,
+    "rowCandidates": 6632,
+    "tablesWithCandidates": 120,
+    "duplicateKeyGroups": 20,
+    "sameActionDuplicateKeyGroups": 0
+  },
+  "expectedUnresolvedReasonCounts": {
+    "insert-select": 362,
+    "missing-primary-key-column": 196,
+    "mod-created-schema-pending": 44,
+    "no-primary-key": 840
+  }
+}

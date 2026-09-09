@@ -9,6 +9,7 @@
   "civ6SchemaSnapshotFile": "manifest/civ6-schema-keys.json",
   "civ6SchemaSnapshotSha256": "2bf887e0437393706e0a6bdfdc4b01ef399e664e3ec1925005c5ee9b0376db4b",
   "civ6SchemaBuildId": "15296837",
+  "databasePrimaryKeyContractFile": "manifest/database-primary-key-contract.json",
   "releaseBudgets": {
     "universalMaxBytes": 800000000,
     "windowsMaxBytes": 460000000,

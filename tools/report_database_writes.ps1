@@ -9,6 +9,7 @@ $metadataPath = Join-Path $PSScriptRoot 'project.json'
 $writeSetHelpersPath = Join-Path $PSScriptRoot 'validation\DatabaseWriteSet.ps1'
 $manifestGraphHelpersPath = Join-Path $PSScriptRoot 'validation\ManifestGraph.ps1'
 $databaseSchemaHelpersPath = Join-Path $PSScriptRoot 'validation\DatabaseSchemaChecks.ps1'
+$databasePrimaryKeyHelpersPath = Join-Path $PSScriptRoot 'validation\DatabasePrimaryKeys.ps1'
 $writeSetContractPath = Join-Path $modRoot 'manifest\database-write-set-contract.json'
 $externalDatabaseTablesPath = Join-Path $modRoot 'manifest\external-database-tables.json'
 foreach ($requiredPath in @(
@@ -16,6 +17,7 @@ foreach ($requiredPath in @(
         $writeSetHelpersPath,
         $manifestGraphHelpersPath,
         $databaseSchemaHelpersPath,
+        $databasePrimaryKeyHelpersPath,
         $writeSetContractPath,
         $externalDatabaseTablesPath
     )) {
@@ -26,6 +28,7 @@ foreach ($requiredPath in @(
 . $writeSetHelpersPath
 . $manifestGraphHelpersPath
 . $databaseSchemaHelpersPath
+. $databasePrimaryKeyHelpersPath
 
 $metadata = Get-Content -LiteralPath $metadataPath -Raw | ConvertFrom-Json
 $modInfoPath = Join-Path $modRoot ([string]$metadata.modInfoFile)
@@ -73,6 +76,29 @@ $externalTableIssues = @(Get-ZylExternalDatabaseTableIssues `
 if ($externalTableIssues.Count -gt 0) {
     throw "External database-table contract failed:`n- $($externalTableIssues -join "`n- ")"
 }
+$primaryKeyAnalysis = Get-ZylDatabasePrimaryKeyAnalysis `
+    -ProjectRoot $modRoot `
+    -WriteSetAnalysis $analysis `
+    -SchemaCoverage $schemaCoverage `
+    -SchemaSnapshot $schemaSnapshot
+$primaryKeySemanticView = Get-ZylDatabasePrimaryKeySemanticView `
+    -Analysis $primaryKeyAnalysis
+$primaryKeyAnalysisSha256 = Get-ZylSha256ForText -Text (
+    ConvertTo-ZylCanonicalJson -InputObject $primaryKeySemanticView
+)
+$primaryKeyContractPath = Join-Path $modRoot (
+    [string]$metadata.databasePrimaryKeyContractFile
+)
+$primaryKeyContract = Get-Content `
+    -LiteralPath $primaryKeyContractPath `
+    -Raw | ConvertFrom-Json
+$primaryKeyContractIssues = @(Get-ZylDatabasePrimaryKeyContractIssues `
+    -Analysis $primaryKeyAnalysis `
+    -AnalysisSha256 $primaryKeyAnalysisSha256 `
+    -Contract $primaryKeyContract)
+if ($primaryKeyContractIssues.Count -gt 0) {
+    throw "Database primary-key contract failed:`n- $($primaryKeyContractIssues -join "`n- ")"
+}
 $writeSetContract = Get-Content -LiteralPath $writeSetContractPath -Raw | ConvertFrom-Json
 $contractIssues = @(Get-ZylDatabaseWriteSetContractIssues `
     -Analysis $analysis `
@@ -97,6 +123,8 @@ $report = [pscustomobject][ordered]@{
     noWriteSources = $analysis.noWriteSources
     sameActionExactSqlDuplicateGroups = $analysis.sameActionExactSqlDuplicateGroups
     schemaCoverage = $schemaCoverage
+    primaryKeyAnalysisSha256 = $primaryKeyAnalysisSha256
+    primaryKeyAnalysis = $primaryKeyAnalysis
 }
 
 $outputDirectory = Split-Path -Parent $resolvedOutputPath
@@ -118,4 +146,6 @@ Write-Host "Overlaps   : $($analysis.counts.overlappingTables) tables touched by
 Write-Host "No writes  : $($analysis.counts.noWriteSources) active sources"
 Write-Host "Duplicates : $($analysis.counts.sameActionExactSqlDuplicateGroups) exact SQL groups within one action"
 Write-Host "Schema     : $($schemaCoverage.counts.official) official, $($schemaCoverage.counts.modCreated) mod-created, $($schemaCoverage.counts.external) external tables"
+Write-Host "Keys       : $($primaryKeyAnalysis.counts.rowCandidates) row candidates across $($primaryKeyAnalysis.counts.tablesWithCandidates) tables"
+Write-Host "Key repeats: $($primaryKeyAnalysis.counts.duplicateKeyGroups) groups, $($primaryKeyAnalysis.counts.sameActionDuplicateKeyGroups) within one action"
 Write-Host "SHA-256    : $($report.analysisSha256)"

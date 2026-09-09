@@ -82,6 +82,12 @@ if (-not (Test-Path -LiteralPath $databaseSchemaChecksPath -PathType Leaf)) {
 }
 . $databaseSchemaChecksPath
 
+$databasePrimaryKeyPath = Join-Path $PSScriptRoot 'validation\DatabasePrimaryKeys.ps1'
+if (-not (Test-Path -LiteralPath $databasePrimaryKeyPath -PathType Leaf)) {
+    throw "Database primary-key helpers not found: $databasePrimaryKeyPath"
+}
+. $databasePrimaryKeyPath
+
 $teamPvpSocietyChecksPath = Join-Path $PSScriptRoot 'validation\TeamPvpSocietyChecks.ps1'
 if (-not (Test-Path -LiteralPath $teamPvpSocietyChecksPath -PathType Leaf)) {
     throw "Team PVP Secret Societies validation helpers not found: $teamPvpSocietyChecksPath"
@@ -351,6 +357,30 @@ if ($databaseSqlFixtureSummary -ne $expectedDatabaseSqlFixtureSummary -or
     Add-ValidationError 'Database write-set scanner failed its SQL/XML positive/negative self-test.'
 }
 
+$databasePrimaryKeySqlFixture = ConvertFrom-ZylSqlInsertStatement -Statement @'
+INSERT OR REPLACE INTO Modifiers (ModifierId, ModifierType, RunOnce)
+VALUES ('A,1', 'TYPE_A', 0), ('B', 'TYPE_B', COALESCE(1, 0))
+'@
+$databasePrimaryKeySelectFixture = ConvertFrom-ZylSqlInsertStatement -Statement @'
+INSERT INTO TraitModifiers (TraitType, ModifierId)
+SELECT TraitType, 'FIXTURE' FROM CivilizationTraits
+'@
+$databasePrimaryKeyLiteralFixture = ConvertFrom-ZylSqlLiteral -Text "'it''s stable'"
+$databasePrimaryKeyExpressionFixture = ConvertFrom-ZylSqlLiteral -Text 'lower(Type)'
+if ($databasePrimaryKeySqlFixture.table -ne 'Modifiers' -or
+        ($databasePrimaryKeySqlFixture.columns -join '|') -ne
+            'ModifierId|ModifierType|RunOnce' -or
+        $databasePrimaryKeySqlFixture.rows.Count -ne 2 -or
+        $databasePrimaryKeySqlFixture.rows[0].values[0] -ne "'A,1'" -or
+        $databasePrimaryKeySqlFixture.rows[1].values[2] -ne 'COALESCE(1, 0)' -or
+        $null -ne $databasePrimaryKeySqlFixture.reason -or
+        $databasePrimaryKeySelectFixture.reason -ne 'insert-select' -or
+        -not $databasePrimaryKeyLiteralFixture.resolved -or
+        $databasePrimaryKeyLiteralFixture.value -ne "it's stable" -or
+        $databasePrimaryKeyExpressionFixture.resolved) {
+    Add-ValidationError 'Database primary-key parser failed its positive/negative self-test.'
+}
+
 $civ6SchemaSnapshotPath = Join-Path $modRoot ([string]$projectMetadata.civ6SchemaSnapshotFile)
 if (-not (Test-Path -LiteralPath $civ6SchemaSnapshotPath -PathType Leaf)) {
     Add-ValidationError 'Civ VI schema-key snapshot is missing.'
@@ -551,6 +581,57 @@ if ($null -ne $civ6SchemaSnapshot) {
         catch {
             Add-ValidationError (
                 'External database-table contract could not be loaded: ' + $_.Exception.Message
+            )
+        }
+    }
+    $databasePrimaryKeyAnalysis = Get-ZylDatabasePrimaryKeyAnalysis `
+        -ProjectRoot $modRoot `
+        -WriteSetAnalysis $databaseWriteSetAnalysis `
+        -SchemaCoverage $databaseSchemaCoverage `
+        -SchemaSnapshot $civ6SchemaSnapshot
+    $databasePrimaryKeySemanticView = Get-ZylDatabasePrimaryKeySemanticView `
+        -Analysis $databasePrimaryKeyAnalysis
+    $databasePrimaryKeyAnalysisSha256 = Get-ZylSha256ForText -Text (
+        ConvertTo-ZylCanonicalJson -InputObject $databasePrimaryKeySemanticView
+    )
+    $databasePrimaryKeyContractPath = Join-Path $modRoot (
+        [string]$projectMetadata.databasePrimaryKeyContractFile
+    )
+    if (-not (Test-Path -LiteralPath $databasePrimaryKeyContractPath -PathType Leaf)) {
+        Add-ValidationError 'Database primary-key contract is missing.'
+    }
+    else {
+        try {
+            $databasePrimaryKeyContract = Get-Content `
+                -LiteralPath $databasePrimaryKeyContractPath `
+                -Raw | ConvertFrom-Json
+            foreach ($databasePrimaryKeyContractIssue in @(
+                    Get-ZylDatabasePrimaryKeyContractIssues `
+                        -Analysis $databasePrimaryKeyAnalysis `
+                        -AnalysisSha256 $databasePrimaryKeyAnalysisSha256 `
+                        -Contract $databasePrimaryKeyContract
+                )) {
+                Add-ValidationError $databasePrimaryKeyContractIssue
+            }
+            $databasePrimaryKeyDriftContract = ConvertFrom-Json (
+                $databasePrimaryKeyContract | ConvertTo-Json -Depth 20
+            )
+            $databasePrimaryKeyDriftContract.expectedAnalysisSha256 = '0' * 64
+            $databasePrimaryKeyDriftIssues = @(
+                Get-ZylDatabasePrimaryKeyContractIssues `
+                    -Analysis $databasePrimaryKeyAnalysis `
+                    -AnalysisSha256 $databasePrimaryKeyAnalysisSha256 `
+                    -Contract $databasePrimaryKeyDriftContract
+            )
+            if (@($databasePrimaryKeyDriftIssues | Where-Object {
+                        $_ -like 'Database primary-key analysis drifted from expected fingerprint:*'
+                    }).Count -ne 1) {
+                Add-ValidationError 'Database primary-key self-test did not reject fingerprint drift.'
+            }
+        }
+        catch {
+            Add-ValidationError (
+                'Database primary-key contract could not be loaded: ' + $_.Exception.Message
             )
         }
     }

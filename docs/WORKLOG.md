@@ -690,4 +690,15 @@
 - 结果：快照含 Configuration 78 表、基础 Gameplay 318 表、XP1 351 表、XP2 428 表，三个 Gameplay ruleset 的同名表主键无漂移。当前写集合触及的 223 表中，199 张解析到官方 Schema、186 张有显式主键，22 张由项目自身 CREATE TABLE；仅 `ConfigEnabledUniqueUnits` 与 `EnabledUniqueUnits` 属外部 BBG Expanded/MOAR Units 表，二者所有动作均由 WIP/Release 提供者 Mod ID 的 `ModInUse` Criteria 门控。
 - 验证：导出器重跑得到与跟踪快照相同的 SHA-256 `2bf887e0437393706e0a6bdfdc4b01ef399e664e3ec1925005c5ee9b0376db4b`；错误主键列和缺失外部提供者表两个内存反例均被拒绝。PowerShell 7 与 Windows PowerShell 5.1 全量校验均通过 203 XML、108 Criteria、280 Actions、1071 Files、543 活跃引用、48 休眠文件和 91 源码专用文件；两套运行时数据库报告逐字节一致。此次全部是开发期快照/工具/文档，三个发布包内容与 `d540bfa` 保持不变。
 - 风险/待办：快照对应 build 15296837；游戏更新官方 Schema 后必须显式重导并审查哈希/主键变化。22 张项目自建表的键仍需从 CREATE TABLE 提取，13 张无显式官方主键的表需保守处理；外部表结构不能凭提供者存在而猜测。下一步只对已解析主键且 INSERT/XML 行可静态求值的写入生成键候选。
-- 提交：本次提交（官方 Schema 主键快照）。
+- 提交：`28f5dbd refactor: snapshot official database schemas`。
+
+### 2026-09-09 / M5-SQL/XML 主键候选分析
+
+- 目标：把表级“多个文件触及同一表”收窄为可审查的具体主键行，且不把条件互斥、顺序覆盖或冲突模式不同的写入误删为重复代码。
+- 范围：新增 `DatabasePrimaryKeys.ps1` 和主键分析契约，把分析接入数据库报告与总校验，并更新工程元数据、Manifest 说明、架构、计划、测试矩阵和工作日志；不修改运行资产、数据库动作、玩法值、ModInfo、包身份或版本号。
+- 设计决定：仅解析 SQL `INSERT/REPLACE ... VALUES` 和 XML `Row/InsertOrIgnore/Replace`；显式列按列名映射，省略列名时仅接受所有相关官方 profile 完全一致的列序。所有主键字段都必须是字符串、数字、NULL、布尔或 blob 字面量；`INSERT ... SELECT`、表达式主键、缺失主键字段、无官方主键、外部表和项目自建表均保守留作未解析。重复主键只生成候选组，并额外计算所有出现位置是否共享同一数据库动作。
+- 结果：共发现 4288 个 INSERT/REPLACE 操作，2846 个完全解析、0 个部分解析、1442 个未解析；得到 120 张表的 6632 行主键候选。未解析操作分为 `insert-select` 362、`missing-primary-key-column` 196、`mod-created-schema-pending` 44、`no-primary-key` 840。共出现 20 组重复主键，但同一动作内重复为 0，因此本批不删除任何 SQL/XML；后续必须结合 Criteria、加载顺序、冲突模式和最终值逐组判定。
+- 契约：`manifest/database-primary-key-contract.json` 固定当前分析 SHA-256 `4ec2ec940411b74e694ebda80d305437f3020e996c230ed007ba32c8a91d3abc`、覆盖计数与未解析原因；解析器有带逗号字符串、嵌套函数、转义字符串和 `INSERT ... SELECT` 正/负自检，契约有错误指纹反例。
+- 验证：PowerShell 7 与 Windows PowerShell 5.1 全量校验均通过 203 XML、108 Criteria、280 Actions、1071 Files、543 活跃引用、48 休眠文件和 93 源码专用文件；两套运行时生成的 5,615,311 字节完整数据库报告逐字节一致，SHA-256 为 `4763d26389e5a273fa8be5dc430d74f7526296d9d575df7f615ed828e28a0f33`。表级写集合 SHA-256 保持 `6e17ece0f355448df595dafbc10413c14202c96b22c248367cdc7c63c62fd202`；本批不改变发布包内容，最近三个发布包仍与 `d540bfa` 相同。
+- 风险/待办：当前不对 22 张项目自建表推断主键，不使用无显式主键表的唯一键替代主键，也不静态执行 362 个 `INSERT ... SELECT`。下一步从项目 `CREATE TABLE` 提取可验证键结构，并为 20 个重复候选组建立 Criteria/顺序审查；实机数据库与日志仍是最终等价性门槛。
+- 提交：本次提交（SQL/XML 主键候选分析）。
