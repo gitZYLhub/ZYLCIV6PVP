@@ -840,4 +840,16 @@
 - 证据判定：旧日志中的项目标签是 `ZYLPVPMOD 1.4.0`，与当前契约 `ZYLPVPMOD 1.3.0` 不符，且日志早于当前提交、采集时工作树非空，所以审计按预期退出 1、`evidenceGuardsPassed=false`；该报告只证明分类器能解释历史日志，不提升为发布基线。
 - 验证：Python 正例覆盖组件所有权、官方单行/成对/组件警告和跨阶段上下文重置，项目同类错误、错误身份、无所有者应用、项目目标漏应用、项目白名单、无效正则及绝对路径分别作为反例；PowerShell 反例拒绝给项目所有者建立组件允许规则。PowerShell 7/5.1 总校验均通过 203 XML、108 Criteria、280 Actions、1071 Files、543 活跃引用、48 休眠文件和 115 源码专用文件。三种发布包与 `6de7bf8` 逐字节不变：universal 1066 文件/776,216,570 字节/`5c58482a…dca7`，Windows 897/442,475,633/`f61827e1…4a4a`，macOS 897/442,475,295/`eaea5dcc…dc13`。
 - 风险/待办：契约基于当前 build 15296837 和本机内容组合，游戏更新或 DLC 组合变化会保守失败，应审查后收窄更新而不是扩大为通用 Warning 白名单。正式基线仍需从本批干净提交重新启动 Civ VI，覆盖目标 DLC/profile、新局、读档和双客户端，并在同一次加载采集 `Modding.log`、`Database.log`、`Lua.log` 与 `DebugGameplay.sqlite`。
-- 提交：本次提交（Modding.log 组件加载证据门）。
+- 提交：`1b7d69b test: audit civilization modding logs`。
+
+### 2026-09-09 / M4-道士运行时稳定性与死代码精简
+
+- 目标：继续沿配置缺值和 Gameplay/UI 生命周期审计 Team PVP Secret Societies 的道士整合，修复无地貌地块的空索引，减少重复配置读取、热重载事件泄漏和正式日志。
+- 范围：修改 `Taoist_UI.lua`、`Taoist_Gameplay.lua`、Team PVP 纵向校验模块、总校验入口、CHANGELOG、架构、计划、测试矩阵和工作日志；不修改道士单位/晋升/地脉数据库值、配置键语义、动作/Criteria、ModInfo、名称或版本号。
+- 根因：放置检查在判断 `GetFeatureType() > -1` 之前就读取 `GameInfo.Features[pPlot:GetFeatureType()].FeatureType`，普通无地貌地块会索引 `GameInfo.Features[-1]`。UI 通过 `LoadGameViewStateDone` 注册充能、移动和选择事件，却没有初始化幂等守卫或 Context 关闭注销。8 个可选配置均以“第一次判空、第二次取值”读取；其中 6 个默认 true、2 个默认 false，项目内没有对应配置定义，缺值默认路径是常态。最大充能函数还用 Lua 中始终为真的 `TaoistHasUse or 0` 包裹计算，并引用全仓唯一且从未定义的 `ifFixCharge`。
+- 修复：地貌 ID 先保存并检查 `-1`，有效时再缓存 `featureInfo`；无地貌时转入地形表，无法解析的地貌/地形保守返回 false。UI 增加 `isInitialized` 和 `OnShutdown`，对 LoadGameViewStateDone、UnitChargesChanged、UnitMoveComplete、UnitSelectionChanged 四组事件各保持一次 Add/一次 Remove。两份上下文各用局部助手把零返回规范为 `nil` 后显式返回原默认值，正常配置值保持不变。
+- 精简：8 个可选配置的运行时读取由 16 次降为 8 次，并删除两处从未使用的 `Taoist_MaxRecordActions` 查询；移除未使用的最大充能参数、两次无效 `GameInfo.Units_MODE` 查表、恒真包装和 `ifFixCharge` 死分支，Disposable 模式也不再取得无用的经验对象。Gameplay 晋升累计值改为局部变量；删除 4 个直接 `print`，其中两处可达日志还会额外查询购买成本/升级经验。完整移除没有调用者且事件注册早已注释的 40 行 AI 自动放地脉函数，不改变当前 AI 行为。
+- 回归保护：道士子契约固定两份脚本的单读助手、8 个 ID/默认值、无地貌检查顺序、地形兜底、四组事件配对、单次初始化、零直接日志、局部晋升累计值和死标识符清单；还把 Taoist UI/Gameplay 的 Secret Societies Criteria、Action 类型和文件路径纳入既有纵向闭包。内存反例分别恢复危险地貌索引、重复配置读取和缺失 UnitSelectionChanged 注销，均被拒绝。
+- 验证：PowerShell 7/5.1 总校验均通过 203 XML、108 Criteria、280 Actions、1071 Files、543 活跃引用、48 休眠文件和 115 源码专用文件。三种包均只改变上述两份 Lua、文件数和预算闭合，每包净减 1,823 字节：universal 1066 文件/776,214,747 字节/`14db616b…139c`，Windows 897/442,473,810/`5c4a6482…a2dd`，macOS 897/442,473,472/`b62f165b…3e9c`。数据库、动作图、ModInfo 与版本身份不变。
+- 风险/待办：静态契约证明索引顺序、默认值和事件结构，不能替代游戏 API 行为。G02 仍需在当前干净提交实机覆盖无地貌、带地貌、水域、城区/改良、境内外地块的放置/收取，道士晋升与一次性消耗，以及 UI 热重载、读档后的单次事件响应；同次加载必须通过三份日志与 Gameplay SQLite 证据门。
+- 提交：本次提交（道士运行时稳定性与死代码精简）。

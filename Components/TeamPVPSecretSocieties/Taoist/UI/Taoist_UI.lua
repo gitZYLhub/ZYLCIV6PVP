@@ -2,14 +2,20 @@
 -- Author: pen
 -- DateCreated: 2023/6/8 11:18:20
 --------------------------------------------------------------
-local ifRigidTerrain = GameConfiguration.GetValue("Taoist_RigidTerrain") == nil and true or GameConfiguration.GetValue("Taoist_RigidTerrain")
-local ifSeaLeyline = GameConfiguration.GetValue("Taoist_SeaLeyline") == nil and true or GameConfiguration.GetValue("Taoist_SeaLeyline")
-local ifNoDistrict = GameConfiguration.GetValue("Taoist_NoDistrict") == nil and true or GameConfiguration.GetValue("Taoist_NoDistrict")
-local ifNoImprovement = GameConfiguration.GetValue("Taoist_NoImprovement") == nil and true or GameConfiguration.GetValue("Taoist_NoImprovement")
-local ifDisposable = GameConfiguration.GetValue("Taoist_Disposable") == nil and true or GameConfiguration.GetValue("Taoist_Disposable")
-local ifOutBorder = GameConfiguration.GetValue("Taoist_OutBorder") == nil and false or GameConfiguration.GetValue("Taoist_OutBorder")
+local function GetTaoistConfigurationValue(optionId, defaultValue)
+	local value = GameConfiguration.GetValue(optionId)
+	if value == nil then
+		return defaultValue
+	end
+	return value
+end
 
-local MaxRecordActions = GameConfiguration.GetValue("Taoist_MaxRecordActions") or 1
+local ifRigidTerrain = GetTaoistConfigurationValue("Taoist_RigidTerrain", true)
+local ifSeaLeyline = GetTaoistConfigurationValue("Taoist_SeaLeyline", true)
+local ifNoDistrict = GetTaoistConfigurationValue("Taoist_NoDistrict", true)
+local ifNoImprovement = GetTaoistConfigurationValue("Taoist_NoImprovement", true)
+local ifDisposable = GetTaoistConfigurationValue("Taoist_Disposable", true)
+local ifOutBorder = GetTaoistConfigurationValue("Taoist_OutBorder", false)
 --------------------------------------------------------------
 local TaoistPromotionTable = {
 	PROMOTION_TAOIST_GRAVE_ROBBER = 2,
@@ -31,11 +37,9 @@ function OnTaoistButtonClicked()
 		local TaoistCharge = pUnit:GetActionCharges()
 		--print("TaoistHasUse",pUnit:GetProperty("TaoistHasUse"))
 		if	IsPlotLeyLine(pPlot) then--有地脉直接收
-			local pUnitType = GameInfo.Units[pUnit:GetUnitType()].UnitType
-			local TaoistBaseCharge = GameInfo.Units_MODE[pUnitType].ActionCharges
 			--print("Taoist has charge:",TaoistCharge)
-			--print("Taoist attach max charge:",TaoistCharge,TaoistMaxCharges(iPlayer,unitID,TaoistBaseCharge))
-			if TaoistCharge < TaoistMaxCharges(iPlayer,unitID,TaoistBaseCharge) then
+			--print("Taoist attach max charge:",TaoistCharge,TaoistMaxCharges(iPlayer,unitID))
+			if TaoistCharge < TaoistMaxCharges(iPlayer,unitID) then
 				local tParameters = {};
 				tParameters.X, tParameters.Y = pUnit:GetX(), pUnit:GetY()
 				tParameters.UnitID = unitID
@@ -71,25 +75,19 @@ function OnTaoistButtonClicked()
 	end
 end
 
-function TaoistMaxCharges(PlayerID,UnitID,pTaoistBaseCharge)
+function TaoistMaxCharges(PlayerID,UnitID)
 	local pUnit = UnitManager.GetUnit(PlayerID, UnitID)
 	if pUnit ~= nil then
 		local TaoistMaxCharge = 3
-		local TaoistHasUse = pUnit:GetProperty("TaoistHasUse") or 0
-		if	TaoistHasUse then
+		if	ifDisposable then
+			TaoistMaxCharge = 1
+		else
 			local pUnitExp : table = pUnit:GetExperience()
-			if	ifDisposable then
-				TaoistMaxCharge = 1
-			else
-				for	PromotionType, ChargeChange in pairs(TaoistPromotionTable) do
-					--print("TaoistMaxCharges",PromotionType, ChargeChange)
-					if GameInfo.UnitPromotions[PromotionType] and pUnitExp:HasPromotion(GameInfo.UnitPromotions[PromotionType].Index) then
-						TaoistMaxCharge = TaoistMaxCharge + ChargeChange
-					end
+			for	PromotionType, ChargeChange in pairs(TaoistPromotionTable) do
+				--print("TaoistMaxCharges",PromotionType, ChargeChange)
+				if GameInfo.UnitPromotions[PromotionType] and pUnitExp:HasPromotion(GameInfo.UnitPromotions[PromotionType].Index) then
+					TaoistMaxCharge = TaoistMaxCharge + ChargeChange
 				end
-			end
-			if	ifFixCharge then
-				TaoistMaxCharge = TaoistMaxCharge - TaoistHasUse
 			end
 		end
 		return TaoistMaxCharge
@@ -142,35 +140,40 @@ function IsPlotTerrainValid(pPlot)
 	--ANY条件（参考象牙）
 	--先地貌
 	local able = false
-	local tResults: table = DB.Query("SELECT * FROM Resource_ValidFeatures WHERE ResourceType = ?", "RESOURCE_LEY_LINE")
-	if tResults and #tResults > 0 then
-		for	_,row in ipairs(tResults) do
-			if	GameInfo.Features[pPlot:GetFeatureType()].FeatureType == row.FeatureType then
-				able = true
-				break;
+	local featureType = pPlot:GetFeatureType()
+	if featureType > -1 then
+		local featureInfo = GameInfo.Features[featureType]
+		if featureInfo == nil then
+			return false
+		end
+		local tResults: table = DB.Query("SELECT * FROM Resource_ValidFeatures WHERE ResourceType = ?", "RESOURCE_LEY_LINE")
+		if tResults and #tResults > 0 then
+			for	_,row in ipairs(tResults) do
+				if	featureInfo.FeatureType == row.FeatureType then
+					able = true
+					break;
+				end
 			end
 		end
-	end
-	if	pPlot:GetFeatureType() > -1 then 
 		return able
-	else
-		--able = true
 	end
 	--再地形
+	local terrainType = pPlot:GetTerrainType()
+	local terrainInfo = GameInfo.Terrains[terrainType]
+	if terrainInfo == nil then
+		return false
+	end
 	local tResults: table = DB.Query("SELECT * FROM Resource_ValidTerrains WHERE ResourceType = ?", "RESOURCE_LEY_LINE")
 	if tResults and #tResults > 0 then
 		for	_,row in ipairs(tResults) do
-			if	GameInfo.Terrains[pPlot:GetTerrainType()].TerrainType  == row.TerrainType then
+			if	terrainInfo.TerrainType == row.TerrainType then
 				--print("IsPlotTerrainValid",pPlot:GetTerrainType(),row.TerrainType)
 				able = true
 				break;
 			end
 		end
 	end
-	if	pPlot:GetTerrainType() > -1 then 
-		return able
-	end
-	return able--理论上走不到这里
+	return able
 end
 
 function IsButtonTurnDisabled(pPlot)
@@ -254,7 +257,6 @@ function OnUnitChargesChanged(playerID, unitID, newCharges, oldCharges)
 					--print(pCity)
 					if	pCity then
 						--买地刷新(由于Request会依次执行，所以购买时一定是无主且有钱的状态)
-						print(pCity:GetGold():GetPlotPurchaseCost(pPlot:GetIndex()))
 						local tParameters = {};
 						tParameters[CityCommandTypes.PARAM_PLOT_PURCHASE] = UI.GetInterfaceModeParameter(CityCommandTypes.PARAM_PLOT_PURCHASE);
 						tParameters[CityCommandTypes.PARAM_X] = pPlot:GetX();
@@ -296,9 +298,8 @@ function Refresh()
 
 			local PlayerID = pUnit:GetOwner()
 			local UnitID = pUnit:GetID()
-			local TaoistBaseCharge = GameInfo.Units_MODE[sUnit.UnitType].ActionCharges
 			local TaoistCharge = pUnit:GetActionCharges()
-			local TaoistMaxCharge = TaoistMaxCharges(PlayerID, UnitID,TaoistBaseCharge)
+			local TaoistMaxCharge = TaoistMaxCharges(PlayerID, UnitID)
 			tooltip = tooltip .. '[NEWLINE]' .. Locale.Lookup('LOC_TAOIST_MAX_LEYLINE',TaoistCharge,TaoistMaxCharge)
 			
 			--local disabled, reason = IsButtonTurnDisabled(pPlot)
@@ -328,7 +329,13 @@ function OnUnitSelectionChanged(PlayerID, UnitID, plotX, plotY, plotZ, bSelected
     end
 end
 
+local isInitialized = false
+
 function Initialize()
+	if isInitialized then
+		return
+	end
+	isInitialized = true
 	local pContext = ContextPtr:LookUpControl("/InGame/UnitPanel/StandardActionsStack")
 	if pContext ~= nil then
 		Controls.TaoistGrid:ChangeParent(pContext);
@@ -349,4 +356,14 @@ function Initialize()
 	Events.UnitSelectionChanged.Add(OnUnitSelectionChanged)
 end
 
+function OnShutdown()
+	Events.LoadGameViewStateDone.Remove(Initialize)
+	if isInitialized then
+		Events.UnitChargesChanged.Remove(OnUnitChargesChanged)
+		Events.UnitMoveComplete.Remove(OnUnitMoveComplete)
+		Events.UnitSelectionChanged.Remove(OnUnitSelectionChanged)
+	end
+end
+
+ContextPtr:SetShutdown(OnShutdown)
 Events.LoadGameViewStateDone.Add(Initialize);

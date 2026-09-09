@@ -1683,6 +1683,61 @@ if (Test-Path -LiteralPath $teamPvpSocietyGameplayPath -PathType Leaf) {
     }
 }
 
+$taoistUiPath = Join-Path $modRoot 'Components\TeamPVPSecretSocieties\Taoist\UI\Taoist_UI.lua'
+$taoistGameplayPath = Join-Path $modRoot 'Components\TeamPVPSecretSocieties\Taoist\Scripts\Taoist_Gameplay.lua'
+if ((Test-Path -LiteralPath $taoistUiPath -PathType Leaf) -and
+        (Test-Path -LiteralPath $taoistGameplayPath -PathType Leaf)) {
+    $taoistUiSource = Get-Content -LiteralPath $taoistUiPath -Raw
+    $taoistGameplaySource = Get-Content -LiteralPath $taoistGameplayPath -Raw
+    $taoistUnsafeFeatureSource = $taoistUiSource.Replace(
+        'local featureInfo = GameInfo.Features[featureType]',
+        'local featureInfo = GameInfo.Features[pPlot:GetFeatureType()]'
+    )
+    $taoistUnsafeFeatureIssues = @(
+        Get-ZylTaoistRuntimeContractIssues `
+            -UiSource $taoistUnsafeFeatureSource `
+            -GameplaySource $taoistGameplaySource
+    )
+    $expectedTaoistFeatureIssue =
+        'Taoist UI indexes feature metadata before checking the no-feature sentinel.'
+    if ($taoistUnsafeFeatureSource -eq $taoistUiSource -or
+            $taoistUnsafeFeatureIssues -notcontains $expectedTaoistFeatureIssue) {
+        Add-ValidationError 'Taoist runtime validation self-test did not reject unsafe feature lookup.'
+    }
+
+    $taoistRepeatedConfigSource = $taoistUiSource.Replace(
+        'GetTaoistConfigurationValue("Taoist_RigidTerrain", true)',
+        'GameConfiguration.GetValue("Taoist_RigidTerrain") == nil and true or GameConfiguration.GetValue("Taoist_RigidTerrain")'
+    )
+    $taoistRepeatedConfigIssues = @(
+        Get-ZylTaoistRuntimeContractIssues `
+            -UiSource $taoistRepeatedConfigSource `
+            -GameplaySource $taoistGameplaySource
+    )
+    $expectedTaoistConfigIssue =
+        'Taoist runtime reads Taoist_RigidTerrain directly instead of using the helper.'
+    if ($taoistRepeatedConfigSource -eq $taoistUiSource -or
+            $taoistRepeatedConfigIssues -notcontains $expectedTaoistConfigIssue) {
+        Add-ValidationError 'Taoist runtime validation self-test did not reject repeated configuration reads.'
+    }
+
+    $taoistLifecycleDriftSource = $taoistUiSource.Replace(
+        'Events.UnitSelectionChanged.Remove(OnUnitSelectionChanged)',
+        '-- missing UnitSelectionChanged removal'
+    )
+    $taoistLifecycleDriftIssues = @(
+        Get-ZylTaoistRuntimeContractIssues `
+            -UiSource $taoistLifecycleDriftSource `
+            -GameplaySource $taoistGameplaySource
+    )
+    $expectedTaoistLifecycleIssue =
+        'Taoist UI event lifecycle is not exactly paired: UnitSelectionChanged|OnUnitSelectionChanged (Add 1, Remove 0).'
+    if ($taoistLifecycleDriftSource -eq $taoistUiSource -or
+            $taoistLifecycleDriftIssues -notcontains $expectedTaoistLifecycleIssue) {
+        Add-ValidationError 'Taoist runtime validation self-test did not reject an event lifecycle drift.'
+    }
+}
+
 # BBG Expanded's six resources, art payload, Monopolies extension and
 # external-package hand-off form one vertical integration contract.
 $expandedResourceValidationParameters = @{

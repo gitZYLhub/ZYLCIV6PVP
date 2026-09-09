@@ -4,9 +4,16 @@
 --------------------------------------------------------------
 ExposedMembers.GameEvents = GameEvents
 --------------------------------------------------------------
-local ifPromotionSupplement = GameConfiguration.GetValue("Taoist_PromotionSupplement") == nil and false or GameConfiguration.GetValue("Taoist_PromotionSupplement")
-local ifDisposable = GameConfiguration.GetValue("Taoist_Disposable") == nil and true or GameConfiguration.GetValue("Taoist_Disposable")
-local MaxRecordActions = GameConfiguration.GetValue("Taoist_MaxRecordActions") or 1
+local function GetTaoistConfigurationValue(optionId, defaultValue)
+	local value = GameConfiguration.GetValue(optionId)
+	if value == nil then
+		return defaultValue
+	end
+	return value
+end
+
+local ifPromotionSupplement = GetTaoistConfigurationValue("Taoist_PromotionSupplement", false)
+local ifDisposable = GetTaoistConfigurationValue("Taoist_Disposable", true)
 --------------------------------------------------------------
 local TaoistCreateLeyLineCharge = 1
 local UnitTaoist = GameInfo.Units['UNIT_TAOIST'].Index
@@ -164,8 +171,7 @@ function TaoistGetNewCharge (PlayerID, UnitID)
 	local pUnit = UnitManager.GetUnit(PlayerID, UnitID)
 	if pUnit ~= nil and pUnit:GetType() == UnitTaoist and ifPromotionSupplement then --and pUnit:GetProperty('TaoistCharge') == nil
 		local pUnitExp : table = pUnit:GetExperience()
-		print('TaoistGetNewCharge',pUnitExp:GetExperienceForNextLevel())
-		TaoistCharge = 0
+		local TaoistCharge = 0
 		for	PromotionType, ChargeChange in pairs(TaoistPromotionTable) do
 			--print("TaoistMaxCharges",PromotionType, ChargeChange)
 			if GameInfo.UnitPromotions[PromotionType] and pUnitExp:HasPromotion(GameInfo.UnitPromotions[PromotionType].Index) then
@@ -179,45 +185,5 @@ function TaoistGetNewCharge (PlayerID, UnitID)
 end
 
 Events.UnitPromoted.Add(TaoistGetNewCharge)
-
-function AiTaoistAddLeyLineToMax(playerID:number, unitID:number)
-	--print('AiTaoistAddLeyLineToMax',playerID,unitID)
-	local pPlayer = Players[playerID]
-	if pPlayer == nil then 
-		return;
-	end
-	if pPlayer:IsHuman() or not pPlayer:IsAlive() or not pPlayer:IsMajor() then
-		return;	-- Not For Human Player.
-	end
-	local playerUnits = pPlayer:GetUnits();
-	for i, pUnit in playerUnits:Members() do
-		local unitInfo = GameInfo.Units[pUnit:GetType()];
-		if unitInfo then
-			local unitTypeName = unitInfo.UnitType;
-			if unitTypeName == "UNIT_TAOIST" then
-				print("Ai Taoist try to add leyline!")
-				local iX = pUnit:GetX();
-				local iY = pUnit:GetY();
-				local pPlot = Map.GetPlot(iX, iY);
-				local leyLineTable = GameInfo.Resources['RESOURCE_LEY_LINE'].Index
-				if leyLineTable ~= nil and not pPlot:IsWater() and pPlot:GetOwner() == -1 then
-					if pUnit:GetActionCharges() == 0 then
-						pUnit:ChangeActionCharges(TaoistCreateLeyLineCharge)--ai赠送地脉
-					end
-					if pUnit:GetActionCharges() > 0 and pPlot:GetResourceType() == -1 and GameInfo.Districts[pPlot:GetDistrictType()].HitPoints > 0 then--排除市中心等防御区域
-						local tParameters = {};
-						tParameters.X, tParameters.Y = iX, iY
-						tParameters.UnitID = pUnit:GetID()
-						TaoistAddLeyLine(playerID, tParameters)
-						print("This plot is able to add leyline:",iX, iY)
-					end
-				end
-			end
-		end
-	end
-	
-end
-
---GameEvents.PlayerTurnStarted.Add(AiTaoistAddLeyLineToMax);
 
 Initilize();

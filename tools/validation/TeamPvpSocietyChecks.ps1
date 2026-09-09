@@ -34,11 +34,27 @@
         Icons = Join-Path $teamPvpSocietyRoot 'Icons.xml'
         Dependency = Join-Path $teamPvpSocietyRoot 'TeamPVPSecretSocieties.dep'
         Art = Join-Path $teamPvpSocietyRoot 'Buildings.artdef'
+        TaoistUi = Join-Path $teamPvpSocietyRoot 'Taoist\UI\Taoist_UI.lua'
+        TaoistGameplay = Join-Path $teamPvpSocietyRoot 'Taoist\Scripts\Taoist_Gameplay.lua'
         VampireCastleGameplay = Join-Path $teamPvpSocietyRoot 'Scripts\VampireCastle_Gameplay.lua'
     }
     foreach ($entry in $teamPvpSocietyPaths.GetEnumerator()) {
         if (-not (Test-Path -LiteralPath $entry.Value)) {
             $issues.Add("Team PVP Secret Societies $($entry.Key) resource is missing: $($entry.Value)")
+        }
+    }
+
+    if ((Test-Path -LiteralPath $teamPvpSocietyPaths.TaoistUi -PathType Leaf) -and
+            (Test-Path -LiteralPath $teamPvpSocietyPaths.TaoistGameplay -PathType Leaf)) {
+        $taoistUiSource = Get-Content -LiteralPath $teamPvpSocietyPaths.TaoistUi -Raw
+        $taoistGameplaySource = Get-Content `
+            -LiteralPath $teamPvpSocietyPaths.TaoistGameplay -Raw
+        foreach ($taoistRuntimeIssue in @(
+                Get-ZylTaoistRuntimeContractIssues `
+                    -UiSource $taoistUiSource `
+                    -GameplaySource $taoistGameplaySource
+            )) {
+            $issues.Add($taoistRuntimeIssue)
         }
     }
 
@@ -481,6 +497,8 @@
         'zyl_tpvp_secretsocietiesart' = 'Components/TeamPVPSecretSocieties/TeamPVPSecretSocieties.dep'
         'zyl_tpvp_gildedshipyard' = 'Components/TeamPVPSecretSocieties/Build_GildedShipyard.xml'
         'zyl_tpvp_secretsocietiesgameplay' = 'Components/TeamPVPSecretSocieties/Gameplay.sql'
+        'zyl_tpvp_taoistui' = 'Components/TeamPVPSecretSocieties/Taoist/UI/Taoist_UI.xml'
+        'zyl_tpvp_taoistgameplay' = 'Components/TeamPVPSecretSocieties/Taoist/Scripts/Taoist_Gameplay.lua'
         'zyl_tpvp_vampirecastlegameplay' = 'Components/TeamPVPSecretSocieties/Scripts/VampireCastle_Gameplay.lua'
         'zyl_tpvp_secretsocietiestext' = 'Components/TeamPVPSecretSocieties/Text.xml'
         'zyl_tpvp_secretsocietiesicons' = 'Components/TeamPVPSecretSocieties/Icons.xml'
@@ -509,10 +527,142 @@
             $null -eq $vampireCastleGameplayAction.SelectSingleNode("./Criteria[.='ZYL_SecretSocietiesXP2']")) {
         $issues.Add('Vampire Castle tile clearing is not loaded as a mode-gated in-game gameplay script.')
     }
+    $taoistUiAction = $actionIdMap['zyl_tpvp_taoistui']
+    if ($null -eq $taoistUiAction -or
+            $taoistUiAction.LocalName -ne 'AddUserInterfaces' -or
+            $taoistUiAction.ParentNode.LocalName -ne 'InGameActions' -or
+            $null -eq $taoistUiAction.SelectSingleNode("./Criteria[.='ZYL_SecretSocietiesXP2']")) {
+        $issues.Add('Taoist UI is not loaded as a mode-gated in-game interface.')
+    }
+    $taoistGameplayAction = $actionIdMap['zyl_tpvp_taoistgameplay']
+    if ($null -eq $taoistGameplayAction -or
+            $taoistGameplayAction.LocalName -ne 'AddGameplayScripts' -or
+            $taoistGameplayAction.ParentNode.LocalName -ne 'InGameActions' -or
+            $null -eq $taoistGameplayAction.SelectSingleNode("./Criteria[.='ZYL_SecretSocietiesXP2']")) {
+        $issues.Add('Taoist gameplay is not loaded as a mode-gated in-game script.')
+    }
     $teamPvpArtDefRelativePath = Normalize-RelativePath 'Components/TeamPVPSecretSocieties/Buildings.artdef'
     if (-not $listedFileMap.ContainsKey($teamPvpArtDefRelativePath)) {
         $issues.Add('Team PVP Secret Societies Buildings.artdef is absent from the manifest.')
     }
 
+    return @($issues)
+}
+
+function Get-ZylTaoistRuntimeContractIssues {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string]$UiSource,
+
+        [Parameter(Mandatory = $true)]
+        [string]$GameplaySource
+    )
+
+    $issues = [System.Collections.Generic.List[string]]::new()
+    $helperTokens = @(
+        'local function GetTaoistConfigurationValue(optionId, defaultValue)',
+        'local value = GameConfiguration.GetValue(optionId)',
+        'if value == nil then',
+        'return defaultValue',
+        'return value'
+    )
+    foreach ($sourceSpec in @(
+        [pscustomobject]@{ Label = 'Taoist UI'; Source = $UiSource },
+        [pscustomobject]@{ Label = 'Taoist gameplay'; Source = $GameplaySource }
+    )) {
+        foreach ($token in $helperTokens) {
+            if (-not $sourceSpec.Source.Contains($token)) {
+                $issues.Add("$($sourceSpec.Label) is missing the single-read configuration helper: $token")
+            }
+        }
+    }
+
+    foreach ($optionSpec in @(
+        [pscustomobject]@{ Source = $UiSource; Id = 'Taoist_RigidTerrain'; Default = 'true' },
+        [pscustomobject]@{ Source = $UiSource; Id = 'Taoist_SeaLeyline'; Default = 'true' },
+        [pscustomobject]@{ Source = $UiSource; Id = 'Taoist_NoDistrict'; Default = 'true' },
+        [pscustomobject]@{ Source = $UiSource; Id = 'Taoist_NoImprovement'; Default = 'true' },
+        [pscustomobject]@{ Source = $UiSource; Id = 'Taoist_Disposable'; Default = 'true' },
+        [pscustomobject]@{ Source = $UiSource; Id = 'Taoist_OutBorder'; Default = 'false' },
+        [pscustomobject]@{ Source = $GameplaySource; Id = 'Taoist_PromotionSupplement'; Default = 'false' },
+        [pscustomobject]@{ Source = $GameplaySource; Id = 'Taoist_Disposable'; Default = 'true' }
+    )) {
+        $helperCall = "GetTaoistConfigurationValue(`"$($optionSpec.Id)`", $($optionSpec.Default))"
+        if (-not $optionSpec.Source.Contains($helperCall)) {
+            $issues.Add("Taoist runtime is missing the configured default for $($optionSpec.Id).")
+        }
+        $directReadPattern = 'GameConfiguration\.GetValue\("' +
+            [regex]::Escape($optionSpec.Id) + '"\)'
+        if ([regex]::Matches($optionSpec.Source, $directReadPattern).Count -ne 0) {
+            $issues.Add("Taoist runtime reads $($optionSpec.Id) directly instead of using the helper.")
+        }
+    }
+
+    foreach ($token in @(
+        'local featureType = pPlot:GetFeatureType()',
+        'if featureType > -1 then',
+        'local featureInfo = GameInfo.Features[featureType]',
+        'if featureInfo == nil then',
+        'local terrainInfo = GameInfo.Terrains[terrainType]'
+    )) {
+        if (-not $UiSource.Contains($token)) {
+            $issues.Add("Taoist UI is missing safe terrain lookup: $token")
+        }
+    }
+    if ($UiSource.Contains('GameInfo.Features[pPlot:GetFeatureType()]')) {
+        $issues.Add('Taoist UI indexes feature metadata before checking the no-feature sentinel.')
+    }
+
+    foreach ($eventSpec in @(
+        [pscustomobject]@{ Event = 'LoadGameViewStateDone'; Handler = 'Initialize' },
+        [pscustomobject]@{ Event = 'UnitChargesChanged'; Handler = 'OnUnitChargesChanged' },
+        [pscustomobject]@{ Event = 'UnitMoveComplete'; Handler = 'OnUnitMoveComplete' },
+        [pscustomobject]@{ Event = 'UnitSelectionChanged'; Handler = 'OnUnitSelectionChanged' }
+    )) {
+        $eventName = [regex]::Escape($eventSpec.Event)
+        $handlerName = [regex]::Escape($eventSpec.Handler)
+        $addCount = [regex]::Matches(
+            $UiSource,
+            "(?m)^\s*Events\.$eventName\.Add\(\s*$handlerName\s*\)"
+        ).Count
+        $removeCount = [regex]::Matches(
+            $UiSource,
+            "(?m)^\s*Events\.$eventName\.Remove\(\s*$handlerName\s*\)"
+        ).Count
+        if ($addCount -ne 1 -or $removeCount -ne 1) {
+            $issues.Add(
+                "Taoist UI event lifecycle is not exactly paired: " +
+                "$($eventSpec.Event)|$($eventSpec.Handler) (Add $addCount, Remove $removeCount)."
+            )
+        }
+    }
+    foreach ($token in @(
+        'local isInitialized = false',
+        'if isInitialized then',
+        'ContextPtr:SetShutdown(OnShutdown)'
+    )) {
+        if (-not $UiSource.Contains($token)) {
+            $issues.Add("Taoist UI is missing its hot-reload guard: $token")
+        }
+    }
+
+    $combinedSource = $UiSource + "`n" + $GameplaySource
+    if ([regex]::Matches($combinedSource, '(?m)^\s*print\(').Count -ne 0) {
+        $issues.Add('Taoist runtime contains an unguarded print.')
+    }
+    foreach ($deadIdentifier in @(
+        'MaxRecordActions',
+        'AiTaoistAddLeyLineToMax',
+        'pTaoistBaseCharge',
+        'ifFixCharge'
+    )) {
+        if ($combinedSource.Contains($deadIdentifier)) {
+            $issues.Add("Taoist runtime retains dead code: $deadIdentifier")
+        }
+    }
+    if (-not $GameplaySource.Contains('local TaoistCharge = 0') -or
+            [regex]::Matches($GameplaySource, '(?m)^\s*TaoistCharge\s*=\s*0\s*$').Count -ne 0) {
+        $issues.Add('Taoist gameplay leaks TaoistCharge into the global environment.')
+    }
     return @($issues)
 }
