@@ -11,6 +11,8 @@
   "civ6SchemaBuildId": "15296837",
   "databasePrimaryKeyContractFile": "manifest/database-primary-key-contract.json",
   "databaseDuplicateKeyAllowlistFile": "manifest/database-duplicate-key-allowlist.json",
+  "databaseFinalValueContractFile": "manifest/database-final-value-contract.json",
+  "databaseFinalValueContractSha256": "4f551f9414e6c35055369b9695b10dc1db7878f08c3de45f824bc508b0118f25",
   "releaseBudgets": {
     "universalMaxBytes": 800000000,
     "windowsMaxBytes": 460000000,

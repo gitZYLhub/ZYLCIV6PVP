@@ -1,0 +1,258 @@
+{
+  "schemaVersion": 1,
+  "packageName": "ZYLPVPMOD",
+  "semanticVersion": "1.3.0",
+  "modId": "4dd01931-9d44-4a8a-8e74-712cba0f0072",
+  "civ6BuildId": "15296837",
+  "defaultProfile": "xp2-full-content",
+  "coverage": {
+    "retainedDuplicateKeyGroups": 13,
+    "dominatedRows": 7,
+    "finalOverrideProbes": 7,
+    "totalProbes": 27
+  },
+  "profiles": [
+    {
+      "id": "xp2-full-content",
+      "description": "Gathering Storm with every DLC or leader provider needed by the 13 retained duplicate-key groups.",
+      "probes": [
+        {
+          "id": "duplicate-khmer-river-faith-amount",
+          "category": "retained-duplicate",
+          "duplicateKeySha256": "17d448690161c8643e8ea02d801ea48c33da7b382d9f58cfd4859f16368e0ef6",
+          "rationale": "The conditional Khmer source and final ZYL layer must resolve to the same +1 amount.",
+          "query": "SELECT ModifierId, Name, Value, Type, Extra, SecondExtra FROM ModifierArguments WHERE ModifierId = 'ZYL_KHMER_HOLY_SITE_RIVER_FAITH' AND Name = 'Amount' ORDER BY ModifierId, Name",
+          "expectedColumns": ["ModifierId", "Name", "Value", "Type", "Extra", "SecondExtra"],
+          "expectedRows": [{"ModifierId": "ZYL_KHMER_HOLY_SITE_RIVER_FAITH", "Name": "Amount", "Value": "1", "Type": "ARGTYPE_IDENTITY", "Extra": null, "SecondExtra": null}]
+        },
+        {
+          "id": "duplicate-khmer-river-faith-description",
+          "category": "retained-duplicate",
+          "duplicateKeySha256": "6c6c8be8b1236198ca27a706ff586c185a7097a39d022b173161d4ed6da357d0",
+          "rationale": "The conditional Khmer source and final ZYL layer must resolve to the same adjacency description.",
+          "query": "SELECT ModifierId, Name, Value, Type, Extra, SecondExtra FROM ModifierArguments WHERE ModifierId = 'ZYL_KHMER_HOLY_SITE_RIVER_FAITH' AND Name = 'Description' ORDER BY ModifierId, Name",
+          "expectedColumns": ["ModifierId", "Name", "Value", "Type", "Extra", "SecondExtra"],
+          "expectedRows": [{"ModifierId": "ZYL_KHMER_HOLY_SITE_RIVER_FAITH", "Name": "Description", "Value": "LOC_DISTRICT_RIVER_FAITH", "Type": "ARGTYPE_IDENTITY", "Extra": null, "SecondExtra": null}]
+        },
+        {
+          "id": "duplicate-khmer-river-faith-district",
+          "category": "retained-duplicate",
+          "duplicateKeySha256": "0cbaa84b89a6a7e1ac11071121cc1ad521fe08b02d12762298db094f864d0f77",
+          "rationale": "The conditional Khmer source and final ZYL layer must both target Holy Sites.",
+          "query": "SELECT ModifierId, Name, Value, Type, Extra, SecondExtra FROM ModifierArguments WHERE ModifierId = 'ZYL_KHMER_HOLY_SITE_RIVER_FAITH' AND Name = 'DistrictType' ORDER BY ModifierId, Name",
+          "expectedColumns": ["ModifierId", "Name", "Value", "Type", "Extra", "SecondExtra"],
+          "expectedRows": [{"ModifierId": "ZYL_KHMER_HOLY_SITE_RIVER_FAITH", "Name": "DistrictType", "Value": "DISTRICT_HOLY_SITE", "Type": "ARGTYPE_IDENTITY", "Extra": null, "SecondExtra": null}]
+        },
+        {
+          "id": "duplicate-khmer-river-faith-yield",
+          "category": "retained-duplicate",
+          "duplicateKeySha256": "bf2f34c53f817f92fc6812ac83896b55183a07a6fca26f2796b1e34788e84355",
+          "rationale": "The conditional Khmer source and final ZYL layer must both grant Faith.",
+          "query": "SELECT ModifierId, Name, Value, Type, Extra, SecondExtra FROM ModifierArguments WHERE ModifierId = 'ZYL_KHMER_HOLY_SITE_RIVER_FAITH' AND Name = 'YieldType' ORDER BY ModifierId, Name",
+          "expectedColumns": ["ModifierId", "Name", "Value", "Type", "Extra", "SecondExtra"],
+          "expectedRows": [{"ModifierId": "ZYL_KHMER_HOLY_SITE_RIVER_FAITH", "Name": "YieldType", "Value": "YIELD_FAITH", "Type": "ARGTYPE_IDENTITY", "Extra": null, "SecondExtra": null}]
+        },
+        {
+          "id": "duplicate-khmer-river-faith-modifier",
+          "category": "retained-duplicate",
+          "duplicateKeySha256": "9db92492623a229478ac1936fdaf41d12c5c708b34044f7a0e764dda1e915a32",
+          "rationale": "The Khmer provider and final layer must leave one river-adjacency modifier without hidden requirements.",
+          "query": "SELECT ModifierId, ModifierType, OwnerRequirementSetId, SubjectRequirementSetId FROM Modifiers WHERE ModifierId = 'ZYL_KHMER_HOLY_SITE_RIVER_FAITH' ORDER BY ModifierId",
+          "expectedColumns": ["ModifierId", "ModifierType", "OwnerRequirementSetId", "SubjectRequirementSetId"],
+          "expectedRows": [{"ModifierId": "ZYL_KHMER_HOLY_SITE_RIVER_FAITH", "ModifierType": "MODIFIER_PLAYER_CITIES_RIVER_ADJACENCY", "OwnerRequirementSetId": null, "SubjectRequirementSetId": null}]
+        },
+        {
+          "id": "duplicate-gaul-civilization-attachment",
+          "category": "retained-duplicate",
+          "duplicateKeySha256": "4daf2ea3e07f26f8007ab656b5b3be794c0aa5203c7a548d5da4dd385a8d4b92",
+          "rationale": "The Gaul provider and final layer must converge on the civilization-level Mine Culture attachment.",
+          "query": "SELECT TraitType, ModifierId FROM TraitModifiers WHERE TraitType = 'TRAIT_CIVILIZATION_GAUL' AND ModifierId = 'GAUL_MINE_CULTURE' ORDER BY TraitType, ModifierId",
+          "expectedColumns": ["TraitType", "ModifierId"],
+          "expectedRows": [{"TraitType": "TRAIT_CIVILIZATION_GAUL", "ModifierId": "GAUL_MINE_CULTURE"}]
+        },
+        {
+          "id": "duplicate-gran-colombia-original-movement-attachment",
+          "category": "retained-duplicate",
+          "duplicateKeySha256": "4dde6fa81a8ee4f51a52382b7b0de1f8b7cb9a878568ab79953e4995a26d915f",
+          "rationale": "The Gran Colombia provider and final layer must converge on the original all-unit movement attachment.",
+          "query": "SELECT TraitType, ModifierId FROM TraitModifiers WHERE TraitType = 'TRAIT_CIVILIZATION_EJERCITO_PATRIOTA' AND ModifierId = 'TRAIT_EJERCITO_PATRIOTA_EXTRA_MOVEMENT' ORDER BY TraitType, ModifierId",
+          "expectedColumns": ["TraitType", "ModifierId"],
+          "expectedRows": [{"TraitType": "TRAIT_CIVILIZATION_EJERCITO_PATRIOTA", "ModifierId": "TRAIT_EJERCITO_PATRIOTA_EXTRA_MOVEMENT"}]
+        },
+        {
+          "id": "duplicate-khmer-civilization-attachment",
+          "category": "retained-duplicate",
+          "duplicateKeySha256": "72c198a919edccb88472d102eddf7f6d05f8b384a35286e9269b8b2cef838d36",
+          "rationale": "The Khmer provider and final layer must converge on the civilization-level river Faith attachment.",
+          "query": "SELECT TraitType, ModifierId FROM TraitModifiers WHERE TraitType = 'TRAIT_CIVILIZATION_KHMER_BARAYS' AND ModifierId = 'ZYL_KHMER_HOLY_SITE_RIVER_FAITH' ORDER BY TraitType, ModifierId",
+          "expectedColumns": ["TraitType", "ModifierId"],
+          "expectedRows": [{"TraitType": "TRAIT_CIVILIZATION_KHMER_BARAYS", "ModifierId": "ZYL_KHMER_HOLY_SITE_RIVER_FAITH"}]
+        },
+        {
+          "id": "duplicate-near-capital-minimum-distance",
+          "category": "retained-duplicate",
+          "duplicateKeySha256": "78937125d0f03445d3d68f93afdf727957b091415564ce9968e14a53cca52a26",
+          "rationale": "Negotiators and Caesar independently provide the same near-capital distance argument.",
+          "query": "SELECT RequirementId, Name, Value, Type FROM RequirementArguments WHERE RequirementId = 'REQUIRES_OBJECT_1_OR_MORE_TILES_FROM_CAPITAL' AND Name = 'MinDistance' ORDER BY RequirementId, Name",
+          "expectedColumns": ["RequirementId", "Name", "Value", "Type"],
+          "expectedRows": [{"RequirementId": "REQUIRES_OBJECT_1_OR_MORE_TILES_FROM_CAPITAL", "Name": "MinDistance", "Value": "1", "Type": "ARGTYPE_IDENTITY"}]
+        },
+        {
+          "id": "duplicate-captured-city-requirement",
+          "category": "retained-duplicate",
+          "duplicateKeySha256": "bedc8e5d2fe1be68e96cb4c799ebf76aee249105a64a86a45ac61b129c602dee",
+          "rationale": "Caesar and Gathering Storm independently provide the same captured-city predicate.",
+          "query": "SELECT RequirementId, RequirementType, Inverse, Reverse, Persistent, Triggered FROM Requirements WHERE RequirementId = 'BBG_REQUIRES_CITY_IS_CAPTURED' ORDER BY RequirementId",
+          "expectedColumns": ["RequirementId", "RequirementType", "Inverse", "Reverse", "Persistent", "Triggered"],
+          "expectedRows": [{"RequirementId": "BBG_REQUIRES_CITY_IS_CAPTURED", "RequirementType": "REQUIREMENT_CITY_IS_ORIGINAL_OWNER", "Inverse": 1, "Reverse": 0, "Persistent": 0, "Triggered": 0}]
+        },
+        {
+          "id": "duplicate-near-capital-requirement",
+          "category": "retained-duplicate",
+          "duplicateKeySha256": "f5ef1e6e27c4a9c9103c7e79e8e3b980061d8b989de9a581e67d09d2467483e4",
+          "rationale": "Negotiators and Caesar independently provide the same near-capital predicate.",
+          "query": "SELECT RequirementId, RequirementType, Inverse, Reverse, Persistent, Triggered FROM Requirements WHERE RequirementId = 'REQUIRES_OBJECT_1_OR_MORE_TILES_FROM_CAPITAL' ORDER BY RequirementId",
+          "expectedColumns": ["RequirementId", "RequirementType", "Inverse", "Reverse", "Persistent", "Triggered"],
+          "expectedRows": [{"RequirementId": "REQUIRES_OBJECT_1_OR_MORE_TILES_FROM_CAPITAL", "RequirementType": "REQUIREMENT_PLOT_NEAR_CAPITAL", "Inverse": 0, "Reverse": 0, "Persistent": 0, "Triggered": 0}]
+        },
+        {
+          "id": "duplicate-attacking-requirement-membership",
+          "category": "retained-duplicate",
+          "duplicateKeySha256": "0e52954b128fad225f74d8b907efca2dd1a48788113479e291b048b00466f847",
+          "rationale": "Macedon/Persia and Vikings independently provide the same attacker membership row.",
+          "query": "SELECT RequirementSetId, RequirementId FROM RequirementSetRequirements WHERE RequirementSetId = 'ATTACKING_REQUIREMENT_SET' AND RequirementId = 'PLAYER_IS_ATTACKER_REQUIREMENTS' ORDER BY RequirementSetId, RequirementId",
+          "expectedColumns": ["RequirementSetId", "RequirementId"],
+          "expectedRows": [{"RequirementSetId": "ATTACKING_REQUIREMENT_SET", "RequirementId": "PLAYER_IS_ATTACKER_REQUIREMENTS"}]
+        },
+        {
+          "id": "duplicate-attacking-requirement-set",
+          "category": "retained-duplicate",
+          "duplicateKeySha256": "9a82c7dd451ce19a76d5660fb6727b1ec0860d1a05182fe5f4fa8a5e078e50c8",
+          "rationale": "Macedon/Persia and Vikings independently provide the same all-of attacker requirement set.",
+          "query": "SELECT RequirementSetId, RequirementSetType FROM RequirementSets WHERE RequirementSetId = 'ATTACKING_REQUIREMENT_SET' ORDER BY RequirementSetId",
+          "expectedColumns": ["RequirementSetId", "RequirementSetType"],
+          "expectedRows": [{"RequirementSetId": "ATTACKING_REQUIREMENT_SET", "RequirementSetType": "REQUIREMENTSET_TEST_ALL"}]
+        },
+        {
+          "id": "dominated-work-ethic-temple-binding",
+          "category": "dominated-row-regression",
+          "dominatedRowKeySha256": "0c5eb98707dff02eb5a74f451a9d7f649386574045effe423dffaca13ebab91b",
+          "rationale": "Removing the later duplicate must not remove the earlier Work Ethic Temple production binding.",
+          "query": "SELECT BeliefType, ModifierID FROM BeliefModifiers WHERE BeliefType = 'BELIEF_WORK_ETHIC' AND ModifierID = 'WORK_ETHIC_TEMPLE_PRODUCTION' ORDER BY BeliefType, ModifierID",
+          "expectedColumns": ["BeliefType", "ModifierID"],
+          "expectedRows": [{"BeliefType": "BELIEF_WORK_ETHIC", "ModifierID": "WORK_ETHIC_TEMPLE_PRODUCTION"}]
+        },
+        {
+          "id": "dominated-work-ethic-shrine-binding",
+          "category": "dominated-row-regression",
+          "dominatedRowKeySha256": "6456c29eb28d929dd5fd87c0759968c8f00db02e8619dc97854339896f5c9baf",
+          "rationale": "Removing the later duplicate must not remove the earlier Work Ethic Shrine production binding.",
+          "query": "SELECT BeliefType, ModifierID FROM BeliefModifiers WHERE BeliefType = 'BELIEF_WORK_ETHIC' AND ModifierID = 'WORK_ETHIC_SHRINE_PRODUCTION' ORDER BY BeliefType, ModifierID",
+          "expectedColumns": ["BeliefType", "ModifierID"],
+          "expectedRows": [{"BeliefType": "BELIEF_WORK_ETHIC", "ModifierID": "WORK_ETHIC_SHRINE_PRODUCTION"}]
+        },
+        {
+          "id": "dominated-spain-coast-bias",
+          "category": "dominated-row-regression",
+          "dominatedRowKeySha256": "f2be07a400a882adc573f87aeaaeb2ada3866eba4f2789a752d45004ad7e40d4",
+          "rationale": "Removing the later BBM duplicate must leave Spain's earlier tier-one Coast bias intact.",
+          "query": "SELECT CivilizationType, TerrainType, Tier FROM StartBiasTerrains WHERE CivilizationType = 'CIVILIZATION_SPAIN' AND TerrainType = 'TERRAIN_COAST' ORDER BY CivilizationType, TerrainType",
+          "expectedColumns": ["CivilizationType", "TerrainType", "Tier"],
+          "expectedRows": [{"CivilizationType": "CIVILIZATION_SPAIN", "TerrainType": "TERRAIN_COAST", "Tier": 1}]
+        },
+        {
+          "id": "dominated-nihang-bypass-walls-type",
+          "category": "dominated-row-regression",
+          "dominatedRowKeySha256": "ea59c3b4a585e411df9d13903ed440bf048e533e47b50afd11f208fe554dae82",
+          "rationale": "Removing the later Maya/Colombia duplicate must leave the base Nihang bypass-walls type.",
+          "query": "SELECT Type, Kind FROM Types WHERE Type = 'ABILITY_BYPASS_WALLS_PROMOTION_CLASS' ORDER BY Type",
+          "expectedColumns": ["Type", "Kind"],
+          "expectedRows": [{"Type": "ABILITY_BYPASS_WALLS_PROMOTION_CLASS", "Kind": "KIND_ABILITY"}]
+        },
+        {
+          "id": "dominated-nihang-enable-wall-attack-type",
+          "category": "dominated-row-regression",
+          "dominatedRowKeySha256": "e03c7c711bf4e38e67ae7772fd27f7c014eeeaa44894a7f837744dcd27341580",
+          "rationale": "Removing the later Maya/Colombia duplicate must leave the base Nihang wall-attack type.",
+          "query": "SELECT Type, Kind FROM Types WHERE Type = 'ABILITY_ENABLE_WALL_ATTACK_PROMOTION_CLASS' ORDER BY Type",
+          "expectedColumns": ["Type", "Kind"],
+          "expectedRows": [{"Type": "ABILITY_ENABLE_WALL_ATTACK_PROMOTION_CLASS", "Kind": "KIND_ABILITY"}]
+        },
+        {
+          "id": "dominated-nihang-bypass-walls-ability",
+          "category": "dominated-row-regression",
+          "dominatedRowKeySha256": "3bd516b0455e2f4602bc3834b837dea2c11ca1c451c1c1355d850b30db7f5cd3",
+          "rationale": "Removing the later Maya/Colombia duplicate must leave the complete base Nihang bypass-walls ability.",
+          "query": "SELECT UnitAbilityType, Name, Description, Permanent FROM UnitAbilities WHERE UnitAbilityType = 'ABILITY_BYPASS_WALLS_PROMOTION_CLASS' ORDER BY UnitAbilityType",
+          "expectedColumns": ["UnitAbilityType", "Name", "Description", "Permanent"],
+          "expectedRows": [{"UnitAbilityType": "ABILITY_BYPASS_WALLS_PROMOTION_CLASS", "Name": "LOC_ABILITY_BYPASS_WALLS_NAME", "Description": "LOC_ABILITY_BYPASS_WALLS_PROMOTION_CLASS_DESCRIPTION", "Permanent": 1}]
+        },
+        {
+          "id": "dominated-nihang-enable-wall-attack-ability",
+          "category": "dominated-row-regression",
+          "dominatedRowKeySha256": "133978a4614306ad5ee823183639ea9cc87e3ca2794f7ac466bcc5c7c3f5bd8c",
+          "rationale": "Removing the later Maya/Colombia duplicate must leave the complete base Nihang wall-attack ability.",
+          "query": "SELECT UnitAbilityType, Name, Description, Permanent FROM UnitAbilities WHERE UnitAbilityType = 'ABILITY_ENABLE_WALL_ATTACK_PROMOTION_CLASS' ORDER BY UnitAbilityType",
+          "expectedColumns": ["UnitAbilityType", "Name", "Description", "Permanent"],
+          "expectedRows": [{"UnitAbilityType": "ABILITY_ENABLE_WALL_ATTACK_PROMOTION_CLASS", "Name": "LOC_ABILITY_ENABLE_WALL_ATTACK_NAME", "Description": "LOC_ABILITY_ENABLE_WALL_PROMOTION_CLASS_ATTACK_DESCRIPTION", "Permanent": 1}]
+        },
+        {
+          "id": "final-gaul-mine-culture-modifier",
+          "category": "final-override",
+          "rationale": "The live database must keep Gaul's Mine Culture modifier at Bronze Working and scope it to Mine plots.",
+          "query": "SELECT ModifierId, ModifierType, OwnerRequirementSetId, SubjectRequirementSetId FROM Modifiers WHERE ModifierId = 'GAUL_MINE_CULTURE' ORDER BY ModifierId",
+          "expectedColumns": ["ModifierId", "ModifierType", "OwnerRequirementSetId", "SubjectRequirementSetId"],
+          "expectedRows": [{"ModifierId": "GAUL_MINE_CULTURE", "ModifierType": "MODIFIER_PLAYER_ADJUST_PLOT_YIELD", "OwnerRequirementSetId": "BBG_UTILS_PLAYER_HAS_TECH_BRONZE_WORKING", "SubjectRequirementSetId": "PLOT_HAS_MINE_REQUIREMENTS"}]
+        },
+        {
+          "id": "final-gaul-mine-culture-arguments",
+          "category": "final-override",
+          "rationale": "The live database must resolve Gaul's Mine bonus to exactly +1 Culture.",
+          "query": "SELECT ModifierId, Name, Value FROM ModifierArguments WHERE ModifierId = 'GAUL_MINE_CULTURE' AND Name IN ('Amount', 'YieldType') ORDER BY ModifierId, Name",
+          "expectedColumns": ["ModifierId", "Name", "Value"],
+          "expectedRows": [{"ModifierId": "GAUL_MINE_CULTURE", "Name": "Amount", "Value": "1"}, {"ModifierId": "GAUL_MINE_CULTURE", "Name": "YieldType", "Value": "YIELD_CULTURE"}]
+        },
+        {
+          "id": "final-gaul-old-leader-attachment-absent",
+          "category": "final-override",
+          "rationale": "Vercingetorix must not retain a second copy of the Gaul civilization Mine Culture bonus.",
+          "query": "SELECT TraitType, ModifierId FROM TraitModifiers WHERE TraitType = 'TRAIT_LEADER_SUK_GALLIC_WAR' AND ModifierId = 'GAUL_MINE_CULTURE' ORDER BY TraitType, ModifierId",
+          "expectedColumns": ["TraitType", "ModifierId"],
+          "expectedRows": []
+        },
+        {
+          "id": "final-gran-colombia-original-movement-modifier",
+          "category": "final-override",
+          "rationale": "Gran Colombia must use the original no-prerequisite all-unit ability grant modifier.",
+          "query": "SELECT ModifierId, ModifierType, OwnerRequirementSetId, SubjectRequirementSetId FROM Modifiers WHERE ModifierId = 'TRAIT_EJERCITO_PATRIOTA_EXTRA_MOVEMENT' ORDER BY ModifierId",
+          "expectedColumns": ["ModifierId", "ModifierType", "OwnerRequirementSetId", "SubjectRequirementSetId"],
+          "expectedRows": [{"ModifierId": "TRAIT_EJERCITO_PATRIOTA_EXTRA_MOVEMENT", "ModifierType": "MODIFIER_PLAYER_UNITS_GRANT_ABILITY_GRANCOLOMBIA_MAYA", "OwnerRequirementSetId": null, "SubjectRequirementSetId": null}]
+        },
+        {
+          "id": "final-gran-colombia-original-movement-argument",
+          "category": "final-override",
+          "rationale": "The restored Gran Colombia movement modifier must grant the original movement ability.",
+          "query": "SELECT ModifierId, Name, Value FROM ModifierArguments WHERE ModifierId = 'TRAIT_EJERCITO_PATRIOTA_EXTRA_MOVEMENT' AND Name = 'AbilityType' ORDER BY ModifierId, Name",
+          "expectedColumns": ["ModifierId", "Name", "Value"],
+          "expectedRows": [{"ModifierId": "TRAIT_EJERCITO_PATRIOTA_EXTRA_MOVEMENT", "Name": "AbilityType", "Value": "ABILITY_EJERCITO_PATRIOTA_EXTRA_MOVEMENT"}]
+        },
+        {
+          "id": "final-gran-colombia-bbg-movement-attachment-absent",
+          "category": "final-override",
+          "rationale": "The civic-gated BBG Gran Colombia movement modifier must not remain attached alongside the restored rule.",
+          "query": "SELECT TraitType, ModifierId FROM TraitModifiers WHERE TraitType = 'TRAIT_CIVILIZATION_EJERCITO_PATRIOTA' AND ModifierId = 'BBG_COLUMBIA_MOVEMENT_BONUS' ORDER BY TraitType, ModifierId",
+          "expectedColumns": ["TraitType", "ModifierId"],
+          "expectedRows": []
+        },
+        {
+          "id": "final-khmer-old-leader-river-faith-absent",
+          "category": "final-override",
+          "rationale": "Jayavarman's old leader-only river Faith attachment must be absent after moving the rule to the Khmer civilization.",
+          "query": "SELECT TraitType, ModifierId FROM TraitModifiers WHERE TraitType = 'TRAIT_LEADER_MONASTERIES_KING' AND ModifierId = 'TRAIT_MONASTERIES_KING_HOLY_SITE_RIVER_ADJACENCY' ORDER BY TraitType, ModifierId",
+          "expectedColumns": ["TraitType", "ModifierId"],
+          "expectedRows": []
+        }
+      ]
+    }
+  ]
+}

@@ -88,6 +88,12 @@ if (-not (Test-Path -LiteralPath $databasePrimaryKeyPath -PathType Leaf)) {
 }
 . $databasePrimaryKeyPath
 
+$databaseFinalValueChecksPath = Join-Path $PSScriptRoot 'validation\DatabaseFinalValueChecks.ps1'
+if (-not (Test-Path -LiteralPath $databaseFinalValueChecksPath -PathType Leaf)) {
+    throw "Database final-value helpers not found: $databaseFinalValueChecksPath"
+}
+. $databaseFinalValueChecksPath
+
 $teamPvpSocietyChecksPath = Join-Path $PSScriptRoot 'validation\TeamPvpSocietyChecks.ps1'
 if (-not (Test-Path -LiteralPath $teamPvpSocietyChecksPath -PathType Leaf)) {
     throw "Team PVP Secret Societies validation helpers not found: $teamPvpSocietyChecksPath"
@@ -662,6 +668,7 @@ if ($null -ne $civ6SchemaSnapshot) {
             )
         }
     }
+    $databaseDuplicateKeyAllowlist = $null
     $databaseDuplicateKeyAllowlistPath = Join-Path $modRoot (
         [string]$projectMetadata.databaseDuplicateKeyAllowlistFile
     )
@@ -695,6 +702,82 @@ if ($null -ne $civ6SchemaSnapshot) {
         catch {
             Add-ValidationError (
                 'Database duplicate-key allowlist could not be loaded: ' + $_.Exception.Message
+            )
+        }
+    }
+    $databaseFinalValueContractPath = Join-Path $modRoot (
+        [string]$projectMetadata.databaseFinalValueContractFile
+    )
+    if (-not (Test-Path -LiteralPath $databaseFinalValueContractPath -PathType Leaf)) {
+        Add-ValidationError 'Database final-value contract is missing.'
+    }
+    elseif ($null -eq $databaseDuplicateKeyAllowlist) {
+        Add-ValidationError 'Database final-value contract cannot be checked without the duplicate-key allowlist.'
+    }
+    else {
+        try {
+            $databaseFinalValueContractHash = (
+                Get-FileHash -LiteralPath $databaseFinalValueContractPath -Algorithm SHA256
+            ).Hash.ToLowerInvariant()
+            if ($databaseFinalValueContractHash -ne
+                    [string]$projectMetadata.databaseFinalValueContractSha256) {
+                Add-ValidationError (
+                    'Database final-value contract hash drifted: ' +
+                    "$databaseFinalValueContractHash (expected " +
+                    "$($projectMetadata.databaseFinalValueContractSha256))."
+                )
+            }
+            $databaseFinalValueContract = Get-Content `
+                -LiteralPath $databaseFinalValueContractPath `
+                -Raw | ConvertFrom-Json
+            foreach ($databaseFinalValueContractIssue in @(
+                    Get-ZylDatabaseFinalValueContractIssues `
+                        -Contract $databaseFinalValueContract `
+                        -ProjectMetadata $projectMetadata `
+                        -DuplicateKeyAllowlist $databaseDuplicateKeyAllowlist
+                )) {
+                Add-ValidationError $databaseFinalValueContractIssue
+            }
+            $databaseFinalValueDrift = ConvertFrom-Json (
+                $databaseFinalValueContract | ConvertTo-Json -Depth 100
+            )
+            $databaseFinalValueDrift.profiles[0].probes[0].duplicateKeySha256 = '0' * 64
+            if (@(Get-ZylDatabaseFinalValueContractIssues `
+                    -Contract $databaseFinalValueDrift `
+                    -ProjectMetadata $projectMetadata `
+                    -DuplicateKeyAllowlist $databaseDuplicateKeyAllowlist).Count -eq 0) {
+                Add-ValidationError 'Database final-value contract self-test did not reject key coverage drift.'
+            }
+            $databaseFinalValueCapturePath = Join-Path `
+                $PSScriptRoot 'database\capture_final_values.py'
+            if (-not (Test-Path -LiteralPath $databaseFinalValueCapturePath -PathType Leaf)) {
+                Add-ValidationError 'Database final-value capture tool is missing.'
+            }
+            else {
+                $pythonCommand = Get-Command python -ErrorAction SilentlyContinue
+                if ($null -eq $pythonCommand) {
+                    $pythonCommand = Get-Command python3 -ErrorAction SilentlyContinue
+                }
+                if ($null -eq $pythonCommand) {
+                    Add-ValidationError 'Python 3 is required to self-test final SQLite value capture.'
+                }
+                else {
+                    $databaseCaptureSelfTestOutput = @(
+                        & $pythonCommand.Source `
+                            $databaseFinalValueCapturePath --self-test 2>&1
+                    )
+                    if ($LASTEXITCODE -ne 0) {
+                        Add-ValidationError (
+                            'Database final-value capture self-test failed: ' +
+                            ($databaseCaptureSelfTestOutput -join ' ')
+                        )
+                    }
+                }
+            }
+        }
+        catch {
+            Add-ValidationError (
+                'Database final-value contract could not be loaded: ' + $_.Exception.Message
             )
         }
     }

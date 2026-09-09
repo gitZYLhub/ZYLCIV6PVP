@@ -745,4 +745,14 @@
 - 结果：当前 13 组重复主键全部被解释，无普通未登记冲突；其中 8 组双层防线、5 组独立提供者。数据库仍为 142 动作、278 引用、248 源、6184 写操作、223 表；主键分析仍为 4285 个 INSERT/REPLACE、2859 个完全解析、6718 行候选、13 个相同行组、0 个强支配位置。表级与主键语义指纹均不变。
 - 验证：错误 key SHA 内存反例会被白名单精确覆盖检查拒绝；PowerShell 7 与 Windows PowerShell 5.1 全量校验均通过 203 XML、108 Criteria、280 Actions、1071 Files、543 活跃引用、48 休眠文件和 94 源码专用文件。两套运行时生成的 6,179,853 字节完整数据库报告逐字节一致，SHA-256 为 `8bca14bd15141c50662396f97ea8335a7f337cd2bf5a0fac646cf2f12104af4a`。本批无运行资产变化，三个发布包保持 `7d7a26c` 的构建结果。
 - 风险/待办：白名单只证明重复定义的当前行值和加载条件受控，不替代实机最终数据库验证。下一步建立能在官方 Schema/受控 SQLite 或 Civ VI DebugGameplay 数据库上执行的最终值查询与快照，并优先覆盖这 13 组及已有高风险玩法契约。
-- 提交：本次提交（剩余重复主键兼容性白名单）。
+- 提交：`259d8e6 refactor: contract intentional database duplicates`。
+
+### 2026-09-09 / M5-实际 Gameplay SQLite 最终值采集
+
+- 目标：把“静态看起来等价”推进为可在 Civ VI 实际 Gameplay 数据库上重复执行的精确行值比较，同时阻止陈旧数据库或脏工作树被误报为回归证据。
+- 范围：新增最终值查询契约、PowerShell 契约校验模块、Python/标准库 SQLite 只读采集器和独立操作手册，接入工程元数据及总校验，并更新 Manifest 说明、架构、计划、测试矩阵和工作日志；不修改运行 SQL/XML、动作图、ModInfo、玩法值、发布包或版本号。
+- 设计决定：`xp2-full-content` 的 27 个有序查询逐一覆盖 13 个保留重复主键、7 个已经删除后置空操作但必须仍存在的最终行，以及 Gaul/Gran Colombia/Khmer 的 7 个正负最终覆盖状态。采集器使用参数外置的数据库路径、SQLite `mode=ro`/`query_only`、`quick_check` 和捕获前后文件状态，报告仅保存文件名而不泄漏本机绝对路径；规范语义区单独计算 SHA-256，可与后续冻结报告比较。
+- 证据门：默认要求 Git 工作树干净、数据库修改时间不早于 HEAD，且不存在非空 WAL；报告记录仓库提交/脏路径计数、数据库时间/大小/哈希/journal mode/WAL/表数。`--allow-dirty` 与 `--allow-stale` 只供诊断，报告仍把 `evidenceGuardsPassed` 标为 false。
+- 验证：PowerShell 契约模块确认单个 profile 恰好 13/7/7、总计 27 个探针，13 个 key SHA 与兼容白名单集合完全相等；错误 key SHA 反例被拒绝。Python 内存 SQLite 正例通过、行值漂移和写查询反例失败。本机 2026-09-08 12:26:24Z 的旧 `DebugGameplay.sqlite`（12,374,016 字节、439 表、`quick_check=ok`、无 WAL、SHA-256 `58d24b2b60301c2975fd870d5a40c480afff2d5c50faa5953b023903303702d5`）诊断 27/27，语义 SHA-256 为 `0d73fc8f1b5fe524c10706342f598f25618c6464b27882728d38a9d9e454ea77`；默认调用因工作树脏且数据库早于 HEAD 正确退出 1，因此该结果不提升为基线。PowerShell 7/5.1 全量校验均通过，数据库写集合与 `259d8e6` 逐字节一致；三种发布包保持 universal `282c48cb…a5a6d`、Windows `0a1c52fb…0c3a`、macOS `bf308e3f…2916`。
+- 风险/待办：当前只覆盖 XP2 全内容组合；需要先提交并实机加载当前包，生成晚于提交的新数据库，在干净工作树下获得证据门通过的 27/27 报告后再固化冻结语义基线。之后补充基础/XP1/缺 DLC profile、Database.log 动作错误审查、`INSERT ... SELECT` 结果和更多 S05 高风险最终值。
+- 提交：本次提交（实际 Gameplay SQLite 最终值采集）。
