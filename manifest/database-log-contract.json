@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 1,
+  "packageName": "ZYLPVPMOD",
+  "semanticVersion": "1.3.0",
+  "modId": "4dd01931-9d44-4a8a-8e74-712cba0f0072",
+  "civ6BuildId": "15296837",
+  "contextRadius": 5,
+  "coverage": {
+    "requiredMarkers": 3,
+    "allowedErrorRules": 1
+  },
+  "requiredMarkers": [
+    {
+      "id": "configuration-foreign-keys-passed",
+      "regex": "\\[Configuration\\]: Validating Foreign Key Constraints\\.\\.\\.[\\s\\S]*?\\[Configuration\\]: Passed Validation\\.",
+      "minimumOccurrences": 1,
+      "rationale": "The configuration database must complete foreign-key validation."
+    },
+    {
+      "id": "gameplay-foreign-keys-passed",
+      "regex": "\\[Gameplay\\]: Validating Foreign Key Constraints\\.\\.\\.[\\s\\S]*?\\[Gameplay\\]: Passed Validation\\.",
+      "minimumOccurrences": 1,
+      "rationale": "The gameplay database must complete foreign-key validation."
+    },
+    {
+      "id": "localization-foreign-keys-passed",
+      "regex": "\\[Localization\\]: Validating Foreign Key Constraints\\.\\.\\.[\\s\\S]*?\\[Localization\\]: Passed Validation\\.",
+      "minimumOccurrences": 1,
+      "rationale": "The localization database must complete foreign-key validation."
+    }
+  ],
+  "allowedErrorRules": [
+    {
+      "id": "firaxis-current-clickout-duplicate",
+      "scope": "Localization",
+      "messageRegex": "^UNIQUE constraint failed: LocalizedText\\.Language, LocalizedText\\.Tag$",
+      "contextRegexes": [
+        "LOC_CLICKOUT_26_CAROUSEL_TOOLTIP",
+        "insert into BaseGameText",
+        "CurrentClickouts[\\\\/][0-9a-f-]+[\\\\/]Text[\\\\/]ClickoutText_en_US\\.xml"
+      ],
+      "contextFileRegex": "^CurrentClickouts[\\\\/][0-9a-f-]+[\\\\/]Text[\\\\/]ClickoutText_en_US\\.xml$",
+      "requireContextFile": true,
+      "rationale": "Firaxis Live can enqueue the same stock carousel clickout through multiple UUID folders; this is external localization noise and is never allowed to cover Gameplay or project files."
+    }
+  ]
+}

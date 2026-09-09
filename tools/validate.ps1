@@ -22,6 +22,33 @@ function Add-ValidationError {
     $validationErrors.Add($Message)
 }
 
+function Invoke-ZylPythonSelfTest {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string]$ScriptPath,
+
+        [Parameter(Mandatory = $true)]
+        [string]$Label
+    )
+
+    if (-not (Test-Path -LiteralPath $ScriptPath -PathType Leaf)) {
+        Add-ValidationError "$Label is missing."
+        return
+    }
+    $pythonCommand = Get-Command python -ErrorAction SilentlyContinue
+    if ($null -eq $pythonCommand) {
+        $pythonCommand = Get-Command python3 -ErrorAction SilentlyContinue
+    }
+    if ($null -eq $pythonCommand) {
+        Add-ValidationError "Python 3 is required to self-test $Label."
+        return
+    }
+    $selfTestOutput = @(& $pythonCommand.Source $ScriptPath --self-test 2>&1)
+    if ($LASTEXITCODE -ne 0) {
+        Add-ValidationError "$Label self-test failed: $($selfTestOutput -join ' ')"
+    }
+}
+
 $luaChecksPath = Join-Path $PSScriptRoot 'validation\LuaChecks.ps1'
 if (-not (Test-Path -LiteralPath $luaChecksPath -PathType Leaf)) {
     throw "Lua validation helpers not found: $luaChecksPath"
@@ -93,6 +120,12 @@ if (-not (Test-Path -LiteralPath $databaseFinalValueChecksPath -PathType Leaf)) 
     throw "Database final-value helpers not found: $databaseFinalValueChecksPath"
 }
 . $databaseFinalValueChecksPath
+
+$databaseLogChecksPath = Join-Path $PSScriptRoot 'validation\DatabaseLogChecks.ps1'
+if (-not (Test-Path -LiteralPath $databaseLogChecksPath -PathType Leaf)) {
+    throw "Database.log helpers not found: $databaseLogChecksPath"
+}
+. $databaseLogChecksPath
 
 $teamPvpSocietyChecksPath = Join-Path $PSScriptRoot 'validation\TeamPvpSocietyChecks.ps1'
 if (-not (Test-Path -LiteralPath $teamPvpSocietyChecksPath -PathType Leaf)) {
@@ -750,36 +783,58 @@ if ($null -ne $civ6SchemaSnapshot) {
             }
             $databaseFinalValueCapturePath = Join-Path `
                 $PSScriptRoot 'database\capture_final_values.py'
-            if (-not (Test-Path -LiteralPath $databaseFinalValueCapturePath -PathType Leaf)) {
-                Add-ValidationError 'Database final-value capture tool is missing.'
-            }
-            else {
-                $pythonCommand = Get-Command python -ErrorAction SilentlyContinue
-                if ($null -eq $pythonCommand) {
-                    $pythonCommand = Get-Command python3 -ErrorAction SilentlyContinue
-                }
-                if ($null -eq $pythonCommand) {
-                    Add-ValidationError 'Python 3 is required to self-test final SQLite value capture.'
-                }
-                else {
-                    $databaseCaptureSelfTestOutput = @(
-                        & $pythonCommand.Source `
-                            $databaseFinalValueCapturePath --self-test 2>&1
-                    )
-                    if ($LASTEXITCODE -ne 0) {
-                        Add-ValidationError (
-                            'Database final-value capture self-test failed: ' +
-                            ($databaseCaptureSelfTestOutput -join ' ')
-                        )
-                    }
-                }
-            }
+            Invoke-ZylPythonSelfTest `
+                -ScriptPath $databaseFinalValueCapturePath `
+                -Label 'Database final-value capture tool'
         }
         catch {
             Add-ValidationError (
                 'Database final-value contract could not be loaded: ' + $_.Exception.Message
             )
         }
+    }
+}
+$databaseLogContractPath = Join-Path $modRoot (
+    [string]$projectMetadata.databaseLogContractFile
+)
+if (-not (Test-Path -LiteralPath $databaseLogContractPath -PathType Leaf)) {
+    Add-ValidationError 'Database.log contract is missing.'
+}
+else {
+    try {
+        $databaseLogContractHash = (
+            Get-FileHash -LiteralPath $databaseLogContractPath -Algorithm SHA256
+        ).Hash.ToLowerInvariant()
+        if ($databaseLogContractHash -ne [string]$projectMetadata.databaseLogContractSha256) {
+            Add-ValidationError (
+                'Database.log contract hash drifted: ' +
+                "$databaseLogContractHash (expected $($projectMetadata.databaseLogContractSha256))."
+            )
+        }
+        $databaseLogContract = Get-Content `
+            -LiteralPath $databaseLogContractPath -Raw | ConvertFrom-Json
+        foreach ($databaseLogContractIssue in @(
+                Get-ZylDatabaseLogContractIssues `
+                    -Contract $databaseLogContract `
+                    -ProjectMetadata $projectMetadata
+            )) {
+            Add-ValidationError $databaseLogContractIssue
+        }
+        $databaseLogDrift = ConvertFrom-Json (
+            $databaseLogContract | ConvertTo-Json -Depth 30
+        )
+        $databaseLogDrift.allowedErrorRules[0].scope = 'Gameplay'
+        if (@(Get-ZylDatabaseLogContractIssues `
+                -Contract $databaseLogDrift `
+                -ProjectMetadata $projectMetadata).Count -eq 0) {
+            Add-ValidationError 'Database.log contract self-test did not reject a Gameplay error allow rule.'
+        }
+        Invoke-ZylPythonSelfTest `
+            -ScriptPath (Join-Path $PSScriptRoot 'logs\audit_database_log.py') `
+            -Label 'Database.log audit tool'
+    }
+    catch {
+        Add-ValidationError ('Database.log contract could not be loaded: ' + $_.Exception.Message)
     }
 }
 $databaseWriteSetContractPath = Join-Path $modRoot 'manifest\database-write-set-contract.json'

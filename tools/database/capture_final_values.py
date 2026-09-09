@@ -6,8 +6,6 @@ from __future__ import annotations
 import argparse
 import copy
 import datetime as dt
-import hashlib
-import json
 import math
 import re
 import sqlite3
@@ -16,6 +14,22 @@ import sys
 from pathlib import Path
 from typing import Any
 
+TOOLS_ROOT = Path(__file__).resolve().parents[1]
+if str(TOOLS_ROOT) not in sys.path:
+    sys.path.insert(0, str(TOOLS_ROOT))
+
+from evidence_common import (  # noqa: E402
+    EvidenceError,
+    canonical_json,
+    ensure_artifact_output,
+    ensure_repository_input,
+    get_git_state,
+    load_json,
+    parse_git_datetime,
+    sha256_bytes,
+    sha256_file,
+)
+
 
 TOOL_VERSION = 1
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
@@ -23,30 +37,8 @@ DEFAULT_CONTRACT = PROJECT_ROOT / "manifest" / "database-final-value-contract.js
 ARTIFACTS_ROOT = PROJECT_ROOT / "artifacts"
 
 
-class ContractError(ValueError):
+class ContractError(EvidenceError):
     """Raised when the checked-in query contract is malformed."""
-
-
-def canonical_json(value: Any) -> str:
-    return json.dumps(
-        value,
-        ensure_ascii=False,
-        sort_keys=True,
-        separators=(",", ":"),
-        allow_nan=False,
-    )
-
-
-def sha256_bytes(value: bytes) -> str:
-    return hashlib.sha256(value).hexdigest()
-
-
-def sha256_file(path: Path) -> str:
-    digest = hashlib.sha256()
-    with path.open("rb") as stream:
-        for block in iter(lambda: stream.read(1024 * 1024), b""):
-            digest.update(block)
-    return digest.hexdigest()
 
 
 def normalize_value(value: Any) -> Any:
@@ -63,6 +55,9 @@ def validate_contract(contract: dict[str, Any]) -> None:
     issues: list[str] = []
     if contract.get("schemaVersion") != 1:
         issues.append("schemaVersion must be 1")
+    for identity_field in ("packageName", "semanticVersion", "modId", "civ6BuildId"):
+        if not isinstance(contract.get(identity_field), str) or not contract[identity_field]:
+            issues.append(f"{identity_field} must be a non-empty string")
     if not isinstance(contract.get("defaultProfile"), str):
         issues.append("defaultProfile must be a string")
     profiles = contract.get("profiles")
@@ -82,6 +77,8 @@ def validate_contract(contract: dict[str, Any]) -> None:
         if profile_id in profile_ids:
             issues.append(f"duplicate profile id: {profile_id}")
         profile_ids.add(profile_id)
+        if not isinstance(profile.get("description"), str) or not profile["description"].strip():
+            issues.append(f"profile {profile_id} has no description")
         probes = profile.get("probes")
         if not isinstance(probes, list) or not probes:
             issues.append(f"profile {profile_id} needs probes")
@@ -181,53 +178,6 @@ def execute_profile(
     return results, issues
 
 
-def run_git(arguments: list[str]) -> str:
-    completed = subprocess.run(
-        ["git", "-C", str(PROJECT_ROOT), *arguments],
-        check=True,
-        capture_output=True,
-        text=True,
-        encoding="utf-8",
-    )
-    return completed.stdout.strip()
-
-
-def get_git_state() -> dict[str, Any]:
-    commit = run_git(["rev-parse", "HEAD"])
-    committed_at = run_git(["show", "-s", "--format=%cI", "HEAD"])
-    dirty_paths = [line for line in run_git(["status", "--porcelain"]).splitlines() if line]
-    return {
-        "commit": commit,
-        "committedAt": committed_at,
-        "dirty": bool(dirty_paths),
-        "dirtyPathCount": len(dirty_paths),
-    }
-
-
-def parse_git_datetime(value: str) -> dt.datetime:
-    parsed = dt.datetime.fromisoformat(value.replace("Z", "+00:00"))
-    if parsed.tzinfo is None:
-        parsed = parsed.replace(tzinfo=dt.timezone.utc)
-    return parsed.astimezone(dt.timezone.utc)
-
-
-def ensure_artifact_output(path: Path) -> Path:
-    resolved = path.resolve()
-    try:
-        resolved.relative_to(ARTIFACTS_ROOT.resolve())
-    except ValueError as error:
-        raise ContractError(f"Output must stay inside {ARTIFACTS_ROOT}") from error
-    return resolved
-
-
-def load_json(path: Path) -> dict[str, Any]:
-    with path.open("r", encoding="utf-8") as stream:
-        value = json.load(stream)
-    if not isinstance(value, dict):
-        raise ContractError(f"JSON root must be an object: {path}")
-    return value
-
-
 def find_profile(contract: dict[str, Any], profile_id: str) -> dict[str, Any]:
     for profile in contract["profiles"]:
         if profile["id"] == profile_id:
@@ -242,17 +192,16 @@ def capture(args: argparse.Namespace) -> int:
         raise ContractError(f"Contract not found: {contract_path}")
     if not database_path.is_file():
         raise ContractError(f"SQLite database not found: {database_path}")
-    try:
-        contract_relative_path = contract_path.relative_to(PROJECT_ROOT).as_posix()
-    except ValueError as error:
-        raise ContractError("Contract must stay inside the project repository.") from error
+    contract_relative_path = ensure_repository_input(
+        contract_path, PROJECT_ROOT, "Contract"
+    )
 
     contract = load_json(contract_path)
     validate_contract(contract)
     profile_id = args.profile or contract["defaultProfile"]
     profile = find_profile(contract, profile_id)
     contract_sha256 = sha256_file(contract_path)
-    git_state = get_git_state()
+    git_state = get_git_state(PROJECT_ROOT)
     before = database_path.stat()
     database_modified = dt.datetime.fromtimestamp(before.st_mtime, tz=dt.timezone.utc)
     committed_at = parse_git_datetime(git_state["committedAt"])
@@ -374,7 +323,8 @@ def capture(args: argparse.Namespace) -> int:
         "database-final-values.json"
     )
     output_path = ensure_artifact_output(
-        Path(args.output) if args.output else ARTIFACTS_ROOT / "reports" / default_name
+        Path(args.output) if args.output else ARTIFACTS_ROOT / "reports" / default_name,
+        ARTIFACTS_ROOT,
     )
     output_path.parent.mkdir(parents=True, exist_ok=True)
     output_path.write_text(canonical_json(report) + "\n", encoding="utf-8", newline="\n")
@@ -395,10 +345,15 @@ def capture(args: argparse.Namespace) -> int:
 def self_test() -> int:
     contract = {
         "schemaVersion": 1,
+        "packageName": "Fixture",
+        "semanticVersion": "0.0.0",
+        "modId": "fixture",
+        "civ6BuildId": "fixture",
         "defaultProfile": "fixture",
         "profiles": [
             {
                 "id": "fixture",
+                "description": "In-memory fixture.",
                 "probes": [
                     {
                         "id": "fixture-row",
@@ -469,7 +424,7 @@ def main() -> int:
         if args.self_test:
             return self_test()
         return capture(args)
-    except (ContractError, OSError, sqlite3.Error, subprocess.SubprocessError) as error:
+    except (EvidenceError, OSError, sqlite3.Error, subprocess.SubprocessError) as error:
         print(f"Database final-value capture failed: {error}", file=sys.stderr)
         return 2
 

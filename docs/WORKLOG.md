@@ -755,4 +755,14 @@
 - 证据门：默认要求 Git 工作树干净、数据库修改时间不早于 HEAD，且不存在非空 WAL；报告记录仓库提交/脏路径计数、数据库时间/大小/哈希/journal mode/WAL/表数。`--allow-dirty` 与 `--allow-stale` 只供诊断，报告仍把 `evidenceGuardsPassed` 标为 false。
 - 验证：PowerShell 契约模块确认单个 profile 恰好 13/7/7、总计 27 个探针，13 个 key SHA 与兼容白名单集合完全相等；错误 key SHA 反例被拒绝。Python 内存 SQLite 正例通过、行值漂移和写查询反例失败。本机 2026-09-08 12:26:24Z 的旧 `DebugGameplay.sqlite`（12,374,016 字节、439 表、`quick_check=ok`、无 WAL、SHA-256 `58d24b2b60301c2975fd870d5a40c480afff2d5c50faa5953b023903303702d5`）诊断 27/27，语义 SHA-256 为 `0d73fc8f1b5fe524c10706342f598f25618c6464b27882728d38a9d9e454ea77`；默认调用因工作树脏且数据库早于 HEAD 正确退出 1，因此该结果不提升为基线。PowerShell 7/5.1 全量校验均通过，数据库写集合与 `259d8e6` 逐字节一致；三种发布包保持 universal `282c48cb…a5a6d`、Windows `0a1c52fb…0c3a`、macOS `bf308e3f…2916`。
 - 风险/待办：当前只覆盖 XP2 全内容组合；需要先提交并实机加载当前包，生成晚于提交的新数据库，在干净工作树下获得证据门通过的 27/27 报告后再固化冻结语义基线。之后补充基础/XP1/缺 DLC profile、Database.log 动作错误审查、`INSERT ... SELECT` 结果和更多 S05 高风险最终值。
-- 提交：本次提交（实际 Gameplay SQLite 最终值采集）。
+- 提交：`3e4aee7 test: capture gameplay database final values`。
+
+### 2026-09-09 / M5-Database.log 加载错误审计
+
+- 目标：把 Civ VI 加载期的真实数据库错误纳入可重复证据，同时区分项目错误与已知 Firaxis Live 噪声，避免“日志里有 ERROR”被整体忽略或外部噪声导致永久误报。
+- 范围：新增 `database-log-contract.json`、Database.log PowerShell 契约校验、Python 日志审计器和操作手册；把 SQLite/日志工具共用的 Git、时间、哈希、仓库输入及 `artifacts/` 输出边界抽到 `evidence_common.py`，并更新工程元数据、总校验、Manifest 说明、架构、计划、测试矩阵和工作日志。不修改任何运行资产、动作图、ModInfo、玩法值、发布包或版本号。
+- 白名单边界：Configuration、Gameplay 错误永远不能登记为允许项；当前唯一规则只允许 Localization 的 `LocalizedText.Language, LocalizedText.Tag` 唯一键错误，而且上下文必须同时出现 `LOC_CLICKOUT_26_CAROUSEL_TOOLTIP`、`BaseGameText` 插入和 `CurrentClickouts/<UUID>/Text/ClickoutText_en_US.xml`。上下文内出现任何其他来源文件都会使该 ERROR 重新变为未解释错误。
+- 证据门：要求 Configuration、Gameplay、Localization 都出现“开始验证→Passed Validation”序列；默认要求 Git 干净且日志晚于 HEAD，捕获前后文件状态必须不变。报告不保存日志绝对路径，只记录文件名、时间、大小、SHA-256、分类后的 ERROR 和规范语义哈希；诊断豁免仍显式令 `evidenceGuardsPassed=false`。
+- 验证：Python 正例覆盖已知外部错误，Gameplay ERROR、未知 Localization 文件和损坏正则三个反例均失败；PowerShell 反例拒绝给 Gameplay 建允许规则。2026-09-08 12:31:10Z 的旧 `Database.log` 为 15,359 字节/129 行，SHA-256 `fed67a3196f1547b8ad1cea98c6d4279ba0f200361ad1dab0fcbc29c3a1e80e2`；三库验证 3/3，通过精确规则归类 40 条 CurrentClickouts 错误，Gameplay/Configuration/未知错误为 0，语义 SHA-256 `4031257c68d2da5452a1232b9cdd5223204bc1f52eebc5d65d8294cdb9ee8504`。默认调用因工作树脏且日志早于 HEAD 正确退出 1，不提升为基线。PowerShell 7/5.1 全量校验均通过；两套数据库写集合报告仍为 6,179,853 字节和 `8bca14bd…af4a`。三种发布包保持 universal `282c48cb…a5a6d`、Windows `0a1c52fb…0c3a`、macOS `bf308e3f…2916`。
+- 风险/待办：CurrentClickouts 规则只基于当前游戏日志格式；格式改变会保守失败，不能放宽为所有 Localization 重复键。需要从干净当前提交实机重载后同时取得新鲜 `DebugGameplay.sqlite` 与 `Database.log`，再固化成配对基线；之后扩展 Modding/Lua/UI 日志及不同 DLC/profile。
+- 提交：本次提交（Database.log 加载错误审计）。
