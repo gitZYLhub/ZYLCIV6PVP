@@ -99,6 +99,19 @@ $primaryKeyContractIssues = @(Get-ZylDatabasePrimaryKeyContractIssues `
 if ($primaryKeyContractIssues.Count -gt 0) {
     throw "Database primary-key contract failed:`n- $($primaryKeyContractIssues -join "`n- ")"
 }
+$duplicateKeyAllowlistPath = Join-Path $modRoot (
+    [string]$metadata.databaseDuplicateKeyAllowlistFile
+)
+$duplicateKeyAllowlist = Get-Content `
+    -LiteralPath $duplicateKeyAllowlistPath `
+    -Raw | ConvertFrom-Json
+$duplicateKeyAllowlistIssues = @(Get-ZylDatabaseDuplicateKeyAllowlistIssues `
+    -PrimaryKeyAnalysis $primaryKeyAnalysis `
+    -WriteSetAnalysis $analysis `
+    -Contract $duplicateKeyAllowlist)
+if ($duplicateKeyAllowlistIssues.Count -gt 0) {
+    throw "Database duplicate-key allowlist failed:`n- $($duplicateKeyAllowlistIssues -join "`n- ")"
+}
 $writeSetContract = Get-Content -LiteralPath $writeSetContractPath -Raw | ConvertFrom-Json
 $contractIssues = @(Get-ZylDatabaseWriteSetContractIssues `
     -Analysis $analysis `
@@ -125,6 +138,7 @@ $report = [pscustomobject][ordered]@{
     schemaCoverage = $schemaCoverage
     primaryKeyAnalysisSha256 = $primaryKeyAnalysisSha256
     primaryKeyAnalysis = $primaryKeyAnalysis
+    retainedDuplicateKeyGroups = @($duplicateKeyAllowlist.groups).Count
 }
 
 $outputDirectory = Split-Path -Parent $resolvedOutputPath
@@ -150,4 +164,5 @@ Write-Host "Custom keys: $($primaryKeyAnalysis.counts.modCreatedTablesWithPrimar
 Write-Host "Keys       : $($primaryKeyAnalysis.counts.rowCandidates) row candidates across $($primaryKeyAnalysis.counts.tablesWithCandidates) tables"
 Write-Host "Key repeats: $($primaryKeyAnalysis.counts.duplicateKeyGroups) groups, $($primaryKeyAnalysis.counts.sameActionDuplicateKeyGroups) within one action"
 Write-Host "Same rows  : $($primaryKeyAnalysis.counts.identicalRowDuplicateKeyGroups) groups, $($primaryKeyAnalysis.counts.dominatedLaterIgnoreOccurrences) later ignores dominated"
+Write-Host "Retained   : $(@($duplicateKeyAllowlist.groups).Count) compatibility duplicate-key groups"
 Write-Host "SHA-256    : $($report.analysisSha256)"

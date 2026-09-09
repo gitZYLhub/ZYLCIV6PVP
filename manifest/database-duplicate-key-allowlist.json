@@ -1,0 +1,178 @@
+{
+  "schemaVersion": 1,
+  "groups": [
+    {
+      "table": "ModifierArguments",
+      "keySha256": "0cbaa84b89a6a7e1ac11071121cc1ad521fe08b02d12762298db094f864d0f77",
+      "retentionKind": "upstream-final-defense",
+      "allowedConflictModes": ["replace"],
+      "rationale": "The Khmer DLC source must remain self-contained while the final ZYL override reasserts the same row after all conditional actions.",
+      "occurrences": [
+        {"path": "Components/BBG/sql/DLC_Indonesia_Khmer/Khmer.sql", "providerCriteria": ["ZYLPVP_BBG_DLC_Indonesia_Khmer"]},
+        {"path": "sql/ZYL_GameplayOverrides.sql", "providerCriteria": []}
+      ]
+    },
+    {
+      "table": "ModifierArguments",
+      "keySha256": "17d448690161c8643e8ea02d801ea48c33da7b382d9f58cfd4859f16368e0ef6",
+      "retentionKind": "upstream-final-defense",
+      "allowedConflictModes": ["replace"],
+      "rationale": "The Khmer DLC source must remain self-contained while the final ZYL override reasserts the same row after all conditional actions.",
+      "occurrences": [
+        {"path": "Components/BBG/sql/DLC_Indonesia_Khmer/Khmer.sql", "providerCriteria": ["ZYLPVP_BBG_DLC_Indonesia_Khmer"]},
+        {"path": "sql/ZYL_GameplayOverrides.sql", "providerCriteria": []}
+      ]
+    },
+    {
+      "table": "ModifierArguments",
+      "keySha256": "6c6c8be8b1236198ca27a706ff586c185a7097a39d022b173161d4ed6da357d0",
+      "retentionKind": "upstream-final-defense",
+      "allowedConflictModes": ["replace"],
+      "rationale": "The Khmer DLC source must remain self-contained while the final ZYL override reasserts the same row after all conditional actions.",
+      "occurrences": [
+        {"path": "Components/BBG/sql/DLC_Indonesia_Khmer/Khmer.sql", "providerCriteria": ["ZYLPVP_BBG_DLC_Indonesia_Khmer"]},
+        {"path": "sql/ZYL_GameplayOverrides.sql", "providerCriteria": []}
+      ]
+    },
+    {
+      "table": "ModifierArguments",
+      "keySha256": "bf2f34c53f817f92fc6812ac83896b55183a07a6fca26f2796b1e34788e84355",
+      "retentionKind": "upstream-final-defense",
+      "allowedConflictModes": ["replace"],
+      "rationale": "The Khmer DLC source must remain self-contained while the final ZYL override reasserts the same row after all conditional actions.",
+      "occurrences": [
+        {"path": "Components/BBG/sql/DLC_Indonesia_Khmer/Khmer.sql", "providerCriteria": ["ZYLPVP_BBG_DLC_Indonesia_Khmer"]},
+        {"path": "sql/ZYL_GameplayOverrides.sql", "providerCriteria": []}
+      ]
+    },
+    {
+      "table": "Modifiers",
+      "keySha256": "9db92492623a229478ac1936fdaf41d12c5c708b34044f7a0e764dda1e915a32",
+      "retentionKind": "upstream-final-defense",
+      "allowedConflictModes": ["ignore"],
+      "rationale": "The Khmer DLC source must remain self-contained while the final ZYL override reasserts the same row after all conditional actions.",
+      "occurrences": [
+        {"path": "Components/BBG/sql/DLC_Indonesia_Khmer/Khmer.sql", "providerCriteria": ["ZYLPVP_BBG_DLC_Indonesia_Khmer"]},
+        {"path": "sql/ZYL_GameplayOverrides.sql", "providerCriteria": []}
+      ]
+    },
+    {
+      "table": "TraitModifiers",
+      "keySha256": "4daf2ea3e07f26f8007ab656b5b3be794c0aa5203c7a548d5da4dd385a8d4b92",
+      "retentionKind": "upstream-final-defense",
+      "allowedConflictModes": ["ignore"],
+      "rationale": "The Gaul source prepares BBCC-derived data and remains self-contained while the final ZYL override reasserts the civilization attachment.",
+      "occurrences": [
+        {"path": "Components/BBG/sql/NFP/Gaul.sql", "providerCriteria": ["ZYLPVP_BBG_Byzantium_Gaul"]},
+        {"path": "sql/ZYL_GameplayOverrides.sql", "providerCriteria": []}
+      ]
+    },
+    {
+      "table": "TraitModifiers",
+      "keySha256": "4dde6fa81a8ee4f51a52382b7b0de1f8b7cb9a878568ab79953e4995a26d915f",
+      "retentionKind": "upstream-final-defense",
+      "allowedConflictModes": ["ignore"],
+      "rationale": "The Gran Colombia source remains self-contained while the final ZYL override reasserts the Firaxis all-unit movement attachment.",
+      "occurrences": [
+        {"path": "Components/BBG/sql/NFP/GranColombia.sql", "providerCriteria": ["ZYLPVP_BBG_GranColombia_Maya"]},
+        {"path": "sql/ZYL_GameplayOverrides.sql", "providerCriteria": []}
+      ]
+    },
+    {
+      "table": "TraitModifiers",
+      "keySha256": "72c198a919edccb88472d102eddf7f6d05f8b384a35286e9269b8b2cef838d36",
+      "retentionKind": "upstream-final-defense",
+      "allowedConflictModes": ["ignore"],
+      "rationale": "The Khmer DLC source must remain self-contained while the final ZYL override reasserts the civilization attachment.",
+      "occurrences": [
+        {"path": "Components/BBG/sql/DLC_Indonesia_Khmer/Khmer.sql", "providerCriteria": ["ZYLPVP_BBG_DLC_Indonesia_Khmer"]},
+        {"path": "sql/ZYL_GameplayOverrides.sql", "providerCriteria": []}
+      ]
+    },
+    {
+      "table": "RequirementArguments",
+      "keySha256": "78937125d0f03445d3d68f93afdf727957b091415564ce9968e14a53cca52a26",
+      "retentionKind": "independent-providers",
+      "allowedConflictModes": ["ignore"],
+      "rationale": "Nzinga Mbande and Julius Caesar can be available independently and both require the same near-capital argument.",
+      "occurrences": [
+        {
+          "path": "Components/BBG/sql/LP/lp_kongo_mbande.sql",
+          "providerCriteria": ["ZYLPVP_BBG_Negotiators"]
+        },
+        {
+          "path": "Components/BBG/sql/LP/lp_rome_caesar.sql",
+          "providerCriteria": ["ZYLPVP_BBG_Caesar"]
+        }
+      ]
+    },
+    {
+      "table": "Requirements",
+      "keySha256": "bedc8e5d2fe1be68e96cb4c799ebf76aee249105a64a86a45ac61b129c602dee",
+      "retentionKind": "independent-providers",
+      "allowedConflictModes": ["ignore"],
+      "rationale": "Gathering Storm and Julius Caesar can be available independently and both require the captured-city predicate.",
+      "occurrences": [
+        {
+          "path": "Components/BBG/sql/LP/lp_rome_caesar.sql",
+          "providerCriteria": ["ZYLPVP_BBG_Caesar"]
+        },
+        {
+          "path": "Components/BBG/sql/XP2/xp2__gathering_storm.sql",
+          "providerCriteria": ["ZYLPVP_BBG_XP2"]
+        }
+      ]
+    },
+    {
+      "table": "Requirements",
+      "keySha256": "f5ef1e6e27c4a9c9103c7e79e8e3b980061d8b989de9a581e67d09d2467483e4",
+      "retentionKind": "independent-providers",
+      "allowedConflictModes": ["ignore"],
+      "rationale": "Nzinga Mbande and Julius Caesar can be available independently and both require the same near-capital predicate.",
+      "occurrences": [
+        {
+          "path": "Components/BBG/sql/LP/lp_kongo_mbande.sql",
+          "providerCriteria": ["ZYLPVP_BBG_Negotiators"]
+        },
+        {
+          "path": "Components/BBG/sql/LP/lp_rome_caesar.sql",
+          "providerCriteria": ["ZYLPVP_BBG_Caesar"]
+        }
+      ]
+    },
+    {
+      "table": "RequirementSetRequirements",
+      "keySha256": "0e52954b128fad225f74d8b907efca2dd1a48788113479e291b048b00466f847",
+      "retentionKind": "independent-providers",
+      "allowedConflictModes": ["ignore"],
+      "rationale": "Macedon/Persia and Vikings can be installed independently and both require the attacker membership row.",
+      "occurrences": [
+        {
+          "path": "Components/BBG/sql/DLC_Macedon_Persia/Persia.sql",
+          "providerCriteria": ["ZYLPVP_BBG_DLC_Macedon_Persia"]
+        },
+        {
+          "path": "Components/BBG/sql/DLC_Vikings/dlc_vikings.sql",
+          "providerCriteria": ["ZYLPVP_BBG_DLC_Vikings"]
+        }
+      ]
+    },
+    {
+      "table": "RequirementSets",
+      "keySha256": "9a82c7dd451ce19a76d5660fb6727b1ec0860d1a05182fe5f4fa8a5e078e50c8",
+      "retentionKind": "independent-providers",
+      "allowedConflictModes": ["ignore"],
+      "rationale": "Macedon/Persia and Vikings can be installed independently and both require the attacker requirement set.",
+      "occurrences": [
+        {
+          "path": "Components/BBG/sql/DLC_Macedon_Persia/Persia.sql",
+          "providerCriteria": ["ZYLPVP_BBG_DLC_Macedon_Persia"]
+        },
+        {
+          "path": "Components/BBG/sql/DLC_Vikings/dlc_vikings.sql",
+          "providerCriteria": ["ZYLPVP_BBG_DLC_Vikings"]
+        }
+      ]
+    }
+  ]
+}

@@ -1164,3 +1164,116 @@ function Get-ZylDatabasePrimaryKeyContractIssues {
     }
     return @($issues)
 }
+
+function Get-ZylDatabaseDuplicateKeyAllowlistIssues {
+    param(
+        [Parameter(Mandatory = $true)]
+        [object]$PrimaryKeyAnalysis,
+
+        [Parameter(Mandatory = $true)]
+        [object]$WriteSetAnalysis,
+
+        [Parameter(Mandatory = $true)]
+        [object]$Contract
+    )
+
+    $issues = [System.Collections.Generic.List[string]]::new()
+    if ([int]$Contract.schemaVersion -ne 1) {
+        $issues.Add('Database duplicate-key allowlist schemaVersion must be 1.')
+        return @($issues)
+    }
+    $actualByKey = @{}
+    foreach ($group in @($PrimaryKeyAnalysis.duplicateKeyGroups)) {
+        $groupKey = $group.table.ToLowerInvariant() + ':' + $group.keySha256
+        $actualByKey[$groupKey] = $group
+    }
+    $expectedKeys = [System.Collections.Generic.List[string]]::new()
+    foreach ($definition in @($Contract.groups)) {
+        $table = [string]$definition.table
+        $keySha256 = [string]$definition.keySha256
+        $retentionKind = [string]$definition.retentionKind
+        $allowedConflictModes = @(Get-ZylOrdinalSortedUniqueStrings -Values @(
+                $definition.allowedConflictModes
+            ))
+        $definitionKey = $table.ToLowerInvariant() + ':' + $keySha256
+        if ([string]::IsNullOrWhiteSpace($table) -or
+                $keySha256 -notmatch '^[0-9a-f]{64}$' -or
+                $retentionKind -notin @('independent-providers', 'upstream-final-defense') -or
+                $allowedConflictModes.Count -eq 0 -or
+                [string]::IsNullOrWhiteSpace([string]$definition.rationale) -or
+                @($definition.occurrences).Count -lt 2 -or
+                $expectedKeys.Contains($definitionKey)) {
+            $issues.Add("Database duplicate-key allowlist entry is invalid: $table/$keySha256")
+            continue
+        }
+        $expectedKeys.Add($definitionKey)
+        if (-not $actualByKey.ContainsKey($definitionKey)) {
+            $issues.Add("Allowlisted database duplicate key is absent: $table/$keySha256")
+            continue
+        }
+        $group = $actualByKey[$definitionKey]
+        $actualConflictModes = @(Get-ZylOrdinalSortedUniqueStrings -Values @(
+                $group.occurrences.conflictMode
+            ))
+        if (-not $group.identicalRow -or
+                ($actualConflictModes -join '|') -ne ($allowedConflictModes -join '|')) {
+            $issues.Add("Allowlisted database duplicate key row/conflict mode drifted: $table/$keySha256")
+        }
+        $expectedSources = @(Get-ZylOrdinalSortedUniqueStrings -Values @(
+                $definition.occurrences.path
+            ))
+        $actualSources = @(Get-ZylOrdinalSortedUniqueStrings -Values @(
+                $group.occurrences.path
+            ))
+        if (($actualSources -join '|') -ne ($expectedSources -join '|') -or
+                $expectedSources.Count -ne @($definition.occurrences).Count) {
+            $issues.Add("Allowlisted database duplicate-key sources drifted: $table/$keySha256")
+            continue
+        }
+        $unconditionalDefinitions = @($definition.occurrences | Where-Object {
+                @($_.providerCriteria).Count -eq 0
+            }).Count
+        if (($retentionKind -eq 'independent-providers' -and
+                $unconditionalDefinitions -ne 0) -or
+                ($retentionKind -eq 'upstream-final-defense' -and
+                $unconditionalDefinitions -ne 1)) {
+            $issues.Add("Allowlisted database duplicate-key retention shape drifted: $table/$keySha256")
+        }
+        foreach ($expectedOccurrence in @($definition.occurrences)) {
+            $path = [string]$expectedOccurrence.path
+            $providerCriteria = @(Get-ZylOrdinalSortedUniqueStrings -Values @(
+                    $expectedOccurrence.providerCriteria
+                ))
+            $sourceFile = @($WriteSetAnalysis.sourceFiles | Where-Object path -eq $path)
+            if ($sourceFile.Count -ne 1) {
+                $issues.Add("Allowlisted database duplicate-key provider is invalid: $path")
+                continue
+            }
+            foreach ($reference in @($sourceFile[0].references)) {
+                $referenceIsValid = if ($providerCriteria.Count -eq 0) {
+                    @($reference.criteria).Count -eq 0
+                }
+                else {
+                    @($reference.criteria | Where-Object {
+                            $providerCriteria -contains $_
+                        }).Count -gt 0
+                }
+                if (-not $referenceIsValid) {
+                    $issues.Add(
+                        "Allowlisted database duplicate-key source Criteria drifted: " +
+                        "$path/$($reference.actionId)"
+                    )
+                }
+            }
+        }
+    }
+    $actualKeys = @(Get-ZylOrdinalSortedUniqueStrings -Values @($actualByKey.Keys))
+    $expectedKeyList = @(Get-ZylOrdinalSortedUniqueStrings -Values @($expectedKeys))
+    if (($actualKeys -join '|') -ne ($expectedKeyList -join '|')) {
+        $issues.Add(
+            'Database duplicate-key allowlist does not exactly cover current groups: ' +
+            "actual [$($actualKeys -join ', ')], expected [$($expectedKeyList -join ', ')]."
+        )
+    }
+    return @($issues)
+}

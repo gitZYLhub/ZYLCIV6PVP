@@ -662,6 +662,42 @@ if ($null -ne $civ6SchemaSnapshot) {
             )
         }
     }
+    $databaseDuplicateKeyAllowlistPath = Join-Path $modRoot (
+        [string]$projectMetadata.databaseDuplicateKeyAllowlistFile
+    )
+    if (-not (Test-Path -LiteralPath $databaseDuplicateKeyAllowlistPath -PathType Leaf)) {
+        Add-ValidationError 'Database duplicate-key allowlist is missing.'
+    }
+    else {
+        try {
+            $databaseDuplicateKeyAllowlist = Get-Content `
+                -LiteralPath $databaseDuplicateKeyAllowlistPath `
+                -Raw | ConvertFrom-Json
+            foreach ($databaseDuplicateKeyAllowlistIssue in @(
+                    Get-ZylDatabaseDuplicateKeyAllowlistIssues `
+                        -PrimaryKeyAnalysis $databasePrimaryKeyAnalysis `
+                        -WriteSetAnalysis $databaseWriteSetAnalysis `
+                        -Contract $databaseDuplicateKeyAllowlist
+                )) {
+                Add-ValidationError $databaseDuplicateKeyAllowlistIssue
+            }
+            $databaseDuplicateKeyAllowlistDrift = ConvertFrom-Json (
+                $databaseDuplicateKeyAllowlist | ConvertTo-Json -Depth 20
+            )
+            $databaseDuplicateKeyAllowlistDrift.groups[0].keySha256 = '0' * 64
+            if (@(Get-ZylDatabaseDuplicateKeyAllowlistIssues `
+                    -PrimaryKeyAnalysis $databasePrimaryKeyAnalysis `
+                    -WriteSetAnalysis $databaseWriteSetAnalysis `
+                    -Contract $databaseDuplicateKeyAllowlistDrift).Count -eq 0) {
+                Add-ValidationError 'Database duplicate-key allowlist self-test did not reject key drift.'
+            }
+        }
+        catch {
+            Add-ValidationError (
+                'Database duplicate-key allowlist could not be loaded: ' + $_.Exception.Message
+            )
+        }
+    }
 }
 $databaseWriteSetContractPath = Join-Path $modRoot 'manifest\database-write-set-contract.json'
 if (-not (Test-Path -LiteralPath $databaseWriteSetContractPath -PathType Leaf)) {

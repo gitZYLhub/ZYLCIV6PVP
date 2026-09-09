@@ -734,4 +734,15 @@
 - 契约：当前表级写集合 SHA-256 更新为 `65eaf3751fffd5ab269cb8266fb576b6601f46d58aa472972a75f54abfff384d`，冻结 1.3.0 指纹/计数不变；主键分析基线推进到 `deeb6bb`，当前 SHA-256 更新为 `68ff5ff49d810300c1301561da93afed91b5c75c79836cc7d9b173d5dd195f3a`。
 - 验证：PowerShell 7 与 Windows PowerShell 5.1 全量校验均通过 203 XML、108 Criteria、280 Actions、1071 Files、543 活跃引用、48 休眠文件和 93 源码专用文件；两套运行时生成的 6,179,821 字节完整数据库报告逐字节一致，SHA-256 为 `a391db51c2e76937aceb5ed516facd1cf37c5568cc32217f645c4bfee04e22f7`。三种 profile 构建闭合：universal 1066 文件、776,215,564 字节、SHA-256 `282c48cbef8fdd4697bc8d23fd995af3a4641170d11bacb68cef742a38ee5a6d`；Windows 897 文件、442,474,627 字节、`0a1c52fbc9f72b44fff71701b9b3a4a35cbebc1f9cb7e49b48611f432da20c3a`；macOS 897 文件、442,474,289 字节、`bf308e3f2b0f1504c92f4c749f8ad785a47150d58b74d8022290f7469b429916`。
 - 风险/待办：静态证据只证明这 7 行在 Civ VI 数据库动作语义下受支配；仍需实机加载日志/最终 SQLite 抽查 Work Ethic、西班牙出生偏好和 Nihang 能力链。剩余 13 组涉及可独立存在的 DLC/Leader Criteria 或后置无条件兜底，不能套用本批删除规则。
-- 提交：本次提交（受支配数据库行精简）。
+- 提交：`7d7a26c refactor: remove dominated database rows`。
+
+### 2026-09-09 / M5-剩余重复主键兼容性白名单
+
+- 目标：对精简后剩余的 13 组相同主键行逐组作出去留决定，防止以后把必要的条件兼容定义当作普通重复删除，也防止白名单扩大成冲突掩盖工具。
+- 范围：新增 `database-duplicate-key-allowlist.json`，扩展主键验证器、数据库报告、工程元数据、Manifest 说明、架构、计划、测试矩阵和工作日志；不修改运行 SQL/XML、动作图、玩法值、ModInfo、包身份或版本号。
+- 审查结论：曾尝试把 Khmer、Gaul、Gran Colombia 的 8 行重复绑定集中到后置 `ZYL_GameplayOverrides.sql`，但完整校验立即指出 `UpstreamBalanceChecks.ps1` 要求三个 DLC 源各自闭合，而 `FinalGameplayChecks.ps1` 又要求最终 ZYL 层重新断言。进一步检查发现 BBCC 在最终覆盖前读取 `Modifiers` 生成派生数据，证明不能用“最终主键相同”概括所有中间语义；相关运行 SQL 已逐字恢复，未进入提交。
+- 白名单设计：8 组登记为 `upstream-final-defense`，强制恰好一个无 Criteria 的最终来源和至少一个条件上游来源，并固定 `ignore`/`replace` 冲突模式；另外 5 组登记为 `independent-providers`，分别覆盖 Negotiators/Caesar、Caesar/XP2、Macedon-Persia/Vikings，各来源必须由声明的 Criteria 门控且只允许相同行 `INSERT OR IGNORE`。实际重复组与白名单键集合必须完全相等，新增、消失、来源、行值、冲突模式或 Criteria 形状变化都会失败。
+- 结果：当前 13 组重复主键全部被解释，无普通未登记冲突；其中 8 组双层防线、5 组独立提供者。数据库仍为 142 动作、278 引用、248 源、6184 写操作、223 表；主键分析仍为 4285 个 INSERT/REPLACE、2859 个完全解析、6718 行候选、13 个相同行组、0 个强支配位置。表级与主键语义指纹均不变。
+- 验证：错误 key SHA 内存反例会被白名单精确覆盖检查拒绝；PowerShell 7 与 Windows PowerShell 5.1 全量校验均通过 203 XML、108 Criteria、280 Actions、1071 Files、543 活跃引用、48 休眠文件和 94 源码专用文件。两套运行时生成的 6,179,853 字节完整数据库报告逐字节一致，SHA-256 为 `8bca14bd15141c50662396f97ea8335a7f337cd2bf5a0fac646cf2f12104af4a`。本批无运行资产变化，三个发布包保持 `7d7a26c` 的构建结果。
+- 风险/待办：白名单只证明重复定义的当前行值和加载条件受控，不替代实机最终数据库验证。下一步建立能在官方 Schema/受控 SQLite 或 Civ VI DebugGameplay 数据库上执行的最终值查询与快照，并优先覆盖这 13 组及已有高风险玩法契约。
+- 提交：本次提交（剩余重复主键兼容性白名单）。
