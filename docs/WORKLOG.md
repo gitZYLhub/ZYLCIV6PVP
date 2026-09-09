@@ -776,7 +776,7 @@
 - 最终值：`xp2-full-content` 契约由 27 增至 28 个探针，旧实机库诊断 28/28，语义 SHA-256 `afca4ba07f7c1dd710cb79623e7af75285a168b3e500aa2e3356d8931b295b06`；因库早于当前提交且工作树当时非空，仍不提升为正式基线。
 - 验证：PowerShell 7/5.1 总校验均通过；两套 PowerShell 数据库报告均为 6,180,393 字节，SHA-256 `ceee00f009106e402f7b03dd8334dc34ac2a05165dc59e7de571afd8147f959e`。三种发布包保持文件数和预算闭合，SQL 规范化使每包仅增加 2 字节：universal 1066 文件/776,215,566 字节/`da69fc55…9d66`，Windows 897/442,474,629/`979fa0aa…3619`，macOS 897/442,474,291/`be6d649a…8151`。
 - 风险/待办：该等价性目前有静态、受控 SQLite 和旧实机最终行三层证据，但正式门槛仍要求当前干净提交重新加载游戏。剩余 371 条均读取官方、临时或项目表，下一步应记录源表、投影和 Criteria，先找重复生成键或无结果查询，不能继续用本批常量规则批量改写。
-- 提交：本次提交（常量 INSERT SELECT 规范化）。
+- 提交：`5881635 refactor: normalize constant insert select`。
 
 ### 2026-09-09 / M5-动态 INSERT SELECT 全量清单
 
@@ -787,4 +787,14 @@
 - 重复审查：唯一精确重复组位于 `Components/BBG/sql/bbcc/no_rng_bbcc.sql` 第 340/349/358 行；三次执行会读取前次写回的 `BBCC_DynamicYields`，且源码注释明确用于展开最多三层嵌套 RequirementSet，因此本批保留，不作为普通重复删除。
 - 验证：PowerShell 7/5.1 总校验均通过；两套数据库报告逐字节一致，为 6,432,351 字节、SHA-256 `67de54df…24ad`。当前仍为 142 动作、278 引用、248 源、6184 写操作，表级写集合 SHA-256 保持 `65eaf375…384d`，主键候选/重复与最终值契约均未变化。三种发布包与上一提交逐字节不变：universal `da69fc55…9d66`、Windows `979fa0aa…3619`、macOS `be6d649a…151`。
 - 风险/待办：静态结构不能证明查询实际返回行数或耗时。先从非自读、非存在性守卫、相同 Criteria/Action 的相邻键族收窄候选；任何改写都需要新鲜 Gameplay SQLite、Database.log 及对应 DLC/profile 证明，递归 CTE 还必须确认 Civ VI 内置 SQLite 兼容性。
-- 提交：本次提交（动态 INSERT SELECT 全量清单）。
+- 提交：`907f855 test: inventory dynamic insert selects`。
+
+### 2026-09-09 / M4-配置缺值零参数崩溃修复
+
+- 目标：修复实际 `Lua.log` 中导致 `ZYL_StartingPlayerBonus.lua` 整体加载失败的 `tonumber` 运行时错误，并全仓清除相同的配置 getter 零返回值风险，把根因转化为可重复静态回归检查。
+- 证据：2026-09-08 的旧实机日志在脚本第 53 行记录 `bad argument #1 to 'tonumber' (value expected)`，堆栈从 `TryGrantStartingBonus` 的顶层首次调用进入。日志来自已安装的 `ZYLPVPMOD1.4` 副本，不是当前提交的新鲜证据；对照当前工作树后确认同一直接嵌套写法仍存在。
+- 根因：Civ VI `GameConfiguration.GetValue` 对未设置键可能不返回任何 Lua 值；`tonumber(GameConfiguration.GetValue(...))` 因此会成为零参数调用并报错，而不是常规的 `tonumber(nil)`。玩家编号已有值时第一行可通过，奖励类型缺值时下一行仍会触发，符合日志位置。
+- 修改：全仓 15 处 `tonumber(GameConfiguration/MapConfiguration.GetValue(...))` 直接嵌套已归零。10 个运行脚本改为先捕获配置值再转换，覆盖开局奖励、身份发牌/面板、回合计时、刷新地图种子、外交条模式、Rich Mainland 富饶度/道路/城邦放置。`StartingBonusChecks.ps1` 对已复现功能要求两步读取；`RuntimeSafetyChecks.ps1` 则在全部 543 个活跃引用范围拒绝直接嵌套，总校验增加通用反例。
+- 行为影响：配置缺失时按各功能原有 `nil`/默认值分支继续，不再在转换前崩溃；已配置值、发放顺序、计时公式、随机种子增量、外交条模式和地图参数均不变。该玩家可见修复已写入 `CHANGELOG.md`。
+- 验证：直接嵌套全仓扫描为 0，PowerShell 7/5.1 总校验均通过。三种候选包均保持原文件数和预算闭合，与提交 `907f855` 的旧产物逐路径对比后恰有上述 10 个 Lua 文件改变、没有新增或删除文件，总体只增加 710 字节。universal 为 776,216,276 字节/`cc55a34c…446e`，Windows 为 442,475,339/`80672d72…aeda`，macOS 为 442,475,001/`3d0282e3…0ea2`。数据库、动作图、ModInfo 和版本身份不变。旧 `Modding.log` 的三处 `UpdateDatabase - Error Loading XML` 均位于官方 Rulers of the Sahara/Catherine de Medici DLC 动作，不归因于本项目；当前旧 `Lua.log` 仍只用于复现根因，修复后需由干净提交实机确认错误消失，并测试 G11 的 None/Builder/Scout/Builder+Scout、读档、计时/身份及 Rich Mainland 缺省参数。
+- 提交：本次提交（配置缺值零参数崩溃修复）。

@@ -49,8 +49,13 @@ local function FindNearestSpawnPlots(startPlot, playerID, count)
 end
 
 local function TryGrantStartingBonus()
-	local selectedPlayerNumber = tonumber(GameConfiguration.GetValue(PLAYER_OPTION)) or 0;
-	local selectedBonus = tonumber(GameConfiguration.GetValue(BONUS_OPTION)) or 0;
+	-- GetValue may return no values at all for an unset option. Capture first so
+	-- tonumber always receives one argument (nil) instead of being called with
+	-- zero arguments, which raises a Lua runtime error.
+	local selectedPlayerValue = GameConfiguration.GetValue(PLAYER_OPTION);
+	local selectedBonusValue = GameConfiguration.GetValue(BONUS_OPTION);
+	local selectedPlayerNumber = tonumber(selectedPlayerValue) or 0;
+	local selectedBonus = tonumber(selectedBonusValue) or 0;
 	if selectedPlayerNumber < 1 or selectedPlayerNumber > 12 or selectedBonus < BONUS_BUILDER or selectedBonus > BONUS_BUILDER_AND_SCOUT then
 		return;
 	end

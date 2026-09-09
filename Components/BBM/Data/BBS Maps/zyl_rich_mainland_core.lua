@@ -187,7 +187,8 @@ function GenerateMap()
 
 	--【富饶系数】
 	-- 富饶系数将综合影响地图中地貌/资源/大陆/自然奇观/开局补正
-	RichNum = tonumber(MapConfiguration.GetValue("RichNum")) or 4;
+	local richNumValue = MapConfiguration.GetValue("RichNum");
+	RichNum = tonumber(richNumValue) or 4;
 	RichNum = math.max(1, math.min(10, RichNum));
 
 	local PVPGames = MapConfiguration.GetValue("MapTrait") or 0;

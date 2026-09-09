@@ -326,8 +326,9 @@ $unsafeRuntimeTextFixture = @(Get-ZylRuntimeTextSafetyIssues -Source @'
 loadstring("return 1")
 local oldId = "3cd7857e-b720-4a1b-a61d-930f58d5237e"
 local legacy = "NO_MORE_STACK"
+local unsafeNumber = tonumber(GameConfiguration.GetValue("OPTION"))
 '@ -Label 'Fixture.lua')
-if ($safeRuntimeTextFixture.Count -ne 0 -or $unsafeRuntimeTextFixture.Count -ne 3) {
+if ($safeRuntimeTextFixture.Count -ne 0 -or $unsafeRuntimeTextFixture.Count -ne 4) {
     Add-ValidationError 'Active runtime safety helper failed its positive/negative self-test.'
 }
 
@@ -1480,6 +1481,21 @@ if (Test-Path -LiteralPath $startingBonusScriptPath -PathType Leaf) {
     if ($startingBonusScriptDriftSource -eq $startingBonusScriptSource -or
             $startingBonusDriftIssues -notcontains $expectedStartingBonusDriftIssue) {
         Add-ValidationError 'Starting bonus validation self-test did not reject a broken idempotency write.'
+    }
+    $startingBonusNoValueDriftSource = $startingBonusScriptSource.Replace(
+        'tonumber(selectedBonusValue)',
+        'tonumber(GameConfiguration.GetValue(BONUS_OPTION))'
+    )
+    $startingBonusNoValueDriftIssues = @(
+        Get-ZylStartingBonusContractIssues @startingBonusValidationParameters `
+            -StartingBonusScriptOverride $startingBonusNoValueDriftSource
+    )
+    $expectedStartingBonusNoValueIssue =
+        'Starting-player bonus options must be captured before tonumber; ' +
+        'an unset Civ VI option can return no values and cause a zero-argument call.'
+    if ($startingBonusNoValueDriftSource -eq $startingBonusScriptSource -or
+            $startingBonusNoValueDriftIssues -notcontains $expectedStartingBonusNoValueIssue) {
+        Add-ValidationError 'Starting bonus validation self-test did not reject an unsafe option conversion.'
     }
 }
 

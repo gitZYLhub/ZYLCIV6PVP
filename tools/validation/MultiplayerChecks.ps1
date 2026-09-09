@@ -518,9 +518,10 @@ function Get-ZylTurnProcessingContractIssues {
     }
     foreach ($requiredFragment in @(
             'local g_lastAppliedTimerType = nil',
+            'local function ReadNumericGameConfig(parameterID)',
             'local function IsTurnProcessingEnabled()',
-            'local timerMode = tonumber(GameConfiguration.GetValue("CPL_SMARTTIMER")) or 1',
-            'if timeValue ~= nil and tonumber(GameConfiguration.GetValue("TURN_TIMER_TIME")) ~= tonumber(timeValue) then',
+            'local timerMode = ReadNumericGameConfig("CPL_SMARTTIMER") or 1',
+            'if timeValue ~= nil and ReadNumericGameConfig("TURN_TIMER_TIME") ~= tonumber(timeValue) then',
             'if timerType ~= nil and timerType ~= g_lastAppliedTimerType then',
             'if changed then',
             'if g_temporaryNoTimer then return end',

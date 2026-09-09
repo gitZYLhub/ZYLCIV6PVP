@@ -220,7 +220,8 @@ end
 -- ===========================================================================
 --	获取当前外交能见度模式类型
 -- ===========================================================================
-local Model = tonumber(GameConfiguration.GetValue("ZYL_DIPLOMACY_RIBBON_MODE") or 0) == 1 and 1 or 0
+local diplomacyRibbonModeValue = GameConfiguration.GetValue("ZYL_DIPLOMACY_RIBBON_MODE")
+local Model = tonumber(diplomacyRibbonModeValue) == 1 and 1 or 0
 -- 当前显示阈值由文件末尾最终生效的 UpdateStatValues 实现：
 -- 公共信息为分数、科技/文化产出、当前信仰和外交支持；
 -- 1级显示军力，2级显示人口/粮食/生产力，3级显示当前金币及金币/信仰回合产出，

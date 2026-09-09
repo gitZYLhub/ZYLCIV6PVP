@@ -626,7 +626,8 @@ end
 
 function DoRoute()
 	local iW, iH = Map.GetGridSize();
-	local RouteLevel = tonumber(MapConfiguration.GetValue("RouteLevel")) or -1;
+	local routeLevelValue = MapConfiguration.GetValue("RouteLevel");
+	local RouteLevel = tonumber(routeLevelValue) or -1;
 	if RouteLevel < 0 then
 		Game:SetProperty("ZYLRM_ROUTE_TILES", 0);
 		print("ZYLRM routes: 0 (disabled)");

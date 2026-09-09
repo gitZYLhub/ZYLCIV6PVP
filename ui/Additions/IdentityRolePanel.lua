@@ -28,7 +28,8 @@ local function IsEnabled()
 end
 
 local function ReadConfigInteger(parameterID)
-  local value = tonumber(GameConfiguration.GetValue(parameterID))
+  local rawValue = GameConfiguration.GetValue(parameterID)
+  local value = tonumber(rawValue)
   if value == nil or value ~= math.floor(value) then return nil end
   return value
 end

@@ -629,7 +629,8 @@ function BBS_AssignStartingPlots.Create(args)
 	if MapConfiguration.GetValue("BBS_Team_Spawn") ~= nil then
 		Teamers_Config = MapConfiguration.GetValue("BBS_Team_Spawn")
 	end
-	local cityStatePlacement = tonumber(MapConfiguration.GetValue("ZYL_RVC_CityStatePlacement")) or 1
+	local cityStatePlacementValue = MapConfiguration.GetValue("ZYL_RVC_CityStatePlacement")
+	local cityStatePlacement = tonumber(cityStatePlacementValue) or 1
 	Game:SetProperty("ZYL_RVC_CITY_STATE_PLACEMENT", cityStatePlacement)
 	local ffaUniformDistributionEnabled = ZYL_RVC_IsFFAUniformDistributionEnabled()
 	Game:SetProperty("ZYLRM_FFA_UNIFORM_DISTRIBUTION_ENABLED", ffaUniformDistributionEnabled)

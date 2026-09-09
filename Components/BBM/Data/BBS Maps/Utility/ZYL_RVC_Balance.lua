@@ -676,7 +676,8 @@ function ZYL_RVC_Balance(args)
         print("Init: Local Player Id", Game.GetLocalPlayer());
         print("Init: Number of City-States", PlayerManager.GetAliveMinorsCount());
         local mapName = MapConfiguration.GetValue("MAP_SCRIPT")
-        local cityStatePlacement = tonumber(MapConfiguration.GetValue("ZYL_RVC_CityStatePlacement")) or 1
+        local cityStatePlacementValue = MapConfiguration.GetValue("ZYL_RVC_CityStatePlacement")
+        local cityStatePlacement = tonumber(cityStatePlacementValue) or 1
         print("Init: Loading " .. tostring(mapName) .. " script");
 		print("Init: City-State Placement:", cityStatePlacement == 0 and "Single Player" or "Multiplayer");
         local startTemp = MapConfiguration.GetValue("temperature")

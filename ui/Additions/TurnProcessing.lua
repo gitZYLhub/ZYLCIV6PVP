@@ -46,10 +46,15 @@ local function CommandsEnabled()
 	return value == true or value == 1
 end
 
+local function ReadNumericGameConfig(parameterID)
+	local value = GameConfiguration.GetValue(parameterID)
+	return tonumber(value)
+end
+
 local function IsTurnProcessingEnabled()
 	return GameConfiguration.IsNetworkMultiplayer() == true
 		and GameConfiguration.GetValue("CPL_SYNCTURN") == true
-		and tonumber(GameConfiguration.GetValue("CPL_SMARTTIMER")) ~= 1
+		and ReadNumericGameConfig("CPL_SMARTTIMER") ~= 1
 end
 
 local function ApplyHostTimer(timeValue, timerType, playSound)
@@ -57,7 +62,7 @@ local function ApplyHostTimer(timeValue, timerType, playSound)
 		return false
 	end
 	local changed = false
-	if timeValue ~= nil and tonumber(GameConfiguration.GetValue("TURN_TIMER_TIME")) ~= tonumber(timeValue) then
+	if timeValue ~= nil and ReadNumericGameConfig("TURN_TIMER_TIME") ~= tonumber(timeValue) then
 		GameConfiguration.SetValue("TURN_TIMER_TIME", timeValue)
 		changed = true
 	end
@@ -98,7 +103,7 @@ function OnMultiplayerChat(fromPlayer, toPlayer, text, eTargetType)
 	local command = string.lower(string.match(text, "^%s*(.-)%s*$") or text)
 	if command == "p+" or command == "p++" then
 		if g_timeCommandUses >= MAX_TIME_EXTENSIONS_PER_TURN then return end
-		local current = tonumber(GameConfiguration.GetValue("TURN_TIMER_TIME")) or g_turnTimer.MaxTurnTime or 0
+		local current = ReadNumericGameConfig("TURN_TIMER_TIME") or g_turnTimer.MaxTurnTime or 0
 		local extra = (g_turnTimer.MaxTurnTime > 0 and g_turnTimer.TimeRemaining < 8) and 24 or 20
 		local adjusted = math.max(0, current) + extra
 		ApplyHostTimer(adjusted, nil, true)
@@ -116,7 +121,7 @@ function OnMultiplayerChat(fromPlayer, toPlayer, text, eTargetType)
 
 	if command == "p-" or command == "p--" then
 		if g_reduceCommandUsed then return end
-		local current = tonumber(GameConfiguration.GetValue("TURN_TIMER_TIME")) or g_turnTimer.MaxTurnTime or 40
+		local current = ReadNumericGameConfig("TURN_TIMER_TIME") or g_turnTimer.MaxTurnTime or 40
 		local reduced = math.max(40, current - 10)
 		ApplyHostTimer(reduced, nil, true)
 		g_currenttimer = reduced
@@ -223,7 +228,7 @@ function SmartTimer()
 	-- 7: 2vi2 (Flashy)
 	-- 8: Casual Balanced (highest individual load)
 	-- 9: Casual Relaxed (turn + 70 + 4C + 2U + delta)
-	local timerMode = tonumber(GameConfiguration.GetValue("CPL_SMARTTIMER")) or 1
+	local timerMode = ReadNumericGameConfig("CPL_SMARTTIMER") or 1
 	if timerMode == 1 then
 		return
 	end

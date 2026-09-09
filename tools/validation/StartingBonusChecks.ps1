@@ -82,6 +82,10 @@ function Get-ZylStartingBonusContractIssues {
             'ZYL_STARTING_BONUS_PLAYER',
             'ZYL_STARTING_BONUS_TYPE',
             'ZYL_STARTING_BONUS_APPLIED',
+            'local selectedPlayerValue = GameConfiguration.GetValue(PLAYER_OPTION)',
+            'local selectedBonusValue = GameConfiguration.GetValue(BONUS_OPTION)',
+            'tonumber(selectedPlayerValue) or 0',
+            'tonumber(selectedBonusValue) or 0',
             'candidateConfig:IsHuman()',
             'table.sort(eligiblePlayerIDs)',
             'Game.GetCurrentGameTurn() ~= GameConfiguration.GetStartTurn()',
@@ -92,6 +96,13 @@ function Get-ZylStartingBonusContractIssues {
             if (-not $startingBonusScript.Contains($requiredStartingBonusFragment)) {
                 $issues.Add("Starting-player bonus script is missing: $requiredStartingBonusFragment")
             }
+        }
+        if ($startingBonusScript -match
+                'tonumber\s*\(\s*GameConfiguration\.GetValue\s*\(') {
+            $issues.Add(
+                'Starting-player bonus options must be captured before tonumber; ' +
+                'an unset Civ VI option can return no values and cause a zero-argument call.'
+            )
         }
     }
 

@@ -600,7 +600,8 @@ function OnRefreshConfig()
 		return
 	end
 
-	local map_seed = tonumber(MapConfiguration.GetValue("RANDOM_SEED"))
+	local mapSeedValue = MapConfiguration.GetValue("RANDOM_SEED")
+	local map_seed = tonumber(mapSeedValue)
 	local rng = math.floor(math.random() * 100000)
 	map_seed = (map_seed or 0) + rng
 	local game_seed = map_seed - 1
