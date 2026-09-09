@@ -723,4 +723,15 @@
 - 契约：主键分析基线推进到 `0704731`，SHA-256 更新为 `6f7bb04f8cf2693c819bc40469e91006605db7ea4c0e5a1845049c89aef8c124`；新增相同行组、受支配组和受支配出现位置计数。行哈希自检证明字段顺序不影响结果而字段值漂移会改变哈希。
 - 验证：PowerShell 7 与 Windows PowerShell 5.1 全量校验均通过 203 XML、108 Criteria、280 Actions、1071 Files、543 活跃引用、48 休眠文件和 93 源码专用文件；两套运行时生成的 6,190,860 字节完整数据库报告逐字节一致，SHA-256 为 `a1c4b2bbd7660bfa3e70b8abe4a73c2ec151f8d7c4b7321745ff32fb4ee11069`。表级写集合 SHA-256 仍为 `6e17ece0f355448df595dafbc10413c14202c96b22c248367cdc7c63c62fd202`，发布包内容不变。
 - 风险/待办：支配分析证明更晚 Ignore 在数据库层不会改变结果，但删除后仍须重跑跨版本契约、动作闭包并构建三种发布 profile。下一步只删除清单中的 7 行，不处理剩余 13 组，也不据此推断实机最终数据库已验证。
-- 提交：本次提交（完整行与加载支配分析）。
+- 提交：`deeb6bb refactor: identify dominated database rows`。
+
+### 2026-09-09 / M5-受支配数据库行精简
+
+- 目标：只删除完整行/Criteria/动作顺序/冲突模式共同证明为数据库空操作的 7 行，并验证分析结果按预期精确收敛。
+- 范围：修改 `xp2__gathering_storm.sql`、`bbs_bias_xp2.sql`、`dlc_maya_colombia.sql` 三个运行 SQL，推进表级与主键级当前契约，更新 CHANGELOG、计划、测试矩阵和工作日志；不修改动作图、源文件引用、玩法最终值、ModInfo、包身份或版本号。
+- 等价依据：无 Criteria 的 BBG Base 动作位于全局动作 96，已先写入 Work Ethic 两条 `BeliefModifiers`、西班牙海岸 `StartBiasTerrains`、城墙攻击/穿墙的两条 `Types` 和两条 `UnitAbilities` 完整相同行。被删位置分别位于 XP2 动作 99、Gran Colombia/Maya 动作 114 和 BBM XP2 动作 178，且全部是 `INSERT OR IGNORE`；因此在其 Criteria 成立时数据库主键已存在，7 行原本均为空操作。XP2 同一语句中的 Tithe/Pilgrimage 两行保留，NFP 后续 `UnitAbilityModifiers` 仍引用由 Base 已建立的能力。
+- 结果：删除 7 行候选和 3 个现已无用的 INSERT 语句，数据库写操作 6187→6184；动作保持 142、引用 278、唯一源 248、触及表 223、多源表 135、零写入源 0、同动作精确重复组 0。INSERT/REPLACE 操作 4288→4285，完全解析 2862→2859，行候选 6725→6718；重复主键 20→13、相同行 20→13、受支配组/位置 7→0。剩余 13 组均无更早无条件来源，本批不处理。
+- 契约：当前表级写集合 SHA-256 更新为 `65eaf3751fffd5ab269cb8266fb576b6601f46d58aa472972a75f54abfff384d`，冻结 1.3.0 指纹/计数不变；主键分析基线推进到 `deeb6bb`，当前 SHA-256 更新为 `68ff5ff49d810300c1301561da93afed91b5c75c79836cc7d9b173d5dd195f3a`。
+- 验证：PowerShell 7 与 Windows PowerShell 5.1 全量校验均通过 203 XML、108 Criteria、280 Actions、1071 Files、543 活跃引用、48 休眠文件和 93 源码专用文件；两套运行时生成的 6,179,821 字节完整数据库报告逐字节一致，SHA-256 为 `a391db51c2e76937aceb5ed516facd1cf37c5568cc32217f645c4bfee04e22f7`。三种 profile 构建闭合：universal 1066 文件、776,215,564 字节、SHA-256 `282c48cbef8fdd4697bc8d23fd995af3a4641170d11bacb68cef742a38ee5a6d`；Windows 897 文件、442,474,627 字节、`0a1c52fbc9f72b44fff71701b9b3a4a35cbebc1f9cb7e49b48611f432da20c3a`；macOS 897 文件、442,474,289 字节、`bf308e3f2b0f1504c92f4c749f8ad785a47150d58b74d8022290f7469b429916`。
+- 风险/待办：静态证据只证明这 7 行在 Civ VI 数据库动作语义下受支配；仍需实机加载日志/最终 SQLite 抽查 Work Ethic、西班牙出生偏好和 Nihang 能力链。剩余 13 组涉及可独立存在的 DLC/Leader Criteria 或后置无条件兜底，不能套用本批删除规则。
+- 提交：本次提交（受支配数据库行精简）。

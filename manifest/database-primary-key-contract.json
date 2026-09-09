@@ -1,21 +1,21 @@
 {
   "schemaVersion": 1,
-  "baselineCommit": "070473139325d83df4aae745c53dfcbc3d56d849",
-  "expectedAnalysisSha256": "6f7bb04f8cf2693c819bc40469e91006605db7ea4c0e5a1845049c89aef8c124",
+  "baselineCommit": "deeb6bb23f7844e59500c965750ccca1e3731593",
+  "expectedAnalysisSha256": "68ff5ff49d810300c1301561da93afed91b5c75c79836cc7d9b173d5dd195f3a",
   "expectedCounts": {
     "modCreatedTables": 22,
     "modCreatedTablesWithPrimaryKey": 9,
-    "insertReplaceOperations": 4288,
-    "resolvedOperations": 2862,
+    "insertReplaceOperations": 4285,
+    "resolvedOperations": 2859,
     "partiallyResolvedOperations": 0,
     "unresolvedOperations": 1426,
-    "rowCandidates": 6725,
+    "rowCandidates": 6718,
     "tablesWithCandidates": 127,
-    "duplicateKeyGroups": 20,
+    "duplicateKeyGroups": 13,
     "sameActionDuplicateKeyGroups": 0,
-    "identicalRowDuplicateKeyGroups": 20,
-    "dominatedLaterIgnoreGroups": 7,
-    "dominatedLaterIgnoreOccurrences": 7
+    "identicalRowDuplicateKeyGroups": 13,
+    "dominatedLaterIgnoreGroups": 0,
+    "dominatedLaterIgnoreOccurrences": 0
   },
   "expectedUnresolvedReasonCounts": {
     "insert-select": 372,
