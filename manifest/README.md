@@ -6,7 +6,7 @@
 - `database-write-set-contract.json`：冻结 1.3.0 与当前分支的数据库写集合指纹、计数和零写入源清单；未来有意重构只更新 `expectedCurrentAnalysisSha256`，不得覆盖冻结指纹。
 - `civ6-schema-keys.json`：从 Civ VI build 15296837 的官方基础/XP1/XP2/Configuration Schema 确定性导出的表列、主键和唯一键快照；日常校验不读取游戏安装目录。
 - `external-database-tables.json`：官方 Schema 和本项目建表语句之外的外部表及其提供者 Mod ID/Criteria 门控白名单。
-- `database-primary-key-contract.json`：对官方 Schema 及项目 `CREATE TABLE` 可验证主键下的 SQL `VALUES`/XML 插入行建立候选指纹、覆盖计数和未解析原因契约；主键重复只作为审查线索，不自动等同于可删除重复代码。
+- `database-primary-key-contract.json`：对官方 Schema 及项目 `CREATE TABLE` 可验证主键下的 SQL `VALUES`/XML 插入行建立主键/完整行指纹、覆盖计数和未解析原因契约；只把“更早无条件同值写入支配更晚 `INSERT OR IGNORE`”标记为强精简候选。
 - `criteria/*.xml`：按责任域拆分的 Criteria；`manifestOrder` 仅用于恢复冻结版全局顺序，组装时会移除。
 - `actions/frontend/*.xml`：按责任域拆分的 FrontEndActions。
 - `actions/ingame/*.xml`：按责任域拆分的 InGameActions。

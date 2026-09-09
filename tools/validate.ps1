@@ -375,6 +375,18 @@ CREATE TEMPORARY TABLE IF NOT EXISTS "Fixture" (
     FOREIGN KEY(Value) REFERENCES Other(Value)
 )
 '@
+$databasePrimaryKeyRowHashA = Get-ZylDatabaseRowSha256 -Table 'Fixture' -Fields @(
+    [pscustomobject]@{ column = 'Id'; kind = 'text'; value = 'A' },
+    [pscustomobject]@{ column = 'Value'; kind = 'number'; value = '1' }
+)
+$databasePrimaryKeyRowHashB = Get-ZylDatabaseRowSha256 -Table 'Fixture' -Fields @(
+    [pscustomobject]@{ column = 'Value'; kind = 'number'; value = '1' },
+    [pscustomobject]@{ column = 'Id'; kind = 'text'; value = 'A' }
+)
+$databasePrimaryKeyRowHashDrift = Get-ZylDatabaseRowSha256 -Table 'Fixture' -Fields @(
+    [pscustomobject]@{ column = 'Id'; kind = 'text'; value = 'B' },
+    [pscustomobject]@{ column = 'Value'; kind = 'number'; value = '1' }
+)
 if ($databasePrimaryKeySqlFixture.table -ne 'Modifiers' -or
         ($databasePrimaryKeySqlFixture.columns -join '|') -ne
             'ModifierId|ModifierType|RunOnce' -or
@@ -390,7 +402,9 @@ if ($databasePrimaryKeySqlFixture.table -ne 'Modifiers' -or
         -not $databasePrimaryKeyCreateFixture.temporary -or
         ($databasePrimaryKeyCreateFixture.columns -join '|') -ne 'Id|Value' -or
         ($databasePrimaryKeyCreateFixture.primaryKey -join '|') -ne 'Id' -or
-        $null -ne $databasePrimaryKeyCreateFixture.reason) {
+        $null -ne $databasePrimaryKeyCreateFixture.reason -or
+        $databasePrimaryKeyRowHashA -ne $databasePrimaryKeyRowHashB -or
+        $databasePrimaryKeyRowHashA -eq $databasePrimaryKeyRowHashDrift) {
     Add-ValidationError 'Database primary-key parser failed its positive/negative self-test.'
 }
 

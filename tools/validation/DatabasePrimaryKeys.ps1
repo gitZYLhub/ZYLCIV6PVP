@@ -516,6 +516,38 @@ function Get-ZylDatabaseKeySha256 {
     return Get-ZylDatabaseStatementSha256 -Statement ($pieces -join ([char]30))
 }
 
+function Get-ZylDatabaseRowSha256 {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string]$Table,
+
+        [Parameter(Mandatory = $true)]
+        [object[]]$Fields
+    )
+
+    $byColumn = @{}
+    foreach ($field in @($Fields)) {
+        $column = [string]$field.column
+        if ([string]::IsNullOrWhiteSpace($column) -or $byColumn.ContainsKey($column)) {
+            return $null
+        }
+        $byColumn[$column] = $field
+    }
+    $pieces = [System.Collections.Generic.List[string]]::new()
+    $pieces.Add($Table.ToLowerInvariant())
+    foreach ($column in @(Get-ZylOrdinalSortedUniqueStrings -Values @($byColumn.Keys))) {
+        $field = $byColumn[$column]
+        $kind = [string]$field.kind
+        $value = if ($null -eq $field.value) { '' } else { [string]$field.value }
+        $normalizedColumn = $column.ToLowerInvariant()
+        $pieces.Add(
+            "$($normalizedColumn.Length):$normalizedColumn|" +
+            "$($kind.Length):$kind|$($value.Length):$value"
+        )
+    }
+    return Get-ZylDatabaseStatementSha256 -Statement ($pieces -join ([char]30))
+}
+
 function Get-ZylDatabasePrimaryKeyAnalysis {
     param(
         [Parameter(Mandatory = $true)]
@@ -545,6 +577,10 @@ function Get-ZylDatabasePrimaryKeyAnalysis {
     $operations = [System.Collections.Generic.List[object]]::new()
     $candidates = [System.Collections.Generic.List[object]]::new()
     $reasonCounts = @{}
+    $sourceReferencesByPath = @{}
+    foreach ($sourceFile in @($WriteSetAnalysis.sourceFiles)) {
+        $sourceReferencesByPath[[string]$sourceFile.path] = @($sourceFile.references)
+    }
 
     foreach ($sourceFile in @($WriteSetAnalysis.sourceFiles)) {
         $actionKeys = @(Get-ZylOrdinalSortedUniqueStrings -Values @(
@@ -629,7 +665,22 @@ function Get-ZylDatabasePrimaryKeyAnalysis {
                         $currentReason = 'column-value-count-mismatch'
                     }
                     $keyValues = [System.Collections.Generic.List[object]]::new()
+                    $rowFields = [System.Collections.Generic.List[object]]::new()
                     if ($null -eq $currentReason) {
+                        for ($valueIndex = 0; $valueIndex -lt $columns.Count; $valueIndex++) {
+                            $rowLiteral = ConvertFrom-ZylSqlLiteral -Text (
+                                [string]$row.values[$valueIndex]
+                            )
+                            if (-not $rowLiteral.resolved) {
+                                $rowFields.Clear()
+                                break
+                            }
+                            $rowFields.Add([pscustomobject][ordered]@{
+                                column = [string]$columns[$valueIndex]
+                                kind = [string]$rowLiteral.kind
+                                value = $rowLiteral.value
+                            })
+                        }
                         foreach ($keyColumn in @($primaryKey)) {
                             $keyIndex = -1
                             for ($columnIndex = 0; $columnIndex -lt $columns.Count; $columnIndex++) {
@@ -663,6 +714,12 @@ function Get-ZylDatabasePrimaryKeyAnalysis {
                     }
                     $resolvedRows++
                     $keySha256 = Get-ZylDatabaseKeySha256 -Table $table -KeyValues @($keyValues)
+                    $rowSha256 = if ($rowFields.Count -eq $columns.Count) {
+                        Get-ZylDatabaseRowSha256 -Table $table -Fields @($rowFields)
+                    }
+                    else {
+                        $null
+                    }
                     $candidates.Add([pscustomobject][ordered]@{
                         path = [string]$sourceFile.path
                         format = 'sql'
@@ -673,6 +730,7 @@ function Get-ZylDatabasePrimaryKeyAnalysis {
                         conflictMode = $operation.conflictMode
                         table = $table
                         keySha256 = $keySha256
+                        rowSha256 = $rowSha256
                         keyValues = @($keyValues)
                         actionKeys = @($actionKeys)
                     })
@@ -770,6 +828,14 @@ function Get-ZylDatabasePrimaryKeyAnalysis {
                         $null
                     }
                     $keyValues = [System.Collections.Generic.List[object]]::new()
+                    $rowFields = [System.Collections.Generic.List[object]]::new()
+                    foreach ($attribute in @($node.Attributes)) {
+                        $rowFields.Add([pscustomobject][ordered]@{
+                            column = [string]$attribute.LocalName
+                            kind = 'text'
+                            value = [string]$attribute.Value
+                        })
+                    }
                     if ($null -eq $reason) {
                         foreach ($keyColumn in @($primaryKey)) {
                             $attribute = @($node.Attributes | Where-Object LocalName -ieq $keyColumn)
@@ -786,6 +852,7 @@ function Get-ZylDatabasePrimaryKeyAnalysis {
                     }
                     if ($null -eq $reason) {
                         $keySha256 = Get-ZylDatabaseKeySha256 -Table $table -KeyValues @($keyValues)
+                        $rowSha256 = Get-ZylDatabaseRowSha256 -Table $table -Fields @($rowFields)
                         $candidates.Add([pscustomobject][ordered]@{
                             path = [string]$sourceFile.path
                             format = 'xml'
@@ -796,6 +863,7 @@ function Get-ZylDatabasePrimaryKeyAnalysis {
                             conflictMode = $conflictMode
                             table = $table
                             keySha256 = $keySha256
+                            rowSha256 = $rowSha256
                             keyValues = @($keyValues)
                             actionKeys = @($actionKeys)
                         })
@@ -851,6 +919,53 @@ function Get-ZylDatabasePrimaryKeyAnalysis {
             }
         }
         $sharedActions = @(Get-ZylOrdinalSortedUniqueStrings -Values @($sharedActions))
+        $rowHashes = @(Get-ZylOrdinalSortedUniqueStrings -Values @($occurrences.rowSha256))
+        $identicalRow = $rowHashes.Count -eq 1 -and
+            -not [string]::IsNullOrWhiteSpace([string]$rowHashes[0])
+        $removableLaterIgnoreOccurrences = [System.Collections.Generic.List[object]]::new()
+        if ($identicalRow) {
+            foreach ($targetOccurrence in $occurrences) {
+                if ([string]$targetOccurrence.conflictMode -ne 'ignore') {
+                    continue
+                }
+                $targetReferences = @($sourceReferencesByPath[[string]$targetOccurrence.path])
+                $allTargetReferencesDominated = $targetReferences.Count -gt 0
+                foreach ($targetReference in $targetReferences) {
+                    $hasEarlierUnconditionalWrite = $false
+                    foreach ($sourceOccurrence in $occurrences) {
+                        if ([object]::ReferenceEquals($sourceOccurrence, $targetOccurrence)) {
+                            continue
+                        }
+                        foreach ($sourceReference in @(
+                                $sourceReferencesByPath[[string]$sourceOccurrence.path]
+                            )) {
+                            if ($sourceReference.scope -eq $targetReference.scope -and
+                                    @($sourceReference.criteria).Count -eq 0 -and
+                                    [int]$sourceReference.actionIndex -lt
+                                        [int]$targetReference.actionIndex) {
+                                $hasEarlierUnconditionalWrite = $true
+                                break
+                            }
+                        }
+                        if ($hasEarlierUnconditionalWrite) {
+                            break
+                        }
+                    }
+                    if (-not $hasEarlierUnconditionalWrite) {
+                        $allTargetReferencesDominated = $false
+                        break
+                    }
+                }
+                if ($allTargetReferencesDominated) {
+                    $removableLaterIgnoreOccurrences.Add([pscustomobject][ordered]@{
+                        path = [string]$targetOccurrence.path
+                        operationIndex = [int]$targetOccurrence.operationIndex
+                        line = $targetOccurrence.line
+                        rowIndex = [int]$targetOccurrence.rowIndex
+                    })
+                }
+            }
+        }
         $duplicateGroups.Add([pscustomobject][ordered]@{
             table = [string]$occurrences[0].table
             keySha256 = [string]$occurrences[0].keySha256
@@ -858,7 +973,10 @@ function Get-ZylDatabasePrimaryKeyAnalysis {
             occurrenceCount = $occurrences.Count
             sourceCount = @(Get-ZylOrdinalSortedUniqueStrings -Values @($occurrences.path)).Count
             sameAction = $sharedActions.Count -gt 0
+            identicalRow = $identicalRow
+            dominatedLaterIgnore = $removableLaterIgnoreOccurrences.Count -gt 0
             sharedActions = @($sharedActions)
+            removableLaterIgnoreOccurrences = @($removableLaterIgnoreOccurrences)
             occurrences = @(
                 foreach ($occurrence in $occurrences) {
                     [pscustomobject][ordered]@{
@@ -893,6 +1011,15 @@ function Get-ZylDatabasePrimaryKeyAnalysis {
             tablesWithCandidates = @(Get-ZylOrdinalSortedUniqueStrings -Values @($candidates.table)).Count
             duplicateKeyGroups = $duplicateGroups.Count
             sameActionDuplicateKeyGroups = @($duplicateGroups | Where-Object sameAction).Count
+            identicalRowDuplicateKeyGroups = @(
+                $duplicateGroups | Where-Object identicalRow
+            ).Count
+            dominatedLaterIgnoreGroups = @(
+                $duplicateGroups | Where-Object dominatedLaterIgnore
+            ).Count
+            dominatedLaterIgnoreOccurrences = @(
+                $duplicateGroups | ForEach-Object removableLaterIgnoreOccurrences
+            ).Count
         }
         unresolvedReasonCounts = $orderedReasonCounts
         modCreatedSchemas = @($modCreatedSchemas)
@@ -924,6 +1051,7 @@ function Get-ZylDatabasePrimaryKeySemanticView {
                     conflictMode = $candidate.conflictMode
                     table = [string]$candidate.table
                     keySha256 = [string]$candidate.keySha256
+                    rowSha256 = $candidate.rowSha256
                     keyValues = @($candidate.keyValues)
                 }
             }
@@ -966,7 +1094,10 @@ function Get-ZylDatabasePrimaryKeyContractIssues {
             'rowCandidates',
             'tablesWithCandidates',
             'duplicateKeyGroups',
-            'sameActionDuplicateKeyGroups'
+            'sameActionDuplicateKeyGroups',
+            'identicalRowDuplicateKeyGroups',
+            'dominatedLaterIgnoreGroups',
+            'dominatedLaterIgnoreOccurrences'
         )) {
         if ($null -eq $Contract.expectedCounts.PSObject.Properties[$countProperty]) {
             $issues.Add("Database primary-key contract is missing count: $countProperty")

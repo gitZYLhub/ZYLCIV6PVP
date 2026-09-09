@@ -149,4 +149,5 @@ Write-Host "Schema     : $($schemaCoverage.counts.official) official, $($schemaC
 Write-Host "Custom keys: $($primaryKeyAnalysis.counts.modCreatedTablesWithPrimaryKey) of $($primaryKeyAnalysis.counts.modCreatedTables) mod-created tables"
 Write-Host "Keys       : $($primaryKeyAnalysis.counts.rowCandidates) row candidates across $($primaryKeyAnalysis.counts.tablesWithCandidates) tables"
 Write-Host "Key repeats: $($primaryKeyAnalysis.counts.duplicateKeyGroups) groups, $($primaryKeyAnalysis.counts.sameActionDuplicateKeyGroups) within one action"
+Write-Host "Same rows  : $($primaryKeyAnalysis.counts.identicalRowDuplicateKeyGroups) groups, $($primaryKeyAnalysis.counts.dominatedLaterIgnoreOccurrences) later ignores dominated"
 Write-Host "SHA-256    : $($report.analysisSha256)"
