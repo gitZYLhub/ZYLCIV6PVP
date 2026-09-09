@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 1,
+  "packageName": "ZYLPVPMOD",
+  "semanticVersion": "1.3.0",
+  "modId": "4dd01931-9d44-4a8a-8e74-712cba0f0072",
+  "civ6BuildId": "15296837",
+  "expectedFileName": "Lua.log",
+  "minimumLineCount": 1,
+  "contextRadius": 8,
+  "coverage": {
+    "fatalPatterns": 5
+  },
+  "fatalPatterns": [
+    {
+      "id": "runtime-error",
+      "regex": "^Runtime Error:\\s*.+$",
+      "rationale": "Any Lua runtime exception can abort a gameplay or UI script and must fail release evidence."
+    },
+    {
+      "id": "syntax-error",
+      "regex": "^Syntax Error:\\s*.+$",
+      "rationale": "A syntax error prevents the affected Lua context from loading."
+    },
+    {
+      "id": "file-load-error",
+      "regex": "^Error loading file\\b.*$",
+      "rationale": "Civ VI emits this line after a Lua source fails to initialize."
+    },
+    {
+      "id": "stack-trace",
+      "regex": "^stack traceback:\\s*$",
+      "rationale": "A traceback without a recognized leading error must still fail conservatively."
+    },
+    {
+      "id": "lua-callstack",
+      "regex": "^Lua callstack:\\s*$",
+      "rationale": "Civ VI callstack output is treated as fatal even if the preceding error format changes."
+    }
+  ]
+}

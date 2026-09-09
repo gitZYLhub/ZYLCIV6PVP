@@ -133,6 +133,12 @@ if (-not (Test-Path -LiteralPath $databaseLogChecksPath -PathType Leaf)) {
 }
 . $databaseLogChecksPath
 
+$luaLogChecksPath = Join-Path $PSScriptRoot 'validation\LuaLogChecks.ps1'
+if (-not (Test-Path -LiteralPath $luaLogChecksPath -PathType Leaf)) {
+    throw "Lua.log helpers not found: $luaLogChecksPath"
+}
+. $luaLogChecksPath
+
 $teamPvpSocietyChecksPath = Join-Path $PSScriptRoot 'validation\TeamPvpSocietyChecks.ps1'
 if (-not (Test-Path -LiteralPath $teamPvpSocietyChecksPath -PathType Leaf)) {
     throw "Team PVP Secret Societies validation helpers not found: $teamPvpSocietyChecksPath"
@@ -926,6 +932,49 @@ else {
     }
     catch {
         Add-ValidationError ('Database.log contract could not be loaded: ' + $_.Exception.Message)
+    }
+}
+$luaLogContractPath = Join-Path $modRoot (
+    [string]$projectMetadata.luaLogContractFile
+)
+if (-not (Test-Path -LiteralPath $luaLogContractPath -PathType Leaf)) {
+    Add-ValidationError 'Lua.log contract is missing.'
+}
+else {
+    try {
+        $luaLogContractHash = (
+            Get-FileHash -LiteralPath $luaLogContractPath -Algorithm SHA256
+        ).Hash.ToLowerInvariant()
+        if ($luaLogContractHash -ne [string]$projectMetadata.luaLogContractSha256) {
+            Add-ValidationError (
+                'Lua.log contract hash drifted: ' +
+                "$luaLogContractHash (expected $($projectMetadata.luaLogContractSha256))."
+            )
+        }
+        $luaLogContract = Get-Content `
+            -LiteralPath $luaLogContractPath -Raw | ConvertFrom-Json
+        foreach ($luaLogContractIssue in @(
+                Get-ZylLuaLogContractIssues `
+                    -Contract $luaLogContract `
+                    -ProjectMetadata $projectMetadata
+            )) {
+            Add-ValidationError $luaLogContractIssue
+        }
+        $luaLogDrift = ConvertFrom-Json (
+            $luaLogContract | ConvertTo-Json -Depth 30
+        )
+        $luaLogDrift.fatalPatterns[0].regex = '['
+        if (@(Get-ZylLuaLogContractIssues `
+                -Contract $luaLogDrift `
+                -ProjectMetadata $projectMetadata).Count -eq 0) {
+            Add-ValidationError 'Lua.log contract self-test did not reject an invalid fatal regex.'
+        }
+        Invoke-ZylPythonSelfTest `
+            -ScriptPath (Join-Path $PSScriptRoot 'logs\audit_lua_log.py') `
+            -Label 'Lua.log audit tool'
+    }
+    catch {
+        Add-ValidationError ('Lua.log contract could not be loaded: ' + $_.Exception.Message)
     }
 }
 $databaseWriteSetContractPath = Join-Path $modRoot 'manifest\database-write-set-contract.json'

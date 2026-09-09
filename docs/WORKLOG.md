@@ -797,4 +797,14 @@
 - 修改：全仓 15 处 `tonumber(GameConfiguration/MapConfiguration.GetValue(...))` 直接嵌套已归零。10 个运行脚本改为先捕获配置值再转换，覆盖开局奖励、身份发牌/面板、回合计时、刷新地图种子、外交条模式、Rich Mainland 富饶度/道路/城邦放置。`StartingBonusChecks.ps1` 对已复现功能要求两步读取；`RuntimeSafetyChecks.ps1` 则在全部 543 个活跃引用范围拒绝直接嵌套，总校验增加通用反例。
 - 行为影响：配置缺失时按各功能原有 `nil`/默认值分支继续，不再在转换前崩溃；已配置值、发放顺序、计时公式、随机种子增量、外交条模式和地图参数均不变。该玩家可见修复已写入 `CHANGELOG.md`。
 - 验证：直接嵌套全仓扫描为 0，PowerShell 7/5.1 总校验均通过。三种候选包均保持原文件数和预算闭合，与提交 `907f855` 的旧产物逐路径对比后恰有上述 10 个 Lua 文件改变、没有新增或删除文件，总体只增加 710 字节。universal 为 776,216,276 字节/`cc55a34c…446e`，Windows 为 442,475,339/`80672d72…aeda`，macOS 为 442,475,001/`3d0282e3…0ea2`。数据库、动作图、ModInfo 和版本身份不变。旧 `Modding.log` 的三处 `UpdateDatabase - Error Loading XML` 均位于官方 Rulers of the Sahara/Catherine de Medici DLC 动作，不归因于本项目；当前旧 `Lua.log` 仍只用于复现根因，修复后需由干净提交实机确认错误消失，并测试 G11 的 None/Builder/Scout/Builder+Scout、读档、计时/身份及 Rich Mainland 缺省参数。
-- 提交：本次提交（配置缺值零参数崩溃修复）。
+- 提交：`4bba099 fix: guard configuration number conversions`。
+
+### 2026-09-09 / M4-Lua.log 致命错误证据门
+
+- 目标：把此前依靠人工翻查发现的 Lua 崩溃转成正式、可重复的发布门禁，确保 Runtime/Syntax/脚本加载错误和堆栈不会在大量普通日志中漏过。
+- 范围：新增 `lua-log-contract.json`、PowerShell 契约检查、Python 审计器和操作手册，并接入工程元数据、总校验、Manifest 说明、架构、计划、测试矩阵与工作日志；不修改运行资产、动作图、玩法值、ModInfo、名称或版本号。
+- 设计决定：采用零白名单策略，逐行匹配 5 类高置信标记：`Runtime Error`、`Syntax Error`、`Error loading file`、`stack traceback` 和 `Lua callstack`。不按普通词 `Attempt`、`Warning`、`Failed` 宽泛匹配，避免地图回退提示和官方 Mod 浏览器上下文失败被误报。报告提取邻近 Lua 文件/行号并脱敏绝对路径，复用 SQLite/Database.log 的 Git 脏状态、输入新鲜度、捕获中变化、哈希、仓库输入和 `artifacts/` 输出边界。
+- 诊断证据：2026-09-08 12:31:07Z 的旧 `Lua.log` 为 181,045 字节/2645 行，SHA-256 `08cca62c0005dec484a81d6bbcda753ba91c625aabfd0d6a1847696772b88a7e`；审计精确命中开局奖励脚本的 runtime error、stack traceback、Lua callstack 和 file-load error 共 4 项，并保留 `scripts/ZYL_StartingPlayerBonus.lua:53/130` 定位。报告不含本机绝对路径，语义 SHA-256 为 `77818a18863264a48e0d8e4e71c42a4051dd4223177f06c1964553cf500d7df1`。它早于当前提交且采集时工作树非空，故 `evidenceGuardsPassed=false`、退出码 1，只用于证明审计器能复现旧故障。
+- 验证：Python 正例确认普通 `Attempt`/`Failed` 日志通过，致命夹具、路径泄漏和无效正则反例均按预期失败；PowerShell 7/5.1 总校验均通过 203 XML、108 Criteria、280 Actions、1071 Files、543 活跃引用、48 休眠文件和 111 源码专用文件。三种发布包与 `4bba099` 逐字节不变：universal 1066 文件/776,216,276 字节/`cc55a34c…446e`，Windows 897/442,475,339/`80672d72…aeda`，macOS 897/442,475,001/`3d0282e3…0ea2`。
+- 风险/待办：静态与旧日志证据证明门禁能发现已知崩溃，但不能证明修复已在游戏中通过。正式基线必须在本批提交且工作树干净后重新启动 Civ VI，覆盖 G11 四种开局奖励、读档、计时/身份和 Rich Mainland 缺省参数，并与同一次加载的 `Database.log`、`DebugGameplay.sqlite` 配对采集。
+- 提交：本次提交（Lua.log 致命错误证据门）。
