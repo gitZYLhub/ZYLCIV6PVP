@@ -7,11 +7,15 @@ $ErrorActionPreference = 'Stop'
 $modRoot = [System.IO.Path]::GetFullPath((Split-Path -Parent $PSScriptRoot))
 $metadataPath = Join-Path $PSScriptRoot 'project.json'
 $manifestGraphHelpers = Join-Path $PSScriptRoot 'validation\ManifestGraph.ps1'
+$actionGraphContractPath = Join-Path $modRoot 'manifest\baseline-1.3.0-action-graph.json'
 if (-not (Test-Path -LiteralPath $metadataPath -PathType Leaf)) {
     throw "Project metadata not found: $metadataPath"
 }
 if (-not (Test-Path -LiteralPath $manifestGraphHelpers -PathType Leaf)) {
     throw "Manifest graph helpers not found: $manifestGraphHelpers"
+}
+if (-not (Test-Path -LiteralPath $actionGraphContractPath -PathType Leaf)) {
+    throw "Manifest action-graph contract not found: $actionGraphContractPath"
 }
 . $manifestGraphHelpers
 
@@ -38,11 +42,15 @@ $document.PreserveWhitespace = $false
 $document.Load($modInfoPath)
 $graph = Get-ZylModInfoActionGraph -Path $modInfoPath
 $graphJson = ConvertTo-ZylCanonicalJson -InputObject $graph
+$actionGraphSha256 = Get-ZylSha256ForText -Text $graphJson
+$actionGraphContract = Get-Content -LiteralPath $actionGraphContractPath -Raw | ConvertFrom-Json
 $report = [ordered]@{
     schemaVersion = 1
     packageName = [string]$metadata.packageName
     semanticVersion = [string]$metadata.semanticVersion
-    actionGraphSha256 = Get-ZylSha256ForText -Text $graphJson
+    actionGraphSha256 = $actionGraphSha256
+    frozenActionGraphSha256 = [string]$actionGraphContract.frozenActionGraphSha256
+    differsFromFrozen = $actionGraphSha256 -ne [string]$actionGraphContract.frozenActionGraphSha256
     counts = [ordered]@{
         criteria = @($document.SelectNodes('/Mod/ActionCriteria/Criteria')).Count
         frontEndActions = @($document.SelectNodes('/Mod/FrontEndActions/*')).Count
@@ -68,3 +76,5 @@ Write-Host "Criteria  : $($report.counts.criteria)"
 Write-Host "Actions   : $($report.counts.frontEndActions + $report.counts.inGameActions)"
 Write-Host "Files     : $($report.counts.files)"
 Write-Host "SHA-256   : $($report.actionGraphSha256)"
+Write-Host "Frozen    : $($report.frozenActionGraphSha256)"
+Write-Host "Changed   : $($report.differsFromFrozen)"

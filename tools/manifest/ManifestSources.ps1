@@ -80,14 +80,10 @@ function Get-ZylOrderedManifestElements {
         }
     }
 
-    $orderedRecords = @($records | Sort-Object Order)
-    for ($index = 0; $index -lt $orderedRecords.Count; $index++) {
-        $expectedOrder = $index + 1
-        if ($orderedRecords[$index].Order -ne $expectedOrder) {
-            throw "Manifest order is not contiguous in ${SourceDirectory}: expected $expectedOrder, found $($orderedRecords[$index].Order)."
-        }
-    }
-    return $orderedRecords
+    # manifestOrder is a stable ordinal, not an array index.  Gaps preserve the
+    # historical position of surviving entries when a dead action/file is
+    # removed; positivity and global uniqueness still make sorting unambiguous.
+    return @($records | Sort-Object Order)
 }
 
 function New-ZylActionCriteriaSection {

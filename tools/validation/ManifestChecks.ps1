@@ -43,29 +43,33 @@ function Get-ZylManifestBaselineIssues {
             inGameActions = @($document.SelectNodes('/Mod/InGameActions/*')).Count
             files = @($document.SelectNodes('/Mod/Files/File')).Count
         }
-        if ($baseline.schemaVersion -ne 1 -or
-                [string]::IsNullOrWhiteSpace([string]$baseline.actionGraphSha256) -or
-                $null -eq $baseline.counts) {
-            $issues.Add('The frozen ModInfo action-graph fingerprint has an invalid schema.')
+        if ($baseline.schemaVersion -ne 2 -or
+                [string]$baseline.frozenActionGraphSha256 -notmatch '^[0-9a-f]{64}$' -or
+                [string]$baseline.expectedCurrentActionGraphSha256 -notmatch '^[0-9a-f]{64}$' -or
+                $null -eq $baseline.frozenCounts -or
+                $null -eq $baseline.expectedCurrentCounts) {
+            $issues.Add('The frozen/current ModInfo action-graph contract has an invalid schema.')
             return @($issues)
         }
-        if ($actualFingerprint -ne [string]$baseline.actionGraphSha256) {
+        if ($actualFingerprint -ne [string]$baseline.expectedCurrentActionGraphSha256) {
             $issues.Add(
-                "ModInfo action graph differs from the frozen 1.3.0 semantic baseline: " +
-                "expected $($baseline.actionGraphSha256), found $actualFingerprint."
+                "ModInfo action graph differs from the expected current semantic graph: " +
+                "expected $($baseline.expectedCurrentActionGraphSha256), found $actualFingerprint. " +
+                "The frozen 1.3.0 fingerprint remains $($baseline.frozenActionGraphSha256)."
             )
         }
         foreach ($countName in $actualCounts.Keys) {
-            if ([int]$baseline.counts.$countName -ne $actualCounts[$countName]) {
+            if ([int]$baseline.expectedCurrentCounts.$countName -ne $actualCounts[$countName]) {
                 $issues.Add(
-                    "Frozen ModInfo action-graph count is stale for ${countName}: " +
-                    "expected $($baseline.counts.$countName), found $($actualCounts[$countName])."
+                    "Current ModInfo action-graph count is stale for ${countName}: " +
+                    "expected $($baseline.expectedCurrentCounts.$countName), " +
+                    "found $($actualCounts[$countName])."
                 )
             }
         }
     }
     catch {
-        $issues.Add("Unable to validate the frozen ModInfo action graph: $($_.Exception.Message)")
+        $issues.Add("Unable to validate the frozen/current ModInfo action graph: $($_.Exception.Message)")
     }
     return @($issues)
 }

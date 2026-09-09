@@ -913,7 +913,6 @@
 		<UpdateDatabase id="CPL_XML">
 			<File>data/Victories.xml</File>
 		</UpdateDatabase>
-		<!-- Database adjustment FrontEnd dependent -->
 		<UpdateDatabase id="MPH_Control_Military_Alliance_Off">
 			<Properties>
 				<LoadOrder>20000</LoadOrder>
@@ -1050,7 +1049,6 @@
 			<Criteria>Diplomatic_SW_Off</Criteria>
 			<File>sql/mph_diplomacy_no_sw.sql</File>
 		</UpdateDatabase>
-		<!-- General MPH Ingame Files -->
 		<UpdateText id="MPH_INGAME_TEXTS">
 			<File>lang/Text_EN.xml</File>
 			<File>lang/Text_FR.xml</File>
@@ -1061,7 +1059,6 @@
 			<File>lang/Text_JP.xml</File>
 			<File>lang/Text_DE.xml</File>
 		</UpdateText>
-		<!-- Master UI -->
 		<ImportFiles id="MPH_Ingame">
 			<Properties>
 				<LoadOrder>9</LoadOrder>
@@ -1069,7 +1066,6 @@
 			<File>ui/ingame.xml</File>
 			<File>ui/ingame.lua</File>
 		</ImportFiles>
-		<!-- Replacement UI -->
 		<ReplaceUIScript id="MPH_ChatPanel" criteria="Expansion2">
 			<Properties>
 				<LoadOrder>9</LoadOrder>
@@ -1108,7 +1104,6 @@
 			<File>ui/Replacements/statusmessagepanel.lua</File>
 			<File>ui/Replacements/statusmessagepanel.xml</File>
 		</ImportFiles>
-		<!-- UI Additions -->
 		<AddUserInterfaces id="MPH_DropControl">
 			<Properties>
 				<LoadOrder>99</LoadOrder>
@@ -1152,7 +1147,6 @@
 			</Properties>
 			<File>ui/Additions/IdentityRolePanel.xml</File>
 		</AddUserInterfaces>
-		<!-- Extra Icons For Modes -->
 		<ImportFiles id="AN_Import">
 			<Items>
 				<File>icons/Anonymous_44.dds</File>
@@ -1169,7 +1163,6 @@
 		<UpdateIcons id="Sudden_Death_Icon">
 			<File>icons/Sudden_Death_Icons.xml</File>
 		</UpdateIcons>
-		<!-- Sudden Death Only -->
 		<AddUserInterfaces id="SD_InGameUI" criteria="Sudden_Death_Mode_Expansion2">
 			<Properties>
 				<Context>InGame</Context>
@@ -1183,7 +1176,6 @@
 			<File>ui/Additions/SuddenDeathPanel.lua</File>
 			<File>ui/Additions/SuddenDeathPanel.xml</File>
 		</ImportFiles>
-		<!-- Anonymous Only -->
 		<UpdateText id="AnonText" criteria="Anonymous_Mode_Expansion2">
 			<Properties>
 				<LoadOrder>9999</LoadOrder>
@@ -1196,7 +1188,6 @@
 			</Properties>
 			<File>ui/Replacements/unitflagmanager.lua</File>
 		</ImportFiles>
-		<!-- Selected TPT UI/QoL modules. Tournament/network state remains MPH-owned. -->
 		<AddGameplayScripts id="ZYL_GoodyHutReminder">
 			<File>GBR/Goodyhuts_Boost_GP.lua</File>
 		</AddGameplayScripts>
@@ -1594,7 +1585,6 @@
 			<File>Components/BBG/sql/Base/Districts.sql</File>
 			<File>Components/BBG/sql/Base/Government.sql</File>
 			<File>Components/BBG/sql/Base/GreatPeoples.sql</File>
-			<File>Components/BBG/sql/Base/GreatWorks.sql</File>
 			<File>Components/BBG/sql/Base/Policies.sql</File>
 			<File>Components/BBG/sql/Base/Spy.sql</File>
 			<File>Components/BBG/sql/Base/Units.sql</File>
@@ -1634,7 +1624,6 @@
 			<File>Components/BBG/sql/XP1/Korea.sql</File>
 			<File>Components/BBG/sql/XP1/Mapuche.sql</File>
 			<File>Components/BBG/sql/XP1/Mongolia.sql</File>
-			<File>Components/BBG/sql/XP1/Netherlands.sql</File>
 			<File>Components/BBG/sql/XP1/Chandragupta.sql</File>
 		</UpdateDatabase>
 		<UpdateDatabase id="ZYLPVP_BBG_IG_019_BBG_XP1_OR_XP2">
@@ -1857,14 +1846,6 @@
 			<File>Components/BBG/sql/NFP/Babylon.sql</File>
 			<File>Components/BBG/sql/NFP/GreatPeoples.sql</File>
 		</UpdateDatabase>
-		<UpdateDatabase id="ZYLPVP_BBG_IG_043_BBG_Babylon_XP2">
-			<Properties>
-				<LoadOrder>11649</LoadOrder>
-			</Properties>
-			<Criteria>ZYLPVP_BBG_Babylon</Criteria>
-			<Criteria>ZYLPVP_BBG_XP2</Criteria>
-			<File>Components/BBG/sql/NFP/mali_dlc_babylon.sql</File>
-		</UpdateDatabase>
 		<UpdateDatabase id="ZYLPVP_BBG_IG_044_BBG_KublaiKhan_Vietnam">
 			<Properties>
 				<LoadOrder>11650</LoadOrder>
@@ -1929,14 +1910,6 @@
 			<File>Components/BBG/sql/LP/Yongle.sql</File>
 			<File>Components/BBG/sql/LP/WuZetian.sql</File>
 		</UpdateDatabase>
-		<UpdateDatabase id="ZYLPVP_BBG_IG_052_BBG_RulesChina_XP1">
-			<Properties>
-				<LoadOrder>11657</LoadOrder>
-			</Properties>
-			<Criteria>ZYLPVP_BBG_RulersChina</Criteria>
-			<Criteria>ZYLPVP_BBG_XP1</Criteria>
-			<File>Components/BBG/sql/LP/lp_qin_unifier_xp1.sql</File>
-		</UpdateDatabase>
 		<UpdateDatabase id="ZYLPVP_BBG_IG_053_BBG_RulesChina_NFPEthiopia">
 			<Properties>
 				<LoadOrder>11658</LoadOrder>
@@ -1944,14 +1917,6 @@
 			<Criteria>ZYLPVP_BBG_RulersChina</Criteria>
 			<Criteria>ZYLPVP_BBG_Ethiopia</Criteria>
 			<File>Components/BBG/sql/LP/WuZetian_nfp.sql</File>
-		</UpdateDatabase>
-		<UpdateDatabase id="ZYLPVP_BBG_IG_054_BBG_RulesChina_XP2">
-			<Properties>
-				<LoadOrder>11659</LoadOrder>
-			</Properties>
-			<Criteria>ZYLPVP_BBG_RulersChina</Criteria>
-			<Criteria>ZYLPVP_BBG_XP2</Criteria>
-			<File>Components/BBG/sql/LP/lp_qin_unifier_xp2.sql</File>
 		</UpdateDatabase>
 		<UpdateDatabase id="ZYLPVP_BBG_IG_055_BBG_Builders">
 			<Properties>
@@ -2937,7 +2902,6 @@
 		<File>sql/mph_alliance_no_economic_xp1.sql</File>
 		<File>sql/mph_diplomacy_no_fs.sql</File>
 		<File>sql/mph_diplomacy_no_sw.sql</File>
-		<!-- FrontEnd UI -->
 		<File>ui/gamesetuplogic.lua</File>
 		<File>ui/hostgame.lua</File>
 		<File>ui/hostgame.xml</File>
@@ -2947,7 +2911,6 @@
 		<File>ui/setupparameters.lua</File>
 		<File>ui/stagingroom.lua</File>
 		<File>ui/stagingroom.xml</File>
-		<!-- InGame UI -->
 		<File>ui/ingame.xml</File>
 		<File>ui/ingame.lua</File>
 		<File>ui/Replacements/chatpanel_MPH.lua</File>
@@ -2962,7 +2925,6 @@
 		<File>ui/Replacements/pausepanel.xml</File>
 		<File>ui/Replacements/statusmessagepanel.lua</File>
 		<File>ui/Replacements/statusmessagepanel.xml</File>
-		<!-- Anon -->
 		<File>ui/Additions/DropControl.xml</File>
 		<File>ui/Additions/DropControl.lua</File>
 		<File>ui/Additions/MPHOptions.xml</File>
@@ -2971,7 +2933,6 @@
 		<File>ui/Additions/TurnProcessing.lua</File>
 		<File>ui/Additions/VotePanel.xml</File>
 		<File>ui/Additions/VotePanel.lua</File>
-		<!-- Sudden Death -->
 		<File>ui/Additions/SuddenDeathPanel.lua</File>
 		<File>ui/Additions/SuddenDeathPanel.xml</File>
 		<File>ui/Replacements/unitflagmanager.lua</File>
@@ -2988,7 +2949,6 @@
 		<File>icons/Anonymous_44.dds</File>
 		<File>icons/Sudden_Death_Icons.xml</File>
 		<File>icons/Sudden_Death_44.dds</File>
-		<!-- Integrated TPT UI/QoL resources -->
 		<File>configuration/Config_ZYL.xml</File>
 		<File>lang/ZYL_Text.xml</File>
 		<File>scripts/ZYL_StartingPlayerBonus.lua</File>
@@ -3107,7 +3067,6 @@
 		<File>Components/BBG/sql/Base/Germany.sql</File>
 		<File>Components/BBG/sql/Base/Government.sql</File>
 		<File>Components/BBG/sql/Base/GreatPeoples.sql</File>
-		<File>Components/BBG/sql/Base/GreatWorks.sql</File>
 		<File>Components/BBG/sql/Base/Greece.sql</File>
 		<File>Components/BBG/sql/Base/India.sql</File>
 		<File>Components/BBG/sql/Base/Japan.sql</File>
@@ -3133,7 +3092,6 @@
 		<File>Components/BBG/sql/XP1/Georgia.sql</File>
 		<File>Components/BBG/sql/XP1/Korea.sql</File>
 		<File>Components/BBG/sql/XP1/Mongolia.sql</File>
-		<File>Components/BBG/sql/XP1/Netherlands.sql</File>
 		<File>Components/BBG/sql/XP1/Mapuche.sql</File>
 		<File>Components/BBG/sql/XP1/Chandragupta.sql</File>
 		<File>Components/BBG/sql/XP1/Government_XP1_or_XP2.sql</File>
@@ -3207,7 +3165,6 @@
 		<File>Components/BBG/sql/NFP/Byzantium.sql</File>
 		<File>Components/BBG/sql/NFP/new_bbg_nfp_babylon.sql</File>
 		<File>Components/BBG/sql/NFP/Babylon.sql</File>
-		<File>Components/BBG/sql/NFP/mali_dlc_babylon.sql</File>
 		<File>Components/BBG/sql/NFP/GreatPeoples.sql</File>
 		<File>Components/BBG/sql/NFP/Vietnam.sql</File>
 		<File>Components/BBG/sql/NFP/new_bbg_kublai.sql</File>
@@ -3227,8 +3184,6 @@
 		<File>Components/BBG/sql/LP/Theodora.sql</File>
 		<File>Components/BBG/sql/LP/lp_ludwig.sql</File>
 		<File>Components/BBG/sql/LP/Sejong.sql</File>
-		<File>Components/BBG/sql/LP/lp_qin_unifier_xp2.sql</File>
-		<File>Components/BBG/sql/LP/lp_qin_unifier_xp1.sql</File>
 		<File>Components/BBG/sql/LP/Ptolemaic.sql</File>
 		<File>Components/BBG/sql/LP/Ramses.sql</File>
 		<File>Components/BBG/sql/LP/Sundiata.sql</File>

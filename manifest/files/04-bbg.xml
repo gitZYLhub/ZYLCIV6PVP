@@ -35,7 +35,6 @@
   <File manifestOrder="190">Components/BBG/sql/Base/Germany.sql</File>
   <File manifestOrder="191">Components/BBG/sql/Base/Government.sql</File>
   <File manifestOrder="192">Components/BBG/sql/Base/GreatPeoples.sql</File>
-  <File manifestOrder="193">Components/BBG/sql/Base/GreatWorks.sql</File>
   <File manifestOrder="194">Components/BBG/sql/Base/Greece.sql</File>
   <File manifestOrder="195">Components/BBG/sql/Base/India.sql</File>
   <File manifestOrder="196">Components/BBG/sql/Base/Japan.sql</File>
@@ -61,7 +60,6 @@
   <File manifestOrder="216">Components/BBG/sql/XP1/Georgia.sql</File>
   <File manifestOrder="217">Components/BBG/sql/XP1/Korea.sql</File>
   <File manifestOrder="218">Components/BBG/sql/XP1/Mongolia.sql</File>
-  <File manifestOrder="219">Components/BBG/sql/XP1/Netherlands.sql</File>
   <File manifestOrder="220">Components/BBG/sql/XP1/Mapuche.sql</File>
   <File manifestOrder="221">Components/BBG/sql/XP1/Chandragupta.sql</File>
   <File manifestOrder="222">Components/BBG/sql/XP1/Government_XP1_or_XP2.sql</File>
@@ -135,7 +133,6 @@
   <File manifestOrder="290">Components/BBG/sql/NFP/Byzantium.sql</File>
   <File manifestOrder="291">Components/BBG/sql/NFP/new_bbg_nfp_babylon.sql</File>
   <File manifestOrder="292">Components/BBG/sql/NFP/Babylon.sql</File>
-  <File manifestOrder="293">Components/BBG/sql/NFP/mali_dlc_babylon.sql</File>
   <File manifestOrder="294">Components/BBG/sql/NFP/GreatPeoples.sql</File>
   <File manifestOrder="295">Components/BBG/sql/NFP/Vietnam.sql</File>
   <File manifestOrder="296">Components/BBG/sql/NFP/new_bbg_kublai.sql</File>
@@ -155,8 +152,6 @@
   <File manifestOrder="310">Components/BBG/sql/LP/Theodora.sql</File>
   <File manifestOrder="311">Components/BBG/sql/LP/lp_ludwig.sql</File>
   <File manifestOrder="312">Components/BBG/sql/LP/Sejong.sql</File>
-  <File manifestOrder="313">Components/BBG/sql/LP/lp_qin_unifier_xp2.sql</File>
-  <File manifestOrder="314">Components/BBG/sql/LP/lp_qin_unifier_xp1.sql</File>
   <File manifestOrder="315">Components/BBG/sql/LP/Ptolemaic.sql</File>
   <File manifestOrder="316">Components/BBG/sql/LP/Ramses.sql</File>
   <File manifestOrder="317">Components/BBG/sql/LP/Sundiata.sql</File>

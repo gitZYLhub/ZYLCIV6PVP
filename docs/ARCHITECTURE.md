@@ -29,7 +29,7 @@ ModInfo
 | Build | 从清单复制、验证、报告和原子替换产物 | 读取 Workshop 缓存或外部源码 |
 | Validation | 检查声明、引用和行为契约 | 静默修复输入 |
 
-Manifest 迁移采用“分段替换而非一次重写”：`manifest/criteria`、`manifest/actions/frontend`、`manifest/actions/ingame` 和 `manifest/files` 分别是 ActionCriteria、FrontEndActions、InGameActions 和 Files 运行元素的唯一开发源。组装器按 `manifestOrder` 恢复各段原顺序并移除该开发属性，允许生成后的 ModInfo 保留不影响运行的说明注释。四段都必须保持冻结动作图指纹一致。
+Manifest 迁移采用“分段替换而非一次重写”：`manifest/criteria`、`manifest/actions/frontend`、`manifest/actions/ingame` 和 `manifest/files` 分别是 ActionCriteria、FrontEndActions、InGameActions 和 Files 运行元素的唯一开发源。组装器按稳定、允许留洞的 `manifestOrder` 恢复各段相对顺序并移除该开发属性，允许删除死条目而不重排数百个无关序号。生成段必须符合冻结 1.3.0/当前分支双动作图契约；冻结指纹永久不变，有意精简只更新当前指纹与计数。
 
 ## 联机状态原则
 
@@ -49,7 +49,7 @@ Manifest 迁移采用“分段替换而非一次重写”：`manifest/criteria`�
 
 - `tools/validate.ps1` 是唯一公开入口，负责装载项目元数据、调度各领域检查并统一汇总错误；它不得静默修改任何源码或运行资产。
 - `tools/validation/*.ps1` 保存无副作用、可用正反样例验证的领域检查函数。首个模块 `LuaChecks.ps1` 负责 Lua 全局事件生命周期和正式日志约束。
-- `ManifestGraph.ps1` 把 ActionCriteria、FrontEndActions、InGameActions 和 Files 转成忽略 XML 属性顺序、但保留节点与文件顺序的规范图；`manifest/baseline-1.3.0-action-graph.json` 固定冻结版本的语义指纹与计数。
+- `ManifestGraph.ps1` 把 ActionCriteria、FrontEndActions、InGameActions 和 Files 转成忽略 XML 属性顺序、但保留节点与文件顺序的规范图；`manifest/baseline-1.3.0-action-graph.json` 同时保存不可变的冻结版本指纹/计数与可审查演进的当前指纹/计数。
 - `ManifestChecks.ps1` 负责冻结指纹/计数和四段分域源一致性检查，只返回问题列表；主入口负责决定失败退出。段比较器内建属性换序应通过、路径漂移应失败的正反样例。
 - `ProjectChecks.ps1` 统一路径规范化、源码/生成目录分类、工程文件枚举、Workshop 外部缓存隔离、组装器本地输入边界和 XML 可解析性检查；它同样只返回问题列表，并由入口用安全/危险路径样例自检。
 - `AssetInventoryChecks.ps1` 生成发布文件、休眠文件、源码文件、Action/Criteria 身份与活跃引用的统一视图，检查磁盘、Files 与 Action 引用双向闭合；`manifest/dormant-files.txt` 取代隐藏在代码中的休眠白名单。

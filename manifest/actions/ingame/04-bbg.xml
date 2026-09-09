@@ -129,7 +129,6 @@
     <File>Components/BBG/sql/Base/Districts.sql</File>
     <File>Components/BBG/sql/Base/Government.sql</File>
     <File>Components/BBG/sql/Base/GreatPeoples.sql</File>
-    <File>Components/BBG/sql/Base/GreatWorks.sql</File>
     <File>Components/BBG/sql/Base/Policies.sql</File>
     <File>Components/BBG/sql/Base/Spy.sql</File>
     <File>Components/BBG/sql/Base/Units.sql</File>
@@ -169,7 +168,6 @@
     <File>Components/BBG/sql/XP1/Korea.sql</File>
     <File>Components/BBG/sql/XP1/Mapuche.sql</File>
     <File>Components/BBG/sql/XP1/Mongolia.sql</File>
-    <File>Components/BBG/sql/XP1/Netherlands.sql</File>
     <File>Components/BBG/sql/XP1/Chandragupta.sql</File>
   </UpdateDatabase>
   <UpdateDatabase id="ZYLPVP_BBG_IG_019_BBG_XP1_OR_XP2" manifestOrder="98">
@@ -392,14 +390,6 @@
     <File>Components/BBG/sql/NFP/Babylon.sql</File>
     <File>Components/BBG/sql/NFP/GreatPeoples.sql</File>
   </UpdateDatabase>
-  <UpdateDatabase id="ZYLPVP_BBG_IG_043_BBG_Babylon_XP2" manifestOrder="122">
-    <Properties>
-      <LoadOrder>11649</LoadOrder>
-    </Properties>
-    <Criteria>ZYLPVP_BBG_Babylon</Criteria>
-    <Criteria>ZYLPVP_BBG_XP2</Criteria>
-    <File>Components/BBG/sql/NFP/mali_dlc_babylon.sql</File>
-  </UpdateDatabase>
   <UpdateDatabase id="ZYLPVP_BBG_IG_044_BBG_KublaiKhan_Vietnam" manifestOrder="123">
     <Properties>
       <LoadOrder>11650</LoadOrder>
@@ -464,14 +454,6 @@
     <File>Components/BBG/sql/LP/Yongle.sql</File>
     <File>Components/BBG/sql/LP/WuZetian.sql</File>
   </UpdateDatabase>
-  <UpdateDatabase id="ZYLPVP_BBG_IG_052_BBG_RulesChina_XP1" manifestOrder="131">
-    <Properties>
-      <LoadOrder>11657</LoadOrder>
-    </Properties>
-    <Criteria>ZYLPVP_BBG_RulersChina</Criteria>
-    <Criteria>ZYLPVP_BBG_XP1</Criteria>
-    <File>Components/BBG/sql/LP/lp_qin_unifier_xp1.sql</File>
-  </UpdateDatabase>
   <UpdateDatabase id="ZYLPVP_BBG_IG_053_BBG_RulesChina_NFPEthiopia" manifestOrder="132">
     <Properties>
       <LoadOrder>11658</LoadOrder>
@@ -479,14 +461,6 @@
     <Criteria>ZYLPVP_BBG_RulersChina</Criteria>
     <Criteria>ZYLPVP_BBG_Ethiopia</Criteria>
     <File>Components/BBG/sql/LP/WuZetian_nfp.sql</File>
-  </UpdateDatabase>
-  <UpdateDatabase id="ZYLPVP_BBG_IG_054_BBG_RulesChina_XP2" manifestOrder="133">
-    <Properties>
-      <LoadOrder>11659</LoadOrder>
-    </Properties>
-    <Criteria>ZYLPVP_BBG_RulersChina</Criteria>
-    <Criteria>ZYLPVP_BBG_XP2</Criteria>
-    <File>Components/BBG/sql/LP/lp_qin_unifier_xp2.sql</File>
   </UpdateDatabase>
   <UpdateDatabase id="ZYLPVP_BBG_IG_055_BBG_Builders" manifestOrder="134">
     <Properties>
