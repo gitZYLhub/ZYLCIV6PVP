@@ -326,15 +326,19 @@ if ($uniquePathFixture.Count -ne 0 -or $duplicatePathFixture.Count -ne 1) {
 }
 
 $safeRuntimeTextFixture = @(Get-ZylRuntimeTextSafetyIssues `
-    -Source 'local value = 1' `
+    -Source @'
+local value = GameConfiguration.GetValue("OPTION")
+local text = tostring(value)
+'@ `
     -Label 'Fixture.lua')
 $unsafeRuntimeTextFixture = @(Get-ZylRuntimeTextSafetyIssues -Source @'
 loadstring("return 1")
 local oldId = "3cd7857e-b720-4a1b-a61d-930f58d5237e"
 local legacy = "NO_MORE_STACK"
 local unsafeNumber = tonumber(GameConfiguration.GetValue("OPTION"))
+local unsafeText = tostring(MapConfiguration.GetValue("OPTION"))
 '@ -Label 'Fixture.lua')
-if ($safeRuntimeTextFixture.Count -ne 0 -or $unsafeRuntimeTextFixture.Count -ne 4) {
+if ($safeRuntimeTextFixture.Count -ne 0 -or $unsafeRuntimeTextFixture.Count -ne 5) {
     Add-ValidationError 'Active runtime safety helper failed its positive/negative self-test.'
 }
 

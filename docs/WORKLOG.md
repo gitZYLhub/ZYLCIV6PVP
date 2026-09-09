@@ -807,4 +807,14 @@
 - 诊断证据：2026-09-08 12:31:07Z 的旧 `Lua.log` 为 181,045 字节/2645 行，SHA-256 `08cca62c0005dec484a81d6bbcda753ba91c625aabfd0d6a1847696772b88a7e`；审计精确命中开局奖励脚本的 runtime error、stack traceback、Lua callstack 和 file-load error 共 4 项，并保留 `scripts/ZYL_StartingPlayerBonus.lua:53/130` 定位。报告不含本机绝对路径，语义 SHA-256 为 `77818a18863264a48e0d8e4e71c42a4051dd4223177f06c1964553cf500d7df1`。它早于当前提交且采集时工作树非空，故 `evidenceGuardsPassed=false`、退出码 1，只用于证明审计器能复现旧故障。
 - 验证：Python 正例确认普通 `Attempt`/`Failed` 日志通过，致命夹具、路径泄漏和无效正则反例均按预期失败；PowerShell 7/5.1 总校验均通过 203 XML、108 Criteria、280 Actions、1071 Files、543 活跃引用、48 休眠文件和 111 源码专用文件。三种发布包与 `4bba099` 逐字节不变：universal 1066 文件/776,216,276 字节/`cc55a34c…446e`，Windows 897/442,475,339/`80672d72…aeda`，macOS 897/442,475,001/`3d0282e3…0ea2`。
 - 风险/待办：静态与旧日志证据证明门禁能发现已知崩溃，但不能证明修复已在游戏中通过。正式基线必须在本批提交且工作树干净后重新启动 Civ VI，覆盖 G11 四种开局奖励、读档、计时/身份和 Rich Mainland 缺省参数，并与同一次加载的 `Database.log`、`DebugGameplay.sqlite` 配对采集。
-- 提交：本次提交（Lua.log 致命错误证据门）。
+- 提交：`b796737 test: audit civilization lua logs`。
+
+### 2026-09-09 / M4-严格字符串转换零参数修复
+
+- 目标：沿已确认的 Civ VI 配置 getter 零返回值语义扩展全仓审计，防止只修复 `tonumber` 后，同样要求至少一个参数的 `tostring` 继续在配置缺失时崩溃。
+- 范围：修改 `VotePanel.lua`、`worldrankings_bbg.lua` 和通用运行安全规则，并更新 CHANGELOG、架构、计划、测试矩阵与工作日志；不修改配置定义、种子值、胜利阈值、动作图、ModInfo、名称或版本号。
+- 发现与修复：543 个活跃引用中剩余 5 处 `tostring(GameConfiguration/MapConfiguration.GetValue(...))`，其中重开投票面板初始化 2 处、房主执行重开消息 2 处、传统征服世界排名 1 处（重开消息单行含两次转换）。各处现在先用局部变量接收 getter；未设置时 Lua 赋值会规范为 `nil`，随后 `tostring(nil)` 保持原本预期的文本化行为，不再成为零参数调用。严格字符串转换直接嵌套由 5 处降为 0；此前 15 处 `tonumber` 仍为 0。
+- 回归保护：`RuntimeSafetyChecks.ps1` 的活跃文件规则从仅拒绝 `tonumber` 扩展为同时拒绝 `tonumber`/`tostring`；正例证明先捕获再转换可通过，反例分别覆盖 GameConfiguration 数字转换和 MapConfiguration 字符串转换。
+- 验证：PowerShell 7/5.1 总校验均通过 203 XML、108 Criteria、280 Actions、1071 Files、543 活跃引用、48 休眠文件和 111 源码专用文件。以 `b796737` 三份构建清单逐路径比较，三个 profile 都恰好只改变上述两个 Lua 文件、无新增或删除文件，每包增加 224 字节：universal 1066 文件/776,216,500 字节/`43813d65…f773`，Windows 897/442,475,563/`c9999e26…456b`，macOS 897/442,475,225/`5843bb63…38fc`。数据库、动作图、ModInfo 和版本身份不变。
+- 风险/待办：配置正常存在时字符串与网络消息逐字不变；配置缺失时不再崩溃，但种子显示会成为 Lua 既有的 `nil` 文本，未擅自引入可能改变联机状态的默认种子。仍需新鲜实机 `Lua.log` 覆盖投票面板首次初始化、房主重开、传统征服世界排名及正常配置路径。
+- 提交：本次提交（严格字符串转换零参数修复）。

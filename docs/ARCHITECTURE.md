@@ -53,7 +53,7 @@ Manifest 迁移采用“分段替换而非一次重写”：`manifest/criteria`�
 - `ManifestChecks.ps1` 负责冻结指纹/计数和四段分域源一致性检查，只返回问题列表；主入口负责决定失败退出。段比较器内建属性换序应通过、路径漂移应失败的正反样例。
 - `ProjectChecks.ps1` 统一路径规范化、源码/生成目录分类、工程文件枚举、Workshop 外部缓存隔离、组装器本地输入边界和 XML 可解析性检查；它同样只返回问题列表，并由入口用安全/危险路径样例自检。
 - `AssetInventoryChecks.ps1` 生成发布文件、休眠文件、源码文件、Action/Criteria 身份与活跃引用的统一视图，检查磁盘、Files 与 Action 引用双向闭合；`manifest/dormant-files.txt` 取代隐藏在代码中的休眠白名单。
-- `RuntimeSafetyChecks.ps1` 只扫描资产视图中的活跃 Lua/SQL/XML，拒绝动态 `loadstring`、Workshop 自更新调用、已禁用反叠加机制和旧组件 Mod ID；休眠替代文件不会制造误报。
+- `RuntimeSafetyChecks.ps1` 只扫描资产视图中的活跃 Lua/SQL/XML，拒绝动态 `loadstring`、Workshop 自更新调用、配置 getter 直接嵌套进入严格 `tonumber`/`tostring` 转换、已禁用反叠加机制和旧组件 Mod ID；休眠替代文件不会制造误报。
 - `DatabaseContractChecks.ps1` 逐步承接关键数据库最终值和其配置/动作/文本闭包；现覆盖时代长度/阈值/大厅开关/计时器文本、秘密结社 16 个晋升的幂等总督点返还与 DLC/模式 Criteria，以及旅游/伟人移动/迦太基购买参数和总督最终值修复，并用正确/错误 SQL 片段自检。
 - `DatabaseWriteSet.ps1` 从 FrontEnd/InGame 的 `UpdateDatabase` 动作提取加载域、顺序、Criteria 与唯一 SQL/XML 源；SQL 扫描器正确跳过注释并保护引号内分号，XML 扫描器识别 `Row/InsertOrIgnore/Replace/Update/Delete`，最后按表汇总操作、多源触及、零写入源，以及不同文件在同一动作内的精确重复 SQL。`manifest/database-write-set-contract.json` 同时保留冻结 1.3.0 指纹/计数和可演进的当前指纹/计数，避免为了后续等价精简而覆盖历史基线。
 - `DatabaseSchemaChecks.ps1` 校验由 `tools/schema/export_civ6_schema_keys.py` 一次性导出的官方 Schema 快照：基础、XP1、XP2 Gameplay 和 Configuration 分库保留各表列、复合主键、唯一键、源文件哈希与游戏 build id。写集合报告把 223 张触及表分为官方、项目自建和外部依赖；外部表必须登记提供者 Mod ID，并证明每个引用动作都受对应 `ModInUse` Criteria 保护。

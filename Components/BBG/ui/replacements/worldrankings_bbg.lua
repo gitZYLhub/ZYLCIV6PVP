@@ -182,7 +182,8 @@ function ViewTraditionalDomination(victoryType:string)
 
 	local victoryInfo:table = GameInfo.Victories[victoryType];
 	local str:string = ""
-	str = Locale.Lookup(victoryInfo.Description)..Locale.Lookup("LOC_WORLD_RANKINGS_TRADITIONAL_DOMINATION_DESC_LAST").."[COLOR_RED] "..tostring(GameConfiguration.GetValue("TRADITIONAL_DOMINATION_LEVEL")).." %[ENDCOLOR]"
+	local traditionalDominationLevel = GameConfiguration.GetValue("TRADITIONAL_DOMINATION_LEVEL")
+	str = Locale.Lookup(victoryInfo.Description)..Locale.Lookup("LOC_WORLD_RANKINGS_TRADITIONAL_DOMINATION_DESC_LAST").."[COLOR_RED] "..tostring(traditionalDominationLevel).." %[ENDCOLOR]"
 
     PopulateGenericHeader(RealizeGenericStackSize, victoryInfo.Name, nil, str, "ICON_VICTORY_DOMINATION");
 

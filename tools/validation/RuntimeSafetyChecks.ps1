@@ -12,8 +12,8 @@ function Get-ZylRuntimeTextSafetyIssues {
         @{ Name = 'dynamic loadstring'; Pattern = 'loadstring\s*\(' },
         @{ Name = 'Workshop auto-update'; Pattern = 'Modding\.UpdateSubscription\s*\(' },
         @{
-            Name = 'zero-argument configuration conversion'
-            Pattern = 'tonumber\s*\(\s*(?:GameConfiguration|MapConfiguration|UserConfiguration)\.GetValue\s*\('
+            Name = 'zero-argument strict configuration conversion'
+            Pattern = '(?:tonumber|tostring)\s*\(\s*(?:GameConfiguration|MapConfiguration|UserConfiguration)\.GetValue\s*\('
         },
         @{ Name = 'science/culture anti-stacking'; Pattern = 'NoMoreStack|NO_MORE_STACK' }
     )

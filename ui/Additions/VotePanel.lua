@@ -646,9 +646,11 @@ function OnMultiplayerChat( fromPlayer, toPlayer, text, eTargetType )
 	end
 	
 	if b_ishost == true and string.lower(text) == ".mph_ui_remap_execute" and b_remap_armed == true then
+		local currentMapSeed = MapConfiguration.GetValue("RANDOM_SEED")
+		local currentGameSeed = GameConfiguration.GetValue("GAME_SYNC_RANDOM_SEED")
 		Network.BroadcastGameConfig();
 		Network.BroadcastPlayerInfo();
-		Network.SendChat(".mph_ui_log_received_remap_request_mapseed_"..tostring(MapConfiguration.GetValue("RANDOM_SEED")).."_gameseed_"..tostring(GameConfiguration.GetValue("GAME_SYNC_RANDOM_SEED")),-2,hostID)	
+		Network.SendChat(".mph_ui_log_received_remap_request_mapseed_"..tostring(currentMapSeed).."_gameseed_"..tostring(currentGameSeed),-2,hostID)
 		Network.RestartGame();
 		return
 	end
@@ -728,8 +730,10 @@ function Initialize()
 	ContextPtr:SetShutdown( OnShutdown );
 	ContextPtr:SetHide(true);
 
-	map_sd = tostring(MapConfiguration.GetValue("RANDOM_SEED"))
-	game_sd = tostring(GameConfiguration.GetValue("GAME_SYNC_RANDOM_SEED"))
+	local initialMapSeed = MapConfiguration.GetValue("RANDOM_SEED")
+	local initialGameSeed = GameConfiguration.GetValue("GAME_SYNC_RANDOM_SEED")
+	map_sd = tostring(initialMapSeed)
+	game_sd = tostring(initialGameSeed)
 	
 	Controls.VoteStack:CalculateSize();
 	Events.MultiplayerChat.Add( OnMultiplayerChat );
