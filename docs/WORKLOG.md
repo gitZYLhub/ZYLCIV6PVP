@@ -679,4 +679,15 @@
 - 等价证据：数据库动作保持 142，引用 281→278，唯一源 249→248（SQL 229→228，XML 保持 20）；写操作 6192→6187，但触及表仍为 223、多源触及表仍为 135、零写入源仍为 0；同动作精确重复组由冻结基线的 5 降为 0。动作总数保持 280，Files 1072→1071，活跃引用 544→543。当前数据库写集合 SHA-256 为 `6e17ece0f355448df595dafbc10413c14202c96b22c248367cdc7c63c62fd202`，当前动作图为 `6b183e57b359f46c6d70321f98dddf9b424c11d84ae8dae637db78d551cee2c2`；两份冻结指纹均保持不变。
 - 验证：PowerShell 7 与 Windows PowerShell 5.1 全量校验均通过 203 XML、108 Criteria、280 Actions、1071 Files、543 活跃引用、48 休眠文件和 87 源码专用文件；两套运行时生成的 1,381,536 字节数据库报告逐字节一致，文件 SHA-256 为 `7f337aa9696c30641220395d698fb8f8b0fa56abbf5a559990289b78c0d66da3`。三种 profile 均构建闭合：universal 1066 文件、776,216,449 字节、SHA-256 `f93b09c827e84677cde0815926875b0983a768929689bd20b6659e49bb041e44`；Windows 897 文件、442,475,512 字节、`5fd72074ba21c7b9ad5380c82da782bd241672dbfc57920f603cb59f4ff72714`；macOS 897 文件、442,475,174 字节、`6223689663a3c9307b30c959c79b428c2b93d348301e6255ea1eb08fc58062a4`。
 - 风险/待办：本批等价性依赖同一动作中文件声明顺序和 `INSERT OR IGNORE`/同值 UPDATE 语义，已由动作引用报告和当前指纹固定；仍需实机对文化胜利设置 2/全局设置 2/Legacy、Boudica 与 Initiation Rites 做数据库日志或百科值抽查。下一步继续主键级分析，不能把不同 Criteria 下的相同 SQL 误判为重复。
-- 提交：本次提交（同动作精确重复 SQL 清理）。
+- 提交：`d540bfa refactor: remove same-action duplicate sql`。
+
+### 2026-09-09 / M5-官方 Schema 主键快照
+
+- 目标：为主键级写集合和最终值冲突分析建立可审查的官方表结构依据，同时保证日常构建/校验不依赖本机 Steam 路径。
+- 范围：新增官方 Schema 导出器、键快照、Schema 校验/覆盖模块、外部表契约，接入数据库报告和总校验，并更新工程元数据、忽略规则、Manifest 说明、架构、计划、测试矩阵和工作日志；不修改任何运行资产、数据库动作、ModInfo、玩法值、包身份或版本号。
+- 设计决定：一次性读取本机 Civ VI build 15296837 的 `01_GameplaySchema.sql`、Expansion1/2 Schema、四份 Configuration Schema 和三份 Gameplay XML Schema，在独立内存 SQLite 中分别建立 configuration、gameplay-base、gameplay-xp1、gameplay-xp2；只把表列、主键、唯一键、相对源路径及源 SHA-256 固化入仓库。验证器只读快照及 `project.json` 中的快照哈希/build id，不读取游戏安装目录。
+- 修改：新增 `tools/schema/export_civ6_schema_keys.py`、368,010 字节 `manifest/civ6-schema-keys.json`、`DatabaseSchemaChecks.ps1` 和 `external-database-tables.json`；数据库报告新增逐表 Schema 分类和主键字段。导出器使用 Python 标准库 sqlite3/XML/JSON，`-B` 重导不会生成缓存，`.gitignore` 也显式排除 `__pycache__`/`.pyc`。
+- 结果：快照含 Configuration 78 表、基础 Gameplay 318 表、XP1 351 表、XP2 428 表，三个 Gameplay ruleset 的同名表主键无漂移。当前写集合触及的 223 表中，199 张解析到官方 Schema、186 张有显式主键，22 张由项目自身 CREATE TABLE；仅 `ConfigEnabledUniqueUnits` 与 `EnabledUniqueUnits` 属外部 BBG Expanded/MOAR Units 表，二者所有动作均由 WIP/Release 提供者 Mod ID 的 `ModInUse` Criteria 门控。
+- 验证：导出器重跑得到与跟踪快照相同的 SHA-256 `2bf887e0437393706e0a6bdfdc4b01ef399e664e3ec1925005c5ee9b0376db4b`；错误主键列和缺失外部提供者表两个内存反例均被拒绝。PowerShell 7 与 Windows PowerShell 5.1 全量校验均通过 203 XML、108 Criteria、280 Actions、1071 Files、543 活跃引用、48 休眠文件和 91 源码专用文件；两套运行时数据库报告逐字节一致。此次全部是开发期快照/工具/文档，三个发布包内容与 `d540bfa` 保持不变。
+- 风险/待办：快照对应 build 15296837；游戏更新官方 Schema 后必须显式重导并审查哈希/主键变化。22 张项目自建表的键仍需从 CREATE TABLE 提取，13 张无显式官方主键的表需保守处理；外部表结构不能凭提供者存在而猜测。下一步只对已解析主键且 INSERT/XML 行可静态求值的写入生成键候选。
+- 提交：本次提交（官方 Schema 主键快照）。

@@ -9,6 +9,8 @@ Thumbs.db
 *.tmp
 *.bak
 .cache/
+__pycache__/
+*.pyc
 
 # Local build and test output
 artifacts/

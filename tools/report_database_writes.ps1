@@ -8,12 +8,16 @@ $modRoot = [System.IO.Path]::GetFullPath((Split-Path -Parent $PSScriptRoot))
 $metadataPath = Join-Path $PSScriptRoot 'project.json'
 $writeSetHelpersPath = Join-Path $PSScriptRoot 'validation\DatabaseWriteSet.ps1'
 $manifestGraphHelpersPath = Join-Path $PSScriptRoot 'validation\ManifestGraph.ps1'
+$databaseSchemaHelpersPath = Join-Path $PSScriptRoot 'validation\DatabaseSchemaChecks.ps1'
 $writeSetContractPath = Join-Path $modRoot 'manifest\database-write-set-contract.json'
+$externalDatabaseTablesPath = Join-Path $modRoot 'manifest\external-database-tables.json'
 foreach ($requiredPath in @(
         $metadataPath,
         $writeSetHelpersPath,
         $manifestGraphHelpersPath,
-        $writeSetContractPath
+        $databaseSchemaHelpersPath,
+        $writeSetContractPath,
+        $externalDatabaseTablesPath
     )) {
     if (-not (Test-Path -LiteralPath $requiredPath -PathType Leaf)) {
         throw "Database write-set report dependency not found: $requiredPath"
@@ -21,6 +25,7 @@ foreach ($requiredPath in @(
 }
 . $writeSetHelpersPath
 . $manifestGraphHelpersPath
+. $databaseSchemaHelpersPath
 
 $metadata = Get-Content -LiteralPath $metadataPath -Raw | ConvertFrom-Json
 $modInfoPath = Join-Path $modRoot ([string]$metadata.modInfoFile)
@@ -53,6 +58,21 @@ if ($analysis.issues.Count -gt 0) {
 $semanticView = Get-ZylDatabaseWriteSetSemanticView -Analysis $analysis
 $analysisJson = ConvertTo-ZylCanonicalJson -InputObject $semanticView
 $analysisSha256 = Get-ZylSha256ForText -Text $analysisJson
+$schemaSnapshotPath = Join-Path $modRoot ([string]$metadata.civ6SchemaSnapshotFile)
+$schemaSnapshot = Get-Content -LiteralPath $schemaSnapshotPath -Raw | ConvertFrom-Json
+$schemaCoverage = Get-ZylDatabaseSchemaCoverage `
+    -Analysis $analysis `
+    -Snapshot $schemaSnapshot
+$externalDatabaseTables = Get-Content `
+    -LiteralPath $externalDatabaseTablesPath `
+    -Raw | ConvertFrom-Json
+$externalTableIssues = @(Get-ZylExternalDatabaseTableIssues `
+    -Analysis $analysis `
+    -Coverage $schemaCoverage `
+    -Contract $externalDatabaseTables)
+if ($externalTableIssues.Count -gt 0) {
+    throw "External database-table contract failed:`n- $($externalTableIssues -join "`n- ")"
+}
 $writeSetContract = Get-Content -LiteralPath $writeSetContractPath -Raw | ConvertFrom-Json
 $contractIssues = @(Get-ZylDatabaseWriteSetContractIssues `
     -Analysis $analysis `
@@ -76,6 +96,7 @@ $report = [pscustomobject][ordered]@{
     overlappingTables = $analysis.overlappingTables
     noWriteSources = $analysis.noWriteSources
     sameActionExactSqlDuplicateGroups = $analysis.sameActionExactSqlDuplicateGroups
+    schemaCoverage = $schemaCoverage
 }
 
 $outputDirectory = Split-Path -Parent $resolvedOutputPath
@@ -96,4 +117,5 @@ Write-Host "Writes     : $($analysis.counts.writeOperations) across $($analysis.
 Write-Host "Overlaps   : $($analysis.counts.overlappingTables) tables touched by multiple sources"
 Write-Host "No writes  : $($analysis.counts.noWriteSources) active sources"
 Write-Host "Duplicates : $($analysis.counts.sameActionExactSqlDuplicateGroups) exact SQL groups within one action"
+Write-Host "Schema     : $($schemaCoverage.counts.official) official, $($schemaCoverage.counts.modCreated) mod-created, $($schemaCoverage.counts.external) external tables"
 Write-Host "SHA-256    : $($report.analysisSha256)"

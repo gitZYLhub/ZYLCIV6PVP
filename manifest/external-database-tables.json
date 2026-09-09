@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "tables": [
+    {
+      "table": "ConfigEnabledUniqueUnits",
+      "scope": "frontend",
+      "providerCriteria": [
+        "ZYLPVP_BBG_BBGExpanded_WIP",
+        "ZYLPVP_BBG_BBGExpanded_Release"
+      ],
+      "providerModIds": [
+        "2a0aa96a-a31c-4ce2-87ec-09144f6f3e00",
+        "2a0aa96a-a31c-4ce2-87ec-09152f6f3e00"
+      ]
+    },
+    {
+      "table": "EnabledUniqueUnits",
+      "scope": "ingame",
+      "providerCriteria": [
+        "ZYLPVP_BBG_BBGExpanded_WIP",
+        "ZYLPVP_BBG_BBGExpanded_Release"
+      ],
+      "providerModIds": [
+        "2a0aa96a-a31c-4ce2-87ec-09144f6f3e00",
+        "2a0aa96a-a31c-4ce2-87ec-09152f6f3e00"
+      ]
+    }
+  ]
+}

@@ -76,6 +76,12 @@ if (-not (Test-Path -LiteralPath $databaseWriteSetPath -PathType Leaf)) {
 }
 . $databaseWriteSetPath
 
+$databaseSchemaChecksPath = Join-Path $PSScriptRoot 'validation\DatabaseSchemaChecks.ps1'
+if (-not (Test-Path -LiteralPath $databaseSchemaChecksPath -PathType Leaf)) {
+    throw "Database schema snapshot helpers not found: $databaseSchemaChecksPath"
+}
+. $databaseSchemaChecksPath
+
 $teamPvpSocietyChecksPath = Join-Path $PSScriptRoot 'validation\TeamPvpSocietyChecks.ps1'
 if (-not (Test-Path -LiteralPath $teamPvpSocietyChecksPath -PathType Leaf)) {
     throw "Team PVP Secret Societies validation helpers not found: $teamPvpSocietyChecksPath"
@@ -345,6 +351,50 @@ if ($databaseSqlFixtureSummary -ne $expectedDatabaseSqlFixtureSummary -or
     Add-ValidationError 'Database write-set scanner failed its SQL/XML positive/negative self-test.'
 }
 
+$civ6SchemaSnapshotPath = Join-Path $modRoot ([string]$projectMetadata.civ6SchemaSnapshotFile)
+if (-not (Test-Path -LiteralPath $civ6SchemaSnapshotPath -PathType Leaf)) {
+    Add-ValidationError 'Civ VI schema-key snapshot is missing.'
+}
+else {
+    try {
+        $civ6SchemaSnapshotHash = (
+            Get-FileHash -LiteralPath $civ6SchemaSnapshotPath -Algorithm SHA256
+        ).Hash.ToLowerInvariant()
+        if ($civ6SchemaSnapshotHash -ne [string]$projectMetadata.civ6SchemaSnapshotSha256) {
+            Add-ValidationError (
+                'Civ VI schema-key snapshot hash drifted: ' +
+                "$civ6SchemaSnapshotHash (expected $($projectMetadata.civ6SchemaSnapshotSha256))."
+            )
+        }
+        $civ6SchemaSnapshot = Get-Content `
+            -LiteralPath $civ6SchemaSnapshotPath `
+            -Raw | ConvertFrom-Json
+        if ([string]$civ6SchemaSnapshot.civ6BuildId -ne
+                [string]$projectMetadata.civ6SchemaBuildId) {
+            Add-ValidationError 'Civ VI schema-key snapshot build ID drifted from project metadata.'
+        }
+        foreach ($schemaSnapshotIssue in @(
+                Get-ZylCiv6SchemaSnapshotIssues -Snapshot $civ6SchemaSnapshot
+            )) {
+            Add-ValidationError $schemaSnapshotIssue
+        }
+        $civ6SchemaDriftFixture = ConvertFrom-Json (
+            $civ6SchemaSnapshot | ConvertTo-Json -Depth 100
+        )
+        $civ6SchemaDriftFixture.profiles.'gameplay-base'.Modifiers.primaryKey = @(
+            '__missing_column__'
+        )
+        if (@(Get-ZylCiv6SchemaSnapshotIssues -Snapshot $civ6SchemaDriftFixture).Count -eq 0) {
+            Add-ValidationError 'Civ VI schema-key snapshot self-test did not reject an invalid primary key.'
+        }
+    }
+    catch {
+        Add-ValidationError (
+            'Civ VI schema-key snapshot could not be loaded: ' + $_.Exception.Message
+        )
+    }
+}
+
 $pairedPlatformFixture = [System.Xml.XmlDocument]::new()
 $pairedPlatformFixture.LoadXml(@'
 <Mod>
@@ -465,6 +515,45 @@ $databaseWriteSetAnalysis = Get-ZylDatabaseWriteSetAnalysis `
     -ModInfo $modInfo
 foreach ($databaseWriteSetIssue in @($databaseWriteSetAnalysis.issues)) {
     Add-ValidationError $databaseWriteSetIssue
+}
+if ($null -ne $civ6SchemaSnapshot) {
+    $databaseSchemaCoverage = Get-ZylDatabaseSchemaCoverage `
+        -Analysis $databaseWriteSetAnalysis `
+        -Snapshot $civ6SchemaSnapshot
+    $externalDatabaseTablesPath = Join-Path $modRoot 'manifest\external-database-tables.json'
+    if (-not (Test-Path -LiteralPath $externalDatabaseTablesPath -PathType Leaf)) {
+        Add-ValidationError 'External database-table contract is missing.'
+    }
+    else {
+        try {
+            $externalDatabaseTables = Get-Content `
+                -LiteralPath $externalDatabaseTablesPath `
+                -Raw | ConvertFrom-Json
+            foreach ($externalDatabaseTableIssue in @(
+                    Get-ZylExternalDatabaseTableIssues `
+                        -Analysis $databaseWriteSetAnalysis `
+                        -Coverage $databaseSchemaCoverage `
+                        -Contract $externalDatabaseTables
+                )) {
+                Add-ValidationError $externalDatabaseTableIssue
+            }
+            $externalDatabaseDrift = ConvertFrom-Json (
+                $externalDatabaseTables | ConvertTo-Json -Depth 20
+            )
+            $externalDatabaseDrift.tables[0].table = '__missing_external_table__'
+            if (@(Get-ZylExternalDatabaseTableIssues `
+                    -Analysis $databaseWriteSetAnalysis `
+                    -Coverage $databaseSchemaCoverage `
+                    -Contract $externalDatabaseDrift).Count -eq 0) {
+                Add-ValidationError 'External database-table self-test did not reject a missing provider table.'
+            }
+        }
+        catch {
+            Add-ValidationError (
+                'External database-table contract could not be loaded: ' + $_.Exception.Message
+            )
+        }
+    }
 }
 $databaseWriteSetContractPath = Join-Path $modRoot 'manifest\database-write-set-contract.json'
 if (-not (Test-Path -LiteralPath $databaseWriteSetContractPath -PathType Leaf)) {
