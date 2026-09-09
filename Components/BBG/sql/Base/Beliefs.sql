@@ -231,8 +231,8 @@ INSERT INTO RequirementSetRequirements(RequirementSetId, RequirementId)
     FROM WonderTerrainFeature_BBG WHERE WonderTerrainFeature_BBG.FeatureType='FEATURE_GEOTHERMAL_FISSURE';
 
 
-INSERT INTO RequirementArguments (RequirementId, Name, Value)
-    SELECT 'BBG_TILE_IS_FISSURE_FEATURE_GEOTHERMAL_FISSURE', 'FeatureType', 'FEATURE_GEOTHERMAL_FISSURE';
+INSERT INTO RequirementArguments (RequirementId, Name, Value) VALUES
+    ('BBG_TILE_IS_FISSURE_FEATURE_GEOTHERMAL_FISSURE', 'FeatureType', 'FEATURE_GEOTHERMAL_FISSURE');
 INSERT INTO RequirementArguments (RequirementId, Name, Value)
     SELECT 'BBG_TILE_IS_FISSURE_' || WonderType, 'FeatureType', WonderType
     FROM WonderTerrainFeature_BBG WHERE WonderTerrainFeature_BBG.FeatureType='FEATURE_GEOTHERMAL_FISSURE';

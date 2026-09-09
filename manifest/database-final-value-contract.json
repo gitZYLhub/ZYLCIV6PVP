@@ -8,8 +8,8 @@
   "coverage": {
     "retainedDuplicateKeyGroups": 13,
     "dominatedRows": 7,
-    "finalOverrideProbes": 7,
-    "totalProbes": 27
+    "finalOverrideProbes": 8,
+    "totalProbes": 28
   },
   "profiles": [
     {
@@ -251,6 +251,14 @@
           "query": "SELECT TraitType, ModifierId FROM TraitModifiers WHERE TraitType = 'TRAIT_LEADER_MONASTERIES_KING' AND ModifierId = 'TRAIT_MONASTERIES_KING_HOLY_SITE_RIVER_ADJACENCY' ORDER BY TraitType, ModifierId",
           "expectedColumns": ["TraitType", "ModifierId"],
           "expectedRows": []
+        },
+        {
+          "id": "final-geothermal-fissure-feature-argument",
+          "category": "final-override",
+          "rationale": "The constant SELECT-to-VALUES cleanup must preserve the Fire Goddess geothermal feature argument exactly.",
+          "query": "SELECT RequirementId, Name, Value, Type, Extra, SecondExtra FROM RequirementArguments WHERE RequirementId = 'BBG_TILE_IS_FISSURE_FEATURE_GEOTHERMAL_FISSURE' AND Name = 'FeatureType' ORDER BY RequirementId, Name",
+          "expectedColumns": ["RequirementId", "Name", "Value", "Type", "Extra", "SecondExtra"],
+          "expectedRows": [{"RequirementId": "BBG_TILE_IS_FISSURE_FEATURE_GEOTHERMAL_FISSURE", "Name": "FeatureType", "Value": "FEATURE_GEOTHERMAL_FISSURE", "Type": "ARGTYPE_IDENTITY", "Extra": null, "SecondExtra": null}]
         }
       ]
     }

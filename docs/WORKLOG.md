@@ -765,4 +765,15 @@
 - 证据门：要求 Configuration、Gameplay、Localization 都出现“开始验证→Passed Validation”序列；默认要求 Git 干净且日志晚于 HEAD，捕获前后文件状态必须不变。报告不保存日志绝对路径，只记录文件名、时间、大小、SHA-256、分类后的 ERROR 和规范语义哈希；诊断豁免仍显式令 `evidenceGuardsPassed=false`。
 - 验证：Python 正例覆盖已知外部错误，Gameplay ERROR、未知 Localization 文件和损坏正则三个反例均失败；PowerShell 反例拒绝给 Gameplay 建允许规则。2026-09-08 12:31:10Z 的旧 `Database.log` 为 15,359 字节/129 行，SHA-256 `fed67a3196f1547b8ad1cea98c6d4279ba0f200361ad1dab0fcbc29c3a1e80e2`；三库验证 3/3，通过精确规则归类 40 条 CurrentClickouts 错误，Gameplay/Configuration/未知错误为 0，语义 SHA-256 `4031257c68d2da5452a1232b9cdd5223204bc1f52eebc5d65d8294cdb9ee8504`。默认调用因工作树脏且日志早于 HEAD 正确退出 1，不提升为基线。PowerShell 7/5.1 全量校验均通过；两套数据库写集合报告仍为 6,179,853 字节和 `8bca14bd…af4a`。三种发布包保持 universal `282c48cb…a5a6d`、Windows `0a1c52fb…0c3a`、macOS `bf308e3f…2916`。
 - 风险/待办：CurrentClickouts 规则只基于当前游戏日志格式；格式改变会保守失败，不能放宽为所有 Localization 重复键。需要从干净当前提交实机重载后同时取得新鲜 `DebugGameplay.sqlite` 与 `Database.log`，再固化成配对基线；之后扩展 Modding/Lua/UI 日志及不同 DLC/profile。
-- 提交：本次提交（Database.log 加载错误审计）。
+- 提交：`7022ba6 test: audit civilization database logs`。
+
+### 2026-09-09 / M5-常量 INSERT SELECT 规范化
+
+- 目标：开始消化主键分析剩余的 372 条 `INSERT … SELECT`，只处理不依赖任何源表、可严格证明为单行常量插入的语句，不把真正动态生成的数据误改为静态表。
+- 范围：全量重扫 228 个活跃 SQL 源；仅修改 `Components/BBG/sql/Base/Beliefs.sql` 中 Fire Goddess 地热裂缝 RequirementArgument 的一条 SQL，把无 `FROM` 的常量 `SELECT` 改为 `VALUES`。同步主键契约、实际最终值契约、工程哈希、计划、测试矩阵、Manifest 说明、快照手册与工作日志；不修改动作图、Criteria、键值、触发顺序、ModInfo、名称或版本号。
+- 等价依据：仓库中 372 条动态候选里只有这一条 SELECT 完全没有 `FROM`；目标列和三个常量保持逐字相同。受控内存 SQLite 同时安装 `AFTER INSERT` 触发器，原 SELECT 与新 VALUES 均产生同一目标行、同一条触发记录和相同 changes 计数，证明不只最终表值、连插入触发语义也一致。旧实机 `DebugGameplay.sqlite` 中对应行是 `FeatureType=FEATURE_GEOTHERMAL_FISSURE`、默认 `ARGTYPE_IDENTITY`，已加入最终值探针。
+- 结果：数据库动作/引用/源/写操作仍为 142/278/248/6184，表级写集合 SHA-256 保持 `65eaf375…384d`。4285 个 INSERT/REPLACE 中完全解析 2859→2860、未解析 1426→1425，行候选 6718→6719；`insert-select` 372→371，127 张候选表、13 组兼容重复和 0 个强支配位置不变。主键分析 SHA-256 更新为 `593c46a16df6cea23b55588d8d33ac3426da49489c99aa54ed9f003b0ed2509c`。
+- 最终值：`xp2-full-content` 契约由 27 增至 28 个探针，旧实机库诊断 28/28，语义 SHA-256 `afca4ba07f7c1dd710cb79623e7af75285a168b3e500aa2e3356d8931b295b06`；因库早于当前提交且工作树当时非空，仍不提升为正式基线。
+- 验证：PowerShell 7/5.1 总校验均通过；两套 PowerShell 数据库报告均为 6,180,393 字节，SHA-256 `ceee00f009106e402f7b03dd8334dc34ac2a05165dc59e7de571afd8147f959e`。三种发布包保持文件数和预算闭合，SQL 规范化使每包仅增加 2 字节：universal 1066 文件/776,215,566 字节/`da69fc55…9d66`，Windows 897/442,474,629/`979fa0aa…3619`，macOS 897/442,474,291/`be6d649a…8151`。
+- 风险/待办：该等价性目前有静态、受控 SQLite 和旧实机最终行三层证据，但正式门槛仍要求当前干净提交重新加载游戏。剩余 371 条均读取官方、临时或项目表，下一步应记录源表、投影和 Criteria，先找重复生成键或无结果查询，不能继续用本批常量规则批量改写。
+- 提交：本次提交（常量 INSERT SELECT 规范化）。

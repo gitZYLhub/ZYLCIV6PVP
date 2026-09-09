@@ -12,7 +12,7 @@
   "databasePrimaryKeyContractFile": "manifest/database-primary-key-contract.json",
   "databaseDuplicateKeyAllowlistFile": "manifest/database-duplicate-key-allowlist.json",
   "databaseFinalValueContractFile": "manifest/database-final-value-contract.json",
-  "databaseFinalValueContractSha256": "4f551f9414e6c35055369b9695b10dc1db7878f08c3de45f824bc508b0118f25",
+  "databaseFinalValueContractSha256": "fd04cd060a602c5344500d274aff017f09b9332600722ae2a6a47075ee113d5d",
   "databaseLogContractFile": "manifest/database-log-contract.json",
   "databaseLogContractSha256": "e4c0e0baa3440a3276ae75305fe020feb609f0ea76368dce365f5674399ed819",
   "releaseBudgets": {

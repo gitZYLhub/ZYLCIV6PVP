@@ -4,11 +4,11 @@
 
 ## 首批覆盖
 
-默认 profile 为 `xp2-full-content`，要求 Gathering Storm 及 13 个兼容重复键涉及的 DLC/Leader provider 全部可用。27 个探针分为：
+默认 profile 为 `xp2-full-content`，要求 Gathering Storm 及 13 个兼容重复键涉及的 DLC/Leader provider 全部可用。28 个探针分为：
 
 - 13 个保留重复主键的实际最终行；
 - 7 个受支配后置 `INSERT OR IGNORE` 删除后的回归行（Work Ethic 2、西班牙 Coast 1、Nihang Types/UnitAbilities 4）；
-- 7 个 Gaul、Gran Colombia、Khmer 最终覆盖的正向值或旧绑定缺失状态。
+- 8 个 Gaul、Gran Colombia、Khmer 最终覆盖及常量插入等价精简的正向值或旧绑定缺失状态。
 
 查询及期望行保存在 `manifest/database-final-value-contract.json`，文件哈希由 `tools/project.json` 固定。每个查询必须是带 `ORDER BY` 的单条 `SELECT`/CTE；SQLite 连接还会强制 `query_only`。
 
@@ -23,7 +23,7 @@ $gameplayDb = Join-Path $env:LOCALAPPDATA "Firaxis Games\Sid Meier's Civilizatio
 python tools/database/capture_final_values.py --database $gameplayDb
 ```
 
-成功条件是进程退出码为 0、`Probes: 27/27 passed`，且报告中的 `summary.evidenceGuardsPassed` 为 `true`、`issues` 为空。默认报告位置是 `artifacts/reports/ZYLPVPMOD-1.3.0-xp2-full-content-database-final-values.json`。
+成功条件是进程退出码为 0、`Probes: 28/28 passed`，且报告中的 `summary.evidenceGuardsPassed` 为 `true`、`issues` 为空。默认报告位置是 `artifacts/reports/ZYLPVPMOD-1.3.0-xp2-full-content-database-final-values.json`。
 
 同一次游戏加载还应按 [DATABASE_LOG_AUDIT.md](DATABASE_LOG_AUDIT.md) 审计 `Database.log`；数据库与日志必须都晚于同一提交，才能作为配对的实机证据。
 
