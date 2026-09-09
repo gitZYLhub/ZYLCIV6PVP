@@ -1365,12 +1365,9 @@ function SetupParameters:Parameter_FilterValues(parameter, values)
 		local unique_civilizations = GameConfiguration.GetValue("NO_DUPLICATE_CIVILIZATIONS");
 		local restricted_draft = GameConfiguration.GetValue("CPL_RESTRICTED_DRAFT");
 		local is_spectator = GameConfiguration.GetValue("IS_LOCAL_OBSERVER");
-		local unique_bans = false
-		if GameConfiguration.GetValue("CPL_BAN_FORMAT") ~= nil then
-			if GameConfiguration.GetValue("CPL_BAN_FORMAT") > 0 then
-				unique_bans = true
-			end
-		end
+		local banFormatValue = GameConfiguration.GetValue("CPL_BAN_FORMAT")
+		local banFormat = tonumber(banFormatValue) or 0
+		local unique_bans = banFormat > 0
 
 
 		local leaders_in_use;
@@ -1506,7 +1503,9 @@ function SetupParameters:Parameter_FilterValues(parameter, values)
 			local count = nil
 			local pool_size = 6
 			local current_pool = 0
-			math.randomseed(GameConfiguration.GetValue("GAME_SYNC_RANDOM_SEED")+Network.GetLocalPlayerID())
+			local syncSeedValue = GameConfiguration.GetValue("GAME_SYNC_RANDOM_SEED")
+			local syncSeed = tonumber(syncSeedValue) or 0
+			math.randomseed(syncSeed + Network.GetLocalPlayerID())
 			count = 0
 			for i,v in ipairs(values) do
 				if v.Value ~= nil then
@@ -1532,7 +1531,7 @@ function SetupParameters:Parameter_FilterValues(parameter, values)
 						if v.Value == "RANDOM" or v.Value == "LEADER_SPECTATOR" then
 							possible_leader = false
 						end
-						if (leaders_in_bans and unique_bans == true and GameConfiguration.GetValue("CPL_BAN_FORMAT") > 1) then
+						if (leaders_in_bans and unique_bans == true and banFormat > 1) then
 							if leaders_in_bans[v.Value] == true then
 								possible_leader = false
 							end
@@ -1601,9 +1600,9 @@ function SetupParameters:Parameter_FilterValues(parameter, values)
 				reason = "LOC_SETUP_ERROR_LEADER_NOT_OWNED";
 			elseif(unique_leaders and leaders_in_use[v.Value]) then
 				reason = "LOC_SETUP_ERROR_NO_DUPLICATE_LEADERS";
-			elseif( unique_bans and ( GameConfiguration.GetValue("CPL_BAN_FORMAT") > 1 and leaders_in_bans[v.Value] ) ) then
+			elseif( unique_bans and ( banFormat > 1 and leaders_in_bans[v.Value] ) ) then
 				reason = "LOC_SETUP_ERROR_NO_BANNED_LEADERS";
-			elseif( unique_bans and (GameConfiguration.GetValue("CPL_BAN_FORMAT") == 1 and (v.Value == "RANDOM" or v.Value == "RANDOM_POOL1" or v.Value == "RANDOM_POOL2") ) ) then 
+			elseif( unique_bans and (banFormat == 1 and (v.Value == "RANDOM" or v.Value == "RANDOM_POOL1" or v.Value == "RANDOM_POOL2") ) ) then
 				reason = "LOC_SETUP_ERROR_NO_RANDOM_LEADERS";
 			elseif(restricted_draft == true and (not (leaders_in_draft[v.Value] == true)) and v.Value ~= "LEADER_SPECTATOR" and v.Value ~= "RANDOM" and v.Value ~= "RANDOM_POOL2" and v.Value ~= "RANDOM_POOL1" and checkOwnership and curSlotStatus ~= SlotStatus.SS_COMPUTER and GameConfiguration.GetGameState() == -901772834 ) then
 				reason = "LOC_SETUP_ERROR_NOT_DRAFTED_LEADERS";

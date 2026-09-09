@@ -329,6 +329,9 @@ $safeRuntimeTextFixture = @(Get-ZylRuntimeTextSafetyIssues `
     -Source @'
 local value = GameConfiguration.GetValue("OPTION")
 local text = tostring(value)
+local numeric = tonumber(value) or 0
+local nextValue = numeric + 1
+-- GameConfiguration.GetValue("OPTION") -- documented default
 '@ `
     -Label 'Fixture.lua')
 $unsafeRuntimeTextFixture = @(Get-ZylRuntimeTextSafetyIssues -Source @'
@@ -337,8 +340,12 @@ local oldId = "3cd7857e-b720-4a1b-a61d-930f58d5237e"
 local legacy = "NO_MORE_STACK"
 local unsafeNumber = tonumber(GameConfiguration.GetValue("OPTION"))
 local unsafeText = tostring(MapConfiguration.GetValue("OPTION"))
+local unsafeArithmetic = GameConfiguration.GetValue("OPTION") + 1
+local unsafeComparison = MapConfiguration.GetValue("OPTION") > 0
+local unsafeRandom = GetRandom(GameConfiguration.GetValue("OPTION"), 10)
+local unsafeRightOperand = 1 + UserConfiguration.GetValue("OPTION")
 '@ -Label 'Fixture.lua')
-if ($safeRuntimeTextFixture.Count -ne 0 -or $unsafeRuntimeTextFixture.Count -ne 5) {
+if ($safeRuntimeTextFixture.Count -ne 0 -or $unsafeRuntimeTextFixture.Count -ne 9) {
     Add-ValidationError 'Active runtime safety helper failed its positive/negative self-test.'
 }
 

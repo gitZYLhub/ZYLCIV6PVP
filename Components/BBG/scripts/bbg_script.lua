@@ -1264,12 +1264,14 @@ function Check_DominationVictory()
 	local hasWon = false
 	local victoryTeam = -99
 	local iDomination_level = 1
-	--print("TRADITIONAL_DOMINATION_LEVEL",GameConfiguration.GetValue("VICTORY_TRADITIONAL_DOMINATION"))
-	if GameConfiguration.GetValue("VICTORY_TRADITIONAL_DOMINATION") == false or GameConfiguration.GetValue("VICTORY_TRADITIONAL_DOMINATION") == nil then
+	local traditionalDominationEnabled = GameConfiguration.GetValue("VICTORY_TRADITIONAL_DOMINATION")
+	if traditionalDominationEnabled == false or traditionalDominationEnabled == nil then
 		return
     else
-		if GameConfiguration.GetValue("TRADITIONAL_DOMINATION_LEVEL") ~= nil then
-			iDomination_level = GameConfiguration.GetValue("TRADITIONAL_DOMINATION_LEVEL") / 100
+		local dominationLevelValue = GameConfiguration.GetValue("TRADITIONAL_DOMINATION_LEVEL")
+		local dominationLevel = tonumber(dominationLevelValue)
+		if dominationLevel ~= nil then
+			iDomination_level = dominationLevel / 100
 		end
 	end
 

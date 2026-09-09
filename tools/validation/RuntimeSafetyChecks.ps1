@@ -15,6 +15,10 @@ function Get-ZylRuntimeTextSafetyIssues {
             Name = 'zero-argument strict configuration conversion'
             Pattern = '(?:tonumber|tostring)\s*\(\s*(?:GameConfiguration|MapConfiguration|UserConfiguration)\.GetValue\s*\('
         },
+        @{
+            Name = 'unguarded configuration numeric use'
+            Pattern = '(?:(?:GameConfiguration|MapConfiguration|UserConfiguration)\.GetValue\s*\([^)]*\)\s*(?:\+|-(?!-)|\*|/|%|[<>]=?)|(?:\+|(?<!-)-(?!-)|\*|/|%|[<>]=?)\s*(?:GameConfiguration|MapConfiguration|UserConfiguration)\.GetValue\s*\(|(?:GetRandom|math\.randomseed)\s*\([^\r\n]*(?:GameConfiguration|MapConfiguration|UserConfiguration)\.GetValue\s*\()'
+        },
         @{ Name = 'science/culture anti-stacking'; Pattern = 'NoMoreStack|NO_MORE_STACK' }
     )
     $oldRuntimeIds = @(

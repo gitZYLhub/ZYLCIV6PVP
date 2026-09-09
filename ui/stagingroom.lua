@@ -4339,10 +4339,12 @@ function OnMultiplayerChat( fromPlayer, toPlayer, text, eTargetType )
 	end
 	
 	if b_ishost == true and text == ".rand" then
+		local syncSeedValue = GameConfiguration.GetValue("GAME_SYNC_RANDOM_SEED")
+		local syncSeed = tonumber(syncSeedValue) or 0
 		if g_total_players ~= 0 then
-			text = GetRandom(GameConfiguration.GetValue("GAME_SYNC_RANDOM_SEED"),g_total_players)
+			text = GetRandom(syncSeed,g_total_players)
 			else
-			text = GetRandom(GameConfiguration.GetValue("GAME_SYNC_RANDOM_SEED"),10)
+			text = GetRandom(syncSeed,10)
 		end
 	end
 	

@@ -337,17 +337,19 @@ end
 function OnHostRemap()
 	local str = Controls.MapSeedEdit:GetText();
 	hostID = Network.GetGameHostPlayerID()
-	if tonumber(str) ~= nil then
-		MapConfiguration.SetValue("RANDOM_SEED", tonumber(str));
-		else
-		MapConfiguration.SetValue("RANDOM_SEED", MapConfiguration.GetValue("RANDOM_SEED")+1);
+	local mapSeed = tonumber(str)
+	if mapSeed == nil then
+		local currentMapSeedValue = MapConfiguration.GetValue("RANDOM_SEED")
+		mapSeed = (tonumber(currentMapSeedValue) or 0) + 1
 	end
+	MapConfiguration.SetValue("RANDOM_SEED", mapSeed);
 	str = Controls.GameSeedEdit:GetText();
-	if tonumber(str) ~= nil then
-		GameConfiguration.SetValue("GAME_SYNC_RANDOM_SEED", tonumber(str));
-		else
-		GameConfiguration.SetValue("GAME_SYNC_RANDOM_SEED", GameConfiguration.GetValue("GAME_SYNC_RANDOM_SEED")+1);
+	local gameSeed = tonumber(str)
+	if gameSeed == nil then
+		local currentGameSeedValue = GameConfiguration.GetValue("GAME_SYNC_RANDOM_SEED")
+		gameSeed = (tonumber(currentGameSeedValue) or 0) + 1
 	end
+	GameConfiguration.SetValue("GAME_SYNC_RANDOM_SEED", gameSeed);
 	Network.BroadcastGameConfig()
 	
 	ConfirmRestart()
