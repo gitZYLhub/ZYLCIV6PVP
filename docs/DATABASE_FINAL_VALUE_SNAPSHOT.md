@@ -23,7 +23,7 @@ $gameplayDb = Join-Path $env:LOCALAPPDATA "Firaxis Games\Sid Meier's Civilizatio
 python tools/database/capture_final_values.py --database $gameplayDb
 ```
 
-成功条件是进程退出码为 0、`Probes: 28/28 passed`，且报告中的 `summary.evidenceGuardsPassed` 为 `true`、`issues` 为空。默认报告位置是 `artifacts/reports/ZYLPVPMOD-1.3.0-xp2-full-content-database-final-values.json`。
+成功条件是进程退出码为 0、`Probes: 28/28 passed`，且报告中的 `summary.evidenceGuardsPassed` 为 `true`、`issues` 为空。默认报告位置是 `artifacts/reports/ZYLPVPMOD-2.0.0-xp2-full-content-database-final-values.json`。
 
 同一次游戏加载还应按 [DATABASE_LOG_AUDIT.md](DATABASE_LOG_AUDIT.md)、[LUA_LOG_AUDIT.md](LUA_LOG_AUDIT.md) 和 [MODDING_LOG_AUDIT.md](MODDING_LOG_AUDIT.md) 审计三份日志；数据库与日志必须都晚于同一提交，才能作为配对的实机证据。
 

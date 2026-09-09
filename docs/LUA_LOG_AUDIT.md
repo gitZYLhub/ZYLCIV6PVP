@@ -17,7 +17,7 @@ python tools/logs/audit_lua_log.py --log $luaLog
 - `minimumLineCountPassed` 和 `evidenceGuardsPassed` 均为 `true`；
 - `issues` 为空。
 
-默认报告写入 `artifacts/reports/ZYLPVPMOD-1.3.0-lua-log-audit.json`。报告只记录 `Lua.log` 文件名、时间、大小和哈希；错误上下文中的项目脚本会保留仓库相对路径及行号，其他绝对路径会脱敏。
+默认报告写入 `artifacts/reports/ZYLPVPMOD-2.0.0-lua-log-audit.json`。报告只记录 `Lua.log` 文件名、时间、大小和哈希；错误上下文中的项目脚本会保留仓库相对路径及行号，其他绝对路径会脱敏。
 
 ## 零白名单边界
 

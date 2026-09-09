@@ -1736,6 +1736,74 @@ if ((Test-Path -LiteralPath $taoistUiPath -PathType Leaf) -and
             $taoistLifecycleDriftIssues -notcontains $expectedTaoistLifecycleIssue) {
         Add-ValidationError 'Taoist runtime validation self-test did not reject an event lifecycle drift.'
     }
+
+    $taoistRemoteCallbackSource = $taoistUiSource.Replace(
+        'if playerID ~= Game.GetLocalPlayer() then',
+        'if false then'
+    )
+    $taoistRemoteCallbackIssues = @(
+        Get-ZylTaoistRuntimeContractIssues `
+            -UiSource $taoistRemoteCallbackSource `
+            -GameplaySource $taoistGameplaySource
+    )
+    $expectedTaoistRemoteCallbackIssue =
+        'Taoist UI does not limit the charge transaction callback to the local player.'
+    if ($taoistRemoteCallbackSource -eq $taoistUiSource -or
+            $taoistRemoteCallbackIssues -notcontains $expectedTaoistRemoteCallbackIssue) {
+        Add-ValidationError 'Taoist runtime validation self-test did not reject a remote-client transaction callback.'
+    }
+
+    $taoistStaleCoordinateSource = $taoistGameplaySource.Replace(
+        'pUnit:GetX() ~= iX or pUnit:GetY() ~= iY',
+        'pUnit:GetX() ~= iX or false'
+    )
+    $taoistStaleCoordinateIssues = @(
+        Get-ZylTaoistRuntimeContractIssues `
+            -UiSource $taoistUiSource `
+            -GameplaySource $taoistStaleCoordinateSource
+    )
+    $expectedTaoistStaleCoordinateIssue =
+        'Taoist gameplay does not validate request unit type and coordinates before mutating a plot: pUnit:GetX() ~= iX or pUnit:GetY() ~= iY'
+    if ($taoistStaleCoordinateSource -eq $taoistGameplaySource -or
+            $taoistStaleCoordinateIssues -notcontains $expectedTaoistStaleCoordinateIssue) {
+        Add-ValidationError 'Taoist runtime validation self-test did not reject stale request coordinates.'
+    }
+
+    $taoistRepeatedPromotionSource = $taoistGameplaySource.Replace(
+        'pUnit:GetProperty(PromotionType) == nil',
+        'true'
+    )
+    $taoistRepeatedPromotionIssues = @(
+        Get-ZylTaoistRuntimeContractIssues `
+            -UiSource $taoistUiSource `
+            -GameplaySource $taoistRepeatedPromotionSource
+    )
+    $expectedTaoistRepeatedPromotionIssue =
+        'Taoist promotion charge grants are not idempotent per promotion.'
+    if ($taoistRepeatedPromotionSource -eq $taoistGameplaySource -or
+            $taoistRepeatedPromotionIssues -notcontains $expectedTaoistRepeatedPromotionIssue) {
+        Add-ValidationError 'Taoist runtime validation self-test did not reject repeated promotion charges.'
+    }
+
+    $taoistUnitDataPath = Join-Path $modRoot 'Components\TeamPVPSecretSocieties\Taoist\Data\Taoist_unit.sql'
+    if (Test-Path -LiteralPath $taoistUnitDataPath -PathType Leaf) {
+        $taoistUnitDataSource = Get-Content -LiteralPath $taoistUnitDataPath -Raw
+        $initialChargeRegex = [regex]::new("(?is)(\(\s*'UNIT_TAOIST'\s*,\s*)1(\s*\)\s*;)")
+        $taoistNoInitialChargeSource = $initialChargeRegex.Replace(
+            $taoistUnitDataSource,
+            '${1}0${2}',
+            1
+        )
+        $taoistNoInitialChargeIssues = @(
+            Get-ZylTaoistUnitDataContractIssues -UnitDataSource $taoistNoInitialChargeSource
+        )
+        $expectedTaoistInitialChargeIssue =
+            'Taoist unit data does not grant exactly one initial action charge.'
+        if ($taoistNoInitialChargeSource -eq $taoistUnitDataSource -or
+                $taoistNoInitialChargeIssues -notcontains $expectedTaoistInitialChargeIssue) {
+            Add-ValidationError 'Taoist unit data validation self-test did not reject a missing initial charge.'
+        }
+    }
 }
 
 # BBG Expanded's six resources, art payload, Monopolies extension and

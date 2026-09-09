@@ -33,7 +33,6 @@ function OnTaoistButtonClicked()
 		local iY = pUnit:GetY();
 		local unitID = pUnit:GetID();
 		local pPlot = Map.GetPlot(iX, iY);
-		local pCity = Cities.GetPlotPurchaseCity(pPlot);
 		local TaoistCharge = pUnit:GetActionCharges()
 		--print("TaoistHasUse",pUnit:GetProperty("TaoistHasUse"))
 		if	IsPlotLeyLine(pPlot) then--有地脉直接收
@@ -54,8 +53,7 @@ function OnTaoistButtonClicked()
 				UI.RequestPlayerOperation(iPlayer, PlayerOperations.EXECUTE_SCRIPT, tParameters)
 			end
 		else
-			local disabled, reason = IsButtonTurnDisabled(pPlot)
-			--print(disabled, reason)
+			local disabled = IsButtonTurnDisabled(pPlot)
 			if	not disabled and TaoistCharge > 0 then
 				local tParameters = {};
 				tParameters.X, tParameters.Y = pUnit:GetX(), pUnit:GetY()
@@ -127,10 +125,11 @@ function IsPlotNoResource(pPlot)
 	return false;
 end
 
-local LeyLineResource = GameInfo.Resources['RESOURCE_LEY_LINE'].Index
+local leyLineResourceInfo = GameInfo.Resources['RESOURCE_LEY_LINE']
+local LeyLineResource = leyLineResourceInfo and leyLineResourceInfo.Index or -1
 function IsPlotLeyLine(pPlot)
 	--print(LeyLineResource)
-	if pPlot:GetResourceType() == LeyLineResource then
+	if LeyLineResource >= 0 and pPlot:GetResourceType() == LeyLineResource then
 		return true;
 	end
 	return false;
@@ -239,50 +238,37 @@ function IsButtonTurnDisabled(pPlot)
 end
 
 function OnUnitChargesChanged(playerID, unitID, newCharges, oldCharges)
+	if playerID ~= Game.GetLocalPlayer() then
+		return
+	end
 	local pPlayer = Players[playerID]
-	--local pUnit = UnitManager.GetUnit(playerID, unitID)
-	--print('FireflyUnitChargesChanged',playerID, unitID,pUnit)
-	--if pUnit ~= nil then
-		--local sUnit = GameInfo.Units[pUnit:GetType()]
-		--if	sUnit.UnitType ~= "UNIT_TAOIST" then
-		--	return
-		--end
-	if	pPlayer:GetProperty("TaoistPlot") ~= nil then
-		local pPlot = Map.GetPlotByIndex(pPlayer:GetProperty("TaoistPlot"))
-		if pPlot ~= nil and pPlot:GetOwner() < 0 then
-			if	newCharges <= oldCharges then
-				--print(pPlayer:GetProperty("TaoistCity"))
-				if	pPlayer:GetProperty("TaoistCity") ~= nil then
-					local pCity = Cities.GetCityInPlot(pPlayer:GetProperty("TaoistCity"))
-					--print(pCity)
-					if	pCity then
-						--买地刷新(由于Request会依次执行，所以购买时一定是无主且有钱的状态)
-						local tParameters = {};
-						tParameters[CityCommandTypes.PARAM_PLOT_PURCHASE] = UI.GetInterfaceModeParameter(CityCommandTypes.PARAM_PLOT_PURCHASE);
-						tParameters[CityCommandTypes.PARAM_X] = pPlot:GetX();
-						tParameters[CityCommandTypes.PARAM_Y] = pPlot:GetY();
-						--print(CityManager.CanStartCommand( pCity, CityCommandTypes.PURCHASE, tParameters))
-						CityManager.RequestCommand( pCity, CityCommandTypes.PURCHASE, tParameters);	
-						
-						--把钱调回去
-						UI.RequestPlayerOperation(playerID, PlayerOperations.EXECUTE_SCRIPT, { OnStart = 'RecoverTaoistTreasury', UnitID = unitID, PurchaseCost = pCity:GetGold():GetPlotPurchaseCost(pPlot:GetIndex())})
-					end
-				end
-			end
-		end
+	if pPlayer == nil or newCharges > oldCharges then
+		return
 	end
-end
+	local taoistPlot = tonumber(pPlayer:GetProperty("TaoistPlot"))
+	local taoistCity = tonumber(pPlayer:GetProperty("TaoistCity"))
+	local taoistUnit = tonumber(pPlayer:GetProperty("TaoistUnit"))
+	if taoistPlot == nil or taoistCity == nil or taoistUnit ~= tonumber(unitID) then
+		return
+	end
+	local pPlot = Map.GetPlotByIndex(taoistPlot)
+	local pCity = Cities.GetCityInPlot(taoistCity)
+	if pPlot == nil or pPlot:GetOwner() >= 0 or pCity == nil then
+		return
+	end
+	--买地刷新(由于Request会依次执行，所以购买时一定是无主且有钱的状态)
+	local tParameters = {};
+	tParameters[CityCommandTypes.PARAM_PLOT_PURCHASE] = UI.GetInterfaceModeParameter(CityCommandTypes.PARAM_PLOT_PURCHASE);
+	tParameters[CityCommandTypes.PARAM_X] = pPlot:GetX();
+	tParameters[CityCommandTypes.PARAM_Y] = pPlot:GetY();
+	CityManager.RequestCommand(pCity, CityCommandTypes.PURCHASE, tParameters);
 
-function OnUnitDamageChanged(playerID, unitID, newDamage, prevDamage)
-	--print("OnUnitCaptured",playerID, unitID, newDamage, prevDamage)
-	local pUnit = UnitManager.GetUnit(playerID, unitID)
-	--print(pUnit)--已经抓不到哩
-	if	pUnit then
-		local sUnit = GameInfo.Units[pUnit:GetType()]
-		if sUnit.UnitType ~= "UNIT_TAOIST" and newDamage == 100 then
-			--print(pUnit:GetProperty("TaoistHasUse"),pUnit:GetActionCharges())
-		end
-	end
+	--把钱调回去
+	UI.RequestPlayerOperation(playerID, PlayerOperations.EXECUTE_SCRIPT, {
+		OnStart = 'RecoverTaoistTreasury',
+		UnitID = unitID,
+		PurchaseCost = pCity:GetGold():GetPlotPurchaseCost(pPlot:GetIndex())
+	})
 end
 
 function Refresh()
@@ -301,8 +287,6 @@ function Refresh()
 			local TaoistCharge = pUnit:GetActionCharges()
 			local TaoistMaxCharge = TaoistMaxCharges(PlayerID, UnitID)
 			tooltip = tooltip .. '[NEWLINE]' .. Locale.Lookup('LOC_TAOIST_MAX_LEYLINE',TaoistCharge,TaoistMaxCharge)
-			
-			--local disabled, reason = IsButtonTurnDisabled(pPlot)
 			
 			if	ifOutBorder or IsPlotOutBorder(pPlot) then--由于先前代码，会对无奢侈资源格输出nil，所以不能直接not disabled
 				Controls.TaoistButton:SetToolTipString(tooltip)
@@ -350,7 +334,6 @@ function Initialize()
 	end
 	--print("Taoist pvp Load")
 	Events.UnitChargesChanged.Add(OnUnitChargesChanged)
-	--Events.UnitDamageChanged.Add(OnUnitDamageChanged)
 	
 	Events.UnitMoveComplete.Add(OnUnitMoveComplete)
 	Events.UnitSelectionChanged.Add(OnUnitSelectionChanged)

@@ -73,7 +73,7 @@ Manifest 迁移采用“分段替换而非一次重写”：`manifest/criteria`�
 - `LobbyConfigurationChecks.ps1` 纵向拥有 ZYL/CPL/BBG 前端配置、两档 Casual 计时器、可选时代长度、最终大厅默认值及其晚加载动作、房主重置/权限/生命周期；入口以内存改变智能计时默认值和移除 P++ 次数上限的反例保护配置与运行时两端一致。
 - `ArtIntegrationChecks.ps1` 保护 BBM 根级 `NaturalWondersMod.dep` 的唯一 UpdateArt 动作、ArtDef 与 Windows/macOS BLP 依赖闭包，并阻止五条已清理的 BBG/BBM 上游坏引用回流；入口以内存改写 ArtDef 路径的反例验证缺失依赖会被拒绝。
 - `PackageIdentityChecks.ps1` 把 `tools/project.json` 的 Mod ID/版本/名称与 ModInfo 属性、双语标题、简中描述和 `MP_helper.lua` 多人握手绑定为单一身份契约，同时保护掉线恢复不得重新引入同步随机流、清空移动力或废弃函数；入口以内存改变握手版本的反例验证单一版本源。
-- `TeamPvpSocietyChecks.ps1` 纵向拥有 Team PVP Secret Societies 3.93 整合层：资源存在性、Gameplay SQL、吸血鬼城堡/道士脚本、镀金船厂、三语文本、美术依赖、LightweightBalance 资源移除，以及秘密结社模式 Criteria/Action/Files 闭包统一检查。道士子契约另外固定配置单读与默认值、无地貌安全索引、UI 事件生命周期、零正式日志及死代码边界；入口以内存平衡值、危险地貌索引、重复配置读取和缺失事件注销四类漂移证明门禁有效。
+- `TeamPvpSocietyChecks.ps1` 纵向拥有 Team PVP Secret Societies 3.93 整合层：资源存在性、Gameplay SQL、吸血鬼城堡/道士脚本、镀金船厂、三语文本、美术依赖、LightweightBalance 资源移除，以及秘密结社模式 Criteria/Action/Files 闭包统一检查。道士子契约另外固定出生 1 次、配置单读与默认值、无地貌安全索引、Gameplay 请求坐标/单位校验、本地客户端和单位绑定的购地事务、晋升次数幂等、UI 事件生命周期、零正式日志及死代码边界；入口以内存构造数据、坐标、客户端、晋升、地貌、配置和生命周期漂移证明门禁有效。
 - `ExpandedResourceChecks.ps1` 纵向拥有 BBG Expanded 六种资源的核心/平衡 SQL、325 个上游文件、美术依赖与双平台包、公司模式扩展、外部完整模组交接、动态简体中文和独立模组阻断；入口以内存资源地形漂移反例自检，损坏的中文文本动作则返回领域错误而不会使校验器空引用退出。
 - `MonopoliesChecks.ps1` 纵向拥有行业、公司及产品的 50 个最终数值、枫糖住房例外、公司模式数据库/文本加载顺序、21 个简中效果标签和百科资源清单；入口以内存百分比漂移反例自检，缺失 LoadOrder 节点会作为问题汇总而不会中止校验。
 - `PantheonChecks.ps1` 纵向拥有 13 个 Lightweight Balance 精选万神殿与 ZYL 德鲁伊的允许/排除清单、关键数据库行为、三语文本、图标、地热矿山和 Gathering Storm 条件，以及独立 LightweightBalance 阻断；入口以内存删除德鲁伊注册的反例验证允许清单。

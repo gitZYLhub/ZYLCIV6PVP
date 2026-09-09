@@ -1,4 +1,4 @@
-# ZYLPVPMOD 1.3.0
+# ZYLPVPMOD 2.0.0
 
 `ZYLPVPMOD` 是一个自包含的文明 VI 多人联机整合包：
 
@@ -20,7 +20,7 @@ Steam Workshop 原件没有被修改。BBG 和 BBM 保留在 `Components` 命名
 
 1. 把整个 `ZYLPVPMOD` 文件夹放进文明 VI 的本地 Mods 目录。若当前开发目录已经被游戏扫描，不必再复制。
 2. 在“额外内容”中停用原 BBG、BBM/BBS、MPH、Team PVP Tools 和旧 `ZYL Multiplayer Suite`。
-3. 只启用 `ZYLPVPMOD 1.3.0`，然后完全退出并重启文明 VI。
+3. 只启用 `ZYLPVPMOD 2.0.0`，然后完全退出并重启文明 VI。
 4. 所有联机玩家必须使用内容完全相同的整合包；不能只看文件夹名称或 ModInfo 版本号。
 
 本包通过 `<Blocks>` 阻止已知原组件同时启用，包括 BBG release/beta/WIP、BBM、BBS、CCB Maps、MPH、TPT、旧 ZYL 工具箱、独立 CIVITAS Resources，以及已经内嵌或争夺同一上下文的 Better Report Screen、Better Trade Screen、Better City States、Tech Civic Progress Plus、Better Builder Charges、Real Great People、Better Deal Window 和 Detailed Map Tacks。完整 BBG Expanded 仍可单独启用：检测到后内建六资源层自动让位，保留 Expanded 文明/领袖而不重复插入资源。未知分支、改版和其他替换型 UI Mod 仍需人工排除。

@@ -36,6 +36,7 @@
         Art = Join-Path $teamPvpSocietyRoot 'Buildings.artdef'
         TaoistUi = Join-Path $teamPvpSocietyRoot 'Taoist\UI\Taoist_UI.lua'
         TaoistGameplay = Join-Path $teamPvpSocietyRoot 'Taoist\Scripts\Taoist_Gameplay.lua'
+        TaoistUnitData = Join-Path $teamPvpSocietyRoot 'Taoist\Data\Taoist_unit.sql'
         VampireCastleGameplay = Join-Path $teamPvpSocietyRoot 'Scripts\VampireCastle_Gameplay.lua'
     }
     foreach ($entry in $teamPvpSocietyPaths.GetEnumerator()) {
@@ -55,6 +56,15 @@
                     -GameplaySource $taoistGameplaySource
             )) {
             $issues.Add($taoistRuntimeIssue)
+        }
+    }
+    if (Test-Path -LiteralPath $teamPvpSocietyPaths.TaoistUnitData -PathType Leaf) {
+        $taoistUnitDataSource = Get-Content `
+            -LiteralPath $teamPvpSocietyPaths.TaoistUnitData -Raw
+        foreach ($taoistUnitDataIssue in @(
+                Get-ZylTaoistUnitDataContractIssues -UnitDataSource $taoistUnitDataSource
+            )) {
+            $issues.Add($taoistUnitDataIssue)
         }
     }
 
@@ -559,6 +569,7 @@ function Get-ZylTaoistRuntimeContractIssues {
     )
 
     $issues = [System.Collections.Generic.List[string]]::new()
+    $combinedSource = $UiSource + "`n" + $GameplaySource
     $helperTokens = @(
         'local function GetTaoistConfigurationValue(optionId, defaultValue)',
         'local value = GameConfiguration.GetValue(optionId)',
@@ -613,6 +624,100 @@ function Get-ZylTaoistRuntimeContractIssues {
         $issues.Add('Taoist UI indexes feature metadata before checking the no-feature sentinel.')
     }
 
+    foreach ($metadataSpec in @(
+        [pscustomobject]@{
+            Source = $UiSource
+            Label = 'Taoist UI'
+            Tokens = @(
+                "local leyLineResourceInfo = GameInfo.Resources['RESOURCE_LEY_LINE']",
+                'local LeyLineResource = leyLineResourceInfo and leyLineResourceInfo.Index or -1',
+                'if LeyLineResource >= 0 and pPlot:GetResourceType() == LeyLineResource then'
+            )
+        },
+        [pscustomobject]@{
+            Source = $GameplaySource
+            Label = 'Taoist gameplay'
+            Tokens = @(
+                "local taoistUnitInfo = GameInfo.Units['UNIT_TAOIST']",
+                'local UnitTaoist = taoistUnitInfo and taoistUnitInfo.Index or -1',
+                "local leyLineResourceInfo = GameInfo.Resources['RESOURCE_LEY_LINE']",
+                'local LeyLineResource = leyLineResourceInfo and leyLineResourceInfo.Index or -1'
+            )
+        }
+    )) {
+        foreach ($token in $metadataSpec.Tokens) {
+            if (-not $metadataSpec.Source.Contains($token)) {
+                $issues.Add("$($metadataSpec.Label) does not guard missing Taoist unit/resource metadata: $token")
+            }
+        }
+    }
+    if ($combinedSource -match "GameInfo\.(?:Units\['UNIT_TAOIST'\]|Resources\['RESOURCE_LEY_LINE'\])\.Index") {
+        $issues.Add('Taoist runtime dereferences optional unit/resource metadata without a nil guard.')
+    }
+
+    foreach ($token in @(
+        'local function GetTaoistRequestContext(playerID, params)',
+        'local numericPlayerID = tonumber(playerID)',
+        'local iX = tonumber(params.X)',
+        'local iY = tonumber(params.Y)',
+        'local unitID = tonumber(params.UnitID)',
+        'pUnit:GetType() ~= UnitTaoist',
+        'pUnit:GetX() ~= iX or pUnit:GetY() ~= iY'
+    )) {
+        if (-not $GameplaySource.Contains($token)) {
+            $issues.Add("Taoist gameplay does not validate request unit type and coordinates before mutating a plot: $token")
+        }
+    }
+    foreach ($handlerToken in @(
+        'local pPlayer, pUnit, pPlot, iX, iY, unitID = GetTaoistRequestContext(playerID, params)',
+        'local pPlayer, pUnit, pPlot, iX, iY = GetTaoistRequestContext(playerID, params)'
+    )) {
+        $expectedCount = if ($handlerToken.Contains(', unitID')) { 1 } else { 3 }
+        $actualCount = [regex]::Matches($GameplaySource, [regex]::Escape($handlerToken)).Count
+        if ($actualCount -ne $expectedCount) {
+            $issues.Add(
+                'Taoist gameplay action handlers do not all use the validated request context ' +
+                "(${handlerToken}: expected $expectedCount, found $actualCount)."
+            )
+        }
+    }
+    $addHandlerIndex = $GameplaySource.IndexOf('function TaoistAddLeyLine(playerID, params)')
+    $addContextIndex = $GameplaySource.IndexOf(
+        'GetTaoistRequestContext(playerID, params)',
+        [math]::Max(0, $addHandlerIndex)
+    )
+    $addMutationIndex = $GameplaySource.IndexOf(
+        'ResourceBuilder.SetResourceType(pPlot, LeyLineResource, 1)',
+        [math]::Max(0, $addHandlerIndex)
+    )
+    if ($addHandlerIndex -lt 0 -or $addContextIndex -lt $addHandlerIndex -or
+            $addMutationIndex -lt $addContextIndex) {
+        $issues.Add('Taoist gameplay mutates a Ley Line before validating the request context.')
+    }
+
+    if (-not $UiSource.Contains('if playerID ~= Game.GetLocalPlayer() then')) {
+        $issues.Add('Taoist UI does not limit the charge transaction callback to the local player.')
+    }
+    foreach ($transactionToken in @(
+        'pPlayer:SetProperty("TaoistUnit", unitID)',
+        'tonumber(pPlayer:GetProperty("TaoistUnit")) ~= unitID',
+        'pPlayer:SetProperty("TaoistUnit", nil)'
+    )) {
+        if (-not $GameplaySource.Contains($transactionToken)) {
+            $issues.Add("Taoist plot-purchase transaction is not bound to and cleared for one unit: $transactionToken")
+        }
+    }
+    foreach ($transactionToken in @(
+        'local taoistPlot = tonumber(pPlayer:GetProperty("TaoistPlot"))',
+        'local taoistCity = tonumber(pPlayer:GetProperty("TaoistCity"))',
+        'local taoistUnit = tonumber(pPlayer:GetProperty("TaoistUnit"))',
+        'taoistUnit ~= tonumber(unitID)'
+    )) {
+        if (-not $UiSource.Contains($transactionToken)) {
+            $issues.Add("Taoist UI does not validate the unit-bound plot-purchase transaction: $transactionToken")
+        }
+    }
+
     foreach ($eventSpec in @(
         [pscustomobject]@{ Event = 'LoadGameViewStateDone'; Handler = 'Initialize' },
         [pscustomobject]@{ Event = 'UnitChargesChanged'; Handler = 'OnUnitChargesChanged' },
@@ -646,7 +751,6 @@ function Get-ZylTaoistRuntimeContractIssues {
         }
     }
 
-    $combinedSource = $UiSource + "`n" + $GameplaySource
     if ([regex]::Matches($combinedSource, '(?m)^\s*print\(').Count -ne 0) {
         $issues.Add('Taoist runtime contains an unguarded print.')
     }
@@ -654,15 +758,50 @@ function Get-ZylTaoistRuntimeContractIssues {
         'MaxRecordActions',
         'AiTaoistAddLeyLineToMax',
         'pTaoistBaseCharge',
-        'ifFixCharge'
+        'ifFixCharge',
+        'OnUnitDamageChanged'
     )) {
         if ($combinedSource.Contains($deadIdentifier)) {
             $issues.Add("Taoist runtime retains dead code: $deadIdentifier")
         }
     }
-    if (-not $GameplaySource.Contains('local TaoistCharge = 0') -or
-            [regex]::Matches($GameplaySource, '(?m)^\s*TaoistCharge\s*=\s*0\s*$').Count -ne 0) {
-        $issues.Add('Taoist gameplay leaks TaoistCharge into the global environment.')
+    if (-not $GameplaySource.Contains('local chargeChange = 0') -or
+            -not $GameplaySource.Contains('pUnit:GetProperty(PromotionType) == nil') -or
+            [regex]::Matches(
+                $GameplaySource,
+                'pUnit:ChangeActionCharges\(chargeChange\)'
+            ).Count -ne 1 -or
+            $GameplaySource.Contains('pUnit:ChangeActionCharges(ChargeChange)') -or
+            [regex]::Matches($GameplaySource, '(?m)^\s*chargeChange\s*=\s*0\s*$').Count -ne 0) {
+        $issues.Add('Taoist promotion charge grants are not idempotent per promotion.')
+    }
+    foreach ($deadUiToken in @(
+        'local pCity = Cities.GetPlotPurchaseCity(pPlot);',
+        'local disabled, reason = IsButtonTurnDisabled(pPlot)'
+    )) {
+        if ($UiSource.Contains($deadUiToken)) {
+            $issues.Add("Taoist UI retains an unused local: $deadUiToken")
+        }
+    }
+    return @($issues)
+}
+
+function Get-ZylTaoistUnitDataContractIssues {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string]$UnitDataSource
+    )
+
+    $issues = [System.Collections.Generic.List[string]]::new()
+    $initialChargePattern =
+        "(?is)INSERT\s+OR\s+REPLACE\s+INTO\s+Units_MODE\s*" +
+        "\(\s*UnitType\s*,\s*ActionCharges\s*\)\s*VALUES" +
+        "(?:\s|--[^\r\n]*(?:\r?\n|$))*" +
+        "\(\s*'UNIT_TAOIST'\s*,\s*1\s*\)\s*;"
+    if ($UnitDataSource -notmatch $initialChargePattern) {
+        $issues.Add(
+            'Taoist unit data does not grant exactly one initial action charge.'
+        )
     }
     return @($issues)
 }

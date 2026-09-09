@@ -18,7 +18,7 @@ python tools/logs/audit_database_log.py --log $databaseLog
 - `evidenceGuardsPassed` 为 `true`；
 - `issues` 为空。
 
-默认报告写入 `artifacts/reports/ZYLPVPMOD-1.3.0-database-log-audit.json`，不会记录本机日志绝对路径。
+默认报告写入 `artifacts/reports/ZYLPVPMOD-2.0.0-database-log-audit.json`，不会记录本机日志绝对路径。
 
 ## 已知外部错误
 

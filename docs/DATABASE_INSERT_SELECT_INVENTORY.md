@@ -1,6 +1,6 @@
 # 动态 INSERT SELECT 清单
 
-本清单覆盖 ModInfo 当前实际加载的全部 SQL 源，用于在精简数据库代码前区分静态重复、兼容性守卫、按上游数据生成的行和有顺序依赖的临时表流程。完整逐语句记录由 `tools/report_database_writes.ps1` 可重复生成到已忽略的 `artifacts/reports/ZYLPVPMOD-1.3.0-database-writes.json`；`manifest/database-insert-select-contract.json` 固定记录集合的语义 SHA-256 和所有聚合计数。
+本清单覆盖 ModInfo 当前实际加载的全部 SQL 源，用于在精简数据库代码前区分静态重复、兼容性守卫、按上游数据生成的行和有顺序依赖的临时表流程。完整逐语句记录由 `tools/report_database_writes.ps1` 可重复生成到已忽略的 `artifacts/reports/ZYLPVPMOD-2.0.0-database-writes.json`；`manifest/database-insert-select-contract.json` 固定记录集合的语义 SHA-256 和所有聚合计数。
 
 ## 当前基线
 

@@ -18,7 +18,7 @@ python tools/logs/audit_modding_log.py --log $moddingLog
 - `componentOwnerConflictCount`、`unmappedAppliedComponentCount`、`missingProjectAppliedComponentCount`、`unexpectedWarningCount` 和 `projectWarningCount` 均为 0；
 - `evidenceGuardsPassed` 为 `true`，`issues` 为空。
 
-默认报告写入 `artifacts/reports/ZYLPVPMOD-1.3.0-modding-log-audit.json`。报告只记录日志文件名、时间、大小、哈希、组件相对路径和分类结果，不保存本机日志绝对路径。
+默认报告写入 `artifacts/reports/ZYLPVPMOD-2.0.0-modding-log-audit.json`。报告只记录日志文件名、时间、大小、哈希、组件相对路径和分类结果，不保存本机日志绝对路径。
 
 ## 外部警告边界
 
