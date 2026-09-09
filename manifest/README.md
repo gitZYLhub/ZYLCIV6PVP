@@ -12,6 +12,7 @@
 - `database-final-value-contract.json`：在 Civ VI `DebugGameplay.sqlite` 上执行的只读最终值契约；`xp2-full-content` 逐组覆盖 13 个保留重复键、7 行受支配精简回归和 8 个高风险/等价精简最终状态，契约文件哈希由 `project.json` 固定。
 - `database-log-contract.json`：`Database.log` 的必需外键验证标记和唯一已知外部错误白名单；任何 Gameplay/Configuration 错误都不得进入白名单，Firaxis CurrentClickouts 噪声必须同时匹配 scope、消息、标签与相对文件路径。
 - `lua-log-contract.json`：`Lua.log` 的零白名单致命错误契约；运行时错误、语法错误、脚本加载失败和两类堆栈标记任一出现即失败，普通的 `Attempt`、`Warning` 或组件自报 `Failed` 不按词面误判。
+- `modding-log-contract.json`：`Modding.log` 的项目身份、目标/应用组件、完成标记和警告归属契约；本项目组件警告零容忍，官方例外必须精确匹配 Mod 所有者、组件、操作、相对文件和消息，或构成严格的 DLC 本地化成对提示。
 - `criteria/*.xml`：按责任域拆分的 Criteria；`manifestOrder` 仅用于恢复冻结版全局顺序，组装时会移除。
 - `actions/frontend/*.xml`：按责任域拆分的 FrontEndActions。
 - `actions/ingame/*.xml`：按责任域拆分的 InGameActions。

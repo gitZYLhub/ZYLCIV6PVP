@@ -139,6 +139,12 @@ if (-not (Test-Path -LiteralPath $luaLogChecksPath -PathType Leaf)) {
 }
 . $luaLogChecksPath
 
+$moddingLogChecksPath = Join-Path $PSScriptRoot 'validation\ModdingLogChecks.ps1'
+if (-not (Test-Path -LiteralPath $moddingLogChecksPath -PathType Leaf)) {
+    throw "Modding.log helpers not found: $moddingLogChecksPath"
+}
+. $moddingLogChecksPath
+
 $teamPvpSocietyChecksPath = Join-Path $PSScriptRoot 'validation\TeamPvpSocietyChecks.ps1'
 if (-not (Test-Path -LiteralPath $teamPvpSocietyChecksPath -PathType Leaf)) {
     throw "Team PVP Secret Societies validation helpers not found: $teamPvpSocietyChecksPath"
@@ -986,6 +992,49 @@ else {
     }
     catch {
         Add-ValidationError ('Lua.log contract could not be loaded: ' + $_.Exception.Message)
+    }
+}
+$moddingLogContractPath = Join-Path $modRoot (
+    [string]$projectMetadata.moddingLogContractFile
+)
+if (-not (Test-Path -LiteralPath $moddingLogContractPath -PathType Leaf)) {
+    Add-ValidationError 'Modding.log contract is missing.'
+}
+else {
+    try {
+        $moddingLogContractHash = (
+            Get-FileHash -LiteralPath $moddingLogContractPath -Algorithm SHA256
+        ).Hash.ToLowerInvariant()
+        if ($moddingLogContractHash -ne [string]$projectMetadata.moddingLogContractSha256) {
+            Add-ValidationError (
+                'Modding.log contract hash drifted: ' +
+                "$moddingLogContractHash (expected $($projectMetadata.moddingLogContractSha256))."
+            )
+        }
+        $moddingLogContract = Get-Content `
+            -LiteralPath $moddingLogContractPath -Raw | ConvertFrom-Json
+        foreach ($moddingLogContractIssue in @(
+                Get-ZylModdingLogContractIssues `
+                    -Contract $moddingLogContract `
+                    -ProjectMetadata $projectMetadata
+            )) {
+            Add-ValidationError $moddingLogContractIssue
+        }
+        $moddingLogDrift = ConvertFrom-Json (
+            $moddingLogContract | ConvertTo-Json -Depth 30
+        )
+        $moddingLogDrift.allowedComponentWarningRules[0].ownerModId = [string]$projectMetadata.modId
+        if (@(Get-ZylModdingLogContractIssues `
+                -Contract $moddingLogDrift `
+                -ProjectMetadata $projectMetadata).Count -eq 0) {
+            Add-ValidationError 'Modding.log contract self-test did not reject a project-owned warning allow rule.'
+        }
+        Invoke-ZylPythonSelfTest `
+            -ScriptPath (Join-Path $PSScriptRoot 'logs\audit_modding_log.py') `
+            -Label 'Modding.log audit tool'
+    }
+    catch {
+        Add-ValidationError ('Modding.log contract could not be loaded: ' + $_.Exception.Message)
     }
 }
 $databaseWriteSetContractPath = Join-Path $modRoot 'manifest\database-write-set-contract.json'

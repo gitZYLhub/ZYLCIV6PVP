@@ -36,4 +36,4 @@ python tools/logs/audit_database_log.py --log $databaseLog --allow-stale --allow
 
 诊断豁免不会把旧输入变成正式证据，报告仍会保留 `evidenceGuardsPassed=false`。获得经审查的冻结报告后，可用 `--baseline path\to\approved-report.json` 比较规范语义哈希；已允许外部错误的出现次数不会影响语义哈希，缺少必需验证序列或任何未解释错误会影响并失败。
 
-同一次加载还必须执行 [DATABASE_FINAL_VALUE_SNAPSHOT.md](DATABASE_FINAL_VALUE_SNAPSHOT.md) 和 [LUA_LOG_AUDIT.md](LUA_LOG_AUDIT.md)，并确认 SQLite 与两份日志都晚于同一 Git 提交。
+同一次加载还必须执行 [DATABASE_FINAL_VALUE_SNAPSHOT.md](DATABASE_FINAL_VALUE_SNAPSHOT.md)、[LUA_LOG_AUDIT.md](LUA_LOG_AUDIT.md) 和 [MODDING_LOG_AUDIT.md](MODDING_LOG_AUDIT.md)，并确认 SQLite 与三份日志都晚于同一 Git 提交。

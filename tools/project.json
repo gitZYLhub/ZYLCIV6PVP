@@ -18,6 +18,8 @@
   "databaseLogContractSha256": "e4c0e0baa3440a3276ae75305fe020feb609f0ea76368dce365f5674399ed819",
   "luaLogContractFile": "manifest/lua-log-contract.json",
   "luaLogContractSha256": "344b9050a8658d86b36c471d6970cfab1d8bf5f86a473bbc5a723f3ef76ccb1c",
+  "moddingLogContractFile": "manifest/modding-log-contract.json",
+  "moddingLogContractSha256": "32d93e805f8bc80cd2bd508cdeb1ee252bd78d2dd0c9010c3c14a07fc1d7ec3a",
   "releaseBudgets": {
     "universalMaxBytes": 800000000,
     "windowsMaxBytes": 460000000,

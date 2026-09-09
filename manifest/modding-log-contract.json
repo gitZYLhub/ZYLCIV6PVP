@@ -1,0 +1,75 @@
+{
+  "schemaVersion": 1,
+  "packageName": "ZYLPVPMOD",
+  "semanticVersion": "1.3.0",
+  "modId": "4dd01931-9d44-4a8a-8e74-712cba0f0072",
+  "civ6BuildId": "15296837",
+  "expectedFileName": "Modding.log",
+  "minimumLineCount": 1,
+  "minimumProjectTargetComponents": 1,
+  "minimumProjectAppliedComponents": 1,
+  "coverage": {
+    "requiredMarkers": 2,
+    "externalWarningRules": 2,
+    "allowedComponentWarningRules": 3
+  },
+  "requiredMarkers": [
+    {
+      "id": "settings-finished",
+      "regex": "^Modding Framework - Finished Apply Settings$",
+      "minimumOccurrences": 1,
+      "rationale": "The configuration phase must finish applying settings."
+    },
+    {
+      "id": "game-reconfigured",
+      "regex": "^Successfully reconfigured game\\.$",
+      "minimumOccurrences": 1,
+      "rationale": "Civ VI must report a completed content reconfiguration."
+    }
+  ],
+  "externalWarningRules": [
+    {
+      "id": "firaxis-activation-order-change",
+      "kind": "single",
+      "messageRegex": "^Warning: The activation order of mods is not the same as it was with a prior sorting algorithm\\.$",
+      "rationale": "Civ VI emits this global notice when comparing its current and legacy action sorting algorithms; it is recorded but is not a component load failure."
+    },
+    {
+      "id": "firaxis-missing-dlc-localization",
+      "kind": "paired-path",
+      "messageRegex": "^Warning: Unable to load \\.\\./\\.\\./\\.\\./DLC/[^/]+/.+\\.xml$",
+      "companionRegex": "^Warning: LocalizedText - Failed loading XML\\.$",
+      "pathRegex": "^\\.\\./\\.\\./\\.\\./DLC/[^/]+/.+\\.xml$",
+      "rationale": "Some stock DLC manifests reference optional China localization XML files absent from this installation; only an exact DLC-relative path followed immediately by the stock LocalizedText failure line is external noise."
+    }
+  ],
+  "allowedComponentWarningRules": [
+    {
+      "id": "firaxis-rulers-sahara-base-remove-data",
+      "ownerModId": "82ae6f24-930f-4640-833c-fcdfd4845757",
+      "componentId": "RulersOfTheSaharaGameplay",
+      "operation": "UpdateDatabase",
+      "loadPathRegex": "^Data/RulersOfTheSahara_RemoveData\\.xml$",
+      "messageRegex": "^Warning: UpdateDatabase - Error Loading XML\\.$",
+      "rationale": "The stock Rulers of the Sahara base action reports this error before this project begins applying components."
+    },
+    {
+      "id": "firaxis-rulers-sahara-xp2-remove-data",
+      "ownerModId": "82ae6f24-930f-4640-833c-fcdfd4845757",
+      "componentId": "RulersOfTheSaharaGameplay_XP2",
+      "operation": "UpdateDatabase",
+      "loadPathRegex": "^Data/RulersOfTheSahara_RemoveData\\.xml$",
+      "messageRegex": "^Warning: UpdateDatabase - Error Loading XML\\.$",
+      "rationale": "The stock Rulers of the Sahara XP2 action reports the same external RemoveData error."
+    },
+    {
+      "id": "firaxis-catherine-persona-modifiers",
+      "ownerModId": "ce5876cd-6900-46d1-9c9c-8dba1f28872e",
+      "componentId": "CatherineDeMediciGameplay",
+      "operation": "UpdateDatabase",
+      "loadPathRegex": "^Data/CatherineDeMedici_Modifiers\\.xml$",
+      "messageRegex": "^Warning: UpdateDatabase - Error Loading XML\\.$",
+      "rationale": "The stock Catherine de Medici persona action reports this external Modifiers XML error."
+    }
+  ]
+}

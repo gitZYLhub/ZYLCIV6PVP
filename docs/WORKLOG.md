@@ -828,4 +828,16 @@
 - 精简/性能：四个脚本的可执行配置 getter 调用点净减 7 个，其中 SetupParameters -4、StagingRoom -1、BBG -2；SetupParameters 还避免在候选领袖循环中反复读取相同 Ban 格式。VotePanel 在输入为空时仍各读取一次当前种子，但去除了每个文本输入的重复 `tonumber`。
 - 验证：PowerShell 7/5.1 总校验均通过 203 XML、108 Criteria、280 Actions、1071 Files、543 活跃引用、48 休眠文件和 111 源码专用文件。以 `17525a7` 构建清单逐路径比较，三个 profile 都恰好只改变四个预期 Lua 文件、无增删，每包净增 70 字节：universal 1066 文件/776,216,570 字节/`5c58482a…dca7`，Windows 897/442,475,633/`f61827e1…4a4a`，macOS 897/442,475,295/`eaea5dcc…dc13`。数据库、动作图、ModInfo 和版本身份不变。
 - 风险/待办：缺值兜底保证本地和房主路径不崩溃，但新鲜实机证据仍需覆盖空/显式重开种子、受限选人、`.rand`、传统征服开关/阈值，并通过 `Lua.log` 零致命错误门；多人种子结果还需双客户端一致性核对。
-- 提交：本次提交（配置数值使用缺值防护）。
+- 提交：`6de7bf8 fix: guard configuration numeric operations`。
+
+### 2026-09-09 / M2-Modding.log 组件加载证据门
+
+- 目标：把此前人工检查的 Mod 激活顺序、组件归属和加载警告转成正式证据门，避免官方 DLC 噪声掩盖本项目文件或组件错误。
+- 范围：新增 `modding-log-contract.json`、PowerShell 契约检查、Python 审计器和操作手册，并接入工程元数据、总校验、Manifest 说明、架构、计划、测试矩阵及三类既有证据手册；不修改运行资产、动作图、数据库、玩法、ModInfo、名称或版本号。
+- 设计决定：先从 Target Mods/Actions 建立组件 ID 到 Mod 所有者、标签和动作类型的映射，再按 Applying Component/Loading 上下文分类 Warning/Error；遇到目标列表、重新配置、数据库重建、Apply Settings 等阶段边界立即清空旧组件上下文。项目 Mod ID 拥有的组件警告不允许进入白名单；未知或多规则同时命中的警告保守失败。
+- 白名单边界：全局只允许文字完全一致的 Firaxis 新旧排序算法提示，以及 `../../../DLC/<包>/...xml` 缺失后紧邻 `LocalizedText` 失败的两行组合；组件规则只允许官方 Rulers of the Sahara 基础/XP2 和 Catherine de Medici persona 三个已核实错误，每条同时固定所有者 Mod ID、组件 ID、UpdateDatabase、相对文件与消息。普通的引擎服务 missing 提示不带 Warning/Error 前缀，不属于此门的错误记录。
+- 旧日志诊断：2026-09-08 12:31:10Z 的 `Modding.log` 为 354,042 字节/4803 行，SHA-256 `fde16a9abc5778a8e7297903a8af1f4576449aad4eebe11780c027e28009ad58`；解析 422 个组件所有者、旧项目 199 个目标和 199 个已应用组件，两个完成标记均存在。143 条警告行被精确归为 78 条记录：10 条排序提示、65 组 DLC 本地化成对提示和 3 条官方组件错误；归属冲突、无所有者应用、目标未应用、未解释警告和项目警告均为 0，语义 SHA-256 `5b147d36340f9052114af8168705a088679521647244d61a3e0b4ffa8a30d97a`，报告不含本机绝对路径。
+- 证据判定：旧日志中的项目标签是 `ZYLPVPMOD 1.4.0`，与当前契约 `ZYLPVPMOD 1.3.0` 不符，且日志早于当前提交、采集时工作树非空，所以审计按预期退出 1、`evidenceGuardsPassed=false`；该报告只证明分类器能解释历史日志，不提升为发布基线。
+- 验证：Python 正例覆盖组件所有权、官方单行/成对/组件警告和跨阶段上下文重置，项目同类错误、错误身份、无所有者应用、项目目标漏应用、项目白名单、无效正则及绝对路径分别作为反例；PowerShell 反例拒绝给项目所有者建立组件允许规则。PowerShell 7/5.1 总校验均通过 203 XML、108 Criteria、280 Actions、1071 Files、543 活跃引用、48 休眠文件和 115 源码专用文件。三种发布包与 `6de7bf8` 逐字节不变：universal 1066 文件/776,216,570 字节/`5c58482a…dca7`，Windows 897/442,475,633/`f61827e1…4a4a`，macOS 897/442,475,295/`eaea5dcc…dc13`。
+- 风险/待办：契约基于当前 build 15296837 和本机内容组合，游戏更新或 DLC 组合变化会保守失败，应审查后收窄更新而不是扩大为通用 Warning 白名单。正式基线仍需从本批干净提交重新启动 Civ VI，覆盖目标 DLC/profile、新局、读档和双客户端，并在同一次加载采集 `Modding.log`、`Database.log`、`Lua.log` 与 `DebugGameplay.sqlite`。
+- 提交：本次提交（Modding.log 组件加载证据门）。

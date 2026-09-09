@@ -61,7 +61,9 @@ Manifest 迁移采用“分段替换而非一次重写”：`manifest/criteria`�
 - `DatabaseInsertSelects.ps1` 对所有动态 `INSERT ... SELECT` 做引号/注释安全的结构分类，记录目标表、直接源表、Action/Criteria、冲突模式、语句指纹、连接/嵌套/集合/存在性守卫以及是否自读目标表。主键分析中的 371 是未被更早 Schema 原因遮蔽的子集，源码总量 381 由独立契约固定；完整逐语句清单随数据库报告生成，防止把兼容查询或阶段式自读误删为重复代码。
 - `DatabaseFinalValueChecks.ps1` 校验 `database-final-value-contract.json` 的身份、哈希、确定性只读查询及覆盖闭包；`tools/database/capture_final_values.py` 以 SQLite `query_only` 打开实际 `DebugGameplay.sqlite`，比较精确列/行并输出语义哈希。报告只进入 `artifacts/`，省略本机绝对路径，记录数据库哈希、时间、Git 提交与脏状态；默认拒绝脏工作树、早于 HEAD 的数据库和未 checkpoint 的 WAL，诊断豁免不能被当作发布证据。
 - `DatabaseLogChecks.ps1` 校验加载日志契约不得豁免 Gameplay/Configuration 错误；`tools/logs/audit_database_log.py` 对实际 `Database.log` 强制三库外键验证闭合，逐条归类结构化 ERROR，并只允许同时命中 CurrentClickouts 标签、消息、scope 和相对文件的 Firaxis Live 噪声。
-- `LuaLogChecks.ps1` 固定 `Lua.log` 的零白名单致命模式；`tools/logs/audit_lua_log.py` 逐条报告运行时错误、语法错误、脚本加载失败、traceback/callstack 及附近 Lua 文件位置，同时避免用宽泛的 `Failed` 或 `Warning` 造成误报。SQLite 与两类日志工具复用 `tools/evidence_common.py` 的 Git 状态、时间、哈希、仓库输入和 `artifacts/` 输出边界。
+- `LuaLogChecks.ps1` 固定 `Lua.log` 的零白名单致命模式；`tools/logs/audit_lua_log.py` 逐条报告运行时错误、语法错误、脚本加载失败、traceback/callstack 及附近 Lua 文件位置，同时避免用宽泛的 `Failed` 或 `Warning` 造成误报。
+- `ModdingLogChecks.ps1` 固定 `Modding.log` 的项目身份、完成标记和外部警告边界；`tools/logs/audit_modding_log.py` 从 Target Actions 建立组件所有权，在配置阶段边界清空上下文，并把每条 Warning/Error 归到组件或严格成对的官方 DLC 本地化噪声。本项目拥有的组件警告不能被白名单豁免。
+- SQLite 与三类日志工具复用 `tools/evidence_common.py` 的 Git 状态、时间、哈希、仓库输入和 `artifacts/` 输出边界；正式实机证据必须来自同一干净提交和同一次加载。
 - `BbgLocalizationChecks.ps1` 纵向拥有 BBG 7.4.6 简中同步层、误标为中文的拉丁文本补救、关键中英文正/负文本规则和全包英文/简中标签闭合；入口以内存修改拜占庭关键译文的反例自检，缺失 Text 节点会返回可定位问题。
 - `BbgIconChecks.ps1` 从嵌入 BBG SQL 动态发现新增政策，并统一验证政策/四结社晋升的图标定义或 stock alias 以及 InGame UpdateIcons 动作；入口以内存删除政策 alias 的反例防止空图标和 UI 日志刷屏。
 - `GameplayLocalizationChecks.ps1` 纵向拥有最终玩法覆盖层的中英文说明，以及毛利、马里、柬埔寨、克里、萨拉丁、瑞典、法国、俄罗斯等跨上游副本一致性；测试覆盖文本始终显式按 UTF-8 读取，避免 Windows PowerShell 5.1 的本地代码页破坏中文。

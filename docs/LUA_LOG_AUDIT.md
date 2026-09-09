@@ -41,4 +41,4 @@ python tools/logs/audit_lua_log.py --log $luaLog --allow-stale --allow-dirty
 
 这两个参数只允许完成诊断输出，不会把旧日志或脏工作树变成正式证据；报告仍保留 `evidenceGuardsPassed=false`，致命错误仍会令命令退出 1。获得经审查的新鲜报告后，可用 `--baseline path\to\approved-report.json` 比较规范语义哈希。
 
-正式测试应在同一次游戏加载后同时执行 [DATABASE_LOG_AUDIT.md](DATABASE_LOG_AUDIT.md) 和 [DATABASE_FINAL_VALUE_SNAPSHOT.md](DATABASE_FINAL_VALUE_SNAPSHOT.md)，确保两份日志与 Gameplay SQLite 都晚于同一干净 Git 提交。不同 DLC/profile、新局、读档及双客户端流程应分别留存报告；一个干净日志不能替代未运行的场景。
+正式测试应在同一次游戏加载后同时执行 [DATABASE_LOG_AUDIT.md](DATABASE_LOG_AUDIT.md)、[MODDING_LOG_AUDIT.md](MODDING_LOG_AUDIT.md) 和 [DATABASE_FINAL_VALUE_SNAPSHOT.md](DATABASE_FINAL_VALUE_SNAPSHOT.md)，确保三份日志与 Gameplay SQLite 都晚于同一干净 Git 提交。不同 DLC/profile、新局、读档及双客户端流程应分别留存报告；一个干净日志不能替代未运行的场景。
