@@ -75,6 +75,7 @@ $report = [pscustomobject][ordered]@{
     tables = $analysis.tables
     overlappingTables = $analysis.overlappingTables
     noWriteSources = $analysis.noWriteSources
+    sameActionExactSqlDuplicateGroups = $analysis.sameActionExactSqlDuplicateGroups
 }
 
 $outputDirectory = Split-Path -Parent $resolvedOutputPath
@@ -94,4 +95,5 @@ Write-Host "Sources    : $($analysis.counts.uniqueSources) ($($analysis.counts.s
 Write-Host "Writes     : $($analysis.counts.writeOperations) across $($analysis.counts.tables) tables"
 Write-Host "Overlaps   : $($analysis.counts.overlappingTables) tables touched by multiple sources"
 Write-Host "No writes  : $($analysis.counts.noWriteSources) active sources"
+Write-Host "Duplicates : $($analysis.counts.sameActionExactSqlDuplicateGroups) exact SQL groups within one action"
 Write-Host "SHA-256    : $($report.analysisSha256)"

@@ -187,7 +187,6 @@
   <File manifestOrder="347">Components/BBG/data/new_bbg_icons.xml</File>
   <File manifestOrder="348">Components/BBG/config/config.xml</File>
   <File manifestOrder="349">Components/BBG/config/config.sql</File>
-  <File manifestOrder="350">Components/BBG/sql/victories/new_bbg_cv_2.sql</File>
   <File manifestOrder="351">Components/BBG/sql/victories/new_bbg_sv_2.sql</File>
   <File manifestOrder="352">Components/BBG/sql/victories/new_bbg_dv_2.sql</File>
   <File manifestOrder="353">Components/BBG/sql/victories/new_bbg_cv.sql</File>

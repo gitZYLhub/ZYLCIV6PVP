@@ -51,16 +51,6 @@ UPDATE GreatPersonIndividuals SET ActionCharges=2 WHERE GreatPersonIndividualTyp
 
 -- Boudica gives Military Engineer (instead of convert barbarian units)
 
---PLAYER_HAS_AT_LEAST_ONE_CITY_REQUIREMENTS was introduced in GS recreate
-INSERT OR IGNORE INTO Requirements(RequirementId, RequirementType) VALUES
-    ('REQUIRES_PLAYER_HAS_AT_LEAST_ONE_CITY', 'REQUIREMENT_PLAYER_HAS_AT_LEAST_NUMBER_CITIES');
-INSERT OR IGNORE INTO RequirementArguments(RequirementId, Name, Value) VALUES
-    ('REQUIRES_PLAYER_HAS_AT_LEAST_ONE_CITY', 'Amount', 1);
-INSERT OR IGNORE INTO RequirementSets(RequirementSetId, RequirementSetType) VALUES
-    ('PLAYER_HAS_AT_LEAST_ONE_CITY_REQUIREMENTS', 'REQUIREMENTSET_TEST_ALL');
-INSERT OR IGNORE INTO RequirementSetRequirements(RequirementSetId, RequirementId) VALUES
-    ('PLAYER_HAS_AT_LEAST_ONE_CITY_REQUIREMENTS', 'REQUIRES_PLAYER_HAS_AT_LEAST_ONE_CITY');
-
 UPDATE Modifiers SET ModifierType='MODIFIER_PLAYER_GRANT_UNIT_IN_CAPITAL' WHERE ModifierId='GREATPERSON_BOUDICA_ACTIVE';
 UPDATE Modifiers SET SubjectRequirementSetId='PLAYER_HAS_AT_LEAST_ONE_CITY_REQUIREMENTS' WHERE ModifierId='GREATPERSON_BOUDICA_ACTIVE';
 DELETE FROM ModifierArguments WHERE ModifierId='GREATPERSON_BOUDICA_ACTIVE';

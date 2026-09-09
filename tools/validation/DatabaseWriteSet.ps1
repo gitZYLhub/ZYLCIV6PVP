@@ -218,6 +218,24 @@ function ConvertFrom-ZylSqlIdentifier {
     return $value
 }
 
+function Get-ZylDatabaseStatementSha256 {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string]$Statement
+    )
+
+    $sha256 = [System.Security.Cryptography.SHA256]::Create()
+    try {
+        $bytes = [System.Text.UTF8Encoding]::new($false).GetBytes($Statement.Trim())
+        return ([System.BitConverter]::ToString(
+            $sha256.ComputeHash($bytes)
+        )).Replace('-', '').ToLowerInvariant()
+    }
+    finally {
+        $sha256.Dispose()
+    }
+}
+
 function Get-ZylSqlWriteOperations {
     param(
         [Parameter(Mandatory = $true)]
@@ -278,6 +296,7 @@ function Get-ZylSqlWriteOperations {
                 operation = [string]$specification.operation
                 conflictMode = $conflictMode
                 table = ConvertFrom-ZylSqlIdentifier -Identifier $match.Groups['table'].Value
+                statementSha256 = Get-ZylDatabaseStatementSha256 -Statement $statement.text
             })
             $matchedOperation = $true
             break
@@ -293,6 +312,7 @@ function Get-ZylSqlWriteOperations {
                     operation = 'unknown:' + $leadingVerbMatch.Groups['verb'].Value.ToLowerInvariant()
                     conflictMode = $null
                     table = ''
+                    statementSha256 = Get-ZylDatabaseStatementSha256 -Statement $statement.text
                 })
             }
         }
@@ -323,6 +343,7 @@ function Get-ZylXmlWriteOperations {
                     operation = 'unknown:' + $operationNode.LocalName
                     conflictMode = $null
                     table = $tableNode.LocalName
+                    statementSha256 = $null
                 })
                 continue
             }
@@ -332,6 +353,7 @@ function Get-ZylXmlWriteOperations {
                 operation = [string]$definition.operation
                 conflictMode = $definition.conflictMode
                 table = $tableNode.LocalName
+                statementSha256 = $null
             })
         }
     }
@@ -386,6 +408,84 @@ function Get-ZylDatabaseActionReferences {
         }
     }
     return @($references)
+}
+
+function Get-ZylSameActionExactSqlDuplicateGroups {
+    param(
+        [Parameter(Mandatory = $true)]
+        [object[]]$SourceFiles
+    )
+
+    $byStatement = [System.Collections.Generic.Dictionary[string, object]]::new(
+        [System.StringComparer]::Ordinal
+    )
+    foreach ($sourceFile in @($SourceFiles | Where-Object format -eq 'sql')) {
+        foreach ($operation in @($sourceFile.operations)) {
+            $statementSha256 = [string]$operation.statementSha256
+            if ([string]::IsNullOrWhiteSpace($statementSha256) -or
+                    $operation.operation.StartsWith('unknown:', [System.StringComparison]::Ordinal)) {
+                continue
+            }
+            if (-not $byStatement.ContainsKey($statementSha256)) {
+                $byStatement[$statementSha256] = [System.Collections.Generic.List[object]]::new()
+            }
+            $byStatement[$statementSha256].Add([pscustomobject][ordered]@{
+                path = [string]$sourceFile.path
+                line = $operation.line
+                operation = [string]$operation.operation
+                table = [string]$operation.table
+                references = @($sourceFile.references)
+            })
+        }
+    }
+
+    $statementKeys = [string[]]@($byStatement.Keys)
+    [System.Array]::Sort($statementKeys, [System.StringComparer]::Ordinal)
+    $groups = [System.Collections.Generic.List[object]]::new()
+    foreach ($statementSha256 in $statementKeys) {
+        $occurrences = @($byStatement[$statementSha256])
+        $sourcePaths = @(Get-ZylOrdinalSortedUniqueStrings -Values @($occurrences.path))
+        if ($sourcePaths.Count -lt 2) {
+            continue
+        }
+
+        $sharedActions = $null
+        foreach ($sourcePath in $sourcePaths) {
+            $actionKeys = @(Get-ZylOrdinalSortedUniqueStrings -Values @(
+                $occurrences |
+                    Where-Object path -ieq $sourcePath |
+                    ForEach-Object references |
+                    ForEach-Object { $_.scope + ':' + $_.actionId }
+            ))
+            if ($null -eq $sharedActions) {
+                $sharedActions = $actionKeys
+            }
+            else {
+                $sharedActions = @($sharedActions | Where-Object { $actionKeys -contains $_ })
+            }
+        }
+        $sharedActions = @(Get-ZylOrdinalSortedUniqueStrings -Values @($sharedActions))
+        if ($sharedActions.Count -eq 0) {
+            continue
+        }
+        $groups.Add([pscustomobject][ordered]@{
+            statementSha256 = $statementSha256
+            operation = [string]$occurrences[0].operation
+            table = [string]$occurrences[0].table
+            sourceCount = $sourcePaths.Count
+            occurrenceCount = $occurrences.Count
+            sharedActions = $sharedActions
+            occurrences = @(
+                foreach ($occurrence in $occurrences) {
+                    [pscustomobject][ordered]@{
+                        path = [string]$occurrence.path
+                        line = $occurrence.line
+                    }
+                }
+            )
+        })
+    }
+    return @($groups)
 }
 
 function Get-ZylDatabaseWriteSetAnalysis {
@@ -532,6 +632,9 @@ function Get-ZylDatabaseWriteSetAnalysis {
     }
     $overlappingTables = @($tables | Where-Object sourceCount -gt 1)
     $noWriteSources = @($sourceFiles | Where-Object operationCount -eq 0 | ForEach-Object path)
+    $sameActionExactSqlDuplicates = @(
+        Get-ZylSameActionExactSqlDuplicateGroups -SourceFiles @($sourceFiles)
+    )
 
     return [pscustomobject][ordered]@{
         schemaVersion = 1
@@ -545,6 +648,7 @@ function Get-ZylDatabaseWriteSetAnalysis {
             tables = $tables.Count
             overlappingTables = $overlappingTables.Count
             noWriteSources = $noWriteSources.Count
+            sameActionExactSqlDuplicateGroups = $sameActionExactSqlDuplicates.Count
             issues = $issues.Count
         }
         issues = @($issues)
@@ -553,6 +657,7 @@ function Get-ZylDatabaseWriteSetAnalysis {
         tables = @($tables)
         overlappingTables = @($overlappingTables)
         noWriteSources = @($noWriteSources)
+        sameActionExactSqlDuplicateGroups = @($sameActionExactSqlDuplicates)
     }
 }
 
@@ -613,8 +718,8 @@ function Get-ZylDatabaseWriteSetContractIssues {
     )
 
     $issues = [System.Collections.Generic.List[string]]::new()
-    if ([int]$Contract.schemaVersion -ne 1) {
-        $issues.Add('Database write-set contract schemaVersion must be 1.')
+    if ([int]$Contract.schemaVersion -ne 2) {
+        $issues.Add('Database write-set contract schemaVersion must be 2.')
     }
     foreach ($hashProperty in @('frozenAnalysisSha256', 'expectedCurrentAnalysisSha256')) {
         $hash = [string]$Contract.$hashProperty
@@ -638,13 +743,17 @@ function Get-ZylDatabaseWriteSetContractIssues {
             'writeOperations',
             'tables',
             'overlappingTables',
-            'noWriteSources'
+            'noWriteSources',
+            'sameActionExactSqlDuplicateGroups'
         )) {
-        if ($null -eq $Contract.counts.PSObject.Properties[$countProperty]) {
+        if ($null -eq $Contract.frozenCounts.PSObject.Properties[$countProperty]) {
+            $issues.Add("Database write-set contract is missing frozen count: $countProperty")
+        }
+        if ($null -eq $Contract.expectedCurrentCounts.PSObject.Properties[$countProperty]) {
             $issues.Add("Database write-set contract is missing count: $countProperty")
             continue
         }
-        $expectedCount = [int]$Contract.counts.$countProperty
+        $expectedCount = [int]$Contract.expectedCurrentCounts.$countProperty
         $actualCount = [int]$Analysis.counts.$countProperty
         if ($actualCount -ne $expectedCount) {
             $issues.Add(
@@ -655,7 +764,7 @@ function Get-ZylDatabaseWriteSetContractIssues {
     }
 
     $expectedNoWriteSources = @(
-        Get-ZylOrdinalSortedUniqueStrings -Values @($Contract.noWriteSources)
+        Get-ZylOrdinalSortedUniqueStrings -Values @($Contract.expectedCurrentNoWriteSources)
     )
     $actualNoWriteSources = @(
         Get-ZylOrdinalSortedUniqueStrings -Values @($Analysis.noWriteSources)

@@ -2068,7 +2068,6 @@
 			</Properties>
 			<Criteria>ZYLPVP_BBG_CVSetting_2</Criteria>
 			<File>Components/BBG/sql/victories/new_bbg_cv.sql</File>
-			<File>Components/BBG/sql/victories/new_bbg_cv_2.sql</File>
 		</UpdateDatabase>
 		<UpdateDatabase id="ZYLPVP_BBG_IG_069_VictoryCulturalSetting_1">
 			<Properties>
@@ -2149,7 +2148,6 @@
 			<File>Components/BBG/sql/victories/new_bbg_dv_2.sql</File>
 			<File>Components/BBG/sql/victories/new_bbg_sv_2.sql</File>
 			<File>Components/BBG/sql/victories/new_bbg_cv.sql</File>
-			<File>Components/BBG/sql/victories/new_bbg_cv_2.sql</File>
 		</UpdateDatabase>
 		<UpdateDatabase id="ZYLPVP_BBG_IG_079_GlobalVictorySetting_BBG_Legacy">
 			<Properties>
@@ -2158,7 +2156,6 @@
 			<Criteria>ZYLPVP_BBG_GlobalSetting_BBG_Legacy</Criteria>
 			<File>Components/BBG/sql/victories/new_bbg_dv_2.sql</File>
 			<File>Components/BBG/sql/victories/new_bbg_cv.sql</File>
-			<File>Components/BBG/sql/victories/new_bbg_cv_2.sql</File>
 		</UpdateDatabase>
 		<UpdateDatabase id="ZYLPVP_BBG_IG_080_Settlers">
 			<Properties>
@@ -3219,7 +3216,6 @@
 		<File>Components/BBG/data/new_bbg_icons.xml</File>
 		<File>Components/BBG/config/config.xml</File>
 		<File>Components/BBG/config/config.sql</File>
-		<File>Components/BBG/sql/victories/new_bbg_cv_2.sql</File>
 		<File>Components/BBG/sql/victories/new_bbg_sv_2.sql</File>
 		<File>Components/BBG/sql/victories/new_bbg_dv_2.sql</File>
 		<File>Components/BBG/sql/victories/new_bbg_cv.sql</File>

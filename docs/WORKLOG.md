@@ -668,4 +668,15 @@
 - 等价证据：数据库动作 145→142、引用 286→281、唯一源 254→249（234→229 SQL，XML 保持 20），零写入源 5→0；识别出的写操作仍严格为 6192 次、223 张表、135 张多源触及表。Criteria 保持 108，FrontEnd Action 保持 32；InGame Action 251→248，Files 1077→1072，活跃引用 549→544。当前动作图 SHA-256 为 `16501b36cc20ad1401f958e5271d7d94349c7259e81da458a2ce08e24bcd1019`，冻结动作图 `f41a5c55fc7000b435ffe645d4c25df358ad3950b1e03f105b64d07e49ba14af` 未覆盖；当前数据库写集合为 `a1dee0fdd2f779b020fc017024ffbf6233507a275ec3e57b4a070de5e428a56c`，冻结写集合 `29aa1f00656a94493c5ea1c443d169d3c0eaf806c2cdb5dc259a15aef6c37e56` 未覆盖。
 - 验证：PowerShell 7 与 Windows PowerShell 5.1 全量校验均通过 203 XML、108 Criteria、280 Actions、1072 Files、544 活跃引用、48 休眠文件和 87 源码专用文件；数据库与动作图报告生成通过。三种 profile 均构建闭合：universal 1067 文件、776,218,110 字节、SHA-256 `6a50a6fb107bd7fe134be8116915b20e1a42640579ba9329db46616cc27b2298`；Windows 898 文件、442,477,173 字节、`a5095b31b250f46995b42868973b731621e23565f5faf671107a137b2d6e1b42`；macOS 898 文件、442,476,835 字节、`7a694a51739c02e7983617baa6fa86f0213b8c846463f60667632c6c9ba06e23`。
 - 风险/待办：空动作删除依赖“注释不执行”的 SQLite/Civ VI 常规语义，静态与报告证据充分；仍需目标平台实机加载确认 BBG DLC 组合日志中不再出现这三个动作且无意外加载器依赖。下一批继续做主键级重叠分析，不把表级重叠直接当成冲突。
-- 提交：本次提交（零写入数据库源清理）。
+- 提交：`bb86e32 refactor: remove empty database loads`。
+
+### 2026-09-09 / M5-同动作精确重复 SQL 清理
+
+- 目标：识别并删除不同 SQL 文件在同一个数据库动作中必然重复执行的完全相同语句，同时保留不同 DLC/配置 Criteria 分支中的有意重复。
+- 范围：数据库写集合扫描器/报告/双契约、BBG Base Beliefs/GreatPeoples、文化胜利 SQL 及其动作/Files 清单、生成 ModInfo、架构、计划、测试矩阵、更新日志和工作日志；不合并仅仅触及相同表或处于不同动作的语句，不修改玩法目标值、包身份或版本号。
+- 设计决定：每条 SQL 写语句增加剥离注释并安全切分后的 SHA-256；只有相同指纹出现在不同文件、且所有文件共享至少一个完全相同的 `scope:actionId` 时才列入“同动作精确重复”。同一文件内阶段性重复和不同 Criteria 动作中的相同语句不进入自动清理候选。
+- 修改：从后加载的 `GreatPeoples.sql` 删除已由同一 BBG Base 动作内前置 `Beliefs.sql` 以 `INSERT OR IGNORE` 建立的 Requirements、RequirementArguments、RequirementSets、RequirementSetRequirements 四条定义；从 `new_bbg_cv_2.sql` 删除基础 `new_bbg_cv.sql` 已执行的同值旅游阈值 UPDATE。后者随即成为零写入文件，故从三个始终同时加载基础文件的动作、Files 清单和 2.0 源码树一并移除，仍可从冻结目录或 Git 历史恢复。
+- 等价证据：数据库动作保持 142，引用 281→278，唯一源 249→248（SQL 229→228，XML 保持 20）；写操作 6192→6187，但触及表仍为 223、多源触及表仍为 135、零写入源仍为 0；同动作精确重复组由冻结基线的 5 降为 0。动作总数保持 280，Files 1072→1071，活跃引用 544→543。当前数据库写集合 SHA-256 为 `6e17ece0f355448df595dafbc10413c14202c96b22c248367cdc7c63c62fd202`，当前动作图为 `6b183e57b359f46c6d70321f98dddf9b424c11d84ae8dae637db78d551cee2c2`；两份冻结指纹均保持不变。
+- 验证：PowerShell 7 与 Windows PowerShell 5.1 全量校验均通过 203 XML、108 Criteria、280 Actions、1071 Files、543 活跃引用、48 休眠文件和 87 源码专用文件；两套运行时生成的 1,381,536 字节数据库报告逐字节一致，文件 SHA-256 为 `7f337aa9696c30641220395d698fb8f8b0fa56abbf5a559990289b78c0d66da3`。三种 profile 均构建闭合：universal 1066 文件、776,216,449 字节、SHA-256 `f93b09c827e84677cde0815926875b0983a768929689bd20b6659e49bb041e44`；Windows 897 文件、442,475,512 字节、`5fd72074ba21c7b9ad5380c82da782bd241672dbfc57920f603cb59f4ff72714`；macOS 897 文件、442,475,174 字节、`6223689663a3c9307b30c959c79b428c2b93d348301e6255ea1eb08fc58062a4`。
+- 风险/待办：本批等价性依赖同一动作中文件声明顺序和 `INSERT OR IGNORE`/同值 UPDATE 语义，已由动作引用报告和当前指纹固定；仍需实机对文化胜利设置 2/全局设置 2/Legacy、Boudica 与 Initiation Rites 做数据库日志或百科值抽查。下一步继续主键级分析，不能把不同 Criteria 下的相同 SQL 误判为重复。
+- 提交：本次提交（同动作精确重复 SQL 清理）。

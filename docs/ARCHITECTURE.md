@@ -55,7 +55,7 @@ Manifest 迁移采用“分段替换而非一次重写”：`manifest/criteria`�
 - `AssetInventoryChecks.ps1` 生成发布文件、休眠文件、源码文件、Action/Criteria 身份与活跃引用的统一视图，检查磁盘、Files 与 Action 引用双向闭合；`manifest/dormant-files.txt` 取代隐藏在代码中的休眠白名单。
 - `RuntimeSafetyChecks.ps1` 只扫描资产视图中的活跃 Lua/SQL/XML，拒绝动态 `loadstring`、Workshop 自更新调用、已禁用反叠加机制和旧组件 Mod ID；休眠替代文件不会制造误报。
 - `DatabaseContractChecks.ps1` 逐步承接关键数据库最终值和其配置/动作/文本闭包；现覆盖时代长度/阈值/大厅开关/计时器文本、秘密结社 16 个晋升的幂等总督点返还与 DLC/模式 Criteria，以及旅游/伟人移动/迦太基购买参数和总督最终值修复，并用正确/错误 SQL 片段自检。
-- `DatabaseWriteSet.ps1` 从 FrontEnd/InGame 的 `UpdateDatabase` 动作提取加载域、顺序、Criteria 与唯一 SQL/XML 源；SQL 扫描器正确跳过注释并保护引号内分号，XML 扫描器识别 `Row/InsertOrIgnore/Replace/Update/Delete`，最后按表汇总操作、多源触及和零写入源。`manifest/database-write-set-contract.json` 同时保留冻结 1.3.0 指纹和可演进的当前指纹，避免为了后续等价精简而覆盖历史基线。
+- `DatabaseWriteSet.ps1` 从 FrontEnd/InGame 的 `UpdateDatabase` 动作提取加载域、顺序、Criteria 与唯一 SQL/XML 源；SQL 扫描器正确跳过注释并保护引号内分号，XML 扫描器识别 `Row/InsertOrIgnore/Replace/Update/Delete`，最后按表汇总操作、多源触及、零写入源，以及不同文件在同一动作内的精确重复 SQL。`manifest/database-write-set-contract.json` 同时保留冻结 1.3.0 指纹/计数和可演进的当前指纹/计数，避免为了后续等价精简而覆盖历史基线。
 - `BbgLocalizationChecks.ps1` 纵向拥有 BBG 7.4.6 简中同步层、误标为中文的拉丁文本补救、关键中英文正/负文本规则和全包英文/简中标签闭合；入口以内存修改拜占庭关键译文的反例自检，缺失 Text 节点会返回可定位问题。
 - `BbgIconChecks.ps1` 从嵌入 BBG SQL 动态发现新增政策，并统一验证政策/四结社晋升的图标定义或 stock alias 以及 InGame UpdateIcons 动作；入口以内存删除政策 alias 的反例防止空图标和 UI 日志刷屏。
 - `GameplayLocalizationChecks.ps1` 纵向拥有最终玩法覆盖层的中英文说明，以及毛利、马里、柬埔寨、克里、萨拉丁、瑞典、法国、俄罗斯等跨上游副本一致性；测试覆盖文本始终显式按 UTF-8 读取，避免 Windows PowerShell 5.1 的本地代码页破坏中文。
