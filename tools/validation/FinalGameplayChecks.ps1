@@ -72,7 +72,6 @@ function Get-ZylFinalGameplayContractIssues {
             "WHERE CivicType = 'CIVIC_HUMANISM'",
             "WHERE CivicType = 'CIVIC_NAVAL_TRADITION'",
             "WHERE CivicType = 'CIVIC_FEUDALISM'",
-            'ZYL_COMMERCIAL_HUB_LUXURY_GOLD',
             'BBG_MALI_FAITH_NEXT_DESERT',
             'BBG_MALI_FAITH_NEXT_DESERT_HILLS',
             'BBG_MALI_FAITH_NEXT_CAPITAL',
@@ -96,6 +95,7 @@ function Get-ZylFinalGameplayContractIssues {
             'GAUL_MINE_CULTURE',
             'BBG_UTILS_PLAYER_HAS_TECH_BRONZE_WORKING',
             'PLOT_HAS_MINE_REQUIREMENTS',
+            'OPPIDUM_GRANT_TECH_APPRENTICESHIP',
             'SUGUBA_CHEAPER_BUILDING_PURCHASE',
             'SUGUBA_CHEAPER_DISTRICT_PURCHASE',
             'SUGUBA_CHEAPER_UNIT_PURCHASE',
@@ -114,7 +114,9 @@ function Get-ZylFinalGameplayContractIssues {
             'BBG_AUTOMATON_GDR_PROD',
             'BBG_MINOR_CIV_JOHANNESBURG_UNIQUE_INFLUENCE_BONUS_LUX',
             'BBG_MINOR_CIV_JOHANNESBURG_PRODUCTION_LUX',
-            'TRAIT_INCREASED_TUNDRA_HILLS_FAITH'
+            'TRAIT_INCREASED_TUNDRA_HILLS_FAITH',
+            'TRAIT_ADJACENT_DISTRICTS_HARBOR_ADJACENCYGOLD',
+            'TRAIT_ADJACENT_DISTRICTS_COMMERCIALHUB_ADJACENCYGOLD'
         )) {
             if (-not $gameplayOverrideSql.Contains($requiredToken)) {
                 $issues.Add("Gameplay override SQL is missing invariant: $requiredToken")
@@ -138,6 +140,18 @@ function Get-ZylFinalGameplayContractIssues {
         }
         if ($gameplayOverrideSql -notmatch "(?s)SET\s+ModifierType\s*=\s*'MODIFIER_PLAYER_CITIES_ADJUST_BUILDING_HOUSING'\s+WHERE\s+ModifierId\s*=\s*'BBG_MAYA_CAPITAL_HOUSING'") {
             $issues.Add('Maya Housing modifier is not scoped to all cities.')
+        }
+        if ($gameplayOverrideSql -notmatch "(?s)INSERT\s+OR\s+IGNORE\s+INTO\s+DistrictModifiers\s*\(\s*DistrictType\s*,\s*ModifierId\s*\)\s*VALUES\s*\(\s*'DISTRICT_OPPIDUM'\s*,\s*'OPPIDUM_GRANT_TECH_APPRENTICESHIP'\s*\)") {
+            $issues.Add('Oppidum no longer grants the Apprenticeship boost.')
+        }
+        if ($gameplayOverrideSql -notmatch "(?s)INSERT\s+OR\s+IGNORE\s+INTO\s+TraitModifiers\s*\(\s*TraitType\s*,\s*ModifierId\s*\)\s*VALUES\s*\(\s*'TRAIT_CIVILIZATION_ADJACENT_DISTRICTS'\s*,\s*'TRAIT_ADJACENT_DISTRICTS_HARBOR_ADJACENCYGOLD'\s*\),\s*\(\s*'TRAIT_CIVILIZATION_ADJACENT_DISTRICTS'\s*,\s*'TRAIT_ADJACENT_DISTRICTS_COMMERCIALHUB_ADJACENCYGOLD'\s*\)") {
+            $issues.Add('Meiji Harbour / Commercial Hub adjacency is not restored for every Japanese leader.')
+        }
+        if ($gameplayOverrideSql -notmatch "(?s)DELETE\s+FROM\s+TraitModifiers\s+WHERE\s+TraitType\s*=\s*'TRAIT_LEADER_DIVINE_WIND'\s+AND\s+ModifierId\s+IN\s*\(\s*'TRAIT_ADJACENT_DISTRICTS_HARBOR_ADJACENCYGOLD'\s*,\s*'TRAIT_ADJACENT_DISTRICTS_COMMERCIALHUB_ADJACENCYGOLD'\s*\)") {
+            $issues.Add('Hojo still carries the personal Meiji Harbour / Commercial Hub copy (would double the bonus).')
+        }
+        if ($gameplayOverrideSql -notmatch "(?s)DELETE\s+FROM\s+ExcludedAdjacencies\s+WHERE\s+TraitType\s*=\s*'TRAIT_CIVILIZATION_ADJACENT_DISTRICTS'\s+AND\s+YieldChangeId\s*=\s*'River_Gold'") {
+            $issues.Add('Japanese Commercial Hubs still exclude the River adjacency.')
         }
         if ($gameplayOverrideSql -notmatch "(?s)SET\s+OwnerRequirementSetId\s*=\s*'BBG_UTILS_PLAYER_HAS_TECH_SAILING'\s+WHERE\s+ModifierId\s*=\s*'TRAIT_MAORI_EMBARKED_ABILITY'") {
             $issues.Add('Final Maori embarked-unit +2 Movement bonus is not unlocked at Sailing.')

@@ -879,3 +879,89 @@
 - 验证：`tools/report_database_writes.ps1` 通过（146 动作、282 引用、252 源、6269 写入、223 表、28 个保留重复键组）；PowerShell 7 与 Windows PowerShell 5.1 的 `tools/validate.ps1` 均通过（207 XML、110 Criteria、286 Actions、1079 Files、551 活跃引用、48 休眠文件、117 源码文件）；`git diff --check` 无错误。
 - 风险/待办：静态验证不替代 Civ VI 运行时。四张地图的 2～12 人档、3v4 队伍半区、环形扇区/海岸、横向南北空海/东西岛屿、WrapX 深海接缝、奢侈品可达性、保存加载和双客户端 OOS 仍按 `TEST_CHECKLIST.md` 待实机验收。
 - 提交：本次 1.4.x 移植同步提交。
+
+### 2026-09-10 / M11-雄鹰战士回退为勇士替代（BBG 原版）
+
+- 目标：按用户要求把阿兹特克雄鹰战士从“铁器解锁的剑客特色替代”回退为“远古时代、取代勇士”的 BBG 原版定位，并同步文本与文档，避免规则与描述残留旧行为。
+- 范围：`sql/ZYL_GameplayOverrides.sql` 的雄鹰战士覆盖段、`lang/ZYL_GameplayOverrides_Text.xml` 的双语描述、README 规则段、CHANGELOG、本工作日志；配套更新数据库写集合/主键/Insert-Select/重复键白名单/最终值五类契约清单、`tools/project.json` 的契约哈希，以及两处校验工具适配；不修改 BBG 上游源文件、ModInfo、动作图、版本号或包身份。
+- 设计决定：最终值以 BBG 原版为准——BBG 上游（`Base/Units.sql`、`DLC_Aztec/Aztec.sql`）从不改动雄鹰战士的造价/战斗力，只在原版基础上添加强制过时 `TECH_MILITARY_TACTICS` 与远古攻城减益标签，因此“BBG 原版数值”即原版游戏数值：雄鹰战士重新取代勇士，造价与战斗力**不再由 ZYL 覆盖**（与 BBG 一致，随原版：65 生产力、28 战斗力），ZYL 只重置剑客替代期间自己改动的字段（前置科技/市政清除、维护费恢复 1、铁成本清除），强制过时恢复 BBG 的 `TECH_MILITARY_TACTICS`，作为“全部官方单位过时字段恢复 Firaxis 值”规则的显式例外；保留 `CLASS_MALUS_CITY_CENTER`（远古单位攻城 -5）与 `CLASS_CAPTURE_WORKER`（击败单位转化为建造者）；删除剑客替代期间引入的 `Units_XP2` 铁成本行。文本覆盖条目整段删除后，英文回落 BBG 上游“Ancient era / replaces the Warrior”描述，中文回落 `ZYL_BBG74_Chinese_Text.xml` 的“取代勇士的远古时代”描述（其加载序 259999990 早于覆盖文本 260000020，删除后即为最终值）。
+- 修改：`ZYL_GameplayOverrides.sql` 的雄鹰战士段重写为“Warrior unique replacement (BBG original values)”，`Units` 的 UPDATE 移除 `Cost`/`Combat` 赋值（不再覆盖，随原版），`MandatoryObsoleteTech` 改回 `TECH_MILITARY_TACTICS`，删除 `Units_XP2` 铁成本行，`UnitReplaces` 改回 `UNIT_WARRIOR`，`UnitUpgrades` 改回 `UNIT_SWORDSMAN`，`TypeTags` 显式补齐两个标签；`ZYL_GameplayOverrides_Text.xml` 删除两处 `LOC_UNIT_AZTEC_EAGLE_WARRIOR_DESCRIPTION` 覆盖；README 在 2.0.0 段后新增回退说明。
+- 契约：写集合契约写操作 6269→6267、语义指纹 `133d5242…`（语义视图不含字段值，移除 `Cost`/`Combat` 赋值后保持不变）；主键契约指纹随 UPDATE 字段集合收缩刷新为 `fadb0969…`，计数不变；Insert-Select 契约指纹保持 `542701a8…`；重复键白名单新增 `TypeTags` 雄鹰战士城市中心减益组（上游最终防御，`4efb71cd…`，仅 `ignore` 冲突模式）；最终值契约保留重复键组 13→14、探针 28→29，新增雄鹰战士减益标签探针；`tools/project.json` 的 `databaseFinalValueContractSha256` 同步重算。
+- 工具适配：`DatabaseFinalValueChecks.ps1` 的最终值覆盖元数据探针总数硬编码随契约同步为 29；`MapChecks.ps1` 的 Rich Mainland 核心多行 token 由 `[Environment]::NewLine`（Windows 为 CRLF）改为 LF，并在比较前将源码 CRLF 归一为 LF——修复仓库 `.gitattributes eol=lf` 归一化后该检查在 Windows 上必然失败的既有问题（LF 与 CRLF 工作树均通过正/负验证，与本次玩法改动无关）。
+- 验证：`tools/validate.ps1` 通过（207 XML、110 Criteria、286 Actions、1079 Files、551 活跃引用、48 休眠文件、117 源码文件）；`git diff --check` 无空白错误；XML 结构完好；全仓 grep 确认除 BBG 上游（`DLC_Aztec/Aztec.sql`、`Base/Units.sql`、`lang/english.xml`）外，ZYL 层不再有“剑客替代/古典时代”残留。
+- 风险/待办：`ZYLPVPMOD1.3.0修改大全.md` 作为冻结基线仍记录旧“剑客替代”行为，本次为有意偏离，不改写该规格；未做游戏内实机验证，最终数据库值以实机 `Database.log`/DebugGameplay 为准。改动未提交，等待用户确认后统一提交。
+- 提交：本地改动，尚未提交。
+
+### 2026-09-10 / M12-血色契约与夜莺结社平衡调整
+
+- 目标：按用户要求调整两个秘密结社：血色契约（Sanguine Pact）的军营生产/产出分配与新增科技文化产出；夜莺（Owls of Minerva）1 级经济政策槽的解锁节点。
+- 范围：`Components/TeamPVPSecretSocieties/Gameplay.sql`（结社数值）、`Components/TeamPVPSecretSocieties/Text.xml`（三语言描述）、`tools/validation/TeamPvpSocietyChecks.ps1`（结社校验契约）、主键契约清单、CHANGELOG 与本工作日志；不修改 BBG 上游源文件、ModInfo、动作图、版本号或包身份。
+- 设计决定（血色契约）：1 级拆分为“建造军营 +10% 生产力”与“建造军营建筑 +50% 生产力”两个独立加成，突出军营建筑建造的投入回报；军事学院 +4 生产力自 3 级下移至 2 级（与军械库 +2 并列，2 级成为军营建筑的产出级）；3 级改为结社终局的区域产出主题——所有军营建筑（兵营、马厩、军械库、军事学院）+2 科技、+1 文化，与原 1 级建造加成错位互补。实现为 8 个独立 `MODIFIER_PLAYER_CITIES_ADJUST_BUILDING_YIELD_CHANGE` modifier（4 建筑 × 科技/文化），全部挂接 3 级。
+- 设计决定（夜莺）：1 级经济政策槽解锁节点由“政治哲学”改为“帝国初期”；需求集命名同步改为 `ZYL_TPVP_PLAYER_HAS_EARLY_EMPIRE`，三语言描述同步。
+- 修改：`Gameplay.sql` 军营建造加成 Amount 15→10、军营建筑建造加成 Amount 15→50；`MILITARY_ACADEMY_PRODUCTION` 绑定自 `SANGUINE_PACT_3` 移至 `SANGUINE_PACT_2`；新增 `BARRACKS/STABLE/ARMORY/MILITARY_ACADEMY` 的 `_SCIENCE`（+2）与 `_CULTURE`（+1）共 8 个 modifier 及参数、8 条 3 级绑定；夜莺需求集/需求/参数/`UPDATE Modifiers` 全部改名并改 `CIVIC_EARLY_EMPIRE`；`Text.xml` 更新血色 1/2/3 级与夜莺 1 级三语言描述；`TeamPvpSocietyChecks.ps1` 同步数值 token、层级绑定表、正则应更新为 +10%/+50%、军事学院绑定 2 级、3 级科技文化 modifier、夜莺 `EARLY_EMPIRE` 及三语言文本 token。
+- 契约：写集合语义指纹 `133d5242…` 与 Insert-Select 指纹 `542701a8…` 保持不变（语义视图不含字段值/新 modifier 名唯一、无新 Insert-Select 语句）；主键契约指纹刷新为 `a386bfac…`，`rowCandidates` 6784→6824（新增 8 modifier + 24 参数 + 8 绑定共 40 行候选）；重复键组保持 29、最终值契约探针与覆盖元数据不变。
+- 验证：`tools/validate.ps1` 通过（207 XML、110 Criteria、286 Actions、1079 Files、551 活跃引用、48 休眠文件、117 源码文件）；`git diff --check` 无空白错误；`Text.xml` 与 `TeamPvpSocietyChecks.ps1` 编码完好（校验脚本含中文，保持 UTF-8 BOM 以兼容 Windows PowerShell 5.1）。
+- 风险/待办：未做游戏内实机验证，最终数据库值以实机 `Database.log`/DebugGameplay 为准。改动未提交，等待用户确认后统一提交。
+- 提交：本地改动，尚未提交。
+
+### 2026-09-10 / M13-移除商业区相邻奢侈品加成
+
+- 目标：按用户要求去掉 ZYL 给商业区（及替代它的特色区域）新增的“相邻奢侈资源 +1 金币”相邻加成，使商业区相邻加成恢复原版/BBG 行为。
+- 范围：`sql/ZYL_GameplayOverrides.sql` 的 “Commercial Hub adjacency” 段、`lang/ZYL_GameplayOverrides_Text.xml` 的两条 `LOC_DISTRICT_ZYL_COMMERCIAL_HUB_LUXURY_GOLD` 文本、`tools/validation/FinalGameplayChecks.ps1` 的 required token 列表、三个数据库契约清单、CHANGELOG 与本工作日志；不修改 BBG 上游源文件、ModInfo、动作图、版本号或包身份。
+- 设计决定：该加成本身是 ZYL 层新增的（`Adjacency_YieldChanges` + `District_Adjacencies` 绑定，含商业区及其特色替代区域），直接删除整段 SQL 即撤销；文本与校验 token 一并移除，避免残留。原版与 BBG 均无此相邻加成，故无需任何 DELETE 兜底。
+- 修改：删除 `ZYL_GameplayOverrides.sql` 中 `ZYL_COMMERCIAL_HUB_LUXURY_GOLD` 的相邻加成定义与 `District_Adjacencies` 绑定（`INSERT…SELECT` 按区域及其特色替代投影）；删除 `ZYL_GameplayOverrides_Text.xml` 的英中两条相邻加成描述；`FinalGameplayChecks.ps1` 的 required token 移除 `ZYL_COMMERCIAL_HUB_LUXURY_GOLD`。
+- 契约：写集合语义指纹刷新为 `d58156db…`（语句删除使操作列表变化），写操作 6267→6265；主键契约指纹刷新为 `c7d97017…`，insert-replace 4357→4355、resolved 2895→2894、unresolved 1462→1461、rowCandidates 6824→6823、insert-select 理由 369→368；Insert-Select 契约指纹刷新为 `12d1defc…`，statements 379→378、sourceTables 66→65、filtered 289→288、nestedSelect 43→42、形状计数 nested 30→29（被删语句为嵌套形状）。重复键组保持 29、最终值契约不变。
+- 验证：`tools/validate.ps1` 通过（207 XML、110 Criteria、286 Actions、1079 Files、551 活跃引用、48 休眠文件、117 源码文件）；`git diff --check` 无空白错误；全仓 grep 确认 `ZYL_COMMERCIAL_HUB_LUXURY_GOLD` 已无残留。
+- 风险/待办：未做游戏内实机验证，最终相邻加成以实机 DebugGameplay 为准。改动未提交，等待用户确认后统一提交。
+- 提交：本地改动，尚未提交。
+
+### 2026-09-10 / M14-修正军事战术尤里卡的单位错误（长矛兵→长枪兵）
+
+- 目标：按用户报告修正“军事战术”科技尤里卡的中文翻译：当前显示“拥有2名长矛兵”，与游戏中已有的“长矛兵”（Spearman）单位混淆；规格原意为“长枪兵”（Pikeman）。
+- 调查结论：问题不止于中文翻译——`sql/ZYL_GameplayOverrides.sql` 的 Boosts 触发条件（`Unit1Type = 'UNIT_SPEARMAN'`）与英文文本（“Own 2 Spearmen.”）同样写成了长矛兵，三处一致偏离规格。`ZYLPVPMOD1.3.0修改大全.md`（冻结基线，6.3 节科技尤里卡表）记录“军事战术 | 拥有 2 个枪兵”，“枪兵”即长枪兵（Pikeman）——2.0 移植时实现为长矛兵属实现偏差。
+- 修改：`ZYL_GameplayOverrides.sql` 的 Boosts 更新 `Unit1Type` 由 `UNIT_SPEARMAN` 改回 `UNIT_PIKEMAN`（注释同步 “requires two Pikemen”）；`ZYL_GameplayOverrides_Text.xml` 的英文两条改为 “Own 2 Pikemen.”、简体中文两条改为“拥有2名长枪兵”；`TEST_CHECKLIST.md` 第 72 行同步为“拥有2名长枪兵”。另顺带移除 `TEST_CHECKLIST.md` 中残留的“普通商业中心与苏古巴相邻奢侈资源 +1 金币”测试项（对应 M13 已删除的加成，上次遗漏）。
+- 契约：Boosts 的 UPDATE 仅字段值变化（SET 字段集合不变、写集合语义视图不含字段值），写集合/主键/Insert-Select 三契约指纹与计数均不变，无需刷新；校验脚本与清单未锁定旧单位值。
+- 验证：`tools/validate.ps1` 通过（207 XML、110 Criteria、286 Actions、1079 Files、551 活跃引用、48 休眠文件、117 源码文件）；`git diff --check` 无空白错误；全仓 grep 确认 ZYL 层不再有 “Spearmen/长矛兵” 尤里卡文本残留（TEST_CHECKLIST 同步更新）。
+- 风险/待办：未做游戏内实机验证，最终尤里卡触发与显示以实机 DebugGameplay 为准。改动未提交，等待用户确认后统一提交。
+- 提交：本地改动，尚未提交。
+- 纠偏：本条目（M14）的判断错误，改动已全部回滚，详见 M16。
+
+### 2026-09-10 / M15-恢复奥皮杜姆建成后的学徒科技尤里卡
+
+- 目标：按用户要求恢复原版高卢机制——建成特色区域“奥皮杜姆”（Oppidum）后获得“学徒”（Apprenticeship）科技的尤里卡；BBG 删除了该机制，需在 ZYL 覆盖层“取消删除”。
+- 调查结论：BBG 上游 `Components/BBG/sql/NFP/Gaul.sql` 第 16 行（2021-07-03 平衡）执行 `DELETE FROM DistrictModifiers WHERE DistrictType='DISTRICT_OPPIDUM' AND ModifierId='OPPIDUM_GRANT_TECH_APPRENTICESHIP'`，只删除了绑定。原版 modifier 定义（`MODIFIER_PLAYER_GRANT_SPECIFIC_TECH_BOOST`）与参数（`TechType='TECH_APPRENTICESHIP'`）仍在游戏数据库中，因此只需在 ZYL 层重新绑定即可完整恢复。
+- 修改：`sql/ZYL_GameplayOverrides.sql` 高卢段末尾新增 `INSERT OR IGNORE INTO DistrictModifiers (DistrictType, ModifierId) VALUES ('DISTRICT_OPPIDUM', 'OPPIDUM_GRANT_TECH_APPRENTICESHIP')`（注释说明依赖原版定义、仅补回 BBG 删除的绑定）；`tools/validation/FinalGameplayChecks.ps1` 的 required token 列表新增 `OPPIDUM_GRANT_TECH_APPRENTICESHIP`，并新增绑定存在的正则检查；`TEST_CHECKLIST.md` 新增奥皮杜姆尤里卡实机测试项。
+- 契约：写集合语义指纹刷新为 `12e0ab7b…`，写操作 6265→6266；主键契约指纹刷新为 `76ce41ff…`，insert-replace 4355→4356、resolved 2894→2895、rowCandidates 6823→6824（unresolved 1461 不变）；Insert-Select 语义指纹刷新为 `0bea891a…`（普通 VALUES INSERT 改变了语句流），计数与形状均不变。重复键组保持 29、最终值契约不变。
+- 验证：`tools/validate.ps1` 通过（207 XML、110 Criteria、286 Actions、1079 Files、551 活跃引用、48 休眠文件、117 源码文件）；`git diff --check` 无空白错误。
+- 风险/待办：未做游戏内实机验证，最终触发以实机 DebugGameplay 为准。改动未提交，等待用户确认后统一提交。
+- 提交：本地改动，尚未提交。
+
+### 2026-09-10 / M16-回滚战术尤里卡的单位改动，确立兵种译名规范
+
+- 目标：M14 把“军事战术”尤里卡从“拥有 2 名长矛兵（Spearman）”改成“长枪兵（Pikeman）”属判断错误——用户澄清真实机制就是 Spearman（长矛兵）。回滚 M14 的全部改动，并确立统一译名规范。
+- 澄清（用户原意）：战术尤里卡仍为“拥有 2 名 Spearman”。译名规范后经用户核实游戏实际翻译为 **Spearman = 枪兵、Pikeman = 长矛兵**（与常见社区译名相反），并以此为准，详见 M17。
+- 修改：`sql/ZYL_GameplayOverrides.sql` 的 Boosts `Unit1Type` 由 `UNIT_PIKEMAN` 改回 `UNIT_SPEARMAN`（注释同步恢复 “requires two Spearmen”）；`ZYL_GameplayOverrides_Text.xml` 英文两条改回 “Own 2 Spearmen.”、简体中文两条改回“拥有2名长矛兵”；`TEST_CHECKLIST.md` 第 72 行改回“拥有2名长矛兵”；`CHANGELOG.md` 删除 M14 的“修正”条目（回滚后净变更为零）。
+- 契约：Boosts 仅字段值变化（SET 字段集合不变、语义视图不含字段值），写集合/主键/Insert-Select 三契约指纹与计数均不变，无需刷新（与 M14 改动时一致）。
+- 验证：`tools/validate.ps1` 通过（207 XML、110 Criteria、286 Actions、1079 Files、551 活跃引用、48 休眠文件、117 源码文件）；`git diff --check` 无空白错误；全仓确认 ZYL 层“军事战术”尤里卡文本与机制均为 Spearman/长矛兵，无 Pikeman/长枪兵残留。
+- 风险/待办：未做游戏内实机验证，最终尤里卡触发与显示以实机 DebugGameplay 为准。改动未提交，等待用户确认后统一提交。
+- 提交：本地改动，尚未提交。
+
+### 2026-09-10 / M17-按游戏实际译名规范统一战术尤里卡中文（枪兵）
+
+- 目标：用户核实游戏中 Spearman 译为“枪兵”、Pikeman 译为“长矛兵”（与常见社区译名相反），按此规范执行——战术尤里卡中文确定为“拥有 2 名枪兵”（实际就是 2 名 Spearman），机制与英文不变，仅修改汉化。
+- 澄清（最终规范）：**Spearman = 枪兵、Pikeman = 长矛兵**，二者始终不可混用（游戏内同时存在两个单位，混用会造成误解）。此规范取代 M16 记录的“Spearman=长矛兵、Pikeman=长枪兵”（该说法与游戏实际翻译相反）。
+- 修改：`ZYL_GameplayOverrides_Text.xml` 简体中文两条由“拥有2名长矛兵”改为“拥有2名枪兵”；`TEST_CHECKLIST.md` 第 72 行同步为“拥有2名枪兵”。`sql/ZYL_GameplayOverrides.sql` 机制保持 `UNIT_SPEARMAN`（不改）、英文保持 “Own 2 Spearmen.”（不改）。`CHANGELOG.md` 新增一条汉化修正记录。
+- 契约：仅文本汉化变化，数据库写集合/主键/Insert-Select 三契约不受影响，无需刷新。
+- 验证：`tools/validate.ps1` 通过（207 XML、110 Criteria、286 Actions、1079 Files、551 活跃引用、48 休眠文件、117 源码文件）；`git diff --check` 无空白错误；ZYL 层“军事战术”尤里卡中文为“拥有2名枪兵”，无“长矛兵/长枪兵”残留（WORKLOG 历史记录除外）。
+- 风险/待办：未做游戏内实机验证，最终显示以实机 DebugGameplay 为准。改动未提交，等待用户确认后统一提交。
+- 提交：本地改动，尚未提交。
+
+### 2026-09-10 / M18-恢复日本明治维新对商业区/港口的加成与河流相邻
+
+- 目标：按用户要求恢复两项 BBG 改动——①明治维新的港口/商业中心 +1 金币相邻加成对全体日本领袖生效（北条个人的对应能力取消，防止加成两次）；②恢复日本商业中心沿河 +1 金币相邻。
+- 调查结论（接前述日本商业区相邻加成分析）：BBG `LP/Tokugawa.sql`（2026-03-17/27）把明治维新的港口/商业中心 +1 从日本文明能力（`TRAIT_CIVILIZATION_ADJACENT_DISTRICTS`）移到北条领袖能力（`TRAIT_LEADER_DIVINE_WIND`），并以“相邻 2 区域 +1”（`District_Gold`）的文明级排除作为德川/北条的镜像平衡；BBG `Base/Japan.sql` 通过 `ExcludedAdjacencies` 把日本文明的 `River_Gold`（河流相邻）整体排除。
+- 修改：`sql/ZYL_GameplayOverrides.sql` 末尾新增日本段——`INSERT OR IGNORE INTO TraitModifiers` 把 `TRAIT_ADJACENT_DISTRICTS_HARBOR_ADJACENCYGOLD` 与 `TRAIT_ADJACENT_DISTRICTS_COMMERCIALHUB_ADJACENCYGOLD` 绑回文明能力；`DELETE FROM TraitModifiers WHERE TraitType='TRAIT_LEADER_DIVINE_WIND'` 移除北条个人副本（防叠加）；`DELETE FROM ExcludedAdjacencies WHERE TraitType='TRAIT_CIVILIZATION_ADJACENT_DISTRICTS' AND YieldChangeId='River_Gold'` 取消河流排除（BBG 全局河流加成为 +1，按用户要求即恢复 +1）。未改动 `District_Gold` 的领袖级排除（用户未要求，保持 BBG 现状：德川有相邻 2 区域 +1、北条无）。
+- 契约：写集合语义指纹刷新为 `b50793f9…`，写操作 6266→6269（TraitModifiers 绑定 1 条、TraitModifiers 移除 1 条、ExcludedAdjacencies 移除 1 条）；主键契约指纹刷新为 `248d1d09…`，insert-replace 4356→4357、resolved 2895→2896、rowCandidates 6824→6826；Insert-Select 指纹保持 `0bea891a…`（新增语句位于文件末尾，不改变 INSERT…SELECT 语句流）。重复键组保持 29、最终值契约不变。
+- 验证：`tools/validate.ps1` 通过（207 XML、110 Criteria、286 Actions、1079 Files、551 活跃引用、48 休眠文件、117 源码文件）；`git diff --check` 无空白错误；`TEST_CHECKLIST.md` 新增日本相邻恢复的实机测试项。
+- 风险/待办：未做游戏内实机验证，最终相邻加成与叠加情况以实机 DebugGameplay 为准。改动未提交，等待用户确认后统一提交。
+- 提交：本地改动，尚未提交。

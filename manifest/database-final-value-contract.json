@@ -6,15 +6,15 @@
   "civ6BuildId": "15296837",
   "defaultProfile": "xp2-full-content",
   "coverage": {
-    "retainedDuplicateKeyGroups": 13,
+    "retainedDuplicateKeyGroups": 14,
     "dominatedRows": 7,
     "finalOverrideProbes": 8,
-    "totalProbes": 28
+    "totalProbes": 29
   },
   "profiles": [
     {
       "id": "xp2-full-content",
-      "description": "Gathering Storm with every DLC or leader provider needed by the 13 retained duplicate-key groups.",
+      "description": "Gathering Storm with every DLC or leader provider needed by the 14 retained duplicate-key groups.",
       "probes": [
         {
           "id": "duplicate-khmer-river-faith-amount",
@@ -132,6 +132,15 @@
           "query": "SELECT RequirementSetId, RequirementSetType FROM RequirementSets WHERE RequirementSetId = 'ATTACKING_REQUIREMENT_SET' ORDER BY RequirementSetId",
           "expectedColumns": ["RequirementSetId", "RequirementSetType"],
           "expectedRows": [{"RequirementSetId": "ATTACKING_REQUIREMENT_SET", "RequirementSetType": "REQUIREMENTSET_TEST_ALL"}]
+        },
+        {
+          "id": "duplicate-eagle-warrior-city-malus-tag",
+          "category": "retained-duplicate",
+          "duplicateKeySha256": "4efb71cdfdea6ed6246fa55c29a1da0fcaf0f3fb4e317f7ac01c7e20bb624025",
+          "rationale": "The Aztec DLC provider and the final ZYL layer must converge on the Eagle Warrior city-center malus tag after the revert to a Warrior replacement.",
+          "query": "SELECT Type, Tag FROM TypeTags WHERE Type = 'UNIT_AZTEC_EAGLE_WARRIOR' AND Tag = 'CLASS_MALUS_CITY_CENTER' ORDER BY Type, Tag",
+          "expectedColumns": ["Type", "Tag"],
+          "expectedRows": [{"Type": "UNIT_AZTEC_EAGLE_WARRIOR", "Tag": "CLASS_MALUS_CITY_CENTER"}]
         },
         {
           "id": "dominated-work-ethic-temple-binding",

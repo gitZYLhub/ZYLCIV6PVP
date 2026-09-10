@@ -33,7 +33,7 @@ function Get-ZylDatabaseFinalValueContractIssues {
     if ([int]$Contract.coverage.retainedDuplicateKeyGroups -ne $expectedDuplicateKeys.Count -or
             [int]$Contract.coverage.dominatedRows -ne 7 -or
             [int]$Contract.coverage.finalOverrideProbes -ne 8 -or
-            [int]$Contract.coverage.totalProbes -ne 28) {
+            [int]$Contract.coverage.totalProbes -ne 29) {
         $issues.Add('Database final-value contract coverage metadata drifted.')
     }
 

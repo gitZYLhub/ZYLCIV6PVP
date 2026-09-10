@@ -134,13 +134,16 @@ function Get-ZylRichMainlandCoreIssues {
     )
 
     $issues = [System.Collections.Generic.List[string]]::new()
+    # The repo normalizes text files to LF (.gitattributes eol=lf), so compare
+    # against LF regardless of the platform's [Environment]::NewLine.
+    $normalizedSource = $Source -replace "`r`n", "`n"
     foreach ($requiredToken in @(
             'function ZYL_EnsureCoastalStartReefResource()',
             'startPlot:IsCoastalLand()',
             'RelocateRingTwoResource',
             'ZYL RVC ring-two Turtles or Fish',
             'ZYLRM_COASTAL_START_REEF_RESOURCE',
-            'ZYL_RVC_EnforceSeaResourceRules();' + [Environment]::NewLine + "`tZYL_EnsureCoastalStartReefResource();",
+            'ZYL_RVC_EnforceSeaResourceRules();' + "`n" + "`tZYL_EnsureCoastalStartReefResource();",
             'local contentWidths = ZYL_RICH_MAINLAND_VARIANT.contentWidthsByHeight or baseWidths;',
             'g_iBaseW = math.min(g_iW, tonumber(contentWidths[g_iH]) or g_iLegacyW);',
             'g_iAddedOceanWidth = math.max(0, g_iW - g_iBaseW);',
@@ -166,7 +169,7 @@ function Get-ZylRichMainlandCoreIssues {
             'args.ignoreJungleLatitude = IS_HORIZONTAL_MAINLAND or IS_RING_MAINLAND;',
             'args.clusterJungles = IS_HORIZONTAL_MAINLAND or IS_RING_MAINLAND;'
         )) {
-        if (-not $Source.Contains($requiredToken)) {
+        if (-not $normalizedSource.Contains($requiredToken)) {
             $issues.Add("Rich Mainland coastal/canvas invariant is missing: $requiredToken")
         }
     }

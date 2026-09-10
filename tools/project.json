@@ -13,7 +13,7 @@
   "databaseInsertSelectContractFile": "manifest/database-insert-select-contract.json",
   "databaseDuplicateKeyAllowlistFile": "manifest/database-duplicate-key-allowlist.json",
   "databaseFinalValueContractFile": "manifest/database-final-value-contract.json",
-  "databaseFinalValueContractSha256": "88784124a8e53759e14274ca8f0819634241cd88f835fe3ebdb688ff4de7df7c",
+  "databaseFinalValueContractSha256": "8155de2c0731aa15d48b1502499d16cff5a5ec8f925225df1adcce192815608c",
   "databaseLogContractFile": "manifest/database-log-contract.json",
   "databaseLogContractSha256": "2e0e31a669d75e97bd8cdf00555591157156e85efcd52c3333c8db723ae303f6",
   "luaLogContractFile": "manifest/lua-log-contract.json",

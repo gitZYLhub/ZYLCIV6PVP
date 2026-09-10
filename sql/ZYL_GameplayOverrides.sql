@@ -221,46 +221,40 @@ WHERE UnitType IN (
 );
 
 -------------------------------------------------------------------------------
--- Aztec Eagle Warrior: Swordsman unique replacement
+-- Aztec Eagle Warrior: Warrior unique replacement (BBG original values)
 -------------------------------------------------------------------------------
 
+-- BBG does not alter the Eagle Warrior's cost or combat strength, so neither
+-- does this layer: those fields keep their vanilla values. This override only
+-- resets the fields the Swordsman-replacement era had changed (prereqs,
+-- maintenance and iron cost), restores BBG's mandatory Military Tactics
+-- obsolescence, and reasserts the city-center malus tag after the revert.
 UPDATE Units
-SET PrereqTech = 'TECH_IRON_WORKING',
+SET PrereqTech = NULL,
 	PrereqCivic = NULL,
-	Cost = 100,
-	Maintenance = 2,
-	Combat = 38,
-	StrategicResource = 'RESOURCE_IRON',
-	MandatoryObsoleteTech = 'TECH_REPLACEABLE_PARTS'
+	Maintenance = 1,
+	StrategicResource = NULL,
+	MandatoryObsoleteTech = 'TECH_MILITARY_TACTICS'
 WHERE UnitType = 'UNIT_AZTEC_EAGLE_WARRIOR';
 
-INSERT OR IGNORE INTO Units_XP2 (UnitType, ResourceCost)
-SELECT UnitType, 5
-FROM Units
-WHERE UnitType = 'UNIT_AZTEC_EAGLE_WARRIOR';
-
-UPDATE Units_XP2
-SET ResourceCost = 5
+-- Remove the Iron cost row introduced while the unit was a Swordsman
+-- replacement; vanilla and BBG do not give the Eagle Warrior a resource cost.
+DELETE FROM Units_XP2
 WHERE UnitType = 'UNIT_AZTEC_EAGLE_WARRIOR';
 
 UPDATE UnitReplaces
-SET ReplacesUnitType = 'UNIT_SWORDSMAN'
+SET ReplacesUnitType = 'UNIT_WARRIOR'
 WHERE CivUniqueUnitType = 'UNIT_AZTEC_EAGLE_WARRIOR';
 
 UPDATE UnitUpgrades
-SET UpgradeUnit = 'UNIT_MAN_AT_ARMS'
+SET UpgradeUnit = 'UNIT_SWORDSMAN'
 WHERE Unit = 'UNIT_AZTEC_EAGLE_WARRIOR';
 
--- This BBG tag applies only to Ancient-era units.  CLASS_CAPTURE_WORKER is
--- deliberately retained so defeated military units can still become Builders.
-DELETE FROM TypeTags
-WHERE Type = 'UNIT_AZTEC_EAGLE_WARRIOR'
-  AND Tag = 'CLASS_MALUS_CITY_CENTER';
-
-INSERT OR IGNORE INTO TypeTags (Type, Tag)
-SELECT UnitType, 'CLASS_CAPTURE_WORKER'
-FROM Units
-WHERE UnitType = 'UNIT_AZTEC_EAGLE_WARRIOR';
+-- BBG applies the -5 vs. City Center malus to Ancient-era units, and the
+-- Eagle Warrior keeps its vanilla capture-as-Builder ability.
+INSERT OR IGNORE INTO TypeTags (Type, Tag) VALUES
+	('UNIT_AZTEC_EAGLE_WARRIOR', 'CLASS_MALUS_CITY_CENTER'),
+	('UNIT_AZTEC_EAGLE_WARRIOR', 'CLASS_CAPTURE_WORKER');
 
 -- Toa is handled separately: it has no strategic-resource cost, and its
 -- production cost is reduced by 20.
@@ -432,27 +426,6 @@ SET BoostClass = 'BOOST_TRIGGER_HAVE_X_IMPROVEMENTS',
 WHERE CivicType = 'CIVIC_FEUDALISM';
 
 -------------------------------------------------------------------------------
--- Commercial Hub adjacency
--------------------------------------------------------------------------------
-
--- Each adjacent Luxury resource provides +1 Gold to a Commercial Hub or any
--- unique district that replaces it.
-INSERT OR IGNORE INTO Adjacency_YieldChanges
-	(ID, Description, YieldType, YieldChange, TilesRequired, AdjacentResourceClass)
-VALUES
-	('ZYL_COMMERCIAL_HUB_LUXURY_GOLD', 'LOC_DISTRICT_ZYL_COMMERCIAL_HUB_LUXURY_GOLD', 'YIELD_GOLD', 1, 1, 'RESOURCECLASS_LUXURY');
-
-INSERT OR IGNORE INTO District_Adjacencies (DistrictType, YieldChangeId)
-	SELECT DistrictType, 'ZYL_COMMERCIAL_HUB_LUXURY_GOLD'
-	FROM Districts
-	WHERE DistrictType = 'DISTRICT_COMMERCIAL_HUB'
-	   OR DistrictType IN (
-			SELECT CivUniqueDistrictType
-			FROM DistrictReplaces
-			WHERE ReplacesDistrictType = 'DISTRICT_COMMERCIAL_HUB'
-	   );
-
--------------------------------------------------------------------------------
 -- Gaul: move the existing Mine Culture bonus to the civilization
 -------------------------------------------------------------------------------
 
@@ -475,6 +448,13 @@ INSERT OR REPLACE INTO ModifierArguments (ModifierId, Name, Value) VALUES
 
 INSERT OR IGNORE INTO TraitModifiers (TraitType, ModifierId) VALUES
 	('TRAIT_CIVILIZATION_GAUL', 'GAUL_MINE_CULTURE');
+
+-- Gaul: restore the vanilla Oppidum Apprenticeship boost that BBG removes.
+-- In the base game, completing an Oppidum grants the Apprenticeship Eureka.
+-- The vanilla modifier definition and its arguments survive in the game
+-- database; BBG only deletes the DistrictModifiers binding, so re-bind here.
+INSERT OR IGNORE INTO DistrictModifiers (DistrictType, ModifierId)
+VALUES ('DISTRICT_OPPIDUM', 'OPPIDUM_GRANT_TECH_APPRENTICESHIP');
 
 -------------------------------------------------------------------------------
 -- Trajan: grant the free City Center building after Foreign Trade
@@ -983,3 +963,33 @@ UPDATE ModifierArguments
 SET Value = '5'
 WHERE ModifierId = 'WORK_ETHIC_TEMPLE_PRODUCTION_MODIFIER'
   AND Name = 'Amount';
+
+-------------------------------------------------------------------------------
+-- Japan: restore Meiji Harbour / Commercial Hub adjacency for every leader
+-------------------------------------------------------------------------------
+
+-- BBG moved the Meiji +1 Gold Harbour / Commercial Hub adjacency from the
+-- civilization ability to Hojo's leader ability.  Restore the civilization-wide
+-- binding and remove Hojo's personal copy so the bonus applies to every Japanese
+-- leader exactly once.
+INSERT OR IGNORE INTO TraitModifiers (TraitType, ModifierId) VALUES
+	('TRAIT_CIVILIZATION_ADJACENT_DISTRICTS', 'TRAIT_ADJACENT_DISTRICTS_HARBOR_ADJACENCYGOLD'),
+	('TRAIT_CIVILIZATION_ADJACENT_DISTRICTS', 'TRAIT_ADJACENT_DISTRICTS_COMMERCIALHUB_ADJACENCYGOLD');
+
+DELETE FROM TraitModifiers
+WHERE TraitType = 'TRAIT_LEADER_DIVINE_WIND'
+  AND ModifierId IN (
+	'TRAIT_ADJACENT_DISTRICTS_HARBOR_ADJACENCYGOLD',
+	'TRAIT_ADJACENT_DISTRICTS_COMMERCIALHUB_ADJACENCYGOLD'
+  );
+
+-------------------------------------------------------------------------------
+-- Japan: restore the River adjacency for Commercial Hubs
+-------------------------------------------------------------------------------
+
+-- BBG excludes River_Gold for Japan so its Commercial Hubs never gain the
+-- river adjacency.  Remove that exclusion; the global river bonus is +1 Gold
+-- after the BBG-wide reduction from +2.
+DELETE FROM ExcludedAdjacencies
+WHERE TraitType = 'TRAIT_CIVILIZATION_ADJACENT_DISTRICTS'
+  AND YieldChangeId = 'River_Gold';

@@ -8,13 +8,6 @@
 			<Text>允许所有陆地单位上船，并允许收获 [ICON_RESOURCE_FISH] 鱼和 [ICON_RESOURCE_CRABS] 螃蟹。</Text>
 		</Row>
 
-		<Row Tag="LOC_DISTRICT_ZYL_COMMERCIAL_HUB_LUXURY_GOLD" Language="en_US">
-			<Text>+{1_num} [ICON_Gold] Gold from adjacent Luxury resources.</Text>
-		</Row>
-		<Row Tag="LOC_DISTRICT_ZYL_COMMERCIAL_HUB_LUXURY_GOLD" Language="zh_Hans_CN">
-			<Text>相邻奢侈资源+{1_num} [ICON_Gold] 金币。</Text>
-		</Row>
-
 		<Replace Tag="LOC_BOOST_TRIGGER_ARCHERY" Language="en_US"><Text>Own 2 Slingers.</Text></Replace>
 		<Replace Tag="LOC_BOOST_TRIGGER_LONGDESC_ARCHERY" Language="en_US"><Text>Own 2 Slingers.</Text></Replace>
 		<Replace Tag="LOC_BOOST_TRIGGER_BRONZE_WORKING" Language="en_US"><Text>Own 3 land combat units.</Text></Replace>
@@ -42,8 +35,8 @@
 		<Replace Tag="LOC_BOOST_TRIGGER_LONGDESC_RECORDED_HISTORY" Language="zh_Hans_CN"><Text>建造1座图书馆。</Text></Replace>
 		<Replace Tag="LOC_BOOST_TRIGGER_HUMANISM" Language="zh_Hans_CN"><Text>建造1座古罗马剧场。</Text></Replace>
 		<Replace Tag="LOC_BOOST_TRIGGER_LONGDESC_HUMANISM" Language="zh_Hans_CN"><Text>建造1座古罗马剧场。</Text></Replace>
-		<Replace Tag="LOC_BOOST_TRIGGER_MILITARY_TACTICS" Language="zh_Hans_CN"><Text>拥有2名长矛兵。</Text></Replace>
-		<Replace Tag="LOC_BOOST_TRIGGER_LONGDESC_MILITARY_TACTICS" Language="zh_Hans_CN"><Text>拥有2名长矛兵。</Text></Replace>
+		<Replace Tag="LOC_BOOST_TRIGGER_MILITARY_TACTICS" Language="zh_Hans_CN"><Text>拥有2名枪兵。</Text></Replace>
+		<Replace Tag="LOC_BOOST_TRIGGER_LONGDESC_MILITARY_TACTICS" Language="zh_Hans_CN"><Text>拥有2名枪兵。</Text></Replace>
 		<Replace Tag="LOC_BOOST_TRIGGER_NAVAL_TRADITION" Language="zh_Hans_CN"><Text>拥有2艘四段帆船。</Text></Replace>
 		<Replace Tag="LOC_BOOST_TRIGGER_LONGDESC_NAVAL_TRADITION" Language="zh_Hans_CN"><Text>拥有2艘四段帆船。</Text></Replace>
 		<Replace Tag="LOC_BOOST_TRIGGER_FEUDALISM" Language="zh_Hans_CN"><Text>建造5个农场。</Text></Replace>
@@ -267,13 +260,6 @@
 		</Replace>
 		<Replace Tag="LOC_BELIEF_WORK_ETHIC_DESCRIPTION" Language="zh_Hans_CN">
 			<Text>神社提供+3 [ICON_PRODUCTION] 生产力。寺庙提供+5 [ICON_PRODUCTION] 生产力。</Text>
-		</Replace>
-
-		<Replace Tag="LOC_UNIT_AZTEC_EAGLE_WARRIOR_DESCRIPTION" Language="en_US">
-			<Text>Aztec unique Classical era melee unit that replaces the Swordsman. Has a chance to capture other civilizations' military units by turning them into Builders.</Text>
-		</Replace>
-		<Replace Tag="LOC_UNIT_AZTEC_EAGLE_WARRIOR_DESCRIPTION" Language="zh_Hans_CN">
-			<Text>替代剑客的阿兹特克古典时代特色近战单位。击杀其他文明的军事单位时，有几率将其转化为建造者并俘获。</Text>
 		</Replace>
 
 		<!-- Correct preview key used by the Medieval-era Scythia combat modifier. -->

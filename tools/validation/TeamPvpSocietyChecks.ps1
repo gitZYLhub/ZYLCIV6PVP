@@ -109,14 +109,22 @@
             "'SECRET_SOCIETIES_ENABLE_VAMPIRE_PILLAGE_HEALING', 'Key', 'HEAL_ON_PILLAGE'",
             "'ZYL_TPVP_SANGUINE_VAMPIRE_HEAL_FROM_COMBAT'",
             "'ZYL_TPVP_SANGUINE_VAMPIRE_HEAL_FROM_COMBAT', 'Amount', 10",
-            "'ZYL_TPVP_SANGUINE_ENCAMPMENT_PRODUCTION', 'Amount', 15",
-            "'ZYL_TPVP_SANGUINE_ENCAMPMENT_BUILDING_PRODUCTION', 'Amount', 15",
+            "'ZYL_TPVP_SANGUINE_ENCAMPMENT_PRODUCTION', 'Amount', 10",
+            "'ZYL_TPVP_SANGUINE_ENCAMPMENT_BUILDING_PRODUCTION', 'Amount', 50",
             "'ZYL_TPVP_SANGUINE_BARRACKS_PRODUCTION', 'Amount', 1",
             "'ZYL_TPVP_SANGUINE_STABLE_PRODUCTION', 'Amount', 1",
             "'ZYL_TPVP_SANGUINE_ARMORY_PRODUCTION', 'Amount', 2",
             "'ZYL_TPVP_SANGUINE_MILITARY_ACADEMY_PRODUCTION', 'Amount', 4",
             "'ZYL_TPVP_SANGUINE_MILITARY_POLICY_SLOT', 'GovernmentSlotType', 'SLOT_MILITARY'",
             "'ZYL_TPVP_SANGUINE_VAMPIRE_MOVEMENT', 'Amount', 1",
+            "'ZYL_TPVP_SANGUINE_BARRACKS_SCIENCE', 'Amount', 2",
+            "'ZYL_TPVP_SANGUINE_BARRACKS_CULTURE', 'Amount', 1",
+            "'ZYL_TPVP_SANGUINE_STABLE_SCIENCE', 'Amount', 2",
+            "'ZYL_TPVP_SANGUINE_STABLE_CULTURE', 'Amount', 1",
+            "'ZYL_TPVP_SANGUINE_ARMORY_SCIENCE', 'Amount', 2",
+            "'ZYL_TPVP_SANGUINE_ARMORY_CULTURE', 'Amount', 1",
+            "'ZYL_TPVP_SANGUINE_MILITARY_ACADEMY_SCIENCE', 'Amount', 2",
+            "'ZYL_TPVP_SANGUINE_MILITARY_ACADEMY_CULTURE', 'Amount', 1",
             "('GOVERNOR_PROMOTION_SANGUINE_PACT_1', 'SECRET_SOCIETY_VAMPIRES_ADVANCED_PILLAGING')",
             "('GOVERNOR_PROMOTION_SANGUINE_PACT_2', 'SECRET_SOCIETY_GRANT_TWO_VAMPIRE_BUILDS')",
             "('GOVERNOR_PROMOTION_SANGUINE_PACT_3', 'SECRET_SOCIETY_GRANT_ONE_VAMPIRE_BUILD')",
@@ -125,8 +133,8 @@
             "SET EarliestGameEra = 'ERA_INDUSTRIAL'",
             "WHERE BuildingType = 'BUILDING_GILDED_VAULT'",
             "PurchaseYield = 'YIELD_GOLD'",
-            "'ZYL_TPVP_PLAYER_HAS_POLITICAL_PHILOSOPHY_REQUIREMENT'",
-            "'CivicType', 'CIVIC_POLITICAL_PHILOSOPHY'",
+            "'ZYL_TPVP_PLAYER_HAS_EARLY_EMPIRE_REQUIREMENT'",
+            "'CivicType', 'CIVIC_EARLY_EMPIRE'",
             "'ZYL_TPVP_OWLS_2_TRADE_ROUTE_CAPACITY'",
             "'ZYL_TPVP_PLAYER_HAS_GILDED_VAULT_REQUIREMENT'",
             "'ZYL_TPVP_OWLS_FIRST_GILDED_VAULT_TRADE_ROUTE_CAPACITY'",
@@ -200,9 +208,17 @@
             @{ Promotion = '1'; Modifier = 'ZYL_TPVP_SANGUINE_BARRACKS_PRODUCTION' },
             @{ Promotion = '1'; Modifier = 'ZYL_TPVP_SANGUINE_STABLE_PRODUCTION' },
             @{ Promotion = '2'; Modifier = 'ZYL_TPVP_SANGUINE_ARMORY_PRODUCTION' },
+            @{ Promotion = '2'; Modifier = 'ZYL_TPVP_SANGUINE_MILITARY_ACADEMY_PRODUCTION' },
             @{ Promotion = '2'; Modifier = 'ZYL_TPVP_SANGUINE_MILITARY_POLICY_SLOT' },
             @{ Promotion = '2'; Modifier = 'ZYL_TPVP_SANGUINE_VAMPIRE_MOVEMENT' },
-            @{ Promotion = '3'; Modifier = 'ZYL_TPVP_SANGUINE_MILITARY_ACADEMY_PRODUCTION' }
+            @{ Promotion = '3'; Modifier = 'ZYL_TPVP_SANGUINE_BARRACKS_SCIENCE' },
+            @{ Promotion = '3'; Modifier = 'ZYL_TPVP_SANGUINE_BARRACKS_CULTURE' },
+            @{ Promotion = '3'; Modifier = 'ZYL_TPVP_SANGUINE_STABLE_SCIENCE' },
+            @{ Promotion = '3'; Modifier = 'ZYL_TPVP_SANGUINE_STABLE_CULTURE' },
+            @{ Promotion = '3'; Modifier = 'ZYL_TPVP_SANGUINE_ARMORY_SCIENCE' },
+            @{ Promotion = '3'; Modifier = 'ZYL_TPVP_SANGUINE_ARMORY_CULTURE' },
+            @{ Promotion = '3'; Modifier = 'ZYL_TPVP_SANGUINE_MILITARY_ACADEMY_SCIENCE' },
+            @{ Promotion = '3'; Modifier = 'ZYL_TPVP_SANGUINE_MILITARY_ACADEMY_CULTURE' }
         )) {
             $sanguineBindingPattern = "(?is)\('GOVERNOR_PROMOTION_SANGUINE_PACT_$($sanguinePromotion.Promotion)',\s*'$([regex]::Escape($sanguinePromotion.Modifier))'\)"
             if ($teamPvpSocietySql -notmatch $sanguineBindingPattern) {
@@ -212,8 +228,8 @@
         if ($teamPvpSocietySql -notmatch "(?is)\('ZYL_TPVP_SANGUINE_ENCAMPMENT_BUILDING_PRODUCTION',\s*'MODIFIER_PLAYER_CITIES_ADJUST_BUILDING_PRODUCTION'\)") {
             $issues.Add('Sanguine Pact tier 1 does not use the building-production modifier for Encampment buildings.')
         }
-        if ($teamPvpSocietySql -notmatch "(?is)\('ZYL_TPVP_SANGUINE_ENCAMPMENT_BUILDING_PRODUCTION',\s*'DistrictType',\s*'DISTRICT_ENCAMPMENT'\).*?\('ZYL_TPVP_SANGUINE_ENCAMPMENT_BUILDING_PRODUCTION',\s*'Amount',\s*15\)") {
-            $issues.Add('Sanguine Pact Encampment-building Production bonus is not scoped to Encampments at +15%.')
+        if ($teamPvpSocietySql -notmatch "(?is)\('ZYL_TPVP_SANGUINE_ENCAMPMENT_BUILDING_PRODUCTION',\s*'DistrictType',\s*'DISTRICT_ENCAMPMENT'\).*?\('ZYL_TPVP_SANGUINE_ENCAMPMENT_BUILDING_PRODUCTION',\s*'Amount',\s*50\)") {
+            $issues.Add('Sanguine Pact Encampment-building Production bonus is not scoped to Encampments at +50%.')
         }
         if ($teamPvpSocietySql -notmatch "(?is)\('ZYL_TPVP_SANGUINE_VAMPIRE_MOVEMENT',\s*'MODIFIER_PLAYER_UNITS_ADJUST_MOVEMENT',\s*'THIS_UNIT_IS_A_VAMPIRE'\)") {
             $issues.Add('Sanguine Pact vampire movement is not restricted to Vampire units.')
@@ -226,8 +242,8 @@
         if ($teamPvpSocietySql -match "(?is)\('GOVERNOR_PROMOTION_SANGUINE_PACT_[1234]',\s*'SECRET_SOCIETY_VAMPIRE_ADDMOVE_TEAMPVP'\)") {
             $issues.Add('The upstream zero-value Vampire movement placeholder must not remain attached.')
         }
-        if ($teamPvpSocietySql -notmatch "(?is)UPDATE\s+Modifiers\s+SET\s+OwnerRequirementSetId\s*=\s*'ZYL_TPVP_PLAYER_HAS_POLITICAL_PHILOSOPHY'\s+WHERE\s+ModifierId\s*=\s*'GOVERNOR_PROMOTION_OWLS_OF_MINERVA_1_ECONOMIC_POLICY_SLOT'") {
-            $issues.Add('Owls tier 1 economic policy slot is not delayed until Political Philosophy.')
+        if ($teamPvpSocietySql -notmatch "(?is)UPDATE\s+Modifiers\s+SET\s+OwnerRequirementSetId\s*=\s*'ZYL_TPVP_PLAYER_HAS_EARLY_EMPIRE'\s+WHERE\s+ModifierId\s*=\s*'GOVERNOR_PROMOTION_OWLS_OF_MINERVA_1_ECONOMIC_POLICY_SLOT'") {
+            $issues.Add('Owls tier 1 economic policy slot is not delayed until Early Empire.')
         }
         if ($teamPvpSocietySql -notmatch "(?is)\('GOVERNOR_PROMOTION_OWLS_OF_MINERVA_2',\s*'ZYL_TPVP_OWLS_2_TRADE_ROUTE_CAPACITY'\)") {
             $issues.Add('Owls tier 2 does not directly grant one Trade Route capacity.')
@@ -389,15 +405,15 @@
             }
         }
         $owlsTextChecks = @(
-            [pscustomobject]@{ Language = 'en_US'; Tag = 'LOC_GOVERNOR_PROMOTION_OWLS_OF_MINERVA_1_DESCRIPTION'; Tokens = @('Political Philosophy', 'Economic policy slot') },
+            [pscustomobject]@{ Language = 'en_US'; Tag = 'LOC_GOVERNOR_PROMOTION_OWLS_OF_MINERVA_1_DESCRIPTION'; Tokens = @('Early Empire', 'Economic policy slot') },
             [pscustomobject]@{ Language = 'en_US'; Tag = 'LOC_GOVERNOR_PROMOTION_OWLS_OF_MINERVA_2_DESCRIPTION'; Tokens = @('+1 [ICON_TradeRoute] Trade Route capacity') },
             [pscustomobject]@{ Language = 'en_US'; Tag = 'LOC_BUILDING_GILDED_VAULT_DESCRIPTION'; Tokens = @('originating in this city gain +2 [ICON_Gold]', 'ending in this city gain +1 [ICON_Gold]', 'first Gilded Vault', 'permanently grants +1 [ICON_TradeRoute]') },
             [pscustomobject]@{ Language = 'en_US'; Tag = 'LOC_BUILDING_GILDED_Shipyard_DESCRIPTION'; Tokens = @("Harbor's current [ICON_Gold] Gold adjacency bonus", 'including adjacency policy effects') },
-            [pscustomobject]@{ Language = 'zh_Hans_CN'; Tag = 'LOC_GOVERNOR_PROMOTION_OWLS_OF_MINERVA_1_DESCRIPTION'; Tokens = @('政治哲学', '经济政策槽位') },
+            [pscustomobject]@{ Language = 'zh_Hans_CN'; Tag = 'LOC_GOVERNOR_PROMOTION_OWLS_OF_MINERVA_1_DESCRIPTION'; Tokens = @('帝国初期', '经济政策槽位') },
             [pscustomobject]@{ Language = 'zh_Hans_CN'; Tag = 'LOC_GOVERNOR_PROMOTION_OWLS_OF_MINERVA_2_DESCRIPTION'; Tokens = @('+1 [ICON_TradeRoute] 贸易路线容量') },
             [pscustomobject]@{ Language = 'zh_Hans_CN'; Tag = 'LOC_BUILDING_GILDED_VAULT_DESCRIPTION'; Tokens = @('从该城出发的贸易路线+2 [ICON_Gold]', '到达该城的贸易路线+1 [ICON_Gold]', '首次建成镀金宝库', '永久+1 [ICON_TradeRoute]') },
             [pscustomobject]@{ Language = 'zh_Hans_CN'; Tag = 'LOC_BUILDING_GILDED_Shipyard_DESCRIPTION'; Tokens = @('港口当前 [ICON_Gold] 金币相邻加成', '包括相邻加成政策的效果') },
-            [pscustomobject]@{ Language = 'zh_Hant_HK'; Tag = 'LOC_GOVERNOR_PROMOTION_OWLS_OF_MINERVA_1_DESCRIPTION'; Tokens = @('政治哲學', '經濟政策槽位') },
+            [pscustomobject]@{ Language = 'zh_Hant_HK'; Tag = 'LOC_GOVERNOR_PROMOTION_OWLS_OF_MINERVA_1_DESCRIPTION'; Tokens = @('帝國初期', '經濟政策槽位') },
             [pscustomobject]@{ Language = 'zh_Hant_HK'; Tag = 'LOC_GOVERNOR_PROMOTION_OWLS_OF_MINERVA_2_DESCRIPTION'; Tokens = @('+1 [ICON_TradeRoute] 貿易路線容量') },
             [pscustomobject]@{ Language = 'zh_Hant_HK'; Tag = 'LOC_BUILDING_GILDED_VAULT_DESCRIPTION'; Tokens = @('從該城出發的貿易路線+2 [ICON_Gold]', '到達該城的貿易路線+1 [ICON_Gold]', '首次建成鍍金寶庫', '永久+1 [ICON_TradeRoute]') },
             [pscustomobject]@{ Language = 'zh_Hant_HK'; Tag = 'LOC_BUILDING_GILDED_Shipyard_DESCRIPTION'; Tokens = @('港口當前 [ICON_Gold] 金幣相鄰加成', '包括相鄰加成政策的效果') }
@@ -417,19 +433,19 @@
         }
         $sanguineTextChecks = @(
             [pscustomobject]@{ Language = 'en_US'; Tag = 'LOC_UNIT_VAMPIRE_DESCRIPTION'; Tokens = @('2 [ICON_Movement]') },
-            [pscustomobject]@{ Language = 'en_US'; Tag = 'LOC_GOVERNOR_PROMOTION_SANGUINE_PACT_1_DESCRIPTION'; Tokens = @('2 [ICON_Movement]', '10 HP', '50 HP', '1 [ICON_Movement]', '+15% [ICON_Production]', 'buildings in Encampments') },
-            [pscustomobject]@{ Language = 'en_US'; Tag = 'LOC_GOVERNOR_PROMOTION_SANGUINE_PACT_2_DESCRIPTION'; Tokens = @('maximum of 2', '+1 [ICON_Movement]', '+2 [ICON_Production]', 'Military policy') },
-            [pscustomobject]@{ Language = 'en_US'; Tag = 'LOC_GOVERNOR_PROMOTION_SANGUINE_PACT_3_DESCRIPTION'; Tokens = @('maximum to 3', '+4 [ICON_Production]') },
+            [pscustomobject]@{ Language = 'en_US'; Tag = 'LOC_GOVERNOR_PROMOTION_SANGUINE_PACT_1_DESCRIPTION'; Tokens = @('2 [ICON_Movement]', '10 HP', '50 HP', '1 [ICON_Movement]', '+10% [ICON_Production]', '+50% [ICON_Production]', 'buildings in Encampments') },
+            [pscustomobject]@{ Language = 'en_US'; Tag = 'LOC_GOVERNOR_PROMOTION_SANGUINE_PACT_2_DESCRIPTION'; Tokens = @('maximum of 2', '+1 [ICON_Movement]', '+2 [ICON_Production]', 'Military Academies provide +4', 'Military policy') },
+            [pscustomobject]@{ Language = 'en_US'; Tag = 'LOC_GOVERNOR_PROMOTION_SANGUINE_PACT_3_DESCRIPTION'; Tokens = @('maximum to 3', 'Encampment buildings', '+2 [ICON_Science]', '+1 [ICON_Culture]') },
             [pscustomobject]@{ Language = 'en_US'; Tag = 'LOC_GOVERNOR_PROMOTION_SANGUINE_PACT_4_DESCRIPTION'; Tokens = @('Industrial Era', 'maximum to 4') },
             [pscustomobject]@{ Language = 'zh_Hans_CN'; Tag = 'LOC_UNIT_VAMPIRE_DESCRIPTION'; Tokens = @('2 [ICON_Movement]') },
-            [pscustomobject]@{ Language = 'zh_Hans_CN'; Tag = 'LOC_GOVERNOR_PROMOTION_SANGUINE_PACT_1_DESCRIPTION'; Tokens = @('2 [ICON_Movement]', '10点生命值', '50点生命值', '1 [ICON_Movement]', '军营及其中建筑时+15%') },
-            [pscustomobject]@{ Language = 'zh_Hans_CN'; Tag = 'LOC_GOVERNOR_PROMOTION_SANGUINE_PACT_2_DESCRIPTION'; Tokens = @('最多2座', '+1 [ICON_Movement]', '兵工厂+2', '军事政策槽位') },
-            [pscustomobject]@{ Language = 'zh_Hans_CN'; Tag = 'LOC_GOVERNOR_PROMOTION_SANGUINE_PACT_3_DESCRIPTION'; Tokens = @('上限提高至3座', '军事学院+4') },
+            [pscustomobject]@{ Language = 'zh_Hans_CN'; Tag = 'LOC_GOVERNOR_PROMOTION_SANGUINE_PACT_1_DESCRIPTION'; Tokens = @('2 [ICON_Movement]', '10点生命值', '50点生命值', '1 [ICON_Movement]', '建造军营时+10%', '建造军营建筑时+50%') },
+            [pscustomobject]@{ Language = 'zh_Hans_CN'; Tag = 'LOC_GOVERNOR_PROMOTION_SANGUINE_PACT_2_DESCRIPTION'; Tokens = @('最多2座', '+1 [ICON_Movement]', '兵工厂+2', '军事学院+4', '军事政策槽位') },
+            [pscustomobject]@{ Language = 'zh_Hans_CN'; Tag = 'LOC_GOVERNOR_PROMOTION_SANGUINE_PACT_3_DESCRIPTION'; Tokens = @('上限提高至3座', '所有军营建筑+2', '文化') },
             [pscustomobject]@{ Language = 'zh_Hans_CN'; Tag = 'LOC_GOVERNOR_PROMOTION_SANGUINE_PACT_4_DESCRIPTION'; Tokens = @('工业时代', '上限提高至4座') },
             [pscustomobject]@{ Language = 'zh_Hant_HK'; Tag = 'LOC_UNIT_VAMPIRE_DESCRIPTION'; Tokens = @('2 [ICON_Movement]') },
-            [pscustomobject]@{ Language = 'zh_Hant_HK'; Tag = 'LOC_GOVERNOR_PROMOTION_SANGUINE_PACT_1_DESCRIPTION'; Tokens = @('2 [ICON_Movement]', '10生命', '50生命', '1 [ICON_Movement]', '軍營及其中建築時+15%') },
-            [pscustomobject]@{ Language = 'zh_Hant_HK'; Tag = 'LOC_GOVERNOR_PROMOTION_SANGUINE_PACT_2_DESCRIPTION'; Tokens = @('最多2座', '+1 [ICON_Movement]', '兵工廠+2', '軍事政策槽位') },
-            [pscustomobject]@{ Language = 'zh_Hant_HK'; Tag = 'LOC_GOVERNOR_PROMOTION_SANGUINE_PACT_3_DESCRIPTION'; Tokens = @('上限提高至3座', '軍事學院+4') },
+            [pscustomobject]@{ Language = 'zh_Hant_HK'; Tag = 'LOC_GOVERNOR_PROMOTION_SANGUINE_PACT_1_DESCRIPTION'; Tokens = @('2 [ICON_Movement]', '10生命', '50生命', '1 [ICON_Movement]', '建造軍營時+10%', '建造軍營建築時+50%') },
+            [pscustomobject]@{ Language = 'zh_Hant_HK'; Tag = 'LOC_GOVERNOR_PROMOTION_SANGUINE_PACT_2_DESCRIPTION'; Tokens = @('最多2座', '+1 [ICON_Movement]', '兵工廠+2', '軍事學院+4', '軍事政策槽位') },
+            [pscustomobject]@{ Language = 'zh_Hant_HK'; Tag = 'LOC_GOVERNOR_PROMOTION_SANGUINE_PACT_3_DESCRIPTION'; Tokens = @('上限提高至3座', '所有軍營建築+2', '文化') },
             [pscustomobject]@{ Language = 'zh_Hant_HK'; Tag = 'LOC_GOVERNOR_PROMOTION_SANGUINE_PACT_4_DESCRIPTION'; Tokens = @('工業時代', '上限提高至4座') }
         )
         foreach ($sanguineTextCheck in $sanguineTextChecks) {

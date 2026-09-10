@@ -90,6 +90,17 @@
       ]
     },
     {
+      "table": "TypeTags",
+      "keySha256": "4efb71cdfdea6ed6246fa55c29a1da0fcaf0f3fb4e317f7ac01c7e20bb624025",
+      "retentionKind": "upstream-final-defense",
+      "allowedConflictModes": ["ignore"],
+      "rationale": "The Aztec DLC source must remain self-contained while the final ZYL override reasserts the same Eagle Warrior city-center malus tag after all conditional actions.",
+      "occurrences": [
+        {"path": "Components/BBG/sql/DLC_Aztec/Aztec.sql", "providerCriteria": ["ZYLPVP_BBG_DLC_Aztec"]},
+        {"path": "sql/ZYL_GameplayOverrides.sql", "providerCriteria": []}
+      ]
+    },
+    {
       "table": "RequirementArguments",
       "keySha256": "78937125d0f03445d3d68f93afdf727957b091415564ce9968e14a53cca52a26",
       "retentionKind": "independent-providers",
