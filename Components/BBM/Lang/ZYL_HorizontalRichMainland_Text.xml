@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GameData>
+	<LocalizedText>
+		<Row Tag="LOC_ZYLRM_HORIZONTAL_MAP_NAME" Language="zh_Hans_CN"><Text>组队PVP横向大陆</Text></Row>
+		<Row Tag="LOC_ZYLRM_HORIZONTAL_MAP_DESCRIPTION" Language="zh_Hans_CN"><Text>横向一字排开的2至12人组队战场；主大陆名义长度约为17×人数格、生成时再缩短约10%，厚18格。东西岸拥有2格浅海大陆架、岛屿与海洋资源；南北岸不生成岛屿，仅保留贴岸浅海，其余均为深海。默认东西分队并严格平分两队区域；雨林不受纬度限制而随机成片分布。</Text></Row>
+		<Row Tag="LOC_ZYLRM_HORIZONTAL_TEAM_SPAWN_DESCRIPTION" Language="zh_Hans_CN"><Text>默认东西分队；两队按地图几何中线分居面积相等的东西两半，即使队伍人数不同也不移动分界。</Text></Row>
+		<Row Tag="LOC_ZYLRM_HORIZONTAL_DEPTH_ORDER_NAME" Language="zh_Hans_CN"><Text>横向队内前后排（软偏好）</Text></Row>
+		<Row Tag="LOC_ZYLRM_HORIZONTAL_DEPTH_ORDER_DESCRIPTION" Language="zh_Hans_CN"><Text>启用后，同队大厅排位越靠上越倾向本队外侧后方，越靠下越倾向中线前方。仍优先保证一字横排、队伍半区和文明间距；海岸文明不受影响，优先本队东西外海岸。默认关闭。</Text></Row>
+
+		<Row Tag="LOC_ZYLRM_HORIZONTAL_MAP_NAME" Language="en_US"><Text>Team PVP Horizontal Mainland</Text></Row>
+		<Row Tag="LOC_ZYLRM_HORIZONTAL_MAP_DESCRIPTION" Language="en_US"><Text>A 2-12 player team battlefield arranged in one long east-west line. Its mainland starts from a nominal 17 tiles per player, is shortened by about 10% during generation, and is 18 tiles deep. The east and west shores have two-tile shelves, islands and sea resources; the north and south seas have no islands, retain only shore-adjacent shallows and otherwise stay deep. Teams default to equal east/west halves; jungle forms random clusters without a tropical-latitude restriction.</Text></Row>
+		<Row Tag="LOC_ZYLRM_HORIZONTAL_TEAM_SPAWN_DESCRIPTION" Language="en_US"><Text>Defaults to east-west teams. The geometric midpoint always gives the two teams equal east/west areas, even when their player counts differ.</Text></Row>
+		<Row Tag="LOC_ZYLRM_HORIZONTAL_DEPTH_ORDER_NAME" Language="en_US"><Text>Horizontal Team Front/Back Order (Soft)</Text></Row>
+		<Row Tag="LOC_ZYLRM_HORIZONTAL_DEPTH_ORDER_DESCRIPTION" Language="en_US"><Text>When enabled, earlier lobby rows prefer their team's outer rear and later rows prefer the center-facing front. The single horizontal line, team half and civilization spacing remain higher priorities. Coastal civilizations ignore this preference and prioritize their team's outer east/west shore. Disabled by default.</Text></Row>
+
+		<Row Tag="LOC_ZYLRM_HORIZONTAL_MAPSIZE_2_DESCRIPTION" Language="zh_Hans_CN"><Text>推荐2人；缩短后主大陆约31×18，总图44×28。</Text></Row>
+		<Row Tag="LOC_ZYLRM_HORIZONTAL_MAPSIZE_3_DESCRIPTION" Language="zh_Hans_CN"><Text>推荐3人；缩短后主大陆约47×18，总图62×28。</Text></Row>
+		<Row Tag="LOC_ZYLRM_HORIZONTAL_MAPSIZE_4_DESCRIPTION" Language="zh_Hans_CN"><Text>推荐4人；缩短后主大陆约61×18，总图78×28。</Text></Row>
+		<Row Tag="LOC_ZYLRM_HORIZONTAL_MAPSIZE_5_DESCRIPTION" Language="zh_Hans_CN"><Text>推荐5人；缩短后主大陆约77×18，总图96×28。</Text></Row>
+		<Row Tag="LOC_ZYLRM_HORIZONTAL_MAPSIZE_6_DESCRIPTION" Language="zh_Hans_CN"><Text>推荐6人；缩短后主大陆约92×18，总图112×28。</Text></Row>
+		<Row Tag="LOC_ZYLRM_HORIZONTAL_MAPSIZE_7_DESCRIPTION" Language="zh_Hans_CN"><Text>推荐7人；缩短后主大陆约108×18，总图130×28。</Text></Row>
+		<Row Tag="LOC_ZYLRM_HORIZONTAL_MAPSIZE_8_DESCRIPTION" Language="zh_Hans_CN"><Text>推荐8人；缩短后主大陆约122×18，总图146×28。</Text></Row>
+		<Row Tag="LOC_ZYLRM_HORIZONTAL_MAPSIZE_9_DESCRIPTION" Language="zh_Hans_CN"><Text>推荐9人；缩短后主大陆约139×18，总图164×28。</Text></Row>
+		<Row Tag="LOC_ZYLRM_HORIZONTAL_MAPSIZE_10_DESCRIPTION" Language="zh_Hans_CN"><Text>推荐10人；缩短后主大陆约153×18，总图180×28。</Text></Row>
+		<Row Tag="LOC_ZYLRM_HORIZONTAL_MAPSIZE_11_DESCRIPTION" Language="zh_Hans_CN"><Text>推荐11人；缩短后主大陆约169×18，总图198×28。</Text></Row>
+		<Row Tag="LOC_ZYLRM_HORIZONTAL_MAPSIZE_12_DESCRIPTION" Language="zh_Hans_CN"><Text>推荐12人；缩短后主大陆约184×18，总图214×28。</Text></Row>
+		<Row Tag="LOC_ZYLRM_HORIZONTAL_MAPSIZE_2_DESCRIPTION" Language="en_US"><Text>Recommended for 2 players; approximately 31×18 shortened mainland, 44×28 map.</Text></Row>
+		<Row Tag="LOC_ZYLRM_HORIZONTAL_MAPSIZE_3_DESCRIPTION" Language="en_US"><Text>Recommended for 3 players; approximately 47×18 shortened mainland, 62×28 map.</Text></Row>
+		<Row Tag="LOC_ZYLRM_HORIZONTAL_MAPSIZE_4_DESCRIPTION" Language="en_US"><Text>Recommended for 4 players; approximately 61×18 shortened mainland, 78×28 map.</Text></Row>
+		<Row Tag="LOC_ZYLRM_HORIZONTAL_MAPSIZE_5_DESCRIPTION" Language="en_US"><Text>Recommended for 5 players; approximately 77×18 shortened mainland, 96×28 map.</Text></Row>
+		<Row Tag="LOC_ZYLRM_HORIZONTAL_MAPSIZE_6_DESCRIPTION" Language="en_US"><Text>Recommended for 6 players; approximately 92×18 shortened mainland, 112×28 map.</Text></Row>
+		<Row Tag="LOC_ZYLRM_HORIZONTAL_MAPSIZE_7_DESCRIPTION" Language="en_US"><Text>Recommended for 7 players; approximately 108×18 shortened mainland, 130×28 map.</Text></Row>
+		<Row Tag="LOC_ZYLRM_HORIZONTAL_MAPSIZE_8_DESCRIPTION" Language="en_US"><Text>Recommended for 8 players; approximately 122×18 shortened mainland, 146×28 map.</Text></Row>
+		<Row Tag="LOC_ZYLRM_HORIZONTAL_MAPSIZE_9_DESCRIPTION" Language="en_US"><Text>Recommended for 9 players; approximately 139×18 shortened mainland, 164×28 map.</Text></Row>
+		<Row Tag="LOC_ZYLRM_HORIZONTAL_MAPSIZE_10_DESCRIPTION" Language="en_US"><Text>Recommended for 10 players; approximately 153×18 shortened mainland, 180×28 map.</Text></Row>
+		<Row Tag="LOC_ZYLRM_HORIZONTAL_MAPSIZE_11_DESCRIPTION" Language="en_US"><Text>Recommended for 11 players; approximately 169×18 shortened mainland, 198×28 map.</Text></Row>
+		<Row Tag="LOC_ZYLRM_HORIZONTAL_MAPSIZE_12_DESCRIPTION" Language="en_US"><Text>Recommended for 12 players; approximately 184×18 shortened mainland, 214×28 map.</Text></Row>
+	</LocalizedText>
+</GameData>

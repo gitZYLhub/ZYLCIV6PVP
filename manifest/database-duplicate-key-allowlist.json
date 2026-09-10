@@ -173,6 +173,396 @@
           "providerCriteria": ["ZYLPVP_BBG_DLC_Vikings"]
         }
       ]
+    },
+    {
+      "table": "Map_GreatPersonClasses",
+      "keySha256": "3104f4d9298a625b7be4001002949be8e14380cae7f8c442a4be486976397531",
+      "retentionKind": "independent-providers",
+      "finalValueProbeRequired": false,
+      "allowedConflictModes": ["replace"],
+      "rationale": "The four Rich Mainland variants are mutually exclusive MAP_SCRIPT providers and intentionally share the odd-player map-size support row.",
+      "occurrences": [
+        {
+          "path": "Components/BBM/Data/BBS Maps/ZYLRM/ConfigureFFA.sql",
+          "providerCriteria": ["ZYL_RichMainland_FFA"]
+        },
+        {
+          "path": "Components/BBM/Data/BBS Maps/ZYLRM/ConfigureHorizontalTeam.sql",
+          "providerCriteria": ["ZYL_RichMainland_HorizontalTeam"]
+        },
+        {
+          "path": "Components/BBM/Data/BBS Maps/ZYLRM/ConfigureRing.sql",
+          "providerCriteria": ["ZYL_RichMainland_RingTeam"]
+        },
+        {
+          "path": "Components/BBM/Data/BBS Maps/ZYLRM/ConfigureTeam.sql",
+          "providerCriteria": ["ZYL_RichMainland_Team"]
+        }
+      ]
+    },
+    {
+      "table": "Map_GreatPersonClasses",
+      "keySha256": "68a95ff5bb4ac5e76c02eb9811acf8dfbbf416584f5ade670348933d8feb5566",
+      "retentionKind": "independent-providers",
+      "finalValueProbeRequired": false,
+      "allowedConflictModes": ["replace"],
+      "rationale": "The four Rich Mainland variants are mutually exclusive MAP_SCRIPT providers and intentionally share the odd-player map-size support row.",
+      "occurrences": [
+        {
+          "path": "Components/BBM/Data/BBS Maps/ZYLRM/ConfigureFFA.sql",
+          "providerCriteria": ["ZYL_RichMainland_FFA"]
+        },
+        {
+          "path": "Components/BBM/Data/BBS Maps/ZYLRM/ConfigureHorizontalTeam.sql",
+          "providerCriteria": ["ZYL_RichMainland_HorizontalTeam"]
+        },
+        {
+          "path": "Components/BBM/Data/BBS Maps/ZYLRM/ConfigureRing.sql",
+          "providerCriteria": ["ZYL_RichMainland_RingTeam"]
+        },
+        {
+          "path": "Components/BBM/Data/BBS Maps/ZYLRM/ConfigureTeam.sql",
+          "providerCriteria": ["ZYL_RichMainland_Team"]
+        }
+      ]
+    },
+    {
+      "table": "Map_GreatPersonClasses",
+      "keySha256": "8882dc8a98f09e67a74faccbf4aef227d802837c62453d90bcd6d53c59064d91",
+      "retentionKind": "independent-providers",
+      "finalValueProbeRequired": false,
+      "allowedConflictModes": ["replace"],
+      "rationale": "The four Rich Mainland variants are mutually exclusive MAP_SCRIPT providers and intentionally share the odd-player map-size support row.",
+      "occurrences": [
+        {
+          "path": "Components/BBM/Data/BBS Maps/ZYLRM/ConfigureFFA.sql",
+          "providerCriteria": ["ZYL_RichMainland_FFA"]
+        },
+        {
+          "path": "Components/BBM/Data/BBS Maps/ZYLRM/ConfigureHorizontalTeam.sql",
+          "providerCriteria": ["ZYL_RichMainland_HorizontalTeam"]
+        },
+        {
+          "path": "Components/BBM/Data/BBS Maps/ZYLRM/ConfigureRing.sql",
+          "providerCriteria": ["ZYL_RichMainland_RingTeam"]
+        },
+        {
+          "path": "Components/BBM/Data/BBS Maps/ZYLRM/ConfigureTeam.sql",
+          "providerCriteria": ["ZYL_RichMainland_Team"]
+        }
+      ]
+    },
+    {
+      "table": "Map_GreatPersonClasses",
+      "keySha256": "d886a254b653a4d15ccc3b6bdf7bb498990e99e8a820a9f09aee91b4f59df7ba",
+      "retentionKind": "independent-providers",
+      "finalValueProbeRequired": false,
+      "allowedConflictModes": ["replace"],
+      "rationale": "The four Rich Mainland variants are mutually exclusive MAP_SCRIPT providers and intentionally share the odd-player map-size support row.",
+      "occurrences": [
+        {
+          "path": "Components/BBM/Data/BBS Maps/ZYLRM/ConfigureFFA.sql",
+          "providerCriteria": ["ZYL_RichMainland_FFA"]
+        },
+        {
+          "path": "Components/BBM/Data/BBS Maps/ZYLRM/ConfigureHorizontalTeam.sql",
+          "providerCriteria": ["ZYL_RichMainland_HorizontalTeam"]
+        },
+        {
+          "path": "Components/BBM/Data/BBS Maps/ZYLRM/ConfigureRing.sql",
+          "providerCriteria": ["ZYL_RichMainland_RingTeam"]
+        },
+        {
+          "path": "Components/BBM/Data/BBS Maps/ZYLRM/ConfigureTeam.sql",
+          "providerCriteria": ["ZYL_RichMainland_Team"]
+        }
+      ]
+    },
+    {
+      "table": "Map_GreatPersonClasses",
+      "keySha256": "f1cdc690180d56c8623edb91a7f4ca9c40d504d0cd5ce255707dccaa91577aa1",
+      "retentionKind": "independent-providers",
+      "finalValueProbeRequired": false,
+      "allowedConflictModes": ["replace"],
+      "rationale": "The four Rich Mainland variants are mutually exclusive MAP_SCRIPT providers and intentionally share the odd-player map-size support row.",
+      "occurrences": [
+        {
+          "path": "Components/BBM/Data/BBS Maps/ZYLRM/ConfigureFFA.sql",
+          "providerCriteria": ["ZYL_RichMainland_FFA"]
+        },
+        {
+          "path": "Components/BBM/Data/BBS Maps/ZYLRM/ConfigureHorizontalTeam.sql",
+          "providerCriteria": ["ZYL_RichMainland_HorizontalTeam"]
+        },
+        {
+          "path": "Components/BBM/Data/BBS Maps/ZYLRM/ConfigureRing.sql",
+          "providerCriteria": ["ZYL_RichMainland_RingTeam"]
+        },
+        {
+          "path": "Components/BBM/Data/BBS Maps/ZYLRM/ConfigureTeam.sql",
+          "providerCriteria": ["ZYL_RichMainland_Team"]
+        }
+      ]
+    },
+    {
+      "table": "Maps_XP2",
+      "keySha256": "4d1c40602533611c481ff61961d19574e65005d3a0cef6d0a017dde6c8d6384f",
+      "retentionKind": "independent-providers",
+      "finalValueProbeRequired": false,
+      "allowedConflictModes": ["replace"],
+      "rationale": "The four Rich Mainland variants are mutually exclusive MAP_SCRIPT providers and intentionally share the odd-player map-size support row.",
+      "occurrences": [
+        {
+          "path": "Components/BBM/Data/BBS Maps/ZYLRM/ConfigureFFA.sql",
+          "providerCriteria": ["ZYL_RichMainland_FFA"]
+        },
+        {
+          "path": "Components/BBM/Data/BBS Maps/ZYLRM/ConfigureHorizontalTeam.sql",
+          "providerCriteria": ["ZYL_RichMainland_HorizontalTeam"]
+        },
+        {
+          "path": "Components/BBM/Data/BBS Maps/ZYLRM/ConfigureRing.sql",
+          "providerCriteria": ["ZYL_RichMainland_RingTeam"]
+        },
+        {
+          "path": "Components/BBM/Data/BBS Maps/ZYLRM/ConfigureTeam.sql",
+          "providerCriteria": ["ZYL_RichMainland_Team"]
+        }
+      ]
+    },
+    {
+      "table": "Maps_XP2",
+      "keySha256": "579500543488df4b70f5804cc3d7c261d4586113ba7502aa9cbd08a8ea832935",
+      "retentionKind": "independent-providers",
+      "finalValueProbeRequired": false,
+      "allowedConflictModes": ["replace"],
+      "rationale": "The four Rich Mainland variants are mutually exclusive MAP_SCRIPT providers and intentionally share the odd-player map-size support row.",
+      "occurrences": [
+        {
+          "path": "Components/BBM/Data/BBS Maps/ZYLRM/ConfigureFFA.sql",
+          "providerCriteria": ["ZYL_RichMainland_FFA"]
+        },
+        {
+          "path": "Components/BBM/Data/BBS Maps/ZYLRM/ConfigureHorizontalTeam.sql",
+          "providerCriteria": ["ZYL_RichMainland_HorizontalTeam"]
+        },
+        {
+          "path": "Components/BBM/Data/BBS Maps/ZYLRM/ConfigureRing.sql",
+          "providerCriteria": ["ZYL_RichMainland_RingTeam"]
+        },
+        {
+          "path": "Components/BBM/Data/BBS Maps/ZYLRM/ConfigureTeam.sql",
+          "providerCriteria": ["ZYL_RichMainland_Team"]
+        }
+      ]
+    },
+    {
+      "table": "Maps_XP2",
+      "keySha256": "5ae110fccaffd84dccf9f37109dc3cb05224053b8bf1e2e87b0b7e257a19d106",
+      "retentionKind": "independent-providers",
+      "finalValueProbeRequired": false,
+      "allowedConflictModes": ["replace"],
+      "rationale": "The four Rich Mainland variants are mutually exclusive MAP_SCRIPT providers and intentionally share the odd-player map-size support row.",
+      "occurrences": [
+        {
+          "path": "Components/BBM/Data/BBS Maps/ZYLRM/ConfigureFFA.sql",
+          "providerCriteria": ["ZYL_RichMainland_FFA"]
+        },
+        {
+          "path": "Components/BBM/Data/BBS Maps/ZYLRM/ConfigureHorizontalTeam.sql",
+          "providerCriteria": ["ZYL_RichMainland_HorizontalTeam"]
+        },
+        {
+          "path": "Components/BBM/Data/BBS Maps/ZYLRM/ConfigureRing.sql",
+          "providerCriteria": ["ZYL_RichMainland_RingTeam"]
+        },
+        {
+          "path": "Components/BBM/Data/BBS Maps/ZYLRM/ConfigureTeam.sql",
+          "providerCriteria": ["ZYL_RichMainland_Team"]
+        }
+      ]
+    },
+    {
+      "table": "Maps_XP2",
+      "keySha256": "ac25be205da2c734084452318cd327467ef31bcd1e17f85013783ed3d3839caa",
+      "retentionKind": "independent-providers",
+      "finalValueProbeRequired": false,
+      "allowedConflictModes": ["replace"],
+      "rationale": "The four Rich Mainland variants are mutually exclusive MAP_SCRIPT providers and intentionally share the odd-player map-size support row.",
+      "occurrences": [
+        {
+          "path": "Components/BBM/Data/BBS Maps/ZYLRM/ConfigureFFA.sql",
+          "providerCriteria": ["ZYL_RichMainland_FFA"]
+        },
+        {
+          "path": "Components/BBM/Data/BBS Maps/ZYLRM/ConfigureHorizontalTeam.sql",
+          "providerCriteria": ["ZYL_RichMainland_HorizontalTeam"]
+        },
+        {
+          "path": "Components/BBM/Data/BBS Maps/ZYLRM/ConfigureRing.sql",
+          "providerCriteria": ["ZYL_RichMainland_RingTeam"]
+        },
+        {
+          "path": "Components/BBM/Data/BBS Maps/ZYLRM/ConfigureTeam.sql",
+          "providerCriteria": ["ZYL_RichMainland_Team"]
+        }
+      ]
+    },
+    {
+      "table": "Maps_XP2",
+      "keySha256": "cf6edebd451397c748ca0c24b08dde25614e9b2366d9e39d9cf3a3d412779419",
+      "retentionKind": "independent-providers",
+      "finalValueProbeRequired": false,
+      "allowedConflictModes": ["replace"],
+      "rationale": "The four Rich Mainland variants are mutually exclusive MAP_SCRIPT providers and intentionally share the odd-player map-size support row.",
+      "occurrences": [
+        {
+          "path": "Components/BBM/Data/BBS Maps/ZYLRM/ConfigureFFA.sql",
+          "providerCriteria": ["ZYL_RichMainland_FFA"]
+        },
+        {
+          "path": "Components/BBM/Data/BBS Maps/ZYLRM/ConfigureHorizontalTeam.sql",
+          "providerCriteria": ["ZYL_RichMainland_HorizontalTeam"]
+        },
+        {
+          "path": "Components/BBM/Data/BBS Maps/ZYLRM/ConfigureRing.sql",
+          "providerCriteria": ["ZYL_RichMainland_RingTeam"]
+        },
+        {
+          "path": "Components/BBM/Data/BBS Maps/ZYLRM/ConfigureTeam.sql",
+          "providerCriteria": ["ZYL_RichMainland_Team"]
+        }
+      ]
+    },
+    {
+      "table": "Types",
+      "keySha256": "42269d8c2dcb4db88966a63bcf1753439096aa33ef93ca0278a6160d63fc5a57",
+      "retentionKind": "independent-providers",
+      "finalValueProbeRequired": false,
+      "allowedConflictModes": ["ignore"],
+      "rationale": "The four Rich Mainland variants are mutually exclusive MAP_SCRIPT providers and intentionally share the odd-player map-size support row.",
+      "occurrences": [
+        {
+          "path": "Components/BBM/Data/BBS Maps/ZYLRM/ConfigureFFA.sql",
+          "providerCriteria": ["ZYL_RichMainland_FFA"]
+        },
+        {
+          "path": "Components/BBM/Data/BBS Maps/ZYLRM/ConfigureHorizontalTeam.sql",
+          "providerCriteria": ["ZYL_RichMainland_HorizontalTeam"]
+        },
+        {
+          "path": "Components/BBM/Data/BBS Maps/ZYLRM/ConfigureRing.sql",
+          "providerCriteria": ["ZYL_RichMainland_RingTeam"]
+        },
+        {
+          "path": "Components/BBM/Data/BBS Maps/ZYLRM/ConfigureTeam.sql",
+          "providerCriteria": ["ZYL_RichMainland_Team"]
+        }
+      ]
+    },
+    {
+      "table": "Types",
+      "keySha256": "7a03864a82c6b0edb36927e4d052abe01157e68cc5fda97370375178b2c7c59a",
+      "retentionKind": "independent-providers",
+      "finalValueProbeRequired": false,
+      "allowedConflictModes": ["ignore"],
+      "rationale": "The four Rich Mainland variants are mutually exclusive MAP_SCRIPT providers and intentionally share the odd-player map-size support row.",
+      "occurrences": [
+        {
+          "path": "Components/BBM/Data/BBS Maps/ZYLRM/ConfigureFFA.sql",
+          "providerCriteria": ["ZYL_RichMainland_FFA"]
+        },
+        {
+          "path": "Components/BBM/Data/BBS Maps/ZYLRM/ConfigureHorizontalTeam.sql",
+          "providerCriteria": ["ZYL_RichMainland_HorizontalTeam"]
+        },
+        {
+          "path": "Components/BBM/Data/BBS Maps/ZYLRM/ConfigureRing.sql",
+          "providerCriteria": ["ZYL_RichMainland_RingTeam"]
+        },
+        {
+          "path": "Components/BBM/Data/BBS Maps/ZYLRM/ConfigureTeam.sql",
+          "providerCriteria": ["ZYL_RichMainland_Team"]
+        }
+      ]
+    },
+    {
+      "table": "Types",
+      "keySha256": "888be05e976fb6b8e1c7fcaa63a81d550515486eb40660dd68571b456819d170",
+      "retentionKind": "independent-providers",
+      "finalValueProbeRequired": false,
+      "allowedConflictModes": ["ignore"],
+      "rationale": "The four Rich Mainland variants are mutually exclusive MAP_SCRIPT providers and intentionally share the odd-player map-size support row.",
+      "occurrences": [
+        {
+          "path": "Components/BBM/Data/BBS Maps/ZYLRM/ConfigureFFA.sql",
+          "providerCriteria": ["ZYL_RichMainland_FFA"]
+        },
+        {
+          "path": "Components/BBM/Data/BBS Maps/ZYLRM/ConfigureHorizontalTeam.sql",
+          "providerCriteria": ["ZYL_RichMainland_HorizontalTeam"]
+        },
+        {
+          "path": "Components/BBM/Data/BBS Maps/ZYLRM/ConfigureRing.sql",
+          "providerCriteria": ["ZYL_RichMainland_RingTeam"]
+        },
+        {
+          "path": "Components/BBM/Data/BBS Maps/ZYLRM/ConfigureTeam.sql",
+          "providerCriteria": ["ZYL_RichMainland_Team"]
+        }
+      ]
+    },
+    {
+      "table": "Types",
+      "keySha256": "9c43d4b94fa36f62530b157e722db5660130b6b25c60b181697b52054e28ec7b",
+      "retentionKind": "independent-providers",
+      "finalValueProbeRequired": false,
+      "allowedConflictModes": ["ignore"],
+      "rationale": "The four Rich Mainland variants are mutually exclusive MAP_SCRIPT providers and intentionally share the odd-player map-size support row.",
+      "occurrences": [
+        {
+          "path": "Components/BBM/Data/BBS Maps/ZYLRM/ConfigureFFA.sql",
+          "providerCriteria": ["ZYL_RichMainland_FFA"]
+        },
+        {
+          "path": "Components/BBM/Data/BBS Maps/ZYLRM/ConfigureHorizontalTeam.sql",
+          "providerCriteria": ["ZYL_RichMainland_HorizontalTeam"]
+        },
+        {
+          "path": "Components/BBM/Data/BBS Maps/ZYLRM/ConfigureRing.sql",
+          "providerCriteria": ["ZYL_RichMainland_RingTeam"]
+        },
+        {
+          "path": "Components/BBM/Data/BBS Maps/ZYLRM/ConfigureTeam.sql",
+          "providerCriteria": ["ZYL_RichMainland_Team"]
+        }
+      ]
+    },
+    {
+      "table": "Types",
+      "keySha256": "fe185a004fc7577a1b286aec88ae3df00d38f1b15690c4cc495e9641e4079a4f",
+      "retentionKind": "independent-providers",
+      "finalValueProbeRequired": false,
+      "allowedConflictModes": ["ignore"],
+      "rationale": "The four Rich Mainland variants are mutually exclusive MAP_SCRIPT providers and intentionally share the odd-player map-size support row.",
+      "occurrences": [
+        {
+          "path": "Components/BBM/Data/BBS Maps/ZYLRM/ConfigureFFA.sql",
+          "providerCriteria": ["ZYL_RichMainland_FFA"]
+        },
+        {
+          "path": "Components/BBM/Data/BBS Maps/ZYLRM/ConfigureHorizontalTeam.sql",
+          "providerCriteria": ["ZYL_RichMainland_HorizontalTeam"]
+        },
+        {
+          "path": "Components/BBM/Data/BBS Maps/ZYLRM/ConfigureRing.sql",
+          "providerCriteria": ["ZYL_RichMainland_RingTeam"]
+        },
+        {
+          "path": "Components/BBM/Data/BBS Maps/ZYLRM/ConfigureTeam.sql",
+          "providerCriteria": ["ZYL_RichMainland_Team"]
+        }
+      ]
     }
   ]
 }

@@ -33,6 +33,12 @@ function DW_FeatureGenerator.Create(args)
 
 	local gridWidth, gridHeight = Map.GetGridSize();
 	local iEquator = math.ceil(gridHeight / 2) + iEquatorAdjustment;
+	local ignoreJungleLatitude = args.ignoreJungleLatitude == true;
+	local jungleClusterFrac = nil;
+	if args.clusterJungles == true then
+		jungleClusterFrac = Fractal.Create(gridWidth, gridHeight, 3,
+			TerrainBuilder.GetFractalFlags(), -1, -1);
+	end
 	-- create instance data
 	local instance = {
 	
@@ -47,6 +53,7 @@ function DW_FeatureGenerator.Create(args)
 		AddIceToMap				= DW_FeatureGenerator.AddIceToMap,
 		AddMarshAtPlot			= DW_FeatureGenerator.AddMarshAtPlot,
 		AddJunglesAtPlot		= DW_FeatureGenerator.AddJunglesAtPlot,
+		EnsureJungleMinimum	= DW_FeatureGenerator.EnsureJungleMinimum,
 		AddForestsAtPlot		= DW_FeatureGenerator.AddForestsAtPlot,
 		AddReefAtPlot			= DW_FeatureGenerator.AddReefAtPlot,
 		
@@ -72,6 +79,9 @@ function DW_FeatureGenerator.Create(args)
 		iceLat = 0.78;
 
 		RichNum = args.RichNum or 6,
+		ignoreJungleLatitude = ignoreJungleLatitude,
+		clusterJungles = args.clusterJungles == true,
+		jungleClusterFrac = jungleClusterFrac,
 
 		-- Rainforest on Earth mostly in Tropics, so keep in narrow band around Equator
 		iJungleBottom = iEquator - (35 * gridHeight / 180);
@@ -102,6 +112,22 @@ function DW_FeatureGenerator:AddFeatures(allow_mountains_on_coast, bRiversStartI
 	end
 
 	-- This map has no polar climate, so do not generate latitude-based ice caps.
+	if self.ignoreJungleLatitude then
+		-- Count the complete eligible canvas up front.  The ordinary equatorial
+		-- algorithm counts rows as it visits them; doing that on a long horizontal
+		-- map would fill one side first and make the result depend on scan order.
+		self.iNumJunglablePlots = 0;
+		for plotIndex = 0, Map.GetPlotCount() - 1 do
+			local candidate = Map.GetPlotByIndex(plotIndex);
+			if candidate ~= nil and not candidate:IsImpassable()
+					and candidate:GetFeatureType() == g_FEATURE_NONE
+					and TerrainBuilder.CanHaveFeature(candidate, g_FEATURE_JUNGLE) then
+				self.iNumJunglablePlots = self.iNumJunglablePlots + 1;
+			end
+		end
+		print("Horizontal jungle canvas:", self.iNumJunglablePlots,
+			"eligible plots; target", self.iJungleMaxPercent, "percent");
+	end
 	
 	-- 主循环，根据该类型的数量和百分比为所有单元格添加地貌，但不包括那些不能与其他地貌相邻的地貌
 	for y = 0, self.iGridH - 1, 1 do
@@ -148,6 +174,9 @@ function DW_FeatureGenerator:AddFeatures(allow_mountains_on_coast, bRiversStartI
 				end
 			end
 		end
+	end
+	if self.ignoreJungleLatitude then
+		self:EnsureJungleMinimum();
 	end
 	
 	print("Number of Tiles:      ", self.iNumLandPlots);
@@ -507,6 +536,34 @@ function DW_FeatureGenerator:AddJunglesAtPlot(plot, iX, iY)
 	--Jungle Check. First see if it can place the feature.
 	
 	if(TerrainBuilder.CanHaveFeature(plot, g_FEATURE_JUNGLE)) then
+		if self.ignoreJungleLatitude then
+			local terrainType = plot:GetTerrainType();
+			local clumpHeight = self.jungleClusterFrac ~= nil
+				and self.jungleClusterFrac:GetHeight(iX, iY) or 128;
+			local iScore = math.max(5, math.floor((clumpHeight - 150) * 1.4));
+			if plot:IsCoastalLand() then iScore = iScore + 15; end
+			if IsAdjacentToRiver(iX, iY) then iScore = iScore + 45; end
+			if terrainType == g_TERRAIN_TYPE_PLAINS then iScore = iScore + 20; end
+			local adjacent = TerrainBuilder.GetAdjacentFeatureCount(plot, g_FEATURE_JUNGLE);
+			if adjacent == 1 then iScore = iScore + 60
+			elseif adjacent == 2 or adjacent == 3 then iScore = iScore + 130
+			elseif adjacent >= 4 then iScore = iScore - 80 end
+			if TerrainBuilder.GetRandomNumber(400,
+					"ZYLRM horizontal clustered jungle") <= math.min(360, iScore) then
+				TerrainBuilder.SetFeatureType(plot, g_FEATURE_JUNGLE);
+				if terrainType == g_TERRAIN_TYPE_PLAINS_HILLS
+						or terrainType == g_TERRAIN_TYPE_GRASS_HILLS then
+					TerrainBuilder.SetTerrainType(plot, g_TERRAIN_TYPE_PLAINS_HILLS);
+				elseif TerrainBuilder.GetRandomNumber(18, "Hills Adjust") <= self.RichNum then
+					TerrainBuilder.SetTerrainType(plot, g_TERRAIN_TYPE_PLAINS_HILLS);
+				else
+					TerrainBuilder.SetTerrainType(plot, g_TERRAIN_TYPE_PLAINS);
+				end
+				self.iJungleCount = self.iJungleCount + 1;
+				return true;
+			end
+			return false;
+		end
 		if(iY >= self.iJungleBottom  and iY <= self.iJungleTop) then 
 			self.iNumJunglablePlots = self.iNumJunglablePlots + 1;
 			if(math.ceil(self.iJungleCount * 100 / self.iNumJunglablePlots) <= self.iJungleMaxPercent) then
@@ -566,6 +623,53 @@ function DW_FeatureGenerator:AddJunglesAtPlot(plot, iX, iY)
 	end
 
 	return false
+end
+------------------------------------------------------------------------------
+-- Guarantee that removing the latitude restriction does not reduce jungle
+-- quantity.  Highest fractal values are filled first and existing neighboring
+-- jungle receives a large bonus, producing several irregular clumps rather
+-- than one equatorial band or a uniform scatter.
+function DW_FeatureGenerator:EnsureJungleMinimum()
+	local target = math.floor(self.iNumJunglablePlots
+		* self.iJungleMaxPercent / 100 + 0.5);
+	if self.iJungleCount >= target then return end
+	local candidates = {};
+	for plotIndex = 0, Map.GetPlotCount() - 1 do
+		local plot = Map.GetPlotByIndex(plotIndex);
+		if plot ~= nil and not plot:IsImpassable()
+				and plot:GetFeatureType() == g_FEATURE_NONE
+				and TerrainBuilder.CanHaveFeature(plot, g_FEATURE_JUNGLE) then
+			local clumpHeight = self.jungleClusterFrac ~= nil
+				and self.jungleClusterFrac:GetHeight(plot:GetX(), plot:GetY()) or 128;
+			local adjacent = TerrainBuilder.GetAdjacentFeatureCount(plot, g_FEATURE_JUNGLE);
+			local score = clumpHeight * 100 + adjacent * 30000;
+			if plot:IsRiver() or IsAdjacentToRiver(plot:GetX(), plot:GetY()) then
+				score = score + 2500;
+			end
+			table.insert(candidates, { Plot = plot, Score = score });
+		end
+	end
+	table.sort(candidates, function(a, b)
+		if a.Score == b.Score then return a.Plot:GetIndex() < b.Plot:GetIndex() end
+		return a.Score > b.Score;
+	end);
+	local added = 0;
+	for _, candidate in ipairs(candidates) do
+		if self.iJungleCount >= target then break end
+		local plot = candidate.Plot;
+		local terrainType = plot:GetTerrainType();
+		TerrainBuilder.SetFeatureType(plot, g_FEATURE_JUNGLE);
+		if terrainType == g_TERRAIN_TYPE_PLAINS_HILLS
+				or terrainType == g_TERRAIN_TYPE_GRASS_HILLS then
+			TerrainBuilder.SetTerrainType(plot, g_TERRAIN_TYPE_PLAINS_HILLS);
+		else
+			TerrainBuilder.SetTerrainType(plot, g_TERRAIN_TYPE_PLAINS);
+		end
+		self.iJungleCount = self.iJungleCount + 1;
+		added = added + 1;
+	end
+	print("Horizontal jungle minimum:", "target", target,
+		"added", added, "final", self.iJungleCount);
 end
 ------------------------------------------------------------------------------
 function DW_FeatureGenerator:AddForestsAtPlot(plot, iX, iY)

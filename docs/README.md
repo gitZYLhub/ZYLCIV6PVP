@@ -1,6 +1,6 @@
 # 项目文档约定
 
-`docs` 保存开发资料，不进入 Civilization VI 运行包。玩家可见变化写入根目录 `CHANGELOG.md`，调查过程和验证证据写入 `WORKLOG.md`，长期设计与阶段门分别写入 `ARCHITECTURE.md`、`REFACTOR_PLAN.md` 和 `TEST_MATRIX.md`。
+`docs` 保存开发资料，不进入 Civilization VI 运行包。玩家可见变化写入根目录 `CHANGELOG.md`，调查过程和验证证据写入 `WORKLOG.md`，长期设计与阶段门分别写入 `ARCHITECTURE.md`、`REFACTOR_PLAN.md` 和 `TEST_MATRIX.md`；1.4.x 玩法移入 2.0 的逐项边界见 `PORT_1.4_TO_2.0.md`。
 
 ## 每次改动的最低记录
 

@@ -51,16 +51,16 @@
 		<Replace Tag="LOC_BOOST_TRIGGER_POLITICAL_PHILOSOPHY" Language="zh_Hans_CN"><Text>会晤2个城邦。</Text></Replace>
 
 		<Replace Tag="LOC_TRAIT_CIVILIZATION_MOTHER_RUSSIA_DESCRIPTION" Language="en_US">
-			<Text>Extra territory upon founding cities. +1 [ICON_PRODUCTION] Production from Tundra tiles. Tundra and Tundra Hills tiles adjacent to a Holy Site or Lavra provide +1 [ICON_FAITH] Faith. A city founded on Tundra with a Lavra and Shrine receives +1 [ICON_FOOD] Food in its City Center.[NEWLINE]Units do not receive damage from Blizzards. Civilizations at war with Russia receive +100% unit damage from Blizzards in Russian territory.[NEWLINE][NEWLINE][ICON_BULLET]Bias: T1 Tundra.</Text>
+			<Text>Extra territory upon founding cities. +1 [ICON_PRODUCTION] Production from Tundra tiles. Tundra and Tundra Hills tiles in a city with a Lavra provide +1 [ICON_FAITH] Faith, regardless of adjacency. A city founded on Tundra with a Lavra and Shrine receives +1 [ICON_FOOD] Food in its City Center.[NEWLINE]Units do not receive damage from Blizzards. Civilizations at war with Russia receive +100% unit damage from Blizzards in Russian territory.[NEWLINE][NEWLINE][ICON_BULLET]Bias: T1 Tundra.</Text>
 		</Replace>
 		<Replace Tag="LOC_TRAIT_CIVILIZATION_MOTHER_RUSSIA_EXPANSION2_DESCRIPTION" Language="en_US">
-			<Text>Extra territory upon founding cities. +1 [ICON_PRODUCTION] Production from Tundra tiles. Tundra and Tundra Hills tiles adjacent to a Holy Site or Lavra provide +1 [ICON_FAITH] Faith. A city founded on Tundra with a Lavra and Shrine receives +1 [ICON_FOOD] Food in its City Center.[NEWLINE]Units do not receive damage from Blizzards. Civilizations at war with Russia receive +100% unit damage from Blizzards in Russian territory.[NEWLINE][NEWLINE][ICON_BULLET]Bias: T1 Tundra.</Text>
+			<Text>Extra territory upon founding cities. +1 [ICON_PRODUCTION] Production from Tundra tiles. Tundra and Tundra Hills tiles in a city with a Lavra provide +1 [ICON_FAITH] Faith, regardless of adjacency. A city founded on Tundra with a Lavra and Shrine receives +1 [ICON_FOOD] Food in its City Center.[NEWLINE]Units do not receive damage from Blizzards. Civilizations at war with Russia receive +100% unit damage from Blizzards in Russian territory.[NEWLINE][NEWLINE][ICON_BULLET]Bias: T1 Tundra.</Text>
 		</Replace>
 		<Replace Tag="LOC_TRAIT_CIVILIZATION_MOTHER_RUSSIA_DESCRIPTION" Language="zh_Hans_CN">
-			<Text>建立城市可获得额外领土。冻土提供+1 [ICON_PRODUCTION] 生产力。与圣地或拉夫拉修道院相邻的冻土和冻土丘陵提供+1 [ICON_FAITH] 信仰值。建在冻土上的城市若拥有拉夫拉修道院和神社，其市中心+1 [ICON_FOOD] 食物。[NEWLINE]单位不会因暴风雪受损。与俄罗斯交战的文明，其单位在俄罗斯领土中遭遇暴风雪时受到的伤害+100%。[NEWLINE][NEWLINE][ICON_BULLET]出生地关联：T1冻土。</Text>
+			<Text>建立城市可获得额外领土。冻土提供+1 [ICON_PRODUCTION] 生产力。拥有拉夫拉修道院的城市，其冻土和冻土丘陵提供+1 [ICON_FAITH] 信仰值（无论是否相邻）。建在冻土上的城市若拥有拉夫拉修道院和神社，其市中心+1 [ICON_FOOD] 食物。[NEWLINE]单位不会因暴风雪受损。与俄罗斯交战的文明，其单位在俄罗斯领土中遭遇暴风雪时受到的伤害+100%。[NEWLINE][NEWLINE][ICON_BULLET]出生地关联：T1冻土。</Text>
 		</Replace>
 		<Replace Tag="LOC_TRAIT_CIVILIZATION_MOTHER_RUSSIA_EXPANSION2_DESCRIPTION" Language="zh_Hans_CN">
-			<Text>建立城市可获得额外领土。冻土提供+1 [ICON_PRODUCTION] 生产力。与圣地或拉夫拉修道院相邻的冻土和冻土丘陵提供+1 [ICON_FAITH] 信仰值。建在冻土上的城市若拥有拉夫拉修道院和神社，其市中心+1 [ICON_FOOD] 食物。[NEWLINE]单位不会因暴风雪受损。与俄罗斯交战的文明，其单位在俄罗斯领土中遭遇暴风雪时受到的伤害+100%。[NEWLINE][NEWLINE][ICON_BULLET]出生地关联：T1冻土。</Text>
+			<Text>建立城市可获得额外领土。冻土提供+1 [ICON_PRODUCTION] 生产力。拥有拉夫拉修道院的城市，其冻土和冻土丘陵提供+1 [ICON_FAITH] 信仰值（无论是否相邻）。建在冻土上的城市若拥有拉夫拉修道院和神社，其市中心+1 [ICON_FOOD] 食物。[NEWLINE]单位不会因暴风雪受损。与俄罗斯交战的文明，其单位在俄罗斯领土中遭遇暴风雪时受到的伤害+100%。[NEWLINE][NEWLINE][ICON_BULLET]出生地关联：T1冻土。</Text>
 		</Replace>
 
 		<Replace Tag="LOC_GOVERNOR_PROMOTION_RESOURCE_MANAGER_EXPEDITION_DESCRIPTION" Language="en_US">

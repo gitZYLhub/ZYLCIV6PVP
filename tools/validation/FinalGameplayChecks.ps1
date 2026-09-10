@@ -105,12 +105,9 @@ function Get-ZylFinalGameplayContractIssues {
             'MISSION_NEWCONTINENT_FAITH',
             'MISSION_NEWCONTINENT_FOOD',
             'MISSION_NEWCONTINENT_PRODUCTION',
-            'ZYL_RUSSIA_PLOT_ADJACENT_HOLY_SITE_OR_LAVRA',
-            'ZYL_RUSSIA_REQUIRES_PLOT_ADJACENT_HOLY_SITE',
-            'ZYL_RUSSIA_REQUIRES_PLOT_ADJACENT_LAVRA',
-            'ZYL_RUSSIA_REQUIRES_PLOT_ADJACENT_HOLY_SITE_OR_LAVRA',
-            'ZYL_RUSSIA_FLAT_TUNDRA_ADJACENT_HOLY_SITE_OR_LAVRA',
-            'ZYL_RUSSIA_TUNDRA_HILLS_ADJACENT_HOLY_SITE_OR_LAVRA',
+            'ZYL_RUSSIA_FLAT_TUNDRA_CITY_HAS_LAVRA',
+            'ZYL_RUSSIA_TUNDRA_HILLS_CITY_HAS_LAVRA',
+            'BBG_CITY_HAS_DISTRICT_LAVRA_REQUIREMENT',
             'BBG_SULEIMAN_COMBAT_BUFF',
             'OPPONENT_IS_IN_GOLDEN_AGE_REQUIREMENTS',
             'BBG_APPEAL_WYWH',
@@ -227,17 +224,21 @@ function Get-ZylFinalGameplayContractIssues {
         if ($gameplayOverrideSql -notmatch "(?s)SET\s+YieldChange\s*=\s*4\s+WHERE\s+FeatureType\s*=\s*'FEATURE_OASIS'\s+AND\s+YieldType\s*=\s*'YIELD_FOOD'.*?SET\s+YieldChange\s*=\s*1\s+WHERE\s+FeatureType\s*=\s*'FEATURE_OASIS'\s+AND\s+YieldType\s*=\s*'YIELD_GOLD'") {
             $issues.Add('Global Oasis feature yields are not forced to exactly 4 Food / 1 Gold.')
         }
-        if ($gameplayOverrideSql -notmatch "(?s)'ZYL_RUSSIA_REQUIRES_PLOT_ADJACENT_HOLY_SITE'\s*,\s*'REQUIREMENT_PLOT_ADJACENT_DISTRICT_TYPE_MATCHES'.*?'ZYL_RUSSIA_REQUIRES_PLOT_ADJACENT_LAVRA'\s*,\s*'REQUIREMENT_PLOT_ADJACENT_DISTRICT_TYPE_MATCHES'.*?'ZYL_RUSSIA_REQUIRES_PLOT_ADJACENT_HOLY_SITE'\s*,\s*'DistrictType'\s*,\s*'DISTRICT_HOLY_SITE'.*?'ZYL_RUSSIA_REQUIRES_PLOT_ADJACENT_LAVRA'\s*,\s*'DistrictType'\s*,\s*'DISTRICT_LAVRA'") {
-            $issues.Add('Russia Tundra Faith adjacency must accept both Holy Sites and Lavras.')
+        if ($gameplayOverrideSql -notmatch "(?s)\('ZYL_RUSSIA_FLAT_TUNDRA_CITY_HAS_LAVRA'\s*,\s*'REQUIRES_PLOT_HAS_TUNDRA'\).*?\('ZYL_RUSSIA_FLAT_TUNDRA_CITY_HAS_LAVRA'\s*,\s*'BBG_CITY_HAS_DISTRICT_LAVRA_REQUIREMENT'\).*?\('ZYL_RUSSIA_TUNDRA_HILLS_CITY_HAS_LAVRA'\s*,\s*'REQUIRES_PLOT_HAS_TUNDRA_HILLS'\).*?\('ZYL_RUSSIA_TUNDRA_HILLS_CITY_HAS_LAVRA'\s*,\s*'BBG_CITY_HAS_DISTRICT_LAVRA_REQUIREMENT'\)") {
+            $issues.Add('Russia Tundra Faith requirement sets must require the terrain and a Lavra in the owning city.')
         }
-        if ($gameplayOverrideSql -notmatch "(?s)'ZYL_RUSSIA_FLAT_TUNDRA_ADJACENT_HOLY_SITE_OR_LAVRA'.*?'ZYL_RUSSIA_REQUIRES_PLOT_ADJACENT_HOLY_SITE_OR_LAVRA'.*?'REQUIRES_PLOT_HAS_TUNDRA'.*?'ZYL_RUSSIA_TUNDRA_HILLS_ADJACENT_HOLY_SITE_OR_LAVRA'.*?'REQUIRES_PLOT_HAS_TUNDRA_HILLS'") {
-            $issues.Add('Russia Tundra Faith terrain requirement sets are not limited to adjacent Tundra/Tundra Hills.')
+        if ($gameplayOverrideSql -notmatch "(?s)SET\s+SubjectRequirementSetId\s*=\s*'ZYL_RUSSIA_FLAT_TUNDRA_CITY_HAS_LAVRA'\s+WHERE\s+ModifierId\s*=\s*'TRAIT_INCREASED_TUNDRA_FAITH'.*?SET\s+SubjectRequirementSetId\s*=\s*'ZYL_RUSSIA_TUNDRA_HILLS_CITY_HAS_LAVRA'\s+WHERE\s+ModifierId\s*=\s*'TRAIT_INCREASED_TUNDRA_HILLS_FAITH'") {
+            $issues.Add('Russia Tundra Faith modifiers are not bound to the Lavra-city terrain sets.')
         }
-        if ($gameplayOverrideSql -notmatch "(?s)SET\s+SubjectRequirementSetId\s*=\s*'ZYL_RUSSIA_FLAT_TUNDRA_ADJACENT_HOLY_SITE_OR_LAVRA'\s+WHERE\s+ModifierId\s*=\s*'TRAIT_INCREASED_TUNDRA_FAITH'.*?SET\s+SubjectRequirementSetId\s*=\s*'ZYL_RUSSIA_TUNDRA_HILLS_ADJACENT_HOLY_SITE_OR_LAVRA'\s+WHERE\s+ModifierId\s*=\s*'TRAIT_INCREASED_TUNDRA_HILLS_FAITH'") {
-            $issues.Add('Russia Tundra Faith modifiers are not bound to the adjacency-aware terrain sets.')
+        foreach ($russiaFaithSet in @('ZYL_RUSSIA_FLAT_TUNDRA_CITY_HAS_LAVRA', 'ZYL_RUSSIA_TUNDRA_HILLS_CITY_HAS_LAVRA')) {
+            if ($gameplayOverrideSql.Contains("('$russiaFaithSet', 'BBG_REQUIRES_DISTRICT_IS_NOT_CITY_CENTER')")) {
+                $issues.Add("Russia Lavra-city Tundra Faith incorrectly excludes the City Center: $russiaFaithSet")
+            }
         }
-        if ($gameplayOverrideSql.Contains('ZYL_RUSSIA_CITY_HAS_HOLY_SITE')) {
-            $issues.Add('Russia Tundra Faith still contains the obsolete city-wide Holy Site requirement.')
+        foreach ($obsoleteRussiaToken in @('ZYL_RUSSIA_PLOT_ADJACENT_HOLY_SITE_OR_LAVRA', 'ZYL_RUSSIA_REQUIRES_PLOT_ADJACENT_HOLY_SITE', 'ZYL_RUSSIA_REQUIRES_PLOT_ADJACENT_LAVRA', 'ZYL_RUSSIA_REQUIRES_PLOT_ADJACENT_HOLY_SITE_OR_LAVRA', 'ZYL_RUSSIA_FLAT_TUNDRA_ADJACENT_HOLY_SITE_OR_LAVRA', 'ZYL_RUSSIA_TUNDRA_HILLS_ADJACENT_HOLY_SITE_OR_LAVRA', 'ZYL_RUSSIA_CITY_HAS_HOLY_SITE')) {
+            if ($gameplayOverrideSql.Contains($obsoleteRussiaToken)) {
+                $issues.Add("Russia Tundra Faith still contains obsolete adjacency logic: $obsoleteRussiaToken")
+            }
         }
         if ($gameplayOverrideSql -notmatch "(?s)DELETE\s+FROM\s+StartBiasResources\s+WHERE\s+CivilizationType\s*=\s*'CIVILIZATION_FRANCE'.*?ResourceClassType\s*=\s*'RESOURCECLASS_LUXURY'") {
             $issues.Add('France does not clear its existing Luxury resource biases before rebuilding them.')

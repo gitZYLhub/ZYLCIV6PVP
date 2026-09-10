@@ -6,7 +6,7 @@ ZYL_RICH_MAINLAND_VARIANT = {
 	team = false,
 	ffa = true,
 	-- Legacy widths remain the denominator for the former FFA scale.  The
-	-- content widths preserve the pre-barrier FFA land canvas; four additional
+	-- content widths preserve the pre-barrier FFA land canvas; two additional
 	-- runtime columns are reserved for the continuous deep-ocean seam.
 	baseWidthsByHeight = {
 		[34] = 52,

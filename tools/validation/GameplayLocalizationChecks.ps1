@@ -237,11 +237,11 @@
         foreach ($russiaTag in @('LOC_TRAIT_CIVILIZATION_MOTHER_RUSSIA_DESCRIPTION', 'LOC_TRAIT_CIVILIZATION_MOTHER_RUSSIA_EXPANSION2_DESCRIPTION')) {
             $russiaEnglishNode = $gameplayOverrideTextXml.SelectSingleNode("/GameData/LocalizedText/*[@Tag='$russiaTag' and @Language='en_US']/Text")
             $russiaChineseNode = $gameplayOverrideTextXml.SelectSingleNode("/GameData/LocalizedText/*[@Tag='$russiaTag' and @Language='zh_Hans_CN']/Text")
-            if ($null -eq $russiaEnglishNode -or -not $russiaEnglishNode.InnerText.Contains('tiles adjacent to a Holy Site or Lavra')) {
-                $issues.Add("Russia English text does not describe Holy Site/Lavra adjacency: $russiaTag")
+            if ($null -eq $russiaEnglishNode -or -not $russiaEnglishNode.InnerText.Contains('tiles in a city with a Lavra provide +1') -or -not $russiaEnglishNode.InnerText.Contains('regardless of adjacency')) {
+                $issues.Add("Russia English text does not describe city-wide Tundra Faith after building a Lavra: $russiaTag")
             }
-            if ($null -eq $russiaChineseNode -or -not $russiaChineseNode.InnerText.Contains('与圣地或拉夫拉修道院相邻的冻土和冻土丘陵')) {
-                $issues.Add("Russia Chinese text does not describe Holy Site/Lavra adjacency: $russiaTag")
+            if ($null -eq $russiaChineseNode -or -not $russiaChineseNode.InnerText.Contains('拥有拉夫拉修道院的城市，其冻土和冻土丘陵提供+1') -or -not $russiaChineseNode.InnerText.Contains('无论是否相邻')) {
+                $issues.Add("Russia Chinese text does not describe city-wide Tundra Faith after building a Lavra: $russiaTag")
             }
         }
     }

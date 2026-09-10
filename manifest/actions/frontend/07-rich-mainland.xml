@@ -12,4 +12,28 @@
     </Properties>
     <File>Components/BBM/Lang/ZYL_RichMainland_Text.xml</File>
   </UpdateText>
+  <UpdateDatabase id="ZYL_HorizontalRichMainland_Config" manifestOrder="33">
+    <Properties>
+      <LoadOrder>200000101</LoadOrder>
+    </Properties>
+    <File>Components/BBM/Configuration/ZYL_HorizontalRichMainland_Config.xml</File>
+  </UpdateDatabase>
+  <UpdateText id="ZYL_HorizontalRichMainland_Text" manifestOrder="34">
+    <Properties>
+      <LoadOrder>200000101</LoadOrder>
+    </Properties>
+    <File>Components/BBM/Lang/ZYL_HorizontalRichMainland_Text.xml</File>
+  </UpdateText>
+  <UpdateDatabase id="ZYL_RingMainland_Config" manifestOrder="35">
+    <Properties>
+      <LoadOrder>200000102</LoadOrder>
+    </Properties>
+    <File>Components/BBM/Configuration/ZYL_RingMainland_Config.xml</File>
+  </UpdateDatabase>
+  <UpdateText id="ZYL_RingMainland_Text" manifestOrder="36">
+    <Properties>
+      <LoadOrder>200000102</LoadOrder>
+    </Properties>
+    <File>Components/BBM/Lang/ZYL_RingMainland_Text.xml</File>
+  </UpdateText>
 </FrontEndActionsFragment>

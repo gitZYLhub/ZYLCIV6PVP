@@ -1,8 +1,44 @@
--- Runtime-only dimensions for Team PVP Rich Mainland.  This action is
--- guarded by its map criterion, so other maps retain their own sizes.
-UPDATE Maps SET GridWidth=64, GridHeight=36, DefaultPlayers=2, NumNaturalWonders=3, Continents=1 WHERE MapSizeType='MAPSIZE_DUEL';
-UPDATE Maps SET GridWidth=66, GridHeight=48, DefaultPlayers=4, NumNaturalWonders=3, Continents=2 WHERE MapSizeType='MAPSIZE_TINY';
-UPDATE Maps SET GridWidth=66, GridHeight=62, DefaultPlayers=6, NumNaturalWonders=4, Continents=3 WHERE MapSizeType='MAPSIZE_SMALL';
-UPDATE Maps SET GridWidth=72, GridHeight=76, DefaultPlayers=8, NumNaturalWonders=5, Continents=4 WHERE MapSizeType='MAPSIZE_STANDARD';
-UPDATE Maps SET GridWidth=78, GridHeight=88, DefaultPlayers=10, NumNaturalWonders=6, Continents=5 WHERE MapSizeType='MAPSIZE_LARGE';
-UPDATE Maps SET GridWidth=80, GridHeight=94, DefaultPlayers=12, NumNaturalWonders=7, Continents=6 WHERE MapSizeType='MAPSIZE_HUGE';
+-- Team PVP Rich Mainland now uses the exact 2-12 size ladder of FFA Rich
+-- Mainland.  Only continent labeling and the default team placement differ.
+-- Standard size identifiers are reused for even counts; the odd-count rows
+-- are real gameplay MapSize rows registered only while this map is selected.
+UPDATE Maps SET GridWidth=60, GridHeight=34, DefaultPlayers=2, NumNaturalWonders=3, Continents=1 WHERE MapSizeType='MAPSIZE_DUEL';
+UPDATE Maps SET GridWidth=64, GridHeight=48, DefaultPlayers=4, NumNaturalWonders=3, Continents=2 WHERE MapSizeType='MAPSIZE_TINY';
+UPDATE Maps SET GridWidth=68, GridHeight=62, DefaultPlayers=6, NumNaturalWonders=4, Continents=3 WHERE MapSizeType='MAPSIZE_SMALL';
+UPDATE Maps SET GridWidth=72, GridHeight=74, DefaultPlayers=8, NumNaturalWonders=5, Continents=4 WHERE MapSizeType='MAPSIZE_STANDARD';
+UPDATE Maps SET GridWidth=76, GridHeight=84, DefaultPlayers=10, NumNaturalWonders=6, Continents=5 WHERE MapSizeType='MAPSIZE_LARGE';
+UPDATE Maps SET GridWidth=82, GridHeight=92, DefaultPlayers=12, NumNaturalWonders=7, Continents=6 WHERE MapSizeType='MAPSIZE_HUGE';
+
+INSERT OR IGNORE INTO Types (Type, Kind) VALUES
+('MAPSIZE_ZYL_FFA_3', 'KIND_MAPSIZE'),
+('MAPSIZE_ZYL_FFA_5', 'KIND_MAPSIZE'),
+('MAPSIZE_ZYL_FFA_7', 'KIND_MAPSIZE'),
+('MAPSIZE_ZYL_FFA_9', 'KIND_MAPSIZE'),
+('MAPSIZE_ZYL_FFA_11', 'KIND_MAPSIZE');
+
+INSERT OR REPLACE INTO Maps
+(MapSizeType, Name, Description, DefaultPlayers, NumNaturalWonders, GridWidth, GridHeight, PlateValue, Continents)
+VALUES
+('MAPSIZE_ZYL_FFA_3', 'LOC_ZYLRM_MAPSIZE_3_NAME', 'LOC_ZYLRM_TEAM_MAPSIZE_3_DESCRIPTION', 3, 3, 62, 42, 3, 2),
+('MAPSIZE_ZYL_FFA_5', 'LOC_ZYLRM_MAPSIZE_5_NAME', 'LOC_ZYLRM_TEAM_MAPSIZE_5_DESCRIPTION', 5, 4, 66, 56, 4, 3),
+('MAPSIZE_ZYL_FFA_7', 'LOC_ZYLRM_MAPSIZE_7_NAME', 'LOC_ZYLRM_TEAM_MAPSIZE_7_DESCRIPTION', 7, 5, 70, 68, 4, 4),
+('MAPSIZE_ZYL_FFA_9', 'LOC_ZYLRM_MAPSIZE_9_NAME', 'LOC_ZYLRM_TEAM_MAPSIZE_9_DESCRIPTION', 9, 6, 74, 80, 5, 5),
+('MAPSIZE_ZYL_FFA_11', 'LOC_ZYLRM_MAPSIZE_11_NAME', 'LOC_ZYLRM_TEAM_MAPSIZE_11_DESCRIPTION', 11, 7, 80, 88, 6, 6);
+
+INSERT OR REPLACE INTO Map_GreatPersonClasses
+(MapSizeType, GreatPersonClassType, MaxWorldInstances)
+VALUES
+('MAPSIZE_ZYL_FFA_3', 'GREAT_PERSON_CLASS_PROPHET', 3),
+('MAPSIZE_ZYL_FFA_5', 'GREAT_PERSON_CLASS_PROPHET', 4),
+('MAPSIZE_ZYL_FFA_7', 'GREAT_PERSON_CLASS_PROPHET', 5),
+('MAPSIZE_ZYL_FFA_9', 'GREAT_PERSON_CLASS_PROPHET', 6),
+('MAPSIZE_ZYL_FFA_11', 'GREAT_PERSON_CLASS_PROPHET', 7);
+
+INSERT OR REPLACE INTO Maps_XP2
+(MapSizeType, CO2For1DegreeTempRise, DesertPlotCountToLabel, MountainPlotCountToLabel, LakePlotCountToLabel, SeaPlotCountToLabel, OceanPlotCountToLabel)
+VALUES
+('MAPSIZE_ZYL_FFA_3', 750000, 3, 3, 1, 4, 8),
+('MAPSIZE_ZYL_FFA_5', 1250000, 4, 4, 1, 4, 8),
+('MAPSIZE_ZYL_FFA_7', 1750000, 4, 4, 1, 5, 10),
+('MAPSIZE_ZYL_FFA_9', 2250000, 5, 5, 1, 5, 10),
+('MAPSIZE_ZYL_FFA_11', 2750000, 5, 5, 1, 6, 12);

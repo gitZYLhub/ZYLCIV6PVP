@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GameData>
+	<LocalizedText>
+		<Row Tag="LOC_ZYLRM_RING_MAP_NAME" Language="zh_Hans_CN"><Text>组队PVP环形大陆</Text></Row>
+		<Row Tag="LOC_ZYLRM_RING_MAP_NAME" Language="en_US"><Text>Team PVP Ring Mainland</Text></Row>
+		<Row Tag="LOC_ZYLRM_RING_MAP_DESCRIPTION" Language="zh_Hans_CN"><Text>环形闭合的2至12人组队战场：陆地呈圆环状，径向厚约16格，人均约300格可用大陆陆地；环内是全部为浅海的内海，分布着岛屿与海洋资源，环外是浅海带与深海并同样分布岛屿与海洋资源。默认东西平分圆环，分界始终为过圆心的南北直径；队内按大厅顺序由北向南分布，队首与队末位于南北接缝前线，中间为后排。海岸文明中，队首出生在最北外海海岸、队末出生在最南外海海岸，其余出生在内海海岸。</Text></Row>
+		<Row Tag="LOC_ZYLRM_RING_MAP_DESCRIPTION" Language="en_US"><Text>A 2-12 player team battlefield shaped as a closed ring. The ring is about 16 tiles thick radially with roughly 300 usable mainland tiles per player. Inside the ring an all-shallow inner sea holds islands and sea resources; outside, a shallow shelf gives way to deep ocean with the same island and sea-resource coverage. Teams default to equal east/west halves split by the north-south diameter; within a team, lobby order runs north to south, so the first and last seats sit on the north/south seam frontline and middle seats stay in the rear. Coastal civilizations take the northern outer shore (first seat), the southern outer shore (last seat) or the inner shore (any other seat).</Text></Row>
+		<Row Tag="LOC_ZYLRM_RING_TEAM_SPAWN_DESCRIPTION" Language="zh_Hans_CN"><Text>默认东西分队：两队以过圆心的南北直径平分圆环，队伍人数不同也不移动分界；亦可选南北分队（以东西直径为界）。</Text></Row>
+		<Row Tag="LOC_ZYLRM_RING_TEAM_SPAWN_DESCRIPTION" Language="en_US"><Text>Defaults to east-west teams: the north-south diameter through the ring's center always gives equal halves, even when team sizes differ. North-south teams (split by the east-west diameter) are also available.</Text></Row>
+		<Row Tag="LOC_ZYLRM_RING_MAPSIZE_2_DESCRIPTION" Language="zh_Hans_CN"><Text>推荐2人；环带外半径18格（内半径2格），总图46×46。</Text></Row>
+		<Row Tag="LOC_ZYLRM_RING_MAPSIZE_2_DESCRIPTION" Language="en_US"><Text>Recommended for 2 players; ring of outer radius 18 (inner radius 2), 46×46 map.</Text></Row>
+		<Row Tag="LOC_ZYLRM_RING_MAPSIZE_3_DESCRIPTION" Language="zh_Hans_CN"><Text>推荐3人；环带外半径18格（内半径2格），总图46×46。</Text></Row>
+		<Row Tag="LOC_ZYLRM_RING_MAPSIZE_3_DESCRIPTION" Language="en_US"><Text>Recommended for 3 players; ring of outer radius 18 (inner radius 2), 46×46 map.</Text></Row>
+		<Row Tag="LOC_ZYLRM_RING_MAPSIZE_4_DESCRIPTION" Language="zh_Hans_CN"><Text>推荐4人；环带外半径20格（内半径4格），总图50×50。</Text></Row>
+		<Row Tag="LOC_ZYLRM_RING_MAPSIZE_4_DESCRIPTION" Language="en_US"><Text>Recommended for 4 players; ring of outer radius 20 (inner radius 4), 50×50 map.</Text></Row>
+		<Row Tag="LOC_ZYLRM_RING_MAPSIZE_5_DESCRIPTION" Language="zh_Hans_CN"><Text>推荐5人；环带外半径23格（内半径7格），总图56×56。</Text></Row>
+		<Row Tag="LOC_ZYLRM_RING_MAPSIZE_5_DESCRIPTION" Language="en_US"><Text>Recommended for 5 players; ring of outer radius 23 (inner radius 7), 56×56 map.</Text></Row>
+		<Row Tag="LOC_ZYLRM_RING_MAPSIZE_6_DESCRIPTION" Language="zh_Hans_CN"><Text>推荐6人；环带外半径26格（内半径10格），总图62×62。</Text></Row>
+		<Row Tag="LOC_ZYLRM_RING_MAPSIZE_6_DESCRIPTION" Language="en_US"><Text>Recommended for 6 players; ring of outer radius 26 (inner radius 10), 62×62 map.</Text></Row>
+		<Row Tag="LOC_ZYLRM_RING_MAPSIZE_7_DESCRIPTION" Language="zh_Hans_CN"><Text>推荐7人；环带外半径29格（内半径13格），总图68×68。</Text></Row>
+		<Row Tag="LOC_ZYLRM_RING_MAPSIZE_7_DESCRIPTION" Language="en_US"><Text>Recommended for 7 players; ring of outer radius 29 (inner radius 13), 68×68 map.</Text></Row>
+		<Row Tag="LOC_ZYLRM_RING_MAPSIZE_8_DESCRIPTION" Language="zh_Hans_CN"><Text>推荐8人；环带外半径32格（内半径16格），总图74×74。</Text></Row>
+		<Row Tag="LOC_ZYLRM_RING_MAPSIZE_8_DESCRIPTION" Language="en_US"><Text>Recommended for 8 players; ring of outer radius 32 (inner radius 16), 74×74 map.</Text></Row>
+		<Row Tag="LOC_ZYLRM_RING_MAPSIZE_9_DESCRIPTION" Language="zh_Hans_CN"><Text>推荐9人；环带外半径35格（内半径19格），总图80×80。</Text></Row>
+		<Row Tag="LOC_ZYLRM_RING_MAPSIZE_9_DESCRIPTION" Language="en_US"><Text>Recommended for 9 players; ring of outer radius 35 (inner radius 19), 80×80 map.</Text></Row>
+		<Row Tag="LOC_ZYLRM_RING_MAPSIZE_10_DESCRIPTION" Language="zh_Hans_CN"><Text>推荐10人；环带外半径38格（内半径22格），总图86×86。</Text></Row>
+		<Row Tag="LOC_ZYLRM_RING_MAPSIZE_10_DESCRIPTION" Language="en_US"><Text>Recommended for 10 players; ring of outer radius 38 (inner radius 22), 86×86 map.</Text></Row>
+		<Row Tag="LOC_ZYLRM_RING_MAPSIZE_11_DESCRIPTION" Language="zh_Hans_CN"><Text>推荐11人；环带外半径41格（内半径25格），总图92×92。</Text></Row>
+		<Row Tag="LOC_ZYLRM_RING_MAPSIZE_11_DESCRIPTION" Language="en_US"><Text>Recommended for 11 players; ring of outer radius 41 (inner radius 25), 92×92 map.</Text></Row>
+		<Row Tag="LOC_ZYLRM_RING_MAPSIZE_12_DESCRIPTION" Language="zh_Hans_CN"><Text>推荐12人；环带外半径44格（内半径28格），总图98×98。</Text></Row>
+		<Row Tag="LOC_ZYLRM_RING_MAPSIZE_12_DESCRIPTION" Language="en_US"><Text>Recommended for 12 players; ring of outer radius 44 (inner radius 28), 98×98 map.</Text></Row>
+	</LocalizedText>
+</GameData>

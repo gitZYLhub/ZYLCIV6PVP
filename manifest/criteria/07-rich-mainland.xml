@@ -25,5 +25,29 @@
       <ConfigurationId>MAP_SCRIPT</ConfigurationId>
       <Value>zyl_ffa_rich_mainland.lua</Value>
     </ConfigurationValueMatches>
+    <ConfigurationValueMatches>
+      <Group>Map</Group>
+      <ConfigurationId>MAP_SCRIPT</ConfigurationId>
+      <Value>zyl_team_horizontal_rich_mainland.lua</Value>
+    </ConfigurationValueMatches>
+    <ConfigurationValueMatches>
+      <Group>Map</Group>
+      <ConfigurationId>MAP_SCRIPT</ConfigurationId>
+      <Value>zyl_team_ring_mainland.lua</Value>
+    </ConfigurationValueMatches>
+  </Criteria>
+  <Criteria id="ZYL_RichMainland_HorizontalTeam" manifestOrder="109">
+    <ConfigurationValueMatches>
+      <Group>Map</Group>
+      <ConfigurationId>MAP_SCRIPT</ConfigurationId>
+      <Value>zyl_team_horizontal_rich_mainland.lua</Value>
+    </ConfigurationValueMatches>
+  </Criteria>
+  <Criteria id="ZYL_RichMainland_RingTeam" manifestOrder="110">
+    <ConfigurationValueMatches>
+      <Group>Map</Group>
+      <ConfigurationId>MAP_SCRIPT</ConfigurationId>
+      <Value>zyl_team_ring_mainland.lua</Value>
+    </ConfigurationValueMatches>
   </Criteria>
 </CriteriaFragment>

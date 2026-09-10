@@ -23,7 +23,10 @@ function Get-ZylDatabaseFinalValueContractIssues {
     }
 
     $expectedDuplicateKeys = @(
-        $DuplicateKeyAllowlist.groups | ForEach-Object {
+        $DuplicateKeyAllowlist.groups | Where-Object {
+            $probeProperty = $_.PSObject.Properties['finalValueProbeRequired']
+            $null -eq $probeProperty -or [bool]$probeProperty.Value
+        } | ForEach-Object {
             ([string]$_.keySha256).ToLowerInvariant()
         } | Sort-Object -Unique
     )

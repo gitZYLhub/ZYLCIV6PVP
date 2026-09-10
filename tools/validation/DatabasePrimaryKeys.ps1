@@ -1192,6 +1192,9 @@ function Get-ZylDatabaseDuplicateKeyAllowlistIssues {
         $table = [string]$definition.table
         $keySha256 = [string]$definition.keySha256
         $retentionKind = [string]$definition.retentionKind
+        $finalValueProbeProperty = $definition.PSObject.Properties['finalValueProbeRequired']
+        $hasInvalidFinalValueProbeFlag = $null -ne $finalValueProbeProperty -and
+            $finalValueProbeProperty.Value -isnot [bool]
         $allowedConflictModes = @(Get-ZylOrdinalSortedUniqueStrings -Values @(
                 $definition.allowedConflictModes
             ))
@@ -1199,6 +1202,7 @@ function Get-ZylDatabaseDuplicateKeyAllowlistIssues {
         if ([string]::IsNullOrWhiteSpace($table) -or
                 $keySha256 -notmatch '^[0-9a-f]{64}$' -or
                 $retentionKind -notin @('independent-providers', 'upstream-final-defense') -or
+                $hasInvalidFinalValueProbeFlag -or
                 $allowedConflictModes.Count -eq 0 -or
                 [string]::IsNullOrWhiteSpace([string]$definition.rationale) -or
                 @($definition.occurrences).Count -lt 2 -or

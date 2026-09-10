@@ -18,4 +18,12 @@
   <File manifestOrder="747">Components/BBM/Data/BBS Maps/Utility/ZYL_RVC_MountainsCliffs.lua</File>
   <File manifestOrder="748">Components/BBM/Data/BBS Maps/Utility/ZYL_RVC_ResourceGenerator.lua</File>
   <File manifestOrder="749">Components/BBM/Data/BBS Maps/Utility/ZYL_RVC_RiversLakes.lua</File>
+  <File manifestOrder="1078">Components/BBM/Configuration/ZYL_HorizontalRichMainland_Config.xml</File>
+  <File manifestOrder="1079">Components/BBM/Lang/ZYL_HorizontalRichMainland_Text.xml</File>
+  <File manifestOrder="1080">Components/BBM/Configuration/ZYL_RingMainland_Config.xml</File>
+  <File manifestOrder="1081">Components/BBM/Lang/ZYL_RingMainland_Text.xml</File>
+  <File manifestOrder="1082">Components/BBM/Data/BBS Maps/zyl_team_horizontal_rich_mainland.lua</File>
+  <File manifestOrder="1083">Components/BBM/Data/BBS Maps/zyl_team_ring_mainland.lua</File>
+  <File manifestOrder="1084">Components/BBM/Data/BBS Maps/ZYLRM/ConfigureHorizontalTeam.sql</File>
+  <File manifestOrder="1085">Components/BBM/Data/BBS Maps/ZYLRM/ConfigureRing.sql</File>
 </FilesFragment>

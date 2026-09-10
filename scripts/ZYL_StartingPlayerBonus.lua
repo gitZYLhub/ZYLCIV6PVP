@@ -1,5 +1,6 @@
--- Grants an optional one-time starting-unit bonus to a human participant by
--- lobby order. Empty, AI and observer rows are skipped.
+-- Grants an optional one-time starting-unit bonus to a living major
+-- civilization by lobby order. Empty and observer rows are skipped; human
+-- and AI civilization rows both count.
 
 local PLAYER_OPTION = "ZYL_STARTING_BONUS_PLAYER";
 local BONUS_OPTION = "ZYL_STARTING_BONUS_TYPE";
@@ -65,9 +66,11 @@ local function TryGrantStartingBonus()
 	end
 
 	local eligiblePlayerIDs = {};
-	for _, candidatePlayerID in ipairs(PlayerManager.GetAliveMajorIDs()) do
+	for _, candidatePlayerID in ipairs(PlayerManager.GetAliveMajorIDs() or {}) do
+		local candidatePlayer = Players[candidatePlayerID];
 		local candidateConfig = PlayerConfigurations[candidatePlayerID];
-		if candidateConfig ~= nil and candidateConfig:IsHuman()
+		if candidatePlayer ~= nil and candidatePlayer:IsAlive() and candidatePlayer:IsMajor()
+				and candidateConfig ~= nil
 				and candidateConfig:GetLeaderTypeName() ~= "LEADER_SPECTATOR" then
 			table.insert(eligiblePlayerIDs, candidatePlayerID);
 		end

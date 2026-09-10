@@ -86,7 +86,9 @@ function Get-ZylStartingBonusContractIssues {
             'local selectedBonusValue = GameConfiguration.GetValue(BONUS_OPTION)',
             'tonumber(selectedPlayerValue) or 0',
             'tonumber(selectedBonusValue) or 0',
-            'candidateConfig:IsHuman()',
+            'candidatePlayer:IsAlive()',
+            'candidatePlayer:IsMajor()',
+            'candidateConfig:GetLeaderTypeName() ~= "LEADER_SPECTATOR"',
             'table.sort(eligiblePlayerIDs)',
             'Game.GetCurrentGameTurn() ~= GameConfiguration.GetStartTurn()',
             'player:SetProperty(APPLIED_PROPERTY, selectedBonus)',
@@ -103,6 +105,9 @@ function Get-ZylStartingBonusContractIssues {
                 'Starting-player bonus options must be captured before tonumber; ' +
                 'an unset Civ VI option can return no values and cause a zero-argument call.'
             )
+        }
+        if ($startingBonusScript.Contains('candidateConfig:IsHuman()')) {
+            $issues.Add('Starting-player bonus script must not call IsHuman on PlayerConfigurations.')
         }
     }
 

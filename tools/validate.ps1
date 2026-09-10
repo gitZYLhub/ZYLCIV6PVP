@@ -1421,7 +1421,7 @@ if (Test-Path -LiteralPath $gameplayOverridePath -PathType Leaf) {
     }
 }
 
-# Rich Mainland publishes two map variants and protects their map-generation
+# Rich Mainland publishes four map variants and protects their map-generation
 # fallbacks, deterministic retry path, canvas geometry and ModInfo graph.
 foreach ($richMainlandIssue in @(Get-ZylRichMainlandContractIssues `
         -ProjectRoot $modRoot `

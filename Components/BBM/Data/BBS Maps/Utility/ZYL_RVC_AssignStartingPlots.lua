@@ -29,6 +29,12 @@ local Teamers_Ref_team = nil
 local Teamers_Ref_team_overturn = nil
 local TEAM_WRONG_SIDE_PENALTY = 120000000
 
+local function ZYL_RVC_UsesFFABaseline()
+    return type(ZYL_RICH_MAINLAND_VARIANT) == "table"
+        and (ZYL_RICH_MAINLAND_VARIANT.ffa == true
+            or ZYL_RICH_MAINLAND_VARIANT.ffaBaseline == true);
+end
+
 -- The experimental FFA-only option is deliberately read here, at the start
 -- placement boundary.  A missing value is treated as enabled for the FFA map
 -- (the XML default is also 1), while every non-FFA caller remains untouched.
@@ -48,6 +54,27 @@ local function ZYL_RVC_IsFFAUniformDistributionEnabled()
         return tonumber(configured) ~= 0;
     end
     return configured == true or configured == "true" or configured == "TRUE";
+end
+
+-- Optional Team-map-only soft preference inspired by BBM's sim/war ordering.
+-- Lobby rows are read in player-id order, matching the package's other lobby
+-- position features.  The preference is continuous instead of a hard split:
+-- earlier teammates prefer the rear edge, while later teammates prefer the
+-- center-facing front.  North/south bands and coastal placement remain higher
+-- priority constraints.
+local function ZYL_RVC_IsTeamDepthOrderEnabled()
+	if type(ZYL_RICH_MAINLAND_VARIANT) ~= "table"
+			or ZYL_RICH_MAINLAND_VARIANT.team ~= true then
+		return false;
+	end
+	local configured = MapConfiguration.GetValue("ZYL_RVC_TeamDepthOrder");
+	if configured == nil or configured == false then
+		return false;
+	end
+	if tonumber(configured) ~= nil then
+		return tonumber(configured) ~= 0;
+	end
+	return configured == true or configured == "true" or configured == "TRUE";
 end
 
 local ZYL_RVC_FFA_UNIFORM_ROW_CACHE = nil;
@@ -509,11 +536,110 @@ end
 local ZYL_RVC_EW_COAST_START_BONUS = 50000000
 local ZYL_RVC_TARGET_COAST_START_BONUS = 200000000
 local ZYL_RVC_OTHER_EW_COAST_START_BONUS = 100000000
+local ZYL_RVC_TEAM_DEPTH_ORDER_SCORE = 3000000
+local ZYL_RVC_HORIZONTAL_REMOTE_COAST_SCORE = 2500000
 local ZYL_RVC_COAST_ORIENTATION_CACHE = {}
 local ZYL_RVC_MAINLAND_AREA_ID = nil
+local ZYL_RVC_HORIZONTAL_COAST_DISTANCE_CACHE = {}
+local ZYL_RVC_HORIZONTAL_REMOTE_COAST_CIVS = {
+	CIVILIZATION_RUSSIA = true,
+	CIVILIZATION_CANADA = true,
+	CIVILIZATION_MALI = true,
+}
+
+local function ZYL_RVC_IsHorizontalMainland()
+	return type(ZYL_RICH_MAINLAND_VARIANT) == "table"
+		and ZYL_RICH_MAINLAND_VARIANT.horizontalMainland == true;
+end
+
+local function ZYL_RVC_IsRingMainland()
+	return type(ZYL_RICH_MAINLAND_VARIANT) == "table"
+		and ZYL_RICH_MAINLAND_VARIANT.ringMainland == true;
+end
+
+-- The ring's angular sector placement: rank within the team decides the
+-- north/south position along the half-ring, and the coastal rule decides the
+-- radial band (outer shore for the first/last seats, inner shore for the
+-- middle coastal seats, mid-ring for inland civilizations).  The hard
+-- constraint is the sector filter in __IsPlotInDistributionBand; these soft
+-- closeness scores only nudge the final pick inside the sector.
+local ZYL_RVC_RING_ANGLE_SCORE = 3000000;
+local ZYL_RVC_RING_RADIAL_SCORE = 3000000;
+
+local function ZYL_RVC_RingPlotAngleDegrees(plot)
+	local dx = plot:GetX() + 0.5 - (ZYL_RING_CX or 0);
+	local dy = plot:GetY() + 0.5 - (ZYL_RING_CY or 0);
+	return math.atan2(dy, dx) * 180 / math.pi;	-- -180..180
+end
+
+local function ZYL_RVC_RingPlotRadius(plot)
+	local dx = plot:GetX() + 0.5 - (ZYL_RING_CX or 0);
+	local dy = plot:GetY() + 0.5 - (ZYL_RING_CY or 0);
+	return math.sqrt(dx * dx + dy * dy);
+end
+
+-- Unwrap the plot angle (-180..180) into the band's own window.  East-half
+-- sectors live in [-90,90] and west-half sectors in [90,270], while the
+-- south-half seam sector reaches up to 360; a single +360 shift is not enough
+-- there, so keep adding full turns until the angle enters the window that
+-- starts 180 degrees below the sector's lower bound.
+local function ZYL_RVC_RingNormalizedAngle(plot, band)
+	local angle = ZYL_RVC_RingPlotAngleDegrees(plot);
+	local min = band.AngleMin or 0;
+	while angle < min - 180 do
+		angle = angle + 360;
+	end
+	return angle;
+end
+
+local function ZYL_RVC_RingSectorScore(plot, band)
+	if plot == nil or band == nil or band.Mode ~= "RING" then
+		return 0, nil, nil;
+	end
+	local angle = ZYL_RVC_RingNormalizedAngle(plot, band);
+	local target = band.AngleTarget or ((band.AngleMin + band.AngleMax) / 2);
+	local angleDiff = math.abs(angle - target);
+	if angleDiff > 180 then angleDiff = 360 - angleDiff end
+	local angleCloseness = 1 - math.min(1, angleDiff / 180);
+	local d = ZYL_RVC_RingPlotRadius(plot);
+	local radialTarget = band.RadialTarget or ((band.RadialMin + band.RadialMax) / 2);
+	local radialSpan = math.max(1, band.RadialMax - band.RadialMin);
+	local radialDiff = math.abs(d - radialTarget) / radialSpan;
+	local radialCloseness = 1 - math.min(1, radialDiff);
+	local score = math.floor(angleCloseness * ZYL_RVC_RING_ANGLE_SCORE + 0.5)
+		+ math.floor(radialCloseness * ZYL_RVC_RING_RADIAL_SCORE + 0.5);
+	return score, angleDiff, radialDiff;
+end
+
+-- Only the first seven rings matter to the terrain-conversion civilizations.
+-- Cache the nearest salt-water distance so rating the same start through
+-- several BBS regions and bands does not repeatedly scan the local hexes.
+local function ZYL_RVC_GetHorizontalCoastDistance(plot)
+	if plot == nil then return 0 end
+	local plotIndex = plot:GetIndex();
+	if ZYL_RVC_HORIZONTAL_COAST_DISTANCE_CACHE[plotIndex] ~= nil then
+		return ZYL_RVC_HORIZONTAL_COAST_DISTANCE_CACHE[plotIndex];
+	end
+	local nearest = 8;
+	for _, nearby in ipairs(Map.GetNeighborPlots(plot:GetX(), plot:GetY(), 7) or {}) do
+		if nearby ~= nil and nearby:IsWater() and not nearby:IsLake() then
+			nearest = math.min(nearest, Map.GetPlotDistance(
+				plot:GetX(), plot:GetY(), nearby:GetX(), nearby:GetY()));
+		end
+	end
+	ZYL_RVC_HORIZONTAL_COAST_DISTANCE_CACHE[plotIndex] = nearest;
+	return nearest;
+end
 
 local function ZYL_RVC_GetCoastOrientation(plot)
     if plot == nil or not plot:IsCoastalLand() then
+        return nil
+    end
+
+    if ZYL_RVC_IsRingMainland() then
+        -- The ring's shores face the inner or outer sea instead of the map
+        -- edges.  Coastal placement is already governed by the angular
+        -- sector's radial band, so no east/west orientation bonus applies.
         return nil
     end
 
@@ -535,6 +661,25 @@ local function ZYL_RVC_GetCoastOrientation(plot)
     end
 
     local gridWidth, gridHeight = Map.GetGridSize()
+	if ZYL_RVC_IsHorizontalMainland() then
+		local west = 0;
+		local east = 0;
+		local northSouth = 0;
+		for direction = 0, DirectionTypes.NUM_DIRECTION_TYPES - 1 do
+			local adjacentPlot = Map.GetAdjacentPlot(plot:GetX(), plot:GetY(), direction)
+			if adjacentPlot ~= nil and adjacentPlot:IsWater() and not adjacentPlot:IsLake() then
+				if plot:GetX() <= 7 then west = west + 1
+				elseif plot:GetX() >= gridWidth - 8 then east = east + 1
+				else northSouth = northSouth + 1 end
+			end
+		end
+		local orientation = nil
+		if west > 0 and west >= east then orientation = "WEST"
+		elseif east > 0 then orientation = "EAST"
+		elseif northSouth > 0 then orientation = "NS" end
+		ZYL_RVC_COAST_ORIENTATION_CACHE[plotIndex] = orientation
+		return orientation
+	end
     local west = 0
     local east = 0
     local northSouth = 0
@@ -559,13 +704,13 @@ local function ZYL_RVC_GetCoastOrientation(plot)
             )
             -- Compare depth beyond the generated sea margins, not raw edge
             -- distance.  FFA preserves its widened content canvas and adds a
-            -- separate four-column wrap-seam ocean.
+            -- separate two-column wrap-seam ocean.
             local legacyWidths = ZYL_RICH_MAINLAND_VARIANT.baseWidthsByHeight or {}
             local legacyWidth = tonumber(legacyWidths[gridHeight]) or gridWidth
-            local horizontalScale = ZYL_RICH_MAINLAND_VARIANT.ffa == true
+			local horizontalScale = ZYL_RVC_UsesFFABaseline()
 				and contentWidth / math.max(1, legacyWidth) or 1
-            local eastWestSeaMargin =
-                (ZYL_RICH_MAINLAND_VARIANT.ffa == true and 12 or 15) * horizontalScale
+			local eastWestSeaMargin =
+				(ZYL_RVC_UsesFFABaseline() and 12 or 15) * horizontalScale
             local northSouthSeaMargin = 6
             local eastWestDepth = horizontalEdgeDistance - eastWestSeaMargin
             local northSouthDepth = verticalEdgeDistance - northSouthSeaMargin
@@ -614,6 +759,7 @@ function BBS_AssignStartingPlots.Create(args)
 	ZYL_RVC_COAST_ORIENTATION_CACHE = {}
 	ZYL_RVC_MAINLAND_AREA_ID = nil
 	ZYL_RVC_FFA_UNIFORM_ROW_CACHE = nil
+	ZYL_RVC_HORIZONTAL_COAST_DISTANCE_CACHE = {}
 	if (GameConfiguration.GetValue("SpawnRecalculation") == nil) then
 		print("BBS_AssignStartingPlots: Map Type Not Supported!")
 		Game:SetProperty("BBS_RESPAWN",false)
@@ -633,11 +779,21 @@ function BBS_AssignStartingPlots.Create(args)
 	local cityStatePlacement = tonumber(cityStatePlacementValue) or 1
 	Game:SetProperty("ZYL_RVC_CITY_STATE_PLACEMENT", cityStatePlacement)
 	local ffaUniformDistributionEnabled = ZYL_RVC_IsFFAUniformDistributionEnabled()
+	-- The ring map always orders its sectors by team lobby position, so its
+	-- per-player lobby ranks are enabled regardless of the optional depth-order
+	-- lobby toggle (the depth-order soft score itself stays disabled on the
+	-- ring; the angular sector score replaces it).
+	local teamDepthOrderEnabled = (ZYL_RVC_IsRingMainland() or ZYL_RVC_IsTeamDepthOrderEnabled())
+		and (tonumber(Teamers_Config) == 1 or tonumber(Teamers_Config) == 2)
 	Game:SetProperty("ZYLRM_FFA_UNIFORM_DISTRIBUTION_ENABLED", ffaUniformDistributionEnabled)
 	Game:SetProperty("ZYLRM_FFA_UNIFORM_FALLBACK", false)
 	Game:SetProperty("ZYLRM_FFA_UNIFORM_DISTRIBUTION", not ffaUniformDistributionEnabled)
 	if ffaUniformDistributionEnabled then
 		print("ZYL RVC FFA uniform civilization distribution: enabled (placement retries only)")
+	end
+	Game:SetProperty("ZYLRM_TEAM_DEPTH_ORDER_ENABLED", teamDepthOrderEnabled)
+	if teamDepthOrderEnabled then
+		print("ZYL RVC team lobby depth order: enabled (soft inland preference)")
 	end
 	
 
@@ -753,10 +909,13 @@ function BBS_AssignStartingPlots.Create(args)
         __RateBiasPlots                     = BBS_AssignStartingPlots.__RateBiasPlots,
         __SettlePlot                   = BBS_AssignStartingPlots.__SettlePlot,
 		__InitMajorDistributionBands       = BBS_AssignStartingPlots.__InitMajorDistributionBands,
+		__InitRingDistributionBands        = BBS_AssignStartingPlots.__InitRingDistributionBands,
 		__GetAvailableDistributionBands    = BBS_AssignStartingPlots.__GetAvailableDistributionBands,
 		__IsPlotInDistributionBand         = BBS_AssignStartingPlots.__IsPlotInDistributionBand,
 		__ClaimDistributionBand            = BBS_AssignStartingPlots.__ClaimDistributionBand,
 		__IsPlotOnTeamSide                 = BBS_AssignStartingPlots.__IsPlotOnTeamSide,
+		__InitTeamLobbyDepthOrder          = BBS_AssignStartingPlots.__InitTeamLobbyDepthOrder,
+		__GetTeamLobbyDepthScore           = BBS_AssignStartingPlots.__GetTeamLobbyDepthScore,
 		__GetKupeNorthSouthMargin          = BBS_AssignStartingPlots.__GetKupeNorthSouthMargin,
 		__FindKupeInteriorOceanStart       = BBS_AssignStartingPlots.__FindKupeInteriorOceanStart,
 		__PlaceOceanStartCivsWithKupeMargin = BBS_AssignStartingPlots.__PlaceOceanStartCivsWithKupeMargin,
@@ -847,6 +1006,8 @@ function BBS_AssignStartingPlots.Create(args)
 		coastalSideTargets = {},
 		coastalPlayerIDs = {},
 		coastalSideCounts = { WEST = 0, EAST = 0 },
+		teamDepthOrderEnabled = teamDepthOrderEnabled,
+		teamLobbyDepthOrder = {},
         oceanStartFallbackPlayers = {},
 		ffaUniformDistributionEnabled = ffaUniformDistributionEnabled,
 		uniformDistributionScore = 0,
@@ -934,12 +1095,119 @@ function BBS_AssignStartingPlots:__Debug(...)
     --print (...);
 end
 ------------------------------------------------------------------------------
+------------------------------------------------------------------------------
+-- Ring-mainland distribution sectors.  Every land major civilization of a
+-- team receives exactly one angular sector: lobby rank 1 sits at the north
+-- (east-west teams) or east (north-south teams) seam, rank k at the opposite
+-- seam, and middle ranks along the arc between them.  The radial band follows
+-- the coastal rule: inland civilizations stay mid-ring, the first/last seat
+-- (when coastal) takes the outer shore at its seam, and every other coastal
+-- seat takes the inner shore.  Water-start civilizations never consume a
+-- sector; their separate ocean placement keeps the team-side checks.
+function BBS_AssignStartingPlots:__InitRingDistributionBands(landPlayers)
+	self.ringPlayerBand = self.ringPlayerBand or {};
+	local outerR = ZYL_RING_OUTER_R or 20;
+	local innerR = ZYL_RING_INNER_R or 2;
+	local teamsInOrder = {};
+	local teamPlayers = {};
+	for _, playerID in ipairs(landPlayers or {}) do
+		local player = Players[playerID];
+		if player ~= nil then
+			local team = player:GetTeam();
+			if teamPlayers[team] == nil then
+				teamPlayers[team] = {};
+				table.insert(teamsInOrder, team);
+			end
+			table.insert(teamPlayers[team], playerID);
+		end
+	end
+	local seamAngle = self.iTeamPlacement == 2 and 0 or 90;
+	for _, team in ipairs(teamsInOrder) do
+		local players = teamPlayers[team];
+		local k = #players;
+		local positiveSide = (team == Teamers_Ref_team and Teamers_Ref_team_overturn == true)
+			or (team ~= Teamers_Ref_team and Teamers_Ref_team_overturn == false);
+		local delta = 180 / math.max(1, k);
+		for rank = 1, k do
+			local playerID = players[rank];
+			local civilizationType = PlayerConfigurations[playerID]
+				and PlayerConfigurations[playerID]:GetCivilizationTypeName() or "";
+			local isCoast = SEAS_CIVILIZATION[civilizationType]
+				and not ZYL_IsInlandCoastVariantPlayer(playerID);
+			local angleMin, angleMax;
+			if self.iTeamPlacement == 2 then
+				-- North-south teams: seam at the east end, rank 1 toward east.
+				if positiveSide then
+					angleMin = (rank - 1) * delta; angleMax = rank * delta;
+				else
+					angleMin = 360 - rank * delta; angleMax = 360 - (rank - 1) * delta;
+				end
+			elseif positiveSide then
+				-- East-west teams, east half: rank 1 toward the north seam.
+				angleMin = 90 - rank * delta; angleMax = 90 - (rank - 1) * delta;
+			else
+				-- East-west teams, west half: rank 1 toward the north seam.
+				angleMin = 90 + (rank - 1) * delta; angleMax = 90 + rank * delta;
+			end
+			local radialMin, radialMax;
+			if not isCoast then
+				radialMin = innerR + 2; radialMax = outerR - 2;
+			elseif rank == 1 or (k > 1 and rank == k) then
+				radialMin = outerR - 3; radialMax = outerR;
+			else
+				radialMin = innerR; radialMax = innerR + 3;
+			end
+			local band = {
+				Mode = "RING",
+				Key = "RING:" .. team,
+				Index = rank,
+				Team = team,
+				Category = "ALL",
+				AngleMin = angleMin,
+				AngleMax = angleMax,
+				RadialMin = radialMin,
+				RadialMax = radialMax,
+				AngleTarget = (rank == 1 and seamAngle)
+					or (k > 1 and rank == k and ((seamAngle + 180) % 360))
+					or ((angleMin + angleMax) / 2),
+				RadialTarget = (radialMin + radialMax) / 2,
+				PlayerID = playerID,
+				Used = false,
+			};
+			self.ringPlayerBand[playerID] = band;
+			Game:SetProperty("ZYLRM_RING_SECTOR_" .. playerID, rank);
+			print("ZYL RVC ring sector:", playerID, "team", team, "rank", rank,
+				"of", k, "side", positiveSide and "positive" or "negative",
+				"angle", angleMin, "-", angleMax, "radial", radialMin, "-", radialMax);
+		end
+	end
+end
+-------------------------------------------------------------------------------
 function BBS_AssignStartingPlots:__InitMajorDistributionBands(landPlayers)
     self.distributionGroups = {};
     self.playerDistributionGroup = {};
     self.playerDistributionBands = {};
 
     if self.iTeamPlacement ~= 1 and self.iTeamPlacement ~= 2 then
+        return;
+    end
+
+    -- The reference team and its overturn are shared by every team-placement
+    -- path (including the ring's angular sectors), so resolve them before any
+    -- variant branch can return early.
+    if Teamers_Ref_team == nil then
+        local firstPlayerID = landPlayers and landPlayers[1]
+            or (self.waterMajorList and self.waterMajorList[1]);
+        if firstPlayerID ~= nil and Players[firstPlayerID] ~= nil then
+            Teamers_Ref_team = Players[firstPlayerID]:GetTeam();
+        end
+    end
+    if Teamers_Ref_team_overturn == nil then
+        Teamers_Ref_team_overturn = TerrainBuilder.GetRandomNumber(100, "Teamers_Ref_team_overturn - Lua") >= 50;
+    end
+
+    if ZYL_RVC_IsRingMainland() then
+        self:__InitRingDistributionBands(landPlayers);
         return;
     end
 
@@ -962,26 +1230,34 @@ function BBS_AssignStartingPlots:__InitMajorDistributionBands(landPlayers)
         self.playerDistributionGroup[playerID] = key;
     end
 
+    local horizontalMainland = ZYL_RVC_IsHorizontalMainland()
+		and self.iTeamPlacement == 1;
     for _, playerID in ipairs(landPlayers or {}) do
         if not self.oceanStartFallbackPlayers[playerID] then
 			local civilizationType = PlayerConfigurations[playerID]:GetCivilizationTypeName();
 			local isCoast = SEAS_CIVILIZATION[civilizationType]
 				and not ZYL_IsInlandCoastVariantPlayer(playerID);
-            addPlayer(playerID, isCoast and "COAST" or "INLAND");
+			-- Horizontal coast civilizations use the team outer shore and central
+			-- row corridor, but do not consume an inland X band.  This permits two
+			-- coast civilizations on one team without forcing the second inland.
+			if not (horizontalMainland and isCoast) then
+				addPlayer(playerID, isCoast and "COAST" or "INLAND");
+			end
         end
-    end
-    if Teamers_Ref_team == nil then
-        local firstPlayerID = landPlayers and landPlayers[1];
-        if firstPlayerID ~= nil and Players[firstPlayerID] ~= nil then
-            Teamers_Ref_team = Players[firstPlayerID]:GetTeam();
-        end
-    end
-    if Teamers_Ref_team_overturn == nil then
-        Teamers_Ref_team_overturn = TerrainBuilder.GetRandomNumber(100, "Teamers_Ref_team_overturn - Lua") >= 50;
     end
 
     local gridWidth, gridHeight = Map.GetGridSize();
-    local axisLength = self.iTeamPlacement == 1 and gridHeight or gridWidth;
+    if type(ZYL_RICH_MAINLAND_VARIANT) == "table"
+            and ZYL_RICH_MAINLAND_VARIANT.team == true and self.iTeamPlacement == 1 then
+        local referenceSide = Teamers_Ref_team_overturn and "EAST" or "WEST";
+        Game:SetProperty("ZYLRM_TEAM_SPLIT_X", gridWidth / 2);
+        Game:SetProperty("ZYLRM_TEAM_REFERENCE_TEAM", Teamers_Ref_team);
+        Game:SetProperty("ZYLRM_TEAM_REFERENCE_SIDE", referenceSide);
+        print("ZYL RVC strict team halves:", "splitX", gridWidth / 2,
+            "reference team", Teamers_Ref_team, "side", referenceSide);
+    end
+	local axisLength = horizontalMainland and gridWidth
+		or (self.iTeamPlacement == 1 and gridHeight or gridWidth);
     local normalizedMapSize = ZYL_RVC_GetNormalizedMapSize();
     local edgeMargin = 5;
     if normalizedMapSize == 3 then
@@ -992,9 +1268,23 @@ function BBS_AssignStartingPlots:__InitMajorDistributionBands(landPlayers)
         edgeMargin = 8;
     end
 
-    local minCoordinate = edgeMargin + 1;
-    local maxCoordinate = axisLength - edgeMargin;
-    local usableLength = math.max(1, maxCoordinate - minCoordinate + 1);
+	local minCoordinate = edgeMargin + 1;
+	local maxCoordinate = axisLength - edgeMargin;
+	if horizontalMainland then
+		-- The generated mainland is 10% shorter than the nominal frame; the
+		-- core exposes its actual west/east edges (with the nominal five-tile
+		-- frame as a fallback).  Keeping those shoreline columns in range lets
+		-- coast civilizations use the team outer coast while every other start
+		-- remains governed by bias scoring.
+		minCoordinate = ZYL_HORIZONTAL_WEST_BASE or 5;
+		maxCoordinate = ZYL_HORIZONTAL_EAST_BASE or (gridWidth - 6);
+		Game:SetProperty("ZYLRM_HORIZONTAL_START_AXIS", "X");
+		Game:SetProperty("ZYLRM_HORIZONTAL_START_ROW_MIN", math.floor(gridHeight / 2) - 2);
+		Game:SetProperty("ZYLRM_HORIZONTAL_START_ROW_MAX", math.floor(gridHeight / 2) + 2);
+		print("ZYL RVC horizontal start bands:", minCoordinate, maxCoordinate,
+			"central rows", math.floor(gridHeight / 2) - 2,
+			math.floor(gridHeight / 2) + 2);
+	end
 
 	local distributionGroupKeys = {};
 	for key in pairs(self.distributionGroups) do
@@ -1003,12 +1293,27 @@ function BBS_AssignStartingPlots:__InitMajorDistributionBands(landPlayers)
 	table.sort(distributionGroupKeys);
 	for _, key in ipairs(distributionGroupKeys) do
 		local group = self.distributionGroups[key];
+		local groupMin = minCoordinate;
+		local groupMax = maxCoordinate;
+		if horizontalMainland and Teamers_Ref_team ~= nil
+				and Teamers_Ref_team_overturn ~= nil then
+			local positiveSide = (group.Team == Teamers_Ref_team
+					and Teamers_Ref_team_overturn == true)
+				or (group.Team ~= Teamers_Ref_team
+					and Teamers_Ref_team_overturn == false);
+			if positiveSide then
+				groupMin = math.max(groupMin, math.ceil(gridWidth / 2));
+			else
+				groupMax = math.min(groupMax, math.floor(gridWidth / 2) - 1);
+			end
+		end
+		local groupUsableLength = math.max(1, groupMax - groupMin + 1);
         local bandCount = #group.Players;
         for bandIndex = 1, bandCount do
-            local bandMin = minCoordinate + math.floor((bandIndex - 1) * usableLength / bandCount);
-            local bandMax = minCoordinate + math.floor(bandIndex * usableLength / bandCount) - 1;
+            local bandMin = groupMin + math.floor((bandIndex - 1) * groupUsableLength / bandCount);
+            local bandMax = groupMin + math.floor(bandIndex * groupUsableLength / bandCount) - 1;
             if bandIndex == bandCount then
-                bandMax = maxCoordinate;
+                bandMax = groupMax;
             end
             group.Bands[bandIndex] = {
                 Key = key,
@@ -1018,6 +1323,9 @@ function BBS_AssignStartingPlots:__InitMajorDistributionBands(landPlayers)
                 Min = bandMin,
                 Max = math.max(bandMin, bandMax),
                 Center = (bandMin + math.max(bandMin, bandMax)) / 2,
+				Axis = horizontalMainland and "X" or nil,
+				CrossMin = horizontalMainland and math.floor(gridHeight / 2) - 2 or nil,
+				CrossMax = horizontalMainland and math.floor(gridHeight / 2) + 2 or nil,
                 Used = false
             };
         end
@@ -1028,6 +1336,16 @@ function BBS_AssignStartingPlots:__GetAvailableDistributionBands(playerID)
     local assignedBand = self.playerDistributionBands[playerID];
     if assignedBand ~= nil then
         return { assignedBand };
+    end
+
+    if ZYL_RVC_IsRingMainland() then
+        -- Every ring player owns exactly one pre-assigned sector band; only
+        -- that band is offered, which makes the lobby-order placement hard.
+        local ringBand = self.ringPlayerBand and self.ringPlayerBand[playerID] or nil;
+        if ringBand ~= nil then
+            return { ringBand };
+        end
+        return {};
     end
 
     local key = self.playerDistributionGroup[playerID];
@@ -1048,7 +1366,33 @@ function BBS_AssignStartingPlots:__IsPlotInDistributionBand(plot, band)
         return true;
     end
 
-    local coordinate = self.iTeamPlacement == 1 and plot:GetY() or plot:GetX();
+    if band.Mode == "RING" then
+        -- Angular sector plus radial band.  The plot angle is unwrapped into
+        -- the sector's own window, so west-half (90..270) and south-half
+        -- (180..360) sectors compare correctly; the radial band decides the
+        -- inner/outer shore for coastal seats.
+        local angle = ZYL_RVC_RingNormalizedAngle(plot, band);
+        local d = ZYL_RVC_RingPlotRadius(plot);
+        local paddingRatio = 0;
+        if self.iPlacementAttempt >= 19 then
+            paddingRatio = 1;
+        elseif self.iPlacementAttempt >= 13 then
+            paddingRatio = 0.5;
+        elseif self.iPlacementAttempt >= 7 then
+            paddingRatio = 0.25;
+        end
+        local angleSpan = math.max(1, band.AngleMax - band.AngleMin);
+        local anglePadding = angleSpan * paddingRatio;
+        local radialSpan = math.max(1, band.RadialMax - band.RadialMin);
+        local radialPadding = math.max(1, radialSpan * paddingRatio);
+        return angle >= band.AngleMin - anglePadding
+            and angle <= band.AngleMax + anglePadding
+            and d >= band.RadialMin - radialPadding
+            and d <= band.RadialMax + radialPadding;
+    end
+
+    local coordinate = band.Axis == "X" and plot:GetX()
+		or (self.iTeamPlacement == 1 and plot:GetY() or plot:GetX());
     local bandWidth = math.max(1, band.Max - band.Min + 1);
     local paddingRatio = 0;
     if self.iPlacementAttempt >= 19 then
@@ -1059,7 +1403,17 @@ function BBS_AssignStartingPlots:__IsPlotInDistributionBand(plot, band)
         paddingRatio = 0.25;
     end
     local padding = math.ceil(bandWidth * paddingRatio);
-    return coordinate >= band.Min - padding and coordinate <= band.Max + padding;
+	local inAxisBand = coordinate >= band.Min - padding
+		and coordinate <= band.Max + padding;
+	if not inAxisBand or band.CrossMin == nil or band.CrossMax == nil then
+		return inAxisBand;
+	end
+	local crossPadding = 0;
+	if self.iPlacementAttempt >= 19 then crossPadding = 4
+	elseif self.iPlacementAttempt >= 13 then crossPadding = 2
+	elseif self.iPlacementAttempt >= 7 then crossPadding = 1 end
+	return plot:GetY() >= band.CrossMin - crossPadding
+		and plot:GetY() <= band.CrossMax + crossPadding;
 end
 ------------------------------------------------------------------------------
 function BBS_AssignStartingPlots:__ClaimDistributionBand(playerID, band)
@@ -1085,6 +1439,86 @@ function BBS_AssignStartingPlots:__IsPlotOnTeamSide(plot, team)
         return positiveSide == (plot:GetX() >= gridWidth / 2);
     end
     return positiveSide == (plot:GetY() >= gridHeight / 2);
+end
+------------------------------------------------------------------------------
+function BBS_AssignStartingPlots:__InitTeamLobbyDepthOrder(majorPlayerIDs)
+	self.teamLobbyDepthOrder = {};
+	if self.teamDepthOrderEnabled ~= true
+			or (self.iTeamPlacement ~= 1 and self.iTeamPlacement ~= 2) then
+		return;
+	end
+
+	local orderedPlayers = {};
+	for _, playerID in ipairs(majorPlayerIDs or {}) do
+		local player = Players[playerID];
+		local playerConfig = PlayerConfigurations[playerID];
+		if player ~= nil and playerConfig ~= nil
+				and playerConfig:GetLeaderTypeName() ~= "LEADER_SPECTATOR"
+			and playerConfig:GetHandicapTypeID() ~= 2021024770 then
+			table.insert(orderedPlayers, playerID);
+		end
+	end
+	-- Civilization player IDs follow lobby slot order.  Sort explicitly so the
+	-- front/back preference remains deterministic even if an engine build
+	-- returns the alive-player array in a different traversal order.
+	table.sort(orderedPlayers);
+	local teamSizes = {};
+	for _, playerID in ipairs(orderedPlayers) do
+		local team = Players[playerID]:GetTeam();
+		teamSizes[team] = (teamSizes[team] or 0) + 1;
+	end
+	local teamRanks = {};
+	for _, playerID in ipairs(orderedPlayers) do
+		local team = Players[playerID]:GetTeam();
+		local rank = (teamRanks[team] or 0) + 1;
+		teamRanks[team] = rank;
+		self.teamLobbyDepthOrder[playerID] = {
+			Rank = rank,
+			TeamSize = teamSizes[team],
+		};
+		Game:SetProperty("ZYLRM_TEAM_DEPTH_RANK_" .. playerID, rank);
+		Game:SetProperty("ZYLRM_TEAM_DEPTH_SIZE_" .. playerID, teamSizes[team]);
+		print("ZYL RVC team lobby depth rank:", playerID, "team", team,
+			"rank", rank, "of", teamSizes[team]);
+	end
+end
+------------------------------------------------------------------------------
+function BBS_AssignStartingPlots:__GetTeamLobbyDepthScore(playerID, plot)
+	-- The ring map replaces the axis-depth preference with its angular sector
+	-- score; the depth order machinery only supplies its lobby ranks there.
+	if self.teamDepthOrderEnabled ~= true
+			or (self.iTeamPlacement ~= 1 and self.iTeamPlacement ~= 2)
+			or plot == nil or Players[playerID] == nil
+			or Teamers_Ref_team == nil or Teamers_Ref_team_overturn == nil
+			or ZYL_RVC_IsRingMainland() then
+		return 0, nil, nil;
+	end
+	local order = self.teamLobbyDepthOrder[playerID];
+	if order == nil or order.TeamSize == nil or order.TeamSize <= 1 then
+		return 0, nil, nil;
+	end
+
+	-- Keep targets away from both the outer ocean and the exact battle line.
+	-- Rank 1 targets 75% depth into its half; the last rank targets 25%.
+	local rankRatio = (order.Rank - 1) / math.max(1, order.TeamSize - 1);
+	local targetDepth = 0.75 - 0.50 * rankRatio;
+	local gridWidth, gridHeight = Map.GetGridSize();
+	local axisLength = self.iTeamPlacement == 1 and gridWidth or gridHeight;
+	local halfAxis = axisLength / 2;
+	local team = Players[playerID]:GetTeam();
+	local positiveSide = (team == Teamers_Ref_team and Teamers_Ref_team_overturn == true)
+		or (team ~= Teamers_Ref_team and Teamers_Ref_team_overturn == false);
+	local actualDepth;
+	local coordinate = self.iTeamPlacement == 1 and plot:GetX() or plot:GetY();
+	if positiveSide then
+		actualDepth = (coordinate + 0.5 - halfAxis) / math.max(1, halfAxis);
+	else
+		actualDepth = (halfAxis - (coordinate + 0.5)) / math.max(1, halfAxis);
+	end
+	actualDepth = math.max(0, math.min(1, actualDepth));
+	local closeness = 1 - math.min(1, math.abs(actualDepth - targetDepth));
+	local score = math.floor(closeness * ZYL_RVC_TEAM_DEPTH_ORDER_SCORE + 0.5);
+	return score, targetDepth, actualDepth;
 end
 ------------------------------------------------------------------------------
 function BBS_AssignStartingPlots:__GetKupeNorthSouthMargin()
@@ -1163,6 +1597,48 @@ function BBS_AssignStartingPlots:__PlaceOceanStartCivsWithKupeMargin()
             end
             startPlot = adjustedStartPlot;
         end
+        -- Ocean-start civilizations belong to the same strict 50/50 team
+        -- split as land civilizations.  Firaxis' ocean placer does not know
+        -- about BBS_Team_Spawn, so move a wrong-side result to the nearest
+        -- available deep-ocean tile on that team's half.  Keep Kupe inside the
+        -- same north/south safety margin used above.
+        local strictTeamHalf = type(ZYL_RICH_MAINLAND_VARIANT) == "table"
+            and ZYL_RICH_MAINLAND_VARIANT.team == true and self.iTeamPlacement == 1;
+        if strictTeamHalf and waterPlayer ~= nil and startPlot ~= nil
+                and not self:__IsPlotOnTeamSide(startPlot, waterPlayer:GetTeam()) then
+            local originalTeamPlot = startPlot;
+            local requireInteriorRows = leaderType == "LEADER_KUPE";
+            local interiorMargin = requireInteriorRows and self:__GetKupeNorthSouthMargin() or 0;
+            local _, gridHeight = Map.GetGridSize();
+            local bestTeamPlot = nil;
+            local bestTeamDistance = nil;
+            for plotIndex = 0, Map.GetPlotCount() - 1 do
+                local candidate = Map.GetPlotByIndex(plotIndex);
+                if candidate ~= nil and candidate:IsWater() and not candidate:IsLake()
+                        and candidate:GetTerrainType() == g_TERRAIN_TYPE_OCEAN
+                        and not candidate:IsImpassable() and not candidate:IsNaturalWonder()
+                        and not unavailableOceanStartIndices[plotIndex]
+                        and candidate:GetY() >= interiorMargin
+                        and candidate:GetY() <= gridHeight - 1 - interiorMargin
+                        and self:__IsPlotOnTeamSide(candidate, waterPlayer:GetTeam()) then
+                    local distance = Map.GetPlotDistance(originalTeamPlot:GetIndex(), plotIndex);
+                    if bestTeamPlot == nil or distance < bestTeamDistance
+                            or (distance == bestTeamDistance and plotIndex < bestTeamPlot:GetIndex()) then
+                        bestTeamPlot = candidate;
+                        bestTeamDistance = distance;
+                    end
+                end
+            end
+            if bestTeamPlot ~= nil then
+                print("Ocean start adjusted to team half:", playerID,
+                    originalTeamPlot:GetX(), originalTeamPlot:GetY(), "->",
+                    bestTeamPlot:GetX(), bestTeamPlot:GetY());
+                startPlot = bestTeamPlot;
+            else
+                print("Unable to move ocean start to required team half:", playerID);
+                startPlot = nil;
+            end
+        end
         if waterPlayer ~= nil and startPlot ~= nil then
             waterPlayer:SetStartingPlot(startPlot);
             unavailableOceanStartIndices[startPlot:GetIndex()] = true;
@@ -1177,16 +1653,12 @@ function BBS_AssignStartingPlots:__PlaceOceanStartCivsWithKupeMargin()
 end
 ------------------------------------------------------------------------------
 function BBS_AssignStartingPlots:__ValidateMajorDistribution()
-	-- FFA's experimental option is independent of the team-direction bands.
-	-- Check it first so a manually changed BBS_Team_Spawn value cannot disable
-	-- the FFA uniformity guard (and Team PVP never reaches this branch).
 	if self.ffaUniformDistributionEnabled == true then
 		return self:__ValidateFFAUniformDistribution();
 	end
     if self.iTeamPlacement ~= 1 and self.iTeamPlacement ~= 2 then
         return true;
     end
-
 	local distributionPlayerIDs = {};
 	for playerID in pairs(self.playerDistributionGroup) do
 		table.insert(distributionPlayerIDs, playerID);
@@ -1200,10 +1672,16 @@ function BBS_AssignStartingPlots:__ValidateMajorDistribution()
             print("Major distribution validation failed for player", playerID);
             return false;
         end
-        if self.iPlacementAttempt < 19 and not self:__IsPlotOnTeamSide(plot, player:GetTeam()) then
-            print("Major distribution team-side validation failed for player", playerID);
-            return false;
-        end
+		-- Team Rich Mainland always keeps the east/west boundary at the exact map
+		-- midpoint.  Do not relax this on late attempts: a 3v4 lobby still gives
+		-- each team one geometric half rather than sizing halves by player count.
+		local strictTeamHalf = type(ZYL_RICH_MAINLAND_VARIANT) == "table"
+			and ZYL_RICH_MAINLAND_VARIANT.team == true and self.iTeamPlacement == 1;
+		if (strictTeamHalf or self.iPlacementAttempt < 19)
+				and not self:__IsPlotOnTeamSide(plot, player:GetTeam()) then
+			print("Major distribution team-side validation failed for player", playerID);
+			return false;
+		end
     end
     return true;
 end
@@ -1286,7 +1764,8 @@ function BBS_AssignStartingPlots:__InitStartingData()
     self.iNumSpecMajorCivs = 0;
     self.iNumWaterMajorCivs = 0;
 
-    tempMajorList = PlayerManager.GetAliveMajorIDs();
+	tempMajorList = PlayerManager.GetAliveMajorIDs();
+	self:__InitTeamLobbyDepthOrder(tempMajorList);
 	
     
     for i = 1, PlayerManager.GetAliveMajorsCount() do
@@ -2037,20 +2516,47 @@ function BBS_AssignStartingPlots:__RateBiasPlots(biases, startPlots, major, regi
 	local region_bonus = 0
 	 local gridWidth, gridHeight = Map.GetGridSize();
 	local isInlandCoastVariant = ZYL_IsInlandCoastVariantPlayer(iPlayer);
+	local isCoastalStartCivilization = SEAS_CIVILIZATION[civilizationType]
+		or (self.oceanStartFallbackPlayers ~= nil
+			and self.oceanStartFallbackPlayers[iPlayer] == true)
+	local usesCoastalPlacement = isCoastalStartCivilization and not isInlandCoastVariant
 	local hydrophobicCoastPenalties = {};
 	local hydrophobicMetrics = {};
 
     if distributionBand ~= nil then
         local filteredPlots = {};
+		local strictTeamHalf = type(ZYL_RICH_MAINLAND_VARIANT) == "table"
+			and ZYL_RICH_MAINLAND_VARIANT.team == true
+			and self.iTeamPlacement == 1;
         for _, plot in ipairs(startPlots) do
             local onTeamSide = self:__IsPlotOnTeamSide(plot, distributionBand.Team);
             if self:__IsPlotInDistributionBand(plot, distributionBand)
-                    and (onTeamSide or self.iPlacementAttempt >= 19) then
+                    and (onTeamSide or (not strictTeamHalf and self.iPlacementAttempt >= 19)) then
                 table.insert(filteredPlots, plot);
             end
         end
         startPlots = filteredPlots;
     end
+
+	if major and ZYL_RVC_IsHorizontalMainland() and self.iTeamPlacement ~= 2 then
+		local horizontalPlots = {};
+		local _, gridHeight = Map.GetGridSize();
+		local centerY = math.floor(gridHeight / 2);
+		local rowRadius = 2;
+		if self.iPlacementAttempt >= 19 then rowRadius = 6
+		elseif self.iPlacementAttempt >= 13 then rowRadius = 4
+		elseif self.iPlacementAttempt >= 7 then rowRadius = 3 end
+		local team = Players[iPlayer] ~= nil and Players[iPlayer]:GetTeam() or nil;
+		for _, horizontalPlot in ipairs(startPlots) do
+			local onTeamSide = team == nil or self.iTeamPlacement ~= 1
+				or self:__IsPlotOnTeamSide(horizontalPlot, team);
+			if math.abs(horizontalPlot:GetY() - centerY) <= rowRadius
+					and onTeamSide then
+				table.insert(horizontalPlots, horizontalPlot);
+			end
+		end
+		startPlots = horizontalPlots;
+	end
 
 	if major and ZYL_RVC_HasHydrophobicBias(biases) then
 		local hydrophobicPlots = {};
@@ -2141,6 +2647,19 @@ function BBS_AssignStartingPlots:__RateBiasPlots(biases, startPlots, major, regi
         ratedPlot.Plot = plot;
         ratedPlot.Score = 0 + region_bonus
 			- (hydrophobicCoastPenalties[plot:GetIndex()] or 0);
+		if major and ZYL_RVC_IsHorizontalMainland()
+				and ZYL_RVC_HORIZONTAL_REMOTE_COAST_CIVS[civilizationType]
+				and not usesCoastalPlacement then
+			local coastDistance = ZYL_RVC_GetHorizontalCoastDistance(plot);
+			if coastDistance <= 6 then
+				ratedPlot.Score = ratedPlot.Score
+					- (7 - coastDistance) * ZYL_RVC_HORIZONTAL_REMOTE_COAST_SCORE;
+			else
+				ratedPlot.Score = ratedPlot.Score
+				+ math.min(6, coastDistance - 6) * ZYL_RVC_HORIZONTAL_REMOTE_COAST_SCORE;
+			end
+			ratedPlot.HorizontalCoastDistance = coastDistance;
+		end
 		if hydrophobicMetrics[plot:GetIndex()] ~= nil then
 			ratedPlot.HydrophobicWalkableRatio =
 				hydrophobicMetrics[plot:GetIndex()].WalkableRatio;
@@ -2434,10 +2953,12 @@ function BBS_AssignStartingPlots:__RateBiasPlots(biases, startPlots, major, regi
 				end	
 			end
 
-            local iTeamPlacementScoreRatio = 1;
+			local iTeamPlacementScoreRatio = 1;
 			if(isStartCheck == true)then
                 iTeamPlacementScoreRatio = 0;
             end
+			local keepStrictTeamSide = type(ZYL_RICH_MAINLAND_VARIANT) == "table"
+				and ZYL_RICH_MAINLAND_VARIANT.team == true and self.iTeamPlacement == 1;
 			if self.iTeamPlacement == 1 then
 				-- East vs. West
 
@@ -2488,7 +3009,7 @@ function BBS_AssignStartingPlots:__RateBiasPlots(biases, startPlots, major, regi
                                     ratedPlot.Score = ratedPlot.Score + iTeamPlacementScoreRatio*10000000 + 100000*1;
                                 end
                             else
-                                if isStartCheck == true and reStartCount>=4 then
+								if not keepStrictTeamSide and isStartCheck == true and reStartCount>=4 then
                                     ratedPlot.Score = ratedPlot.Score;
                                 else
                                     ratedPlot.Score = ratedPlot.Score - TEAM_WRONG_SIDE_PENALTY;
@@ -2515,7 +3036,7 @@ function BBS_AssignStartingPlots:__RateBiasPlots(biases, startPlots, major, regi
                                     ratedPlot.Score = ratedPlot.Score + iTeamPlacementScoreRatio*10000000 + 100000*1;
                                 end
                             else
-                                if isStartCheck == true and reStartCount>=4 then
+								if not keepStrictTeamSide and isStartCheck == true and reStartCount>=4 then
                                     ratedPlot.Score = ratedPlot.Score;
                                 else
                                     ratedPlot.Score = ratedPlot.Score - TEAM_WRONG_SIDE_PENALTY;
@@ -2544,7 +3065,7 @@ function BBS_AssignStartingPlots:__RateBiasPlots(biases, startPlots, major, regi
                                     ratedPlot.Score = ratedPlot.Score + iTeamPlacementScoreRatio*10000000 + 100000*1;
                                 end
                             else
-                                if isStartCheck == true and reStartCount>=4 then
+								if not keepStrictTeamSide and isStartCheck == true and reStartCount>=4 then
                                     ratedPlot.Score = ratedPlot.Score;
                                 else
                                     ratedPlot.Score = ratedPlot.Score - TEAM_WRONG_SIDE_PENALTY;
@@ -2571,7 +3092,7 @@ function BBS_AssignStartingPlots:__RateBiasPlots(biases, startPlots, major, regi
                                     ratedPlot.Score = ratedPlot.Score + iTeamPlacementScoreRatio*10000000 + 100000*1;
                                 end
                             else
-                                if isStartCheck == true and reStartCount>=4 then
+								if not keepStrictTeamSide and isStartCheck == true and reStartCount>=4 then
                                     ratedPlot.Score = ratedPlot.Score;
                                 else
                                     ratedPlot.Score = ratedPlot.Score - TEAM_WRONG_SIDE_PENALTY;
@@ -2754,10 +3275,7 @@ function BBS_AssignStartingPlots:__RateBiasPlots(biases, startPlots, major, regi
 				ratedPlot.Score = ratedPlot.Score + 25;
 			end
 		end
-		local isCoastalStartCivilization = SEAS_CIVILIZATION[civilizationType]
-			or (self.oceanStartFallbackPlayers ~= nil
-				and self.oceanStartFallbackPlayers[iPlayer] == true)
-		if major and isCoastalStartCivilization and not isInlandCoastVariant then
+		if major and usesCoastalPlacement then
 			ratedPlot.CoastOrientation = ZYL_RVC_GetCoastOrientation(plot)
 		end
 		local majorBufferValid = true
@@ -2783,6 +3301,31 @@ function BBS_AssignStartingPlots:__RateBiasPlots(biases, startPlots, major, regi
 					and ZYL_RVC_IsEastWestCoastOrientation(ratedPlot.CoastOrientation) then
 				ratedPlot.Score = ratedPlot.Score + ZYL_RVC_EW_COAST_START_BONUS
 			end
+		end
+		-- The vertical distribution band and team-half filters have already been
+		-- applied.  This lower-priority score only nudges otherwise legal inland
+		-- choices; coast-associated civilizations remain governed by their much
+		-- stronger east/west shore target.
+		if major and majorBufferValid and not usesCoastalPlacement then
+			local depthScore, targetDepth, actualDepth =
+				self:__GetTeamLobbyDepthScore(iPlayer, plot)
+			if targetDepth ~= nil then
+				ratedPlot.Score = ratedPlot.Score + depthScore
+				ratedPlot.TeamDepthTarget = targetDepth
+				ratedPlot.TeamDepthActual = actualDepth
+			end
+		end
+		-- Ring sector closeness: the hard angular/radial filters have already
+		-- been applied through the distribution band; this soft score nudges
+		-- the final pick toward the seat's seam (first/last seats) or sector
+		-- center and toward the seat's radial band (mid-ring / outer / inner).
+		if major and majorBufferValid and ZYL_RVC_IsRingMainland()
+				and distributionBand ~= nil and distributionBand.Mode == "RING" then
+			local ringScore, ringAngleDiff, ringRadialDiff =
+				ZYL_RVC_RingSectorScore(plot, distributionBand);
+			ratedPlot.Score = ratedPlot.Score + ringScore;
+			ratedPlot.RingAngleDiff = ringAngleDiff;
+			ratedPlot.RingRadialDiff = ringRadialDiff;
 		end
         if isCanRandom == true then
             ratedPlot.Score = ratedPlot.Score+TerrainBuilder.GetRandomNumber(10000, "Shuffling table entry - Lua");
@@ -2831,6 +3374,33 @@ function BBS_AssignStartingPlots:__SettlePlot(ratedBiases, index, player, major,
 						print("ZYL RVC coastal start orientation:", civilizationType,
 							ratedBias.CoastOrientation, "target", targetSide or "EITHER",
 							ratedBias.Plot:GetX(), ratedBias.Plot:GetY())
+					end
+					if ratedBias.TeamDepthTarget ~= nil then
+						Game:SetProperty("ZYLRM_TEAM_DEPTH_TARGET_" .. player:GetID(),
+							ratedBias.TeamDepthTarget)
+						Game:SetProperty("ZYLRM_TEAM_DEPTH_ACTUAL_" .. player:GetID(),
+							ratedBias.TeamDepthActual)
+						print("ZYL RVC team lobby depth result:", player:GetID(),
+							"target", ratedBias.TeamDepthTarget,
+							"actual", ratedBias.TeamDepthActual,
+							"plot", ratedBias.Plot:GetX(), ratedBias.Plot:GetY())
+					end
+					if ratedBias.RingAngleDiff ~= nil then
+						Game:SetProperty("ZYLRM_RING_ANGLE_DIFF_" .. player:GetID(),
+							ratedBias.RingAngleDiff)
+						Game:SetProperty("ZYLRM_RING_RADIAL_DIFF_" .. player:GetID(),
+							ratedBias.RingRadialDiff)
+						print("ZYL RVC ring sector result:", player:GetID(),
+							"angleDiff", ratedBias.RingAngleDiff,
+							"radialDiff", ratedBias.RingRadialDiff,
+							"plot", ratedBias.Plot:GetX(), ratedBias.Plot:GetY())
+					end
+					if ratedBias.HorizontalCoastDistance ~= nil then
+						Game:SetProperty("ZYLRM_HORIZONTAL_COAST_DISTANCE_" .. player:GetID(),
+							ratedBias.HorizontalCoastDistance)
+						print("ZYL RVC horizontal six-ring coast distance:",
+							civilizationType, ratedBias.HorizontalCoastDistance,
+							"plot", ratedBias.Plot:GetX(), ratedBias.Plot:GetY())
 					end
 					if ratedBias.Score < - 500 then
 						bError_shit_settle = true
@@ -3876,7 +4446,14 @@ function BBS_AssignStartingPlots:__GetValidAdjacent(plot, major)
         	return false;
     	end
 		
-		if(plot:GetX() <= min or plot:GetX() > gridWidth - max) then
+	-- On the horizontal variant the mainland shore sits around X=4..6 and
+	-- X=width-7..width-5.  The stock size-scaled X margin reaches eight plots
+	-- on large maps and would reject every east/west mainland coast before the
+	-- coastal-civilization preference can run.  Retain the normal Y margin and
+	-- only exclude the three-column outer island/deep-ocean frame on X.
+	local xMin = ZYL_RVC_IsHorizontalMainland() and 3 or min;
+	local xMax = ZYL_RVC_IsHorizontalMainland() and 3 or max;
+	if(plot:GetX() <= xMin or plot:GetX() > gridWidth - xMax) then
         	return false;
     	end
 

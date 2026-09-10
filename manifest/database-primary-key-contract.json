@@ -1,19 +1,19 @@
 {
   "schemaVersion": 1,
   "baselineCommit": "7022ba66948af19d4ba65855036fac23a8048e3c",
-  "expectedAnalysisSha256": "593c46a16df6cea23b55588d8d33ac3426da49489c99aa54ed9f003b0ed2509c",
+  "expectedAnalysisSha256": "586017f55946aae9c26501b511966bb07ce9f3708ec300fd2bc096dac01ebc6a",
   "expectedCounts": {
     "modCreatedTables": 22,
     "modCreatedTablesWithPrimaryKey": 9,
-    "insertReplaceOperations": 4285,
-    "resolvedOperations": 2860,
+    "insertReplaceOperations": 4358,
+    "resolvedOperations": 2894,
     "partiallyResolvedOperations": 0,
-    "unresolvedOperations": 1425,
-    "rowCandidates": 6719,
+    "unresolvedOperations": 1464,
+    "rowCandidates": 6782,
     "tablesWithCandidates": 127,
-    "duplicateKeyGroups": 13,
+    "duplicateKeyGroups": 28,
     "sameActionDuplicateKeyGroups": 0,
-    "identicalRowDuplicateKeyGroups": 13,
+    "identicalRowDuplicateKeyGroups": 28,
     "dominatedLaterIgnoreGroups": 0,
     "dominatedLaterIgnoreOccurrences": 0
   },
@@ -21,6 +21,6 @@
     "insert-select": 371,
     "missing-primary-key-column": 196,
     "mod-created-no-primary-key": 18,
-    "no-primary-key": 840
+    "no-primary-key": 879
   }
 }

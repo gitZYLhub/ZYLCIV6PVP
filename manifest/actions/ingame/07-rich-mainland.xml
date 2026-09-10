@@ -6,6 +6,8 @@
     </Properties>
     <File>Components/BBM/Data/BBS Maps/zyl_team_rich_mainland.lua</File>
     <File>Components/BBM/Data/BBS Maps/zyl_ffa_rich_mainland.lua</File>
+    <File>Components/BBM/Data/BBS Maps/zyl_team_horizontal_rich_mainland.lua</File>
+    <File>Components/BBM/Data/BBS Maps/zyl_team_ring_mainland.lua</File>
     <File>Components/BBM/Data/BBS Maps/zyl_rich_mainland_core.lua</File>
     <File>Components/BBM/Data/BBS Maps/Utility/ZYL_RVC_AssignStartingPlots.lua</File>
     <File>Components/BBM/Data/BBS Maps/Utility/ZYL_RVC_Balance.lua</File>
@@ -38,5 +40,19 @@
     </Properties>
     <Criteria>ZYL_RichMainland_FFA</Criteria>
     <File>Components/BBM/Data/BBS Maps/ZYLRM/ConfigureFFA.sql</File>
+  </UpdateDatabase>
+  <UpdateDatabase id="ZYL_RichMainland_HorizontalTeam_Config" manifestOrder="252">
+    <Properties>
+      <LoadOrder>1003</LoadOrder>
+    </Properties>
+    <Criteria>ZYL_RichMainland_HorizontalTeam</Criteria>
+    <File>Components/BBM/Data/BBS Maps/ZYLRM/ConfigureHorizontalTeam.sql</File>
+  </UpdateDatabase>
+  <UpdateDatabase id="ZYL_RichMainland_RingTeam_Config" manifestOrder="253">
+    <Properties>
+      <LoadOrder>1003</LoadOrder>
+    </Properties>
+    <Criteria>ZYL_RichMainland_RingTeam</Criteria>
+    <File>Components/BBM/Data/BBS Maps/ZYLRM/ConfigureRing.sql</File>
   </UpdateDatabase>
 </InGameActionsFragment>

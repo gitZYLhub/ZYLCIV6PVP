@@ -14,7 +14,7 @@
 		<Row Tag="LOC_ZYL_DIPLOMACY_RIBBON_MODE_TEAM_NAME" Language="zh_Hans_CN"><Text>组队模式</Text></Row>
 		<Row Tag="LOC_ZYL_DIPLOMACY_RIBBON_MODE_TEAM_DESC" Language="zh_Hans_CN"><Text>使用本队所有玩家对目标玩家的最高外交能见度；队友之间完整共享情报。</Text></Row>
 		<Row Tag="LOC_ZYL_STARTING_BONUS_PLAYER_NAME" Language="zh_Hans_CN"><Text>开局加成玩家</Text></Row>
-		<Row Tag="LOC_ZYL_STARTING_BONUS_PLAYER_DESC" Language="zh_Hans_CN"><Text>按大厅中真人玩家从上到下的次序选择获得开局加成的玩家。空位、AI和观察者不计入编号；若所选号码不存在，则不会发放加成。</Text></Row>
+		<Row Tag="LOC_ZYL_STARTING_BONUS_PLAYER_DESC" Language="zh_Hans_CN"><Text>按大厅中有文明的主要玩家从上到下的次序选择获得开局加成的玩家。空位和观察者不计入编号，真人和AI均计入；若所选号码不存在，则不会发放加成。</Text></Row>
 		<Row Tag="LOC_ZYL_STARTING_BONUS_TYPE_NAME" Language="zh_Hans_CN"><Text>开局加成</Text></Row>
 		<Row Tag="LOC_ZYL_STARTING_BONUS_TYPE_DESC" Language="zh_Hans_CN"><Text>选择额外发放给指定玩家的开局单位。加成只在新游戏开始时发放一次，读档不会重复发放。</Text></Row>
 		<Row Tag="LOC_ZYL_STARTING_BONUS_NONE" Language="zh_Hans_CN"><Text>无</Text></Row>
@@ -31,7 +31,7 @@
 		<Row Tag="LOC_ZYL_STARTING_BONUS_PLAYER_10" Language="zh_Hans_CN"><Text>10号玩家</Text></Row>
 		<Row Tag="LOC_ZYL_STARTING_BONUS_PLAYER_11" Language="zh_Hans_CN"><Text>11号玩家</Text></Row>
 		<Row Tag="LOC_ZYL_STARTING_BONUS_PLAYER_12" Language="zh_Hans_CN"><Text>12号玩家</Text></Row>
-		<Row Tag="LOC_ZYL_STARTING_BONUS_PLAYER_SLOT_DESC" Language="zh_Hans_CN"><Text>号码对应大厅中真人玩家从上到下的次序。</Text></Row>
+		<Row Tag="LOC_ZYL_STARTING_BONUS_PLAYER_SLOT_DESC" Language="zh_Hans_CN"><Text>号码对应大厅中有文明的主要玩家从上到下的次序，真人和AI均计入。</Text></Row>
 		<Row Tag="LOC_ZYL_STARTING_BONUS_BUILDER" Language="zh_Hans_CN"><Text>开局工人</Text></Row>
 		<Row Tag="LOC_ZYL_STARTING_BONUS_BUILDER_DESC" Language="zh_Hans_CN"><Text>所选玩家开局额外获得一名建造者。</Text></Row>
 		<Row Tag="LOC_ZYL_STARTING_BONUS_SCOUT" Language="zh_Hans_CN"><Text>开局侦察兵</Text></Row>
@@ -112,7 +112,7 @@
 		<Row Tag="LOC_ZYL_DIPLOMACY_RIBBON_MODE_TEAM_NAME" Language="en_US"><Text>Team Mode</Text></Row>
 		<Row Tag="LOC_ZYL_DIPLOMACY_RIBBON_MODE_TEAM_DESC" Language="en_US"><Text>Uses the highest Diplomatic Visibility that any teammate has on each target; teammates share full intelligence.</Text></Row>
 		<Row Tag="LOC_ZYL_STARTING_BONUS_PLAYER_NAME" Language="en_US"><Text>Starting Bonus Player</Text></Row>
-		<Row Tag="LOC_ZYL_STARTING_BONUS_PLAYER_DESC" Language="en_US"><Text>Selects the human player who receives the starting bonus by top-to-bottom lobby order. Empty, AI and observer rows are not counted. No bonus is granted if the selected number does not exist.</Text></Row>
+		<Row Tag="LOC_ZYL_STARTING_BONUS_PLAYER_DESC" Language="en_US"><Text>Selects the living major civilization that receives the starting bonus by top-to-bottom lobby order. Empty and observer rows are not counted; both human and AI civilizations count. No bonus is granted if the selected number does not exist.</Text></Row>
 		<Row Tag="LOC_ZYL_STARTING_BONUS_TYPE_NAME" Language="en_US"><Text>Starting Bonus</Text></Row>
 		<Row Tag="LOC_ZYL_STARTING_BONUS_TYPE_DESC" Language="en_US"><Text>Selects the extra starting units granted to the chosen player. The bonus is granted once at the start of a new game and is not repeated after loading a save.</Text></Row>
 		<Row Tag="LOC_ZYL_STARTING_BONUS_NONE" Language="en_US"><Text>None</Text></Row>
@@ -129,7 +129,7 @@
 		<Row Tag="LOC_ZYL_STARTING_BONUS_PLAYER_10" Language="en_US"><Text>Player 10</Text></Row>
 		<Row Tag="LOC_ZYL_STARTING_BONUS_PLAYER_11" Language="en_US"><Text>Player 11</Text></Row>
 		<Row Tag="LOC_ZYL_STARTING_BONUS_PLAYER_12" Language="en_US"><Text>Player 12</Text></Row>
-		<Row Tag="LOC_ZYL_STARTING_BONUS_PLAYER_SLOT_DESC" Language="en_US"><Text>The number follows the top-to-bottom order of human players in the lobby.</Text></Row>
+		<Row Tag="LOC_ZYL_STARTING_BONUS_PLAYER_SLOT_DESC" Language="en_US"><Text>The number follows the top-to-bottom order of living major civilizations in the lobby; both human and AI civilizations count.</Text></Row>
 		<Row Tag="LOC_ZYL_STARTING_BONUS_BUILDER" Language="en_US"><Text>Starting Builder</Text></Row>
 		<Row Tag="LOC_ZYL_STARTING_BONUS_BUILDER_DESC" Language="en_US"><Text>The selected player starts with one additional Builder.</Text></Row>
 		<Row Tag="LOC_ZYL_STARTING_BONUS_SCOUT" Language="en_US"><Text>Starting Scout</Text></Row>
@@ -241,7 +241,7 @@
 		<Replace Tag="LOC_UNIT_SETTLER_DESCRIPTION" Language="en_US"><Text>May create new cities. Reduces the city's [ICON_Citizen] Population by 1 when completed.[NEWLINE][NEWLINE]Before the first city is founded, Settlers have +1 [ICON_Movement] Movement, ignore terrain and river movement costs, and pay no [ICON_Movement] Movement to embark or disembark.</Text></Replace>
 
 		<Row Tag="LOC_ZYL_STARTING_BONUS_PLAYER_NAME" Language="zh_Hant_HK"><Text>開局加成玩家</Text></Row>
-		<Row Tag="LOC_ZYL_STARTING_BONUS_PLAYER_DESC" Language="zh_Hant_HK"><Text>按大廳中真人玩家從上到下的次序選擇獲得開局加成的玩家。空位、AI和觀察者不計入編號；若所選號碼不存在，則不會發放加成。</Text></Row>
+		<Row Tag="LOC_ZYL_STARTING_BONUS_PLAYER_DESC" Language="zh_Hant_HK"><Text>按大廳中有文明的主要玩家從上到下的次序選擇獲得開局加成的玩家。空位和觀察者不計入編號，真人和AI均計入；若所選號碼不存在，則不會發放加成。</Text></Row>
 		<Row Tag="LOC_ZYL_STARTING_BONUS_TYPE_NAME" Language="zh_Hant_HK"><Text>開局加成</Text></Row>
 		<Row Tag="LOC_ZYL_STARTING_BONUS_TYPE_DESC" Language="zh_Hant_HK"><Text>選擇額外發放給指定玩家的開局單位。加成只在新遊戲開始時發放一次，讀檔不會重複發放。</Text></Row>
 		<Row Tag="LOC_ZYL_STARTING_BONUS_NONE" Language="zh_Hant_HK"><Text>無</Text></Row>
@@ -258,7 +258,7 @@
 		<Row Tag="LOC_ZYL_STARTING_BONUS_PLAYER_10" Language="zh_Hant_HK"><Text>10號玩家</Text></Row>
 		<Row Tag="LOC_ZYL_STARTING_BONUS_PLAYER_11" Language="zh_Hant_HK"><Text>11號玩家</Text></Row>
 		<Row Tag="LOC_ZYL_STARTING_BONUS_PLAYER_12" Language="zh_Hant_HK"><Text>12號玩家</Text></Row>
-		<Row Tag="LOC_ZYL_STARTING_BONUS_PLAYER_SLOT_DESC" Language="zh_Hant_HK"><Text>號碼對應大廳中真人玩家從上到下的次序。</Text></Row>
+		<Row Tag="LOC_ZYL_STARTING_BONUS_PLAYER_SLOT_DESC" Language="zh_Hant_HK"><Text>號碼對應大廳中有文明的主要玩家從上到下的次序，真人和AI均計入。</Text></Row>
 		<Row Tag="LOC_ZYL_STARTING_BONUS_BUILDER" Language="zh_Hant_HK"><Text>開局工人</Text></Row>
 		<Row Tag="LOC_ZYL_STARTING_BONUS_BUILDER_DESC" Language="zh_Hant_HK"><Text>所選玩家開局額外獲得一名建造者。</Text></Row>
 		<Row Tag="LOC_ZYL_STARTING_BONUS_SCOUT" Language="zh_Hant_HK"><Text>開局偵察兵</Text></Row>

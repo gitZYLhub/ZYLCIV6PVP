@@ -674,6 +674,30 @@
 				<ConfigurationId>MAP_SCRIPT</ConfigurationId>
 				<Value>zyl_ffa_rich_mainland.lua</Value>
 			</ConfigurationValueMatches>
+			<ConfigurationValueMatches>
+				<Group>Map</Group>
+				<ConfigurationId>MAP_SCRIPT</ConfigurationId>
+				<Value>zyl_team_horizontal_rich_mainland.lua</Value>
+			</ConfigurationValueMatches>
+			<ConfigurationValueMatches>
+				<Group>Map</Group>
+				<ConfigurationId>MAP_SCRIPT</ConfigurationId>
+				<Value>zyl_team_ring_mainland.lua</Value>
+			</ConfigurationValueMatches>
+		</Criteria>
+		<Criteria id="ZYL_RichMainland_HorizontalTeam">
+			<ConfigurationValueMatches>
+				<Group>Map</Group>
+				<ConfigurationId>MAP_SCRIPT</ConfigurationId>
+				<Value>zyl_team_horizontal_rich_mainland.lua</Value>
+			</ConfigurationValueMatches>
+		</Criteria>
+		<Criteria id="ZYL_RichMainland_RingTeam">
+			<ConfigurationValueMatches>
+				<Group>Map</Group>
+				<ConfigurationId>MAP_SCRIPT</ConfigurationId>
+				<Value>zyl_team_ring_mainland.lua</Value>
+			</ConfigurationValueMatches>
 		</Criteria>
 	</ActionCriteria>
 	<FrontEndActions>
@@ -905,6 +929,30 @@
 			</Properties>
 			<File>configuration/ZYL_LobbyDefaults.xml</File>
 		</UpdateDatabase>
+		<UpdateDatabase id="ZYL_HorizontalRichMainland_Config">
+			<Properties>
+				<LoadOrder>200000101</LoadOrder>
+			</Properties>
+			<File>Components/BBM/Configuration/ZYL_HorizontalRichMainland_Config.xml</File>
+		</UpdateDatabase>
+		<UpdateText id="ZYL_HorizontalRichMainland_Text">
+			<Properties>
+				<LoadOrder>200000101</LoadOrder>
+			</Properties>
+			<File>Components/BBM/Lang/ZYL_HorizontalRichMainland_Text.xml</File>
+		</UpdateText>
+		<UpdateDatabase id="ZYL_RingMainland_Config">
+			<Properties>
+				<LoadOrder>200000102</LoadOrder>
+			</Properties>
+			<File>Components/BBM/Configuration/ZYL_RingMainland_Config.xml</File>
+		</UpdateDatabase>
+		<UpdateText id="ZYL_RingMainland_Text">
+			<Properties>
+				<LoadOrder>200000102</LoadOrder>
+			</Properties>
+			<File>Components/BBM/Lang/ZYL_RingMainland_Text.xml</File>
+		</UpdateText>
 	</FrontEndActions>
 	<InGameActions>
 		<AddGameplayScripts id="CPL_Helper">
@@ -2553,6 +2601,8 @@
 			</Properties>
 			<File>Components/BBM/Data/BBS Maps/zyl_team_rich_mainland.lua</File>
 			<File>Components/BBM/Data/BBS Maps/zyl_ffa_rich_mainland.lua</File>
+			<File>Components/BBM/Data/BBS Maps/zyl_team_horizontal_rich_mainland.lua</File>
+			<File>Components/BBM/Data/BBS Maps/zyl_team_ring_mainland.lua</File>
 			<File>Components/BBM/Data/BBS Maps/zyl_rich_mainland_core.lua</File>
 			<File>Components/BBM/Data/BBS Maps/Utility/ZYL_RVC_AssignStartingPlots.lua</File>
 			<File>Components/BBM/Data/BBS Maps/Utility/ZYL_RVC_Balance.lua</File>
@@ -2870,6 +2920,20 @@
 				<LuaReplace>Components/DetailedMapTacks/ui/mappinpopup_dmt.lua</LuaReplace>
 			</Properties>
 		</ReplaceUIScript>
+		<UpdateDatabase id="ZYL_RichMainland_HorizontalTeam_Config">
+			<Properties>
+				<LoadOrder>1003</LoadOrder>
+			</Properties>
+			<Criteria>ZYL_RichMainland_HorizontalTeam</Criteria>
+			<File>Components/BBM/Data/BBS Maps/ZYLRM/ConfigureHorizontalTeam.sql</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="ZYL_RichMainland_RingTeam_Config">
+			<Properties>
+				<LoadOrder>1003</LoadOrder>
+			</Properties>
+			<Criteria>ZYL_RichMainland_RingTeam</Criteria>
+			<File>Components/BBM/Data/BBS Maps/ZYLRM/ConfigureRing.sql</File>
+		</UpdateDatabase>
 	</InGameActions>
 	<Files>
 		<File>README.md</File>
@@ -3943,5 +4007,13 @@
 		<File>CIVITASResources/XLPs/Clutter.xlp</File>
 		<File>CIVITASResources/XLPs/Icons.xlp</File>
 		<File>CIVITASResources/XLPs/tilebases.xlp</File>
+		<File>Components/BBM/Configuration/ZYL_HorizontalRichMainland_Config.xml</File>
+		<File>Components/BBM/Lang/ZYL_HorizontalRichMainland_Text.xml</File>
+		<File>Components/BBM/Configuration/ZYL_RingMainland_Config.xml</File>
+		<File>Components/BBM/Lang/ZYL_RingMainland_Text.xml</File>
+		<File>Components/BBM/Data/BBS Maps/zyl_team_horizontal_rich_mainland.lua</File>
+		<File>Components/BBM/Data/BBS Maps/zyl_team_ring_mainland.lua</File>
+		<File>Components/BBM/Data/BBS Maps/ZYLRM/ConfigureHorizontalTeam.sql</File>
+		<File>Components/BBM/Data/BBS Maps/ZYLRM/ConfigureRing.sql</File>
 	</Files>
 </Mod>

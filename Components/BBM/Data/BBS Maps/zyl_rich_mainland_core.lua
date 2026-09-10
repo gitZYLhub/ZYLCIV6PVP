@@ -24,6 +24,11 @@ end
 
 local IS_TEAM = ZYL_RICH_MAINLAND_VARIANT.team == true;
 local IS_FFA = ZYL_RICH_MAINLAND_VARIANT.ffa == true;
+local IS_HORIZONTAL_MAINLAND = ZYL_RICH_MAINLAND_VARIANT.horizontalMainland == true;
+local IS_RING_MAINLAND = ZYL_RICH_MAINLAND_VARIANT.ringMainland == true;
+-- The rebuilt Team variant uses the FFA land-generation profile while keeping
+-- team-specific east/west placement and horizontal continent bands.
+local USES_FFA_BASELINE = IS_FFA or ZYL_RICH_MAINLAND_VARIANT.ffaBaseline == true;
 local VARIANT_ID = tostring(ZYL_RICH_MAINLAND_VARIANT.id or "UNKNOWN");
 local LOG_PREFIX = "ZYLRM[" .. VARIANT_ID .. "]";
 
@@ -33,6 +38,20 @@ local g_fHorizontalScale = 1;
 local g_iFlags = {};
 local g_continentsFrac = nil;
 local featureGen = nil;
+-- Ring-mainland geometry, derived from the square grid size.  The SQL sizes
+-- reserve five tiles of sea on every side of a ring whose outer radius is
+-- therefore (GridWidth - 10) / 2 and whose radial thickness stays 16 (the
+-- inner radius is clamped at 2 so even the smallest maps keep an inner sea).
+-- These values are exposed as globals because the start assigner (included
+-- below) needs the same center and radii for its angular sectors.
+local g_ringCx = 0;
+local g_ringCy = 0;
+local g_ringInnerR = 2;
+local g_ringOuterR = 18;
+ZYL_RING_CX = g_ringCx;
+ZYL_RING_CY = g_ringCy;
+ZYL_RING_INNER_R = g_ringInnerR;
+ZYL_RING_OUTER_R = g_ringOuterR;
 local world_age_new = 5;
 local world_age_normal = 3;
 local world_age_old = 2;
@@ -63,17 +82,110 @@ function GetMapInitData(MapSize)
 end
 
 local function ZYL_InitializeExpandedOceanCanvas()
+	if IS_HORIZONTAL_MAINLAND or IS_RING_MAINLAND then
+		-- These variants' SQL already includes the complete surrounding ocean
+		-- frame.  Unlike the two vertical maps, they need no extra wrap-seam
+		-- columns or horizontal content rescaling.  The ring map is a square
+		-- canvas centered on the ring; its outer radius and inner-sea radius
+		-- are derived from the grid so the SQL and the generator cannot drift.
+		g_iLegacyW = g_iW;
+		g_iBaseW = math.max(0, g_iW);
+		g_iAddedOceanWidth = math.max(0, g_iW - g_iBaseW);
+		g_iContentOffsetX = 0;
+		g_fHorizontalScale = 1;
+		if IS_RING_MAINLAND then
+			g_ringCx = g_iW / 2;
+			g_ringCy = g_iH / 2;
+			g_ringOuterR = math.max(18, (g_iW - 10) / 2);
+			g_ringInnerR = math.max(2, g_ringOuterR - 16);
+			ZYL_RING_CX = g_ringCx;
+			ZYL_RING_CY = g_ringCy;
+			ZYL_RING_OUTER_R = g_ringOuterR;
+			ZYL_RING_INNER_R = g_ringInnerR;
+			print(string.format("%s: ring-mainland canvas=%dx%d wrapX=%s innerR=%d outerR=%d",
+				LOG_PREFIX, g_iW, g_iH, tostring(Map:IsWrapX()),
+				g_ringInnerR, g_ringOuterR));
+			return;
+		end
+		-- The horizontal mainland is 10% shorter than the nominal
+		-- (GridWidth - 10) strip, so the freed columns become deeper east/west
+		-- ocean frames.  Exposed as globals because the start assigner
+		-- (included below) and the sea-resource guarantees use the same edges.
+		local nominalWest = 5;
+		local nominalEast = g_iW - 6;
+		local nominalWidth = math.max(1, nominalEast - nominalWest + 1);
+		local shrink = math.max(2, math.floor(nominalWidth * 0.10 + 0.5));
+		ZYL_HORIZONTAL_WEST_BASE = nominalWest + math.floor(shrink / 2);
+		ZYL_HORIZONTAL_EAST_BASE = nominalEast - math.ceil(shrink / 2);
+		print(string.format("%s: horizontal-mainland canvas=%dx%d wrapX=%s mainland=[%d,%d] nominal=%d -10%%",
+			LOG_PREFIX, g_iW, g_iH, tostring(Map:IsWrapX()),
+			ZYL_HORIZONTAL_WEST_BASE, ZYL_HORIZONTAL_EAST_BASE, nominalWidth));
+		return;
+	end
 	local baseWidths = ZYL_RICH_MAINLAND_VARIANT.baseWidthsByHeight or {};
 	local contentWidths = ZYL_RICH_MAINLAND_VARIANT.contentWidthsByHeight or baseWidths;
 	g_iLegacyW = math.min(g_iW, tonumber(baseWidths[g_iH]) or g_iW);
 	g_iBaseW = math.min(g_iW, tonumber(contentWidths[g_iH]) or g_iLegacyW);
 	g_iAddedOceanWidth = math.max(0, g_iW - g_iBaseW);
 	g_iContentOffsetX = math.floor(g_iAddedOceanWidth / 2);
-	g_fHorizontalScale = IS_FFA and (g_iLegacyW > 0 and g_iBaseW / g_iLegacyW or 1) or 1;
+	g_fHorizontalScale = USES_FFA_BASELINE and (g_iLegacyW > 0 and g_iBaseW / g_iLegacyW or 1) or 1;
 	print(string.format("%s: horizontal canvas actual=%dx%d legacy=%dx%d generation=%dx%d offset=%d addedOcean=%d scale=%.4f wrapX=%s",
 		LOG_PREFIX, g_iW, g_iH, g_iLegacyW, g_iH, g_iBaseW, g_iH,
 		g_iContentOffsetX, g_iAddedOceanWidth, g_fHorizontalScale,
 		tostring(Map:IsWrapX())));
+end
+
+-- The horizontal map uses a one-tile continental shelf around every mainland
+-- and island coast.  The east/west shores get a second shelf row so the flank
+-- seas carry more shallow water and sea resources; the north/south shores keep
+-- a single row.  All remaining salt water is restored to deep ocean.  The
+-- same deterministic pass runs before resources and after start balancing so
+-- later systems cannot accidentally create an ocean-wide shallow stripe.
+local function ZYL_EnforceHorizontalOceanDepth(terrainTypes)
+	if not IS_HORIZONTAL_MAINLAND then return end
+	local westBase = ZYL_HORIZONTAL_WEST_BASE or 5;
+	local eastBase = ZYL_HORIZONTAL_EAST_BASE or (g_iW - 6);
+	local southBase = 5;
+	local northBase = g_iH - 6;
+	local coastCount = 0;
+	local oceanCount = 0;
+	for plotIndex = 0, Map.GetPlotCount() - 1 do
+		local plot = Map.GetPlotByIndex(plotIndex);
+		if plot ~= nil and plotTypes[plotIndex] == g_PLOT_TYPE_OCEAN then
+			local x = plot:GetX();
+			local y = plot:GetY();
+			local nearLand = false;
+			for direction = 0, DirectionTypes.NUM_DIRECTION_TYPES - 1 do
+				local adjacent = Map.GetAdjacentPlot(x, y, direction);
+				if adjacent ~= nil and plotTypes[adjacent:GetIndex()] ~= g_PLOT_TYPE_OCEAN then
+					nearLand = true;
+					break;
+				end
+			end
+			-- East/west flank shelf: the two columns just off the mainland
+			-- edges (within the mainland's row band) are shallow even without
+			-- direct land adjacency.
+			if not nearLand and y >= southBase - 1 and y <= northBase + 1 then
+				if (x >= westBase - 2 and x <= westBase - 1)
+						or (x >= eastBase + 1 and x <= eastBase + 2) then
+					nearLand = true;
+				end
+			end
+			local terrain = nearLand and g_TERRAIN_TYPE_COAST or g_TERRAIN_TYPE_OCEAN;
+			if terrainTypes ~= nil then
+				terrainTypes[plotIndex] = terrain;
+			elseif plot:GetTerrainType() ~= terrain then
+				TerrainBuilder.SetTerrainType(plot, terrain);
+			end
+			if nearLand then coastCount = coastCount + 1 else oceanCount = oceanCount + 1 end
+		end
+	end
+	if terrainTypes == nil then
+		Game:SetProperty("ZYLRM_HORIZONTAL_COAST_TILES", coastCount);
+		Game:SetProperty("ZYLRM_HORIZONTAL_DEEP_OCEAN_TILES", oceanCount);
+		print(string.format("%s: horizontal water depth enforced (coast=%d deep ocean=%d)",
+			LOG_PREFIX, coastCount, oceanCount));
+	end
 end
 
 local function ZYL_IsAddedCentralOceanColumn(x)
@@ -144,6 +256,87 @@ local function ZYL_RemovePolarShallowSea(terrainTypes)
 end
 
 -------------------------------------------------------------------------------
+-- Ring-mainland water depth: the entire inner sea (inside the ring) is forced
+-- to shallow coast so the closed basin stays fully navigable and productive;
+-- the outer sea keeps the standard one-tile continental shelf and everything
+-- beyond the shelf is deep ocean.  The same deterministic pass runs before
+-- resources and again after start balancing, like the horizontal variant.
+local function ZYL_EnforceRingOceanDepth(terrainTypes)
+	if not IS_RING_MAINLAND then return end
+	local innerCoast = 0;
+	local outerCoast = 0;
+	local deepOcean = 0;
+	for plotIndex = 0, Map.GetPlotCount() - 1 do
+		local plot = Map.GetPlotByIndex(plotIndex);
+		if plot ~= nil and plotTypes[plotIndex] == g_PLOT_TYPE_OCEAN then
+			local x = plot:GetX();
+			local y = plot:GetY();
+			local dx = x + 0.5 - g_ringCx;
+			local dy = y + 0.5 - g_ringCy;
+			local d = math.sqrt(dx * dx + dy * dy);
+			local terrain;
+			if d < g_ringInnerR then
+				terrain = g_TERRAIN_TYPE_COAST;
+				innerCoast = innerCoast + 1;
+			else
+				local nearLand = false;
+				for direction = 0, DirectionTypes.NUM_DIRECTION_TYPES - 1 do
+					local adjacent = Map.GetAdjacentPlot(x, y, direction);
+					if adjacent ~= nil and plotTypes[adjacent:GetIndex()] ~= g_PLOT_TYPE_OCEAN then
+						nearLand = true;
+						break;
+					end
+				end
+				terrain = nearLand and g_TERRAIN_TYPE_COAST or g_TERRAIN_TYPE_OCEAN;
+				if nearLand then outerCoast = outerCoast + 1 else deepOcean = deepOcean + 1 end
+			end
+			if terrainTypes ~= nil then
+				terrainTypes[plotIndex] = terrain;
+			elseif plot:GetTerrainType() ~= terrain then
+				TerrainBuilder.SetTerrainType(plot, terrain);
+			end
+		end
+	end
+	if terrainTypes == nil then
+		Game:SetProperty("ZYLRM_RING_INNER_SEA_COAST_TILES", innerCoast);
+		Game:SetProperty("ZYLRM_RING_OUTER_SHELF_TILES", outerCoast);
+		Game:SetProperty("ZYLRM_RING_DEEP_OCEAN_TILES", deepOcean);
+		print(string.format("%s: ring water depth enforced (inner-sea coast=%d outer shelf=%d deep ocean=%d)",
+			LOG_PREFIX, innerCoast, outerCoast, deepOcean));
+	end
+end
+
+-------------------------------------------------------------------------------
+-- Both Rich Mainland variants wrap horizontally.  The far-left and far-right
+-- columns are forced to deep ocean so the wrap seam is always blocked by deep
+-- water, no matter how close islands or shelves come to the map edge.
+local function ZYL_ForceWrapSeamDeepOcean(terrainTypes)
+	if not IS_HORIZONTAL_MAINLAND and not IS_RING_MAINLAND then return end
+	if g_iW == nil or g_iW < 3 then return end
+	local deepCount = 0;
+	for _, x in ipairs({ 0, g_iW - 1 }) do
+		for y = 0, g_iH - 1 do
+			local index = y * g_iW + x;
+			plotTypes[index] = g_PLOT_TYPE_OCEAN;
+			if terrainTypes ~= nil then
+				terrainTypes[index] = g_TERRAIN_TYPE_OCEAN;
+			else
+				local plot = Map.GetPlot(x, y);
+				if plot ~= nil and plot:GetTerrainType() ~= g_TERRAIN_TYPE_OCEAN then
+					TerrainBuilder.SetTerrainType(plot, g_TERRAIN_TYPE_OCEAN);
+				end
+			end
+			deepCount = deepCount + 1;
+		end
+	end
+	if terrainTypes == nil then
+		Game:SetProperty("ZYLRM_WRAP_SEAM_DEEP_OCEAN_TILES", deepCount);
+		print(string.format("%s: wrap seam deep-ocean columns forced (x=0, x=%d; %d tiles)",
+			LOG_PREFIX, g_iW - 1, deepCount));
+	end
+end
+
+------------------------------------------------------------------------------
 function BBS_Assign(args)
 	--[[ Corrupted legacy log text retained only as a comment.
 	print("地图：富饶竖向大陆出生点分配中")
@@ -200,10 +393,21 @@ function GenerateMap()
 
 	--【海陆、地形】
 	print("划分海陆");
-	plotTypes = TeamPVPGeneratePlotTypes(world_age);
+	plotTypes = IS_HORIZONTAL_MAINLAND
+		and ZYL_HorizontalGeneratePlotTypes(world_age)
+		or (IS_RING_MAINLAND and ZYL_RingGeneratePlotTypes(world_age))
+		or TeamPVPGeneratePlotTypes(world_age);
 	terrainTypes = TeamPVPGenerateTerrainTypes(plotTypes, g_iW, g_iH, g_iFlags, true, temperature);
-	ZYL_RemovePolarShallowSea(terrainTypes);
-	ZYL_EnforceCentralOceanBarrier(terrainTypes);
+	if IS_HORIZONTAL_MAINLAND then
+		ZYL_EnforceHorizontalOceanDepth(terrainTypes);
+		ZYL_ForceWrapSeamDeepOcean(terrainTypes);
+	elseif IS_RING_MAINLAND then
+		ZYL_EnforceRingOceanDepth(terrainTypes);
+		ZYL_ForceWrapSeamDeepOcean(terrainTypes);
+	else
+		ZYL_RemovePolarShallowSea(terrainTypes);
+		ZYL_EnforceCentralOceanBarrier(terrainTypes);
+	end
 	ApplyBaseTerrain(plotTypes, terrainTypes, g_iW, g_iH);
 
 	-- 分配大陆
@@ -231,7 +435,7 @@ function GenerateMap()
 
 	print("增加自然奇观");
 	local mapRow = ZYL_RVC_GetMapRow();
-	local wonderScale = IS_FFA and g_fHorizontalScale or 1;
+	local wonderScale = USES_FFA_BASELINE and g_fHorizontalScale or 1;
 	local baseWonderTarget = math.floor((mapRow and mapRow.NumNaturalWonders or 4) + RichNum / 3);
 	local wonderTarget = baseWonderTarget * wonderScale;
 	local nwGen = NaturalWonderGenerator.Create({
@@ -287,15 +491,26 @@ function GenerateMap()
 	AreaBuilder.Recalculate();
 	TerrainBuilder.AnalyzeChokepoints();
 	RichNSBalance();
-	if IS_FFA then
+	if USES_FFA_BASELINE then
 		ZYL_EnforceFFAMountainRatio();
+	end
+	if IS_HORIZONTAL_MAINLAND then
+		ZYL_EnforceHorizontalOceanDepth();
+		ZYL_ForceWrapSeamDeepOcean();
+	elseif IS_RING_MAINLAND then
+		ZYL_EnforceRingOceanDepth();
+		ZYL_ForceWrapSeamDeepOcean();
 	end
 	ZYL_EnsureSeaCivReefFish();
 	ZYL_EnsureRussiaFoodTiles();
 	ZYL_RVC_EnforceSeaResourceRules();
 	ZYL_EnsureCoastalStartReefResource();
-	ZYL_RemovePolarShallowSea();
-	ZYL_EnforceCentralOceanBarrier();
+	ZYL_EnsureHorizontalSideSeaResources();
+	ZYL_EnsureRingSeaResources();
+	if not IS_HORIZONTAL_MAINLAND and not IS_RING_MAINLAND then
+		ZYL_RemovePolarShallowSea();
+		ZYL_EnforceCentralOceanBarrier();
+	end
 	--[[ Corrupted legacy log text retained only as a comment.
 
 	print("开始生成道路");
@@ -378,10 +593,10 @@ function ZYLRM_LogFinalStatistics()
 end
 
 -------------------------------------------------------------------------------
--- FFA keeps the original terrain generator, then tops the final map up to a
--- stable 3.5% mountain share after spawn balancing has finished removing or
--- reshaping highlands.  Start rings, resources, wonders and coast access are
--- never consumed by this pass.
+-- The FFA-derived baseline tops the final map up to a stable 3.5% mountain
+-- share after spawn balancing has finished removing or reshaping highlands.
+-- Start rings, resources, wonders and coast access are never consumed by this
+-- pass.  The rebuilt Team map uses the same baseline pass.
 function ZYL_EnforceFFAMountainRatio()
 	local targetRatio = 0.035;
 	local protected = {};
@@ -444,7 +659,7 @@ function ZYL_EnforceFFAMountainRatio()
 	end
 	mountainCount = mountainCount + added;
 	Game:SetProperty("ZYLRM_FFA_MOUNTAINS_ADDED", added);
-	print(string.format("%s FFA mountain guarantee: added %d, final %d/%d (%.2f%%), target %.2f%%",
+	print(string.format("%s baseline mountain guarantee: added %d, final %d/%d (%.2f%%), target %.2f%%",
 		LOG_PREFIX, added, mountainCount, landCount,
 		landCount > 0 and mountainCount * 100 / landCount or 0, targetRatio * 100));
 end
@@ -968,6 +1183,149 @@ function ZYL_RVC_EnforceSeaResourceRules()
 			ResourceBuilder.SetResourceType(Map.GetPlotByIndex(candidates[i]), resourceIndex, 1);
 		end
 		print("ZYL RVC reef-only resource correction", reefOnlyResources[resourceIndex], removedCount, placed);
+	end
+end
+
+-------------------------------------------------------------------------------
+-- The ordinary rich resource generator supplies most water resources.  The
+-- horizontal variant keeps a single legal fallback resource on the east/west
+-- ocean frames, which are now the island- and resource-rich flanks; the
+-- north/south seas receive no guarantee.
+function ZYL_EnsureHorizontalSideSeaResources()
+	if not IS_HORIZONTAL_MAINLAND then return end
+	local resourceNames = {
+		"RESOURCE_FISH", "RESOURCE_CRABS", "RESOURCE_WHALES",
+		"RESOURCE_PEARLS", "RESOURCE_TURTLES",
+	};
+	local resourceIndices = {};
+	local resourceLookup = {};
+	for _, resourceName in ipairs(resourceNames) do
+		local row = GameInfo.Resources[resourceName];
+		if row ~= nil then
+			table.insert(resourceIndices, row.Index);
+			resourceLookup[row.Index] = true;
+		end
+	end
+	local westBase = ZYL_HORIZONTAL_WEST_BASE or 5;
+	local eastBase = ZYL_HORIZONTAL_EAST_BASE or (g_iW - 6);
+	local sideDefinitions = {
+		{ Name = "WEST",  Match = function(plot)
+			return plot:GetX() < westBase and plot:GetY() >= 5 and plot:GetY() <= g_iH - 6;
+		end },
+		{ Name = "EAST",  Match = function(plot)
+			return plot:GetX() > eastBase and plot:GetY() >= 5 and plot:GetY() <= g_iH - 6;
+		end },
+	};
+	for _, side in ipairs(sideDefinitions) do
+		local hasResource = false;
+		local candidates = {};
+		for plotIndex = 0, Map.GetPlotCount() - 1 do
+			local plot = Map.GetPlotByIndex(plotIndex);
+			if plot ~= nil and plot:IsWater() and not plot:IsLake()
+					and side.Match(plot) then
+				if resourceLookup[plot:GetResourceType()] == true then
+					hasResource = true;
+				elseif not plot:IsNaturalWonder() then
+					table.insert(candidates, plot);
+				end
+			end
+		end
+		local placed = false;
+		if not hasResource then
+			for _, resourceIndex in ipairs(resourceIndices) do
+				for _, plot in ipairs(candidates) do
+					if ResourceBuilder.CanHaveResource(plot, resourceIndex) then
+						ResourceBuilder.SetResourceType(plot, resourceIndex, 1);
+						placed = plot:GetResourceType() == resourceIndex;
+						if placed then break end
+					end
+				end
+				if placed then break end
+			end
+		end
+		Game:SetProperty("ZYLRM_HORIZONTAL_SEA_RESOURCE_" .. side.Name,
+			hasResource or placed);
+		print(LOG_PREFIX, "horizontal side sea resource", side.Name,
+			hasResource and "existing" or (placed and "fallback" or "missing"));
+	end
+end
+
+------------------------------------------------------------------------------
+-- Ring-mainland sea resource guarantees.  The inner sea (when it is large
+-- enough to matter) and each quadrant of the outer sea must contain at least
+-- one fish-type sea resource; an empty region receives a fallback placement.
+-- This mirrors the four-sided guarantee of the horizontal battlefield while
+-- covering the two ring seas.
+function ZYL_EnsureRingSeaResources()
+	if not IS_RING_MAINLAND then return end
+	local resourceNames = {
+		"RESOURCE_FISH", "RESOURCE_CRABS", "RESOURCE_WHALES",
+		"RESOURCE_PEARLS", "RESOURCE_TURTLES",
+	};
+	local resourceIndices = {};
+	local resourceLookup = {};
+	for _, resourceName in ipairs(resourceNames) do
+		local row = GameInfo.Resources[resourceName];
+		if row ~= nil then
+			table.insert(resourceIndices, row.Index);
+			resourceLookup[row.Index] = true;
+		end
+	end
+	local regions = {};
+	local function addRegion(name, match)
+		table.insert(regions, { Name = name, Match = match });
+	end
+	if g_ringInnerR >= 6 then
+		addRegion("INNER", function(plot)
+			local dx = plot:GetX() + 0.5 - g_ringCx;
+			local dy = plot:GetY() + 0.5 - g_ringCy;
+			return math.sqrt(dx * dx + dy * dy) <= g_ringInnerR - 2;
+		end);
+	end
+	for _, quadrant in ipairs({
+		{ Name = "OUTER_N", Match = function(dx, dy) return dy > 0 end },
+		{ Name = "OUTER_S", Match = function(dx, dy) return dy < 0 end },
+		{ Name = "OUTER_E", Match = function(dx, dy) return dx > 0 end },
+		{ Name = "OUTER_W", Match = function(dx, dy) return dx < 0 end },
+	}) do
+		addRegion(quadrant.Name, function(plot)
+			local dx = plot:GetX() + 0.5 - g_ringCx;
+			local dy = plot:GetY() + 0.5 - g_ringCy;
+			local d = math.sqrt(dx * dx + dy * dy);
+			return d >= g_ringOuterR + 2 and quadrant.Match(dx, dy);
+		end);
+	end
+	for _, region in ipairs(regions) do
+		local hasResource = false;
+		local candidates = {};
+		for plotIndex = 0, Map.GetPlotCount() - 1 do
+			local plot = Map.GetPlotByIndex(plotIndex);
+			if plot ~= nil and plot:IsWater() and not plot:IsLake()
+					and region.Match(plot) then
+				if resourceLookup[plot:GetResourceType()] == true then
+					hasResource = true;
+				elseif not plot:IsNaturalWonder() then
+					table.insert(candidates, plot);
+				end
+			end
+		end
+		local placed = false;
+		if not hasResource then
+			for _, resourceIndex in ipairs(resourceIndices) do
+				for _, plot in ipairs(candidates) do
+					if ResourceBuilder.CanHaveResource(plot, resourceIndex) then
+						ResourceBuilder.SetResourceType(plot, resourceIndex, 1);
+						placed = plot:GetResourceType() == resourceIndex;
+						if placed then break end
+					end
+				end
+				if placed then break end
+			end
+		end
+		Game:SetProperty("ZYLRM_RING_SEA_RESOURCE_" .. region.Name,
+			hasResource or placed);
+		print(LOG_PREFIX, "ring sea resource", region.Name,
+			hasResource and "existing" or (placed and "fallback" or "missing"));
 	end
 end
 
@@ -1736,8 +2094,10 @@ end
 -------------------------------------------------------------------------------
 function TeamPVPGenerateContinents(plotTypes)
 	-- Team mode deliberately restores the Rich Vertical Continent strip logic:
-	-- contiguous rows are assigned in bands so opposite teams get opposite
-	-- mainland strips.  FFA uses the ordinary geographic plate assignment.
+	-- contiguous rows are assigned in bands so every continent is a full-width
+	-- horizontal stripe.  With the east/west team split, both halves border
+	-- every stripe, so both teams can reach every continent's luxuries.  FFA
+	-- uses the ordinary geographic plate assignment.
 	if not IS_TEAM then
 		TerrainBuilder.StampContinents();
 		AreaBuilder.Recalculate();
@@ -1751,7 +2111,10 @@ function TeamPVPGenerateContinents(plotTypes)
 	local mapContinents = math.max(1, (mapRow and mapRow.Continents or 1) + math.floor((RichNum or 4) / 3) - 1);
 	local landCount = 0;
 	for i = 0, g_iW * g_iH - 1 do
-		if plotTypes[i] == g_PLOT_TYPE_LAND then landCount = landCount + 1 end
+		if (IS_HORIZONTAL_MAINLAND and plotTypes[i] ~= g_PLOT_TYPE_OCEAN)
+				or (not IS_HORIZONTAL_MAINLAND and plotTypes[i] == g_PLOT_TYPE_LAND) then
+			landCount = landCount + 1;
+		end
 	end
 	if landCount == 0 then
 		TerrainBuilder.StampContinents();
@@ -1762,27 +2125,324 @@ function TeamPVPGenerateContinents(plotTypes)
 	local function assignPlot(plot)
 		local continent = (iContinent + math.floor((assigned % landCount) / bandSize)) % iNumContinents;
 		TerrainBuilder.SetContinentType(plot, continent);
-		if plotTypes[plot:GetIndex()] == g_PLOT_TYPE_LAND then assigned = assigned + 1 end
+		local plotType = plotTypes[plot:GetIndex()];
+		if (IS_HORIZONTAL_MAINLAND and plotType ~= g_PLOT_TYPE_OCEAN)
+				or (not IS_HORIZONTAL_MAINLAND and plotType == g_PLOT_TYPE_LAND) then
+			assigned = assigned + 1;
+		end
 	end
+	-- Row-major walk for every team variant (horizontal, ring, vertical):
+	-- consecutive rows share a continent, so each continent is one horizontal
+	-- stripe spanning the whole map width and both east/west team halves.
 	for y = 0, g_iH - 1 do
 		for x = 0, g_iW - 1 do assignPlot(Map.GetPlot(x, y)) end
 	end
+	Game:SetProperty("ZYLRM_TEAM_CONTINENT_STRIPES", mapContinents);
+	print(string.format("%s: team continents labeled (%d horizontal stripes)", LOG_PREFIX, mapContinents));
 	AreaBuilder.Recalculate();
 	TerrainBuilder.AnalyzeChokepoints();
+end
+
+-------------------------------------------------------------------------------
+-- Dedicated horizontal canvas.  The SQL sizes reserve five columns/rows on
+-- each side of an approximately (17 * player count)-by-18 mainland reduced by
+-- 10% along its length.  A broad, connected center is guaranteed first;
+-- low-frequency edge noise roughens the four shores, while separate noise and
+-- flank anchors create detached islands only in the east/west seas.
+function ZYL_HorizontalGeneratePlotTypes(world_age)
+	plotTypes = table.fill(g_PLOT_TYPE_OCEAN, g_iW * g_iH);
+	local westBase = ZYL_HORIZONTAL_WEST_BASE or 5;
+	local eastBase = ZYL_HORIZONTAL_EAST_BASE or (g_iW - 6);
+	local southBase = 5;
+	local northBase = g_iH - 6;
+	local edgeFrac = Fractal.Create(g_iW, g_iH, 3, g_iFlags, -1, -1);
+	local islandFrac = Fractal.Create(g_iW, g_iH, 4, g_iFlags, -1, -1);
+	local edgeLow = edgeFrac:GetHeight(32);
+	local edgeHigh = edgeFrac:GetHeight(68);
+	-- East/west flanks carry the islands; the north/south seas stay open so
+	-- their shallow water and sea resources remain reduced.  The lower
+	-- threshold makes the flank archipelagos denser than the former
+	-- four-side layout.
+	local islandThreshold = islandFrac:GetHeight(75);
+	local mainlandCount = 0;
+	local islandCount = 0;
+
+	local function SetInitialPlot(x, y, isLand)
+		local plot = Map.GetPlot(x, y);
+		if plot == nil then return end
+		local index = plot:GetIndex();
+		plotTypes[index] = isLand and g_PLOT_TYPE_LAND or g_PLOT_TYPE_OCEAN;
+		TerrainBuilder.SetTerrainType(plot,
+			isLand and g_TERRAIN_TYPE_GRASS or g_TERRAIN_TYPE_OCEAN);
+	end
+
+	for x = 0, g_iW - 1 do
+		local northNoise = edgeFrac:GetHeight(x, northBase);
+		local southNoise = edgeFrac:GetHeight(x, southBase);
+		local southEdge = southBase + (southNoise >= edgeHigh and 1
+			or (southNoise <= edgeLow and -1 or 0));
+		local northEdge = northBase + (northNoise >= edgeHigh and 1
+			or (northNoise <= edgeLow and -1 or 0));
+		for y = 0, g_iH - 1 do
+			local westNoise = edgeFrac:GetHeight(westBase, y);
+			local eastNoise = edgeFrac:GetHeight(eastBase, y);
+			local westEdge = westBase + (westNoise >= edgeHigh and 1
+				or (westNoise <= edgeLow and -1 or 0));
+			local eastEdge = eastBase + (eastNoise >= edgeHigh and 1
+				or (eastNoise <= edgeLow and -1 or 0));
+			local onMainland = x >= westEdge and x <= eastEdge
+				and y >= southEdge and y <= northEdge;
+			-- Preserve an unbroken horizontal core even when opposing edge
+			-- perturbations meet on the smallest two-player canvas.
+			if x >= westBase and x <= eastBase
+					and y >= southBase + 2 and y <= northBase - 2 then
+				onMainland = true;
+			end
+			SetInitialPlot(x, y, onMainland);
+			if onMainland then mainlandCount = mainlandCount + 1 end
+		end
+	end
+
+	local function IsMainlandFrame(x, y)
+		return x >= westBase - 1 and x <= eastBase + 1
+			and y >= southBase - 1 and y <= northBase + 1;
+	end
+	local function AddIsland(x, y)
+		local plot = Map.GetPlot(x, y);
+		if plot ~= nil and plotTypes[plot:GetIndex()] == g_PLOT_TYPE_OCEAN
+				and not IsMainlandFrame(x, y) then
+			SetInitialPlot(x, y, true);
+			islandCount = islandCount + 1;
+		end
+	end
+
+	-- Noise-driven archipelagos stay in the east/west ocean frames only.
+	-- This keeps the main strip connected, leaves the north/south seas as
+	-- open deep water, and avoids islands bridging into a shore.
+	for x = 1, g_iW - 2 do
+		for y = 1, g_iH - 2 do
+			local inEastWestSea = (x <= westBase - 3 or x >= eastBase + 3)
+				and y >= southBase - 1 and y <= northBase + 1;
+			if inEastWestSea
+					and islandFrac:GetHeight(x, y) >= islandThreshold then
+				AddIsland(x, y);
+			end
+		end
+	end
+
+	-- Each east/west flank gets two stable two-tile island seeds near the
+	-- shore; their exact along-shore positions remain synchronized-random
+	-- from game to game.  The north/south seas receive no seeds.
+	local verticalSpan = math.max(1, northBase - southBase - 6);
+	local westY = southBase + 3
+		+ TerrainBuilder.GetRandomNumber(verticalSpan, "ZYLRM horizontal west island");
+	local eastY = southBase + 3
+		+ TerrainBuilder.GetRandomNumber(verticalSpan, "ZYLRM horizontal east island");
+	local westY2 = southBase + 3
+		+ TerrainBuilder.GetRandomNumber(verticalSpan, "ZYLRM horizontal west island 2");
+	local eastY2 = southBase + 3
+		+ TerrainBuilder.GetRandomNumber(verticalSpan, "ZYLRM horizontal east island 2");
+	for _, point in ipairs({
+		{ westBase - 4, westY }, { westBase - 4, westY + 1 },
+		{ eastBase + 4, eastY }, { eastBase + 4, eastY + 1 },
+		{ westBase - 4, westY2 }, { westBase - 4, westY2 + 1 },
+		{ eastBase + 4, eastY2 }, { eastBase + 4, eastY2 + 1 },
+	}) do
+		AddIsland(point[1], point[2]);
+	end
+
+	AreaBuilder.Recalculate();
+	local reliefArgs = {
+		world_age = world_age,
+		iW = g_iW,
+		iH = g_iH,
+		iFlags = g_iFlags,
+		blendRidge = 10,
+		blendFract = 1,
+		extra_mountains = math.max(0, (2 + (3 - world_age)) * 2 + 2),
+		tectonic_islands = tectonic_islands,
+	};
+	local mountainRatio = math.max(1, math.floor((24 + (3 - world_age)) * 1.70 + 0.5));
+	plotTypes = ApplyTectonics(reliefArgs, plotTypes);
+	plotTypes = AddLonelyMountains(plotTypes, mountainRatio);
+	AddMountain(plotTypes);
+	Game:SetProperty("ZYLRM_HORIZONTAL_MAINLAND_TILES", mainlandCount);
+	Game:SetProperty("ZYLRM_HORIZONTAL_INITIAL_ISLAND_TILES", islandCount);
+	print(string.format("%s: horizontal land generated (mainland=%d island seeds=%d, mainland=[%d,%d]x[%d,%d])",
+		LOG_PREFIX, mainlandCount, islandCount, westBase, eastBase, southBase, northBase));
+	return plotTypes;
+end
+
+------------------------------------------------------------------------------
+-- Dedicated ring canvas.  The SQL sizes reserve five tiles of sea on every
+-- side of an annulus whose outer radius is (GridWidth - 10) / 2 and whose
+-- radial thickness is 16 tiles (clamped to a 2-tile inner sea on the smallest
+-- maps).  A solid mid-ring core is guaranteed first; low-frequency noise
+-- roughens the inner and outer shores, while separate noise plus fixed
+-- anchors scatter islands across both the inner sea and the outer sea.  The
+-- inner sea is later forced to shallow coast by ZYL_EnforceRingOceanDepth.
+function ZYL_RingGeneratePlotTypes(world_age)
+	plotTypes = table.fill(g_PLOT_TYPE_OCEAN, g_iW * g_iH);
+	local edgeFrac = Fractal.Create(g_iW, g_iH, 3, g_iFlags, -1, -1);
+	local islandFrac = Fractal.Create(g_iW, g_iH, 4, g_iFlags, -1, -1);
+	local edgeThreshold = edgeFrac:GetHeight(50);
+	local islandThreshold = islandFrac:GetHeight(80);
+	-- Inner-sea islands use a lower threshold so the central basin reads as
+	-- many small fragments rather than a few concentrated clumps.
+	local innerIslandThreshold = islandFrac:GetHeight(77);
+	local mainlandCount = 0;
+	local islandCount = 0;
+
+	local function distToCenter(x, y)
+		local dx = x + 0.5 - g_ringCx;
+		local dy = y + 0.5 - g_ringCy;
+		return math.sqrt(dx * dx + dy * dy);
+	end
+
+	local function SetInitialPlot(x, y, isLand)
+		local plot = Map.GetPlot(x, y);
+		if plot == nil then return end
+		local index = plot:GetIndex();
+		plotTypes[index] = isLand and g_PLOT_TYPE_LAND or g_PLOT_TYPE_OCEAN;
+		TerrainBuilder.SetTerrainType(plot,
+			isLand and g_TERRAIN_TYPE_GRASS or g_TERRAIN_TYPE_OCEAN);
+	end
+
+	for x = 0, g_iW - 1 do
+		for y = 0, g_iH - 1 do
+			local d = distToCenter(x, y);
+			local onMainland = d >= g_ringInnerR + 1 and d <= g_ringOuterR - 1;
+			if not onMainland then
+				local inBoundary = (d >= g_ringInnerR - 1 and d < g_ringInnerR + 1)
+					or (d > g_ringOuterR - 1 and d <= g_ringOuterR + 1);
+				if inBoundary then
+					onMainland = edgeFrac:GetHeight(x, y) >= edgeThreshold;
+				end
+			end
+			SetInitialPlot(x, y, onMainland);
+			if onMainland then mainlandCount = mainlandCount + 1 end
+		end
+	end
+
+	-- Remove single-tile boundary specks so the ring keeps two clean, mostly
+	-- connected shores.  The solid mid-ring core is never isolated, and the
+	-- later island pass re-adds intentional offshore islets.
+	for x = 0, g_iW - 1 do
+		for y = 0, g_iH - 1 do
+			local index = y * g_iW + x;
+			if plotTypes[index] == g_PLOT_TYPE_LAND then
+				local d = distToCenter(x, y);
+				local inCore = d >= g_ringInnerR + 1 and d <= g_ringOuterR - 1;
+				if not inCore then
+					local neighbors = 0;
+					for direction = 0, DirectionTypes.NUM_DIRECTION_TYPES - 1 do
+						local adjacent = Map.GetAdjacentPlot(x, y, direction);
+						if adjacent ~= nil and plotTypes[adjacent:GetIndex()] == g_PLOT_TYPE_LAND then
+							neighbors = neighbors + 1;
+						end
+					end
+					if neighbors == 0 then
+						SetInitialPlot(x, y, false);
+						mainlandCount = mainlandCount - 1;
+					end
+				end
+			end
+		end
+	end
+
+	local function AddIsland(x, y)
+		local plot = Map.GetPlot(x, y);
+		if plot == nil then return end
+		local index = plot:GetIndex();
+		if plotTypes[index] ~= g_PLOT_TYPE_OCEAN then return end
+		local d = distToCenter(x, y);
+		local tooCloseToRim = d >= g_ringInnerR - 1 and d <= g_ringOuterR + 1;
+		if tooCloseToRim then return end
+		SetInitialPlot(x, y, true);
+		islandCount = islandCount + 1;
+	end
+
+	-- Noise-driven archipelagos: inside the inner sea (when it is large
+	-- enough) and across the outer sea band, never bridging into a shore.
+	for x = 1, g_iW - 2 do
+		for y = 1, g_iH - 2 do
+			local d = distToCenter(x, y);
+			local inInnerSea = g_ringInnerR >= 6 and d <= g_ringInnerR - 2;
+			local inOuterSea = d >= g_ringOuterR + 2;
+			local threshold = inInnerSea and innerIslandThreshold or islandThreshold;
+			if (inInnerSea or inOuterSea) and islandFrac:GetHeight(x, y) >= threshold then
+				AddIsland(x, y);
+			end
+		end
+	end
+
+	-- Every side of the outer sea gets at least one stable two-tile island
+	-- seed; the inner sea gets scattered single-tile seeds below.
+	for _, point in ipairs({
+		{ g_ringCx - 0.5, g_ringCy + g_ringOuterR + 3 },
+		{ g_ringCx + 0.5, g_ringCy + g_ringOuterR + 3 },
+		{ g_ringCx - 0.5, g_ringCy - g_ringOuterR - 3 },
+		{ g_ringCx + 0.5, g_ringCy - g_ringOuterR - 3 },
+		{ g_ringCx + g_ringOuterR + 3, g_ringCy - 0.5 },
+		{ g_ringCx + g_ringOuterR + 3, g_ringCy + 0.5 },
+		{ g_ringCx - g_ringOuterR - 3, g_ringCy - 0.5 },
+		{ g_ringCx - g_ringOuterR - 3, g_ringCy + 0.5 },
+	}) do
+		AddIsland(math.floor(point[1]), math.floor(point[2]));
+	end
+	if g_ringInnerR >= 8 then
+		-- Scatter single-tile seeds across the inner sea at varied angles and
+		-- radii instead of four two-tile diagonal clusters, keeping the basin
+		-- fragmented instead of concentrated.
+		local innerSeedCount = 8;
+		for i = 1, innerSeedCount do
+			local angle = (i - 1) * (360 / innerSeedCount)
+				+ TerrainBuilder.GetRandomNumber(25, "ZYLRM ring inner island angle");
+			local radiusFrac = 0.25
+				+ TerrainBuilder.GetRandomNumber(45, "ZYLRM ring inner island radius") / 100.0;
+			local radius = math.max(2, g_ringInnerR * radiusFrac);
+			local ax = math.floor(g_ringCx - 0.5 + radius * math.cos(math.rad(angle)));
+			local ay = math.floor(g_ringCy - 0.5 + radius * math.sin(math.rad(angle)));
+			AddIsland(ax, ay);
+		end
+	end
+
+	AreaBuilder.Recalculate();
+	local reliefArgs = {
+		world_age = world_age,
+		iW = g_iW,
+		iH = g_iH,
+		iFlags = g_iFlags,
+		blendRidge = 10,
+		blendFract = 1,
+		extra_mountains = math.max(0, (2 + (3 - world_age)) * 2 + 2),
+		tectonic_islands = tectonic_islands,
+	};
+	local mountainRatio = math.max(1, math.floor((24 + (3 - world_age)) * 1.70 + 0.5));
+	plotTypes = ApplyTectonics(reliefArgs, plotTypes);
+	plotTypes = AddLonelyMountains(plotTypes, mountainRatio);
+	AddMountain(plotTypes);
+	Game:SetProperty("ZYLRM_RING_MAINLAND_TILES", mainlandCount);
+	Game:SetProperty("ZYLRM_RING_INITIAL_ISLAND_TILES", islandCount);
+	Game:SetProperty("ZYLRM_RING_INNER_RADIUS", g_ringInnerR);
+	Game:SetProperty("ZYLRM_RING_OUTER_RADIUS", g_ringOuterR);
+	print(string.format("%s: ring land generated (mainland=%d island seeds=%d, innerR=%d outerR=%d)",
+		LOG_PREFIX, mainlandCount, islandCount, g_ringInnerR, g_ringOuterR));
+	return plotTypes;
 end
 
 -------------------------------------------------------------------------------
 function TeamPVPGeneratePlotTypes(world_age)
 	plotTypes = table.fill(g_PLOT_TYPE_LAND, g_iW * g_iH);
 
-	-- 竖向大陆海陆生成：不对称水域裁剪。组队图保持原来的15格东西海；
-	-- FFA 保持原来的12格东西海，额外宽度留给环绕接缝深海。
+	-- 竖向大陆海陆生成：不对称水域裁剪。两张现役地图都采用
+	-- FFA 基底的12格东西海，额外宽度留给环绕接缝深海。
 	local variationFrac1 = Fractal.Create(g_iH, g_iBaseW, 3, g_iFlags, -1, -1);
 	local variationFrac2 = Fractal.Create(g_iH, g_iBaseW, 3, g_iFlags, -1, -1);
 	local variationFrac3 = Fractal.Create(g_iBaseW, g_iH, 3, g_iFlags, -1, -1);
 	local variationFrac4 = Fractal.Create(g_iBaseW, g_iH, 3, g_iFlags, -1, -1);
 
-	local base_water_W = IS_FFA and 12 or 15
+	local base_water_W = USES_FFA_BASELINE and 12 or 15
 	local d_water_W = base_water_W * g_fHorizontalScale
 	local d_water_H = 6
 	local waterlatitude_W = 1 - (d_water_W * 2 / g_iH)
@@ -1870,7 +2530,7 @@ function TeamPVPGeneratePlotTypes(world_age)
 
 	local args = args or {};
 	local oldIslandLandPercent = 100 - ZYL_RICH_MAINLAND_ISLAND_BASE_WATER_PERCENT;
-	local islandAreaScale = IS_FFA and g_fHorizontalScale or 1;
+	local islandAreaScale = USES_FFA_BASELINE and g_fHorizontalScale or 1;
 	local targetIslandLandPercent = oldIslandLandPercent
 		* ZYL_RICH_MAINLAND_ISLAND_LAND_MULTIPLIER / islandAreaScale;
 	-- Fractal:GetHeight consumes an integer percentile.  Nearest-integer
@@ -2150,7 +2810,7 @@ function AddFeatures()
 	
 	-- 湖泊会干扰河流，导致河流停止，如果再早一点建起来，就无法流入海洋。
 	local mapRow = ZYL_RVC_GetMapRow();
-	local lakeScale = IS_FFA and g_fHorizontalScale or 1;
+	local lakeScale = USES_FFA_BASELINE and g_fHorizontalScale or 1;
 	local numLargeLakes = (mapRow and mapRow.Continents or 1) * lakeScale;
 	-- 705：通过降雨调整大湖。
 	numLargeLakes = math.floor(numLargeLakes + rainfall - 4 + 0.5);
@@ -2159,6 +2819,13 @@ function AddFeatures()
 
 	-- 雨林比例
 	args.iJunglePercent = 18 + RichNum;
+	-- The horizontal battlefield has no tropical latitude.  Its feature
+	-- generator uses synchronized fractal clusters over every valid terrain and
+	-- then tops up to the same Rich Mainland jungle target.  The ring map has
+	-- no latitude axis either (every sector spans the full climate range), so
+	-- it shares the same latitude-free clustering.
+	args.ignoreJungleLatitude = IS_HORIZONTAL_MAINLAND or IS_RING_MAINLAND;
+	args.clusterJungles = IS_HORIZONTAL_MAINLAND or IS_RING_MAINLAND;
 	-- 森林比例
 	args.iForestPercent = 16 + RichNum * 1.6;
 	-- 沼泽比例
