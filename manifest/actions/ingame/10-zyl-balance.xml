@@ -81,4 +81,23 @@
     </Properties>
     <File>lang/ZYL_GameplayOverrides_Text.xml</File>
   </UpdateText>
+  <UpdateDatabase id="ZYL_GreatPeople" manifestOrder="254">
+    <Properties>
+      <LoadOrder>260000030</LoadOrder>
+    </Properties>
+    <File>sql/ZYL_GreatPeople.sql</File>
+  </UpdateDatabase>
+  <UpdateDatabase id="ZYL_GreatPeopleNFP" manifestOrder="255">
+    <Properties>
+      <LoadOrder>260000035</LoadOrder>
+    </Properties>
+    <Criteria>ZYLPVP_BBG_Babylon</Criteria>
+    <File>sql/ZYL_GreatPeople_NFP.sql</File>
+  </UpdateDatabase>
+  <UpdateText id="ZYL_GreatPeopleText" manifestOrder="256">
+    <Properties>
+      <LoadOrder>260000040</LoadOrder>
+    </Properties>
+    <File>lang/ZYL_GreatPeople_Text.xml</File>
+  </UpdateText>
 </InGameActionsFragment>

@@ -2049,7 +2049,7 @@
 		<!-- === GOVERNORS === -->
 		<!-- == Amani == -->
 		<Replace Tag="LOC_GOVERNOR_PROMOTION_AMBASSADOR_MESSENGER_DESCRIPTION" Language="en_US">
-			<Text>Can be assigned to a City-state, where she acts as 2 [ICON_ENVOY] Envoys. When established in a City-state, your cities that have a [ICON_TRADEROUTE] Trade Route to this city gain +2 [ICON_FOOD] Food and +2 [ICON_PRODUCTION] Production. Establishes in 5 turns.</Text>
+			<Text>Can be assigned to a City-state, where she acts as 2 [ICON_ENVOY] Envoys. When established in a City-state, your cities that have a [ICON_TRADEROUTE] Trade Route to this city gain +2 [ICON_FOOD] Food and +2 [ICON_PRODUCTION] Production. Establishes in 3 turns.</Text>
 		</Replace>
 		<Row Tag="LOC_GOVERNOR_PROMOTION_AMBASSADOR_NEGOTIATOR_NAME" Language="en_US">
 			<Text>Negotiator</Text>
@@ -2207,7 +2207,7 @@
 			<Text>+1 [ICON_CULTURE] Culture per turn for each [ICON_CITIZEN] Citizen in the city.</Text>
 		</Replace>
 		<Replace Tag="LOC_GOVERNOR_PROMOTION_CARDINAL_DIVINE_ARCHITECT_DESCRIPTION" Language="en_US">
-			<Text>Domestic [ICON_TRADEROUTE] Trade Routes to Moksha's city provide +2 [ICON_CULTURE] Culture and +1 [ICON_FOOD] Food. Allows this city to purchase [ICON_DISTRICT] districts with [ICON_FAITH] Faith at a 10% discount. </Text>
+			<Text>Domestic [ICON_TRADEROUTE] Trade Routes to Moksha's city provide +1 [ICON_CULTURE] Culture, +1 [ICON_FOOD] Food, and +2 [ICON_GOLD] Gold. Allows this city to purchase [ICON_DISTRICT] districts with [ICON_FAITH] Faith at a 30% discount. </Text>
 		</Replace>
 		<Replace Tag="LOC_GOVERNOR_PROMOTION_CARDINAL_CITADEL_OF_GOD_DESCRIPTION" Language="en_US">
 			<Text>+2 [ICON_GreatProphet] Great Prophet points if this city has a Holy Site. +2 [ICON_FAITH] Faith per turn for cities with a Holy Site within 6 tiles.</Text>
@@ -3371,7 +3371,10 @@
 			<Text>Improve 2 tiles.</Text>
 		</Replace>
 		<Replace Tag="LOC_BOOST_TRIGGER_FOREIGN_TRADE" Language="en_US">
-			<Text>Own 1 Scout.</Text>
+			<Text>Own a Scout or discover a new continent.</Text>
+		</Replace>
+		<Replace Tag="LOC_BOOST_TRIGGER_LONGDESC_FOREIGN_TRADE" Language="en_US">
+			<Text>Own a Scout, or discover a new continent; the wider world holds many trade opportunities.</Text>
 		</Replace>
 		<Replace Tag="LOC_BOOST_TRIGGER_HUMANISM" Language="en_US">
 			<Text>Own 2 Amphitheaters.</Text>

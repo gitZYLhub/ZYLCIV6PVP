@@ -79,6 +79,12 @@
     </Properties>
     <File>NHK/UI/AutoRecruit_GreatPerson_HotKey.xml</File>
   </AddUserInterfaces>
+  <AddUserInterfaces id="ZYL_TurnTimeHotkey" manifestOrder="257">
+    <Properties>
+      <Context>InGame</Context>
+    </Properties>
+    <File>NHK/UI/TurnTime_HotKey.xml</File>
+  </AddUserInterfaces>
   <ImportFiles id="ZYL_UI_Extensions" manifestOrder="52">
     <Properties>
       <LoadOrder>120</LoadOrder>

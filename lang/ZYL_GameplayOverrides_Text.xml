@@ -89,6 +89,15 @@
 		<Replace Tag="LOC_TRAIT_CIVILIZATION_GAUL_DESCRIPTION" Language="zh_Hans_CN">
 			<Text>解锁“铸铜术”科技后，矿山+1 [ICON_CULTURE] 文化值。采石场为所有 [ICON_DISTRICT] 区域提供标准相邻加成（对奥皮杜姆翻倍），矿山为所有 [ICON_DISTRICT] 区域提供少量相邻加成。特色 [ICON_DISTRICT] 区域不会因与其他区域相邻而获得少量相邻加成，且无法建在市中心旁。[NEWLINE][ICON_BULLET]出生地关联：T3铁、T4采石场资源、T5可开采资源。</Text>
 		</Replace>
+		<Replace Tag="LOC_DISTRICT_OPPIDUM_DESCRIPTION" Language="en_US">
+			<Text>A district unique to Gaul that is cheaper and available earlier than the district it replaces, the Industrial Zone. The Oppidum district is defensible with a ranged attack. When the first Oppidum is constructed the Apprenticeship technology is unlocked. Triggers a Culture Bomb of unowned territory when completed.[NEWLINE][NEWLINE]+2 [ICON_Production] Production adjacency bonus from Quarries and Strategic resources.</Text>
+		</Replace>
+		<Replace Tag="LOC_DISTRICT_OPPIDUM_DESCRIPTION" Language="zh_Hans_CN">
+			<Text>高卢特色区域，替代工业区，建造花费更低，且出现时间更早。“奥皮杜姆”区域具有防御力且可执行远程攻击。建成首座奥皮杜姆后，直接解锁“学徒”科技。完成时对无主领土施放文化炸弹。[NEWLINE][NEWLINE]采石场和战略资源提供+2 [ICON_Production] 相邻加成。</Text>
+		</Replace>
+		<Replace Tag="LOC_DISTRICT_OPPIDUM_DESCRIPTION" Language="zh_Hant_HK">
+			<Text>高盧特色區域，取代工業區，不僅造價較低廉，可建造的時間也較早。奧皮杜姆為防禦性區域且具有遠程攻擊能力。建成首座奧皮杜姆後，隨即解鎖「學徒」科技。完成時對無主領土施放文化炸彈。[NEWLINE][NEWLINE]每與一個採石場改良設施或戰略資源相鄰，就可獲得+2 [ICON_Production] 生產力之相鄰加成。</Text>
+		</Replace>
 		<Replace Tag="LOC_LEADER_POUNDMAKER_ABILITY_DESCRIPTION" Language="en_US">
 			<Text>All Alliance types provide Shared Visibility.[NEWLINE]Your outgoing [ICON_TRADEROUTE] Trade Routes grant +1 [ICON_FOOD] Food to Poundmaker per Camp or Pasture at the destination. [ICON_TRADEROUTE] Trade Routes sent to your cities grant +1 [ICON_GOLD] Gold to Poundmaker per Camp or Pasture at the destination.</Text>
 		</Replace>

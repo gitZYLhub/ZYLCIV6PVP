@@ -926,11 +926,11 @@
 - 提交：本地改动，尚未提交。
 - 纠偏：本条目（M14）的判断错误，改动已全部回滚，详见 M16。
 
-### 2026-09-10 / M15-恢复奥皮杜姆建成后的学徒科技尤里卡
+### 2026-09-10 / M15-恢复奥皮杜姆建成后直接解锁学徒科技
 
-- 目标：按用户要求恢复原版高卢机制——建成特色区域“奥皮杜姆”（Oppidum）后获得“学徒”（Apprenticeship）科技的尤里卡；BBG 删除了该机制，需在 ZYL 覆盖层“取消删除”。
-- 调查结论：BBG 上游 `Components/BBG/sql/NFP/Gaul.sql` 第 16 行（2021-07-03 平衡）执行 `DELETE FROM DistrictModifiers WHERE DistrictType='DISTRICT_OPPIDUM' AND ModifierId='OPPIDUM_GRANT_TECH_APPRENTICESHIP'`，只删除了绑定。原版 modifier 定义（`MODIFIER_PLAYER_GRANT_SPECIFIC_TECH_BOOST`）与参数（`TechType='TECH_APPRENTICESHIP'`）仍在游戏数据库中，因此只需在 ZYL 层重新绑定即可完整恢复。
-- 修改：`sql/ZYL_GameplayOverrides.sql` 高卢段末尾新增 `INSERT OR IGNORE INTO DistrictModifiers (DistrictType, ModifierId) VALUES ('DISTRICT_OPPIDUM', 'OPPIDUM_GRANT_TECH_APPRENTICESHIP')`（注释说明依赖原版定义、仅补回 BBG 删除的绑定）；`tools/validation/FinalGameplayChecks.ps1` 的 required token 列表新增 `OPPIDUM_GRANT_TECH_APPRENTICESHIP`，并新增绑定存在的正则检查；`TEST_CHECKLIST.md` 新增奥皮杜姆尤里卡实机测试项。
+- 目标：按用户要求恢复原版高卢机制——建成特色区域“奥皮杜姆”（Oppidum）后直接解锁“学徒”（Apprenticeship）整项科技（原版 modifier 为 `MODIFIER_PLAYER_GRANT_SPECIFIC_TECHNOLOGY_GAUL`，非尤里卡）；BBG 删除了该机制，需在 ZYL 覆盖层“取消删除”。
+- 调查结论：BBG 上游 `Components/BBG/sql/NFP/Gaul.sql` 第 16 行（2021-07-03 平衡）执行 `DELETE FROM DistrictModifiers WHERE DistrictType='DISTRICT_OPPIDUM' AND ModifierId='OPPIDUM_GRANT_TECH_APPRENTICESHIP'`，只删除了绑定。原版 modifier 定义（`MODIFIER_PLAYER_GRANT_SPECIFIC_TECHNOLOGY_GAUL`，RunOnce）与参数（`TechType='TECH_APPRENTICESHIP'`）仍在游戏数据库中，因此只需在 ZYL 层重新绑定即可完整恢复。
+- 修改：`sql/ZYL_GameplayOverrides.sql` 高卢段末尾新增 `INSERT OR IGNORE INTO DistrictModifiers (DistrictType, ModifierId) VALUES ('DISTRICT_OPPIDUM', 'OPPIDUM_GRANT_TECH_APPRENTICESHIP')`（注释说明依赖原版定义、仅补回 BBG 删除的绑定）；`tools/validation/FinalGameplayChecks.ps1` 的 required token 列表新增 `OPPIDUM_GRANT_TECH_APPRENTICESHIP`，并新增绑定存在的正则检查；`TEST_CHECKLIST.md` 新增奥皮杜姆解锁学徒实机测试项。
 - 契约：写集合语义指纹刷新为 `12e0ab7b…`，写操作 6265→6266；主键契约指纹刷新为 `76ce41ff…`，insert-replace 4355→4356、resolved 2894→2895、rowCandidates 6823→6824（unresolved 1461 不变）；Insert-Select 语义指纹刷新为 `0bea891a…`（普通 VALUES INSERT 改变了语句流），计数与形状均不变。重复键组保持 29、最终值契约不变。
 - 验证：`tools/validate.ps1` 通过（207 XML、110 Criteria、286 Actions、1079 Files、551 活跃引用、48 休眠文件、117 源码文件）；`git diff --check` 无空白错误。
 - 风险/待办：未做游戏内实机验证，最终触发以实机 DebugGameplay 为准。改动未提交，等待用户确认后统一提交。
@@ -965,3 +965,81 @@
 - 验证：`tools/validate.ps1` 通过（207 XML、110 Criteria、286 Actions、1079 Files、551 活跃引用、48 休眠文件、117 源码文件）；`git diff --check` 无空白错误；`TEST_CHECKLIST.md` 新增日本相邻恢复的实机测试项。
 - 风险/待办：未做游戏内实机验证，最终相邻加成与叠加情况以实机 DebugGameplay 为准。改动未提交，等待用户确认后统一提交。
 - 提交：本地改动，尚未提交。
+
+### 2026-09-10 / M19-同步日本明治维新简中说明与实际机制
+
+- 目标：按用户要求修复游戏内日本文明能力简中描述与实际机制不一致的问题（机制已于 M18 恢复，文本仍停留在 BBG 旧文案），且不改变中文翻译的语言风格。
+- 调查结论：游戏内 `LOC_TRAIT_CIVILIZATION_ADJACENT_DISTRICTS_DESCRIPTION`（简中）的最终值由 `lang/ZYL_BBG74_Chinese_Text.xml`（LoadOrder 259999990，最后一个写入该标签的文件）决定，仍写着“除商业中心和港口外……商业中心不再从相邻河流获得加成”，与 M18 恢复后的机制（港口/商业中心 +1 金币相邻回到文明能力、商业中心恢复沿河 +1 金币）矛盾。BBG 上游 `Components/BBG/lang/chinese.xml` 的同名标签被该文件覆盖、不会在游戏内显示；`lang/ZYL_GameplayOverrides_Text.xml`（LoadOrder 260000020）未写入该标签。校验脚本（`GameplayLocalizationChecks.ps1`、`BbgLocalizationChecks.ps1`）均未锁定日本这条文案，修改不触发校验失败。北条神风 EXPANSION2 的简中文本未声称持有商业中心/港口相邻加成，无需改动。
+- 修改：`lang/ZYL_BBG74_Chinese_Text.xml` 第 177 行——删除“除商业中心和港口外”“不再”两处旧表述，改为“所有 [ICON_DISTRICT] 区域与其他 [ICON_DISTRICT] 区域相邻时获得标准相邻加成。”，保留 `[NEWLINE][ICON_BULLET]出生地关联：T1海岸。` 后缀与原有句式/图标风格。沿河句整句删除而非改为肯定句：`River_Gold` 是 `District_Adjacencies` 绑定的全文明通用商业中心标准相邻（M18 只是取消日本专属排除、回到基线），能力说明只描述本文明与基线的差异，原版及其他文明说明均不写这类通用相邻；`TEST_CHECKLIST.md` 新增“日本文明能力简中说明与机制一致、不残留旧文案”实机验收项；`CHANGELOG.md` 未发布段新增“修复”条目。
+- 契约：仅文本汉化变化，数据库写集合/主键/Insert-Select 三契约不受影响，无需刷新。
+- 验证：`tools/validate.ps1` 通过；`git diff --check` 无空白错误；全仓 grep 确认 ZYL 层不再有“除商业中心和港口外”“不再从相邻河流获得加成”残留（BBG 上游各语言副本除外，它们被 ZYL 层覆盖且不在本次范围）。
+- 风险/待办：未做游戏内实机验证，最终显示以实机为准；BBG 上游英文/其他语言副本仍为旧文案（英文不在本次用户要求范围内），如后续需要可另行处理。
+- 提交：本地改动，尚未提交。
+
+### 2026-09-11 / M20-实测三问题：地图选项 token、回合计时器、北条神风文案
+
+- 目标：处理用户 2026-09-11 实测反馈的三项问题——①进入对局后打开选项界面出现一系列原始 `LOC_ZYLRM_…` token；②回合计时器不启动；③北条时宗开场文本仍含“商业中心和港口与其他区域相邻时获得标准相邻加成”，与明治维新重复。
+- 调查结论①（地图选项 token，根因确认）：`UIWarnings.csv` 显示游戏内选项界面（`/InGame/TopOptionsMenu/Options/.../GameOptionsScrollPanel/Stack/GameSetupContainer/ParametersStack/...`）会渲染开局参数下拉框（含 ZYLRM 地图参数）；`Modding.log` 2352616 起游戏开始阶段**重建 LocalizedText 表**（重载全部基础 DLC 文本与游戏内动作文本），而三个 ZYLRM 地图文本文件（`Components/BBM/Lang/ZYL_RichMainland_Text.xml`、`ZYL_HorizontalRichMainland_Text.xml`、`ZYL_RingMainland_Text.xml`）只挂在**前端** UpdateText 动作，未进游戏内动作 → 游戏内选项界面的地图参数名称/描述解析失败，显示原始 token（参数本身在 Configuration 库中存在，故下拉框存在、仅文本缺失）。菜单阶段文本正常（主机广播 `MAP_NAME` 的 `LOC_ZYLRM_RING_MAP_NAME` 已解析为“组队PVP环形大陆”）。
+- 调查结论②（回合计时器，根因确认）：`NHK/UI/TurnTime_HotKey.lua/.xml` 从未被任何动作注册（modinfo 无引用、文件在 `manifest/dormant-files.txt` 休眠清单、打包副本中缺失），游戏日志中不存在 `TurnTime_HotKey` UI 加载记录（对照 `MapPin_HotKey`/`AutoRecruit_GreatPerson_HotKey` 均正常加载），计时器 UI 与热键永不初始化。
+- 调查结论③（北条文案）：用户判断正确——M18 已把商业中心/港口相邻加成并入明治维新（文明能力，全体日本领袖生效）并删除北条个人副本，而 `lang/ZYL_BBG74_Chinese_Text.xml` 第 188 行神风描述仍残留该句；M19 调查声称“北条神风简中未声称持有商业中心/港口相邻加成”属遗漏，本次修正。
+- 修改：①`manifest/actions/ingame/05-bbm.xml` 的 `ZYLPVP_BBM_IG_005_BBS_Gameplay_test` 动作追加三个 ZYLRM 文本文件（前端动作不变，游戏内文本表重建后可解析）；②`manifest/actions/ingame/03-qol-ui.xml` 新增 `AddUserInterfaces id="ZYL_TurnTimeHotkey"` 注册 `NHK/UI/TurnTime_HotKey.xml`，`manifest/files/03-qol-ui.xml` 追加 `TurnTime_HotKey.lua/.xml` 两个文件条目，`manifest/dormant-files.txt` 移除这两个文件，`NHK/UI/TurnTime_HotKey.lua` 三处 `GameConfiguration.GetValue("TURN_TIMER_TIME")` 直接参与算术/比较改为先捕获再使用（满足 RuntimeSafetyChecks 两段读取规则）；③`lang/ZYL_BBG74_Chinese_Text.xml` 第 188 行删除“商业中心和港口与其他 [ICON_DISTRICT] 区域相邻时获得标准相邻加成。”，与 M19 对第 177 行的处理原则一致（能力说明只描述与基线的差异）。
+- 契约：本次无 SQL 数据变更。主键契约 `expectedAnalysisSha256` 由 `6e06d235…` 刷新为 `9d621e32…`（计数全部一致——此前对 `ZYL_GameplayOverrides.sql` 的注释扩充使语义视图中的源行号偏移）；动作图基线 `expectedCurrentActionGraphSha256` 两次刷新：注册计时器 UI 后 `e7c0165b…`（inGameActions 253→254、files 1082→1084），追加 BBM 游戏内文本后 `b71b6a69…`（计数不变）；写集合与 Insert-Select 契约未漂移。
+- 验证：`tools/validate.ps1` 通过（208 XML、110 Criteria、291 Actions、1084 Files、556 活跃引用、46 休眠文件、119 源码文件）；windows 发布包重建成功（910 文件、422.15 MiB、聚合 SHA-256 `5f1f3e8b…`，后续 BBM 文本追加后需重新构建部署）。
+- 风险/待办：①修复后需实机重进对局打开选项界面确认不再出现原始 token（若游戏语言非 en_US/zh_Hans_CN，ZYLRM 文本仍只有两种语言覆盖，其他语言下地图选项仍会显示原始 token，属既有覆盖缺口，可按需扩充）；②回合计时器需实机确认 P++/P-- 热键与强制结束回合可用；③北条神风文案需实机确认。改动未提交，等待用户确认后统一提交。
+- 提交：本地改动，尚未提交。
+
+### 2026-09-11 / M21-圣乔治·詹姆斯使用次数 3 → 2（含中英文案）
+
+- 目标：按用户要求把中世纪大工程师圣乔治·詹姆斯（`GREAT_PERSON_INDIVIDUAL_JAMES_OF_ST_GEORGE`）的行动使用次数由 3 次改为 2 次，并同步中英文描述。
+- 调查结论：使用次数由 `GreatPersonIndividuals.ActionCharges` 控制；原版 `GreatPeople_Engineers.xml` 第 27 行为 `ActionCharges="3"`（本 mod 此前未覆盖该列，游戏中即为 3）。该伟人的能力正文与次数标注统一在 `LOC_ZYL_GREATPERSON_JAMES_OF_ST_GEORGE_ACTIVE`（中英两行，无繁中行），由 `ZYL_GreatPeople.sql` 第 144 行 `ActionEffectTextOverride` 指向。
+- 修改：`sql/ZYL_GreatPeople.sql` 第 8 节新增 `UPDATE GreatPersonIndividuals SET ActionCharges=2 WHERE GreatPersonIndividualType='GREAT_PERSON_INDIVIDUAL_JAMES_OF_ST_GEORGE'`（与第 3/4 节柯莱欧司/克拉苏同款写法）；`lang/ZYL_GreatPeople_Text.xml` 该标签英文 “(Can be used 3 times)” → “(Can be used 2 times)”、简体中文“（可使用 3 次）” → “（可使用 2 次）”。
+- 契约：新增一条 UPDATE 语句 → 写集合语义指纹刷新为 `68e11a89…`（写操作 6370→6371，其余计数不变）；主键契约指纹刷新为 `2a527ed5…`（计数全部一致，仅语句流变化）；Insert-Select 指纹保持 `ffbbde65…` 不变（无 INSERT…SELECT 语句变化）；动作图基线不变（无 modinfo 动作/文件清单变化）。
+- 验证：`tools/validate.ps1` 通过（208 XML、110 Criteria、291 Actions、1084 Files、556 活跃引用、46 休眠文件、118 源码文件）；windows 发布包重建并部署。
+- 风险/待办：需实机确认游戏中该伟人行动次数显示为 2 且中英文案为“可使用 2 次”。改动未提交，等待用户确认后统一提交。
+- 提交：本地改动，尚未提交。
+
+### 2026-09-11 / M22-略微降低横向大陆/环形大陆的雨林扎堆程度
+
+- 目标：按用户要求“略微降低雨林的扎堆程度（仍然扎堆，只是不要过度）”，仅作用于横向大陆与环形大陆（它们共用 `ignoreJungleLatitude`+`clusterJungles` 聚类模式），不动普通富饶竖向大陆/FFA 的纬度带逻辑，也不动森林/沼泽等其他地貌。
+- 调查结论：扎堆由 `Utility/ZYL_RVC_FeatureGenerator.lua`（DW_FeatureGenerator）三处决定——①分形高度场定“哪些区域成团”（`Create()` L37-41，`jungleClusterFrac`，保留）；②`AddJunglesAtPlot` 的相邻雨林加分（+60/+130/-80）决定聚落边缘的生长强度（“过度”的来源）；③`EnsureJungleMinimum` 兜底补种的相邻权重（30000）决定保底填充的形状。总分/掷骰上限（`min(360, iScore)`、400 骰）与总量目标（`iJunglePercent = 18 + RichNum`）不动，保证总量不缩水。
+- 修改：`ZYL_RVC_FeatureGenerator.lua` 两处——相邻雨林加分 `+60/+130/-80` → `+45/+105/-80`（单邻 -25%、2-3 邻 -19%，≥4 格封顶惩罚不变，防止在密集核心区制造空洞）；`EnsureJungleMinimum` 相邻权重 `30000` → `24000`（-20%，保底填充仍明显偏向已有雨林，但高分形孤立格有机会入选，聚落略微松散）。分形基分（1.4 倍）与 90% 落子上限不变，确保“仍然扎堆”。
+- 契约：纯 Lua 数值调整，数据库写集合/主键/Insert-Select 与动作图基线均不受影响。
+- 验证：`tools/validate.ps1` 通过（208 XML、110 Criteria、291 Actions、1084 Files、556 活跃引用、46 休眠文件、117 源码文件）；windows 发布包重建并部署。
+- 风险/待办：需实机观察两张图的雨林团块大小/密度是否符合预期；若仍过度或变得太散，可再微调上述两处常量（相邻加分、30000→24000 权重）。改动未提交，等待用户确认后统一提交。
+- 提交：本地改动，尚未提交。
+
+### 2026-09-11 / M23-新增 verify_deploy.ps1：发布版与开发版对齐校验
+
+- 目标：回答"如何确保发布版与开发版完全对齐"，并补齐既有保障链的最后一个盲区——**部署到游戏目录的副本此前无自动校验**（每次部署后靠手工抽查文件哈希/关键词），游戏实际加载的是 `Documents\My Games\...\Mods\workshop-windows`，若它陈旧，开发树改动再多也不会生效。
+- 调查结论：既有保障链已覆盖"工作树 → 构建产物"：①发布包完全由工作树确定性构建（无手工编辑路径）；②`assemble_modinfo.ps1` 从 manifest 片段组装 modinfo，动作图基线锁定 action/criteria/files 清单与指纹；③`validate.ps1` 强制数据库写集合/主键/Insert-Select 契约、休眠文件清单、RuntimeSafetyChecks 等，构建前置必过；④文本统一 UTF-8 无 BOM + LF（带 fixture 自检）；⑤构建产物输出全量清单 `artifacts/reports/ZYLPVPMOD-<版本>-<profile>.manifest.json`（逐文件 sha256/bytes + 按 Ordinal 路径排序的 `sha256 bytes path` 行链聚合哈希 aggregateSha256，同源码两次构建聚合哈希一致）；⑥目标目录先改名 `.previous-<guid>` 再原子替换、失败回滚。缺口只在"构建产物 → 已安装副本"这一段。
+- 修改：新增 `tools/verify_deploy.ps1`（只读）：按 project.json 的 packageName/semanticVersion 精确定位当前构建的 manifest（避免误匹配历史 1.3.0 清单），扫描已安装目录并与清单逐文件比对——缺失/多余/大小不一致/哈希不一致/文件数/聚合哈希，任一偏差即 FAIL（exit 1），全对齐 PASS（exit 0）。
+- 验证：正向测试（对当前已部署的 windows 副本）PASS，聚合哈希 97d2da18… 与清单一致，证明"已安装副本 == 构建产物 == 当前开发树"；负向测试（把 macos 产物当 windows 校验）正确 FAIL 并列出 171 缺失/169 多余/7 哈希/6 大小差异；退出码 0/1 确认无误。
+- 风险/待办：建议今后每次"构建→部署"后用本工具确认一次，或部署后直接运行；如后续要把校验并入 `build_workshop_release.ps1`（部署完成自动校验）可再议。改动未提交，等待用户确认后统一提交。
+- 提交：本地改动，尚未提交。
+
+### 2026-09-11 / M24-莫克夏"神圣建筑师"数值调整（内商+文化改金币、区域折扣30%）
+
+- 目标：按用户要求调整莫克夏"神圣建筑师"（Divine Architect）——内商 +1 食物 +2 文化 改为 +1 食物 +1 文化 +2 金币；信仰购买区域折扣 10%→30%。
+- 调查结论：改动落在 BBG 组件 `Components/BBG/sql/XP1/Governors_XP1_or_XP2.sql`：文化修饰符 `BBG_MOKSHA_DOMESTIC_TRADE_ROUTE_2_CULTURE` 的 Amount 2→1；新增金币修饰符 `BBG_MOKSHA_DOMESTIC_TRADE_ROUTE_2_GOLD`（Amount 2、YIELD_GOLD、Domestic=1）并挂到 `GOVERNOR_PROMOTION_CARDINAL_DIVINE_ARCHITECT`；区域折扣 `BBG_MOKSHA_DISTRICT_DISCOUNT` Amount 10→30。ZYL 覆盖层未触碰莫克夏，故直接改组件并同步组件内中英文文案。
+- 修改：`Components/BBG/sql/XP1/Governors_XP1_or_XP2.sql`；`Components/BBG/lang/chinese.xml` 与 `english.xml` 的神圣建筑师描述同步为 +1 食物/+1 文化/+2 金币与 30% 折扣。
+- 契约：与 M25/M26 一并刷新——写集合 `68e11a89…`→`08469dff…`（写操作 6371→6375）、主键 `2a527ed5…`→`df57e26e…`（insert-replace 4375→4378、resolved 2914→2916、unresolved 1461→1462、rowCandidates 6851→6856，原因分布 missing-primary-key-column 196→197）、Insert-Select `ffbbde65…`→`01380d31…`（仅语句流变化）。重复键组 29、最终值契约不变。
+- 验证：`tools/validate.ps1` 通过（208 XML、110 Criteria、291 Actions、1084 Files、556 活跃引用、46 休眠文件、118 源码文件）；三 profile 发布包重建成功。
+- 风险/待办：未做游戏内实机验证，最终数值以实机为准。已提交。
+
+### 2026-09-11 / M25-阿玛尼就职回合数改为3回合
+
+- 目标：按用户要求把阿玛尼（GOVERNOR_THE_AMBASSADOR）就职回合数从 5 改为 3。
+- 调查结论：就职回合由 `Governors.TransitionStrength` 决定：100=5 回合、125=4 回合、150=3 回合（维克托原版 150 配 "Establishes in 3 turns." 佐证；ZYL 覆盖层已有梁 150 先例）。阿玛尼当前无任何覆盖，生效值为原版 100（5 回合）。
+- 修改：`sql/ZYL_GovernorOverrides.sql` 新增 `UPDATE Governors SET TransitionStrength = 150 WHERE GovernorType = 'GOVERNOR_THE_AMBASSADOR'`；`lang/ZYL_BBG74_Chinese_Text.xml` 使者描述"5回合就职"→"3回合就职"；`Components/BBG/lang/english.xml` "Establishes in 5 turns."→"Establishes in 3 turns."。
+- 契约：UPDATE 单行语句，纳入 M24 的合同刷新范围。
+- 验证：`tools/validate.ps1` 通过；游戏数据库快照确认覆盖后生效值 150（3 回合）。
+- 风险/待办：无。已提交。
+
+### 2026-09-11 / M26-对外贸易鼓舞改为"拥有侦察兵或发现新大陆"
+
+- 目标：按用户要求把对外贸易（CIVIC_FOREIGN_TRADE）鼓舞设为双条件——拥有 1 个侦察兵 **或** 发现新大陆。
+- 调查结论：GS 后鼓舞全部在 `Boosts` 表，`CivicType`/`TechnologyType` 无唯一约束，同一市政可插多行；引擎按 BoostClass 独立监听、鼓舞状态按科技/市政唯一（任一条件先满足触发一次 +40%，不会叠加）。当前"拥有 1 个侦察兵"由 BBG 组件 `Components/BBG/sql/Base/base.sql` L388 设置；`BOOST_TRIGGER_DISCOVER_CONTINENT` 在合法枚举中。UI 只显示第一行触发文本（`TechAndCivicSupport.lua` break），故两行共用合并文案。
+- 修改：`sql/ZYL_GameplayOverrides.sql` 尤里卡/鼓舞段新增 `INSERT OR IGNORE INTO Boosts (CivicType, Boost, TriggerDescription, TriggerLongDescription, BoostClass) VALUES ('CIVIC_FOREIGN_TRADE', 40, 'LOC_BOOST_TRIGGER_FOREIGN_TRADE', 'LOC_BOOST_TRIGGER_LONGDESC_FOREIGN_TRADE', 'BOOST_TRIGGER_DISCOVER_CONTINENT')`；`Components/BBG/lang/chinese.xml` 与 `english.xml` 短/长描述改为"拥有一个侦察兵，或发现一个新大陆"（长描述键原未被覆盖、仍是旧文案，一并补齐）。
+- 契约：新 INSERT 行（BoostID 自增，missing-primary-key-column 197 由此行产生），纳入 M24 的合同刷新范围。
+- 验证：INSERT 在游戏数据库副本实测通过（外键 ON）；`tools/validate.ps1` 通过；三 profile 发布包重建成功。
+- 风险/待办：其他 8 种语言组件文案仍为"拥有侦察兵"旧文案（按惯例仅中英文）。已提交。

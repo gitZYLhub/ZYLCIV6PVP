@@ -8,6 +8,11 @@ UPDATE Governors
 SET TransitionStrength = 150
 WHERE GovernorType = 'GOVERNOR_THE_BUILDER';
 
+-- Amani establishes in three turns (vanilla/BBG value 100 shows as five).
+UPDATE Governors
+SET TransitionStrength = 150
+WHERE GovernorType = 'GOVERNOR_THE_AMBASSADOR';
+
 -------------------------------------------------------------------------------
 -- Magnus tier-one promotions
 -------------------------------------------------------------------------------

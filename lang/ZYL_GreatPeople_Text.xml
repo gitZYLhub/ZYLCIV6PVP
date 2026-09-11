@@ -1,0 +1,419 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GameData>
+  <LocalizedText>
+    <Row Tag="LOC_ZYL_GREATPERSON_ABDUS_SALAM_ACTIVE" Language="en_US">
+      <Text>Triggers the [ICON_TechBoosted] Eureka moment for all technologies from the Information era. (Can be used 1 time)</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_ABDUS_SALAM_ACTIVE" Language="zh_Hans_CN">
+      <Text>为信息时代所有科技启动 [ICON_TechBoosted] 尤里卡时刻。（可使用 1 次）</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_ABU_AL_QASIM_AL_ZAHRAWI_ACTIVE" Language="en_US">
+      <Text>Triggers the [ICON_TechBoosted] Eureka moment for 1 random technology from the Medieval or Renaissance era. Wounded land units can heal +5 HP each turn. Libraries provide +1 [ICON_Food] Food. (Can be used 1 time)</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_ABU_AL_QASIM_AL_ZAHRAWI_ACTIVE" Language="zh_Hans_CN">
+      <Text>为随机的1个中世纪或文艺复兴时期科技启动 [ICON_TechBoosted] 尤里卡时刻。受伤的陆地单位每回合能恢复5点生命值。图书馆+1 [ICON_Food] 食物。（可使用 1 次）</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_ADA_LOVELACE_ACTIVE" Language="en_US">
+      <Text>Lets this city build one more district than the [ICON_Citizen] Population limit allows. Triggers the [ICON_TechBoosted] Eureka moment for the Computers technology. (Can be used 1 time)</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_ADA_LOVELACE_ACTIVE" Language="zh_Hans_CN">
+      <Text>该城市可无视 [ICON_Citizen] 人口数量限制再建造一个区域。 为电脑科技启动 [ICON_TechBoosted] 尤里卡时刻。（可使用 1 次）</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_ADAM_SMITH_ACTIVE" Language="en_US">
+      <Text>Gain 1 [ICON_Governor] Governor title or recruit a new [ICON_Governor] Governor. Gain 500 [ICON_Gold] Gold. (Can be used 1 time)</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_ADAM_SMITH_ACTIVE" Language="zh_Hans_CN">
+      <Text>提供1个 [ICON_Governor] 总督头衔或新招募1名 [ICON_Governor] 总督。 获得500 [ICON_Gold] 金币。（可使用 1 次）</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_ALAN_TURING_ACTIVE" Language="en_US">
+      <Text>Triggers the [ICON_TechBoosted] Eureka for Computers and 1 random technology from the Modern era. If Computers technology is already triggered, instead completes Computers technology. (Can be used 1 time)</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_ALAN_TURING_ACTIVE" Language="zh_Hans_CN">
+      <Text>为电脑和1个随机现代科技启动 [ICON_TechBoosted] 尤里卡时刻。如果电脑尤里卡已触发，则解锁电脑科技。（可使用 1 次）</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_ALBERT_EINSTEIN_ACTIVE" Language="en_US">
+      <Text>Research Labs provide +4 [ICON_Science] Science. Triggers the [ICON_TechBoosted] Eureka moment for 1 random technology from the Modern or Atomic era. (Can be used 1 time)</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_ALBERT_EINSTEIN_ACTIVE" Language="zh_Hans_CN">
+      <Text>研究实验室提供的 [ICON_Science] 科技值+4。 为随机的1个现代或原子能时代科技启动 [ICON_TechBoosted] 尤里卡时刻。（可使用 1 次）</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_ALFRED_NOBEL_ACTIVE" Language="en_US">
+      <Text>Triggers the [ICON_TechBoosted] Eureka moment for 1 random technology from the Modern or Atomic era. Applies 100 free [ICON_GreatPerson] Great People points towards recruiting all current and future Great People. Grants 1 Diplomatic Victory Point. (Can be used 1 time)</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_ALFRED_NOBEL_ACTIVE" Language="zh_Hans_CN">
+      <Text>为随机的1个现代或原子能时代科技启动 [ICON_TechBoosted] 尤里卡时刻。 使用100免费 [ICON_GreatPerson] 伟人点数招募目前和将来的伟人。获得1点外交胜利点数。（可使用 1 次）</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_ALVAR_AALTO_ACTIVE" Language="en_US">
+      <Text>This city provides +1 Appeal to any tiles it owns. This city receives +2 [ICON_GOLD] Gold from each breathtaking tile. (Can be used 1 time)</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_ALVAR_AALTO_ACTIVE" Language="zh_Hans_CN">
+      <Text>该城所有的单元格+1 魅力。每个魅力为惊艳的单元格可向该城市提供+2 [ICON_Gold] 金币。（可使用 1 次）</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_ARYABHATA_ACTIVE" Language="en_US">
+      <Text>Triggers the [ICON_TechBoosted] Eureka moment for 5 random technologies from the Classical or Medieval era. (Can be used 1 time)</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_ARYABHATA_ACTIVE" Language="zh_Hans_CN">
+      <Text>为随机的5个古典时代或中世纪科技启动 [ICON_TechBoosted] 尤里卡时刻。（可使用 1 次）</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_BI_SHENG_ACTIVE" Language="en_US">
+      <Text>Lets this city build one more district than the [ICON_Citizen] Population limit allows. Instantly completes the [ICON_TechBoosted] Printing technology. (Can be used 1 time)</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_BI_SHENG_ACTIVE" Language="zh_Hans_CN">
+      <Text>该城市可无视 [ICON_Citizen] 人口数量限制再建造一个区域。立即完成[ICON_TechBoosted]“印刷术”科技。（可使用 1 次）</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_CARL_SAGAN_ACTIVE" Language="en_US">
+      <Text>Grants 3000 [ICON_Production] Production towards Space Race project construction. (Can be used 1 time)</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_CARL_SAGAN_ACTIVE" Language="zh_Hans_CN">
+      <Text>为太空竞赛项目建设赠予3000点 [ICON_Production] 生产力。（可使用 1 次）</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_CHARLES_CORREA_ACTIVE" Language="en_US">
+      <Text>This city provides +2 Appeal to any tiles it owns. (Can be used 1 time)</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_CHARLES_CORREA_ACTIVE" Language="zh_Hans_CN">
+      <Text>该城所有的单元格+2 魅力。（可使用 1 次）</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_CHARLES_DARWIN_ACTIVE" Language="en_US">
+      <Text>Gain 500 [ICON_Science] Science (on Standard speed) for each natural wonder tile here or adjacent. (Can be used 1 time)</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_CHARLES_DARWIN_ACTIVE" Language="zh_Hans_CN">
+      <Text>在标准速度下，从此处或相邻的每个自然奇观单元格获得500 [ICON_Science] 科技值。（可使用 1 次）</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_COLAEUS_ACTIVE" Language="en_US">
+      <Text>Grants 1 free copy of the Luxury resource on this tile to your [ICON_Capital] Capital city. Gain 100 [ICON_Faith] Faith. (Can be used 2 times)</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_COLAEUS_ACTIVE" Language="zh_Hans_CN">
+      <Text>赠予1份该单元格上的奢侈品资源给您的 [ICON_Capital] 首都城市。 获得100 [ICON_Faith] 信仰值。（可使用 2 次）</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_DMITRI_MENDELEEV_ACTIVE" Language="en_US">
+      <Text>Triggers the [ICON_TechBoosted] Eureka for Chemistry and 1 random technology from the Industrial era. +50% [ICON_PRODUCTION] Production towards Research Lab buildings. (Can be used 1 time)</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_DMITRI_MENDELEEV_ACTIVE" Language="zh_Hans_CN">
+      <Text>为化学和一个随机工业时代科技启动 [ICON_TechBoosted] 尤里卡时刻。建造研究实验室时+50% [ICON_Production] 生产力。（可使用 1 次）</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_EMILIE_DU_CHATELET_ACTIVE" Language="en_US">
+      <Text>Triggers the [ICON_TechBoosted] Eureka moment for 5 random technologies from the Renaissance or Industrial era. (Can be used 1 time)</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_EMILIE_DU_CHATELET_ACTIVE" Language="zh_Hans_CN">
+      <Text>为随机的5个文艺复兴时期或工业时代科技启动 [ICON_TechBoosted] 尤里卡时刻。（可使用 1 次）</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_ERWIN_SCHRODINGER_ACTIVE" Language="en_US">
+      <Text>Triggers the [ICON_TechBoosted] Eureka moment for 3 random technologies from the Atomic or Information era. (Can be used 1 time)</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_ERWIN_SCHRODINGER_ACTIVE" Language="zh_Hans_CN">
+      <Text>为随机的3个原子能时代或信息时代科技启动 [ICON_TechBoosted] 尤里卡时刻。（可使用 1 次）</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_ESTEE_LAUDER_ACTIVE" Language="en_US">
+      <Text>Grants 2 [ICON_RESOURCE_PERFUME] Perfume, a uniquely manufactured Luxury resource which provides +6 [ICON_Amenities] Amenities. (Can be used 1 time)</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_ESTEE_LAUDER_ACTIVE" Language="zh_Hans_CN">
+      <Text>赠予2份 [ICON_RESOURCE_PERFUME] 香水，这是一种特殊的人造奢侈品资源，能+6 [ICON_Amenities] 宜居度。（可使用 1 次）</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_EUCLID_ACTIVE" Language="en_US">
+      <Text>Instantly completes the Mathematics technology. Grants 2 [ICON_Envoy] Envoys. (Can be used 1 time)</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_EUCLID_ACTIVE" Language="zh_Hans_CN">
+      <Text>立即完成[ICON_TechBoosted]“数学”科技。获得2名[ICON_Envoy]使者。（可使用 1 次）</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_FILIPPO_BRUNELLESCHI_ACTIVE" Language="en_US">
+      <Text>Grants 315 [ICON_Production] Production towards wonder construction. (Can be used 2 times)</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_FILIPPO_BRUNELLESCHI_ACTIVE" Language="zh_Hans_CN">
+      <Text>为奇观建设赠予315点 [ICON_Production] 生产力。（可使用 2 次）</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_GALILEO_GALILEI_ACTIVE" Language="en_US">
+      <Text>Gain 300 [ICON_Science] Science (on Standard speed) for each adjacent Mountain tile. (Can be used 1 time)</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_GALILEO_GALILEI_ACTIVE" Language="zh_Hans_CN">
+      <Text>在标准速度下，所在单元格每相邻一个山脉单元格获得300 [ICON_Science] 科技值。（可使用 1 次）</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_GIOVANNI_DE_MEDICI_ACTIVE" Language="en_US">
+      <Text>Instantly builds a Bank and Market in this district. The Bank gets 2 Great Work slots, which can hold anything. (Can be used 1 time)</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_GIOVANNI_DE_MEDICI_ACTIVE" Language="zh_Hans_CN">
+      <Text>立即在该区域建造银行和市场。银行获得两个巨作槽位，能在里面放置任何东西。（可使用 1 次）</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_GUSTAVE_EIFFEL_ACTIVE" Language="en_US">
+      <Text>Grants 480 [ICON_Production] Production towards wonder construction. (Can be used 2 times)</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_GUSTAVE_EIFFEL_ACTIVE" Language="zh_Hans_CN">
+      <Text>为奇观建设赠予480点 [ICON_Production] 生产力。（可使用 2 次）</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_HELENA_RUBINSTEIN_ACTIVE" Language="en_US">
+      <Text>Grants 2 [ICON_RESOURCE_COSMETICS] Cosmetics, a uniquely manufactured Luxury resource which provides +4 [ICON_Amenities] Amenities. (Can be used 1 time)</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_HELENA_RUBINSTEIN_ACTIVE" Language="zh_Hans_CN">
+      <Text>赠予2份 [ICON_RESOURCE_COSMETICS] 化妆品，这是一种特殊的人造奢侈品资源，能+4 [ICON_Amenities] 宜居度。（可使用 1 次）</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_HILDEGARD_OF_BINGEN_ACTIVE" Language="en_US">
+      <Text>This Holy Site district&apos;s [ICON_Faith] Faith adjacency bonus provides [ICON_Science] Science as well. Gain 100 [ICON_Faith] Faith. (Can be used 1 time)</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_HILDEGARD_OF_BINGEN_ACTIVE" Language="zh_Hans_CN">
+      <Text>该圣地区域的 [ICON_Faith] 信仰值相邻加成也提供 [ICON_Science] 科技值。 获得100 [ICON_Faith] 信仰值。（可使用 1 次）</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_HYPATIA_ACTIVE" Language="en_US">
+      <Text>Instantly builds a Library in this district. Libraries provide +1 [ICON_Science] Science. (Can be used 1 time)</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_HYPATIA_ACTIVE" Language="zh_Hans_CN">
+      <Text>立即在该区域建造1座图书馆。 图书馆+1 [ICON_Science] 科技值。（可使用 1 次）</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_IBN_FADLAN_ACTIVE" Language="en_US">
+      <Text>Increases [ICON_TradeRoute] Trade Route capacity by 1. (Can be used 1 time)</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_IBN_FADLAN_ACTIVE" Language="zh_Hans_CN">
+      <Text>增加1条 [ICON_TradeRoute] 贸易路线容量。（可使用 1 次）</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_IBN_KHALDUN_ACTIVE" Language="en_US">
+      <Text>The selected Campus gains 2 [ICON_Housing] Housing and 1 [ICON_Amenities] Amenity. Empire-wide happiness benefit increased by 40%. (Can be used 1 time)</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_IBN_KHALDUN_ACTIVE" Language="zh_Hans_CN">
+      <Text>选定的学院获得2点 [ICON_Housing] 住房与1点 [ICON_AMENITIES] 宜居度。帝国中非 [ICON_Food] 食物产出的幸福感益处提升40%。（可使用 1 次）</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_IMHOTEP_ACTIVE" Language="en_US">
+      <Text>Grants 175 [ICON_Production] Production towards wonder construction, doubled if the wonder is from the Ancient or Classical Era. (Can be used 1 time)</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_IMHOTEP_ACTIVE" Language="zh_Hans_CN">
+      <Text>建造奇观时提供175点 [ICON_Production] 生产力；若奇观来自远古或古典时代，则提供量加倍。（可使用 1 次）</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_IRENE_OF_ATHENS_ACTIVE" Language="en_US">
+      <Text>Gain 1 [ICON_Governor] Governor title or recruit a new [ICON_Governor] Governor. (Can be used 1 time)</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_IRENE_OF_ATHENS_ACTIVE" Language="zh_Hans_CN">
+      <Text>提供1个 [ICON_Governor] 总督头衔或新招募1名 [ICON_Governor] 总督。（可使用 1 次）</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_ISAAC_NEWTON_ACTIVE" Language="en_US">
+      <Text>Instantly builds a University and Library in this district. Universities provide +2 [ICON_Science] Science. (Can be used 1 time)</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_ISAAC_NEWTON_ACTIVE" Language="zh_Hans_CN">
+      <Text>立即在该区域建造大学和图书馆。大学+2 [ICON_Science] 科技值。（可使用 1 次）</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_ISIDORE_OF_MILETUS_ACTIVE" Language="en_US">
+      <Text>Grants 215 [ICON_Production] Production towards wonder construction. (Can be used 2 times)</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_ISIDORE_OF_MILETUS_ACTIVE" Language="zh_Hans_CN">
+      <Text>为奇观建设赠予215点 [ICON_Production] 生产力。（可使用 2 次）</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_JAKOB_FUGGER_ACTIVE" Language="en_US">
+      <Text>Gain 200 [ICON_Gold] Gold. Gain 2 [ICON_Envoy] Envoys. (Can be used 1 time)</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_JAKOB_FUGGER_ACTIVE" Language="zh_Hans_CN">
+      <Text>获得200 [ICON_Gold] 金币。 获得2位 [ICON_Envoy] 使者。（可使用 1 次）</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_JAMES_OF_ST_GEORGE_ACTIVE" Language="en_US">
+      <Text>Instantly builds Ancient and Medieval Walls in this city. Ancient Walls provide +1 [ICON_Culture] Culture. (Can be used 2 times)</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_JAMES_OF_ST_GEORGE_ACTIVE" Language="zh_Hans_CN">
+      <Text>立即在该城市中建造远古和中世纪城墙。远古城墙+1 [ICON_Culture] 文化值。（可使用 2 次）</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_JAMES_WATT_ACTIVE" Language="en_US">
+      <Text>Instantly builds a Factory and Workshop in this district. Factories provide +2 [ICON_Production] Production. (Can be used 1 time)</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_JAMES_WATT_ACTIVE" Language="zh_Hans_CN">
+      <Text>立即在该区域建造工厂和工作坊。工厂+2 [ICON_Production] 生产力。（可使用 1 次）</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_JAMES_YOUNG_ACTIVE" Language="en_US">
+      <Text>Reveals [ICON_RESOURCE_OIL] Oil without the normal technology requirement. Triggers the [ICON_TechBoosted] Eureka moment for 2 random technologies from the Industrial or Modern era. (Can be used 1 time)</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_JAMES_YOUNG_ACTIVE" Language="zh_Hans_CN">
+      <Text>忽略普通科技要求，显示 [ICON_RESOURCE_OIL] 石油资源。 为随机的2个工业时代或现代科技启动 [ICON_TechBoosted] 尤里卡时刻。（可使用 1 次）</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_JAMSETJI_TATA_ACTIVE" Language="en_US">
+      <Text>Campus districts provide +50 [ICON_Tourism] Tourism. (Can be used 1 time)</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_JAMSETJI_TATA_ACTIVE" Language="zh_Hans_CN">
+      <Text>学院区+50 [ICON_Tourism] 旅游业绩。（可使用 1 次）</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_JANAKI_AMMAL_ACTIVE" Language="en_US">
+      <Text>Gain 400 [ICON_Science] Science for each Rainforest tile here or adjacent. (Can be used 1 time)</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_JANAKI_AMMAL_ACTIVE" Language="zh_Hans_CN">
+      <Text>为当前或附近每个雨林单元格获得400 [ICON_Science] 科技值。（可使用 1 次）</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_JANE_DREW_ACTIVE" Language="en_US">
+      <Text>+4 [ICON_Housing] Housing for this city. +3 [ICON_Amenities] Amenities for this city. (Can be used 1 time)</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_JANE_DREW_ACTIVE" Language="zh_Hans_CN">
+      <Text>该城市+4 [ICON_Housing] 住房。 该城市+3 [ICON_Amenities] 宜居度。（可使用 1 次）</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_JOHN_A_ROEBLING_ACTIVE" Language="en_US">
+      <Text>+2 [ICON_Housing] Housing for this city. +1 [ICON_Amenities] Amenity for this city. (Can be used 2 times)</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_JOHN_A_ROEBLING_ACTIVE" Language="zh_Hans_CN">
+      <Text>该城市+2 [ICON_Housing] 住房。 该城市+1 [ICON_Amenities] 宜居度。（可使用 2 次）</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_JOHN_JACOB_ASTOR_ACTIVE" Language="en_US">
+      <Text>Gain 500 [ICON_Gold] Gold. Gain 2 [ICON_Envoy] Envoys. (Can be used 1 time)</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_JOHN_JACOB_ASTOR_ACTIVE" Language="zh_Hans_CN">
+      <Text>获得500 [ICON_Gold] 金币。 获得2位 [ICON_Envoy] 使者。（可使用 1 次）</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_JOHN_ROCKEFELLER_ACTIVE" Language="en_US">
+      <Text>Provides 3 [ICON_RESOURCE_OIL] Oil per turn. Your [ICON_TradeRoute] Trade Routes to this city gain +2 [ICON_Gold] Gold for each Strategic resource in the destination city. (Can be used 1 time)</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_JOHN_ROCKEFELLER_ACTIVE" Language="zh_Hans_CN">
+      <Text>每回合提供3点 [ICON_RESOURCE_OIL] 石油。目的地城市每拥有1点战略资源，您 [ICON_TradeRoute] 贸易路线所产出的 [ICON_Gold] 金币便+2。（可使用 1 次）</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_JOHN_SPILSBURY_ACTIVE" Language="en_US">
+      <Text>Grants 2 [ICON_RESOURCE_TOYS] Toys, a uniquely manufactured Luxury resource which provides +4 [ICON_Amenities] Amenities. (Can be used 1 time)</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_JOHN_SPILSBURY_ACTIVE" Language="zh_Hans_CN">
+      <Text>赠予2份 [ICON_RESOURCE_TOYS] 玩具，这是一种特殊的人造奢侈品资源，能+4 [ICON_Amenities] 宜居度。（可使用 1 次）</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_JOSEPH_PAXTON_ACTIVE" Language="en_US">
+      <Text>This district&apos;s regional buildings reach 3 tiles farther. This district&apos;s regional buildings provide +1 [ICON_Amenities] Amenity. (Can be used 1 time)</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_JOSEPH_PAXTON_ACTIVE" Language="zh_Hans_CN">
+      <Text>该区域的地区性建筑延伸3个单元格。 该区域的地区性建筑+1 [ICON_Amenities] 宜居度。（可使用 1 次）</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_KENZO_TANGE_ACTIVE" Language="en_US">
+      <Text>Each district in this city provides [ICON_Tourism] Tourism equal to its adjacency bonus ([ICON_Gold] Gold adjacency provides half). (Can be used 1 time)</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_KENZO_TANGE_ACTIVE" Language="zh_Hans_CN">
+      <Text>在此城的每个区域中提供等于其相邻加成的 [ICON_Tourism] 旅游业绩（[ICON_Gold] 金币加成带来的量减半）。（可使用 1 次）</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_LEONARDO_DA_VINCI_ACTIVE" Language="en_US">
+      <Text>Workshops provide +3 [ICON_Culture] Culture. Triggers the [ICON_TechBoosted] Eureka moment for 1 random technology from the Modern era. (Can be used 1 time)</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_LEONARDO_DA_VINCI_ACTIVE" Language="zh_Hans_CN">
+      <Text>工作坊+3 [ICON_Culture] 文化值。 为随机的1个现代科技启动 [ICON_TechBoosted] 尤里卡时刻。（可使用 1 次）</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_LEVI_STRAUSS_ACTIVE" Language="en_US">
+      <Text>Grants 2 [ICON_RESOURCE_JEANS] Jeans, a uniquely manufactured Luxury resource which provides +4 [ICON_Amenities] Amenities. (Can be used 1 time)</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_LEVI_STRAUSS_ACTIVE" Language="zh_Hans_CN">
+      <Text>赠予2份 [ICON_RESOURCE_JEANS] 牛仔裤，这是一种特殊的人造奢侈品资源，能+4 [ICON_Amenities] 宜居度。（可使用 1 次）</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_MARCO_POLO_ACTIVE" Language="en_US">
+      <Text>Grants a free Trader unit in this city, and increases [ICON_TradeRoute] Trade Route capacity by 1. (Can be used 1 time)</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_MARCO_POLO_ACTIVE" Language="zh_Hans_CN">
+      <Text>为该城市赠予一个免费的商人单位，并增加1条 [ICON_TradeRoute] 贸易路线容量。（可使用 1 次）</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_MARCUS_LICINIUS_CRASSUS_ACTIVE" Language="en_US">
+      <Text>Your nearest city annexes this tile into its territory. Gain 60 [ICON_Gold] Gold. (Can be used 5 times)</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_MARCUS_LICINIUS_CRASSUS_ACTIVE" Language="zh_Hans_CN">
+      <Text>您最近的城市把这个单元格纳入领土。 获得60 [ICON_Gold] 金币。（可使用 5 次）</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_MARGARET_MEAD_ACTIVE" Language="en_US">
+      <Text>Grants 2000 [ICON_SCIENCE] Science and [ICON_CULTURE] Culture (on Standard speed). Must be activated on non-hostile foreign civilization or City-state&apos;s Campus. (Can be used 1 time)</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_MARGARET_MEAD_ACTIVE" Language="zh_Hans_CN">
+      <Text>获得2000点 [ICON_SCIENCE] 科技值与 [ICON_CULTURE] 文化值（标准速度下）。只能在其他非敌对文明或城邦的学院区域上激活。（可使用 1 次）</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_MARY_KATHERINE_GODDARD_ACTIVE" Language="en_US">
+      <Text>+1 level of diplomatic visibility with all other civilizations. (Can be used 1 time)</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_MARY_KATHERINE_GODDARD_ACTIVE" Language="zh_Hans_CN">
+      <Text>所有文明的外交能见度+1 级。（可使用 1 次）</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_MARY_LEAKEY_ACTIVE" Language="en_US">
+      <Text>[ICON_GreatWork_Artifact] Artifacts in all your cities generate 300% of their normal [ICON_Tourism] Tourism. Gain 350 [ICON_Science] Science for every [ICON_GreatWork_Artifact] Artifact in this city. (Can be used 1 time)</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_MARY_LEAKEY_ACTIVE" Language="zh_Hans_CN">
+      <Text>[ICON_GreatWork_Artifact] 您城市所有文物产生300% 他们通常的 [ICON_Tourism] 旅游业绩。 该城市每个 [ICON_GreatWork_Artifact] 文物获得350 [ICON_Science] 科技值。（可使用 1 次）</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_MASARU_IBUKA_ACTIVE" Language="en_US">
+      <Text>Industrial Zone districts provide +50 [ICON_Tourism] Tourism. (Can be used 1 time)</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_MASARU_IBUKA_ACTIVE" Language="zh_Hans_CN">
+      <Text>工业区+50 [ICON_Tourism] 旅游业绩。（可使用 1 次）</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_MELITTA_BENTZ_ACTIVE" Language="en_US">
+      <Text>+25% [ICON_TOURISM] Tourism rate towards other civilizations you have a [ICON_TRADEROUTE] Trade Route to. Increases [ICON_TradeRoute] Trade Route capacity by 1. (Can be used 1 time)</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_MELITTA_BENTZ_ACTIVE" Language="zh_Hans_CN">
+      <Text>为您前往的其他文明的 [ICON_TradeRoute] 贸易路线+25% [ICON_Tourism] 旅游业绩。 增加1 [ICON_TradeRoute] 条贸易路线容量。（可使用 1 次）</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_MIMAR_SINAN_ACTIVE" Language="en_US">
+      <Text>+1 [ICON_Housing] Housing for this city. +1 [ICON_Amenities] Amenity for this city. (Can be used 2 times)</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_MIMAR_SINAN_ACTIVE" Language="zh_Hans_CN">
+      <Text>该城市+1 [ICON_Housing] 住房。 该城市+1 [ICON_Amenities] 宜居度。（可使用 2 次）</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_NIKOLA_TESLA_ACTIVE" Language="en_US">
+      <Text>This district&apos;s regional buildings reach 3 tiles farther. This district&apos;s regional buildings provide +2 [ICON_Production] Production. (Can be used 1 time)</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_NIKOLA_TESLA_ACTIVE" Language="zh_Hans_CN">
+      <Text>该区域的地区性建筑延伸3个单元格。 该区域的地区性建筑+2 [ICON_Production] 生产力。（可使用 1 次）</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_OMAR_KHAYYAM_ACTIVE" Language="en_US">
+      <Text>Triggers the [ICON_TechBoosted] Eureka for 3 random technologies and the [ICON_CivicBoosted] Inspiration for 2 Medieval or Renaissance civics. (Can be used 1 time)</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_OMAR_KHAYYAM_ACTIVE" Language="zh_Hans_CN">
+      <Text>为随机的3个科技启动 [ICON_TechBoosted] 尤里卡时刻，为2个中世纪或文艺复兴时期市政启动 [ICON_CivicBoosted] 鼓舞时刻。（可使用 1 次）</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_PIERO_DE_BARDI_ACTIVE" Language="en_US">
+      <Text>Gain 200 [ICON_Gold] Gold. Gain 2 [ICON_Envoy] Envoys. (Can be used 1 time)</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_PIERO_DE_BARDI_ACTIVE" Language="zh_Hans_CN">
+      <Text>获得200 [ICON_Gold] 金币。获得2名 [ICON_Envoy] 使者。（可使用 1 次）</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_RAJA_TODAR_MAL_ACTIVE" Language="en_US">
+      <Text>Gain 1 [ICON_Envoy] Envoy. Your [ICON_TradeRoute] Trade Routes to your own cities gain +1.0 [ICON_Gold] Gold for each specialty district at the destination. (Can be used 1 time)</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_RAJA_TODAR_MAL_ACTIVE" Language="zh_Hans_CN">
+      <Text>获得1位 [ICON_Envoy] 使者。 通往您国内城市的 [ICON_TradeRoute] 贸易路线为目的地每个特色区域+1.0[ICON_Gold]金币。（可使用 1 次）</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_ROBERT_GODDARD_ACTIVE" Language="en_US">
+      <Text>+20% [ICON_Production] Production towards Space Race projects. Triggers the [ICON_TechBoosted] Eureka moment for the Rocketry technology. (Can be used 1 time)</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_ROBERT_GODDARD_ACTIVE" Language="zh_Hans_CN">
+      <Text>为太空竞赛项目+20% [ICON_Production] 生产力。 为火箭科技启动 [ICON_TechBoosted] 尤里卡时刻。（可使用 1 次）</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_SARAH_BREEDLOVE_ACTIVE" Language="en_US">
+      <Text>+25% [ICON_TOURISM] Tourism rate towards other civilizations you have a [ICON_TRADEROUTE] Trade Route to. Increases [ICON_TradeRoute] Trade Route capacity by 1. (Can be used 1 time)</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_SARAH_BREEDLOVE_ACTIVE" Language="zh_Hans_CN">
+      <Text>为您前往的其他文明的 [ICON_TradeRoute] 贸易路线+25% [ICON_Tourism] 旅游业绩。 增加1 [ICON_TradeRoute] 条贸易路线容量。（可使用 1 次）</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_SERGEI_KOROLEV_ACTIVE" Language="en_US">
+      <Text>Grants 1500 [ICON_Production] Production towards Space Race project construction. (Can be used 1 time)</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_SERGEI_KOROLEV_ACTIVE" Language="zh_Hans_CN">
+      <Text>为太空竞赛项目建设赠予1500点 [ICON_Production] 生产力。（可使用 1 次）</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_SHAH_JAHAN_ACTIVE" Language="en_US">
+      <Text>Purchase [ICON_PRODUCTION] Production towards wonder construction at the rate of 2 [ICON_GOLD] Gold per 1 [ICON_PRODUCTION] Production. (Can be used 1 time)</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_SHAH_JAHAN_ACTIVE" Language="zh_Hans_CN">
+      <Text>购买建造奇观的 [ICON_Production] 生产力。每2点 [ICON_Gold] 金币可购买1点 [ICON_Production] 生产力。（可使用 1 次）</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_STAMFORD_RAFFLES_ACTIVE" Language="en_US">
+      <Text>Absorbs this City-state into your empire. Grants you +10 Loyalty per turn in the city. Can be an enemy City-state. (Can be used 1 time)</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_STAMFORD_RAFFLES_ACTIVE" Language="zh_Hans_CN">
+      <Text>将此城邦纳入您的帝国。使城市每回合忠诚度+10。可在敌对城邦中使用。（可使用 1 次）</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_STEPHANIE_KWOLEK_ACTIVE" Language="en_US">
+      <Text>+100% [ICON_Production] Production towards Space Race projects. (Can be used 1 time)</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_STEPHANIE_KWOLEK_ACTIVE" Language="zh_Hans_CN">
+      <Text>为太空竞赛项目+100% [ICON_Production] 生产力。（可使用 1 次）</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_WERNHER_VON_BRAUN_ACTIVE" Language="en_US">
+      <Text>+100% [ICON_Production] Production towards Space Race projects. (Can be used 1 time)</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_WERNHER_VON_BRAUN_ACTIVE" Language="zh_Hans_CN">
+      <Text>为太空竞赛项目+100% [ICON_Production] 生产力。（可使用 1 次）</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_ZHANG_HENG_ACTIVE" Language="en_US">
+      <Text>Triggers the [ICON_TechBoosted] Eureka for Astronomy and Engineering. If the Eureka is already triggered, completes the technology. Libraries provide +1 [ICON_Production] Production. (Can be used 1 time)</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_ZHANG_HENG_ACTIVE" Language="zh_Hans_CN">
+      <Text>触发“天文导航”和“工程”的 [ICON_TechBoosted] 尤里卡。如果尤里卡已触发，则解锁科技。图书馆+1 [ICON_Production] 生产力。（可使用 1 次）</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_ZHANG_QIAN_ACTIVE" Language="en_US">
+      <Text>Increases [ICON_TradeRoute] Trade Route capacity by 1. (Can be used 1 time)</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_ZHANG_QIAN_ACTIVE" Language="zh_Hans_CN">
+      <Text>增加1条 [ICON_TradeRoute] 贸易路线容量。（可使用 1 次）</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_ZHOU_DAGUAN_ACTIVE" Language="en_US">
+      <Text>Grants 3 [ICON_ENVOY] Envoys at this city-state. Can be used against an enemy City-state. (Can be used 1 time)</Text>
+    </Row>
+    <Row Tag="LOC_ZYL_GREATPERSON_ZHOU_DAGUAN_ACTIVE" Language="zh_Hans_CN">
+      <Text>在此城邦中提供3名 [ICON_ENVOY] 使者。可在敌对城邦中使用。（可使用 1 次）</Text>
+    </Row>
+  </LocalizedText>
+</GameData>

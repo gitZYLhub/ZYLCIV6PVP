@@ -142,7 +142,7 @@ function Get-ZylFinalGameplayContractIssues {
             $issues.Add('Maya Housing modifier is not scoped to all cities.')
         }
         if ($gameplayOverrideSql -notmatch "(?s)INSERT\s+OR\s+IGNORE\s+INTO\s+DistrictModifiers\s*\(\s*DistrictType\s*,\s*ModifierId\s*\)\s*VALUES\s*\(\s*'DISTRICT_OPPIDUM'\s*,\s*'OPPIDUM_GRANT_TECH_APPRENTICESHIP'\s*\)") {
-            $issues.Add('Oppidum no longer grants the Apprenticeship boost.')
+            $issues.Add('Oppidum no longer unlocks the Apprenticeship technology.')
         }
         if ($gameplayOverrideSql -notmatch "(?s)INSERT\s+OR\s+IGNORE\s+INTO\s+TraitModifiers\s*\(\s*TraitType\s*,\s*ModifierId\s*\)\s*VALUES\s*\(\s*'TRAIT_CIVILIZATION_ADJACENT_DISTRICTS'\s*,\s*'TRAIT_ADJACENT_DISTRICTS_HARBOR_ADJACENCYGOLD'\s*\),\s*\(\s*'TRAIT_CIVILIZATION_ADJACENT_DISTRICTS'\s*,\s*'TRAIT_ADJACENT_DISTRICTS_COMMERCIALHUB_ADJACENCYGOLD'\s*\)") {
             $issues.Add('Meiji Harbour / Commercial Hub adjacency is not restored for every Japanese leader.')

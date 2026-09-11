@@ -30,4 +30,10 @@
     </Properties>
     <File>lang/ZYL_GameplayOverrides_Text.xml</File>
   </UpdateText>
+  <UpdateText id="ZYL_GreatPeopleTextFrontEnd" manifestOrder="37">
+    <Properties>
+      <LoadOrder>260000045</LoadOrder>
+    </Properties>
+    <File>lang/ZYL_GreatPeople_Text.xml</File>
+  </UpdateText>
 </FrontEndActionsFragment>

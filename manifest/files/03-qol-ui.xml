@@ -78,6 +78,8 @@
   <File manifestOrder="152">NHK/UI/AutoRecruit_GreatPerson_HotKey.lua</File>
   <File manifestOrder="153">NHK/UI/AutoRecruit_GreatPerson_HotKey.xml</File>
   <File manifestOrder="154">NHK/UI/CityBannerManager_CSA.lua</File>
+  <File manifestOrder="313">NHK/UI/TurnTime_HotKey.lua</File>
+  <File manifestOrder="314">NHK/UI/TurnTime_HotKey.xml</File>
   <File manifestOrder="155">RMC/UI/RevealMapCorners.lua</File>
   <File manifestOrder="156">RMC/UI/RevealMapCorners.xml</File>
   <File manifestOrder="157">STR/UI/WorldViewIconsManager_STR.lua</File>

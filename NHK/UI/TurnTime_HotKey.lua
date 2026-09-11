@@ -20,7 +20,8 @@ end
 function OnInputActionTriggered(actionId)
     if actionId == m_TurnTimeAddActionId then
 		if Network.GetLocalPlayerID() == Network.GetGameHostPlayerID() then
-			GameConfiguration.SetValue("TURN_TIMER_TIME", GameConfiguration.GetValue("TURN_TIMER_TIME") + 20 )
+			local turnTime = GameConfiguration.GetValue("TURN_TIMER_TIME");
+			GameConfiguration.SetValue("TURN_TIMER_TIME", turnTime + 20 )
 			Network.BroadcastGameConfig()
 			UI.PlaySound("Play_MP_Game_Launch_Timer_Beep")
 --			print("+++++++++++++25")
@@ -32,8 +33,9 @@ function OnInputActionTriggered(actionId)
     end
     if actionId == m_TurnTimeReduceActionId then
 		if Network.GetLocalPlayerID() == Network.GetGameHostPlayerID() then
-			if GameConfiguration.GetValue("TURN_TIMER_TIME") > 40 then
-				GameConfiguration.SetValue("TURN_TIMER_TIME", GameConfiguration.GetValue("TURN_TIMER_TIME") - 10 )
+			local turnTime = GameConfiguration.GetValue("TURN_TIMER_TIME");
+			if turnTime > 40 then
+				GameConfiguration.SetValue("TURN_TIMER_TIME", turnTime - 10 )
 				Network.BroadcastGameConfig()
 				UI.PlaySound("Play_MP_Game_Launch_Timer_Beep")
 --				print("-------------10")
@@ -57,7 +59,8 @@ function OnInputActionTriggered(actionId)
 			local newPause = localPlayerConfig:GetWantsPause();
 			if newPause then
 				if Network.GetLocalPlayerID() == Network.GetGameHostPlayerID() then
-					GameConfiguration.SetValue("TURN_TIMER_TIME", GameConfiguration.GetValue("TURN_TIMER_TIME") + 25 )
+					local turnTime = GameConfiguration.GetValue("TURN_TIMER_TIME");
+					GameConfiguration.SetValue("TURN_TIMER_TIME", turnTime + 25 )
 					Network.BroadcastGameConfig()
 					UI.PlaySound("Play_MP_Game_Launch_Timer_Beep")
 					print("+++++++++++++25")

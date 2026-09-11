@@ -2,7 +2,7 @@
   "schemaVersion": 2,
   "sourceCommit": "1852e1d4ddc5abcfc4507885fc1141866a9154e0",
   "frozenActionGraphSha256": "f41a5c55fc7000b435ffe645d4c25df358ad3950b1e03f105b64d07e49ba14af",
-  "expectedCurrentActionGraphSha256": "3c801ac9a1cea0f61be1abfdeaacabbac388a70ff40168d6426d5c54276d94ee",
+  "expectedCurrentActionGraphSha256": "b71b6a69edaa0a8dc65a65e6c4d597f9c9ff3c67028b49a02f3175c98ed5582d",
   "frozenCounts": {
     "criteria": 108,
     "frontEndActions": 32,
@@ -11,8 +11,8 @@
   },
   "expectedCurrentCounts": {
     "criteria": 110,
-    "frontEndActions": 36,
-    "inGameActions": 250,
-    "files": 1079
+    "frontEndActions": 37,
+    "inGameActions": 254,
+    "files": 1084
   }
 }

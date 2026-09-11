@@ -276,6 +276,14 @@ WHERE UnitType IN (
 -- Eureka and Inspiration triggers
 -------------------------------------------------------------------------------
 
+-- Foreign Trade: owning a Scout (existing row, set in Components/BBG base.sql)
+-- or discovering a new continent both trigger the inspiration.
+INSERT OR IGNORE INTO Boosts
+	(CivicType, Boost, TriggerDescription, TriggerLongDescription, BoostClass)
+VALUES
+	('CIVIC_FOREIGN_TRADE', 40, 'LOC_BOOST_TRIGGER_FOREIGN_TRADE',
+	 'LOC_BOOST_TRIGGER_LONGDESC_FOREIGN_TRADE', 'BOOST_TRIGGER_DISCOVER_CONTINENT');
+
 -- Political Philosophy requires meeting two city-states.
 UPDATE Boosts
 SET NumItems = 2
@@ -449,10 +457,12 @@ INSERT OR REPLACE INTO ModifierArguments (ModifierId, Name, Value) VALUES
 INSERT OR IGNORE INTO TraitModifiers (TraitType, ModifierId) VALUES
 	('TRAIT_CIVILIZATION_GAUL', 'GAUL_MINE_CULTURE');
 
--- Gaul: restore the vanilla Oppidum Apprenticeship boost that BBG removes.
--- In the base game, completing an Oppidum grants the Apprenticeship Eureka.
--- The vanilla modifier definition and its arguments survive in the game
--- database; BBG only deletes the DistrictModifiers binding, so re-bind here.
+-- Gaul: restore the vanilla Oppidum Apprenticeship unlock that BBG removes.
+-- In the base game, completing the first Oppidum unlocks the Apprenticeship
+-- technology outright (modifier type MODIFIER_PLAYER_GRANT_SPECIFIC_TECHNOLOGY_GAUL),
+-- not a Eureka boost. The vanilla modifier definition and its arguments
+-- survive in the game database; BBG only deletes the DistrictModifiers
+-- binding, so re-bind here.
 INSERT OR IGNORE INTO DistrictModifiers (DistrictType, ModifierId)
 VALUES ('DISTRICT_OPPIDUM', 'OPPIDUM_GRANT_TECH_APPRENTICESHIP');
 

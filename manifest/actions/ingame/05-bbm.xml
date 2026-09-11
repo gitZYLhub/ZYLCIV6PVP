@@ -66,6 +66,9 @@
     <File>Components/BBM/Lang/japanese.xml</File>
     <File>Components/BBM/Lang/korean.xml</File>
     <File>Components/BBM/Lang/portuguese.xml</File>
+    <File>Components/BBM/Lang/ZYL_RichMainland_Text.xml</File>
+    <File>Components/BBM/Lang/ZYL_HorizontalRichMainland_Text.xml</File>
+    <File>Components/BBM/Lang/ZYL_RingMainland_Text.xml</File>
   </UpdateText>
   <UpdateDatabase id="ZYLPVP_BBM_IG_006_BBS_Minor_Bias_Parameters" manifestOrder="170">
     <Properties>

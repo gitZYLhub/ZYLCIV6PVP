@@ -41,8 +41,6 @@ mode/lastmove/lastmove_UI.lua
 mode/lastmove/lastmove_UI.xml
 mode/lastmove/lastmove_unitabilities.xml
 mode/lastmove/lastmove.lua
-NHK/UI/TurnTime_HotKey.lua
-NHK/UI/TurnTime_HotKey.xml
 RMP/Config_Text.xml
 RMP/Config.xml
 ui/Replacements/chatpanel_ZYL.lua

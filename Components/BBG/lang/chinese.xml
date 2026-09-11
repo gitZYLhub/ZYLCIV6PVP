@@ -1672,7 +1672,7 @@
 			<Text>城市拥有圣地时，每回合产生+2 [ICON_GreatProphet] 大预言家点数。6单元格内每个拥有圣地的城市为该城市+2 [ICON_Faith] 信仰值。</Text>
 		</Replace>
 		<Replace Tag="LOC_GOVERNOR_PROMOTION_CARDINAL_DIVINE_ARCHITECT_DESCRIPTION" Language="zh_Hans_CN">
-			<Text>以此处为终点的 [ICON_TradeRoute] 国内贸易路线+1 [ICON_FOOD] 食物、+2 [ICON_CULTURE] 文化值。城市可用 [ICON_Faith] 信仰值购买 [ICON_DISTRICT] 区域，购买 [ICON_DISTRICT] 区域时-10% [ICON_Faith] 信仰值消耗。</Text>
+			<Text>以此处为终点的 [ICON_TradeRoute] 国内贸易路线+1 [ICON_FOOD] 食物、+1 [ICON_CULTURE] 文化值、+2 [ICON_GOLD] 金币。城市可用 [ICON_Faith] 信仰值购买 [ICON_DISTRICT] 区域，购买 [ICON_DISTRICT] 区域时-30% [ICON_Faith] 信仰值消耗。</Text>
 		</Replace>
 		<Replace Tag="LOC_GOVERNOR_PROMOTION_CARDINAL_PATRON_SAINT_DESCRIPTION" Language="zh_Hans_CN">
 			<Text>获得等同于城市所产生 [ICON_FAITH] 信仰值20%的 [ICON_SCIENCE] 科技值和 [ICON_CULTURE] 文化值。</Text>
@@ -2754,7 +2754,10 @@
 			<Text>改良两个单元格。</Text>
 		</Replace>
 		<Replace Tag="LOC_BOOST_TRIGGER_FOREIGN_TRADE" Language="zh_Hans_CN">
-			<Text>拥有一个侦察兵。</Text>
+			<Text>拥有一个侦察兵，或发现一个新大陆。</Text>
+		</Replace>
+		<Replace Tag="LOC_BOOST_TRIGGER_LONGDESC_FOREIGN_TRADE" Language="zh_Hans_CN">
+			<Text>拥有一个侦察兵，或发现一个新大陆，这个广阔的世界有很多的贸易机会。</Text>
 		</Replace>
 		<Replace Tag="LOC_BOOST_TRIGGER_HUMANISM" Language="zh_Hans_CN">
 			<Text>拥有两个古罗马剧场。</Text>

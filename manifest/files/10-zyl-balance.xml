@@ -13,5 +13,8 @@
   <File manifestOrder="673">sql/ZYL_GovernorOverrides.sql</File>
   <File manifestOrder="675">lang/ZYL_Pantheons_Text.xml</File>
   <File manifestOrder="676">lang/ZYL_GameplayOverrides_Text.xml</File>
+  <File manifestOrder="1086">sql/ZYL_GreatPeople.sql</File>
+  <File manifestOrder="1087">sql/ZYL_GreatPeople_NFP.sql</File>
+  <File manifestOrder="1088">lang/ZYL_GreatPeople_Text.xml</File>
   <File manifestOrder="682">icons/ZYL_Pantheon_Icons.xml</File>
 </FilesFragment>

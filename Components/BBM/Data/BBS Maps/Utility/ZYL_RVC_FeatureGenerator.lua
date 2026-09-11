@@ -545,8 +545,8 @@ function DW_FeatureGenerator:AddJunglesAtPlot(plot, iX, iY)
 			if IsAdjacentToRiver(iX, iY) then iScore = iScore + 45; end
 			if terrainType == g_TERRAIN_TYPE_PLAINS then iScore = iScore + 20; end
 			local adjacent = TerrainBuilder.GetAdjacentFeatureCount(plot, g_FEATURE_JUNGLE);
-			if adjacent == 1 then iScore = iScore + 60
-			elseif adjacent == 2 or adjacent == 3 then iScore = iScore + 130
+			if adjacent == 1 then iScore = iScore + 45
+			elseif adjacent == 2 or adjacent == 3 then iScore = iScore + 105
 			elseif adjacent >= 4 then iScore = iScore - 80 end
 			if TerrainBuilder.GetRandomNumber(400,
 					"ZYLRM horizontal clustered jungle") <= math.min(360, iScore) then
@@ -642,7 +642,7 @@ function DW_FeatureGenerator:EnsureJungleMinimum()
 			local clumpHeight = self.jungleClusterFrac ~= nil
 				and self.jungleClusterFrac:GetHeight(plot:GetX(), plot:GetY()) or 128;
 			local adjacent = TerrainBuilder.GetAdjacentFeatureCount(plot, g_FEATURE_JUNGLE);
-			local score = clumpHeight * 100 + adjacent * 30000;
+			local score = clumpHeight * 100 + adjacent * 24000;
 			if plot:IsRiver() or IsAdjacentToRiver(plot:GetX(), plot:GetY()) then
 				score = score + 2500;
 			end

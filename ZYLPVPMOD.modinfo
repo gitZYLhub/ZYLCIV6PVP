@@ -953,6 +953,12 @@
 			</Properties>
 			<File>Components/BBM/Lang/ZYL_RingMainland_Text.xml</File>
 		</UpdateText>
+		<UpdateText id="ZYL_GreatPeopleTextFrontEnd">
+			<Properties>
+				<LoadOrder>260000045</LoadOrder>
+			</Properties>
+			<File>lang/ZYL_GreatPeople_Text.xml</File>
+		</UpdateText>
 	</FrontEndActions>
 	<InGameActions>
 		<AddGameplayScripts id="CPL_Helper">
@@ -2311,6 +2317,9 @@
 			<File>Components/BBM/Lang/japanese.xml</File>
 			<File>Components/BBM/Lang/korean.xml</File>
 			<File>Components/BBM/Lang/portuguese.xml</File>
+			<File>Components/BBM/Lang/ZYL_RichMainland_Text.xml</File>
+			<File>Components/BBM/Lang/ZYL_HorizontalRichMainland_Text.xml</File>
+			<File>Components/BBM/Lang/ZYL_RingMainland_Text.xml</File>
 		</UpdateText>
 		<UpdateDatabase id="ZYLPVP_BBM_IG_006_BBS_Minor_Bias_Parameters">
 			<Properties>
@@ -2934,6 +2943,31 @@
 			<Criteria>ZYL_RichMainland_RingTeam</Criteria>
 			<File>Components/BBM/Data/BBS Maps/ZYLRM/ConfigureRing.sql</File>
 		</UpdateDatabase>
+		<UpdateDatabase id="ZYL_GreatPeople">
+			<Properties>
+				<LoadOrder>260000030</LoadOrder>
+			</Properties>
+			<File>sql/ZYL_GreatPeople.sql</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="ZYL_GreatPeopleNFP">
+			<Properties>
+				<LoadOrder>260000035</LoadOrder>
+			</Properties>
+			<Criteria>ZYLPVP_BBG_Babylon</Criteria>
+			<File>sql/ZYL_GreatPeople_NFP.sql</File>
+		</UpdateDatabase>
+		<UpdateText id="ZYL_GreatPeopleText">
+			<Properties>
+				<LoadOrder>260000040</LoadOrder>
+			</Properties>
+			<File>lang/ZYL_GreatPeople_Text.xml</File>
+		</UpdateText>
+		<AddUserInterfaces id="ZYL_TurnTimeHotkey">
+			<Properties>
+				<Context>InGame</Context>
+			</Properties>
+			<File>NHK/UI/TurnTime_HotKey.xml</File>
+		</AddUserInterfaces>
 	</InGameActions>
 	<Files>
 		<File>README.md</File>
@@ -3245,6 +3279,8 @@
 		<File>Components/BBG/sql/LP/Theodora.sql</File>
 		<File>Components/BBG/sql/LP/lp_ludwig.sql</File>
 		<File>Components/BBG/sql/LP/Sejong.sql</File>
+		<File>NHK/UI/TurnTime_HotKey.lua</File>
+		<File>NHK/UI/TurnTime_HotKey.xml</File>
 		<File>Components/BBG/sql/LP/Ptolemaic.sql</File>
 		<File>Components/BBG/sql/LP/Ramses.sql</File>
 		<File>Components/BBG/sql/LP/Sundiata.sql</File>
@@ -4015,5 +4051,8 @@
 		<File>Components/BBM/Data/BBS Maps/zyl_team_ring_mainland.lua</File>
 		<File>Components/BBM/Data/BBS Maps/ZYLRM/ConfigureHorizontalTeam.sql</File>
 		<File>Components/BBM/Data/BBS Maps/ZYLRM/ConfigureRing.sql</File>
+		<File>sql/ZYL_GreatPeople.sql</File>
+		<File>sql/ZYL_GreatPeople_NFP.sql</File>
+		<File>lang/ZYL_GreatPeople_Text.xml</File>
 	</Files>
 </Mod>

@@ -90,18 +90,25 @@ INSERT INTO GovernorPromotionModifiers(GovernorPromotionType, ModifierId) VALUES
 -- INSERT INTO GovernorPromotionModifiers(GovernorPromotionType, ModifierId)
 --     SELECT 'GOVERNOR_PROMOTION_CARDINAL_CITADEL_OF_GOD', 'BBG_MOKSHA_DISCOUNT_' || Buildings.BuildingType FROM Buildings WHERE PrereqDistrict='DISTRICT_HOLY_SITE';
 
--- LII Divine Architect : Ability to faith buy district with 10% discount. Your trade route ending here provide +2 culture and +1 food to their starting city. 
+-- LII Divine Architect : Ability to faith buy district with 30% discount. Your trade route ending here provide +1 culture, +1 food and +2 gold to their starting city.
+-- 2026/09/11 内商 +2文化 改为 +1文化+2金币；信仰购买区域折扣 10%→30%
 DELETE FROM GovernorPromotionPrereqs WHERE GovernorPromotionType='GOVERNOR_PROMOTION_CARDINAL_DIVINE_ARCHITECT';
 INSERT INTO GovernorPromotionPrereqs (GovernorPromotionType, PrereqGovernorPromotion) VALUES
     ('GOVERNOR_PROMOTION_CARDINAL_DIVINE_ARCHITECT', 'GOVERNOR_PROMOTION_EDUCATOR_CONNOISSEUR');
 UPDATE GovernorPromotions SET Level=2, Column=0 WHERE GovernorPromotionType='GOVERNOR_PROMOTION_CARDINAL_DIVINE_ARCHITECT';  
     -- culture/food per trader
 INSERT INTO Modifiers(ModifierId, ModifierType) VALUES
-    ('BBG_MOKSHA_DOMESTIC_TRADE_ROUTE_2_CULTURE', 'MODIFIER_SINGLE_CITY_ADJUST_TRADE_ROUTE_YIELD_TO_OTHERS');
+    ('BBG_MOKSHA_DOMESTIC_TRADE_ROUTE_1_CULTURE', 'MODIFIER_SINGLE_CITY_ADJUST_TRADE_ROUTE_YIELD_TO_OTHERS');
 INSERT INTO ModifierArguments(ModifierId, Name, Value) VALUES
-    ('BBG_MOKSHA_DOMESTIC_TRADE_ROUTE_2_CULTURE', 'Amount', '2'),
-    ('BBG_MOKSHA_DOMESTIC_TRADE_ROUTE_2_CULTURE', 'Domestic', '1'),
-    ('BBG_MOKSHA_DOMESTIC_TRADE_ROUTE_2_CULTURE', 'YieldType', 'YIELD_CULTURE');
+    ('BBG_MOKSHA_DOMESTIC_TRADE_ROUTE_1_CULTURE', 'Amount', '1'),
+    ('BBG_MOKSHA_DOMESTIC_TRADE_ROUTE_1_CULTURE', 'Domestic', '1'),
+    ('BBG_MOKSHA_DOMESTIC_TRADE_ROUTE_1_CULTURE', 'YieldType', 'YIELD_CULTURE');
+INSERT INTO Modifiers(ModifierId, ModifierType) VALUES
+    ('BBG_MOKSHA_DOMESTIC_TRADE_ROUTE_2_GOLD', 'MODIFIER_SINGLE_CITY_ADJUST_TRADE_ROUTE_YIELD_TO_OTHERS');
+INSERT INTO ModifierArguments(ModifierId, Name, Value) VALUES
+    ('BBG_MOKSHA_DOMESTIC_TRADE_ROUTE_2_GOLD', 'Amount', '2'),
+    ('BBG_MOKSHA_DOMESTIC_TRADE_ROUTE_2_GOLD', 'Domestic', '1'),
+    ('BBG_MOKSHA_DOMESTIC_TRADE_ROUTE_2_GOLD', 'YieldType', 'YIELD_GOLD');
 INSERT INTO Modifiers(ModifierId, ModifierType) VALUES
     ('BBG_MOKSHA_DOMESTIC_TRADE_ROUTE_1_FOOD', 'MODIFIER_SINGLE_CITY_ADJUST_TRADE_ROUTE_YIELD_TO_OTHERS');
 INSERT INTO ModifierArguments(ModifierId, Name, Value) VALUES
@@ -109,13 +116,14 @@ INSERT INTO ModifierArguments(ModifierId, Name, Value) VALUES
     ('BBG_MOKSHA_DOMESTIC_TRADE_ROUTE_1_FOOD', 'Domestic', '1'),
     ('BBG_MOKSHA_DOMESTIC_TRADE_ROUTE_1_FOOD', 'YieldType', 'YIELD_FOOD');
 INSERT INTO GovernorPromotionModifiers(GovernorPromotionType, ModifierId) VALUES
-    ('GOVERNOR_PROMOTION_CARDINAL_DIVINE_ARCHITECT', 'BBG_MOKSHA_DOMESTIC_TRADE_ROUTE_2_CULTURE'),
-    ('GOVERNOR_PROMOTION_CARDINAL_DIVINE_ARCHITECT', 'BBG_MOKSHA_DOMESTIC_TRADE_ROUTE_1_FOOD'); 
-    -- district -10% faith buy
+    ('GOVERNOR_PROMOTION_CARDINAL_DIVINE_ARCHITECT', 'BBG_MOKSHA_DOMESTIC_TRADE_ROUTE_1_CULTURE'),
+    ('GOVERNOR_PROMOTION_CARDINAL_DIVINE_ARCHITECT', 'BBG_MOKSHA_DOMESTIC_TRADE_ROUTE_1_FOOD'),
+    ('GOVERNOR_PROMOTION_CARDINAL_DIVINE_ARCHITECT', 'BBG_MOKSHA_DOMESTIC_TRADE_ROUTE_2_GOLD');
+    -- district -30% faith buy
 INSERT INTO Modifiers (ModifierId, ModifierType) VALUES
     ('BBG_MOKSHA_DISTRICT_DISCOUNT', 'MODIFIER_SINGLE_CITY_ADJUST_ALL_DISTRICTS_PURCHASE_COST');
 INSERT INTO ModifierArguments (ModifierId, Name, Value) VALUES
-    ('BBG_MOKSHA_DISTRICT_DISCOUNT', 'Amount', 10);
+    ('BBG_MOKSHA_DISTRICT_DISCOUNT', 'Amount', 30);
 INSERT INTO GovernorPromotionModifiers(GovernorPromotionType, ModifierId) VALUES
     ('GOVERNOR_PROMOTION_CARDINAL_DIVINE_ARCHITECT', 'BBG_MOKSHA_DISTRICT_DISCOUNT');
 
