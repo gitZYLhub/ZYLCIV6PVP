@@ -42,7 +42,6 @@ local ZYL_LOBBY_DEFAULTS:table = {
 	{ "TOOLS_15_TIME", 1 },
 	{ "CPL_SMARTTIMER", 9 },
 	{ "ZYL_ERA_LENGTH_OPTIMIZATION", 1 },
-	{ "ZYL_DIPLOMACY_RIBBON_MODE", 0 },
 	{ "ZYL_STARTING_BONUS_PLAYER", 0 },
 	{ "ZYL_STARTING_BONUS_TYPE", 0 },
 	{ "ZYL_IDENTITY_MODE", 0 },
@@ -66,6 +65,34 @@ local ZYL_LOBBY_DEFAULTS:table = {
 function ApplyZYLLobbyDefaults()
 	for _, entry in ipairs(ZYL_LOBBY_DEFAULTS) do
 		GameConfiguration.SetValue(entry[1], entry[2]);
+	end
+end
+
+
+-- ===========================================================================
+--	根据所选地图自动设置外交能见度模式默认值：
+--	组队PVP富饶大陆/横向大陆/环形大陆 → 组队模式(1)，其他地图 → FFA(0)。
+--	仅在地图切换时生效；切换地图后用户手动修改的值不会被覆盖。
+-- ===========================================================================
+local ZYL_lastMap = nil;
+function ZYL_ApplyMapDiplomacyRibbonDefault()
+	local mapValue = GameConfiguration.GetValue("MAP") or MapConfiguration.GetValue("MAP_SCRIPT") or "";
+	mapValue = tostring(mapValue);
+	if mapValue == ZYL_lastMap then
+		return;
+	end
+	ZYL_lastMap = mapValue;
+	local isTeamMap = mapValue == "zyl_team_rich_mainland" or mapValue == "zyl_team_rich_mainland.lua"
+		or mapValue == "zyl_team_horizontal_rich_mainland" or mapValue == "zyl_team_horizontal_rich_mainland.lua"
+		or mapValue == "zyl_team_ring_mainland" or mapValue == "zyl_team_ring_mainland.lua"
+		or mapValue == "LOC_ZYLRM_TEAM_MAP_NAME"
+		or mapValue == "LOC_ZYLRM_HORIZONTAL_MAP_NAME"
+		or mapValue == "LOC_ZYLRM_RING_MAP_NAME";
+	local desired = isTeamMap and 1 or 0;
+	local currentValue = GameConfiguration.GetValue("ZYL_DIPLOMACY_RIBBON_MODE") or 0;
+	currentValue = tonumber(currentValue);
+	if currentValue ~= desired then
+		GameConfiguration.SetValue("ZYL_DIPLOMACY_RIBBON_MODE", desired);
 	end
 end
 
@@ -453,6 +480,9 @@ end
 -- ===========================================================================
 function OnShow()
 	CheckPreset()
+	if not Network.IsInSession() and not GameConfiguration.IsSavedGame() then
+		ZYL_ApplyMapDiplomacyRibbonDefault();
+	end
 	RebuildPlayerParameters(true);
 	GameSetup_RefreshParameters();
 
@@ -776,6 +806,7 @@ function OnShutdown()
 	Events.LeaveGameComplete.Remove(OnLeaveGameComplete);
 	Events.BeforeMultiplayerInviteProcessing.Remove(OnBeforeMultiplayerInviteProcessing);
 	Events.GameConfigChanged.Remove(CheckPreset);
+	Events.GameConfigChanged.Remove(ZYL_ApplyMapDiplomacyRibbonDefault);
 	LuaEvents.ChangeMPLobbyMode.Remove(OnChangeMPLobbyMode);
 	LuaEvents.GameDebug_Return.Remove(OnGameDebugReturn);
 	LuaEvents.Lobby_RaiseHostGame.Remove(OnRaiseHostGame);
@@ -1089,6 +1120,7 @@ function Initialize()
 	Events.LeaveGameComplete.Add( OnLeaveGameComplete );
 	Events.BeforeMultiplayerInviteProcessing.Add( OnBeforeMultiplayerInviteProcessing );
 	Events.GameConfigChanged.Add(CheckPreset);
+	Events.GameConfigChanged.Add(ZYL_ApplyMapDiplomacyRibbonDefault);
 	
 	LuaEvents.ChangeMPLobbyMode.Add( OnChangeMPLobbyMode );
 	LuaEvents.GameDebug_Return.Add(OnGameDebugReturn);

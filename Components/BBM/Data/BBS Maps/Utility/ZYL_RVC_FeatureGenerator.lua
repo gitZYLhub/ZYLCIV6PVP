@@ -54,6 +54,8 @@ function DW_FeatureGenerator.Create(args)
 		AddMarshAtPlot			= DW_FeatureGenerator.AddMarshAtPlot,
 		AddJunglesAtPlot		= DW_FeatureGenerator.AddJunglesAtPlot,
 		EnsureJungleMinimum	= DW_FeatureGenerator.EnsureJungleMinimum,
+		EnsureForestMinimum	= DW_FeatureGenerator.EnsureForestMinimum,
+		ClipSolidJungleBlocks	= DW_FeatureGenerator.ClipSolidJungleBlocks,
 		AddForestsAtPlot		= DW_FeatureGenerator.AddForestsAtPlot,
 		AddReefAtPlot			= DW_FeatureGenerator.AddReefAtPlot,
 		
@@ -178,6 +180,10 @@ function DW_FeatureGenerator:AddFeatures(allow_mountains_on_coast, bRiversStartI
 	if self.ignoreJungleLatitude then
 		self:EnsureJungleMinimum();
 	end
+	-- 树林保底补足（丘陵不足时用平地），保证数量打满目标比例
+	self:EnsureForestMinimum();
+	-- 雨林裁剪：打散被雨林密实包围、没有空缺的雨林海，避免出生点无法拍区域
+	self:ClipSolidJungleBlocks();
 	
 	print("Number of Tiles:      ", self.iNumLandPlots);
 	print("Number of Forests:    ", self.iForestCount);
@@ -545,9 +551,12 @@ function DW_FeatureGenerator:AddJunglesAtPlot(plot, iX, iY)
 			if IsAdjacentToRiver(iX, iY) then iScore = iScore + 45; end
 			if terrainType == g_TERRAIN_TYPE_PLAINS then iScore = iScore + 20; end
 			local adjacent = TerrainBuilder.GetAdjacentFeatureCount(plot, g_FEATURE_JUNGLE);
+			-- 适度扎堆：邻接1-2块奖励、3块中性、4块及以上明显惩罚，
+			-- 避免出现一整片无空缺的雨林（出生连拍区域的地方都没有）。
 			if adjacent == 1 then iScore = iScore + 45
-			elseif adjacent == 2 or adjacent == 3 then iScore = iScore + 105
-			elseif adjacent >= 4 then iScore = iScore - 80 end
+			elseif adjacent == 2 then iScore = iScore + 45
+			elseif adjacent == 3 then iScore = iScore + 0
+			elseif adjacent >= 4 then iScore = iScore - 150 end
 			if TerrainBuilder.GetRandomNumber(400,
 					"ZYLRM horizontal clustered jungle") <= math.min(360, iScore) then
 				TerrainBuilder.SetFeatureType(plot, g_FEATURE_JUNGLE);
@@ -642,7 +651,10 @@ function DW_FeatureGenerator:EnsureJungleMinimum()
 			local clumpHeight = self.jungleClusterFrac ~= nil
 				and self.jungleClusterFrac:GetHeight(plot:GetX(), plot:GetY()) or 128;
 			local adjacent = TerrainBuilder.GetAdjacentFeatureCount(plot, g_FEATURE_JUNGLE);
-			local score = clumpHeight * 100 + adjacent * 24000;
+			-- 适度扎堆：分形团块高度为主、邻接仅作次级加成；4块以上明显
+			-- 惩罚，避免补足阶段把团块内部填成无空缺的雨林海。
+			local score = clumpHeight * 100 + adjacent * 3000;
+			if adjacent >= 4 then score = score - 30000; end
 			if plot:IsRiver() or IsAdjacentToRiver(plot:GetX(), plot:GetY()) then
 				score = score + 2500;
 			end
@@ -672,6 +684,110 @@ function DW_FeatureGenerator:EnsureJungleMinimum()
 		"added", added, "final", self.iJungleCount);
 end
 ------------------------------------------------------------------------------
+-- 树林目标保底：丘陵不足时在平地补足，保证树林数量打满目标。
+-- 补足优先级：先补丘陵（保持"树林只长在丘陵"的主循环习惯），再补平地；
+-- 邻接规则与主循环一致：1格奖励、2格中性、3格起减分。
+function DW_FeatureGenerator:EnsureForestMinimum()
+	local target = math.floor(self.iNumLandPlots * self.iForestMaxPercent / 100);
+	if self.iForestCount >= target then return end
+	local candidates = {};
+	for plotIndex = 0, Map.GetPlotCount() - 1 do
+		local plot = Map.GetPlotByIndex(plotIndex);
+		if plot ~= nil and not plot:IsImpassable()
+				and plot:GetFeatureType() == g_FEATURE_NONE
+				and TerrainBuilder.CanHaveFeature(plot, g_FEATURE_FOREST) then
+			local score = plot:IsHills() and 100000 or 0;
+			local adjacent = TerrainBuilder.GetAdjacentFeatureCount(plot, g_FEATURE_FOREST);
+			if adjacent == 1 then
+				score = score + 5000;
+			elseif adjacent == 3 then
+				score = score - 5000;
+			elseif adjacent >= 4 then
+				score = score - 20000;
+			end
+			table.insert(candidates, { Plot = plot, Score = score });
+		end
+	end
+	table.sort(candidates, function(a, b)
+		if a.Score == b.Score then return a.Plot:GetIndex() < b.Plot:GetIndex() end
+		return a.Score > b.Score;
+	end);
+	local added = 0;
+	for _, candidate in ipairs(candidates) do
+		if self.iForestCount >= target then break end
+		local plot = candidate.Plot;
+		TerrainBuilder.SetFeatureType(plot, g_FEATURE_FOREST);
+		if not plot:IsHills() then
+			TerrainBuilder.SetTerrainType(plot, plot:GetTerrainType() + 1);
+		end
+		self.iForestCount = self.iForestCount + 1;
+		added = added + 1;
+	end
+	print("Forest minimum:", "target", target, "added", added, "final", self.iForestCount);
+end
+------------------------------------------------------------------------------
+-- 雨林裁剪：地貌阶段之后打散"无空缺的雨林海"，避免出生地被密实雨林包围
+-- 无法拍区域。判定基于本轮开始前的快照（被删雨林的相邻雨林本轮不参与
+-- 裁剪，因此其邻居棋盘保持不变，计数即原始快照）：
+--   1) 六格邻居全是雨林         → 必删；
+--   2) 六格全是雨林或树林，或六格中有五格是雨林 → 50% 概率删；
+--   3) 某块雨林被删后，与它相邻的雨林本轮不再参与裁剪（防止连锁掏空）。
+function DW_FeatureGenerator:ClipSolidJungleBlocks()
+	local junglePlots = {};
+	local order = {};
+	for plotIndex = 0, Map.GetPlotCount() - 1 do
+		local plot = Map.GetPlotByIndex(plotIndex);
+		if plot ~= nil and plot:GetFeatureType() == g_FEATURE_JUNGLE then
+			junglePlots[plotIndex] = plot;
+			table.insert(order, plotIndex);
+		end
+	end
+	table.sort(order);
+	local removed = {};
+	local removedCount = 0;
+	for _, plotIndex in ipairs(order) do
+		local plot = junglePlots[plotIndex];
+		local x = plot:GetX();
+		local y = plot:GetY();
+		local jungleAdj = 0;
+		local jungleOrForestAdj = 0;
+		local adjacentRemoved = false;
+		for direction = 0, DirectionTypes.NUM_DIRECTION_TYPES - 1 do
+			local neighbor = Map.GetAdjacentPlot(x, y, direction);
+			if neighbor ~= nil then
+				local neighborIndex = neighbor:GetIndex();
+				if removed[neighborIndex] then
+					adjacentRemoved = true;
+				end
+				local featureType = neighbor:GetFeatureType();
+				if featureType == g_FEATURE_JUNGLE then
+					jungleAdj = jungleAdj + 1;
+					jungleOrForestAdj = jungleOrForestAdj + 1;
+				elseif featureType == g_FEATURE_FOREST then
+					jungleOrForestAdj = jungleOrForestAdj + 1;
+				end
+			end
+		end
+		if not adjacentRemoved then
+			if jungleAdj == 6 then
+				TerrainBuilder.SetFeatureType(plot, -1);
+				removed[plotIndex] = true;
+				self.iJungleCount = self.iJungleCount - 1;
+				removedCount = removedCount + 1;
+			elseif jungleOrForestAdj == 6 or jungleAdj == 5 then
+				if TerrainBuilder.GetRandomNumber(100, "ZYL RVC jungle clip") < 50 then
+					TerrainBuilder.SetFeatureType(plot, -1);
+					removed[plotIndex] = true;
+					self.iJungleCount = self.iJungleCount - 1;
+					removedCount = removedCount + 1;
+				end
+			end
+		end
+	end
+	print("Jungle clip:", "candidates", #order, "removed", removedCount,
+		"final", self.iJungleCount);
+end
+------------------------------------------------------------------------------
 function DW_FeatureGenerator:AddForestsAtPlot(plot, iX, iY)
 	--Forest Check. First see if it can place the feature.
 	if(TerrainBuilder.CanHaveFeature(plot, g_FEATURE_FOREST)) then
@@ -689,15 +805,17 @@ function DW_FeatureGenerator:AddForestsAtPlot(plot, iX, iY)
 			end
 
 			local iAdjacent = TerrainBuilder.GetAdjacentFeatureCount(plot, g_FEATURE_FOREST);
-
+			-- 树林不要太扎堆：邻接1格奖励、2格中性、3格起开始减分。
 			if(iAdjacent == 0 ) then
 				iScore = iScore;
 			elseif(iAdjacent == 1) then
 				iScore = iScore + 50;
-			elseif (iAdjacent == 2 or iAdjacent == 3) then
-				iScore = iScore + 150;
-			elseif (iAdjacent == 4) then
+			elseif (iAdjacent == 2) then
+				iScore = iScore;
+			elseif (iAdjacent == 3) then
 				iScore = iScore - 50;
+			elseif (iAdjacent == 4) then
+				iScore = iScore - 100;
 			else
 				iScore = iScore - 200;
 			end

@@ -1043,3 +1043,88 @@
 - 契约：新 INSERT 行（BoostID 自增，missing-primary-key-column 197 由此行产生），纳入 M24 的合同刷新范围。
 - 验证：INSERT 在游戏数据库副本实测通过（外键 ON）；`tools/validate.ps1` 通过；三 profile 发布包重建成功。
 - 风险/待办：其他 8 种语言组件文案仍为"拥有侦察兵"旧文案（按惯例仅中英文）。已提交。
+
+### 2026-09-11 / M27-多人回合计时器失效根因：OnTurnEnd 被 CPL_SYNCTURN 门控
+
+- 目标：用户报"多人游戏中的回合计时仍然没有生效"，并提供 `logs/Logs_20260911`（游戏会话 00:48–01:16，2.0.0，LAN 联机 2 人，组队PVP环形大陆）。指出 1.4 同场景是生效的，要求对比。
+- 调查结论：与 1.4 逐段对比 `ui/Additions/TurnProcessing.lua`，找到唯一行为差异——**计时应用门控**：
+  - 1.4 `OnTurnEnd`（L480）：`if GameConfiguration.GetValue("CPL_SMARTTIMER") ~= 1 and g_currenttimer ~= nil and IsHost()` → `ApplyHostTimer(g_currenttimer, "TURNTIMER_STANDARD")`。**不检查 `CPL_SYNCTURN`**，智能计时在任何多人房间都会每回合应用到 `TURN_TIMER_TIME`。
+  - 2.0 `OnTurnEnd`（L504）：`if IsTurnProcessingEnabled() and ...`，而 `IsTurnProcessingEnabled()` = 联机 **且 `CPL_SYNCTURN==true`** 且 `CPL_SMARTTIMER~=1`。该重构把"同步回合处理面板"功能与"计时应用"混在同一门控里。
+  - 日志 `net_message_debug.log` 的 NetGameConfig 显示：`CPL_SMARTTIMER=Int(9)`（智能计时开启）、**`CPL_SYNCTURN=Bool(false)`**、`MPH_PRESET=Int(0)`（默认预设，Config.xml 中仅预设 8/9/10 会设 `CPL_SYNCTURN=1`）→ 2.0 下 `OnTurnEnd` 从不调用 `ApplyHostTimer`，智能计时永不生效；1.4 相同配置下正常。
+  - `OnAdjustTime`（2.0 L639）同样被 `IsTurnProcessingEnabled()` 门控（1.4 L616 只查 `CPL_SMARTTIMER~=1`），一并修复。
+  - 热键/按钮路径（`NHK/UI/TurnTime_HotKey.lua`、`QuickControls.lua`）不依赖 `CPL_SYNCTURN`（host 直接 SetValue+BroadcastGameConfig，非 host 发 p++/p-- 聊天指令），且 M20 已修复其未注册问题，这两条链路不受影响。
+- 修改：`ui/Additions/TurnProcessing.lua` 新增 `IsTimerApplicationEnabled()`（= 联机 且 `CPL_SMARTTIMER~=1`，不含 `CPL_SYNCTURN`），`OnTurnEnd` 与 `OnAdjustTime` 的计时应用条件改用该函数；处理面板/回合状态逻辑（Refresh_Data/OnTick/玩家回合回调）仍用 `IsTurnProcessingEnabled()`，与 1.4 对同步回合面板的语义一致。
+- 契约：纯 Lua 逻辑改动，无 SQL/清单变化；`tools/validate.ps1` 通过（208 XML、110 Criteria、291 Actions、1084 Files、556 活跃引用、46 休眠文件、118 源码文件）；Lua 括号配平检查 OK。
+- 风险/待办：需实机确认——默认预设（MPH_PRESET=0、CPL_SYNCTURN=false）下开局后每回合结束，主机应把 TURN_TIMER_TIME 应用为智能计时值；P++/P-- 热键与按钮、强制结束回合不受影响。改动未提交，等待用户确认后统一提交。
+
+### 2026-09-11 / M28-环形PVP大陆：最小距离14、外环与画布+2、增加裸露丘陵
+
+- 目标：用户对环形PVP大陆地图提出三项修改：(1) 任意两个玩家最小距离默认为14格；(2) 外环半径扩大2格，同时画布长宽各扩大2格（陆地变大没关系，资源/地貌密度保持不变）；(3) 小幅微调增加丘陵数量，特别是没有雨林/树林的裸露丘陵。
+- 调查结论：
+  - 环形出生点由自定义分配器 ZYL_RVC_AssignStartingPlots 的 __MajorCivBuffer 硬约束控制（同队 <= iMaxStart(12/11) 拒绝、异队 < iHard_Major(默认17，重试可降到9) 拒绝）。重试降级是"有时候两个玩家离得太近"的根因。
+  - 外环半径由 SQL 尺寸推导：g_ringOuterR = max(18, (g_iW-10)/2)，内环 = 外环-16；画布+2 只让半径+1，要外环净+2 需公式再 +1。
+  - 该图森林只长在丘陵上（FeatureGenerator L168），导致绝大多数丘陵被树覆盖、裸露丘陵偏少；特征生成之后再转丘陵即可保证新增丘陵裸露。
+- 修改：
+  - Components/BBM/Data/BBS Maps/ZYLRM/ConfigureRing.sql：六档标准尺寸与五个 FFA 尺寸 GridWidth/GridHeight 各 +2（DUEL 46→48 ... HUGE 98→100；FFA_3 46→48 ... FFA_11 92→94），头注释同步。
+  - Components/BBM/Data/BBS Maps/zyl_rich_mainland_core.lua：ZYL_InitializeExpandedOceanCanvas 环形分支 g_ringOuterR 公式 (g_iW-10)/2 → (g_iW-10)/2+1（外环净+2，内环随 -16 自动+2，环带厚度仍16）。
+  - Components/BBM/Lang/ZYL_RingMainland_Text.xml：各尺寸描述的外/内半径与网格全部按新几何更新（如 6人 26/10 62×62 → 28/12 64×64；12人 44/28 98×98 → 46/30 100×100），主描述人均约300→约330格。
+  - Components/BBM/Data/BBS Maps/Utility/ZYL_RVC_AssignStartingPlots.lua：__MajorCivBuffer 中环形地图分支强制 iMaxStart>=13（同队距离<=13拒绝→最小14）且 self.iHard_Major>=14（异队距离<14拒绝→最小14），重试不击穿。
+  - Components/BBM/Data/BBS Maps/zyl_rich_mainland_core.lua：AddFeatures() 之后新增环形裸露丘陵 pass（约3%陆地、上限控制），无特征平地转 HILLS 并同步 ConvertToHills 地形。
+  - 	ools/validation/MapChecks.ps1： 硬编码同步为新尺寸数组。
+- 契约：纯数据/几何改动，无清单变化；resources/地貌百分比参数（iForestMaxPercent、iJunglePercent、island water 67、land mult 1.20、grain 4）全部未动，密度保持不变。
+- 验证：	ools/validate.ps1 通过（208 XML、110 Criteria、291 Actions、1084 Files）；Lua 括号配平检查 OK；windows 发布包重建中。
+- 风险/待办：需实机确认环形图开局间距、环外海洋边距（5→4格）与裸露丘陵观感。改动未提交，等待用户确认后统一提交。
+
+### 2026-09-11 / M29-修复环形裸露丘陵pass崩溃：plot:SetPlotType 不存在
+
+- 目标：用户实机（LAN 2人、环形大陆）报错，日志 Logs_2026091102。Lua.log：zyl_rich_mainland_core.lua:458: function expected instead of nil（GenerateMap 内）。
+- 调查结论：M28 新增的裸露丘陵 pass 调用了 plot:SetPlotType(g_PLOT_TYPE_HILLS, false, true)，但 **Civ6 Plot 对象没有 SetPlotType 方法**（"function expected instead of nil"）。项目内其他三处 plot:SetPlotType（tilted_axis、BBM_FeatureGenerator、ZYL_RVC_FeatureGenerator L107）都位于从未执行过的分支——环形地图 AddFeatures 传 allow_mountains_on_coast=true，FeatureGenerator 的沿海山脉转换从不运行，因此此前从未暴露。正确机制（与 1.4 ApplyBaseTerrain 一致）：丘陵身份由 *_HILLS 地形决定，用 TerrainBuilder.SetTerrainType(plot, ConvertToHills(terrain))。Database.log 的 UNIQUE 错误全部是 Civ6 官方 CurrentClickouts/HallOfFame 文本重复插入，与 mod 无关。
+- 修改：zyl_rich_mainland_core.lua 裸露丘陵 pass 删除 plot:SetPlotType(...) 行，保留 plotTypes[index]=HILLS 数组同步 + TerrainBuilder.SetTerrainType(plot, ConvertToHills(terrain))，并加注释说明。
+- 契约：纯 Lua 一行删除，无 SQL/清单变化。
+- 验证：括号配平 OK；	ools/validate.ps1 通过；windows 包重建成功（910 文件 422.15 MiB，SHA-256 b5bb5321…）；已同步到 Steam Workshop 部署目录（D:\Steam\steamapps\workshop\content\289070\3792052697，910 文件全量），workshop 副本确认已无 SetPlotType 调用、含修复注释。
+- 风险/待办：需用户重启游戏（若 Steam 已运行可能需先关 Steam 再启动以重新加载 mod）后重测。改动未提交，等待用户确认后统一提交。
+
+### 2026-09-11 / M30-回退环形裸露丘陵pass，诊断"山脉变多"根因
+
+- 目标：用户实机开新局（Firaxis Logs 19:07，64×64 环形）反馈"山脉特别多，是不是把丘陵搞成山脉了"，并指示：不知道怎么办可直接回退，增加丘陵这一项改动可以直接不要了。
+- 调查结论：
+  - 丘陵 pass 与山脉无关：pass 只把 plotTypes==LAND 且无特征、非不可通行的格子转 g_PLOT_TYPE_HILLS（ConvertToHills 只返回 *_HILLS 地形，从不写 MOUNTAIN）。日志佐证：ing bare hills added 32 of target 42（只加丘陵）、Mountains Set: 0（AddLonelyMountains 未补山脉）、aseline mountain guarantee: added 0。
+  - 山脉比例对比：旧 62×62 会话 151/2088=7.23%；新 64×64 会话 215/2222=9.68%。两者 world_age 均=2、山脉参数与 1.4 完全一致（extra_mountains=(2+(3-world_age))*2+2、mountains=97-adjustment-extra_mountains）。
+  - 根因：画布 62→64 后 Fractal.Create(args.iW,args.iH,…) 的高度分布变化，GetHeight(百分位) 取出的绝对阈值漂移，落在阈值以上的格子变多——即画布+2 的间接副作用，非丘陵 pass 引入。
+- 修改：zyl_rich_mainland_core.lua 删除整个环形裸露丘陵 pass（AddFeatures 与 AddCliffs 之间恢复直连）；无其他改动。
+- 契约：纯 Lua 删除，无 SQL/清单变化。
+- 验证：括号配平 OK；	ools/validate.ps1 通过；windows 包重建成功（910 文件，SHA-256 975fcba7…）；已同步 Steam Workshop 部署目录（workshop 副本确认无 bare hills pass、AddFeatures→AddCliffs 直连）。
+- 风险/待办：山脉比例 9.68% vs 旧 7.23% 的漂移仍然存在（画布+2 副作用）。若用户仍觉山脉过多，可再调环形 reliefArgs（如降低 extra_mountains 或加山脉上限裁剪），等待用户反馈。改动未提交。
+
+### 2026-09-11 / M31-恢复环形裸露丘陵pass，新增山脉上限裁剪（≤6%陆地）
+
+- 目标：用户要求「1.把丘陵pass加回来 2.降低山脉比例，理想状态下山脉最多只占陆地面积的6%」，并指出「打散山脉的选项应该正常生效」。
+- 调查结论：
+  - 丘陵 pass 回退（M30）只是暂时移除；用户本次明确要求加回，故恢复 M29 修复后的版本（无 `plot:SetPlotType`，用 `plotTypes[index]=HILLS` + `TerrainBuilder.SetTerrainType(plot, ConvertToHills(terrain))`，与 ApplyBaseTerrain 机制一致）。
+  - 山脉比例：64×64 会话 215/2222=9.68%（world_age=2）。目标 ≤6%，需把约 3.68pp 的山脉转丘陵。
+  - 「打散山脉团块」选项（`BBMBreakClumps`，Config.xml L17，默认开）：只在 `BBS_MountainsCliffs.lua`/`DW_MountainsCliffs.lua` 的 AddCliffs 内检查并调用 `BreakMountainClumps()`（定义于 BBM_MapUtils.lua L4186），而环形地图 include 的是 `ZYL_RVC_MountainsCliffs.lua`（core L10），其 AddCliffs 没有该检查且核心 include 链不含 BBM_MapUtils → **该选项在环形地图上从未生效**。本次按用户指示先放其不管（选项生效留待后续处理）。
+- 修改（zyl_rich_mainland_core.lua）：
+  - AddFeatures() 与 AddCliffs() 之间恢复环形裸露丘陵 pass（IS_RING_MAINLAND 分支，目标 ≈3% 陆地、上限控制、无 SetPlotType、新增丘陵裸露）。
+  - 新增 `ZYL_EnforceRingMountainCap()`：仅环形地图生效；统计陆地与山脉，若超过 6% 陆地，把多余山脉转丘陵；**按用户要求优先转掉聚集的山脉（相邻山脉多）拆散团块**，让剩余山脉更分散（初始方案"优先转孤峰、保留山脉链"经用户纠正为反方向）；跳过自然奇观与火山（`GetGameInfoIndex("Features","FEATURE_VOLCANO")`，因核心 include 链无 g_FEATURE_VOLCANO 常量）；在 `RichNSBalance()` 之后、`ZYL_EnforceFFAMountainRatio()`（保底 3.5%）之前调用，保证最终比例 ≤6%。
+- 契约：环形地图最终山脉比例 ≤6% 陆地；裸露丘陵 pass 恢复且不产生山脉；其余地图（横向/FFA 竖向）不受影响。
+- 验证：Lua 括号逐字符扫描平衡（括号 1676/1676、大括号 113/113、方括号 190/190）；`tools/validate.ps1` PASS（208 XML/110 Criteria/291 Actions/1084 Files/556 active/46 dormant/118 source-only）；windows 构建成功（910 文件 422.15 MiB，SHA-256 1a656aaf…，排序翻转后重建）；已 robocopy 同步 Steam Workshop 部署目录，workshop 副本确认含 `ring bare hills added`、`ZYL_EnforceRingMountainCap` 且排序为降序（`a.Score > b.Score`）。
+- 风险/待办：需用户重启游戏实测新图——(1) 环形图山脉占比日志应 ≤6%（`ZYLRM[RING_*] mountains: x / y land tiles (z%)`）；(2) 裸露丘陵观感；(3)「打散山脉团块」选项仍未接入环形地图（用户暂缓），后续如需可把 `BreakMountainClumps` 逻辑引入 ZYL_RVC_MountainsCliffs 或让环形 AddCliffs 检查 BBMBreakClumps。改动未提交，等待用户确认后统一提交。
+
+### 2026-09-13 / 横向与环形大陆雨林目标脱离富饶度
+
+- 按用户要求，横向大陆与环形大陆的雨林目标由 `18 + RichNum` 改为固定基础值 `18`；雨林生成器仍按降雨设置追加 `4 × (W - 2)` 个百分点。
+- 因此两图的目标公式为 `18% + 4 × (W - 2)`；标准降雨为 18%，干燥为 14%，湿润为 22%。组队/FFA 竖向富饶大陆仍保留 `18% + RichNum`。
+- 仅修改共享核心的雨林目标分支与本工作日志，无清单、地图尺寸或聚簇参数变化。
+
+### 2026-09-13 / 刷新数据库主键分析契约
+
+- 环形大陆尺寸已按 M28 扩大并确认为最终目标；同步刷新 `manifest/database-primary-key-contract.json` 的 `expectedAnalysisSha256`，使 `ConfigureRing.sql` 的新 `Maps` 行值纳入当前主键分析基线。
+- 主键分析计数未变化（INSERT/REPLACE 4378、已解析 2916、未解析 1462、rowCandidates 6856、重复键组 29），仅语义指纹从 `df57e26e…` 更新为 `bbd92717…`。
+
+### 2026-09-13 / 横向与环形大陆玩家距离设置
+
+- 按用户要求，在两张地图新增“玩家距离设置”下拉项，默认团队模式；FFA 模式统一使用 14 格，团队模式使用同队 12 格、不同队 18 格。
+- 出生点判定改为直接按选项使用 `Map.GetPlotDistance` 硬下限，不再随重试次数放宽；环形大陆原先统一14格的特殊分支已移除。
+- 20 次出生点尝试仍失败时不接受 Firaxis 无约束兜底，而是标记待重生成；进入首回合前由房主刷新地图/游戏种子并通过现有联机重启握手自动重新生成地图。
+- 新增横向/环形配置与中英文选项文本，更新地图静态校验及数据库写集合、主键分析契约。`tools/validate.ps1` 通过（208 XML、110 Criteria、291 Actions、1084 Files、556 active references、46 dormant、122 source-only）。
+- 风险/待办：尚未进行 Civ VI 双客户端实机验收；应覆盖横向/环形 2～12 人、FFA/团队两种距离模式，以及失败后房主自动重开和客户端 Resync。

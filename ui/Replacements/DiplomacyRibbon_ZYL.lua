@@ -221,7 +221,21 @@ end
 --	获取当前外交能见度模式类型
 -- ===========================================================================
 local diplomacyRibbonModeValue = GameConfiguration.GetValue("ZYL_DIPLOMACY_RIBBON_MODE")
-local Model = tonumber(diplomacyRibbonModeValue) == 1 and 1 or 0
+local Model = tonumber(diplomacyRibbonModeValue or 0) == 1 and 1 or 0
+-- 读档后存档不保存该自定义参数（GetValue 返回 nil），自动按是否组队局判定：
+-- 本地玩家存在存活队友 → 组队模式；否则保持 FFA（大厅显式选择优先）。
+if diplomacyRibbonModeValue == nil then
+	local localplayerID = Game.GetLocalPlayer();
+	if localplayerID ~= PlayerTypes.NONE and localplayerID ~= PlayerTypes.OBSERVER and Players[localplayerID] ~= nil then
+		local localplayerTeam = Players[localplayerID]:GetTeam();
+		for _, playerID in ipairs(PlayerManager.GetAliveMajorIDs()) do
+			if playerID ~= localplayerID and Players[playerID] ~= nil and Players[playerID]:GetTeam() == localplayerTeam then
+				Model = 1;
+				break;
+			end
+		end
+	end
+end
 -- 当前显示阈值由文件末尾最终生效的 UpdateStatValues 实现：
 -- 公共信息为分数、科技/文化产出、当前信仰和外交支持；
 -- 1级显示军力，2级显示人口/粮食/生产力，3级显示当前金币及金币/信仰回合产出，

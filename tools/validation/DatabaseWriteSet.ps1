@@ -4,21 +4,30 @@ function Get-ZylOrdinalSortedUniqueStrings {
         [object[]]$Values
     )
 
-    $set = [System.Collections.Generic.HashSet[string]]::new(
-        [System.StringComparer]::OrdinalIgnoreCase
-    )
+    $representatives = @{}
     foreach ($value in @($Values)) {
         if ($null -eq $value) {
             continue
         }
         $text = ([string]$value).Trim()
         if (-not [string]::IsNullOrWhiteSpace($text)) {
-            [void]$set.Add($text)
+            $key = $text.ToUpperInvariant()
+            if (-not $representatives.ContainsKey($key) -or
+                    [string]::CompareOrdinal(
+                        $text,
+                        [string]$representatives[$key]
+                    ) -lt 0) {
+                $representatives[$key] = $text
+            }
         }
     }
-    $result = [string[]]@($set)
-    [System.Array]::Sort($result, [System.StringComparer]::OrdinalIgnoreCase)
-    return @($result)
+    $keys = [string[]]@($representatives.Keys)
+    [System.Array]::Sort($keys, [System.StringComparer]::Ordinal)
+    return @(
+        foreach ($key in $keys) {
+            $representatives[$key]
+        }
+    )
 }
 
 function Split-ZylSqlStatements {

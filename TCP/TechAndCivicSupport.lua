@@ -7,6 +7,38 @@ include("InstanceManager");
 include("SupportFunctions");
 include("Civ6Common");
 -- ===========================================================================
+--	建筑/奇观解锁图标：在提示中追加造价与维护费（格式对齐单位的显示）。
+--	原版 AddBuildingExtraCostTooltip 是预留空实现，这里直接按需求追加。
+-- ===========================================================================
+function ZYL_AppendBuildingCostToTooltip(toolTip, typeName)
+	local building = GameInfo.Buildings[typeName];
+	if building == nil then
+		return toolTip;
+	end
+	local extraLines = {};
+	local cost = tonumber(building.Cost) or 0;
+	if cost > 0 then
+		local yield = GameInfo.Yields["YIELD_PRODUCTION"];
+		if yield then
+			table.insert(extraLines, Locale.Lookup("LOC_TOOLTIP_BASE_COST", cost, yield.IconString, yield.Name));
+		end
+	end
+	local maintenance = tonumber(building.Maintenance) or 0;
+	if maintenance > 0 then
+		local yield = GameInfo.Yields["YIELD_GOLD"];
+		if yield then
+			table.insert(extraLines, Locale.Lookup("LOC_TOOLTIP_MAINTENANCE", maintenance, yield.IconString, yield.Name));
+		end
+	end
+	if #extraLines > 0 then
+		if toolTip ~= nil and toolTip ~= "" then
+			return toolTip .. "[NEWLINE]" .. table.concat(extraLines, "[NEWLINE]");
+		end
+		return table.concat(extraLines, "[NEWLINE]");
+	end
+	return toolTip;
+end
+-- ===========================================================================
 --	打印表格，检测数据		--号码菌
 -- ===========================================================================
 Icon_Enough = "[Icon_You]"
@@ -375,6 +407,7 @@ function PopulateUnlockablesForCivic(playerID:number, civicID:number, kItemIM:ta
 
 				local toolTip = ToolTipHelper.GetToolTip(typeName, playerID);
 
+				toolTip = ZYL_AppendBuildingCostToTooltip(toolTip, typeName);
 				unlockIcon.UnlockIcon:LocalizeAndSetToolTip(toolTip);
 			
 				if callback ~= nil then		
@@ -459,6 +492,7 @@ function PopulateUnlockablesForTech(playerID:number, techID:number, instanceMana
 			end
 
 			local toolTip :string = ToolTipHelper.GetToolTip(typeName, playerID, nil);
+			toolTip = ZYL_AppendBuildingCostToTooltip(toolTip, typeName);
 			unlockIcon.UnlockIcon:LocalizeAndSetToolTip(toolTip);
 			if callback ~= nil then		
 				unlockIcon.UnlockIcon:RegisterCallback(Mouse.eLClick, callback);

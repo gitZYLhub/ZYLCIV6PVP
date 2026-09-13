@@ -538,9 +538,11 @@ local ZYL_RVC_TARGET_COAST_START_BONUS = 200000000
 local ZYL_RVC_OTHER_EW_COAST_START_BONUS = 100000000
 local ZYL_RVC_TEAM_DEPTH_ORDER_SCORE = 3000000
 local ZYL_RVC_HORIZONTAL_REMOTE_COAST_SCORE = 2500000
+local ZYL_RVC_INLAND_COAST_DISTANCE_SCORE_PER_RING = 150000
+local ZYL_RVC_INLAND_COAST_DISTANCE_SCORE_MAX_RING = 6
 local ZYL_RVC_COAST_ORIENTATION_CACHE = {}
 local ZYL_RVC_MAINLAND_AREA_ID = nil
-local ZYL_RVC_HORIZONTAL_COAST_DISTANCE_CACHE = {}
+local ZYL_RVC_COAST_DISTANCE_CACHE = {}
 local ZYL_RVC_HORIZONTAL_REMOTE_COAST_CIVS = {
 	CIVILIZATION_RUSSIA = true,
 	CIVILIZATION_CANADA = true,
@@ -557,14 +559,45 @@ local function ZYL_RVC_IsRingMainland()
 		and ZYL_RICH_MAINLAND_VARIANT.ringMainland == true;
 end
 
--- The ring's angular sector placement: rank within the team decides the
--- north/south position along the half-ring, and the coastal rule decides the
--- radial band (outer shore for the first/last seats, inner shore for the
--- middle coastal seats, mid-ring for inland civilizations).  The hard
--- constraint is the sector filter in __IsPlotInDistributionBand; these soft
--- closeness scores only nudge the final pick inside the sector.
+-- Horizontal and ring mainland expose one explicit major-civilization spacing
+-- policy.  The policy is intentionally independent of BBS_Team_Spawn: the
+-- lobby can choose an all-player FFA distance even while using the team map's
+-- geometric team bands.
+local function ZYL_RVC_GetPlayerDistanceSettings()
+	if not ZYL_RVC_IsHorizontalMainland() and not ZYL_RVC_IsRingMainland() then
+		return nil;
+	end
+	local configuredValue = MapConfiguration.GetValue("ZYLRM_PlayerDistance");
+	local configuredMode = tonumber(configuredValue);
+	local mode = configuredMode == 0 and 0 or 1;
+	if mode == 0 then
+		return {
+			mode = 0,
+			name = "FFA",
+			sameTeamMin = 14,
+			crossTeamMin = 14,
+		};
+	end
+	return {
+		mode = 1,
+		name = "TEAM",
+		sameTeamMin = 12,
+		crossTeamMin = 18,
+	};
+end
+
+-- The ring's angular sector placement: every land player prefers the midpoint
+-- of their own sector.  In team mode, the first/last seat's soft angular
+-- target moves a small relative amount toward the middle seat(s), which
+-- widens the practical separation across the two team seams without changing
+-- the hard sector boundaries.  The coastal rule decides the radial band
+-- (outer shore for the first/last seats, inner shore for the middle coastal
+-- seats, mid-ring for inland civilizations).  The hard constraint is the
+-- sector filter in __IsPlotInDistributionBand; these soft closeness scores
+-- only nudge the final pick inside the sector.
 local ZYL_RVC_RING_ANGLE_SCORE = 3000000;
 local ZYL_RVC_RING_RADIAL_SCORE = 3000000;
+local ZYL_RVC_RING_EDGE_CENTER_INWARD_RATIO = 0.10;
 
 local function ZYL_RVC_RingPlotAngleDegrees(plot)
 	local dx = plot:GetX() + 0.5 - (ZYL_RING_CX or 0);
@@ -611,14 +644,15 @@ local function ZYL_RVC_RingSectorScore(plot, band)
 	return score, angleDiff, radialDiff;
 end
 
--- Only the first seven rings matter to the terrain-conversion civilizations.
--- Cache the nearest salt-water distance so rating the same start through
+-- Cache the nearest non-lake coast distance so rating the same start through
 -- several BBS regions and bands does not repeatedly scan the local hexes.
-local function ZYL_RVC_GetHorizontalCoastDistance(plot)
+-- A distance of eight means no non-lake coast was found within the seven-ring
+-- search window and is treated as the maximum useful preference distance.
+local function ZYL_RVC_GetCoastDistance(plot)
 	if plot == nil then return 0 end
 	local plotIndex = plot:GetIndex();
-	if ZYL_RVC_HORIZONTAL_COAST_DISTANCE_CACHE[plotIndex] ~= nil then
-		return ZYL_RVC_HORIZONTAL_COAST_DISTANCE_CACHE[plotIndex];
+	if ZYL_RVC_COAST_DISTANCE_CACHE[plotIndex] ~= nil then
+		return ZYL_RVC_COAST_DISTANCE_CACHE[plotIndex];
 	end
 	local nearest = 8;
 	for _, nearby in ipairs(Map.GetNeighborPlots(plot:GetX(), plot:GetY(), 7) or {}) do
@@ -627,7 +661,7 @@ local function ZYL_RVC_GetHorizontalCoastDistance(plot)
 				plot:GetX(), plot:GetY(), nearby:GetX(), nearby:GetY()));
 		end
 	end
-	ZYL_RVC_HORIZONTAL_COAST_DISTANCE_CACHE[plotIndex] = nearest;
+	ZYL_RVC_COAST_DISTANCE_CACHE[plotIndex] = nearest;
 	return nearest;
 end
 
@@ -759,7 +793,21 @@ function BBS_AssignStartingPlots.Create(args)
 	ZYL_RVC_COAST_ORIENTATION_CACHE = {}
 	ZYL_RVC_MAINLAND_AREA_ID = nil
 	ZYL_RVC_FFA_UNIFORM_ROW_CACHE = nil
-	ZYL_RVC_HORIZONTAL_COAST_DISTANCE_CACHE = {}
+	ZYL_RVC_COAST_DISTANCE_CACHE = {}
+	local playerDistanceSettings = ZYL_RVC_GetPlayerDistanceSettings()
+	if playerDistanceSettings ~= nil then
+		Game:SetProperty("ZYLRM_PLAYER_DISTANCE_MODE", playerDistanceSettings.mode)
+		Game:SetProperty("ZYLRM_PLAYER_DISTANCE_SAME_TEAM_MIN", playerDistanceSettings.sameTeamMin)
+		Game:SetProperty("ZYLRM_PLAYER_DISTANCE_CROSS_TEAM_MIN", playerDistanceSettings.crossTeamMin)
+		Game:SetProperty("ZYLRM_PLAYER_DISTANCE_HARD", true)
+		Game:SetProperty("ZYLRM_PLAYER_DISTANCE_FAILED", false)
+		Game:SetProperty("ZYLRM_PLAYER_DISTANCE_REGEN_REQUIRED", false)
+		Game:SetProperty("ZYLRM_PLAYER_DISTANCE_REGEN_REQUESTED", false)
+		print("ZYL RVC player distance policy:", playerDistanceSettings.name,
+			"same-team >=", playerDistanceSettings.sameTeamMin,
+			"cross-team >=", playerDistanceSettings.crossTeamMin,
+			"hard", true)
+	end
 	if (GameConfiguration.GetValue("SpawnRecalculation") == nil) then
 		print("BBS_AssignStartingPlots: Map Type Not Supported!")
 		Game:SetProperty("BBS_RESPAWN",false)
@@ -798,6 +846,12 @@ function BBS_AssignStartingPlots.Create(args)
 	
 
 	local Major_Distance_Target = 17
+	if playerDistanceSettings ~= nil then
+		-- The shared target remains useful for diagnostics and for the vanilla
+		-- placer bootstrap after an exhausted strict attempt.  The live hard
+		-- checks below use the two policy-specific values instead.
+		Major_Distance_Target = playerDistanceSettings.crossTeamMin
+	end
 	local instance = {}
 	local bestUniformInstance = nil
 	local bestUniformScore = nil
@@ -1014,6 +1068,9 @@ function BBS_AssignStartingPlots.Create(args)
 		uniformDistributionCoverage = 0,
 		uniformDistributionZones = 0,
 		uniformRemovedBonusResources = {},
+		playerDistanceHard = playerDistanceSettings ~= nil,
+		playerDistanceSameTeamMin = playerDistanceSettings ~= nil and playerDistanceSettings.sameTeamMin or nil,
+		playerDistanceCrossTeamMin = playerDistanceSettings ~= nil and playerDistanceSettings.crossTeamMin or nil,
         -- Team info variables (not used in the core process, but necessary to many Multiplayer map scripts)
     }
     print("TeamPVP __InitStartingData i:",i);
@@ -1039,8 +1096,12 @@ function BBS_AssignStartingPlots.Create(args)
 				-- resources from its temporary major starts.
 				RestoreUniformCandidateResources(instance)
 			end
-			if not uniformDistributionOnlyFailure then
+			if not uniformDistributionOnlyFailure and playerDistanceSettings == nil then
 				Major_Distance_Target = Major_Distance_Target - 1
+			elseif playerDistanceSettings ~= nil then
+				print("ZYL RVC strict player-distance retry keeps hard floors at",
+					playerDistanceSettings.sameTeamMin, "same-team /",
+					playerDistanceSettings.crossTeamMin, "cross-team")
 			else
 				print("ZYL RVC FFA uniform retry keeps major-civilization distance at", Major_Distance_Target)
 			end
@@ -1060,7 +1121,19 @@ function BBS_AssignStartingPlots.Create(args)
             --print("teamPVP start count isStartCheck:",isStartCheck,";isCanRandom:",isCanRandom,";reStartCount:",reStartCount);
 		end
 	end
-	
+
+	if playerDistanceSettings ~= nil then
+		-- Never silently fall back to Firaxis placement for an explicitly selected
+		-- hard-distance policy.  The temporary bootstrap is discarded by the
+		-- in-game host UI, which changes both seeds and restarts map generation.
+		Game:SetProperty("ZYLRM_PLAYER_DISTANCE_FAILED", true)
+		Game:SetProperty("ZYLRM_PLAYER_DISTANCE_REGEN_REQUIRED", true)
+		Game:SetProperty("BBS_RESPAWN", false)
+		print("ZYL RVC strict player-distance placement failed after 20 attempts;",
+			"requesting map regeneration instead of accepting an invalid fallback")
+		return AssignStartingPlots.Create(args)
+	end
+
 	if ffaUniformDistributionEnabled and bestUniformInstance ~= nil then
 		for playerID, plotIndex in pairs(bestUniformStarts) do
 			local player = Players[playerID]
@@ -1097,13 +1170,12 @@ end
 ------------------------------------------------------------------------------
 ------------------------------------------------------------------------------
 -- Ring-mainland distribution sectors.  Every land major civilization of a
--- team receives exactly one angular sector: lobby rank 1 sits at the north
--- (east-west teams) or east (north-south teams) seam, rank k at the opposite
--- seam, and middle ranks along the arc between them.  The radial band follows
--- the coastal rule: inland civilizations stay mid-ring, the first/last seat
--- (when coastal) takes the outer shore at its seam, and every other coastal
--- seat takes the inner shore.  Water-start civilizations never consume a
--- sector; their separate ocean placement keeps the team-side checks.
+-- team receives exactly one angular sector and prefers that sector's angular
+-- midpoint.  The radial band follows the coastal rule: inland civilizations
+-- stay mid-ring, the first/last seat (when coastal) takes the outer shore at
+-- its sector edge, and every other coastal seat takes the inner shore.
+-- Water-start civilizations never consume a sector; their separate ocean
+-- placement keeps the team-side checks.
 function BBS_AssignStartingPlots:__InitRingDistributionBands(landPlayers)
 	self.ringPlayerBand = self.ringPlayerBand or {};
 	local outerR = ZYL_RING_OUTER_R or 20;
@@ -1121,7 +1193,6 @@ function BBS_AssignStartingPlots:__InitRingDistributionBands(landPlayers)
 			table.insert(teamPlayers[team], playerID);
 		end
 	end
-	local seamAngle = self.iTeamPlacement == 2 and 0 or 90;
 	for _, team in ipairs(teamsInOrder) do
 		local players = teamPlayers[team];
 		local k = #players;
@@ -1149,6 +1220,24 @@ function BBS_AssignStartingPlots:__InitRingDistributionBands(landPlayers)
 				-- East-west teams, west half: rank 1 toward the north seam.
 				angleMin = 90 + (rank - 1) * delta; angleMax = 90 + rank * delta;
 			end
+			local angleTarget = (angleMin + angleMax) / 2;
+			if type(ZYL_RICH_MAINLAND_VARIANT) == "table"
+					and ZYL_RICH_MAINLAND_VARIANT.team == true
+					and k >= 3 and (rank == 1 or rank == k) then
+				-- Move edge seats toward the adjacent middle seat by a fraction
+				-- of their own sector width.  The sign follows the sector order;
+				-- rank k moves in the reverse direction toward rank k-1.
+				local directionToNextRank = 1;
+				if self.iTeamPlacement == 1 then
+					directionToNextRank = positiveSide and -1 or 1;
+				else
+					directionToNextRank = positiveSide and 1 or -1;
+				end
+				local directionToMiddle = rank == 1
+					and directionToNextRank or -directionToNextRank;
+				angleTarget = angleTarget
+					+ directionToMiddle * delta * ZYL_RVC_RING_EDGE_CENTER_INWARD_RATIO;
+			end
 			local radialMin, radialMax;
 			if not isCoast then
 				radialMin = innerR + 2; radialMax = outerR - 2;
@@ -1167,9 +1256,10 @@ function BBS_AssignStartingPlots:__InitRingDistributionBands(landPlayers)
 				AngleMax = angleMax,
 				RadialMin = radialMin,
 				RadialMax = radialMax,
-				AngleTarget = (rank == 1 and seamAngle)
-					or (k > 1 and rank == k and ((seamAngle + 180) % 360))
-					or ((angleMin + angleMax) / 2),
+				-- Keep every land player near its sector target as a soft
+				-- preference. Hard distance checks and other scoring criteria may
+				-- still move the final placement.
+				AngleTarget = angleTarget,
 				RadialTarget = (radialMin + radialMax) / 2,
 				PlayerID = playerID,
 				Used = false,
@@ -1178,7 +1268,8 @@ function BBS_AssignStartingPlots:__InitRingDistributionBands(landPlayers)
 			Game:SetProperty("ZYLRM_RING_SECTOR_" .. playerID, rank);
 			print("ZYL RVC ring sector:", playerID, "team", team, "rank", rank,
 				"of", k, "side", positiveSide and "positive" or "negative",
-				"angle", angleMin, "-", angleMax, "radial", radialMin, "-", radialMax);
+				"angle", angleMin, "-", angleMax, "target", angleTarget,
+				"radial", radialMin, "-", radialMax);
 		end
 	end
 end
@@ -2650,7 +2741,7 @@ function BBS_AssignStartingPlots:__RateBiasPlots(biases, startPlots, major, regi
 		if major and ZYL_RVC_IsHorizontalMainland()
 				and ZYL_RVC_HORIZONTAL_REMOTE_COAST_CIVS[civilizationType]
 				and not usesCoastalPlacement then
-			local coastDistance = ZYL_RVC_GetHorizontalCoastDistance(plot);
+			local coastDistance = ZYL_RVC_GetCoastDistance(plot);
 			if coastDistance <= 6 then
 				ratedPlot.Score = ratedPlot.Score
 					- (7 - coastDistance) * ZYL_RVC_HORIZONTAL_REMOTE_COAST_SCORE;
@@ -2659,6 +2750,22 @@ function BBS_AssignStartingPlots:__RateBiasPlots(biases, startPlots, major, regi
 				+ math.min(6, coastDistance - 6) * ZYL_RVC_HORIZONTAL_REMOTE_COAST_SCORE;
 			end
 			ratedPlot.HorizontalCoastDistance = coastDistance;
+		end
+		-- Non-coastal civilizations on the horizontal and ring mainlands get
+		-- a light continuous preference for starts farther from non-lake coast.
+		-- This remains a score only: the existing distribution bands, terrain
+		-- rules, and hard player-distance checks retain priority.
+		if major
+				and (ZYL_RVC_IsHorizontalMainland() or ZYL_RVC_IsRingMainland())
+				and not usesCoastalPlacement and not plot:IsWater() then
+			local coastDistance = ZYL_RVC_GetCoastDistance(plot);
+			local inlandDistance = math.min(
+				ZYL_RVC_INLAND_COAST_DISTANCE_SCORE_MAX_RING,
+				math.max(0, coastDistance - 1)
+			);
+			ratedPlot.Score = ratedPlot.Score
+				+ inlandDistance * ZYL_RVC_INLAND_COAST_DISTANCE_SCORE_PER_RING;
+			ratedPlot.InlandCoastDistance = coastDistance;
 		end
 		if hydrophobicMetrics[plot:GetIndex()] ~= nil then
 			ratedPlot.HydrophobicWalkableRatio =
@@ -3317,8 +3424,8 @@ function BBS_AssignStartingPlots:__RateBiasPlots(biases, startPlots, major, regi
 		end
 		-- Ring sector closeness: the hard angular/radial filters have already
 		-- been applied through the distribution band; this soft score nudges
-		-- the final pick toward the seat's seam (first/last seats) or sector
-		-- center and toward the seat's radial band (mid-ring / outer / inner).
+		-- the final pick toward the sector's angular midpoint and toward the
+		-- seat's radial band (mid-ring / outer / inner).
 		if major and majorBufferValid and ZYL_RVC_IsRingMainland()
 				and distributionBand ~= nil and distributionBand.Mode == "RING" then
 			local ringScore, ringAngleDiff, ringRadialDiff =
@@ -3915,7 +4022,25 @@ function BBS_AssignStartingPlots:__TryToRemoveBonusResource(plot)
 end
 ------------------------------------------------------------------------------
 function BBS_AssignStartingPlots:__MajorCivBuffer(plot,team)
-    -- Checks to see if there are major civs in the given distance for this major civ
+	-- Checks to see if there are major civs in the given distance for this major civ
+	if self.playerDistanceHard == true then
+		local sourceIndex = plot:GetIndex();
+		for i, majorPlot in ipairs(self.majorStartPlots) do
+			if majorPlot == plot then
+				return false;
+			end
+			local sameTeam = team ~= nil and self.majorStartPlotsTeam[i] ~= nil
+				and self.majorStartPlotsTeam[i] == team;
+			local requiredDistance = sameTeam
+				and self.playerDistanceSameTeamMin
+				or self.playerDistanceCrossTeamMin;
+			if Map.GetPlotDistance(sourceIndex, majorPlot:GetIndex()) < requiredDistance then
+				return false;
+			end
+		end
+		return true;
+	end
+
     local iMaxStart = GlobalParameters.START_DISTANCE_MAJOR_CIVILIZATION or 12;
     if(self.waterMap) then
         iMaxStart = iMaxStart - 3;

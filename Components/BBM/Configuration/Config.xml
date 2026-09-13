@@ -199,6 +199,8 @@
 
 		<Row Domain="BBM_Team_Spawn" Value="0" Name="BBM_Team_Spawn_NORMAL_NAME" Description="BBM_Team_Spawn_NORMAL_DESC" SortIndex="10"/>
 		<Row Domain="BBM_Team_Spawn" Value="1" Name="BBM_Team_Spawn_EW_NAME" Description="BBM_Team_Spawn_EW_DESC" SortIndex="20"/>
+		<Row Domain="ZYLRM_PlayerDistance" Value="0" Name="LOC_ZYLRM_PLAYER_DISTANCE_FFA" Description="LOC_ZYLRM_PLAYER_DISTANCE_FFA_DESCRIPTION" SortIndex="10"/>
+		<Row Domain="ZYLRM_PlayerDistance" Value="1" Name="LOC_ZYLRM_PLAYER_DISTANCE_TEAM" Description="LOC_ZYLRM_PLAYER_DISTANCE_TEAM_DESCRIPTION" SortIndex="20"/>
 
 		<Row Domain="BBM_Wraparound" Value="0" Name="LOC_BBM_WRAP_DEFAULT_NAME" Description="LOC_BBM_WRAP_DEFAULT_DESC" SortIndex="10"/>
 		<Row Domain="BBM_Wraparound" Value="1" Name="LOC_BBM_WRAP_YES_NAME" Description="LOC_BBM_WRAP_YES_DESC" SortIndex="20"/>

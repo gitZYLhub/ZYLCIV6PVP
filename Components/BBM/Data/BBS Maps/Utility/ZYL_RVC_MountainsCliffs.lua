@@ -42,6 +42,12 @@ function ApplyTectonics(args, plotTypes)
 	local hillsClumps = 1 + adjustment;
 	local hillsNearMountains = 91 - (adjustment * 2) - extra_mountains;
 	local mountains = 97 - adjustment - extra_mountains;
+	if args.mountains_percent ~= nil then
+		-- 环形图治本：显式覆盖山脉分位阈值。传 100 时阈值=噪声最大值，
+		-- 山脊几乎不再成山，山脉改由 AddLonelyMountains 以零散单峰补足。
+		-- 其它地图不传此参数，沿用原公式，行为不变。
+		mountains = args.mountains_percent;
+	end
 
 	local numPlates = 9;
 	-- Add in any plate count modifications passed in from the map script.

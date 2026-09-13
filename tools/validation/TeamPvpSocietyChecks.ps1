@@ -716,7 +716,8 @@ function Get-ZylTaoistRuntimeContractIssues {
     }
     foreach ($transactionToken in @(
         'pPlayer:SetProperty("TaoistUnit", unitID)',
-        'tonumber(pPlayer:GetProperty("TaoistUnit")) ~= unitID',
+        'local taoistUnitProp = pPlayer:GetProperty("TaoistUnit")',
+        'tonumber(taoistUnitProp) ~= unitID',
         'pPlayer:SetProperty("TaoistUnit", nil)'
     )) {
         if (-not $GameplaySource.Contains($transactionToken)) {
@@ -724,9 +725,9 @@ function Get-ZylTaoistRuntimeContractIssues {
         }
     }
     foreach ($transactionToken in @(
-        'local taoistPlot = tonumber(pPlayer:GetProperty("TaoistPlot"))',
-        'local taoistCity = tonumber(pPlayer:GetProperty("TaoistCity"))',
-        'local taoistUnit = tonumber(pPlayer:GetProperty("TaoistUnit"))',
+        'local taoistPlot = pPlayer:GetProperty("TaoistPlot")',
+        'local taoistCity = pPlayer:GetProperty("TaoistCity")',
+        'local taoistUnit = pPlayer:GetProperty("TaoistUnit")',
         'taoistUnit ~= tonumber(unitID)'
     )) {
         if (-not $UiSource.Contains($transactionToken)) {

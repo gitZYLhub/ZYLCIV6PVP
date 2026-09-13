@@ -1060,6 +1060,134 @@ function ZYL_RVC_Balance(args)
 
             -- 检查玩家选择的样式选项，默认值 = 1
 
+            -- 五产保底筛查（仅在富饶度>=5 时执行）：确保每个主文明一环起
+            -- 至少有一块五产地块（食物+产能+科技+文化+信仰>=5），一环没有
+            -- 则逐环外扩（二环、三环）。战略资源（马/铁/硝石/煤/油/铝/铀）
+            -- 开局不可见，其产出不参与判定。不满足时给已有的丘陵树添加鹿、
+            -- 丘陵雨林添加香蕉；一环没有丘陵树/丘陵雨林时，向裸丘陵添加
+            -- 树+鹿（裸丘陵为3产，补树补鹿后到5产）。石头/铜/水稻/牛/
+            -- 小麦/羊等组合到不了5产，不纳入升级。此筛查放在沙漠/冻土
+            -- 文明周边转化之前执行，不改动任何既有逻辑。
+            if (RichNum >= 5) then
+                local function zylYieldTotal(tile)
+                    return tile:GetYield(g_YIELD_FOOD)
+                        + tile:GetYield(g_YIELD_PRODUCTION)
+                        + tile:GetYield(g_YIELD_SCIENCE)
+                        + tile:GetYield(g_YIELD_CULTURE)
+                        + tile:GetYield(g_YIELD_FAITH);
+                end
+                -- 战略资源（马/铁/硝石/煤/油/铝/铀）在开局不可见（需研发科技
+                -- 才显示），其产出不能算进保底五产；返回 true 表示该地块带
+                -- 隐藏的战略资源。
+                local function zylIsHiddenStrategic(tile)
+                    local tileResourceType = tile:GetResourceType();
+                    if (tileResourceType == -1) then return false end
+                    local resourceRow = GameInfo.Resources[tileResourceType];
+                    if (resourceRow == nil) then return false end
+                    return resourceRow.ResourceClassType == "RESOURCECLASS_STRATEGIC";
+                end
+                local function zylTryResource(tile, resourceType)
+                    local resourceRow = GameInfo.Resources[resourceType];
+                    if (resourceRow == nil or resourceRow.Index == nil) then return false end
+                    local resourceIndex = resourceRow.Index;
+                    if (ResourceBuilder.CanHaveResource(tile, resourceIndex) == false) then return false end
+                    ResourceBuilder.SetResourceType(tile, resourceIndex, 1);
+                    if (zylYieldTotal(tile) >= 5) then
+                        return true;
+                    end
+                    ResourceBuilder.SetResourceType(tile, -1);
+                    return false;
+                end
+                -- 尝试把一个候选地块升级为五产。优先级：
+                -- 丘陵树+鹿 → 丘陵雨林+香蕉 → 裸丘陵+树+鹿
+                local function zylTryUpgrade(tile)
+                    if (tile:IsWater() or tile:IsImpassable()
+                            or tile:IsNaturalWonder()
+                            or tile:GetFeatureType() == g_FEATURE_VOLCANO
+                            or tile:GetResourceType() ~= -1) then
+                        return false;
+                    end
+                    if (tile:IsHills()) then
+                        local featureType = tile:GetFeatureType();
+                        if (featureType == g_FEATURE_FOREST) then
+                            if (zylYieldTotal(tile) == 4) then
+                                return zylTryResource(tile, "RESOURCE_DEER");
+                            end
+                        elseif (featureType == g_FEATURE_JUNGLE) then
+                            if (zylYieldTotal(tile) == 4) then
+                                return zylTryResource(tile, "RESOURCE_BANANAS");
+                            end
+                        elseif (featureType == g_FEATURE_NONE
+                                and TerrainBuilder.CanHaveFeature(tile, g_FEATURE_FOREST)) then
+                            -- 裸丘陵：先补树再补鹿（裸丘陵通常只有3产，树+鹿后到5产）
+                            TerrainBuilder.SetFeatureType(tile, g_FEATURE_FOREST);
+                            if (zylTryResource(tile, "RESOURCE_DEER")) then
+                                return true;
+                            end
+                            TerrainBuilder.SetFeatureType(tile, -1);
+                            return false;
+                        end
+                    end
+                    -- 非丘陵地块或无法组合到5产的地块（石头/铜/水稻/牛/
+                    -- 小麦/羊等）：不升级
+                    return false;
+                end
+                local ringRanges = {
+                    { From = 0, To = 5 },
+                    { From = 6, To = 17 },
+                    { From = 18, To = 35 },
+                };
+                for i = 1, major_count do
+                    if (majList[i] ~= nil
+                            and majList[i].leader ~= "LEADER_SPECTATOR"
+                            and PlayerConfigurations[major_table[i]]:GetHandicapTypeID() ~= 2021024770) then
+                        local startPlot = Map.GetPlot(majList[i].plotX, majList[i].plotY);
+                        if (startPlot ~= nil and startPlot:IsWater() == false) then
+                            local satisfied = false;
+                            local resultRing = 0;
+                            local resultPlot = nil;
+                            local resultAction = "existing";
+                            for ringIndex = 1, 3 do
+                                local range = ringRanges[ringIndex];
+                                -- 第一步：环内已有五产地块？
+                                for tileIndex = range.From, range.To do
+                                    local tile = GetAdjacentTiles(startPlot, tileIndex);
+                                    if (tile ~= nil and zylIsHiddenStrategic(tile) == false and zylYieldTotal(tile) >= 5) then
+                                        satisfied = true;
+                                        resultRing = ringIndex;
+                                        resultPlot = tile;
+                                        resultAction = "existing";
+                                        break;
+                                    end
+                                end
+                                if (satisfied) then break end
+                                -- 第二步：升级环内的丘陵树/丘陵雨林/裸丘陵
+                                for tileIndex = range.From, range.To do
+                                    local tile = GetAdjacentTiles(startPlot, tileIndex);
+                                    if (tile ~= nil and zylTryUpgrade(tile)) then
+                                        satisfied = true;
+                                        resultRing = ringIndex;
+                                        resultPlot = tile;
+                                        resultAction = "upgraded";
+                                        break;
+                                    end
+                                end
+                                if (satisfied) then break end
+                            end
+                            if (satisfied and resultPlot ~= nil) then
+                                print("ZYL RVC five yield guarantee:", majList[i].civ,
+                                    resultAction, "ring", resultRing,
+                                    "plot", resultPlot:GetX(), resultPlot:GetY(),
+                                    "yield", zylYieldTotal(resultPlot));
+                            else
+                                print("ZYL RVC five yield guarantee:", majList[i].civ,
+                                    "no 5-yield tile within 3 rings");
+                            end
+                        end
+                    end
+                end
+            end
+
             if (bTerraformingSpawn == true) then
                 -- 循环浏览文明以找到开局奇怪的文明
                 for i = 1, major_count do

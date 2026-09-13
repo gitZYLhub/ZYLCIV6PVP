@@ -39,8 +39,9 @@ local g_iFlags = {};
 local g_continentsFrac = nil;
 local featureGen = nil;
 -- Ring-mainland geometry, derived from the square grid size.  The SQL sizes
--- reserve five tiles of sea on every side of a ring whose outer radius is
--- therefore (GridWidth - 10) / 2 and whose radial thickness stays 16 (the
+-- reserve four tiles of sea on every side of a ring whose outer radius is
+-- therefore (GridWidth - 10) / 2 + 1 (the +1 keeps the outer radius two tiles
+-- larger than the pre-2026 canvas) and whose radial thickness stays 16 (the
 -- inner radius is clamped at 2 so even the smallest maps keep an inner sea).
 -- These values are exposed as globals because the start assigner (included
 -- below) needs the same center and radii for its angular sectors.
@@ -96,7 +97,7 @@ local function ZYL_InitializeExpandedOceanCanvas()
 		if IS_RING_MAINLAND then
 			g_ringCx = g_iW / 2;
 			g_ringCy = g_iH / 2;
-			g_ringOuterR = math.max(18, (g_iW - 10) / 2);
+			g_ringOuterR = math.max(18, (g_iW - 10) / 2 + 1);
 			g_ringInnerR = math.max(2, g_ringOuterR - 16);
 			ZYL_RING_CX = g_ringCx;
 			ZYL_RING_CY = g_ringCy;
@@ -429,7 +430,68 @@ function GenerateMap()
 	]]
 	print("Adding features and rivers")
 	AddFeatures();
-	
+
+	-- 环形PVP大陆：小幅增加裸露丘陵（无雨林/树林）。
+	-- 该地图的森林只长在丘陵上，导致绝大多数丘陵被树覆盖、裸露丘陵偏少；
+	-- 因此在特征生成完成之后把少量无特征平地转为丘陵，新增丘陵保持裸露。
+	-- 注意：Plot 没有 SetPlotType 方法，丘陵身份由 *_HILLS 地形决定（与
+	-- ApplyBaseTerrain 的 terrainTypes[i] + 1 机制一致）。
+	if IS_RING_MAINLAND then
+		local bareHillsAdded = 0;
+		local bareHillsTarget = 0;
+		for i = 0, (g_iW * g_iH) - 1 do
+			if plotTypes[i] == g_PLOT_TYPE_LAND then
+				bareHillsTarget = bareHillsTarget + 1;
+			end
+		end
+		-- 约8%的平地转为新增裸露丘陵（目标按 relief 分类中仍为 LAND 的平地块数计，
+		-- 既有丘陵/山脉/海洋不计入；8% 对应上次日志目标 43 → 约114 格）。
+		bareHillsTarget = math.max(8, math.floor(bareHillsTarget * 0.08));
+		local bareHillsDone = false;
+		local bareHillsPlaced = {};  -- 已新增的裸露丘陵索引集合（方案A：最小间距检查）
+		for y = 0, g_iH - 1 do
+			for x = 0, g_iW - 1 do
+				local plot = Map.GetPlot(x, y);
+				if plot ~= nil then
+					local index = plot:GetIndex();
+					if plotTypes[index] == g_PLOT_TYPE_LAND
+							and plot:GetFeatureType() == g_FEATURE_NONE
+							and not plot:IsImpassable() then
+						-- 方案A：命中后先检查6个邻居，若已有新增裸露丘陵则跳过，
+						-- 保证新丘陵之间最小间距为2格（不再随机扎堆）。
+						local adjacentNewHill = false;
+						for direction = 0, DirectionTypes.NUM_DIRECTION_TYPES - 1 do
+							local adjacent = Map.GetAdjacentPlot(x, y, direction);
+							if adjacent ~= nil and bareHillsPlaced[adjacent:GetIndex()] then
+								adjacentNewHill = true;
+								break;
+							end
+						end
+						if not adjacentNewHill then
+							plotTypes[index] = g_PLOT_TYPE_HILLS;
+							local terrain = plot:GetTerrainType();
+							local hillsTerrain = ConvertToHills(terrain);
+							if hillsTerrain ~= terrain then
+								TerrainBuilder.SetTerrainType(plot, hillsTerrain);
+							end
+							bareHillsPlaced[index] = true;
+							bareHillsAdded = bareHillsAdded + 1;
+							if bareHillsAdded >= bareHillsTarget then
+								bareHillsDone = true;
+								break;
+							end
+						end
+					end
+				end
+			end
+			if bareHillsDone then
+				break;
+			end
+		end
+		print(string.format("%s: ring bare hills added %d of target %d",
+			LOG_PREFIX, bareHillsAdded, bareHillsTarget));
+	end
+
 	print("增加悬崖");
 	AddCliffs(plotTypes, terrainTypes);
 
@@ -491,6 +553,7 @@ function GenerateMap()
 	AreaBuilder.Recalculate();
 	TerrainBuilder.AnalyzeChokepoints();
 	RichNSBalance();
+	ZYL_EnforceRingMountainCap();
 	if USES_FFA_BASELINE then
 		ZYL_EnforceFFAMountainRatio();
 	end
@@ -590,6 +653,75 @@ function ZYLRM_LogFinalStatistics()
 	print(string.format("%s mountains: %d / %d land tiles (%.2f%%)", LOG_PREFIX, mountainCount, landCount, mountainPercent));
 	print(LOG_PREFIX .. " offshore island land:", islandLandCount, "tiles");
 	print(LOG_PREFIX .. " map fingerprint:", mapFingerprint);
+end
+
+-------------------------------------------------------------------------------
+-- 环形PVP大陆：山脉上限裁剪。
+-- 画布扩大后 Fractal 分位阈值漂移（62→64 时山脉从 7.23% 涨到 9.68%），
+-- 此 pass 把环形地图的山脉比例压回陆地面积的 6% 以内：超过上限时优先
+-- 转掉聚集的山脉（相邻山脉多）拆散团块，让剩余山脉更分散；自然奇观与
+-- 火山永不转丘陵，确保 FFA/Team 环形地图的山脉占比稳定 ≤6%。
+function ZYL_EnforceRingMountainCap()
+	if not IS_RING_MAINLAND then
+		return;
+	end
+	local landCount = 0;
+	local mountainCount = 0;
+	local mountains = {};
+	local volcanoFeature = GetGameInfoIndex("Features", "FEATURE_VOLCANO");
+	for plotIndex = 0, Map.GetPlotCount() - 1 do
+		local plot = Map.GetPlotByIndex(plotIndex);
+		if plot ~= nil and not plot:IsWater() then
+			landCount = landCount + 1;
+			if plot:IsMountain() then
+				mountainCount = mountainCount + 1;
+				if not plot:IsNaturalWonder() and plot:GetFeatureType() ~= volcanoFeature then
+					table.insert(mountains, plot);
+				end
+			end
+		end
+	end
+	local targetCount = math.floor(landCount * 0.06);
+	local excess = mountainCount - targetCount;
+	if excess <= 0 then
+		print(string.format("%s ring mountain cap: %d/%d (%.2f%%) within 6%%",
+			LOG_PREFIX, mountainCount, landCount,
+			landCount > 0 and mountainCount * 100 / landCount or 0));
+		return;
+	end
+
+	-- 优先转掉聚集的山脉（相邻山脉多），拆散大型团块、让山脉更分散；
+	-- 同分时先转靠北的，用随机数打破完全对称，避免每次地图完全相同。
+	local scored = {};
+	for _, plot in ipairs(mountains) do
+		local adjacentMountains = 0;
+		for direction = 0, DirectionTypes.NUM_DIRECTION_TYPES - 1 do
+			local adjacent = Map.GetAdjacentPlot(plot:GetX(), plot:GetY(), direction);
+			if adjacent ~= nil and adjacent:IsMountain() then
+				adjacentMountains = adjacentMountains + 1;
+			end
+		end
+		local score = adjacentMountains * 1000 + plot:GetIndex();
+		score = score + TerrainBuilder.GetRandomNumber(10, "ZYLRM ring mountain cap");
+		table.insert(scored, { Plot = plot, Score = score });
+	end
+	table.sort(scored, function(a, b)
+		if a.Score == b.Score then return a.Plot:GetIndex() < b.Plot:GetIndex() end
+		return a.Score > b.Score;
+	end);
+
+	local converted = 0;
+	for i = 1, math.min(excess, #scored) do
+		local plot = scored[i].Plot;
+		local hillsTerrain = ConvertToHills(plot:GetTerrainType());
+		if hillsTerrain ~= plot:GetTerrainType() then
+			TerrainBuilder.SetTerrainType(plot, hillsTerrain);
+			converted = converted + 1;
+		end
+	end
+	print(string.format("%s ring mountain cap: %d -> %d of %d land (%.2f%%), target <= 6%%",
+		LOG_PREFIX, mountainCount, mountainCount - converted, landCount,
+		landCount > 0 and (mountainCount - converted) * 100 / landCount or 0));
 end
 
 -------------------------------------------------------------------------------
@@ -1922,6 +2054,8 @@ function RichNSBalance()
 	local terrainPlainsHills = GetTerrainIndex("TERRAIN_PLAINS_HILLS");
 	local terrainDesert = GetTerrainIndex("TERRAIN_DESERT");
 	local terrainDesertHills = GetTerrainIndex("TERRAIN_DESERT_HILLS");
+	local terrainTundra = GetTerrainIndex("TERRAIN_TUNDRA");
+	local terrainTundraHills = GetTerrainIndex("TERRAIN_TUNDRA_HILLS");
 	local flatTerrainForHill = {
 		[terrainGrassHills] = terrainGrass,
 		[terrainPlainsHills] = terrainPlains,
@@ -2018,7 +2152,8 @@ function RichNSBalance()
 	-- 修正：RichNum * RichNum/100的石头将变为丘陵
 	-- 修正：RichNum * RichNum/150的空雨林将变为香蕉
 	-- 修正：RichNum * RichNum/150的空沼泽将变为大米
-	-- 修正：RichNum * RichNum/200的空树林将变为鹿
+	-- 修正：RichNum * RichNum/200的空树林将变为鹿（冻土/冻土丘陵森林除外，
+	-- 避免冻土文明出生地被冻土化造出的大片森林被二次撒鹿堆成鹿灾）
 	-- 修正：RichNum^3/1500 的空地将变为地脉
 	-- 修正：RichNum * RichNum/300的绿地将变为牛
 	-- 修正：RichNum * RichNum/300的鱼将变为礁石
@@ -2055,7 +2190,9 @@ function RichNSBalance()
 				if featureReef ~= -1 and pPlot:GetFeatureType() == -1 and pPlot:GetResourceType() == resourceFish and TerrainBuilder.GetRandomNumber(300, "Resource Placement Score Adjust") < RichNum * RichNum then
 					TerrainBuilder.SetFeatureType(pPlot, featureReef)
 				end
-				if resourceDeer ~= -1 and pPlot:GetFeatureType() == g_FEATURE_FOREST and pPlot:GetResourceType() == -1 and TerrainBuilder.GetRandomNumber(200, "Resource Placement Score Adjust") < RichNum * RichNum then
+				if resourceDeer ~= -1 and pPlot:GetFeatureType() == g_FEATURE_FOREST and pPlot:GetResourceType() == -1
+					and pPlot:GetTerrainType() ~= terrainTundra and pPlot:GetTerrainType() ~= terrainTundraHills
+					and TerrainBuilder.GetRandomNumber(200, "Resource Placement Score Adjust") < RichNum * RichNum then
 					ResourceBuilder.SetResourceType(pPlot, resourceDeer, 1);
 				end
 				if not CompetitionMode and CanHaveLeyLine
@@ -2408,6 +2545,14 @@ function ZYL_RingGeneratePlotTypes(world_age)
 	end
 
 	AreaBuilder.Recalculate();
+	-- 治本 v2：环形图山脉以零散单峰为主、总量仍 ~6%。
+	-- 1) ApplyTectonics 几乎不再成山：mountains_percent=100（阈值=噪声最大值，
+	--    山脊仅剩极少量同值格），山脉不再大片连链；
+	-- 2) 跳过 AddMountain：粗噪声会生成大块山系，与"零散"目标冲突；
+	-- 3) AddLonelyMountains 大幅提升：mountainRatio≈16 → 目标 ≈ 陆地/16 ≈ 6.25%，
+	--    单峰互相隔离（邻格必须是可通行陆地）、不贴海岸，基本不会被
+	--    RemoveCoastalMountains 转掉；最后 ring mountain cap 兜底 ≤6%。
+	-- 水平地图不传 mountains_percent、仍调 AddMountain，行为不变。
 	local reliefArgs = {
 		world_age = world_age,
 		iW = g_iW,
@@ -2415,13 +2560,13 @@ function ZYL_RingGeneratePlotTypes(world_age)
 		iFlags = g_iFlags,
 		blendRidge = 10,
 		blendFract = 1,
-		extra_mountains = math.max(0, (2 + (3 - world_age)) * 2 + 2),
+		extra_mountains = 0,
+		mountains_percent = 100,
 		tectonic_islands = tectonic_islands,
 	};
-	local mountainRatio = math.max(1, math.floor((24 + (3 - world_age)) * 1.70 + 0.5));
+	local mountainRatio = math.max(10, 16 + (3 - world_age));
 	plotTypes = ApplyTectonics(reliefArgs, plotTypes);
 	plotTypes = AddLonelyMountains(plotTypes, mountainRatio);
-	AddMountain(plotTypes);
 	Game:SetProperty("ZYLRM_RING_MAINLAND_TILES", mainlandCount);
 	Game:SetProperty("ZYLRM_RING_INITIAL_ISLAND_TILES", islandCount);
 	Game:SetProperty("ZYLRM_RING_INNER_RADIUS", g_ringInnerR);
@@ -2817,13 +2962,18 @@ function AddFeatures()
 
 	AddLakes(math.max(0, numLargeLakes));
 
-	-- 雨林比例
-	args.iJunglePercent = 18 + RichNum;
+	-- 雨林比例：竖向富饶大陆仍随富饶度 R 变化；横向/环形图固定基础值18%，
+	-- 再由 FeatureGenerator 按降雨量追加 4 × (W - 2) 个百分点。
+	if IS_HORIZONTAL_MAINLAND or IS_RING_MAINLAND then
+		args.iJunglePercent = 18;
+	else
+		args.iJunglePercent = 18 + RichNum;
+	end
 	-- The horizontal battlefield has no tropical latitude.  Its feature
 	-- generator uses synchronized fractal clusters over every valid terrain and
-	-- then tops up to the same Rich Mainland jungle target.  The ring map has
-	-- no latitude axis either (every sector spans the full climate range), so
-	-- it shares the same latitude-free clustering.
+	-- then tops up to the fixed 18% base jungle target.  The ring map has no
+	-- latitude axis either (every sector spans the full climate range), so it
+	-- shares the same latitude-free clustering and rainfall adjustment.
 	args.ignoreJungleLatitude = IS_HORIZONTAL_MAINLAND or IS_RING_MAINLAND;
 	args.clusterJungles = IS_HORIZONTAL_MAINLAND or IS_RING_MAINLAND;
 	-- 森林比例

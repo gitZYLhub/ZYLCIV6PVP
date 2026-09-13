@@ -270,13 +270,28 @@ function Get-ZylLobbyConfigurationContractIssues {
         foreach ($requiredDefault in @(
                 '{ "CPL_SMARTTIMER", 9 }',
                 '{ "ZYL_ERA_LENGTH_OPTIMIZATION", 1 }',
-                '{ "ZYL_DIPLOMACY_RIBBON_MODE", 0 }',
                 '{ "ZYL_STARTING_BONUS_PLAYER", 0 }',
                 '{ "ZYL_STARTING_BONUS_TYPE", 0 }',
                 '{ "SettlersConfig", 0 }'
             )) {
             if (-not $hostGameSource.Contains($requiredDefault)) {
                 $issues.Add("Host game is missing the requested lobby default: $requiredDefault")
+            }
+        }
+        # ZYL_DIPLOMACY_RIBBON_MODE is no longer a static lobby default: since the
+        # 2026-09-12 refactor it is applied dynamically per map (team maps = 1,
+        # everything else = 0) through the GameConfigChanged event. The contract
+        # now verifies that dynamic mechanism exists and is wired/unwired.
+        foreach ($requiredRibbonFragment in @(
+                'function ZYL_ApplyMapDiplomacyRibbonDefault()',
+                'Events.GameConfigChanged.Add(ZYL_ApplyMapDiplomacyRibbonDefault)',
+                'Events.GameConfigChanged.Remove(ZYL_ApplyMapDiplomacyRibbonDefault)'
+            )) {
+            if (-not $hostGameSource.Contains($requiredRibbonFragment)) {
+                $issues.Add(
+                    "Host game is missing the map-based diplomacy ribbon default wiring: " +
+                    $requiredRibbonFragment
+                )
             }
         }
         foreach ($requiredLifecycleFragment in @(

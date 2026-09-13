@@ -1038,14 +1038,29 @@ function Get-ZylDatabasePrimaryKeySemanticView {
     return [pscustomobject][ordered]@{
         schemaVersion = 1
         modCreatedSchemas = @($Analysis.modCreatedSchemas)
-        operations = @($Analysis.operations)
+        operations = @(
+            foreach ($operation in @($Analysis.operations)) {
+                [pscustomobject][ordered]@{
+                    path = [string]$operation.path
+                    format = [string]$operation.format
+                    operationIndex = [int]$operation.operationIndex
+                    operation = [string]$operation.operation
+                    conflictMode = $operation.conflictMode
+                    table = [string]$operation.table
+                    status = [string]$operation.status
+                    reason = $operation.reason
+                    rowCount = [int]$operation.rowCount
+                    resolvedRows = [int]$operation.resolvedRows
+                    unresolvedRows = [int]$operation.unresolvedRows
+                }
+            }
+        )
         rowCandidates = @(
             foreach ($candidate in @($Analysis.rowCandidates)) {
                 [pscustomobject][ordered]@{
                     path = [string]$candidate.path
                     format = [string]$candidate.format
                     operationIndex = [int]$candidate.operationIndex
-                    line = $candidate.line
                     rowIndex = [int]$candidate.rowIndex
                     operation = [string]$candidate.operation
                     conflictMode = $candidate.conflictMode

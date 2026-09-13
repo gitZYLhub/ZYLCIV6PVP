@@ -245,9 +245,13 @@ function OnUnitChargesChanged(playerID, unitID, newCharges, oldCharges)
 	if pPlayer == nil or newCharges > oldCharges then
 		return
 	end
-	local taoistPlot = tonumber(pPlayer:GetProperty("TaoistPlot"))
-	local taoistCity = tonumber(pPlayer:GetProperty("TaoistCity"))
-	local taoistUnit = tonumber(pPlayer:GetProperty("TaoistUnit"))
+	local taoistPlot = pPlayer:GetProperty("TaoistPlot")
+	local taoistCity = pPlayer:GetProperty("TaoistCity")
+	local taoistUnit = pPlayer:GetProperty("TaoistUnit")
+	if taoistPlot == nil or taoistCity == nil or taoistUnit == nil then
+		return
+	end
+	taoistPlot, taoistCity, taoistUnit = tonumber(taoistPlot), tonumber(taoistCity), tonumber(taoistUnit)
 	if taoistPlot == nil or taoistCity == nil or taoistUnit ~= tonumber(unitID) then
 		return
 	end

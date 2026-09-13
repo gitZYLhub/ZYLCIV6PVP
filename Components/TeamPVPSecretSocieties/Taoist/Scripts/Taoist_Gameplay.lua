@@ -177,10 +177,18 @@ function RecoverTaoistTreasury(playerID, params)
 		return
 	end
 	local pPlayer = Players[numericPlayerID]
-	if pPlayer == nil or
-			tonumber(pPlayer:GetProperty("TaoistUnit")) ~= unitID or
-			tonumber(pPlayer:GetProperty("TaoistPlot")) == nil or
-			tonumber(pPlayer:GetProperty("TaoistCity")) == nil then
+	if pPlayer == nil then
+		return
+	end
+	local taoistUnitProp = pPlayer:GetProperty("TaoistUnit")
+	local taoistPlotProp = pPlayer:GetProperty("TaoistPlot")
+	local taoistCityProp = pPlayer:GetProperty("TaoistCity")
+	if taoistUnitProp == nil or taoistPlotProp == nil or taoistCityProp == nil then
+		return
+	end
+	if tonumber(taoistUnitProp) ~= unitID or
+			tonumber(taoistPlotProp) == nil or
+			tonumber(taoistCityProp) == nil then
 		return
 	end
 	local pTreasury = pPlayer:GetTreasury()

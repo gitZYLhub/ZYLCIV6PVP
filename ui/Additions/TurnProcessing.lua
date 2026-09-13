@@ -496,12 +496,21 @@ end
 
 
 
+-- Timer application must NOT depend on CPL_SYNCTURN: the smart timer (and the
+-- P++/P-- commands) have to work in any multiplayer room, sync-turn processing
+-- is just the processing panel feature. This mirrors ZYLPVPMOD 1.4 behavior,
+-- where OnTurnEnd applied the timer whenever CPL_SMARTTIMER ~= 1.
+local function IsTimerApplicationEnabled()
+	return GameConfiguration.IsNetworkMultiplayer() == true
+		and ReadNumericGameConfig("CPL_SMARTTIMER") ~= 1
+end
+
 function OnTurnEnd(turn)
 	g_timeCommandUses = 0
 	g_reduceCommandUsed = false
 	g_lastWarningSecond = -1
 	SmartTimer()
-	if IsTurnProcessingEnabled() and g_currenttimer ~= nil and IsHost() then
+	if IsTimerApplicationEnabled() and g_currenttimer ~= nil and IsHost() then
 		ApplyHostTimer(g_currenttimer, "TURNTIMER_STANDARD", false)
 		g_temporaryNoTimer = false
 	end
@@ -636,7 +645,7 @@ function OnAdjustTime(time_value:number)
 	end
 	g_timeshift = adjustedValue
 	SmartTimer()
-	if IsTurnProcessingEnabled() and g_currenttimer ~= nil then
+	if IsTimerApplicationEnabled() and g_currenttimer ~= nil then
 		ApplyHostTimer(g_currenttimer, "TURNTIMER_STANDARD", false)
 	end
 	

@@ -328,7 +328,7 @@ function Get-ZylRichMainlandAddedVariantIssues {
         'MAPSIZE_ZYL_FFA_11' = @{ Players = 11; Width = 198; Height = 28 }
         'MAPSIZE_HUGE' = @{ Players = 12; Width = 214; Height = 28 }
     }
-    $ringDimensions = @(46, 46, 50, 56, 62, 68, 74, 80, 86, 92, 98)
+    $ringDimensions = @(48, 48, 52, 58, 64, 70, 76, 82, 88, 94, 100)
     $ringSizes = @{}
     $sizeTypes = @(
         'MAPSIZE_DUEL', 'MAPSIZE_ZYL_FFA_3', 'MAPSIZE_TINY',
@@ -357,7 +357,8 @@ function Get-ZylRichMainlandAddedVariantIssues {
                 'LOC_ZYLRM_HORIZONTAL_MAP_NAME',
                 'LOC_ZYLRM_HORIZONTAL_MAP_DESCRIPTION',
                 'shortened mainland',
-                'two-tile shelves'
+                'two-tile shelves',
+                'LOC_ZYLRM_PLAYER_DISTANCE_NAME'
             )
         },
         [pscustomobject]@{
@@ -368,7 +369,11 @@ function Get-ZylRichMainlandAddedVariantIssues {
             Sql = 'ConfigureRing.sql'
             Sizes = $ringSizes
             EntryTokens = @('id = "RING_TEAM"', 'ringMainland = true')
-            TextTokens = @('LOC_ZYLRM_RING_MAP_NAME', 'LOC_ZYLRM_RING_MAP_DESCRIPTION')
+            TextTokens = @(
+                'LOC_ZYLRM_RING_MAP_NAME',
+                'LOC_ZYLRM_RING_MAP_DESCRIPTION',
+                'LOC_ZYLRM_PLAYER_DISTANCE_NAME'
+            )
         }
     )
 
@@ -422,6 +427,14 @@ function Get-ZylRichMainlandAddedVariantIssues {
         )
         if ($null -eq $teamSpawn -or $teamSpawn.GetAttribute('DefaultValue') -ne '1') {
             $issues.Add("$($variant.Label) must enable team spawning by default.")
+        }
+        $playerDistance = $configurationXml.SelectSingleNode(
+            "/GameInfo/Parameters/Row[@Key2='$($variant.Script)' and @ConfigurationId='ZYLRM_PlayerDistance']"
+        )
+        if ($null -eq $playerDistance -or
+                $playerDistance.GetAttribute('Domain') -ne 'ZYLRM_PlayerDistance' -or
+                $playerDistance.GetAttribute('DefaultValue') -ne '1') {
+            $issues.Add("$($variant.Label) must expose team-mode player distance by default.")
         }
         if ($variant.Script -eq 'zyl_team_horizontal_rich_mainland.lua') {
             $depthOrder = $configurationXml.SelectSingleNode(
