@@ -1077,14 +1077,20 @@ function ZYL_RVC_Balance(args)
                         + tile:GetYield(g_YIELD_FAITH);
                 end
                 -- 战略资源（马/铁/硝石/煤/油/铝/铀）在开局不可见（需研发科技
-                -- 才显示），其产出不能算进保底五产；返回 true 表示该地块带
-                -- 隐藏的战略资源。
+                -- 才显示），以及地脉的额外产出，均不能算进保底五产；返回 true
+                -- 表示该地块带隐藏的战略资源。
                 local function zylIsHiddenStrategic(tile)
                     local tileResourceType = tile:GetResourceType();
                     if (tileResourceType == -1) then return false end
                     local resourceRow = GameInfo.Resources[tileResourceType];
                     if (resourceRow == nil) then return false end
                     return resourceRow.ResourceClassType == "RESOURCECLASS_STRATEGIC";
+                end
+                local function zylIsExcludedFiveYieldTile(tile)
+                    if (tile == nil) then return false end
+                    -- 地脉自身带科技/生产力，不能把它的产出计入开局五产保底。
+                    return zylIsHiddenStrategic(tile)
+                        or ZYL_RVC_IsLeyLine(tile:GetResourceType());
                 end
                 local function zylTryResource(tile, resourceType)
                     local resourceRow = GameInfo.Resources[resourceType];
@@ -1152,7 +1158,7 @@ function ZYL_RVC_Balance(args)
                                 -- 第一步：环内已有五产地块？
                                 for tileIndex = range.From, range.To do
                                     local tile = GetAdjacentTiles(startPlot, tileIndex);
-                                    if (tile ~= nil and zylIsHiddenStrategic(tile) == false and zylYieldTotal(tile) >= 5) then
+                                    if (tile ~= nil and zylIsExcludedFiveYieldTile(tile) == false and zylYieldTotal(tile) >= 5) then
                                         satisfied = true;
                                         resultRing = ringIndex;
                                         resultPlot = tile;
@@ -1178,6 +1184,7 @@ function ZYL_RVC_Balance(args)
                                 print("ZYL RVC five yield guarantee:", majList[i].civ,
                                     resultAction, "ring", resultRing,
                                     "plot", resultPlot:GetX(), resultPlot:GetY(),
+                                    "resource", resultPlot:GetResourceType(),
                                     "yield", zylYieldTotal(resultPlot));
                             else
                                 print("ZYL RVC five yield guarantee:", majList[i].civ,
