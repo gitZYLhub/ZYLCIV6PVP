@@ -87,7 +87,7 @@
 		</Row>= -->
 		<!-- = leader ability (Abraham Lincoln)= -->
 		<Replace Tag="LOC_TRAIT_LEADER_LINCOLN_EXPANSION_DESCRIPTION" Language="en_US">
-			<Text>+100% [ICON_PRODUCTION] Production to Industrial Zone and Aqueduct districts. Industrial Zones give +2 [ICON_AMENITIES] Amenities and +3 Loyalty per turn. Plantations give -2 Loyalty per turn.[NEWLINE][NEWLINE]Receive a free Melee unit after completing an Industrial Zone and their buildings. The free unit does not require strategic resources when created or to maintain.</Text>
+			<Text>+100% [ICON_PRODUCTION] Production to Industrial Zone and Aqueduct districts. Industrial Zones give +2 [ICON_AMENITIES] Amenities and +3 Loyalty per turn. Workshops provide +2 [ICON_CULTURE] Culture. Factories and Power Plants provide +3 [ICON_SCIENCE] Science. Plantations give -2 Loyalty per turn.[NEWLINE][NEWLINE]Receive a free Melee unit after completing an Industrial Zone and their buildings. The free unit does not require strategic resources when created or to maintain.</Text>
 		</Replace>
 		<Row Tag="LOC_ABILITY_LINCOLN_MELEE_UNITS_COMBAT_DESCRIPTION" Language="en_US">
 			<Text>+5 [ICON_STRENGTH] Combat Strength (Abraham Lincoln)</Text>
@@ -502,7 +502,7 @@
 		<!-- == ENGLAND == -->
 		<!-- = civilization ability = -->
 		<Replace Tag="LOC_TRAIT_CIVILIZATION_INDUSTRIAL_REVOLUTION_DESCRIPTION" Language="en_US">
-			<Text>[ICON_RESOURCE_IRON] Iron and [ICON_RESOURCE_COAL] Coal Mines accumulate 2 more resources per turn. Harbor buildings increase Strategic Resource Stockpiles by +10 (on Standard speed). +100% [ICON_PRODUCTION] Production towards Military Engineers. Military Engineers receive +2 [ICON_CHARGES] charges.[NEWLINE][ICON_BULLET]Bias: T1 Coast, T5 Iron and Coal.</Text>
+			<Text>[ICON_RESOURCE_IRON] Iron and [ICON_RESOURCE_COAL] Coal Mines accumulate 2 more resources per turn. Harbor buildings increase Strategic Resource Stockpiles by +10 (on Standard speed). +100% [ICON_PRODUCTION] Production towards Military Engineers. Military Engineers receive +2 [ICON_CHARGES] charges. Buildings that provide additional yields when [ICON_POWER] Powered receive +3 of that yield. [NEWLINE][ICON_BULLET]Bias: T1 Coast, T5 Iron and Coal.</Text>
 		</Replace>
 		<!-- = leader ability (Victoria - Age of Empire) = -->
 		<Replace Tag="LOC_TRAIT_LEADER_PAX_BRITANNICA_DESCRIPTION" Language="en_US">
@@ -516,7 +516,7 @@
 		</Row>
 		<!-- = leader ability (Victoria - Age of Steam) = -->
 		<Replace Tag="LOC_TRAIT_LEADER_VICTORIA_ALT_DESCRIPTION" Language="en_US">
-			<Text>+5% [ICON_PRODUCTION] Production in Cities for each Factory and Power Plant in that city. Buildings that provide additional yields when [ICON_POWER] Powered receive +4 of that yield. Industrial Zones receive standard adjacency from Royal Navy Dockyards. +20% [ICON_PRODUCTION] Production towards Industrial Zone buildings.[NEWLINE]Lighthouse grants +1 [ICON_GREATENGINEER] Great Engineer point per turn.</Text>
+			<Text>+5% [ICON_PRODUCTION] Production in Cities for each Factory and Power Plant in that city.Industrial Zones receive standard adjacency from Royal Navy Dockyards. +20% [ICON_PRODUCTION] Production towards Industrial Zone buildings.[NEWLINE]+1 [ICON_PRODUCTION] Production to all improved Strategic Resources.[NEWLINE]Lighthouse grants +1 [ICON_GREATENGINEER] Great Engineer point per turn.</Text>
 		</Replace>
 		<Row Tag="LOC_BBG_AOS_ADJENCY_IZ_RND_DESC" Language="en_US">
 			<Text>+{1_num} [ICON_PRODUCTION] Production per adjacent Royal Navy Dockyard.</Text>
@@ -531,6 +531,9 @@
 		<!-- = unique unit = -->
 		<Replace Tag="LOC_UNIT_ENGLISH_REDCOAT_DESCRIPTION" Language="en_US">
 			<Text>English unique Industrial era unit when Victoria is their leader that replaces the Line Infantry. +5 [ICON_STRENGTH] Combat Strength when fighting on a continent other than that of your capital's. No disembark cost.</Text>
+		</Replace>
+		<Replace Tag="LOC_UNIT_ENGLISH_SEADOG_DESCRIPTION" Language="en_US">
+			<Text>English unique Renaissance era naval unit when Elizabeth is their leader that replaces the Privateer. Has a chance to capture defeated enemy ships. Can only be seen by other Naval Raiders unless adjacent to it. Reveals Naval Raiders within sight range.</Text>
 		</Replace>
 		<!-- = unique district = -->
 		<Replace Tag="LOC_DISTRICT_ROYAL_NAVY_DOCKYARD_DESCRIPTION" Language="en_US">
@@ -661,10 +664,10 @@
 		</Replace>
 		<!-- = unique building = -->
 		<Replace Tag="LOC_BUILDING_TSIKHE_DESCRIPTION" Language="en_US">
-			<Text>A building unique to Georgia which replaces and is stronger than Ancient Walls. +4 [ICON_FAITH] Faith and +1 [ICON_CULTURE] Culture. While in a [ICON_GLORY_GOLDEN_AGE] Golden or [ICON_GLORY_SUPER_GOLDEN_AGE] Heroic Age, provides an additional +3 [ICON_FAITH] Faith. After advancing to the Conservation Civic, cities with a Tsikhe provide +3 [ICON_TOURISM] Tourism while in a Golden or Heroic Age.</Text>
+			<Text>A building unique to Georgia which replaces and is stronger than Ancient Walls. +2 [ICON_FAITH] Faith, +1 [ICON_CULTURE] Culture, and +1 [ICON_GREATPROPHET] Great Prophet point per turn. While in a [ICON_GLORY_GOLDEN_AGE] Golden or [ICON_GLORY_SUPER_GOLDEN_AGE] Heroic Age, provides an additional +3 [ICON_FAITH] Faith. After advancing to the Conservation Civic, cities with a Tsikhe provide +3 [ICON_TOURISM] Tourism while in a Golden or Heroic Age.</Text>
 		</Replace>
 		<Replace Tag="LOC_BUILDING_TSIKHE_DESCRIPTION_XP2" Language="en_US">
-			<Text>A building unique to Georgia which replaces and is stronger than Ancient Walls.[NEWLINE][NEWLINE]+4 [ICON_FAITH] Faith and +1 [ICON_CULTURE] Culture.[NEWLINE]+3 [ICON_FAITH] Faith when in a [ICON_GLORY_GOLDEN_AGE] Golden or [ICON_GLORY_SUPER_GOLDEN_AGE] Heroic Age.[NEWLINE]+3 [ICON_TOURISM] Tourism after Conservation in cities with a Tsikhe while in a Golden or Heroic Age.</Text>
+			<Text>A building unique to Georgia which replaces and is stronger than Ancient Walls.[NEWLINE][NEWLINE]+2 [ICON_FAITH] Faith, +1 [ICON_CULTURE] Culture, and +1 [ICON_GREATPROPHET] Great Prophet point per turn.[NEWLINE]+3 [ICON_FAITH] Faith when in a [ICON_GLORY_GOLDEN_AGE] Golden or [ICON_GLORY_SUPER_GOLDEN_AGE] Heroic Age.[NEWLINE]+3 [ICON_TOURISM] Tourism after Conservation in cities with a Tsikhe while in a Golden or Heroic Age.</Text>
 		</Replace>
 
 		<!-- == GERMANY == -->
@@ -674,7 +677,10 @@
 		</Replace>
 		<!-- = leader ability (Frederick Barbarossa) = -->
 		<Replace Tag="LOC_TRAIT_LEADER_HOLY_ROMAN_EMPEROR_DESCRIPTION" Language="en_US"> <!-- add icon -->
-			<Text>One extra Military policy slot in any [ICON_GOVERNMENT] government.[NEWLINE]+7 [ICON_STRENGTH] Combat Strength versus City-states.[NEWLINE]Hansa receives major adjacency bonus from Encampments.[NEWLINE]Gain the Tiger I unique unit when Combustion is researched.</Text>
+			<Text>One extra Military policy slot in any [ICON_GOVERNMENT] government.[NEWLINE]+7 [ICON_STRENGTH] Combat Strength versus City-states and Unique Units.[NEWLINE]Hansa receives major adjacency bonus from Encampments.[NEWLINE]Gain the Tiger I unique unit when Combustion is researched.</Text>
+		</Replace>
+		<Replace Tag="LOC_PROMOTION_COMBAT_VS_CITY_STATES_DESCRIPTION" Language="en_US">
+			<Text>+7 [ICON_Strength] Combat Strength vs. City-States and Unique Units.</Text>
 		</Replace>
 		<!-- = unique unit (Tiger I Tank) = -->
 		<Replace Tag="LOC_UNIT_GERMAN_PANZER_NAME" Language="en_US">
@@ -3177,7 +3183,7 @@
 
 		<!-- == Monumentality == -->
 		<Replace Tag="LOC_MOMENT_CATEGORY_INFRASTRUCTURE_BONUS_GOLDEN_AGE" Language="en_US">
-			<Text>Monumentality Golden Age:[NEWLINE]+2 [ICON_MOVEMENT] Movement for all Builders. May purchase civilian units with [ICON_FAITH] Faith. Builders and Settlers are 10% cheaper to purchase with [ICON_FAITH] Faith and [ICON_GOLD] Gold.</Text>
+			<Text>Monumentality Golden Age:[NEWLINE]+1 [ICON_MOVEMENT] Movement for all Builders. May purchase civilian units with [ICON_FAITH] Faith. Builders and Settlers are 20% cheaper to purchase with [ICON_FAITH] Faith and [ICON_GOLD] Gold.</Text>
 		</Replace>
 		<Replace Tag="LOC_MOMENT_CATEGORY_INFRASTRUCTURE_BONUS_NORMAL_AGE" Language="en_US">
 			<Text>Monumentality Dedication Bonus:[NEWLINE]Gain +1 Era Score each time you construct a new [ICON_DISTRICT] Specialty District.</Text>
@@ -3186,7 +3192,7 @@
 			<Text>Monumentality Dedication Bonus:[NEWLINE]Gain +1 Era Score each time you construct a new [ICON_DISTRICT] Specialty District.</Text>
 		</Replace>
 		<Replace Tag="LOC_PEDIA_CONCEPTS_PAGE_DEDICATIONS_CHAPTER_CONTENT_PARA_5" Language="en_US">
-			<Text>Monumentality: Gain +1 Era Score each time you construct a new [ICON_DISTRICT] Specialty District. If chosen at the start of a Golden Age, +2 [ICON_MOVEMENT] Movement for all Builders. May purchase civilian units with [ICON_FAITH] Faith. Builders and Settlers are 10% cheaper to purchase with [ICON_FAITH] Faith and [ICON_GOLD] Gold. Classical and Medieval Eras.</Text>
+			<Text>Monumentality: Gain +1 Era Score each time you construct a new [ICON_DISTRICT] Specialty District. If chosen at the start of a Golden Age, +1 [ICON_MOVEMENT] Movement for all Builders. May purchase civilian units with [ICON_FAITH] Faith. Builders and Settlers are 20% cheaper to purchase with [ICON_FAITH] Faith and [ICON_GOLD] Gold. Classical and Medieval Eras.</Text>
 		</Replace>
 
 		<!-- == Hic Sunt Dracones == -->		

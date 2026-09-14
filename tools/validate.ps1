@@ -360,9 +360,9 @@ $validEraDurationFixture = @(
     'GameEraMaximumTurns'
 )
 foreach ($eraDurationFixture in @(
-        @('ERA_ANCIENT', 50),
+        @('ERA_ANCIENT', 48),
         @('ERA_CLASSICAL', 46),
-        @('ERA_MEDIEVAL', 46),
+        @('ERA_MEDIEVAL', 44),
         @('ERA_RENAISSANCE', 42),
         @('ERA_INDUSTRIAL', 42),
         @('ERA_MODERN', 40),
@@ -374,8 +374,8 @@ foreach ($eraDurationFixture in @(
 }
 $validEraDurationFixture = $validEraDurationFixture -join "`n"
 $invalidEraDurationFixture = $validEraDurationFixture.Replace(
-    "WHEN 'ERA_ANCIENT' THEN 50",
-    "WHEN 'ERA_ANCIENT' THEN 51"
+    "WHEN 'ERA_ANCIENT' THEN 48",
+    "WHEN 'ERA_ANCIENT' THEN 49"
 )
 if (@(Get-ZylEraDurationSqlIssues -Source $validEraDurationFixture).Count -ne 0 -or
         @(Get-ZylEraDurationSqlIssues -Source $invalidEraDurationFixture).Count -ne 1) {

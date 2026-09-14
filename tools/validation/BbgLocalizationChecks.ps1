@@ -84,7 +84,8 @@
             'LOC_FEATURE_EYJAFJALLAJOKULL_DESCRIPTION' = @('占2个单元格', '每个奇观单元格', '+1 [ICON_CULTURE]', '+1 [ICON_FOOD]')
             'LOC_FEATURE_EYJAFJALLAJOKULL_XP2_DESCRIPTION' = @('占2个单元格', '每个奇观单元格', '+1 [ICON_CULTURE]', '+1 [ICON_FOOD]')
             'LOC_BUILDING_ELECTRONICS_FACTORY_DESCRIPTION' = @('+4 [ICON_CULTURE]', '+3 [ICON_PRODUCTION]', '6单元格')
-            'LOC_BUILDING_TSIKHE_DESCRIPTION_XP2' = @('+1 [ICON_CULTURE]', '+3 [ICON_FAITH]', '“保护地球”', '+3 [ICON_TOURISM]', '黄金或英雄时代')
+            'LOC_BUILDING_TSIKHE_DESCRIPTION_XP2' = @('+2 [ICON_FAITH]', '+1 [ICON_CULTURE]', '+1 [ICON_GREATPROPHET]', '+3 [ICON_FAITH]', '“保护地球”', '+3 [ICON_TOURISM]', '黄金或英雄时代')
+            'LOC_TRAIT_LEADER_LINCOLN_EXPANSION_DESCRIPTION' = @('工作坊+2 [ICON_CULTURE]', '工厂和发电站+3 [ICON_SCIENCE]')
             'LOC_BUILDING_SYDNEY_OPERA_HOUSE_DESCRIPTION' = @('+8 [ICON_CULTURE]', '+5 [ICON_GREATMUSICIAN]', '[ICON_GreatWork_Music]')
             'LOC_DISTRICT_ROYAL_NAVY_DOCKYARD_EXPANSION2_DESCRIPTION' = @('+1 [ICON_HOUSING]')
             'LOC_DISTRICT_ROYAL_NAVY_DOCKYARD_DESCRIPTION' = @('+1 [ICON_HOUSING]', '+1 [ICON_TRADEROUTE]', '+2 [ICON_GOLD]', '+4忠诚度')
@@ -141,7 +142,7 @@
             'LOC_BUILDING_ELECTRONICS_FACTORY_DESCRIPTION' = @('+4 [ICON_PRODUCTION]')
             'LOC_TRAIT_CIVILIZATION_NOBEL_PRIZE_DESCRIPTION' = @('市政广场建筑分别每回合', '市政广场建筑每提升一级')
             'LOC_BELIEF_INITIATION_RITES_EXPANSION2_DESCRIPTION' = @('25%', '30%', '[ICON_FAITH]')
-            'LOC_BUILDING_TSIKHE_DESCRIPTION_XP2' = @('+1 [ICON_TOURISM]', '[ICON_TOURISM] 旅游业绩+100%')
+            'LOC_BUILDING_TSIKHE_DESCRIPTION_XP2' = @('+1 [ICON_TOURISM]', '[ICON_TOURISM] 旅游业绩+100%', '+4 [ICON_FAITH]')
             'LOC_CIVILIZATION_JERUSALEM_BONUS_EXPANSION' = @('10')
             'LOC_LEADER_TRAIT_JERUSALEM_DESCRIPTION_EXPANSION' = @('10')
             'LOC_TRAIT_LEADER_SATYAGRAHA_DESCRIPTION' = @('[ICON_FAVOR]')
@@ -191,6 +192,8 @@
             'LOC_MOMENT_CATEGORY_INFRASTRUCTURE_BONUS_DARK_AGE' = @('Dedication Bonus')
             'LOC_BUILDING_ELECTRONICS_FACTORY_DESCRIPTION' = @('+3 [ICON_PRODUCTION]', '+4 [ICON_CULTURE]', 'within 6 tiles')
             'LOC_BUILDING_ELECTRONICS_FACTORY_EXPANSION2_DESCRIPTION' = @('+3 [ICON_PRODUCTION]', '+4 [ICON_CULTURE]', '+5 [ICON_PRODUCTION]', 'when powered')
+            'LOC_BUILDING_TSIKHE_DESCRIPTION_XP2' = @('+2 [ICON_FAITH]', '+1 [ICON_CULTURE]', '+1 [ICON_GREATPROPHET]', '+3 [ICON_FAITH]')
+            'LOC_TRAIT_LEADER_LINCOLN_EXPANSION_DESCRIPTION' = @('Workshops provide +2 [ICON_CULTURE] Culture', 'Factories and Power Plants provide +3 [ICON_SCIENCE] Science')
         }
         foreach ($entry in $criticalEnglishText.GetEnumerator()) {
             $englishTextNode = $bbgEnglish.SelectSingleNode("/GameData/LocalizedText/*[@Tag='$($entry.Key)' and @Language='en_US']/Text")
@@ -210,6 +213,7 @@
             'LOC_MOMENT_CATEGORY_INFRASTRUCTURE_BONUS_NORMAL_AGE' = @('Golden Age')
             'LOC_MOMENT_CATEGORY_INFRASTRUCTURE_BONUS_DARK_AGE' = @('Golden Age')
             'LOC_BUILDING_ELECTRONICS_FACTORY_DESCRIPTION' = @('+5 [ICON_Culture]', '+5 [ICON_CULTURE]')
+            'LOC_BUILDING_TSIKHE_DESCRIPTION_XP2' = @('+4 [ICON_FAITH]')
         }
         foreach ($entry in $obsoleteEnglishText.GetEnumerator()) {
             $englishTextNode = $bbgEnglish.SelectSingleNode("/GameData/LocalizedText/*[@Tag='$($entry.Key)' and @Language='en_US']/Text")

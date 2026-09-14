@@ -6,7 +6,7 @@
 		<Row Tag="LOC_ZYL_TOOLS_15_TIME_NAME" Language="zh_Hans_CN"><Text>[COLOR:ResGoldLabelCS]15 秒计时提醒[ENDCOLOR]</Text></Row>
 		<Row Tag="LOC_ZYL_TOOLS_15_TIME_DESC" Language="zh_Hans_CN"><Text>在剩余 15 至 8 秒时播放逐秒提示音。</Text></Row>
 		<Row Tag="LOC_ZYL_ERA_LENGTH_OPTIMIZATION_NAME" Language="zh_Hans_CN"><Text>时代长度优化</Text></Row>
-		<Row Tag="LOC_ZYL_ERA_LENGTH_OPTIMIZATION_DESC" Language="zh_Hans_CN"><Text>固定世界时代持续时间：标准速度下依次为远古50、古典46、中世纪46、文艺复兴42、工业42、现代40、原子能40、信息40回合；联机速度下依次为25、23、23、21、21、20、20、20回合。未来时代为最终时代，不参与常规时代结算。默认开启。</Text></Row>
+		<Row Tag="LOC_ZYL_ERA_LENGTH_OPTIMIZATION_DESC" Language="zh_Hans_CN"><Text>固定世界时代持续时间：标准速度下依次为远古48、古典46、中世纪44、文艺复兴42、工业42、现代40、原子能40、信息40回合；联机速度下依次为24、23、22、21、21、20、20、20回合。未来时代为最终时代，不参与常规时代结算。默认开启。</Text></Row>
 		<Row Tag="LOC_ZYL_DIPLOMACY_RIBBON_MODE_NAME" Language="zh_Hans_CN"><Text>外交栏情报模式</Text></Row>
 		<Row Tag="LOC_ZYL_DIPLOMACY_RIBBON_MODE_DESC" Language="zh_Hans_CN"><Text>设置右上角外交栏采用个人或团队外交能见度。分数、科技值、文化值、积存信仰、外交支持及每回合外交支持始终可见；有限能见度解锁军力，公开解锁总人口、粮食与生产力，秘密解锁积存金币及每回合金币与信仰，绝密解锁当前研究的科技与市政。未解锁的情报显示为问号，未接触的玩家仍保持匿名。</Text></Row>
 		<Row Tag="LOC_ZYL_DIPLOMACY_RIBBON_MODE_FFA_NAME" Language="zh_Hans_CN"><Text>FFA 模式</Text></Row>
@@ -104,7 +104,7 @@
 		<Row Tag="LOC_ZYL_TOOLS_15_TIME_NAME" Language="en_US"><Text>[COLOR:ResGoldLabelCS]15-second warning[ENDCOLOR]</Text></Row>
 		<Row Tag="LOC_ZYL_TOOLS_15_TIME_DESC" Language="en_US"><Text>Plays a countdown sound from 15 through 8 seconds remaining.</Text></Row>
 		<Row Tag="LOC_ZYL_ERA_LENGTH_OPTIMIZATION_NAME" Language="en_US"><Text>Era Length Optimization</Text></Row>
-		<Row Tag="LOC_ZYL_ERA_LENGTH_OPTIMIZATION_DESC" Language="en_US"><Text>Sets fixed World Era durations: at Standard speed, Ancient, Classical, Medieval, Renaissance, Industrial, Modern, Atomic, and Information last 50, 46, 46, 42, 42, 40, 40, and 40 turns; at Online speed they last 25, 23, 23, 21, 21, 20, 20, and 20 turns. The Future Era is the terminal era and is not part of the regular era schedule. Enabled by default.</Text></Row>
+		<Row Tag="LOC_ZYL_ERA_LENGTH_OPTIMIZATION_DESC" Language="en_US"><Text>Sets fixed World Era durations: at Standard speed, Ancient, Classical, Medieval, Renaissance, Industrial, Modern, Atomic, and Information last 48, 46, 44, 42, 42, 40, 40, and 40 turns; at Online speed they last 24, 23, 22, 21, 21, 20, 20, and 20 turns. The Future Era is the terminal era and is not part of the regular era schedule. Enabled by default.</Text></Row>
 		<Row Tag="LOC_ZYL_DIPLOMACY_RIBBON_MODE_NAME" Language="en_US"><Text>Diplomacy Ribbon Intelligence</Text></Row>
 		<Row Tag="LOC_ZYL_DIPLOMACY_RIBBON_MODE_DESC" Language="en_US"><Text>Sets whether the top-right diplomacy ribbon uses individual or team Diplomatic Visibility. Score, Science and Culture yields, stored Faith, and Diplomatic Favor with its per-turn change are always visible. Limited reveals Military Strength; Open reveals total Population, Food, and Production; Secret reveals stored Gold plus Gold and Faith per turn; Top Secret reveals current Technology and Civic research. Locked intelligence is shown as a question mark, while unmet players remain anonymous.</Text></Row>
 		<Row Tag="LOC_ZYL_DIPLOMACY_RIBBON_MODE_FFA_NAME" Language="en_US"><Text>FFA Mode</Text></Row>

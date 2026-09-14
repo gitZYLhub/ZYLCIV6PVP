@@ -9,6 +9,8 @@
 -- Old Codenaugh's Unit change
 UPDATE UnitCommands SET VisibleInUI=0 WHERE CommandType='UNITCOMMAND_PRIORITY_TARGET';
 UPDATE Units SET BaseMoves=3 WHERE UnitType='UNIT_MILITARY_ENGINEER';
+-- 14/09/26 Builder base movement increased from 2 to 3.
+UPDATE Units SET BaseMoves=3 WHERE UnitType='UNIT_BUILDER';
 UPDATE Units SET Cost=310 WHERE UnitType='UNIT_CAVALRY';
 UPDATE Units SET PrereqCivic='CIVIC_EXPLORATION' WHERE UnitType='UNIT_PRIVATEER';
 INSERT OR IGNORE INTO RequirementSetRequirements (RequirementSetId, RequirementId) VALUES
@@ -158,6 +160,8 @@ UPDATE Units SET MandatoryObsoleteTech='TECH_REPLACEABLE_PARTS' WHERE UnitType='
 UPDATE Units SET MandatoryObsoleteTech='TECH_COMBUSTION' WHERE UnitType='UNIT_BYZANTINE_TAGMA';
 UPDATE Units SET MandatoryObsoleteTech='TECH_MILITARY_TACTICS' WHERE UnitType='UNIT_GAUL_GAESATAE';
 UPDATE Units SET MandatoryObsoleteTech='TECH_MILITARY_TACTICS' WHERE UnitType='UNIT_BABYLONIAN_SABUM_KIBITTUM';
+-- 07/08/26 align Redcoat obsolescence with the 7.5 tech path
+UPDATE Units SET MandatoryObsoleteTech='TECH_GUIDANCE_SYSTEMS' WHERE UnitType='UNIT_ENGLISH_REDCOAT';
 
 
 --5.2.5 Musketman/Line infantry buff

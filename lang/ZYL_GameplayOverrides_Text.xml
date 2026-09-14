@@ -1,6 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
 <GameData>
 	<LocalizedText>
+		<!-- Ancestral Hall: Settlers trained in this city gain +1 Movement. -->
+		<Row Tag="LOC_ZYL_ANCESTRAL_HALL_SETTLER_MOVEMENT_NAME" Language="en_US"><Text>Ancestral Hall Settlers</Text></Row>
+		<Row Tag="LOC_ZYL_ANCESTRAL_HALL_SETTLER_MOVEMENT_DESCRIPTION" Language="en_US"><Text>Settlers trained in a city with an Ancestral Hall receive +1 [ICON_MOVEMENT] Movement.</Text></Row>
+		<Row Tag="LOC_ZYL_ANCESTRAL_HALL_SETTLER_MOVEMENT_NAME" Language="zh_Hans_CN"><Text>祠堂开拓者</Text></Row>
+		<Row Tag="LOC_ZYL_ANCESTRAL_HALL_SETTLER_MOVEMENT_DESCRIPTION" Language="zh_Hans_CN"><Text>在拥有祠堂的城市训练的开拓者+1 [ICON_Movement] 移动力。</Text></Row>
+		<Row Tag="LOC_ZYL_ANCESTRAL_HALL_SETTLER_MOVEMENT_NAME" Language="zh_Hant_HK"><Text>祠堂開拓者</Text></Row>
+		<Row Tag="LOC_ZYL_ANCESTRAL_HALL_SETTLER_MOVEMENT_DESCRIPTION" Language="zh_Hant_HK"><Text>在擁有祠堂的城市訓練的開拓者+1 [ICON_Movement] 移動力。</Text></Row>
+		<Row Tag="LOC_ZYL_ANCESTRAL_HALL_SETTLER_MOVEMENT_NAME" Language="fr_FR"><Text>Colons de la salle des ancêtres</Text></Row>
+		<Row Tag="LOC_ZYL_ANCESTRAL_HALL_SETTLER_MOVEMENT_DESCRIPTION" Language="fr_FR"><Text>Les Colons formés dans une ville possédant une Salle des ancêtres reçoivent +1 [ICON_MOVEMENT] en mouvement.</Text></Row>
+		<Row Tag="LOC_ZYL_ANCESTRAL_HALL_SETTLER_MOVEMENT_NAME" Language="de_DE"><Text>Siedler der Ahnenhalle</Text></Row>
+		<Row Tag="LOC_ZYL_ANCESTRAL_HALL_SETTLER_MOVEMENT_DESCRIPTION" Language="de_DE"><Text>Siedler, die in einer Stadt mit einer Ahnenhalle ausgebildet werden, erhalten +1 [ICON_MOVEMENT] Bewegung.</Text></Row>
+		<Row Tag="LOC_ZYL_ANCESTRAL_HALL_SETTLER_MOVEMENT_NAME" Language="it_IT"><Text>Coloni della Sala degli Antenati</Text></Row>
+		<Row Tag="LOC_ZYL_ANCESTRAL_HALL_SETTLER_MOVEMENT_DESCRIPTION" Language="it_IT"><Text>I Coloni realizzati in una città con una Sala degli Antenati ricevono +1 [ICON_MOVEMENT] Movimento.</Text></Row>
+		<Row Tag="LOC_ZYL_ANCESTRAL_HALL_SETTLER_MOVEMENT_NAME" Language="ja_JP"><Text>祖廟の開拓者</Text></Row>
+		<Row Tag="LOC_ZYL_ANCESTRAL_HALL_SETTLER_MOVEMENT_DESCRIPTION" Language="ja_JP"><Text>祖廟のある都市で生産された開拓者は[ICON_MOVEMENT]移動力+1。</Text></Row>
+		<Row Tag="LOC_ZYL_ANCESTRAL_HALL_SETTLER_MOVEMENT_NAME" Language="ko_KR"><Text>조상 전당 개척자</Text></Row>
+		<Row Tag="LOC_ZYL_ANCESTRAL_HALL_SETTLER_MOVEMENT_DESCRIPTION" Language="ko_KR"><Text>조상 전당이 있는 도시에서 훈련된 개척자는 [ICON_MOVEMENT] 이동력 +1을 얻습니다.</Text></Row>
+		<Row Tag="LOC_ZYL_ANCESTRAL_HALL_SETTLER_MOVEMENT_NAME" Language="pl_PL"><Text>Osadnicy z Sali Przodków</Text></Row>
+		<Row Tag="LOC_ZYL_ANCESTRAL_HALL_SETTLER_MOVEMENT_DESCRIPTION" Language="pl_PL"><Text>Osadnicy wyszkoleni w mieście z Salą Przodków otrzymują +1 [ICON_MOVEMENT] do Ruchu.</Text></Row>
+		<Row Tag="LOC_ZYL_ANCESTRAL_HALL_SETTLER_MOVEMENT_NAME" Language="pt_BR"><Text>Colonos do Salão Ancestral</Text></Row>
+		<Row Tag="LOC_ZYL_ANCESTRAL_HALL_SETTLER_MOVEMENT_DESCRIPTION" Language="pt_BR"><Text>Colonos treinados em uma cidade com Salão Ancestral recebem +1 [ICON_MOVEMENT] de Movimento.</Text></Row>
+		<Row Tag="LOC_ZYL_ANCESTRAL_HALL_SETTLER_MOVEMENT_NAME" Language="ru_RU"><Text>Поселенцы из Зала предков</Text></Row>
+		<Row Tag="LOC_ZYL_ANCESTRAL_HALL_SETTLER_MOVEMENT_DESCRIPTION" Language="ru_RU"><Text>Поселенцы, созданные в городе с Залом предков, получают +1 к [ICON_MOVEMENT] перемещению.</Text></Row>
+		<Row Tag="LOC_ZYL_ANCESTRAL_HALL_SETTLER_MOVEMENT_NAME" Language="es_ES"><Text>Colonos del Salón Ancestral</Text></Row>
+		<Row Tag="LOC_ZYL_ANCESTRAL_HALL_SETTLER_MOVEMENT_DESCRIPTION" Language="es_ES"><Text>Los Colonos producidos en una ciudad con Salón Ancestral reciben +1 de Movimiento [ICON_MOVEMENT].</Text></Row>
+
+		<Replace Tag="LOC_BUILDING_GOV_WIDE_DESCRIPTION" Language="en_US">
+			<Text>+50% [ICON_PRODUCTION] Production toward Settlers in this city.[NEWLINE]All newly founded cities receive a free Builder.[NEWLINE]Settlers trained in this city receive +1 [ICON_MOVEMENT] Movement.[NEWLINE][NEWLINE]Awards +1 [ICON_GOVERNOR] Governor Title.</Text>
+		</Replace>
+		<Replace Tag="LOC_BUILDING_GOV_WIDE_DESCRIPTION" Language="zh_Hans_CN">
+			<Text>所在城市在训练开拓者时+50% [ICON_PRODUCTION] 生产力。[NEWLINE]所有新建立的城市获得1个免费的建造者。[NEWLINE]在此城市训练的开拓者+1 [ICON_Movement] 移动力。[NEWLINE][NEWLINE]提供1个 [ICON_GOVERNOR] 总督头衔。</Text>
+		</Replace>
+		<Replace Tag="LOC_BUILDING_GOV_WIDE_DESCRIPTION" Language="zh_Hant_HK">
+			<Text>所在城市訓練開拓者時+50% [ICON_Production] 生產力。[NEWLINE]所有新建立的城市獲得1個免費的建造者。[NEWLINE]在此城市訓練的開拓者+1 [ICON_Movement] 移動力。[NEWLINE][NEWLINE]提供1個 [ICON_Governor] 總督頭銜。</Text>
+		</Replace>
+		<Replace Tag="LOC_BUILDING_GOV_WIDE_DESCRIPTION" Language="fr_FR">
+			<Text>[ICON_PRODUCTION] Production +50 % pour les Colons dans cette ville.[NEWLINE]Les nouvelles villes reçoivent un Bâtisseur gratuit.[NEWLINE]Les Colons formés dans cette ville reçoivent +1 [ICON_MOVEMENT] en mouvement.[NEWLINE][NEWLINE]Octroie un titre de [ICON_GOVERNOR] gouverneur.</Text>
+		</Replace>
+		<Replace Tag="LOC_BUILDING_GOV_WIDE_DESCRIPTION" Language="de_DE">
+			<Text>+50% [ICON_PRODUCTION] Produktion für Siedler in dieser [ICON_DISTRICT_CITY_CENTER] Stadt.[NEWLINE]Neu gegründete [ICON_DISTRICT_CITY_CENTER] Städte erhalten einen kostenlosen Handwerker.[NEWLINE]In dieser Stadt ausgebildete Siedler erhalten +1 [ICON_MOVEMENT] Bewegung.[NEWLINE][NEWLINE]+1 [ICON_GOVERNOR] Gouverneur-Titel.</Text>
+		</Replace>
+		<Replace Tag="LOC_BUILDING_GOV_WIDE_DESCRIPTION" Language="it_IT">
+			<Text>+50% [ICON_PRODUCTION] Produzione per i Coloni in questa città.[NEWLINE]Le nuove città ricevono un Costruttore gratuito.[NEWLINE]I Coloni realizzati in questa città ricevono +1 [ICON_MOVEMENT] Movimento.[NEWLINE][NEWLINE]Conferisce un titolo di [ICON_GOVERNOR] Governatore.</Text>
+		</Replace>
+		<Replace Tag="LOC_BUILDING_GOV_WIDE_DESCRIPTION" Language="ja_JP">
+			<Text>この都市で開拓者を生産する際の[ICON_PRODUCTION]生産力+50%。[NEWLINE]新たに建設した都市は無料の労働者を1体獲得する。[NEWLINE]この都市で生産された開拓者は[ICON_MOVEMENT]移動力+1。[NEWLINE][NEWLINE][ICON_GOVERNOR]総督称号+1。</Text>
+		</Replace>
+		<Replace Tag="LOC_BUILDING_GOV_WIDE_DESCRIPTION" Language="ko_KR">
+			<Text>이 도시에서 개척자를 생산할 때 [ICON_PRODUCTION] 생산력 +50%.[NEWLINE]새로 설립한 도시는 무료 건설자 1명을 얻습니다.[NEWLINE]이 도시에서 훈련된 개척자는 [ICON_MOVEMENT] 이동력 +1을 얻습니다.[NEWLINE][NEWLINE][ICON_GOVERNOR] 총독 타이틀 +1.</Text>
+		</Replace>
+		<Replace Tag="LOC_BUILDING_GOV_WIDE_DESCRIPTION" Language="pl_PL">
+			<Text>+50% [ICON_PRODUCTION] Produkcji na Osadników w tym mieście.[NEWLINE]Wszystkie nowo założone miasta otrzymują darmowego Budowniczego.[NEWLINE]Osadnicy wyszkoleni w tym mieście otrzymują +1 [ICON_MOVEMENT] do Ruchu.[NEWLINE][NEWLINE]Zapewnia +1 tytuł [ICON_GOVERNOR] Gubernatora.</Text>
+		</Replace>
+		<Replace Tag="LOC_BUILDING_GOV_WIDE_DESCRIPTION" Language="pt_BR">
+			<Text>[ICON_PRODUCTION] Produção +50% para Colonos nesta cidade.[NEWLINE]As novas cidades recebem um Construtor gratuito.[NEWLINE]Colonos treinados nesta cidade recebem +1 [ICON_MOVEMENT] de Movimento.[NEWLINE][NEWLINE]Concede um título de [ICON_GOVERNOR] governador.</Text>
+		</Replace>
+		<Replace Tag="LOC_BUILDING_GOV_WIDE_DESCRIPTION" Language="ru_RU">
+			<Text>+50% [ICON_PRODUCTION] производства Поселенцев в этом городе.[NEWLINE]Все новые города получают бесплатного Строителя.[NEWLINE]Поселенцы, созданные в этом городе, получают +1 к [ICON_MOVEMENT] перемещению.[NEWLINE][NEWLINE]Даёт +1 титул [ICON_GOVERNOR] губернатора.</Text>
+		</Replace>
+		<Replace Tag="LOC_BUILDING_GOV_WIDE_DESCRIPTION" Language="es_ES">
+			<Text>+50% de [ICON_PRODUCTION] Producción para Colonos en esta ciudad.[NEWLINE]Todas las ciudades recién fundadas reciben un Constructor gratis.[NEWLINE]Los Colonos producidos en esta ciudad reciben +1 de Movimiento [ICON_MOVEMENT].[NEWLINE][NEWLINE]Otorga +1 título de [ICON_GOVERNOR] Gobernador.</Text>
+		</Replace>
+
 		<Row Tag="LOC_TECH_ZYL_CELESTIAL_NAVIGATION_DESCRIPTION" Language="en_US">
 			<Text>Allows all land units to embark, and allows harvesting of [ICON_RESOURCE_FISH] Fish and [ICON_RESOURCE_CRABS] Crabs.</Text>
 		</Row>

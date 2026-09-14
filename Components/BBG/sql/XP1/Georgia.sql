@@ -12,7 +12,7 @@ DELETE FROM BuildingPrereqs WHERE Building='BUILDING_TSIKHE';
 DELETE FROM BuildingModifiers WHERE BuildingType='BUILDING_TSIKHE' AND ModifierId='TSIKHE_PREVENT_MELEE_ATTACK_OUTER_DEFENSES';
 DELETE FROM BuildingModifiers WHERE BuildingType='BUILDING_TSIKHE' AND ModifierId='TSIKHE_PREVENT_BYPASS_OUTER_DEFENSE';
 UPDATE BuildingReplaces SET ReplacesBuildingType='BUILDING_WALLS' WHERE CivUniqueBuildingType='BUILDING_TSIKHE';
-UPDATE Buildings SET Cost=100, PrereqTech='TECH_MASONRY' , OuterDefenseHitPoints=100 WHERE BuildingType='BUILDING_TSIKHE';
+UPDATE Buildings SET Cost=90, PrereqTech='TECH_MINING' , OuterDefenseHitPoints=100 WHERE BuildingType='BUILDING_TSIKHE';
 -- Georgia gets 50% faith kills (online) instead of Protectorate War Bonus
 UPDATE ModifierArguments SET Value='100' WHERE ModifierId='TRAIT_LEADER_FAITH_KILLS' AND Name='PercentDefeatedStrength';
 -- Georgia gets +1 faith for every envoy
@@ -28,6 +28,13 @@ INSERT INTO ModifierArguments (ModifierId , Name , Value) VALUES
 -- 15/06/23 Tsikhe gives 1 culture
 INSERT INTO Building_YieldChanges (BuildingType, YieldType, YieldChange) VALUES
 	('BUILDING_TSIKHE', 'YIELD_CULTURE', 1);
+
+-- 14/09/26 Tsikhe gives +1 Great Prophet point per turn and only 2 base faith
+UPDATE Building_YieldChanges
+SET YieldChange=2
+WHERE BuildingType='BUILDING_TSIKHE' AND YieldType='YIELD_FAITH';
+INSERT INTO Building_GreatPersonPoints (BuildingType, GreatPersonClassType, PointsPerTurn) VALUES
+	('BUILDING_TSIKHE', 'GREAT_PERSON_CLASS_PROPHET', 1);
 
 -- 12/07/23 Tsikhe gives only 3 faith in golde
 UPDATE ModifierArguments SET Value=3 WHERE ModifierId='TSIKHE_FAITH_GOLDEN_AGE' AND Name='Amount';

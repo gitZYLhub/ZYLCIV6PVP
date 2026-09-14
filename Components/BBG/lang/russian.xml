@@ -508,7 +508,7 @@
         <!-- == ENGLAND - Англия == -->
         <!-- = civilization ability = -->
         <Replace Tag="LOC_TRAIT_CIVILIZATION_INDUSTRIAL_REVOLUTION_DESCRIPTION" Language="ru_RU">
-            <Text>[ICON_RESOURCE_IRON] Железные рудники и [ICON_RESOURCE_COAL] угольные шахты дают на 2 ед. больше ресурсов за ход. Здания в гавани увеличивают запасы стратегических ресурсов на 10 (при стандартной скорости игры).[NEWLINE]+100% [ICON_PRODUCTION] к производству военных инженеров. Военные инженеры получают +2 [ICON_Charges] заряда.[NEWLINE][ICON_BULLET]Привязка: Т1 побережье, Т5 железо, уголь.</Text>
+            <Text>[ICON_RESOURCE_IRON] Железные рудники и [ICON_RESOURCE_COAL] угольные шахты дают на 2 ед. больше ресурсов за ход. Здания в гавани увеличивают запасы стратегических ресурсов на 10 (при стандартной скорости игры).[NEWLINE]Здания, повышающие производительность, при достаточном [ICON_POWER] энергоснабжении дают +3 ед. соответствующей продукции.[NEWLINE]+100% [ICON_PRODUCTION] к производству военных инженеров. Военные инженеры получают +2 [ICON_Charges] заряда.[NEWLINE][ICON_BULLET]Привязка: Т1 побережье, Т5 железо, уголь.</Text>
         </Replace>
         <!-- = leader ability (Victoria (Age Of Empire) - Виктория (Эпоха империй) = -->
         <Replace Tag="LOC_TRAIT_LEADER_PAX_BRITANNICA_DESCRIPTION" Language="ru_RU">
@@ -522,7 +522,7 @@
         </Replace>
         <!-- = leader ability (Victoria (Age Of Steam) Виктория (Эпоха паровых машин) = -->
         <Replace Tag="LOC_TRAIT_LEADER_VICTORIA_ALT_DESCRIPTION" Language="ru_RU">
-            <Text>+20% [ICON_PRODUCTION] к производству построек в промышленной зоне. +5% [ICON_PRODUCTION] производства в городе за каждую фабрику и электростанцию в промышленной зоне этого города. Здания, повышающие производительность, при достаточном [ICON_POWER] энергоснабжении дают +4 ед. соответствующей продукции. Промышленные зоны получают стандартный бонус соседства от Верфей Королевского Флота.[NEWLINE]Маяк приносит +1 [ICON_GreatEngineer] очко Великого Инженера в ход.</Text>
+            <Text>+1 [ICON_PRODUCTION] производства на обработанных стратегических ресурсах.[NEWLINE]+20% [ICON_PRODUCTION] к производству построек в промышленной зоне. +5% [ICON_PRODUCTION] производства в городе за каждую фабрику и электростанцию в промышленной зоне этого города. Промышленные зоны получают стандартный бонус соседства от Верфей Королевского Флота.[NEWLINE]Маяк приносит +1 [ICON_GreatEngineer] очко Великого Инженера в ход.</Text>
         </Replace>
         <Replace Tag="LOC_BBG_AOS_ADJENCY_IZ_RND_DESC" Language="ru_RU">
             <Text>+2 производства [ICON_Production] от Верфей Королевского Флота.</Text>
@@ -533,6 +533,10 @@
         </Replace>
         <Replace Tag="LOC_BBG_ABILITY_ELISABETH_RAIDER_MOVE_PROMOTE_ATTACK_DESC" Language="ru_RU">
             <Text>Повышение морских рейдеров не заканчивает их ход.</Text>
+        </Replace>
+        <!-- = unique unit - Морской пёс = -->
+        <Replace Tag="LOC_UNIT_ENGLISH_SEADOG_DESCRIPTION" Language="ru_RU">
+            <Text>Уникальный английский морской юнит эпохи Возрождения, если лидером является Елизавета I. Заменяет капер, имеет шанс захватить побежденные вражеские корабли. Виден только морским рейдерам или с соседних клеток. Обнаруживает других морских рейдеров в радиусе видимости.</Text>
         </Replace>
         <!-- = unique unit - Красный мундир = -->
         <Replace Tag="LOC_UNIT_ENGLISH_REDCOAT_DESCRIPTION" Language="ru_RU">
@@ -5679,10 +5683,10 @@
 
         <!-- == Monumentality - Монументальность == -->
         <Replace Tag="LOC_MOMENT_CATEGORY_INFRASTRUCTURE_BONUS_GOLDEN_AGE" Language="ru_RU">
-            <Text>Монументальность – золотой век:[NEWLINE]Все строители получают +2 [ICON_Movement] ОП. Можно покупать гражданские юниты за очки [ICON_Faith] веры. Поселенцы и строители стоят на 10% дешевле при покупке за очки [ICON_FAITH] веры и [ICON_GOLD] золото.</Text>
+            <Text>Монументальность – золотой век:[NEWLINE]Все строители получают +1 [ICON_Movement] ОП. Можно покупать гражданские юниты за очки [ICON_Faith] веры. Поселенцы и строители стоят на 20% дешевле при покупке за очки [ICON_FAITH] веры и [ICON_GOLD] золото.</Text>
         </Replace>
         <Replace Tag="LOC_PEDIA_CONCEPTS_PAGE_DEDICATIONS_CHAPTER_CONTENT_PARA_6" Language="ru_RU">
-            <Text>Монументальность: Каждый построенный специализированный район прибавляет +1 очко к счету эпохи. Если выбрано в начале золотого века: Все строители получают +2 [ICON_Movement] ОП. Можно покупать гражданские юниты за очки [ICON_Faith] веры. Поселенцы и строители стоят на 10% дешевле при покупке за очки [ICON_FAITH] веры и [ICON_GOLD] золото. Античность, Средневековье и Возрождение.</Text>
+            <Text>Монументальность: Каждый построенный специализированный район прибавляет +1 очко к счету эпохи. Если выбрано в начале золотого века: Все строители получают +1 [ICON_Movement] ОП. Можно покупать гражданские юниты за очки [ICON_Faith] веры. Поселенцы и строители стоят на 20% дешевле при покупке за очки [ICON_FAITH] веры и [ICON_GOLD] золото. Античность, Средневековье и Возрождение.</Text>
         </Replace>
 
         <!-- == Hic Sunt Dracones - Здесь живут драконы == -->

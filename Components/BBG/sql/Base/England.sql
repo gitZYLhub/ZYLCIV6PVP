@@ -72,4 +72,14 @@ INSERT INTO ModifierArguments (ModifierId, Name, Value) VALUES
     ('BBG_ABILITY_AOE_MELEE_NAVAL_ESCORT_CIVILIANS_GIVER', 'AbilityType', 'BBG_ABILITY_AOE_MELEE_NAVAL_ESCORT_CIVILIANS');
 INSERT INTO TraitModifiers (TraitType, ModifierId) VALUES
     ('TRAIT_LEADER_PAX_BRITANNICA', 'BBG_ABILITY_AOE_MELEE_NAVAL_ESCORT_CIVILIANS_GIVER');
---     
+--
+
+-- 07/08/26 move Sea Dog to Elizabeth only
+DELETE FROM CivilizationTraits WHERE CivilizationType='CIVILIZATION_ENGLAND' AND TraitType='TRAIT_CIVILIZATION_UNIT_ENGLISH_SEADOG';
+
+-- 08/08/26 powered building bonus returned to England and reduced to +3
+UPDATE ModifierArguments SET Value='3' WHERE ModifierId='TRAIT_POWERED_BUILDINGS_MORE_CULTURE' AND Name='Amount';
+UPDATE ModifierArguments SET Value='3' WHERE ModifierId='TRAIT_POWERED_BUILDINGS_MORE_GOLD' AND Name='Amount';
+UPDATE ModifierArguments SET Value='3' WHERE ModifierId='TRAIT_POWERED_BUILDINGS_MORE_PRODUCTION' AND Name='Amount';
+UPDATE ModifierArguments SET Value='3' WHERE ModifierId='TRAIT_POWERED_BUILDINGS_MORE_SCIENCE' AND Name='Amount';
+UPDATE ModifierArguments SET Value='3' WHERE ModifierId='TRAIT_POWERED_BUILDINGS_MORE_FOOD' AND Name='Amount';

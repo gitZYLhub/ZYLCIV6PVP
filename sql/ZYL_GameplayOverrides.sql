@@ -14,6 +14,53 @@
 -- integrated ruleset keeps BBG's other unit balance changes, but restores all
 -- four obsolescence fields to their Firaxis values.  BBG Expanded units are
 -- intentionally excluded because they have no vanilla value to restore.
+
+-------------------------------------------------------------------------------
+-- Ancestral Hall: Settler movement
+-------------------------------------------------------------------------------
+
+-- Settlers trained in a city with an Ancestral Hall receive a permanent +1
+-- Movement ability.  The city-scoped grant keeps Settlers trained elsewhere
+-- unchanged, and the CLASS_SETTLER tag prevents Builders from inheriting it.
+INSERT OR IGNORE INTO Types (Type, Kind) VALUES
+	('ZYL_ANCESTRAL_HALL_SETTLER_MOVEMENT_ABILITY', 'KIND_ABILITY');
+
+INSERT OR IGNORE INTO TypeTags (Type, Tag) VALUES
+	('ZYL_ANCESTRAL_HALL_SETTLER_MOVEMENT_ABILITY', 'CLASS_SETTLER');
+
+INSERT OR IGNORE INTO UnitAbilities
+	(UnitAbilityType, Name, Description, Inactive)
+VALUES
+	('ZYL_ANCESTRAL_HALL_SETTLER_MOVEMENT_ABILITY',
+	 'LOC_ZYL_ANCESTRAL_HALL_SETTLER_MOVEMENT_NAME',
+	 'LOC_ZYL_ANCESTRAL_HALL_SETTLER_MOVEMENT_DESCRIPTION',
+	 1);
+
+INSERT OR IGNORE INTO UnitAbilityModifiers (UnitAbilityType, ModifierId) VALUES
+	('ZYL_ANCESTRAL_HALL_SETTLER_MOVEMENT_ABILITY',
+	 'ZYL_ANCESTRAL_HALL_SETTLER_MOVEMENT_MODIFIER');
+
+INSERT OR IGNORE INTO Modifiers
+	(ModifierId, ModifierType, Permanent, SubjectRequirementSetId)
+VALUES
+	('ZYL_ANCESTRAL_HALL_SETTLER_MOVEMENT_GIVER',
+	 'MODIFIER_SINGLE_CITY_GRANT_ABILITY_FOR_TRAINED_UNITS',
+	 0,
+	 NULL),
+	('ZYL_ANCESTRAL_HALL_SETTLER_MOVEMENT_MODIFIER',
+	 'MODIFIER_PLAYER_UNIT_ADJUST_MOVEMENT',
+	 1,
+	 NULL);
+
+INSERT OR IGNORE INTO ModifierArguments (ModifierId, Name, Value) VALUES
+	('ZYL_ANCESTRAL_HALL_SETTLER_MOVEMENT_GIVER',
+	 'AbilityType',
+	 'ZYL_ANCESTRAL_HALL_SETTLER_MOVEMENT_ABILITY'),
+	('ZYL_ANCESTRAL_HALL_SETTLER_MOVEMENT_MODIFIER', 'Amount', 1);
+
+INSERT OR IGNORE INTO BuildingModifiers (BuildingType, ModifierId) VALUES
+	('BUILDING_GOV_WIDE', 'ZYL_ANCESTRAL_HALL_SETTLER_MOVEMENT_GIVER');
+
 UPDATE Units
 SET MandatoryObsoleteTech = NULL,
 	MandatoryObsoleteCivic = NULL,

@@ -8,9 +8,9 @@ function Get-ZylEraDurationSqlIssues {
 
     $issues = [System.Collections.Generic.List[string]]::new()
     $fixedEraDurations = [ordered]@{
-        'ERA_ANCIENT' = 50
+        'ERA_ANCIENT' = 48
         'ERA_CLASSICAL' = 46
-        'ERA_MEDIEVAL' = 46
+        'ERA_MEDIEVAL' = 44
         'ERA_RENAISSANCE' = 42
         'ERA_INDUSTRIAL' = 42
         'ERA_MODERN' = 40
@@ -69,7 +69,7 @@ function Get-ZylEraConfigurationContractIssues {
         $eraThresholdSource = Get-Content -Raw -LiteralPath $eraThresholdSqlPath
         foreach ($requiredEraThreshold in @(
                 "UPDATE GlobalParameters SET Value=20 WHERE Name='DARK_AGE_SCORE_BASE_THRESHOLD';",
-                "UPDATE GlobalParameters SET Value=25 WHERE Name='GOLDEN_AGE_SCORE_BASE_THRESHOLD';"
+                "UPDATE GlobalParameters SET Value=23 WHERE Name='GOLDEN_AGE_SCORE_BASE_THRESHOLD';"
             )) {
             if (-not $eraThresholdSource.Contains($requiredEraThreshold)) {
                 $issues.Add("The final era-threshold override is missing: $requiredEraThreshold")

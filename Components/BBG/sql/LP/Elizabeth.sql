@@ -63,3 +63,7 @@ INSERT INTO TraitModifiers (TraitType, ModifierId) VALUES
 --     ('BBG_ELIZABETH_TRADE_ROUTES_CITY_STATE_PROD', 'Amount', 1);
 -- INSERT INTO TraitModifiers (TraitType, ModifierId) VALUES
 --     ('TRAIT_LEADER_ELIZABETH', 'BBG_ELIZABETH_TRADE_ROUTES_CITY_STATE_PROD');
+
+-- 07/08/26 move Sea Dog to Elizabeth only
+INSERT INTO LeaderTraits (LeaderType, TraitType) VALUES
+    ('LEADER_ELIZABETH', 'TRAIT_CIVILIZATION_UNIT_ENGLISH_SEADOG');

@@ -442,7 +442,7 @@
         </Replace>
         <!-- = leader ability (English) = -->
         <Replace Tag="LOC_TRAIT_LEADER_ELEANOR_ENGLAND_LOYALTY_DESCRIPTION" Language="ko_KR">
-            <Text>도시의 극장가 건물 건설에 대한 [ICON_Production] 생산력 +100%를 제공합니다. 엘레오노르의 도시에 있는 각 걸작마다 9타일 내의 외국 타일에서 턴당 충성심 -1이 발생합니다. 충성심을 잃어 다른 문명을 떠났고 현재 엘레오노르의 문명에서 가장 많은 턴당 충성심을 얻고 있는 문명은 자유 도시 단계를 생략하고 이 문명에 합류할 수 있습니다.[NEWLINE][NEWLINE]걸작을 보유한 도시의 특수 지구 종류에 따라 걸작이 추가 산출을 ([ICON_GreatWork_Relic] 성유물 및 [ICON_GreatWork_Writing] 저서에 +1, [ICON_GreatWork_Religious][ICON_GreatWork_Sculpture][ICON_GreatWork_Portrait][ICON_GreatWork_Landscape] 예술품 및 [ICON_GreatWork_Artifact] 유물에 +2, [ICON_GreatWork_Music] 음악에 +4 만큼) 제공합니다:[NEWLINE][ICON_BULLET]캠퍼스에서 [ICON_SCIENCE] 과학.[NEWLINE][ICON_BULLET]극장가에서 [ICON_CULTURE] 문화.[NEWLINE][ICON_BULLET]상업 중심지 혹은 항만에서 [ICON_GOLD] 금.[NEWLINE][ICON_BULLET]성지에서 [ICON_FAITH] 신앙.[NEWLINE][ICON_BULLET]산업구역에서 [ICON_PRODUCTION] 생산력.[NEWLINE][ICON_BULLET]주택가에서 [ICON_FOOD] 식량.[NEWLINE][NEWLINE]더이상 걸작에 추가 산출을 주는 도시국가 보너스를 받을 수 없습니다.</Text>
+            <Text>도시의 극장가 건물 건설에 대한 [ICON_Production] 생산력 +100%를 제공합니다. 엘레오노르의 도시에 있는 각 걸작마다 9타일 내의 외국 타일에서 턴당 충성심 -1이 발생합니다. 충성심을 잃어 다른 문명을 떠났고 현재 엘레오노르의 문명에서 가장 많은 턴당 충성심을 얻고 있는 문명은 자유 도시 단계를 생략하고 이 문명에 합류할 수 있습니다.[NEWLINE][NEWLINE]걸작을 보유한 도시의 특수 지구 종류에 따라 걸작이 추가 산출을 ([ICON_GreatWork_Relic] 성유물 및 [ICON_GreatWork_Writing] 저서에 +1, [ICON_GreatWork_Religious][ICON_GreatWork_Sculpture][ICON_GreatWork_Portrait][ICON_GreatWork_Landscape] 예술품 및 [ICON_GreatWork_Artifact] 유물에 +2, [ICON_GreatWork_Music] 음악에 +4 만큼) 제공합니다:[NEWLINE][ICON_BULLET]캠퍼스에서 [ICON_SCIENCE] 과학.[NEWLINE][ICON_BULLET]극장가에서 [ICON_CULTURE] 문화.[NEWLINE][ICON_BULLET]상업 중심지 혹은 항만에서 [ICON_GOLD] 금.[NEWLINE][ICON_BULLET]성지에서 [ICON_FAITH] 신앙.[NEWLINE][ICON_BULLET]산업구역에서 [ICON_PRODUCTION] 생산력.[NEWLINE][ICON_BULLET]주택가에서 [ICON_FOOD] 식량.[NEWLINE][NEWLINE]더이상 걸작에 추가 산출을 주는 도시국가 보너스를 받을 수 없습니다.[NEWLINE]도시에 등대 혹은 사원 건물이 건설된 경우 [ICON_GreatWriter] 위대한 작가 점수 +1점을 얻습니다.</Text>
         </Replace>
         <!-- = leader ability (French) = -->
         <Replace Tag="LOC_TRAIT_LEADER_ELEANOR_FRANCE_LOYALTY_DESCRIPTION" Language="ko_KR">
@@ -465,14 +465,23 @@
         <Replace Tag="LOC_TRAIT_CIVILIZATION_PAX_BRITANNICA_EXPANSION2_DESCRIPTION" Language="ko_KR">
             <Text>[ICON_Capital] 수도에서 10타일 이상 떨어진 곳에 도시를 건설하거나 점령할 때마다 무료 근접 유닛을 획득합니다. 영국 해군 기지창을 건설하면 생산할 수 있는 가장 강한 해상 유닛을 획득합니다. [NEWLINE]해상 근접 유닛과 대형을 이룬 유닛이 호위 유닛의 [ICON_Movement] 이동 속도를 상속받습니다. 군사 과학 기술을 연구하면 특유의 레드코트 유닛을 생산할 수 있습니다.[NEWLINE]등대 건물이 있을 시 [ICON_GreatAdmiral] 위대한 제독 점수 +1점을 추가로 얻습니다.</Text>
         </Replace>
+        <Row Tag="LOC_BBG_ABILITY_AOE_MELEE_NAVAL_ESCORT_CIVILIANS_DESC" Language="ko_KR">
+            <Text>민간 유닛을 더 빠른 [ICON_MOVEMENT] 이동 속도로 호위할 수 있습니다.</Text>
+        </Row>
         <!-- = leader ability (Victoria - Age of Steam) = -->
         <Replace Tag="LOC_TRAIT_LEADER_VICTORIA_ALT_DESCRIPTION" Language="ko_KR">
             <Text>산업구역 특수지구 내 건물에 대한 [ICON_PRODUCTION] 생산력이 +20% 증가합니다. 해당 도시가 보유한 공장 및 발전소마다 도시 [ICON_PRODUCTION] 생산력이 +5% 증가합니다. [ICON_POWER] 전력 공급이 4 이상이 되면 건물들은 추가 생산량을 제공합니다. [NEWLINE]산업구역 특수지구는 인접한 영국 해군 기지창마다 [ICON_PRODUCTION] 생산력 +1의 인접 보너스를 획득합니다. 등대 건물이 있을 시 [ICON_GreatEngineer] 위대한 기술자 점수 +1점을 추가로 얻습니다.</Text>
         </Replace>
+        <Row Tag="LOC_BBG_AOS_ADJENCY_IZ_RND_DESC" Language="ko_KR">
+            <Text>인접한 영국 해군 기지창마다 [ICON_PRODUCTION] 생산력 +{1_num}.</Text>
+        </Row>
         <!-- = leader ability (Elizabeth) = -->
         <Replace Tag="LOC_TRAIT_LEADER_ELIZABETH_DESCRIPTION" Language="ko_KR">
             <Text>조선 기술을 연구하거나 탐험, 중상주의 사회 제도를 보유하면 [ICON_TradeRoute] 교역로 최대치가 각각 1만큼 증가합니다. 도시 국가와 연결된 [ICON_TradeRoute] 교역로는 교역 시작 도시의 [ICON_DISTRICT] 전문 특수지구마다 [ICON_GOLD] 금 +3을 제공합니다. [NEWLINE][NEWLINE]해상 유닛을 통한 [ICON_TradeRoute] 교역로 약탈시 획득하는 [ICON_GOLD] 금이 +100% 증가합니다. 모든 해상 습격 유닛이 [ICON_Movement] 이동력 +1과 시야 +1을 얻으며, [ICON_Promotion] 진급시킬 때 해당 유닛의 턴이 끝나지 않습니다.</Text>
         </Replace>
+        <Row Tag="LOC_BBG_ABILITY_ELISABETH_RAIDER_MOVE_PROMOTE_ATTACK_DESC" Language="ko_KR">
+            <Text>같은 턴에 진급하고 공격할 수 있습니다.</Text>
+        </Row>
         <!-- = unique unit = -->
         <Replace Tag="LOC_UNIT_ENGLISH_REDCOAT_DESCRIPTION" Language="ko_KR">
             <Text>전열보병을 대체하는 빅토리아가 지도자일 때의 영국 특유의 산업 시대 유닛입니다. 플레이어 수도가 위치한 대륙이 아닌 타 대륙에서 전투 시 [ICON_Strength] 전투력 +5를 획득합니다. 유닛 하선에 대한 별도 이동력이 소모되지 않습니다.</Text>
@@ -2689,7 +2698,7 @@
         </Row>
         <!-- == Monumentality == -->
         <Replace Tag="LOC_MOMENT_CATEGORY_INFRASTRUCTURE_BONUS_GOLDEN_AGE" Language="ko_KR">
-            <Text>기념비성 황금기:[NEWLINE]모든 건설자에 [ICON_Movement] 이동력 +2를 제공합니다.[ICON_Faith] 신앙으로 민간 유닛을 구입할 수 있습니다. [ICON_FAITH] 신앙 및 [ICON_GOLD] 금을 통한 건설자와 개척자 구입 비용이 10% 더 낮습니다.</Text>
+            <Text>기념비성 황금기:[NEWLINE]모든 건설자에 [ICON_Movement] 이동력 +1을 제공합니다.[ICON_Faith] 신앙으로 민간 유닛을 구입할 수 있습니다. [ICON_FAITH] 신앙 및 [ICON_GOLD] 금을 통한 건설자와 개척자 구입 비용이 20% 더 낮습니다.</Text>
         </Replace>
         <!--<Replace Tag="LOC_MOMENT_CATEGORY_INFRASTRUCTURE_BONUS_NORMAL_AGE" Language="ko_KR">
             <Text>기념비성 집중 전략 보너스:[NEWLINE]새로운 전문 특수지구를 지을 때마다 시대 점수 +1을 획득합니다.</Text>
@@ -2698,7 +2707,7 @@
             <Text>기념비성 집중 전략 보너스:[NEWLINE]새로운 전문 특수지구를 지을 때마다 시대 점수 +1을 획득합니다.</Text>
         </Replace>-->
         <Replace Tag="LOC_PEDIA_CONCEPTS_PAGE_DEDICATIONS_CHAPTER_CONTENT_PARA_5" Language="ko_KR">
-            <Text>기념비성: 새로운 전문 특수지구를 건설할 때마다 시대 점수 +1을 얻습니다. 황금기 시작 시점에서 선택하면: 모든 건설자가 [ICON_Movement] 이동력 +2를 얻습니다. [ICON_Faith] 신앙으로 민간 유닛을 구입할 수 있습니다. 건설자 및 개척자를 [ICON_FAITH] 신앙 및 [ICON_GOLD] 금으로 구매할 경우 비용이 10% 감소합니다. 고전 시대에서 르네상스 시대까지.</Text>
+            <Text>기념비성: 새로운 전문 특수지구를 건설할 때마다 시대 점수 +1을 얻습니다. 황금기 시작 시점에서 선택하면: 모든 건설자가 [ICON_Movement] 이동력 +1을 얻습니다. [ICON_Faith] 신앙으로 민간 유닛을 구입할 수 있습니다. 건설자 및 개척자를 [ICON_FAITH] 신앙 및 [ICON_GOLD] 금으로 구매할 경우 비용이 20% 감소합니다. 고전 시대에서 르네상스 시대까지.</Text>
         </Replace>
         <!-- == Hic Sunt Dracones == -->
         <Replace Tag="LOC_MOMENT_CATEGORY_EXPLORATION_BONUS_GOLDEN_AGE" Language="ko_KR">

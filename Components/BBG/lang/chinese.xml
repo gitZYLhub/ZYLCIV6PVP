@@ -45,10 +45,10 @@
 		</Row>= -->
 		<!-- = leader ability (Abraham Lincoln)= -->
 		<Replace Tag="LOC_TRAIT_LEADER_LINCOLN_DESCRIPTION" Language="zh_Hans_CN">
-			<Text>建造工业区、水渠时+100% [ICON_PRODUCTION] 生产力。工业区+2 [ICON_Amenities] 宜居度。建造工业区和其建筑后获得1个免费近战单位。免费单位的生成或维护不需要资源。</Text>
+			<Text>建造工业区、水渠时+100% [ICON_PRODUCTION] 生产力。工业区+2 [ICON_Amenities] 宜居度。工作坊+2 [ICON_CULTURE] 文化值；工厂和发电站+3 [ICON_SCIENCE] 科技值。建造工业区和其建筑后获得1个免费近战单位。免费单位的生成或维护不需要资源。</Text>
 		</Replace>
 		<Replace Tag="LOC_TRAIT_LEADER_LINCOLN_EXPANSION_DESCRIPTION" Language="zh_Hans_CN">
-			<Text>建造工业区、水渠时+100% [ICON_PRODUCTION] 生产力。工业区+2 [ICON_Amenities] 宜居度，+3每回合忠诚度，但种植园-2每回合忠诚度。[NEWLINE][NEWLINE]建造工业区和其建筑后获得1个免费近战单位。免费单位的生成或维护不需要资源。</Text>
+			<Text>建造工业区、水渠时+100% [ICON_PRODUCTION] 生产力。工业区+2 [ICON_Amenities] 宜居度，+3每回合忠诚度。工作坊+2 [ICON_CULTURE] 文化值；工厂和发电站+3 [ICON_SCIENCE] 科技值。种植园-2每回合忠诚度。[NEWLINE][NEWLINE]建造工业区和其建筑后获得1个免费近战单位。免费单位的生成或维护不需要资源。</Text>
 		</Replace>
 		<Row Tag="LOC_ABILITY_LINCOLN_MELEE_UNITS_COMBAT_DESCRIPTION" Language="zh_Hans_CN">
 			<Text>+5 [ICON_Strength] 战斗力 (解放黑奴宣言)</Text>
@@ -461,7 +461,7 @@
 		<!-- == ENGLAND == -->
 		<!-- = civilization ability = -->
 		<Replace Tag="LOC_TRAIT_CIVILIZATION_INDUSTRIAL_REVOLUTION_DESCRIPTION" Language="zh_Hans_CN"> <!-- charges icon -->
-			<Text>每回合从矿山收集的 [ICON_RESOURCE_IRON] 铁与 [ICON_RESOURCE_COAL] 煤额外增加2点。港口建筑使战略资源储备+10（标准速度下）。生产军事工程师时+100% [ICON_PRODUCTION] 生产力。军事工程师+2 [ICON_Charges] 建造次数。[NEWLINE][NEWLINE][ICON_BULLET]出生地关联：T1海岸、T5铁、T5煤。</Text>
+			<Text>[ICON_RESOURCE_IRON] 铁矿和 [ICON_RESOURCE_COAL] 煤矿每回合额外提供2点对应资源。[NEWLINE]港口建筑使战略资源储备上限+10（联机速度下）。[NEWLINE][NEWLINE]生产军事工程师时+100% [ICON_PRODUCTION] 生产力，且军事工程师获得额外2次 [ICON_CHARGES] 劳动力次数。需要 [ICON_POWER] 电力提供额外产出的建筑，其额外产出+3。[NEWLINE][NEWLINE]出生地关联：T1海岸、T5铁、煤。</Text>
 		</Replace>
 		<!-- = leader ability = -->
 		<!-- = leader ability (Victoria Age of Empire) = -->
@@ -476,7 +476,7 @@
 		</Replace>
 		<!-- = leader ability (Victoria Age of Steam) = -->
 		<Replace Tag="LOC_TRAIT_LEADER_VICTORIA_ALT_DESCRIPTION" Language="zh_Hans_CN">
-			<Text>城市中每有一座工厂或发电厂，便+5% [ICON_PRODUCTION] 生产力。建造工业区建筑时+20% [ICON_PRODUCTION] 生产力。拥有电力供给时，建筑的额外产出+4。[NEWLINE][NEWLINE]拥有灯塔的城市+1 [ICON_GreatEngineer] 大工程师点数。工业区从皇家海军船坞获得标准相邻加成。</Text>
+			<Text>建造工业区建筑时+20% [ICON_PRODUCTION] 生产力。[NEWLINE]城市中每有一座工厂和发电厂提供+5% [ICON_PRODUCTION] 生产力。[NEWLINE]工业区从皇家海军船坞获得标准相邻加成。[NEWLINE]所有已改良战略资源+1 [ICON_PRODUCTION] 生产力。[NEWLINE][NEWLINE]灯塔提供+1 [ICON_GREATENGINEER] 大工程师点数。</Text>
 		</Replace>
 		<Replace Tag="LOC_BBG_AOS_ADJENCY_IZ_RND_DESC" Language="zh_Hans_CN">
 			<Text>+{1_num} [ICON_PRODUCTION] 生产力，来自相邻皇家海军船坞</Text>
@@ -491,6 +491,9 @@
 		<!-- = unique unit = -->
 		<Replace Tag="LOC_UNIT_ENGLISH_REDCOAT_DESCRIPTION" Language="zh_Hans_CN">
 			<Text>维多利亚作为领袖时的工业时代英国特色单位，替代线列步兵。在非首都所处大陆作战时+5 [ICON_Strength] 战斗力。下船不消耗移动力。</Text>
+		</Replace>
+		<Replace Tag="LOC_UNIT_ENGLISH_SEADOG_DESCRIPTION" Language="zh_Hans_CN">
+			<Text>伊丽莎白一世文艺复兴时代特色海军袭击者单位，替代私掠船。[NEWLINE][NEWLINE]基础 [ICON_STRENGTH] 战斗力+3。[NEWLINE]击杀敌方海军单位时有几率将其俘获。[NEWLINE]除非与敌方单位相邻，否则只能被其他海军袭击者发现。能够揭露视野内的敌方海军袭击者。</Text>
 		</Replace>
 		<!-- = unique district = -->
 		<Replace Tag="LOC_DISTRICT_ROYAL_NAVY_DOCKYARD_DESCRIPTION" Language="zh_Hans_CN">
@@ -604,10 +607,10 @@
 		</Replace>
 		<!-- = unique building = -->
 		<Replace Tag="LOC_BUILDING_TSIKHE_DESCRIPTION" Language="zh_Hans_CN">
-			<Text>格鲁吉亚特色建筑，取代远古城墙，并拥有更强的外部防御力。获得“保护地球”市政后提供+1点 [ICON_TOURISM] 旅游业绩。提供+4 [ICON_Faith] 信仰值、+1 [ICON_Culture] 文化值。进入 [ICON_GLORY_GOLDEN_AGE] 黄金或 [ICON_GLORY_SUPER_GOLDEN_AGE] 英雄时代后额外+3 [ICON_Faith] 信仰值、+100% [ICON_TOURISM] 旅游业绩。</Text>
+			<Text>格鲁吉亚特色建筑，取代远古城墙，并拥有更强的外部防御力。获得“保护地球”市政后提供+1点 [ICON_TOURISM] 旅游业绩。提供+2 [ICON_Faith] 信仰值、+1 [ICON_Culture] 文化值和每回合+1 [ICON_GREATPROPHET] 大预言家点数。进入 [ICON_GLORY_GOLDEN_AGE] 黄金或 [ICON_GLORY_SUPER_GOLDEN_AGE] 英雄时代后额外+3 [ICON_Faith] 信仰值、+100% [ICON_TOURISM] 旅游业绩。</Text>
 		</Replace>
 		<Replace Tag="LOC_BUILDING_TSIKHE_DESCRIPTION_XP2" Language="zh_Hans_CN">
-			<Text>格鲁吉亚特色建筑，取代远古城墙，并拥有更强的外部防御力。获得“保护地球”市政后提供+1点 [ICON_TOURISM] 旅游业绩。提供+4 [ICON_Faith] 信仰值、+1 [ICON_Culture] 文化值。进入 [ICON_GLORY_GOLDEN_AGE] 黄金或 [ICON_GLORY_SUPER_GOLDEN_AGE] 英雄时代后额外+3 [ICON_Faith] 信仰值、+100% [ICON_TOURISM] 旅游业绩。</Text>
+			<Text>格鲁吉亚特色建筑，取代远古城墙，并拥有更强的外部防御力。获得“保护地球”市政后提供+1点 [ICON_TOURISM] 旅游业绩。提供+2 [ICON_Faith] 信仰值、+1 [ICON_Culture] 文化值和每回合+1 [ICON_GREATPROPHET] 大预言家点数。进入 [ICON_GLORY_GOLDEN_AGE] 黄金或 [ICON_GLORY_SUPER_GOLDEN_AGE] 英雄时代后额外+3 [ICON_Faith] 信仰值、+100% [ICON_TOURISM] 旅游业绩。</Text>
 		</Replace>
 
 		<!-- == GERMANY == -->
@@ -617,7 +620,10 @@
 		</Replace>
 		<!-- = leader ability (Frederick Barbarossa) = -->
 		<Replace Tag="LOC_TRAIT_LEADER_HOLY_ROMAN_EMPEROR_DESCRIPTION" Language="zh_Hans_CN"> <!-- add icon -->
-			<Text>每种 [ICON_Government] 政体可获得一个额外的军事政策槽位。攻击城邦时，+7 [ICON_Strength] 战斗力。</Text>
+			<Text>每种 [ICON_Government] 政体可获得一个额外的军事政策槽位。对抗城邦与文明特色单位时，+7 [ICON_Strength] 战斗力。</Text>
+		</Replace>
+		<Replace Tag="LOC_PROMOTION_COMBAT_VS_CITY_STATES_DESCRIPTION" Language="zh_Hans_CN">
+			<Text>+7 [ICON_Strength] 战斗力（神圣罗马皇帝，对抗城邦与文明特色单位）。</Text>
 		</Replace>
 		<!-- = leader ability (Ludwig II) = -->
 		<Replace Tag="LOC_TRAIT_LEADER_LUDWIG_DESCRIPTION" Language="zh_Hans_CN">
@@ -2571,10 +2577,10 @@
 
 		<!-- == Monumentality == -->
 		<Replace Tag="LOC_MOMENT_CATEGORY_INFRASTRUCTURE_BONUS_GOLDEN_AGE" Language="zh_Hans_CN">
-			<Text>“雄伟壮丽”黄金时代：[NEWLINE]所有建造者+2 [ICON_Movement] 移动力。可用 [ICON_Faith] 信仰值购买平民单位。用 [ICON_FAITH] 信仰值和 [ICON_GOLD] 金币购买建造者和开拓者的费用降低10%。</Text>
+			<Text>“雄伟壮丽”黄金时代：[NEWLINE]所有建造者+1 [ICON_Movement] 移动力。可用 [ICON_Faith] 信仰值购买平民单位。用 [ICON_FAITH] 信仰值和 [ICON_GOLD] 金币购买建造者和开拓者的费用降低20%。</Text>
 		</Replace>
 		<Replace Tag="LOC_PEDIA_CONCEPTS_PAGE_DEDICATIONS_CHAPTER_CONTENT_PARA_5" Language="zh_Hans_CN">
-			<Text>“雄伟壮丽”：每修建1座新特色区域则+1时代得分。在黄金时代开始时选择此着力点后，所有建造者+2 [ICON_Movement] 移动力。可用 [ICON_Faith] 信仰值购买平民单位。用 [ICON_FAITH] 信仰值和 [ICON_GOLD] 金币购买建造者和开拓者的费用降低10%。可在古典和中世纪时代中选择。</Text>
+			<Text>“雄伟壮丽”：每修建1座新特色区域则+1时代得分。在黄金时代开始时选择此着力点后，所有建造者+1 [ICON_Movement] 移动力。可用 [ICON_Faith] 信仰值购买平民单位。用 [ICON_FAITH] 信仰值和 [ICON_GOLD] 金币购买建造者和开拓者的费用降低20%。可在古典和中世纪时代中选择。</Text>
 		</Replace>
 
 		<!-- == Hic Sunt Dracones == -->

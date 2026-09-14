@@ -469,7 +469,7 @@
 		<!-- == ENGLAND - ENGLAND == -->
 		<!-- = Civilization ability - Zivilisationsfähigkeit (Werkstatt der Welt) = -->
 		<Replace Tag="LOC_TRAIT_CIVILIZATION_INDUSTRIAL_REVOLUTION_DESCRIPTION" Language="de_DE">
-			<Text>+2 [ICON_RESOURCE_IRON] Eisen pro [ICON_TURN] Runde für jede [ICON_RESOURCE_IRON] "Eisen-Mine".[NEWLINE][NEWLINE]+2 [ICON_RESOURCE_COAL] Kohle pro [ICON_TURN] Runde für jede [ICON_RESOURCE_COAL] "Kohle-Mine".[NEWLINE][NEWLINE]Jedes [ICON_BUILDINGS] Gebäude im [ICON_DISTRICT_HARBOR] "Royal-Navy-Werft"-Bezirk erhöht das Vorratslager für Strategische-Ressourcen um +5 (Online-Geschwindigkeit).[NEWLINE][NEWLINE]+100% [ICON_PRODUCTION] Produktion für "Militärpioniere".[NEWLINE][NEWLINE]+2 [ICON_CHARGES] Ladungen für "Militärpioniere".[NEWLINE][NEWLINE][ICON_BULLETGLOW] Startbedingungen: T1 Küstenfelder; T5 [ICON_RESOURCE_IRON] Eisen, [ICON_RESOURCE_COAL] Kohle.</Text>
+			<Text>+2 [ICON_RESOURCE_IRON] Eisen pro [ICON_TURN] Runde für jede [ICON_RESOURCE_IRON] "Eisen-Mine".[NEWLINE][NEWLINE]+2 [ICON_RESOURCE_COAL] Kohle pro [ICON_TURN] Runde für jede [ICON_RESOURCE_COAL] "Kohle-Mine".[NEWLINE][NEWLINE]Jedes [ICON_BUILDINGS] Gebäude im [ICON_DISTRICT_HARBOR] "Royal-Navy-Werft"-Bezirk erhöht das Vorratslager für Strategische-Ressourcen um +5 (Online-Geschwindigkeit).[NEWLINE][NEWLINE]+100% [ICON_PRODUCTION] Produktion für "Militärpioniere".[NEWLINE][NEWLINE]+2 [ICON_CHARGES] Ladungen für "Militärpioniere".[NEWLINE][NEWLINE]+3 Erträge für [ICON_BUILDINGS] Gebäude, die mit [ICON_POWER] Energie versorgt werden.[NEWLINE][NEWLINE][ICON_BULLETGLOW] Startbedingungen: T1 Küstenfelder; T5 [ICON_RESOURCE_IRON] Eisen, [ICON_RESOURCE_COAL] Kohle.</Text>
 		</Replace>
 		<!-- = Leader ability - Führerfähigkeit (Victoria, Age of Empire - Victoria, Imperiales Zeitalter - Pax Britannica) = -->
 		<Replace Tag="LOC_TRAIT_CIVILIZATION_PAX_BRITANNICA_EXPANSION2_DESCRIPTION" Language="de_DE">
@@ -480,21 +480,21 @@
 		</Replace>
 		<!-- = Leader ability - Führerfähigkeit (Victoria Age of Steam - Victoria, Zeitalter des Dampfes - Dampfzeitalter) = -->
 		<Replace Tag="LOC_TRAIT_LEADER_VICTORIA_ALT_DESCRIPTION" Language="de_DE">
-			<Text>+1 [ICON_GREATENGINEER] Großer Ingenieur-Punkte pro [ICON_TURN] Runde für jeden "Leuchtturm".[NEWLINE][NEWLINE]+20% [ICON_PRODUCTION] Produktion für den Bau von [ICON_BUILDINGS] Gebäuden in [ICON_DISTRICT_INDUSTRIAL_ZONE] Industriegebiet-Bezirken.[NEWLINE][NEWLINE]+5% [ICON_PRODUCTION] Produktion in [ICON_DISTRICT_CITY_CENTER] Städten mit einer "Fabrik".[NEWLINE][NEWLINE]+5% [ICON_PRODUCTION] Produktion in [ICON_DISTRICT_CITY_CENTER] Städten mit einem "Kraftwerk" (beliebige Art).[NEWLINE][NEWLINE][ICON_BUILDINGS] Gebäude, die zusätzliche Erträge liefern, wenn sie mit [ICON_POWER] Energie versorgt werden, erhalten zusätzlich +4 dieses Ertrags.[NEWLINE][NEWLINE]+1 [ICON_PRODUCTION] Produktion für [ICON_DISTRICT_INDUSTRIAL_ZONE] Industriegebiet-Bezirke, durch jedes angrenzende [ICON_DISTRICT_HARBOR] "Royal-Navy-Werft"-Bezirk.</Text>
+			<Text>+20% [ICON_PRODUCTION] Produktion für den Bau von [ICON_BUILDINGS] Gebäuden in [ICON_DISTRICT_INDUSTRIAL_ZONE] Industriegebiet-Bezirken.[NEWLINE][NEWLINE]+5% [ICON_PRODUCTION] Produktion in [ICON_DISTRICT_CITY_CENTER] Städten für jede "Fabrik" und jedes "Kraftwerk".[NEWLINE][NEWLINE]+1 [ICON_PRODUCTION] Produktion für [ICON_DISTRICT_INDUSTRIAL_ZONE] Industriegebiet-Bezirke, durch jedes angrenzende [ICON_DISTRICT_HARBOR] "Royal-Navy-Werft"-Bezirk.[NEWLINE][NEWLINE]+1 [ICON_GREATENGINEER] Großer Ingenieur-Punkte pro [ICON_TURN] Runde für jeden "Leuchtturm".[NEWLINE][NEWLINE]+1 [ICON_PRODUCTION] Produktion für alle modernisierten strategischen Ressourcen.</Text>
 		</Replace>
 		<Replace Tag="LOC_BBG_AOS_ADJENCY_IZ_RND_DESC" Language="de_DE">
 			<Text>+{1_num} [ICON_PRODUCTION] Produktion pro angrenzendes [ICON_DISTRICT_HARBOR] "Royal-Navy-Werft"-Bezirk (Zeitalter des Dampfes).</Text>
 		</Replace>
 		<!-- = Leader ability - Führerfähigkeit (Elizabeth I. - Drakes Vermächtnis) = -->
 		<Replace Tag="LOC_TRAIT_LEADER_ELIZABETH_DESCRIPTION" Language="de_DE">
-			<Text>Jeweils +1 [ICON_TradeRoute] Handelswege-Kapazität nach Erforschung der Technologie "Schiffsbau", der Ausrichtung "Entdeckung" und der Ausrichtung "Merkantilismus".[NEWLINE][NEWLINE]Von deinen [ICON_DISTRICT_CITY_CENTER] Städten ausgehende [ICON_TradeRoute] Handelswege zu Stadtstaaten, gewähren +3 [ICON_GOLD] Gold durch jeden Spezial-[ICON_DISTRICT] Bezirk in der Ausgangs-[ICON_DISTRICT_CITY_CENTER] Stadt.[NEWLINE][NEWLINE]+1 [ICON_MOVEMENT] Bewegung und +1 [ICON_VisSecret] Sicht für Marine-Räuber-[ICON_UNIT] Einheiten.[NEWLINE][NEWLINE]Marine-Räuber-[ICON_UNIT] Einheiten können nach der [ICON_PROMOTION] Beförderung, weiterhin Aktionen durchführen.[NEWLINE][NEWLINE]+100% [ICON_GOLD] Gold durch [ICON_PILLAGED] Plünderungen von [ICON_TradeRoute] Handelswegen mit Marine-[ICON_UNIT] Einheiten.</Text>
+			<Text>Jeweils +1 [ICON_TradeRoute] Handelswege-Kapazität nach Erforschung der Technologie "Schiffsbau", der Ausrichtung "Entdeckung" und der Ausrichtung "Merkantilismus".[NEWLINE][NEWLINE]Von deinen [ICON_DISTRICT_CITY_CENTER] Städten ausgehende [ICON_TradeRoute] Handelswege zu Stadtstaaten, gewähren +3 [ICON_GOLD] Gold durch jeden Spezial-[ICON_DISTRICT] Bezirk in der Ausgangs-[ICON_DISTRICT_CITY_CENTER] Stadt.[NEWLINE][NEWLINE]+1 [ICON_MOVEMENT] Bewegung und +1 [ICON_VisSecret] Sicht für Marine-Räuber-[ICON_UNIT] Einheiten.[NEWLINE][NEWLINE]Marine-Räuber-[ICON_UNIT] Einheiten können nach der [ICON_PROMOTION] Beförderung, weiterhin Aktionen durchführen.[NEWLINE][NEWLINE]+100% [ICON_GOLD] Gold durch [ICON_PILLAGED] Plünderungen von [ICON_TradeRoute] Handelswegen mit Marine-[ICON_UNIT] Einheiten.[NEWLINE][NEWLINE]Kann die einzigartige [ICON_UNIT] Einheit "Sea Dog", nach Erforschung der Ausrichtung "Erkundung", rekrutieren.</Text>
 		</Replace>
 		<Replace Tag="LOC_BBG_ABILITY_ELISABETH_RAIDER_MOVE_PROMOTE_ATTACK_DESC" Language="de_DE">
 			<Text>Kann trotz [ICON_PROMOTION] Beförderung, weiterhin Aktionen durchführen.</Text>
 		</Replace>
 		<!-- = Unique unit - Einzigartige Einheit (Sea Dog) = -->
 		<Replace Tag="LOC_UNIT_ENGLISH_SEADOG_DESCRIPTION" Language="de_DE">
-			<Text>Diese Marine-Räuber-[ICON_UNIT] Einheit der Renaissance ist einzigartig für England, wird nach Erforschung der Ausrichtung "Erkundung" freigeschaltet, ersetzt den "Freibeuter", gewährt dessen Boni und zusätzlich:[NEWLINE][NEWLINE]• +3 Grund-[ICON_STRENGTH] Kampfstärke.[NEWLINE]• Hat nach einem militärischen Sieg eine Chance, die besiegte Marine-[ICON_UNIT] Einheit zu kontrollieren.[NEWLINE]• Kann [ICON_PILLAGED] Küstenraubzüge durchführen.[NEWLINE]• [ICON_VisSecret] Unsichtbar, außer für Marine-Räuber-, "Zerstörer"- oder direkt angrenzende [ICON_UNIT] Einheiten.[NEWLINE]• Enthüllt getarnte [ICON_UNIT] Einheiten im [ICON_VisSecret] Sichtbereich.[NEWLINE]• Ignoriert die gegnerische Kontrollzone.</Text>
+			<Text>Diese Marine-Räuber-[ICON_UNIT] Einheit der Renaissance ist einzigartig für Elizabeth I von England, wird nach Erforschung der Ausrichtung "Erkundung" freigeschaltet, ersetzt den "Freibeuter", gewährt dessen Boni und zusätzlich:[NEWLINE][NEWLINE]• +3 Grund-[ICON_STRENGTH] Kampfstärke.[NEWLINE]• Hat nach einem militärischen Sieg eine Chance, die besiegte Marine-[ICON_UNIT] Einheit zu kontrollieren.[NEWLINE]• Kann [ICON_PILLAGED] Küstenraubzüge durchführen.[NEWLINE]• [ICON_VisSecret] Unsichtbar, außer für Marine-Räuber-, "Zerstörer"- oder direkt angrenzende [ICON_UNIT] Einheiten.[NEWLINE]• Enthüllt getarnte [ICON_UNIT] Einheiten im [ICON_VisSecret] Sichtbereich.[NEWLINE]• Ignoriert die gegnerische Kontrollzone.</Text>
 		</Replace>
 		<!-- = Unique unit - Einzigartige Einheit (Rotrock) = -->
 		<Replace Tag="LOC_UNIT_ENGLISH_REDCOAT_DESCRIPTION" Language="de_DE">
@@ -4561,7 +4561,7 @@
 			<Text>Monumentalität</Text>
 		</Replace>
 		<Replace Tag="LOC_MOMENT_CATEGORY_INFRASTRUCTURE_BONUS_GOLDEN_AGE" Language="de_DE">
-			<Text>Goldenes Zeitalter "Monumentalität":[NEWLINE]Ermöglicht den Kauf von Zivil-[ICON_UNIT] Einheiten mit [ICON_FAITH] Glauben; "Siedler" und "Handwerker" kosten -10% [ICON_FAITH] Glauben und [ICON_GOLD] Gold; +2 [ICON_MOVEMENT] Bewegung für "Handwerker".</Text>
+			<Text>Goldenes Zeitalter "Monumentalität":[NEWLINE]Ermöglicht den Kauf von Zivil-[ICON_UNIT] Einheiten mit [ICON_FAITH] Glauben; "Siedler" und "Handwerker" kosten -20% [ICON_FAITH] Glauben und [ICON_GOLD] Gold; +1 [ICON_MOVEMENT] Bewegung für "Handwerker".</Text>
 		</Replace>
 		<Replace Tag="LOC_MOMENT_CATEGORY_INFRASTRUCTURE_BONUS_NORMAL_AGE" Language="de_DE">
 			<Text>Normales Zeitalter "Monumentalität":[NEWLINE]+1 Zeitalterpunkt für jeden neu gebauten Spezial-[ICON_DISTRICT] Bezirk.</Text>
@@ -4570,7 +4570,7 @@
 			<Text>Dunkles Zeitalter "Monumentalität":[NEWLINE]+1 Zeitalterpunkt für jeden neu gebauten Spezial-[ICON_DISTRICT] Bezirk.</Text>
 		</Replace>
 		<Replace Tag="LOC_PEDIA_CONCEPTS_PAGE_DEDICATIONS_CHAPTER_CONTENT_PARA_5" Language="de_DE">
-			<Text>"Monumentalität":[NEWLINE]+1 Zeitalterpunkt für jeden neu gebauten Spezial-[ICON_DISTRICT] Bezirk.[NEWLINE]Wenn zu Beginn eines Goldenen Zeitalters gewählt:[NEWLINE]Ermöglicht den Kauf von Zivil-[ICON_UNIT] Einheiten mit [ICON_FAITH] Glauben; "Siedler" und "Handwerker" kosten -10% [ICON_FAITH] Glauben und [ICON_GOLD] Gold; +2 [ICON_MOVEMENT] Bewegung für "Handwerker".</Text>
+			<Text>"Monumentalität":[NEWLINE]+1 Zeitalterpunkt für jeden neu gebauten Spezial-[ICON_DISTRICT] Bezirk.[NEWLINE]Wenn zu Beginn eines Goldenen Zeitalters gewählt:[NEWLINE]Ermöglicht den Kauf von Zivil-[ICON_UNIT] Einheiten mit [ICON_FAITH] Glauben; "Siedler" und "Handwerker" kosten -20% [ICON_FAITH] Glauben und [ICON_GOLD] Gold; +1 [ICON_MOVEMENT] Bewegung für "Handwerker".</Text>
 		</Replace>
 		
 		<!-- == HIC SUNT DRACONES (Hier ist der Drache) == -->

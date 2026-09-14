@@ -25,6 +25,9 @@ UPDATE ModifierArguments SET Value='50' WHERE Name='Amount' AND ModifierId IN (
 -- Limes doesn't Obsolete
 DELETE FROM ObsoletePolicies WHERE PolicyType='POLICY_LIMES';
 
+-- Retainers remains available permanently; remove the vanilla replacement by Propaganda.
+DELETE FROM ObsoletePolicies WHERE PolicyType='POLICY_RETAINERS';
+
 -- Move infantry card
 UPDATE Policies SET PrereqCivic='CIVIC_MOBILIZATION' WHERE PolicyType='POLICY_MILITARY_FIRST';
 

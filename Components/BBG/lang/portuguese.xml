@@ -3967,7 +3967,7 @@
 			<Text>Monumentalidade</Text>
 		</Replace>
 		<Replace Tag="LOC_MOMENT_CATEGORY_INFRASTRUCTURE_BONUS_GOLDEN_AGE" Language="pt_BR">
-			<Text>Era de Ouro "Monumentalidade":[NEWLINE][ICON_MOVEMENT] PM +2 para todos os Construtores. Permite comprar unidades civis com [ICON_FAITH] Fé. O custo de [ICON_FAITH] Fé e [ICON_GOLD] Ouro para Construtores e Colonos é reduzido em 10%.</Text>
+			<Text>Era de Ouro "Monumentalidade":[NEWLINE][ICON_MOVEMENT] PM +1 para todos os Construtores. Permite comprar unidades civis com [ICON_FAITH] Fé. O custo de [ICON_FAITH] Fé e [ICON_GOLD] Ouro para Construtores e Colonos é reduzido em 20%.</Text>
 		</Replace>
 		<Replace Tag="LOC_MOMENT_CATEGORY_INFRASTRUCTURE_BONUS_NORMAL_AGE" Language="pt_BR">
 			<Text>Bônus de Dedicação "Monumentalidade":[NEWLINE]Pontos de Era +1 sempre que você construir um novo [ICON_DISTRICT] Distrito especializado.</Text>
@@ -3976,7 +3976,7 @@
 			<Text>Bônus de Dedicação "Monumentalidade":[NEWLINE]Pontos de Era +1 sempre que você construir um novo [ICON_DISTRICT] Distrito especializado.</Text>
 		</Replace>
 		<Replace Tag="LOC_PEDIA_CONCEPTS_PAGE_DEDICATIONS_CHAPTER_CONTENT_PARA_5" Language="pt_BR">
-			<Text>"Monumentalidade": pontos de Era +1 sempre que você construir um novo [ICON_DISTRICT] Distrito especializado. Escolhido no início de uma Era de Ouro, [ICON_MOVEMENT] PM +2 para todos os Construtores. Permite comprar unidades civis com [ICON_FAITH] Fé. O custo de [ICON_GOLD] Ouro e [ICON_FAITH] Fé para Construtores e Colonos é reduzido em 10%.</Text>
+			<Text>"Monumentalidade": pontos de Era +1 sempre que você construir um novo [ICON_DISTRICT] Distrito especializado. Escolhido no início de uma Era de Ouro, [ICON_MOVEMENT] PM +1 para todos os Construtores. Permite comprar unidades civis com [ICON_FAITH] Fé. O custo de [ICON_GOLD] Ouro e [ICON_FAITH] Fé para Construtores e Colonos é reduzido em 20%.</Text>
         </Replace>
 		<!-- == Hic Sunt Dracones == -->
 		<Replace Tag="LOC_MOMENT_CATEGORY_EXPLORATION" Language="pt_BR">

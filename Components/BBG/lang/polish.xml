@@ -419,7 +419,7 @@
 			<Text>Hic Sunt Dracones – złota era:[NEWLINE]+3 do początkowej [ICON_Citizen] populacji miast zakładanych na kontynencie innym niż ten, na którym znajduje się twoje pierwsze miasto. +2 do [ICON_MOVEMENT] ruchu morskich i zaokrętowanych jednostek. +2 do lojalności na turę w miastach na kontynencie innym niż ten, na którym znajduje się twoja [ICON_CAPITAL] stolica.</Text>
 		</Replace>
 		<Replace Tag="LOC_MOMENT_CATEGORY_INFRASTRUCTURE_BONUS_GOLDEN_AGE" Language="pl_PL">
-			<Text>Monumentalność – złota era:[NEWLINE]+2 do [ICON_MOVEMENT] ruchu wszystkich jednostek budowniczych. Możliwość zakupu jednostek cywilnych za [ICON_FAITH] wiarę. Jednostki budowniczych i osadników kosztują o 10% mniej [ICON_FAITH] wiary i [ICON_GOLD] złota.</Text>
+			<Text>Monumentalność – złota era:[NEWLINE]+1 do [ICON_MOVEMENT] ruchu wszystkich jednostek budowniczych. Możliwość zakupu jednostek cywilnych za [ICON_FAITH] wiarę. Jednostki budowniczych i osadników kosztują o 20% mniej [ICON_FAITH] wiary i [ICON_GOLD] złota.</Text>
 		</Replace>
 		<Replace Tag="LOC_MOMENT_CATEGORY_MILITARY_BONUS_GOLDEN_AGE" Language="pl_PL">
 			<Text>Do broni! – złota era:[NEWLINE]Daje dostęp do specjalnego casus belli, który zapewnia o 75% mniej generowanych [ICON_STAT_GRIEVANCE] uraz niż wojna formalna i może zostać wykorzystany natychmiast po potępieniu celu. +15% do [ICON_PRODUCTION] produkcji jednostek wojskowych. +10 [ICON_Strength] przeciwko miastom.</Text>
@@ -428,7 +428,7 @@
 			<Text>Pióro, pędzel i głos – zapewniają +1 punkt epoki za każdą wykorzystaną [ICON_CivicBoosted] inspirację oraz +1 punkt epoki za wzniesienie budowli z miejscem na wielkie dzieło. Wybrane na początku złotej ery sprawiają, że inspiracje obniżają koszty idei o dodatkowe 10%. Wszystkie miasta otrzymują +2 do [ICON_CULTURE] Kultury i +1 do [ICON_Gold] Złota za każdą wyspecjalizowaną dzielnicę. Epoka klasyczna i średniowiecze.</Text>
 		</Replace>
 		<Replace Tag="LOC_PEDIA_CONCEPTS_PAGE_DEDICATIONS_CHAPTER_CONTENT_PARA_5" Language="pl_PL">
-			<Text>Monumentalność – zapewnia +1 punkt epoki za każdą nową wyspecjalizowaną dzielnicę. Wybrana na początku złotej ery daje +2 do [ICON_MOVEMENT] ruchu wszystkich jednostek budowniczych. Możliwość zakupu jednostek cywilnych za [ICON_FAITH] wiarę. Jednostki budowniczych i osadników kosztują o 10% mniej [ICON_FAITH] wiary i [ICON_GOLD] złota. Od epoki klasycznej po renesans.</Text>
+			<Text>Monumentalność – zapewnia +1 punkt epoki za każdą nową wyspecjalizowaną dzielnicę. Wybrana na początku złotej ery daje +1 do [ICON_MOVEMENT] ruchu wszystkich jednostek budowniczych. Możliwość zakupu jednostek cywilnych za [ICON_FAITH] wiarę. Jednostki budowniczych i osadników kosztują o 20% mniej [ICON_FAITH] wiary i [ICON_GOLD] złota. Od epoki klasycznej po renesans.</Text>
 		</Replace>
 		<Replace Tag="LOC_PEDIA_CONCEPTS_PAGE_DEDICATIONS_CHAPTER_CONTENT_PARA_6" Language="pl_PL">
 			<Text>Hic Sunt Dracones – zapewnia +3 punkty epoki za każdy odkryty kontynent lub cud natury oraz +1 punkt epoki za każdą zabitą w walce jednostkę morską nienależącą do barbarzyńców. Wybrane na początku złotej ery dodaje +3 do początkowej [ICON_Citizen] populacji nowych miast. +2 do [ICON_MOVEMENT] ruchu morskich i zaokrętowanych jednostek. +2 do lojalności na turę w miastach na kontynencie innym niż ten, na którym znajduje się twoja [ICON_CAPITAL] stolica. Od renesansu po współczesność.</Text>

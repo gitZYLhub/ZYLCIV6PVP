@@ -487,3 +487,17 @@ INSERT OR IGNORE INTO RequirementArguments (RequirementId , Name , Value)
 INSERT OR IGNORE INTO RequirementArguments (RequirementId , Name , Value)
     VALUES ('REQUIRES_BELIEF_RELIGIOUS_COLONIZATION_CPLMOD' , 'BeliefType' , 'BELIEF_RELIGIOUS_COLONIZATION');
 
+-- Identify civilization unique units for leader combat requirements.
+INSERT INTO Tags (Tag, Vocabulary)
+VALUES ('CLASS_UNIQUE_UNIT', 'ABILITY_CLASS');
+
+INSERT INTO TypeTags (Type, Tag)
+SELECT UnitType, 'CLASS_UNIQUE_UNIT' FROM Units WHERE TraitType is not null;
+
+INSERT INTO Requirements (RequirementId, RequirementType) VALUES
+    ('BBG_UTILS_UNIT_IS_UNIQUE', 'REQUIREMENT_UNIT_TAG_MATCHES'),
+    ('BBG_UTILS_OPPONENT_UNIT_IS_UNIQUE', 'REQUIREMENT_OPPONENT_UNIT_TAG_MATCHES');
+
+INSERT INTO RequirementArguments (RequirementId, Name, Value) VALUES
+    ('BBG_UTILS_UNIT_IS_UNIQUE', 'Tag', 'CLASS_UNIQUE_UNIT'),
+    ('BBG_UTILS_OPPONENT_UNIT_IS_UNIQUE', 'Tag', 'CLASS_UNIQUE_UNIT');

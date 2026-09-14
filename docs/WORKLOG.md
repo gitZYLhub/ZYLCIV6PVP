@@ -2,6 +2,43 @@
 
 本日志记录重构过程、设计决定、验证证据和未解决风险。玩家可见更新另见根目录 `CHANGELOG.md`。
 
+### 2026-09-14 / 2.0.3 版本收口与发布
+
+- 目标：将当前工作区包含的 Georgia、Lincoln、Barbarossa、England 及其他已确认改动收口为 ZYLPVPMOD 2.0.3，并发布到远端新分支 `2.0.3`。
+- 范围：项目语义版本、ModInfo 整数版本、双语标题、多人握手、日志契约身份、当前发布文档，以及当前工作区已有的全部待发布修改；Mod ID 和 BBG 7.4.6 上游身份保持不变。
+- 修改：`tools/project.json` 升为 `2.0.3`/ModInfo `203`；重新计算四份日志/证据契约哈希；由 `assemble_modinfo.ps1` 同步 `ZYLPVPMOD.modinfo` 和 `data/MP_helper.lua`；将当前更新日志从“未发布”收口为 2.0.3，并同步 README、来源说明和验收清单。
+- 验证：`assemble_modinfo.ps1` 成功；`tools/validate.ps1` 通过（208 个 XML、110 个 Criteria、291 个动作、1084 个文件条目、556 个活跃引用、46 个休眠文件、118 个源码专用文件）；`git diff --check` 通过。
+- 风险/待办：尚未进行 Civilization VI 实机及双客户端联机验收；本次提交将包含工作区当前所有已确认修改。
+- 提交：本次 2.0.3 发布提交。
+
+### 2026-09-14 / 英国同步 BBG7.5（排除 Expanded 长弓手）
+
+- 修改 `Components/BBG/sql/Base/England.sql`：移除英国文明层海狗并将其限制给伊丽莎白；通电建筑额外产出统一为 +3。
+- 修改 `Components/BBG/sql/LP/Elizabeth.sql`：为伊丽莎白重新加入海狗特性。
+- 修改 `Components/BBG/sql/LP/VictoriaSteam.sql`：恢复蒸汽时代维多利亚对所有已改良战略资源 +1 生产力，并移除她独占的通电建筑额外产出。
+- 修改 `Components/BBG/sql/Base/Units.sql`：红衫军研究“制导系统”后强制过时；同步英国相关多语言说明。按要求未修改 BBG Expanded 的 `England_UU.sql`、Longbowman 文本和 MOAR Units 配置。
+- 契约：同步刷新 `manifest/database-write-set-contract.json`（`writeOperations=6411`、`tables=224`）与 `manifest/database-primary-key-contract.json`（`rowCandidates=6899`、`insertReplaceOperations=4400`）；INSERT-SELECT 契约保持不变。
+- 验证：`tools/validate.ps1` 与 `git diff --check` 通过（208 个 XML、110 个 Criteria、291 个动作、1084 个文件条目、556 个活跃引用、46 个休眠文件、118 个源码专用文件）；未进行 Civilization VI 实机验证。
+
+### 2026-09-14 / 巴巴罗萨特色单位战斗力加成
+
+- 修改 `Components/BBG/sql/_utils.sql`：新增 `CLASS_UNIQUE_UNIT` 标签，并为文明特色单位建立对手单位要求。
+- 修改 `Components/BBG/sql/Base/Germany.sql`：将 `BARBAROSSA_COMBAT_BONUS_VS_CITY_STATES` 的要求集扩展为“城邦或文明特色单位”，同步更新 BBG 英文、简体中文及 ZYL 后置简中说明。
+- 同步更新 `CHANGELOG.md`；未改变巴巴罗萨的汉萨相邻加成、虎式坦克数值或德国额外区域解锁节点。
+- 验证：`tools/validate.ps1` 与 `git diff --check` 通过；数据库写入契约同步至 `writeOperations=6403`，主键契约同步至 `rowCandidates=6888`，INSERT-SELECT 契约同步至 `statements=379`；未进行 Civilization VI 实机验证。
+
+### 2026-09-14 / 林肯建筑产出调整
+
+- 修改 `Components/BBG/sql/LP/lp_america_lincoln.sql`：为林肯领袖特性新增工作坊 +2 文化、工厂以及燃煤、燃油、核电发电站各 +3 科技。
+- 同步更新 BBG 英文、中文及 ZYL 后置简中覆盖层中的领袖说明、`CHANGELOG.md` 和数据库契约；只针对这五种标准建筑，不扩大到其他工业区建筑。
+- 验证：`tools/validate.ps1` 与 `git diff --check` 通过；主键契约同步至 `rowCandidates=6898`，写集合和 INSERT-SELECT 语义指纹保持不变；未进行 Civilization VI 实机验证。
+
+### 2026-09-14 / 格鲁吉亚 Tsikhe 调整
+
+- 修改 `Components/BBG/sql/XP1/Georgia.sql`：解锁科技改为采矿业，生产成本改为 90，基础信仰改为 2，并新增每回合 1 点大预言家点数；黄金/英雄时代额外信仰保持 3。
+- 同步更新 BBG 英文、中文和 ZYL 简体中文覆盖层中的 Tsikhe 描述，以及根目录 `CHANGELOG.md`。
+- 验证：`tools/validate.ps1` 与 `git diff --check` 通过；数据库写入契约同步至 `writeOperations=6393`，主键分析同步至 `rowCandidates=6865`；未进行 Civilization VI 实机验证。
+
 ### 2026-09-06 / M0-冻结 1.3.0 基线
 
 - 目标：保存可恢复的重构前版本，并保证原目录不再承载新改动。
@@ -1128,3 +1165,58 @@
 - 20 次出生点尝试仍失败时不接受 Firaxis 无约束兜底，而是标记待重生成；进入首回合前由房主刷新地图/游戏种子并通过现有联机重启握手自动重新生成地图。
 - 新增横向/环形配置与中英文选项文本，更新地图静态校验及数据库写集合、主键分析契约。`tools/validate.ps1` 通过（208 XML、110 Criteria、291 Actions、1084 Files、556 active references、46 dormant、122 source-only）。
 - 风险/待办：尚未进行 Civ VI 双客户端实机验收；应覆盖横向/环形 2～12 人、FFA/团队两种距离模式，以及失败后房主自动重开和客户端 Resync。
+
+### 2026-09-14 / M32-侍从政策卡永久保留
+
+- 目标：按用户要求，使「侍从」（`POLICY_RETAINERS`）解锁后不再因后续政策卡而失效。
+- 范围：BBG Base 政策数据库脚本、玩家更新日志与日志维护约定；不调整侍从本身的解锁市政或效果。
+- 设计决定：删除原版 `POLICY_RETAINERS → POLICY_PROPAGANDA` 的 `ObsoletePolicies` 关系；不删除其他政策卡的替代关系。
+- 修改：`Components/BBG/sql/Base/Policies.sql` 新增 `DELETE FROM ObsoletePolicies WHERE PolicyType='POLICY_RETAINERS'`；`CHANGELOG.md` 新增未发布条目；`docs/README.md` 固化后续玩家可见改动与更新日志同批同步约定。
+- 验证：`git diff --check` 通过；静态检索确认当前项目没有其他 `POLICY_RETAINERS` 过时关系写入；`tools/validate.ps1` 因既有 `database-insert-select` 契约指纹漂移而未通过（实际 `4690b6f8…`，期望 `01380d31…`），本次新增语句未触及该类分析；未进行 Civ VI 实机验证。
+- 风险/待办：现有 XP2 脚本中 `POLICY_RETINUES` 与游戏实际 `POLICY_RETAINERS` 的历史命名不一致，本次未扩大范围修复其资源效果问题；如需修复应另行记录并验证。
+- 提交：本地改动，尚未提交。
+
+### 2026-09-14 / M33-调整贸易与财富女神
+
+- 目标：按用户要求，将商业女神、贸易之神的贸易路线加成统一为金币，并放宽财富女神的奢侈品加成范围。
+- 范围：精选万神殿数据库效果、三语本地化、2.0 规格映射、验收清单与玩家更新日志；保留三项万神殿的其他效果不变。
+- 设计决定：保留现有万神殿修正器 ID 与财富女神历史需求集 ID，删除需求集中的商业中心相邻条件，以降低存档/数据库兼容风险；商业女神原有贸易路线信仰产出也一并改为金币。
+- 修改：`sql/ZYL_Pantheons.sql` 将商业女神、贸易之神贸易路线的 `YieldType` 改为 `YIELD_GOLD`，并移除财富女神奢侈资源加成的商业中心相邻需求；`lang/ZYL_Pantheons_Text.xml` 同步英文、简体中文、繁体中文说明；同步 `CHANGELOG.md`、`ZYLPVPMOD1.3.0修改大全.md`、`TEST_CHECKLIST.md`，并刷新 `manifest/database-primary-key-contract.json` 的合法分析基线（`rowCandidates` 6856→6855）。
+- 验证：XML 解析、目标 SQL/XML 静态断言和 `git diff --check` 通过；`tools/validate.ps1` 已识别本次主键基线更新，但仍因既有 `database-insert-select` 指纹漂移失败（实际 `4690b6f8…`，期望 `01380d31…`）；未进行 Civilization VI 实机验证。
+- 风险/待办：修正器 ID 中仍保留历史性的 `FAITH`/`PRODUCTION` 命名，但实际 `YieldType` 已为 `YIELD_GOLD`；如需彻底清理命名，应另行评估存档兼容性。
+- 提交：本地改动，尚未提交。
+
+### 2026-09-14 / M34-修复数据库写入契约漂移
+
+- 目标：修复 `tools/validate.ps1` 因 `database-insert-select` 契约指纹漂移而失败的问题。
+- 调查结论：`manifest/database-insert-select-contract.json` 的语句、结构和数量基线仍与当前分析一致（378 条语句、368 条主分析项），仅共享数据库分析器规范化后的语义指纹从 `01380d31…` 变为 `4690b6f8…`；此前新增的 3 条有意 SQL 写操作也使当前写集合从 6379 增至 6382。
+- 修改：刷新 `manifest/database-insert-select-contract.json` 的 `expectedAnalysisSha256`；刷新 `manifest/database-write-set-contract.json` 的当前分析指纹和 `writeOperations`，不放宽任何计数或结构约束。
+- 验证：`tools/validate.ps1` 通过（208 XML、110 criteria、291 actions、1084 listed files、556 active references、46 dormant、118 source-only）；此前的 `database-insert-select` 与后续 `database-write-set` 漂移均已消除。
+- 风险/待办：未进行 Civilization VI 实机验证；契约刷新仅同步当前已审阅源码，不改变运行时规则。
+- 提交：本地改动，尚未提交。
+
+### 2026-09-14 / M35-调整建造者移速与雄伟壮丽黄金时代
+
+- 目标：按用户要求，将建造者基础移速由 2 提高为 3；将“雄伟壮丽”黄金时代的建造者额外移速由 +2 调整为 +1，并将建造者和移民的信仰/金币购买折扣由 10% 提高为 20%。
+- 设计决定：只调整 `UNIT_BUILDER` 基础移速，不影响军事工程师；保留“雄伟壮丽”允许用信仰购买平民单位的能力。这样普通状态下建造者为 3 移动力，选择“雄伟壮丽”后为 4 移动力，黄金时代期间的总移速保持不变。
+- 修改：`Components/BBG/sql/Base/Units.sql` 新增 `UNIT_BUILDER` 的 `BaseMoves=3`；`Components/BBG/sql/XP1/Other_XP1_or_XP2.sql` 将 `COMMEMORATION_INFRASTRUCTURE_GA_MOVEMENT` 设为 1，并将建造者/移民购买折扣修正器设为 20；同步 BBG 英文、简体中文及其他已加载语言的雄伟壮丽黄金时代与百科说明；同步 `CHANGELOG.md`、`TEST_CHECKLIST.md` 与本规格文档。
+- 验证：目标 SQL/XML 静态检索确认基础值、黄金时代修正器、两项折扣和本地化数值一致；新增两条数据库写操作后刷新当前写入契约（`writeOperations` 6382→6384，指纹 `504d316e…`），`git diff --check` 与 `tools/validate.ps1` 均通过（208 XML、110 criteria、291 actions、1084 listed files、556 active references、46 dormant、118 source-only）；未进行 Civilization VI 实机验证。
+- 提交：本地改动，尚未提交。
+
+### 2026-09-14 / M36-祠堂新增开拓者移速
+
+- 目标：确认当前整合层中祠堂（`BUILDING_GOV_WIDE`，Ancestral Hall）的实际效果，并按用户要求为其增加开拓者 +1 移动力。
+- 当前基线：祠堂原有“本城生产开拓者时 +50% 生产力、所有新建城市免费获得 1 名建造者、+1 总督头衔”保持不变。
+- 设计决定：新增城市范围的 `MODIFIER_SINGLE_CITY_GRANT_ABILITY_FOR_TRAINED_UNITS`，只给建有祠堂的城市训练出的 `CLASS_SETTLER` 开拓者授予永久 `MODIFIER_PLAYER_UNIT_ADJUST_MOVEMENT` +1；不影响其他城市训练的开拓者，也不把效果扩大到建造者或已存在的开拓者。
+- 修改：`sql/ZYL_GameplayOverrides.sql` 新增祠堂专用能力、单位能力修正器与 `BuildingModifiers` 挂载；`lang/ZYL_GameplayOverrides_Text.xml` 同步祠堂完整说明及能力提示的英文、简体中文、繁体中文和其他已加载语言；同步 `CHANGELOG.md`、`TEST_CHECKLIST.md` 与本规格文档。
+- 验证：XML 解析、目标 SQL/XML 静态断言、`git diff --check` 与 `tools/validate.ps1` 均通过（208 XML、110 criteria、291 actions、1084 listed files、556 active references、46 dormant、118 source-only）；数据库写入契约刷新为 `writeOperations=6391`、指纹 `5aee15b4…`，主键契约刷新为 `rowCandidates=6864`、指纹 `919a2c8c…`，INSERT-SELECT 结构仍为 378 条且指纹刷新为 `f87e337d…`；未进行 Civilization VI 实机验证。
+- 提交：本地改动，尚未提交。
+
+### 2026-09-14 / M37-调整时代长度与黄金时代阈值
+
+- 目标：按用户要求缩短远古、中世纪时代，并进一步下调黄金时代基础阈值。
+- 范围：时代长度优化 SQL、黄金时代阈值 SQL、玩家可见说明、验收清单、静态校验基线、更新日志与工作日志；黑暗/普通时代基础阈值保持 20。
+- 设计决定：继续使用固定时代长度（最小值等于最大值）；标准速度远古/中世纪调整为 48/44 回合，联机速度由游戏速度换算为 24/22 回合；黄金时代基础阈值调整为 23，其他动态时代分数修正保持原规则。
+- 修改：更新 `sql/ZYL_EraLengthOptimization.sql`、`Components/BBG/sql/XP1/Other_XP1_or_XP2.sql`，并同步 `README.md`、`SOURCES.md`、`TEST_CHECKLIST.md`、`ZYLPVPMOD1.3.0修改大全.md`、中英文大厅选项文本和 `CHANGELOG.md`；同步时代长度/阈值静态校验函数及自测试夹具。
+- 验证：`git diff --check` 通过；`tools/validate.ps1` 通过（208 XML、110 criteria、291 actions、1084 listed files、556 active references、46 dormant、118 source-only）；未进行 Civilization VI 实机验证。
+- 提交：本地改动，尚未提交。

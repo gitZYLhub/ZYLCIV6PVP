@@ -432,7 +432,7 @@
     <!-- = civilization ability = -->
     <Replace Tag="LOC_TRAIT_CIVILIZATION_INDUSTRIAL_REVOLUTION_DESCRIPTION" Language="ja_JP">
       <!-- charges icon -->
-      <Text>[ICON_RESOURCE_IRON]鉄鉱山と[ICON_RESOURCE_COAL]石炭鉱山は毎ターン追加で2の資源を産出する。港の建造物1つにつき戦略資源の備蓄上限+10 (スピード標準において) 。工兵に対する [ICON_PRODUCTION] 生産力+100%。工兵の[ICON_Charges]労働力+2。</Text>
+      <Text>電力を用いる建造物（工場、研究所、放送センター、証券取引所、空港、ショッピングモール、食料市場）に電力が供給されている時、それぞれの産出が追加で+3。[NEWLINE][ICON_RESOURCE_IRON]鉄鉱山と[ICON_RESOURCE_COAL]石炭鉱山は毎ターン追加で2の資源を産出する。港の建造物1つにつき戦略資源の備蓄上限+10 (スピード標準において) 。[NEWLINE]工兵に対する [ICON_PRODUCTION] 生産力+100%。工兵の[ICON_Charges]労働力+2。</Text>
     </Replace>
 		<!-- = leader ability (Victoria - Age of Empire) = -->
 		<Replace Tag="LOC_TRAIT_LEADER_PAX_BRITANNICA_DESCRIPTION" Language="ja_JP">
@@ -446,14 +446,14 @@
     </Row>
     <!-- = leader ability (Victoria - Age of Steam) = -->
     <Replace Tag="LOC_TRAIT_LEADER_VICTORIA_ALT_DESCRIPTION" Language="ja_JP">
-      <Text>工場と発電所はそれぞれ都市に [ICON_Production] 生産力+5%をもたらす。工業地帯の建造物に対する [ICON_Production] 生産力+20%。[NEWLINE]灯台はターン毎に [ICON_Greatengineer] 大技術者ポイント+1をもたらす。王立海軍造船所は隣接する工業地帯に隣接ボーナスとして [ICON_Production] 生産力+1をもたらす。 [ICON_POWER] 電力が供給されると産出量が増える建造物の産出量+4。</Text>
+      <Text>工業地帯の建造物に対する[ICON_Production]生産力+20%。工場と発電所はそれぞれ都市に [ICON_Production] 生産力+5%をもたらす。改善された戦略資源から[ICON_Production]生産力+1。[NEWLINE]灯台はターン毎に [ICON_Greatengineer] 大技術者ポイント+1をもたらす。王立海軍造船所は隣接する工業地帯に隣接ボーナスとして [ICON_Production] 生産力+1をもたらす。</Text>
     </Replace>
     <Row Tag="LOC_BBG_AOS_ADJENCY_IZ_RND_DESC" Language="ja_JP">
       <Text>隣接する王立海軍造船所により工業地帯の [ICON_Production] 生産力+1(ヴィクトリア(蒸気の時代)の効果)。</Text>
     </Row>
     <!-- = leader ability (Elizabeth) = -->
     <Replace Tag="LOC_TRAIT_LEADER_ELIZABETH_DESCRIPTION" Language="ja_JP">
-      <Text>造船の技術、探検、重商主義の社会制度を発明すると [ICON_TradeRoute] 交易路最大本数+1。都市国家に向かう[ICON_TradeRoute]交易路は出発都市の専門区域1つにつき[ICON_GOLD]ゴールド+3。海軍ユニットで交易路を略奪する際[ICON_GOLD]ゴールド+100%。すべての海洋略奪ユニットは[ICON_Movement]移動力+1、視界+1、同じターンに昇進と移動を行える。</Text>
+      <Text>造船の技術、探検、重商主義の社会制度を発明すると [ICON_TradeRoute] 交易路最大本数+1。都市国家に向かう[ICON_TradeRoute]交易路は出発都市の専門区域1つにつき[ICON_GOLD]ゴールド+3。海軍ユニットで交易路を略奪する際[ICON_GOLD]ゴールド+100%。すべての海洋略奪ユニットは[ICON_Movement]移動力+1、視界+1、同じターンに昇進と移動を行える。[NEWLINE]探検の社会制度を完了すると固有ユニット「シードッグ」が解禁される。</Text>
     </Replace>
     <Row Tag="LOC_BBG_ABILITY_ELISABETH_RAIDER_MOVE_PROMOTE_ATTACK_DESC" Language="ja_JP">
       <Text>海洋略奪ユニットは同じターンに昇進と移動を行える(エリザベスの効果)。</Text>
@@ -2534,10 +2534,10 @@
 		</Row>
     <!-- == 不朽 == -->
 		<Replace Tag="LOC_MOMENT_CATEGORY_INFRASTRUCTURE_BONUS_GOLDEN_AGE" Language="ja_JP">
-			<Text>不朽 黄金時代:[NEWLINE]労働者の[ICON_Movement]移動力+2。文民ユニットを[ICON_Faith]信仰力で購入できるようになる。[ICON_FAITH]信仰力と[ICON_GOLD]ゴールドによる開拓者及び労働者の購入コスト-10%。</Text>
+			<Text>不朽 黄金時代:[NEWLINE]労働者の[ICON_Movement]移動力+1。文民ユニットを[ICON_Faith]信仰力で購入できるようになる。[ICON_FAITH]信仰力と[ICON_GOLD]ゴールドによる開拓者及び労働者の購入コスト-20%。</Text>
 		</Replace>
 		<Replace Tag="LOC_PEDIA_CONCEPTS_PAGE_DEDICATIONS_CHAPTER_CONTENT_PARA_5" Language="ja_JP">
-			<Text>不朽: 専門区域を建設するたびに時代スコア+1を獲得する。黄金時代時代の開始時に選択された場合、以下の効果を得る。労働者の[ICON_Movement]移動力+2。文民ユニットを[ICON_Faith]信仰力で購入できるようになる。[ICON_FAITH]信仰力と[ICON_GOLD]ゴールドによる開拓者及び労働者の購入コスト-10%。</Text>
+			<Text>不朽: 専門区域を建設するたびに時代スコア+1を獲得する。黄金時代時代の開始時に選択された場合、以下の効果を得る。労働者の[ICON_Movement]移動力+1。文民ユニットを[ICON_Faith]信仰力で購入できるようになる。[ICON_FAITH]信仰力と[ICON_GOLD]ゴールドによる開拓者及び労働者の購入コスト-20%。</Text>
 		</Replace>
     <!-- == 未知の領域(Hic Sunt) == -->
     <Replace Tag="LOC_MOMENT_CATEGORY_EXPLORATION_BONUS_GOLDEN_AGE" Language="ja_JP">

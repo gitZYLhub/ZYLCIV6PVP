@@ -1,10 +1,11 @@
 
 -- 04/07/24 England rework, remove the prod bonus on strategics
--- UPDATE ModifierArguments SET Value='1' WHERE ModifierId='VICTORIA_STRATEGIC_RESOURCE' AND Name='Amount';
--- -- 15/06/23 bonus production only working on improved resources
--- UPDATE Modifiers SET SubjectRequirementSetId='PLOT_HAS_STRATEGIC_IMPROVED_REQUIREMENTS' WHERE ModifierId='VICTORIA_STRATEGIC_RESOURCE';
+-- 07/08/26 restore production on improved strategic resources
+UPDATE ModifierArguments SET Value='1' WHERE ModifierId='VICTORIA_STRATEGIC_RESOURCE' AND Name='Amount';
+-- 15/06/23 bonus production only working on improved resources
+UPDATE Modifiers SET SubjectRequirementSetId='PLOT_HAS_STRATEGIC_IMPROVED_REQUIREMENTS' WHERE ModifierId='VICTORIA_STRATEGIC_RESOURCE';
 
-DELETE FROM TraitModifiers WHERE ModifierId='VICTORIA_STRATEGIC_RESOURCE';
+-- DELETE FROM TraitModifiers WHERE ModifierId='VICTORIA_STRATEGIC_RESOURCE';
 
 -- 15/06/23 remove production bonus with workshop
 DELETE FROM Modifiers WHERE ModifierId='VICTORIA_PRODUCTION_WORKSHOP';
@@ -41,4 +42,5 @@ INSERT INTO TraitModifiers(TraitType, ModifierId) VALUES
 
 
 -- 13/04/25 powered building bonus moved from England bonus to Steam
-UPDATE TraitModifiers SET TraitType='TRAIT_LEADER_VICTORIA_ALT' WHERE ModifierId LIKE 'TRAIT_POWERED_BUILDINGS_MORE_%';
+-- 07/08/26 return powered building bonus to England
+-- UPDATE TraitModifiers SET TraitType='TRAIT_LEADER_VICTORIA_ALT' WHERE ModifierId LIKE 'TRAIT_POWERED_BUILDINGS_MORE_%';

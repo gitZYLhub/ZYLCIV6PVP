@@ -3071,7 +3071,7 @@
 
 		<!-- == Monumentality == -->
 		<Replace Tag="LOC_MOMENT_CATEGORY_INFRASTRUCTURE_BONUS_GOLDEN_AGE" Language="it_IT">
-			<Text>Monumentalità Età dell'oro:[NEWLINE]+2 al [ICON_Movement] movimento di tutti i Costruttori. È possibile acquistare unità civili in cambio di [ICON_Faith] Fede. L'acquisto di Costruttori e Coloni in cambio di [ICON_FAITH] Fede e [ICON_GOLD] Oro costa il 10% in meno.</Text>
+			<Text>Monumentalità Età dell'oro:[NEWLINE]+1 al [ICON_Movement] movimento di tutti i Costruttori. È possibile acquistare unità civili in cambio di [ICON_Faith] Fede. L'acquisto di Costruttori e Coloni in cambio di [ICON_FAITH] Fede e [ICON_GOLD] Oro costa il 20% in meno.</Text>
 		</Replace>
 		<Replace Tag="LOC_MOMENT_CATEGORY_INFRASTRUCTURE_BONUS_NORMAL_AGE" Language="it_IT">
 			<Text>Monumentalità Età normale:[NEWLINE]Guadagni +1 Punteggio Epoca ogni volta che costruisci un nuovo [ICON_DISTRICT] distretto specializzato.</Text>
@@ -3080,7 +3080,7 @@
 			<Text>Monumentalità Età oscura:[NEWLINE]Guadagni +1 Punteggio Epoca ogni volta che costruisci un nuovo [ICON_DISTRICT] distretto specializzato.</Text>
 		</Replace>
 		<Replace Tag="LOC_PEDIA_CONCEPTS_PAGE_DEDICATIONS_CHAPTER_CONTENT_PARA_5" Language="it_IT">
-			<Text>Monumentalità: Guadagni +1 Punteggio Epoca ogni volta che costruisci un nuovo [ICON_DISTRICT] distretto specializzato. Se scelta all'inizio di un'Età dell'oro, +2 al [ICON_Movement] movimento di tutti i Costruttori. È possibile acquistare unità civili in cambio di [ICON_Faith] Fede. L'acquisto di Costruttori e Coloni in cambio di [ICON_FAITH] Fede e [ICON_GOLD] Oro costa il 10% in meno. Epoca classica e medievale.</Text>
+			<Text>Monumentalità: Guadagni +1 Punteggio Epoca ogni volta che costruisci un nuovo [ICON_DISTRICT] distretto specializzato. Se scelta all'inizio di un'Età dell'oro, +1 al [ICON_Movement] movimento di tutti i Costruttori. È possibile acquistare unità civili in cambio di [ICON_Faith] Fede. L'acquisto di Costruttori e Coloni in cambio di [ICON_FAITH] Fede e [ICON_GOLD] Oro costa il 20% in meno. Epoca classica e medievale.</Text>
 		</Replace>
 
 		<!-- == Hic Sunt Dracones == -->

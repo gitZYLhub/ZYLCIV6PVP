@@ -67,9 +67,10 @@ INSERT INTO CommemorationModifiers(CommemorationType, ModifierId)
 	FROM Resources WHERE ResourceType IN ('RESOURCE_NITER', 'RESOURCE_OIL', 'RESOURCE_COAL');
 
 
--- Monumentality discount reduced from 30% to 10%
-UPDATE ModifierArguments SET Value='10' WHERE ModifierId='COMMEMORATION_INFRASTRUCTURE_BUILDER_DISCOUNT_MODIFIER' AND Name='Amount';
-UPDATE ModifierArguments SET Value='10' WHERE ModifierId='COMMEMORATION_INFRASTRUCTURE_SETTLER_DISCOUNT_MODIFIER' AND Name='Amount';
+-- 14/09/26 Monumentality: Builders gain +1 additional movement and Builder/Settler purchase discount is 20%.
+UPDATE ModifierArguments SET Value='1' WHERE ModifierId='COMMEMORATION_INFRASTRUCTURE_GA_MOVEMENT' AND Name='Amount';
+UPDATE ModifierArguments SET Value='20' WHERE ModifierId='COMMEMORATION_INFRASTRUCTURE_BUILDER_DISCOUNT_MODIFIER' AND Name='Amount';
+UPDATE ModifierArguments SET Value='20' WHERE ModifierId='COMMEMORATION_INFRASTRUCTURE_SETTLER_DISCOUNT_MODIFIER' AND Name='Amount';
 -- Pen and Brush gives +2 Culture and +1 Gold per District
 INSERT OR IGNORE INTO Modifiers (ModifierId , ModifierType , OwnerRequirementSetId)
     VALUES ('COMMEMORATION_CULTURAL_DISTRICTGOLD' , 'MODIFIER_PLAYER_CITIES_ADJUST_CITY_YIELD_PER_DISTRICT' , 'PLAYER_HAS_GOLDEN_AGE');
@@ -359,6 +360,6 @@ UPDATE Districts SET Cost=30 WHERE DistrictType IN ('DISTRICT_IKANDA', 'DISTRICT
 --=======================================================================
 --******                          AGES                             ******
 --=======================================================================
--- Era thresholds: make the Dark/Normal boundary 20 and the Golden boundary 25.
+-- Era thresholds: make the Dark/Normal boundary 20 and the Golden boundary 23.
 UPDATE GlobalParameters SET Value=20 WHERE Name='DARK_AGE_SCORE_BASE_THRESHOLD';
-UPDATE GlobalParameters SET Value=25 WHERE Name='GOLDEN_AGE_SCORE_BASE_THRESHOLD';
+UPDATE GlobalParameters SET Value=23 WHERE Name='GOLDEN_AGE_SCORE_BASE_THRESHOLD';
