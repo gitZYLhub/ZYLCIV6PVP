@@ -444,7 +444,7 @@ function Get-ZylModCreatedTableSchemas {
         if (@($sourceFile.operations | Where-Object operation -eq 'create-table').Count -eq 0) {
             continue
         }
-        $source = Get-Content -LiteralPath (Join-Path $ProjectRoot $sourceFile.path) -Raw
+        $source = Get-ZylUtf8TextFile -Path (Join-Path $ProjectRoot $sourceFile.path)
         foreach ($statement in @(Split-ZylSqlStatements -Source $source)) {
             $operations = @(Get-ZylSqlWriteOperations -Source $statement.text)
             if ($operations.Count -ne 1 -or $operations[0].operation -ne 'create-table') {
@@ -588,7 +588,7 @@ function Get-ZylDatabasePrimaryKeyAnalysis {
             ))
         $operationIndex = 0
         if ($sourceFile.format -eq 'sql') {
-            $source = Get-Content -LiteralPath (Join-Path $ProjectRoot $sourceFile.path) -Raw
+            $source = Get-ZylUtf8TextFile -Path (Join-Path $ProjectRoot $sourceFile.path)
             foreach ($statement in @(Split-ZylSqlStatements -Source $source)) {
                 $classified = @(Get-ZylSqlWriteOperations -Source $statement.text)
                 if ($classified.Count -ne 1 -or

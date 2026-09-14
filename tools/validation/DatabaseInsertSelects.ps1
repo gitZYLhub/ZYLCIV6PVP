@@ -290,7 +290,7 @@ function Get-ZylDatabaseInsertSelectAnalysis {
         $criteria = @(Get-ZylOrdinalSortedUniqueStrings -Values @(
                 $sourceFile.references | ForEach-Object { $_.criteria }
             ))
-        $source = Get-Content -LiteralPath (Join-Path $ProjectRoot $sourceFile.path) -Raw
+        $source = Get-ZylUtf8TextFile -Path (Join-Path $ProjectRoot $sourceFile.path)
         $operationIndex = 0
         foreach ($statement in @(Split-ZylSqlStatements -Source $source)) {
             $writes = @(Get-ZylSqlWriteOperations -Source $statement.text)

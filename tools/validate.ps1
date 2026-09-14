@@ -426,6 +426,36 @@ if ($databaseSqlFixtureSummary -ne $expectedDatabaseSqlFixtureSummary -or
     Add-ValidationError 'Database write-set scanner failed its SQL/XML positive/negative self-test.'
 }
 
+$databaseLineEndingFixture = @'
+INSERT INTO TraitModifiers (TraitType, ModifierId)
+SELECT TraitType, 'FIXTURE' FROM CivilizationTraits;
+'@
+$databaseLineEndingFixtureCrlf = $databaseLineEndingFixture.Replace("`n", "`r`n")
+$databaseLineEndingFixtureMixed = $databaseLineEndingFixtureCrlf.Replace(
+    "`r`nSELECT",
+    "`nSELECT"
+)
+$databaseLineEndingHashes = @(
+    foreach ($databaseLineEndingVariant in @(
+            $databaseLineEndingFixture,
+            $databaseLineEndingFixtureCrlf,
+            $databaseLineEndingFixtureMixed
+        )) {
+        $databaseLineEndingOperations = @(Get-ZylSqlWriteOperations -Source $databaseLineEndingVariant)
+        if ($databaseLineEndingOperations.Count -ne 1) {
+            ''
+        }
+        else {
+            [string]$databaseLineEndingOperations[0].statementSha256
+        }
+    }
+)
+if ($databaseLineEndingHashes.Count -ne 3 -or
+        [string]::IsNullOrWhiteSpace($databaseLineEndingHashes[0]) -or
+        @($databaseLineEndingHashes | Select-Object -Unique).Count -ne 1) {
+    Add-ValidationError 'Database SQL fingerprint must be stable across LF, CRLF and mixed line endings.'
+}
+
 $databasePrimaryKeySqlFixture = ConvertFrom-ZylSqlInsertStatement -Statement @'
 INSERT OR REPLACE INTO Modifiers (ModifierId, ModifierType, RunOnce)
 VALUES ('A,1', 'TYPE_A', 0), ('B', 'TYPE_B', COALESCE(1, 0))

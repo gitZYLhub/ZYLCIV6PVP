@@ -1,3 +1,35 @@
+<#
+Database contracts must be independent of the local Git worktree filters.
+Tracked text is canonical LF in the index, but an existing checkout may still
+contain CRLF or mixed line endings while Git reports it clean. Read SQL as
+strict UTF-8 and canonicalize line endings before parsing and hashing.
+#>
+function ConvertTo-ZylLfText {
+    param(
+        [Parameter(Mandatory = $true)]
+        [AllowEmptyString()]
+        [string]$Text
+    )
+
+    return $Text.Replace("`r`n", "`n").Replace("`r", "`n")
+}
+
+function Get-ZylUtf8TextFile {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string]$Path
+    )
+
+    $strictUtf8 = [System.Text.UTF8Encoding]::new($false, $true)
+    try {
+        $text = [System.IO.File]::ReadAllText($Path, $strictUtf8)
+    }
+    catch {
+        throw "UTF-8 source file could not be read: $Path ($($_.Exception.Message))"
+    }
+    return ConvertTo-ZylLfText -Text $text
+}
+
 function Get-ZylOrdinalSortedUniqueStrings {
     param(
         [AllowEmptyCollection()]
@@ -37,6 +69,7 @@ function Split-ZylSqlStatements {
         [string]$Source
     )
 
+    $Source = ConvertTo-ZylLfText -Text $Source
     $statements = [System.Collections.Generic.List[object]]::new()
     $buffer = [System.Text.StringBuilder]::new()
     $state = 'normal'
@@ -235,7 +268,8 @@ function Get-ZylDatabaseStatementSha256 {
 
     $sha256 = [System.Security.Cryptography.SHA256]::Create()
     try {
-        $bytes = [System.Text.UTF8Encoding]::new($false).GetBytes($Statement.Trim())
+        $canonicalStatement = (ConvertTo-ZylLfText -Text $Statement).Trim()
+        $bytes = [System.Text.UTF8Encoding]::new($false).GetBytes($canonicalStatement)
         return ([System.BitConverter]::ToString(
             $sha256.ComputeHash($bytes)
         )).Replace('-', '').ToLowerInvariant()
@@ -524,7 +558,7 @@ function Get-ZylDatabaseWriteSetAnalysis {
         }
         elseif ($extension -eq '.sql') {
             $operations = @(Get-ZylSqlWriteOperations -Source (
-                Get-Content -LiteralPath $absolutePath -Raw
+                Get-ZylUtf8TextFile -Path $absolutePath
             ))
         }
         elseif ($extension -eq '.xml') {

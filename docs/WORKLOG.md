@@ -2,6 +2,15 @@
 
 本日志记录重构过程、设计决定、验证证据和未解决风险。玩家可见更新另见根目录 `CHANGELOG.md`。
 
+### 2026-09-14 / 修复跨设备数据库契约指纹不稳定
+
+- 目标：解决不同设备同步同一 Git 提交后，`database-insert-select` 契约指纹因本地行尾不同而反复漂移，保证发布校验和报告可复现。
+- 根因：Git 索引中的 SQL 为 LF，但既有工作树可能保留 CRLF/混合行尾；数据库分析器直接用 `Get-Content` 读取并对原始语句计算 SHA-256，且未显式固定 UTF-8。Git 可将这种工作树报告为 clean，因此仅修改契约值会把环境差异写进基线。
+- 修改：新增严格 UTF-8、LF 规范化读取器；SQL 分割和语句指纹统一规范化 CRLF/CR 为 LF；数据库写集合、主键和 INSERT-SELECT 分析统一使用该读取器；加入 LF、CRLF、混合行尾指纹相等的回归自测。
+- 验证：Windows PowerShell 5.1 与 PowerShell 7 的 `tools/validate.ps1` 均通过；两套环境生成的数据库报告逐字节一致，SHA-256 为 `4fe74e22…`；universal、Windows、macOS 发布包均重建成功。
+- 风险/待办：本次只修改开发期校验/报告工具和工作日志，不改变运行时 SQL/XML、ModInfo 或玩家可见规则；仍未进行 Civilization VI 实机及双客户端联机验收。
+- 提交：待提交。
+
 ### 2026-09-14 / 2.0.3 版本收口与发布
 
 - 目标：将当前工作区包含的 Georgia、Lincoln、Barbarossa、England 及其他已确认改动收口为 ZYLPVPMOD 2.0.3，并发布到远端新分支 `2.0.3`。
