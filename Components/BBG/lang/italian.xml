@@ -2723,7 +2723,7 @@
 			<Text>Una Meraviglia naturale che occupa tre caselle. Fornisce +4 [ICON_CULTURE] Cultura e +4 [ICON_Production] Produzione.</Text>
 		</Replace>
 		<Replace Tag="LOC_FEATURE_WHITEDESERT_DESCRIPTION" Language="it_IT">
-			<Text>Una Meraviglia naturale che occupa 4 caselle. Fornisce +2 [ICON_SCIENCE] Scienza, +2 [ICON_Culture] Cultura e +6 [ICON_GOLD] Oro.</Text>
+			<Text>Una Meraviglia naturale che occupa 4 caselle. Fornisce +1 [ICON_FOOD] Cibo, +2 [ICON_SCIENCE] Scienza, +2 [ICON_Culture] Cultura e +6 [ICON_GOLD] Oro.</Text>
 		</Replace>
 		<Replace Tag="LOC_FEATURE_CHOCOLATEHILLS_DESCRIPTION" Language="it_IT">
 			<Text>Una Meraviglia naturale che occupa quattro caselle. Considerata come collina. Fornisce +3 [ICON_Food] Cibo, +3 [ICON_Production] Produzione e +1 [ICON_Science] Scienza.</Text>

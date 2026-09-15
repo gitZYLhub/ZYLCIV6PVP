@@ -562,7 +562,7 @@
 			<Text>지브롤터 바위</Text>
 		</Replace>
 		<Replace Tag="LOC_FEATURE_GIBRALTAR_DESCRIPTION" Language="ko_KR">
-			<Text>1타일 통행 불가 자연경관. 인접한 타일에 +1 [ICON_FOOD] 식량과 +1 [ICON_GOLD] 금을 제공합니다.</Text>
+        <Text>1타일 통행 불가 자연경관. 인접한 타일에 +1 [ICON_PRODUCTION] 생산력, +1 [ICON_FOOD] 식량과 +1 [ICON_GOLD] 금을 제공합니다.</Text>
 		</Replace>
 		<Replace Tag="LOC_FEATURE_GIBRALTAR_QUOTE" Language="ko_KR">
 			<Text>"얘들아, 주위를 둘러보고 저 영광스러운 불빛에 비친 바위가 얼마나 아름다운지 보아라."[NEWLINE]- 조지 오거스터스 엘리엇</Text>

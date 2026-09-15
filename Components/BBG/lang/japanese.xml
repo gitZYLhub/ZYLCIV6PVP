@@ -2095,7 +2095,10 @@
 			<Text>3タイルにわたる自然遺産。各タイルから[ICON_CULTURE]文化力+4、[ICON_PRODUCTION]生産力+4。</Text>
 		</Replace>
 		<Replace Tag="LOC_FEATURE_WHITEDESERT_DESCRIPTION" Language="ja_JP">
-			<Text>4タイルにわたる自然遺産。各タイルから[ICON_SCIENCE]科学力+2、[ICON_CULTURE]文化力+2、[ICON_GOLD]ゴールド+6。</Text>
+			<Text>4タイルにわたる自然遺産。各タイルから[ICON_FOOD]食料+1、[ICON_SCIENCE]科学力+2、[ICON_CULTURE]文化力+2、[ICON_GOLD]ゴールド+6。</Text>
+		</Replace>
+		<Replace Tag="LOC_BUILDING_GREAT_BATH_DESCRIPTION" Language="ja_JP">
+			<Text>大浴場がある川沿いの氾濫原タイルは洪水の被害を受けなくなる（ただし洪水による[ICON_FOOD] 食料および[ICON_PRODUCTION] 生産力の増加量は50%減少）。この都市に属する氾濫原タイルは、洪水の被害を軽減するたびに[ICON_FAITH] 信仰力+1を獲得する。[NEWLINE]この都市の氾濫原タイルの[ICON_FOOD] 食料+1。[NEWLINE][NEWLINE]氾濫原タイルに建設する必要がある。</Text>
 		</Replace>
 		<Replace Tag="LOC_FEATURE_CHOCOLATEHILLS_DESCRIPTION" Language="ja_JP">
 			<Text>4タイルにわたる自然遺産。丘として見なされる。各タイルから[ICON_FOOD]食料+3、[ICON_PRODUCTION]生産力+3、[ICON_SCIENCE]科学力+1。</Text>

@@ -3826,7 +3826,7 @@
 		
 		<!-- = Weiße Wüste = -->
 		<Replace Tag="LOC_FEATURE_WHITEDESERT_DESCRIPTION" Language="de_DE">
-			<Text>Naturwunder auf 4 Feldern:[NEWLINE][NEWLINE]• Erscheint als Wüstenfeld auf Wüsten-, Wüstenhügel- oder Wüstenbergfeldern.[NEWLINE]• +6 [ICON_GOLD] Gold, +2 [ICON_SCIENCE] Wissenschaft und +2 [ICON_CULTURE] Kultur.[NEWLINE]• +2 Anziehungskraft für angrenzende Felder.</Text>
+			<Text>Naturwunder auf 4 Feldern:[NEWLINE][NEWLINE]• Erscheint als Wüstenfeld auf Wüsten-, Wüstenhügel- oder Wüstenbergfeldern.[NEWLINE]• +1 [ICON_FOOD] Nahrung.[NEWLINE]• +6 [ICON_GOLD] Gold, +2 [ICON_SCIENCE] Wissenschaft und +2 [ICON_CULTURE] Kultur.[NEWLINE]• +2 Anziehungskraft für angrenzende Felder.</Text>
 		</Replace>
 		
 		<!-- = Wulingyuan - BBM = -->
@@ -3850,7 +3850,7 @@
 		<!-- == SCIENCE WONDERS - WISSENSCHFTLICHE WELTWUNDER == -->
 		<!-- = Großes Bad = -->
 		<Replace Tag="LOC_BUILDING_GREAT_BATH_DESCRIPTION" Language="de_DE">
-			<Text>Dieses [ICON_DISTRICT_WONDER] Weltwunder der Antike wird nach Erforschung der Technologie "Keramik" freigeschaltet:[NEWLINE][NEWLINE]• +3 [ICON_HOUSING] Wohnraum.[NEWLINE]• +1 [ICON_AMENITIES] Annehmlichkeit.[NEWLINE]• Schwemmlandfelder entlang des Flusses mit dem "Großen Bad" sind jetzt immun gegen Schaden durch Überschwemmungen.[NEWLINE]• -50% Bonus-Erträge an [ICON_FOOD] Nahrung und [ICON_PRODUCTION] Produktion durch Überschwemmungen.[NEWLINE]• +1 [ICON_FAITH] Glauben für Schwemmlandfelder nach Überschwemmungen.[NEWLINE]• +1000 [ICON_TOURISM] Tourismus durch Rockkonzerte.[NEWLINE][NEWLINE]Muss auf einem Schwemmlandfeld gebaut werden.[NEWLINE][NEWLINE]Grundkosten:[NEWLINE]90 [ICON_PRODUCTION] Produktion (Online-Geschwindigkeit).</Text>
+			<Text>Dieses [ICON_DISTRICT_WONDER] Weltwunder der Antike wird nach Erforschung der Technologie "Keramik" freigeschaltet:[NEWLINE][NEWLINE]• +3 [ICON_HOUSING] Wohnraum.[NEWLINE]• +1 [ICON_AMENITIES] Annehmlichkeit.[NEWLINE]• Schwemmlandfelder entlang des Flusses mit dem "Großen Bad" sind jetzt immun gegen Schaden durch Überschwemmungen.[NEWLINE]• -50% Bonus-Erträge an [ICON_FOOD] Nahrung und [ICON_PRODUCTION] Produktion durch Überschwemmungen.[NEWLINE]• +1 [ICON_FAITH] Glauben für Schwemmlandfelder nach Überschwemmungen.[NEWLINE]• +1 [ICON_FOOD] Nahrung für Schwemmlandfelder dieser [ICON_DISTRICT_CITY_CENTER] Stadt.[NEWLINE]• +1000 [ICON_TOURISM] Tourismus durch Rockkonzerte.[NEWLINE][NEWLINE]Muss auf einem Schwemmlandfeld gebaut werden.[NEWLINE][NEWLINE]Grundkosten:[NEWLINE]90 [ICON_PRODUCTION] Produktion (Online-Geschwindigkeit).</Text>
 		</Replace>
 		<!-- = Stonehenge = -->
 		<Replace Tag="LOC_BUILDING_STONEHENGE_DESCRIPTION" Language="de_DE">
@@ -3945,7 +3945,7 @@
 		</Replace>
 		<!-- = Panamakanal = -->
 		<Replace Tag="LOC_BUILDING_PANAMA_CANAL_DESCRIPTION" Language="de_DE">
-			<Text>Dieses [ICON_DISTRICT_WONDER] Weltwunder des Industriezeitalters wird nach Erforschung der Technologie "Dampfmaschine" freigeschaltet:[NEWLINE][NEWLINE]• +10 [ICON_GOLD] Gold.[NEWLINE]• Es werden zusätzlich 1 oder 2 [ICON_DISTRICT_CANAL] Kanal-Bezirke in einer Reihe an das "Panamakanal"-Feld gebaut (das 1. neben dem "Panamakanal"-Feld, das 2. neben dem 1. Feld, sofern die Anforderungen erfüllt sind).[NEWLINE]• Marine-[ICON_UNIT] Einheiten können diese Felder überqueren.[NEWLINE]• [ICON_TRADEROUTE] Handelswege, die diese Felder überqueren, können das [ICON_GOLD] Gold vervielfachen, welches durch [ICON_DISTRICT] Bezirke der Ziel-[ICON_DISTRICT_CITY_CENTER] Stadt erhalten wird.[NEWLINE]• +1000 [ICON_TOURISM] Tourismus durch Rockkonzerte.[NEWLINE][NEWLINE]Muss auf 2 oder 3 flachen Land-Feldern, zwischen 2 Wasser- oder [ICON_DISTRICT_CITY_CENTER] Stadtzentrum-Feldern gebaut werden, die durch [ICON_DISTRICT_CANAL] Kanal-Bezirke verbunden werden können.[NEWLINE][NEWLINE]Grundkosten:[NEWLINE]460 [ICON_PRODUCTION] Produktion (Online-Geschwindigkeit).</Text>
+			<Text>Dieses [ICON_DISTRICT_WONDER] Weltwunder des Industriezeitalters wird nach Erforschung der Technologie "Industrialisierung" freigeschaltet:[NEWLINE][NEWLINE]• +10 [ICON_GOLD] Gold.[NEWLINE]• Es werden zusätzlich 1 oder 2 [ICON_DISTRICT_CANAL] Kanal-Bezirke in einer Reihe an das "Panamakanal"-Feld gebaut (das 1. neben dem "Panamakanal"-Feld, das 2. neben dem 1. Feld, sofern die Anforderungen erfüllt sind).[NEWLINE]• Marine-[ICON_UNIT] Einheiten können diese Felder überqueren.[NEWLINE]• [ICON_TRADEROUTE] Handelswege, die diese Felder überqueren, können das [ICON_GOLD] Gold vervielfachen, welches durch [ICON_DISTRICT] Bezirke der Ziel-[ICON_DISTRICT_CITY_CENTER] Stadt erhalten wird.[NEWLINE]• +1000 [ICON_TOURISM] Tourismus durch Rockkonzerte.[NEWLINE][NEWLINE]Muss auf 2 oder 3 flachen Land-Feldern, zwischen 2 Wasser- oder [ICON_DISTRICT_CITY_CENTER] Stadtzentrum-Feldern gebaut werden, die durch [ICON_DISTRICT_CANAL] Kanal-Bezirke verbunden werden können.[NEWLINE][NEWLINE]Grundkosten:[NEWLINE]460 [ICON_PRODUCTION] Produktion (Online-Geschwindigkeit).</Text>
 		</Replace>
 		<!-- = Parlamentsgebäude = -->
 		<Replace Tag="LOC_BUILDING_ORSZAGHAZ_DESCRIPTION" Language="de_DE">

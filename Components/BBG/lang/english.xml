@@ -2835,7 +2835,13 @@
 			<Text>Three tile natural wonder. It provides +4 [ICON_CULTURE] Culture and +4 [ICON_PRODUCTION] Production.</Text>
 		</Replace>
 		<Replace Tag="LOC_FEATURE_WHITEDESERT_DESCRIPTION" Language="en_US">
-			<Text>Four tile natural wonder. It provides +2 [ICON_SCIENCE] Science, +2 [ICON_CULTURE] Culture, and +6 [ICON_GOLD] Gold.</Text>
+			<Text>Four tile natural wonder. It provides +1 [ICON_FOOD] Food, +2 [ICON_SCIENCE] Science, +2 [ICON_CULTURE] Culture, and +6 [ICON_GOLD] Gold.</Text>
+		</Replace>
+		<Replace Tag="LOC_BUILDING_GREAT_BATH_DESCRIPTION" Language="en_US">
+			<Text>The Floodplains tiles along the river containing the Great Bath are now immune to Flood damage (though [ICON_FOOD] Food and [ICON_PRODUCTION] Production bonuses from flooding drop by 50%). Floodplains tiles belonging to this city gain +1 [ICON_FAITH] Faith for each time Flood damage is mitigated.[NEWLINE][ICON_FOOD] Food +1 for Floodplains tiles in this city.[NEWLINE][NEWLINE]Must be built on a Floodplains tile.</Text>
+		</Replace>
+		<Replace Tag="LOC_BUILDING_PANAMA_CANAL_DESCRIPTION" Language="en_US">
+			<Text>Industrial Era wonder. Unlocked with the Industrialization technology.[NEWLINE][NEWLINE]One or two adjacent Canal districts are automatically constructed. The wonder tile can be traversed by naval units. Trade Routes passing through the Panama Canal can multiply the Gold received from districts in the destination city.[NEWLINE][NEWLINE]Must be built on 2 or 3 flat land tiles between 2 water or City Center tiles that can be connected by a Canal district.</Text>
 		</Replace>
 		<Replace Tag="LOC_FEATURE_CHOCOLATEHILLS_DESCRIPTION" Language="en_US">
 			<Text>Four tile natural wonder. It appears as a Hill and provides +3 [ICON_FOOD] Food, +3 [ICON_PRODUCTION] Production, and +1 [ICON_SCIENCE] Science.</Text>

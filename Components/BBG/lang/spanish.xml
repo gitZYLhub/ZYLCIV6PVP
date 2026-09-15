@@ -2118,7 +2118,7 @@
 			<Text>Maravilla natural de tres casillas. Proporciona +4 a Cultura [ICON_CULTURE] y +4 a Producción [ICON_Production].</Text>
 		</Replace>
 		<Replace Tag="LOC_FEATURE_WHITEDESERT_DESCRIPTION" Language="es_ES">
-			<Text>Maravilla natural de cuatro casillas. Proporciona +2 a Ciencia [ICON_SCIENCE], +2 a Cultura [ICON_Culture] y +6 de Oro [ICON_GOLD].</Text>
+			<Text>Maravilla natural de cuatro casillas. Proporciona +1 de Alimentos [ICON_FOOD], +2 a Ciencia [ICON_SCIENCE], +2 a Cultura [ICON_Culture] y +6 de Oro [ICON_GOLD].</Text>
 		</Replace>
 		<Replace Tag="LOC_FEATURE_CHOCOLATEHILLS_DESCRIPTION" Language="es_ES">
 			<Text>Maravilla natural de cuatro casillas. Proporciona +3 a Alimentos [ICON_Food], +3 a la Producción [ICON_Production] y +1 a Ciencia [ICON_Science].</Text>

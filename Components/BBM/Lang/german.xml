@@ -518,7 +518,7 @@
 			<Text>Felsen von Gibraltar</Text>
 		</Replace>
 		<Replace Tag="LOC_FEATURE_GIBRALTAR_DESCRIPTION" Language="de_DE">
-			<Text>Unpassierbares Naturwunder auf einem Feld:[NEWLINE][NEWLINE]• Erscheint als Bergfeld auf einem Grasland- oder Graslandhügelfeld, angrenzend an ein Küstenfeld.[NEWLINE]• +1 [ICON_FOOD] Nahrung und +1 [ICON_GOLD] Gold für angrenzende Felder.[NEWLINE]• +2 Anziehungskraft für angrenzende Felder.</Text>
+			<Text>Unpassierbares Naturwunder auf einem Feld:[NEWLINE][NEWLINE]• Erscheint als Bergfeld auf einem Grasland- oder Graslandhügelfeld, angrenzend an ein Küstenfeld.[NEWLINE]• +1 [ICON_FOOD] Nahrung, +1 [ICON_PRODUCTION] Produktion und +1 [ICON_GOLD] Gold für angrenzende Felder.[NEWLINE]• +2 Anziehungskraft für angrenzende Felder.</Text>
 		</Replace>
 		<Replace Tag="LOC_FEATURE_GIBRALTAR_QUOTE" Language="de_DE">
 			<Text>"Schaut euch um, meine Jungs, und betrachtet, wie schön der Felsen im Licht des glorreichen Feuers erscheint."[NEWLINE]- George Augustus Eliott</Text>

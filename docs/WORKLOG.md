@@ -2,6 +2,24 @@
 
 本日志记录重构过程、设计决定、验证证据和未解决风险。玩家可见更新另见根目录 `CHANGELOG.md`。
 
+### 2026-09-15 / 地脉与冻土、马里沙漠化规则收口
+
+- 目标：从平衡角度禁止冻土和沙漠地脉，并明确地形改造处理已有地脉时的最终行为。
+- 范围：`Components/TeamPVPSecretSocieties/Gameplay.sql`、`Components/TeamPVPSecretSocieties/Text.xml`、`Components/BBM/Data/BBS Maps/Utility/ZYL_RVC_Balance.lua`；覆盖富饶大陆、横向大陆和环形大陆共用的出生平衡流程。
+- 净修改：将 `TERRAIN_TUNDRA` 加入地脉合法地形删除集合；冻土文明冻土化遇到地脉时直接清除，不再保留或替换；撤销马里沙漠化跳过地脉的保护逻辑，使其按原有沙漠化资源清除流程移除地脉；上一轮移除马里沿河地块新增/转换泛滥平原的逻辑保持不变。
+- 文本：同步英文、简体中文和繁体中文地脉说明，删除“冻土”作为地脉出现地形的描述。
+- 验证：`tools/validate.ps1` 通过（208 个 XML、110 个 Criteria、291 个动作、1084 个文件条目、556 个活跃引用、46 个休眠文件、118 个源码专用文件）；`git diff --check` 通过；未进行 Civilization VI 实机验证。
+- 提交：待提交。
+
+### 2026-09-15 / 选择性移植 BBG7.5 四项奇观调整
+
+- 范围：基于 `referencemods/BBG/BBG7.5`，仅移植大浴场、巴拿马运河、撒哈拉之眼和直布罗陀；未移植 Big Ben 或其他未确认的 BBG7.5 改动。
+- 修改：大浴场为建成城市的所有泛滥平原单元格 +1 食物；巴拿马运河前置科技改为“工业化”；撒哈拉之眼 +1 食物；直布罗陀为相邻单元格 +1 生产力（保留现有 +1 食物、+1 金币）。
+- 文本：同步中英文及现有多语言奇观说明；简中后置覆盖层新增四项对应说明，其中巴拿马运河明确写为研究“工业化”后解锁。
+- 契约：两个已登记的 SQL 文件无需变更 Manifest；数据库写入契约更新为 `writeOperations=6417`，主键契约更新为 `insertReplaceOperations=4405`、`rowCandidates=6913`；INSERT-SELECT 契约保持不变。
+- 验证：`tools/validate.ps1` 通过（208 个 XML、110 个 Criteria、291 个动作、1084 个文件条目、556 个活跃引用、46 个休眠文件、118 个源码专用文件）；`git diff --check` 通过；未进行 Civilization VI 实机验证。
+- 提交：待提交。
+
 ### 2026-09-14 / 排除地脉参与五产保底
 
 - 发现：五产保底的“已有五产”分支只排除了开局不可见战略资源，没有排除 `RESOURCE_LEY_LINE`；因此存在把地脉自身科技/生产力误算进五产的路径。
@@ -1236,4 +1254,23 @@
 - 设计决定：继续使用固定时代长度（最小值等于最大值）；标准速度远古/中世纪调整为 48/44 回合，联机速度由游戏速度换算为 24/22 回合；黄金时代基础阈值调整为 23，其他动态时代分数修正保持原规则。
 - 修改：更新 `sql/ZYL_EraLengthOptimization.sql`、`Components/BBG/sql/XP1/Other_XP1_or_XP2.sql`，并同步 `README.md`、`SOURCES.md`、`TEST_CHECKLIST.md`、`ZYLPVPMOD1.3.0修改大全.md`、中英文大厅选项文本和 `CHANGELOG.md`；同步时代长度/阈值静态校验函数及自测试夹具。
 - 验证：`git diff --check` 通过；`tools/validate.ps1` 通过（208 XML、110 criteria、291 actions、1084 listed files、556 active references、46 dormant、118 source-only）；未进行 Civilization VI 实机验证。
+- 提交：本地改动，尚未提交。
+
+### 2026-09-15 / M38-调整邪教徒成本与虚空遗物信仰产出
+
+- 目标：按用户要求调整虚空吟唱者邪教徒的购买成本，并提高虚空遗物的基础信仰产出。
+- 范围：`Components/TeamPVPSecretSocieties` 的邪教徒数据库参数、虚空遗物产出和三语本地化；同步玩家更新日志与 1.3.0 玩法规格。
+- 设计决定：保留 `COST_PROGRESSION_PREVIOUS_COPIES` 的固定递增模型，将邪教徒基准成本设为 70、递增参数设为 5；因此联机速度下的信仰购买序列为 70、75、80、85、90……。虚空遗物仅提高基础信仰，不改变三级额外的科技、文化和生产力加成，也不影响普通遗物。
+- 修改：`Gameplay.sql` 将 `UNIT_CULTIST` 的 `Cost` 设为 70、`CostProgressionParam1` 设为 5，并将虚空遗物 `YIELD_FAITH` 设为 4；`Text.xml` 同步英文、简体中文和繁体中文的邪教徒成本递增及虚空遗物信仰说明；同步 `CHANGELOG.md` 与 `ZYLPVPMOD1.3.0修改大全.md`。
+- 验证：目标 SQL/XML 静态检索确认新数值为 `Cost=70`、`CostProgressionParam1=5`、虚空遗物 `YieldChange=4`，本地化文本均为 70、5 和 4；`git diff --check` 通过；未进行 Civilization VI 实机验证。
+- 风险/待办：需在重新加载修改后的 Mod 后进行游戏内购买价格和遗物每回合产出的实机确认；标准速度下购买面板会按游戏速度倍率显示对应成本。
+- 提交：本地改动，尚未提交。
+
+### 2026-09-15 / 2.0.4 版本收口
+
+- 目标：将当前包含邪教徒成本与虚空遗物产出调整的工作区版本更新为 ZYLPVPMOD 2.0.4。
+- 范围：项目语义版本、ModInfo 整数版本、双语标题、多人握手、四份日志/最终值契约身份、玩家文档、更新日志和验收清单；Mod ID、BBG/BBM 上游版本保持不变。
+- 修改：`tools/project.json` 更新为 `2.0.4`/ModInfo `204`；由 `tools/assemble_modinfo.ps1` 同步 `ZYLPVPMOD.modinfo` 与 `data/MP_helper.lua`；将当前更新日志收口为 2.0.4，并同步 README、SOURCES、TEST_CHECKLIST 和相关契约。
+- 验证：`tools/assemble_modinfo.ps1` 成功；`tools/validate.ps1` 通过（208 个 XML、110 个 Criteria、291 个动作、1084 个文件条目、556 个活跃引用、46 个休眠文件、118 个源码专用文件）；`git diff --check` 通过；未进行 Civilization VI 实机及双客户端联机验收。
+- 风险/待办：联机双方必须使用完全相同的 2.0.4 包；发布包需在版本元数据完成后重新构建。
 - 提交：本地改动，尚未提交。

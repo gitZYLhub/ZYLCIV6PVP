@@ -576,7 +576,7 @@
 		<Text>Rocha de Gibraltar</Text>
 	</Replace>
 	<Replace Tag="LOC_FEATURE_GIBRALTAR_DESCRIPTION" Language="pt_BR">
-		<Text>Maravilha natural intransponível de um painel. [ICON_FOOD] Comida +1 e [ICON_GOLD] Ouro +1 para os paineis adjacentes.</Text>
+		<Text>Maravilha natural intransponível de um painel. [ICON_FOOD] Comida +1, [ICON_PRODUCTION] Produção +1 e [ICON_GOLD] Ouro +1 para os paineis adjacentes.</Text>
 	</Replace>    
 	<Replace Tag="LOC_FEATURE_GIBRALTAR_QUOTE" Language="pt_BR">
 		<Text>"Olhem ao redor, meus meninos, e vejam como a Rocha é bela à luz do glorioso fogo." [NEWLINE]- George Augustus Eliott</Text>

@@ -569,7 +569,7 @@
 			<Text>直布罗陀巨岩</Text>
 		</Replace>
 		<Replace Tag="LOC_FEATURE_GIBRALTAR_DESCRIPTION" Language="zh_Hans_CN">
-			<Text>占1个单元格的自然奇观，无法通行。为相邻单元格+1 [ICON_FOOD] 食物、+1 [ICON_GOLD] 金币。</Text>
+			<Text>占1个单元格的自然奇观，无法通行。为相邻单元格提供+1 [ICON_FOOD] 食物、+1 [ICON_PRODUCTION] 生产力和+1 [ICON_GOLD] 金币。</Text>
 		</Replace>
 		<Replace Tag="LOC_FEATURE_GIBRALTAR_QUOTE" Language="zh_Hans_CN">
 			<Text>"看看周围吧，我的孩子们，看看这块石头在辉煌的火光下显得多么美丽。"[NEWLINE]——乔治·奥古斯塔斯·埃利奥特</Text>

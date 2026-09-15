@@ -535,7 +535,7 @@
 		  <Text>ジブラルタルの岩</Text>
 	</Replace>
 	<Replace Tag="LOC_FEATURE_GIBRALTAR_DESCRIPTION" Language="ja_JP">
-		  <Text>1タイルの自然遺産。通行不可。隣接タイルの [ICON_FOOD] 食料+1、[ICON_GOLD] ゴールド+1。</Text>
+		  <Text>通行不能な1タイルの自然遺産。隣接するタイルに[ICON_PRODUCTION] 生産力+1、[ICON_FOOD] 食料+1、[ICON_GOLD] ゴールド+1。</Text>
 	</Replace>	
 	<Replace Tag="LOC_FEATURE_GIBRALTAR_QUOTE" Language="ja_JP">
 		  <Text>"Look round, my boys, and view how beautiful the Rock appears by the light of the glorious fire."[NEWLINE]- George Augustus Eliott</Text>

@@ -2175,7 +2175,7 @@
 			<Text>占3个单元格的自然奇观。提供+4 [ICON_CULTURE] 文化值、+4 [ICON_Production] 生产力。</Text>
 		</Replace>
 		<Replace Tag="LOC_FEATURE_WHITEDESERT_DESCRIPTION" Language="zh_Hans_CN">
-			<Text>占4个单元格的自然奇观。提供+2 [ICON_SCIENCE] 生产力、+2 [ICON_Culture] 文化值、+6 [ICON_GOLD] 金币。</Text>
+			<Text>占4个单元格的自然奇观。提供+1 [ICON_FOOD] 食物、+2 [ICON_SCIENCE] 科技值、+2 [ICON_CULTURE] 文化值和+6 [ICON_GOLD] 金币。</Text>
 		</Replace>
 		<Replace Tag="LOC_FEATURE_CHOCOLATEHILLS_DESCRIPTION" Language="zh_Hans_CN">
 			<Text>占4个单元格的自然奇观，表现为丘陵。提供+3 [ICON_Food] 食物、+3 [ICON_Production] 生产力、+1 [ICON_Science] 科技值。</Text>

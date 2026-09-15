@@ -3294,7 +3294,7 @@
 			<Text>Maravilha natural de 3 paineis. [ICON_PRODUCTION] Produção +4 e [ICON_CULTURE] Cultura +4.</Text>
 		</Replace>
 		<Replace Tag="LOC_FEATURE_WHITEDESERT_DESCRIPTION" Language="pt_BR">
-			<Text>Maravilha natural de 4 paineis. [ICON_GOLD] Ouro +6, [ICON_SCIENCE] Ciência +2 e [ICON_CULTURE] Cultura +2.</Text>
+			<Text>Maravilha natural de 4 paineis. [ICON_FOOD] Comida +1, [ICON_GOLD] Ouro +6, [ICON_SCIENCE] Ciência +2 e [ICON_CULTURE] Cultura +2.</Text>
 		</Replace>
 		<Replace Tag="LOC_FEATURE_CHOCOLATEHILLS_DESCRIPTION" Language="pt_BR">
 			<Text>Maravilha natural de 4 painéis tomando a forma de colinas. [ICON_FOOD] Comida +3, [ICON_PRODUCTION] Produção +3 e [ICON_SCIENCE] Ciência +1.</Text>
@@ -3360,7 +3360,7 @@
 		
 		<!-- == Science Tree == -->
 		<Replace Tag="LOC_BUILDING_GREAT_BATH_DESCRIPTION" Language="pt_BR">
-			<Text>Maravilha da Era Antiga.[NEWLINE][NEWLINE]Os paineis de planície alagada ao longo deste rio são imunes a enchentes. [ICON_FAITH] Fé +1 para esses paineis a cada enchente, mas os rendimentos bônus em [ICON_FOOD] Comida e [ICON_PRODUCTION] Produção devido às enchentes são reduzidos pela metade.[NEWLINE][NEWLINE]Deve ser construída em um Painel de planície alagada.</Text>
+			<Text>Maravilha da Era Antiga.[NEWLINE][NEWLINE]Os paineis de planície alagada ao longo deste rio são imunes a enchentes. [ICON_FAITH] Fé +1 para esses paineis a cada enchente, mas os rendimentos bônus em [ICON_FOOD] Comida e [ICON_PRODUCTION] Produção devido às enchentes são reduzidos pela metade.[NEWLINE][ICON_FOOD] Comida +1 para os paineis de planície alagada desta cidade.[NEWLINE][NEWLINE]Deve ser construída em um Painel de planície alagada.</Text>
 		</Replace>
 		<Replace Tag="LOC_BUILDING_STONEHENGE_DESCRIPTION" Language="pt_BR">
 			<Text>Maravilha da Era Antiga.[NEWLINE][NEWLINE]Concede um [ICON_GREATPROPHET] Grande Profeta.[NEWLINE]Os [ICON_GREATPROPHET] Grandes Profetas podem fundar uma [ICON_RELIGION] religião em Stonehenge.[NEWLINE][NEWLINE]Deve ser construída em um Painel plano adjacente a um recurso de [ICON_RESOURCE_STONE] Pedra.</Text>

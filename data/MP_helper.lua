@@ -99,7 +99,7 @@
 --	NEW VARIABLES
 -- ===========================================================================
 ExposedMembers.LuaEvents = LuaEvents
-local g_version = "ZYLPVPMOD v2.0.3"
+local g_version = "ZYLPVPMOD v2.0.4"
 local Drop_Data = {};
 local b_debug = false
 

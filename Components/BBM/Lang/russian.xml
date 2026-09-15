@@ -577,7 +577,7 @@
 		  <Text>Гибралтарская скала</Text>
 	</Replace>
 	<Replace Tag="LOC_FEATURE_GIBRALTAR_DESCRIPTION" Language="ru_RU">
-		  <Text>Непроходимое чудо природы на одну клетку. Соседние клетки получают +1 [ICON_FOOD] пищи и +1 [ICON_GOLD] золото.</Text>
+		  <Text>Непроходимое чудо природы на одну клетку. Соседние клетки получают +1 [ICON_PRODUCTION] производства, +1 [ICON_FOOD] пищи и +1 [ICON_GOLD] золота.</Text>
 	</Replace>	
 	<Replace Tag="LOC_FEATURE_GIBRALTAR_QUOTE" Language="ru_RU">
 		  <Text>"Посмотрите вокруг, мальчики мои, и посмотрите, как прекрасна Скала в свете славного огня." [NEWLINE] - Джордж Огастес Элиотт</Text>

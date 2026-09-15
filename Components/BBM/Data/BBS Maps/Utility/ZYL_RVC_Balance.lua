@@ -298,8 +298,7 @@ local function ZYL_RVC_IsPreservedTundraResource(resourceIndex)
     return resourceIndex == RESOURCE_DEER_INDEX
         or resourceIndex == RESOURCE_FURS_INDEX
         or resourceIndex == RESOURCE_TRUFFLES_INDEX
-        or resourceIndex == RESOURCE_IVORY_INDEX
-        or resourceIndex == RESOURCE_LEY_LINE_INDEX;
+        or resourceIndex == RESOURCE_IVORY_INDEX;
 end
 
 local function ZYL_RVC_TundraResourceRequiresForest(resourceIndex)
@@ -314,8 +313,11 @@ local function ZYL_RVC_RestoreTundraResource(plot, originalResourceIndex, resour
     end
 
     local preserveFissure = plot:GetFeatureType() == g_FEATURE_GEOTHERMAL_FISSURE;
-    local preserveOriginal = ZYL_RVC_IsPreservedTundraResource(originalResourceIndex)
-        and (not ZYL_RVC_IsLeyLine(originalResourceIndex) or plot:GetTerrainType() == TERRAIN_TUNDRA_INDEX);
+    if ZYL_RVC_IsLeyLine(originalResourceIndex) then
+        ResourceBuilder.SetResourceType(plot, -1);
+        return;
+    end
+    local preserveOriginal = ZYL_RVC_IsPreservedTundraResource(originalResourceIndex);
     local resourceIndex = originalResourceIndex;
     if not preserveOriginal then
         resourceIndex = resourcePool[TerrainBuilder.GetRandomNumber(#resourcePool, "Get Random Resource") + 1];
@@ -421,11 +423,6 @@ local function ZYL_RVC_ConvertPlotToDesert(plot)
         TerrainBuilder.SetFeatureType(plot, g_FEATURE_GEOTHERMAL_FISSURE);
     elseif not preserveVolcano then
         TerrainBuilder.SetFeatureType(plot, -1);
-        if desertTerrainType == TERRAIN_DESERT_INDEX
-            and plot:IsRiver()
-            and TerrainBuilder.CanHaveFeature(plot, g_FEATURE_FLOODPLAINS) then
-            TerrainBuilder.SetFeatureType(plot, g_FEATURE_FLOODPLAINS);
-        end
     end
     return true;
 end
@@ -522,20 +519,6 @@ local function ZYL_RVC_PrepareMaliStart(startPlot, maliPlots)
     end
 
     maliPlots = maliPlots or ZYL_RVC_GetMaliPlots(startPlot, true, 89);
-    local floodplainsPlaced = 0;
-    for _, plot in ipairs(maliPlots) do
-        if plot:GetTerrainType() == TERRAIN_DESERT_INDEX
-            and plot:IsRiver()
-            and plot:GetFeatureType() ~= g_FEATURE_GEOTHERMAL_FISSURE
-            and not plot:IsNaturalWonder() then
-            ResourceBuilder.SetResourceType(plot, -1);
-            TerrainBuilder.SetFeatureType(plot, -1);
-            if TerrainBuilder.CanHaveFeature(plot, g_FEATURE_FLOODPLAINS) then
-                TerrainBuilder.SetFeatureType(plot, g_FEATURE_FLOODPLAINS);
-                floodplainsPlaced = floodplainsPlaced + 1;
-            end
-        end
-    end
 
     -- Richness 5+ guarantees two oases and two desert-hill sheep.  Wheat
     -- keeps the original scaling so Richness 5-6 still targets one tile.
@@ -618,7 +601,6 @@ local function ZYL_RVC_PrepareMaliStart(startPlot, maliPlots)
 
     print(
         "ZYL RVC Mali terrain and resources",
-        "Floodplains", floodplainsPlaced,
         "Oases", oasesPlaced,
         "Sheep", sheepPlaced,
         "Wheat", wheatPlaced,
@@ -2842,13 +2824,6 @@ function AddBonusFood(plot, intensity, flag, majListCiv)
 
             if (adjacentPlot ~= nil) then
                 terrainType = adjacentPlot:GetTerrainType();
-                if ((terrainType == 6 and flag == 2 and adjacentPlot:IsRiver() == true and adjacentPlot:GetFeatureType() == -1 and adjacentPlot:GetResourceCount() < 1)) and adjacentPlot:IsNaturalWonder() == false then
-                    -- Add Desert Floodplains
-                    TerrainBuilder.SetFeatureType(adjacentPlot, g_FEATURE_FLOODPLAINS);
-                    __Debug("Food Balancing X: ", adjacentPlot:GetX(), "Food Balancing Y: ", adjacentPlot:GetY(), "Turned the tile to a Desert Floodplains");
-                    return true;
-                end
-
                 if (flag ~= 2 and flag ~= 1 and (terrainType == 2 and flag ~= 3 and adjacentPlot:GetFeatureType() ~= g_FEATURE_VOLCANO) or (terrainType == 5 and flag ~= 3 and adjacentPlot:GetFeatureType() ~= g_FEATURE_VOLCANO) or (terrainType == 8 and flag ~= 3 and flag ~= 2 and adjacentPlot:GetFeatureType() ~= g_FEATURE_VOLCANO) or (terrainType == 11 and flag ~= 3 and flag ~= 1 and adjacentPlot:GetFeatureType() ~= g_FEATURE_VOLCANO) or (terrainType == 14 and flag ~= 3 and flag ~= 1 and adjacentPlot:GetFeatureType() ~= g_FEATURE_VOLCANO) and adjacentPlot:GetResourceCount() < 1) and adjacentPlot:IsNaturalWonder() == false then
                     -- Convert to Flatland or Hills
                     rng = TerrainBuilder.GetRandomNumber(100, "test") / 100;
@@ -5477,10 +5452,6 @@ function Terraforming(plot, intensity, flag)
                     end
                     TerrainBuilder.SetTerrainType(adjacentPlot, 3);
                     terrainType = 3;
-                    if (adjacentPlot:IsRiver() == true) then
-                        TerrainBuilder.SetFeatureType(adjacentPlot, -1);
-                        TerrainBuilder.SetFeatureType(adjacentPlot, g_FEATURE_FLOODPLAINS_PLAINS);
-                    end
                 end
                 if ((terrainType == 1) and flag == 2) then
                     __Debug("Terraforming X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Changing Grassland Hills to Plains Hills tile", i);
@@ -5510,15 +5481,7 @@ function Terraforming(plot, intensity, flag)
                         __Debug("Terraforming X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Changing Plains to Desert tile", i);
                         ResourceBuilder.SetResourceType(adjacentPlot, -1);
                         TerrainBuilder.SetTerrainType(adjacentPlot, terrainType + 3);
-                        if (adjacentPlot:GetFeatureType() == g_FEATURE_FLOODPLAINS_PLAINS) then
-                            TerrainBuilder.SetFeatureType(adjacentPlot, -1);
-                            TerrainBuilder.SetFeatureType(adjacentPlot, g_FEATURE_FLOODPLAINS);
-                        elseif (adjacentPlot:IsRiver() == true and rng < 0.7) and terrainType == 3 then
-                            TerrainBuilder.SetFeatureType(adjacentPlot, -1);
-                            TerrainBuilder.SetFeatureType(adjacentPlot, g_FEATURE_FLOODPLAINS);
-                        else
-                            TerrainBuilder.SetFeatureType(adjacentPlot, -1);
-                        end
+                        TerrainBuilder.SetFeatureType(adjacentPlot, -1);
                     end
                 end
 
@@ -5542,20 +5505,14 @@ function Terraforming(plot, intensity, flag)
                     if (i < 89) then
                         local originalResourceIndex = adjacentPlot:GetResourceType();
                         __Debug("Terraforming X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Changing to Tundra tile", i);
-                        -- Ley Lines remain preserved, but are valid only on flat tundra.
-                        -- Other plains-family plots retain the original tundra-hills conversion.
-                        local targetTerrain = ZYL_RVC_IsLeyLine(originalResourceIndex)
-                            and TERRAIN_TUNDRA_INDEX or TERRAIN_TUNDRA_HILLS_INDEX;
-                        local targetResourcePool = targetTerrain == TERRAIN_TUNDRA_INDEX
-                            and TERRAIN_TUNDRA_RESOURCE or TERRAIN_TUNDRA_HILLS_RESOURCE;
-                        TerrainBuilder.SetTerrainType(adjacentPlot, targetTerrain);
+                        TerrainBuilder.SetTerrainType(adjacentPlot, TERRAIN_TUNDRA_HILLS_INDEX);
                         if (adjacentPlot:GetFeatureType() ~= g_FEATURE_FOREST
                                 and adjacentPlot:GetFeatureType() ~= g_FEATURE_GEOTHERMAL_FISSURE
                                 and adjacentPlot:GetFeatureType() ~= -1) then
                             TerrainBuilder.SetFeatureType(adjacentPlot, g_FEATURE_FOREST);
                         end
                         if originalResourceIndex ~= -1 then
-                            ZYL_RVC_RestoreTundraResource(adjacentPlot, originalResourceIndex, targetResourcePool);
+                            ZYL_RVC_RestoreTundraResource(adjacentPlot, originalResourceIndex, TERRAIN_TUNDRA_HILLS_RESOURCE);
                         end
                     end
                 end
@@ -5666,10 +5623,6 @@ function Terraforming(plot, intensity, flag)
                         TerrainBuilder.SetFeatureType(adjacentPlot, -1);
                     end
                     TerrainBuilder.SetTerrainType(adjacentPlot, 3);
-                    if (adjacentPlot:IsRiver() == true) then
-                        TerrainBuilder.SetFeatureType(adjacentPlot, -1);
-                        TerrainBuilder.SetFeatureType(adjacentPlot, g_FEATURE_FLOODPLAINS_PLAINS);
-                    end
                 end
                 if ((terrainType == 1) and flag == 2) then
                     print("Terraforming X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Changing Grassland Hills to Plains Hills tile", i);
@@ -5695,15 +5648,7 @@ function Terraforming(plot, intensity, flag)
                         __Debug("Terraforming X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Changing Plains to Desert tile", i);
                         ResourceBuilder.SetResourceType(adjacentPlot, -1);
                         TerrainBuilder.SetTerrainType(adjacentPlot, terrainType + 3);
-                        if (adjacentPlot:GetFeatureType() == g_FEATURE_FLOODPLAINS_PLAINS) then
-                            TerrainBuilder.SetFeatureType(adjacentPlot, -1);
-                            TerrainBuilder.SetFeatureType(adjacentPlot, g_FEATURE_FLOODPLAINS);
-                        elseif (adjacentPlot:IsRiver() == true and rng < 0.33) and terrainType == 3 then
-                            TerrainBuilder.SetFeatureType(adjacentPlot, -1);
-                            TerrainBuilder.SetFeatureType(adjacentPlot, g_FEATURE_FLOODPLAINS);
-                        else
-                            TerrainBuilder.SetFeatureType(adjacentPlot, -1);
-                        end
+                        TerrainBuilder.SetFeatureType(adjacentPlot, -1);
                     end
                 end
                 if (adjacentPlot:IsWater() == false and adjacentPlot:IsImpassable() == false and adjacentPlot:GetTerrainType() ~= 12 and adjacentPlot:GetTerrainType() ~= 13 and adjacentPlot:GetTerrainType() ~= 6 and adjacentPlot:GetTerrainType() ~= 7 and adjacentPlot:GetFeatureType() == -1 and rng > limit_tree and adjacentPlot:GetResourceType() == -1 and count_wood < max_wood) then
@@ -5803,10 +5748,6 @@ function Terraforming(plot, intensity, flag)
                         TerrainBuilder.SetFeatureType(adjacentPlot, -1);
                     end
                     TerrainBuilder.SetTerrainType(adjacentPlot, 3);
-                    if (adjacentPlot:IsRiver() == true) then
-                        TerrainBuilder.SetFeatureType(adjacentPlot, -1);
-                        TerrainBuilder.SetFeatureType(adjacentPlot, g_FEATURE_FLOODPLAINS_PLAINS);
-                    end
                 end
                 if ((terrainType == 1) and flag == 2) then
                     __Debug("Terraforming X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Changing Grassland Hills to Plains Hills tile", i);
@@ -5833,15 +5774,7 @@ function Terraforming(plot, intensity, flag)
                         print("Terraforming X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Changing Plains to Desert tile", i);
                         ResourceBuilder.SetResourceType(adjacentPlot, -1);
                         TerrainBuilder.SetTerrainType(adjacentPlot, terrainType + 3);
-                        if (adjacentPlot:GetFeatureType() == g_FEATURE_FLOODPLAINS_PLAINS) then
-                            TerrainBuilder.SetFeatureType(adjacentPlot, -1);
-                            TerrainBuilder.SetFeatureType(adjacentPlot, g_FEATURE_FLOODPLAINS);
-                        elseif (adjacentPlot:IsRiver() == true and rng < 0.33 and terrainType == 3) then
-                            TerrainBuilder.SetFeatureType(adjacentPlot, -1);
-                            TerrainBuilder.SetFeatureType(adjacentPlot, g_FEATURE_FLOODPLAINS);
-                        else
-                            TerrainBuilder.SetFeatureType(adjacentPlot, -1);
-                        end
+                        TerrainBuilder.SetFeatureType(adjacentPlot, -1);
                     end
                 end
                 if ((terrainType == 0 or terrainType == 1 or terrainType == 2) and flag == 2) then
@@ -5860,15 +5793,7 @@ function Terraforming(plot, intensity, flag)
                         print("Terraforming X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Changing Plains to Desert tile", i);
                         ResourceBuilder.SetResourceType(adjacentPlot, -1);
                         TerrainBuilder.SetTerrainType(adjacentPlot, terrainType + 6);
-                        if (adjacentPlot:GetFeatureType() == g_FEATURE_FLOODPLAINS_PLAINS) then
-                            TerrainBuilder.SetFeatureType(adjacentPlot, -1);
-                            TerrainBuilder.SetFeatureType(adjacentPlot, g_FEATURE_FLOODPLAINS);
-                        elseif (adjacentPlot:IsRiver() == true and rng < 0.33 and terrainType == 3) then
-                            TerrainBuilder.SetFeatureType(adjacentPlot, -1);
-                            TerrainBuilder.SetFeatureType(adjacentPlot, g_FEATURE_FLOODPLAINS);
-                        else
-                            TerrainBuilder.SetFeatureType(adjacentPlot, -1);
-                        end
+                        TerrainBuilder.SetFeatureType(adjacentPlot, -1);
                     end
                 end
                 if (adjacentPlot:IsWater() == false and adjacentPlot:IsImpassable() == false and adjacentPlot:GetTerrainType() ~= 12 and adjacentPlot:GetTerrainType() ~= 13 and adjacentPlot:GetTerrainType() ~= 6 and adjacentPlot:GetTerrainType() ~= 7 and adjacentPlot:GetFeatureType() == -1 and rng > limit_tree and adjacentPlot:GetResourceType() == -1 and count_wood < max_wood) then

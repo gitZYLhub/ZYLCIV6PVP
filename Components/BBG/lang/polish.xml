@@ -728,7 +728,7 @@
 			<Text>Zajmujący cztery pola cud natury. Ma właściwości mokradeł. Zapewnia +2 do [ICON_FAITH] wiary, +2 do [ICON_FOOD] żywności i +2 do [ICON_PRODUCTION] produkcji.</Text>
 		</Replace>
 		<Replace Tag="LOC_FEATURE_WHITEDESERT_DESCRIPTION" Language="pl_PL">
-			<Text>Zajmujący cztery pola cud natury. Zapewnia +2 do [ICON_SCIENCE] nauki, +2 do [ICON_CULTURE] do kultury i +6 [ICON_GOLD] złota.</Text>
+			<Text>Zajmujący cztery pola cud natury. Zapewnia +1 do [ICON_FOOD] żywności, +2 do [ICON_SCIENCE] nauki, +2 do [ICON_CULTURE] kultury i +6 [ICON_GOLD] złota.</Text>
 		</Replace>
 		<Replace Tag="LOC_BUILDING_AMUNDSEN_SCOTT_RESEARCH_STATION_DESCRIPTION" Language="pl_PL">
 			<Text>+20% do [ICON_SCIENCE] nauki i +10% do [ICON_PRODUCTION] produkcji we wszystkich miastach. Jeśli w promieniu 3  pól od miasta znajduje się 5 pól z tundrą lub ze wzgórzami z tundrą i miasto to należy do właściciela stacji, dochody zostają podwojone. Można zbudować jedynie w sąsiedztwie kampusu z laboratorium badawczym na polu z tundrą lub śniegiem.</Text>

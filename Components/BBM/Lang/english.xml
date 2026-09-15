@@ -591,7 +591,7 @@
 			<Text>Rock of Gibraltar</Text>
 		</Replace>
 		<Replace Tag="LOC_FEATURE_GIBRALTAR_DESCRIPTION" Language="en_US">
-			<Text>One tile impassable natural wonder. Provides +1 [ICON_FOOD] Food and +1 [ICON_GOLD] Gold to adjacent tiles.</Text>
+			<Text>One tile impassable natural wonder. Provides +1 [ICON_PRODUCTION] Production, +1 [ICON_FOOD] Food, and +1 [ICON_GOLD] Gold to adjacent tiles.</Text>
 		</Replace>
 		<Replace Tag="LOC_FEATURE_GIBRALTAR_QUOTE" Language="en_US">
 			<Text>"Look round, my boys, and view how beautiful the Rock appears by the light of the glorious fire."[NEWLINE]- George Augustus Eliott</Text>

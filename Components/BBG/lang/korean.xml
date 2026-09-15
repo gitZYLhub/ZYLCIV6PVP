@@ -2280,7 +2280,7 @@
         <Text>타일 3개의 자연경관입니다. [ICON_CULTURE] 문화 +4와 [ICON_Production] 생산력 +4를 제공합니다.</Text>
     </Replace>
     <Replace Tag="LOC_FEATURE_WHITEDESERT_DESCRIPTION" Language="ko_KR">
-        <Text>타일 4개의 자연경관입니다. [ICON_SCIENCE] 과학 +2, [ICON_Culture] 문화 +2, [ICON_GOLD] 금 +6을 제공합니다.</Text>
+        <Text>타일 4개의 자연경관입니다. [ICON_FOOD] 식량 +1, [ICON_SCIENCE] 과학 +2, [ICON_Culture] 문화 +2, [ICON_GOLD] 금 +6을 제공합니다.</Text>
     </Replace>
     <Replace Tag="LOC_FEATURE_CHOCOLATEHILLS_DESCRIPTION" Language="ko_KR">
         <Text>타일 4개의 자연경관입니다. [ICON_Food] 식량 +3, [ICON_Production] 생산력 +3, [ICON_Science] 과학 +1을 제공합니다.</Text>

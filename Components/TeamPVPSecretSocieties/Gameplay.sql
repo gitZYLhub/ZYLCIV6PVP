@@ -556,6 +556,7 @@ WHERE ResourceType = 'RESOURCE_LEY_LINE'
 	'TERRAIN_DESERT',
 	'TERRAIN_GRASS_HILLS',
 	'TERRAIN_PLAINS_HILLS',
+	'TERRAIN_TUNDRA',
 	'TERRAIN_TUNDRA_HILLS'
   );
 
@@ -635,9 +636,9 @@ WHERE BuildingType = 'BUILDING_OLD_GOD_OBELISK'
   AND YieldType = 'YIELD_FAITH';
 
 UPDATE Units
-SET Cost = 60,
+SET Cost = 70,
 	BaseMoves = 6,
-	CostProgressionParam1 = 15
+	CostProgressionParam1 = 5
 WHERE UnitType = 'UNIT_CULTIST';
 
 UPDATE Units_MODE
@@ -651,7 +652,7 @@ WHERE ModifierId = 'SPREAD_DISSENT_LOYALTY_DAMAGE'
 
 -- Relics of the Void are the relic rows requiring the Voidsingers governor.
 UPDATE GreatWork_YieldChanges
-SET YieldChange = 2
+SET YieldChange = 4
 WHERE YieldType = 'YIELD_FAITH'
   AND GreatWorkType IN (
 	SELECT GreatWorkType
