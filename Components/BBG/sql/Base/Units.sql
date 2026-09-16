@@ -9,8 +9,22 @@
 -- Old Codenaugh's Unit change
 UPDATE UnitCommands SET VisibleInUI=0 WHERE CommandType='UNITCOMMAND_PRIORITY_TARGET';
 UPDATE Units SET BaseMoves=3 WHERE UnitType='UNIT_MILITARY_ENGINEER';
--- 14/09/26 Builder base movement increased from 2 to 3.
-UPDATE Units SET BaseMoves=3 WHERE UnitType='UNIT_BUILDER';
+-- 16/09/26 Builder +1 movement moved behind the Craftsmanship civic.
+UPDATE Units SET BaseMoves=2 WHERE UnitType='UNIT_BUILDER';
+INSERT INTO RequirementSets (RequirementSetId, RequirementSetType) VALUES
+    ('BBG_BUILDER_MOVEMENT_UNIT_REQSET', 'REQUIREMENTSET_TEST_ALL');
+INSERT INTO RequirementSetRequirements (RequirementSetId, RequirementId) VALUES
+    ('BBG_BUILDER_MOVEMENT_UNIT_REQSET', 'BBG_BUILDER_MOVEMENT_UNIT_REQUIREMENT');
+INSERT INTO Requirements (RequirementId, RequirementType) VALUES
+    ('BBG_BUILDER_MOVEMENT_UNIT_REQUIREMENT', 'REQUIREMENT_UNIT_TYPE_MATCHES');
+INSERT INTO RequirementArguments (RequirementId, Name, Value) VALUES
+    ('BBG_BUILDER_MOVEMENT_UNIT_REQUIREMENT', 'UnitType', 'UNIT_BUILDER');
+INSERT INTO Modifiers (ModifierId, ModifierType, OwnerRequirementSetId, SubjectRequirementSetId) VALUES
+    ('BBG_BUILDER_CRAFTSMANSHIP_MOVEMENT', 'MODIFIER_PLAYER_UNITS_ADJUST_MOVEMENT', 'BBG_UTILS_PLAYER_HAS_CIVIC_CRAFTSMANSHIP_REQSET', 'BBG_BUILDER_MOVEMENT_UNIT_REQSET');
+INSERT INTO ModifierArguments (ModifierId, Name, Value) VALUES
+    ('BBG_BUILDER_CRAFTSMANSHIP_MOVEMENT', 'Amount', 1);
+INSERT INTO TraitModifiers (TraitType, ModifierId) VALUES
+    ('TRAIT_LEADER_MAJOR_CIV', 'BBG_BUILDER_CRAFTSMANSHIP_MOVEMENT');
 UPDATE Units SET Cost=310 WHERE UnitType='UNIT_CAVALRY';
 UPDATE Units SET PrereqCivic='CIVIC_EXPLORATION' WHERE UnitType='UNIT_PRIVATEER';
 INSERT OR IGNORE INTO RequirementSetRequirements (RequirementSetId, RequirementId) VALUES

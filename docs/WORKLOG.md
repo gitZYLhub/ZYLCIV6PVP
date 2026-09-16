@@ -1274,3 +1274,13 @@
 - 验证：`tools/assemble_modinfo.ps1` 成功；`tools/validate.ps1` 通过（208 个 XML、110 个 Criteria、291 个动作、1084 个文件条目、556 个活跃引用、46 个休眠文件、118 个源码专用文件）；`git diff --check` 通过；未进行 Civilization VI 实机及双客户端联机验收。
 - 风险/待办：联机双方必须使用完全相同的 2.0.4 包；发布包需在版本元数据完成后重新构建。
 - 提交：本地改动，尚未提交。
+
+### 2026-09-16 / M39-将建造者移速改为技艺解锁
+
+- 目标：按用户要求，将当前从游戏开始提供的建造者 +1 移动力改为完成“技艺”市政后解锁。
+- 范围：建造者数据库移动力、玩家可见规则说明、更新日志、验收清单和 2.0 玩法规格；“雄伟壮丽”黄金时代的建造者额外 +1 移动力及购买折扣不在本次调整范围。
+- 设计决定：将 `UNIT_BUILDER` 的基础 `BaseMoves` 恢复为 2；把 +1 挂到所有主要文明的通用特性，并用 `BBG_UTILS_PLAYER_HAS_CIVIC_CRAFTSMANSHIP_REQSET` 作为拥有者条件、用单位类型要求集限定为建造者。使用动态市政要求，确保已经完成“技艺”的存档重新加载后也能得到加成。
+- 修改：`Components/BBG/sql/Base/Units.sql` 新增建造者单位要求集、技艺拥有者要求的 +1 移动力修正器和主要文明挂接；同步 `CHANGELOG.md`、`README.md`、`SOURCES.md`、`TEST_CHECKLIST.md` 与 `ZYLPVPMOD1.3.0修改大全.md`。
+- 验证：目标 SQL 静态检索确认基础值为 2、拥有者要求为 `BBG_UTILS_PLAYER_HAS_CIVIC_CRAFTSMANSHIP_REQSET`、单位要求为 `UNIT_BUILDER`、数量为 1；数据库当前写入契约更新为 `writeOperations=6424`、指纹 `b22622e6…`，主键契约更新为 `insertReplaceOperations=4412`、`rowCandidates=6920`、指纹 `078a9dc0…`，`INSERT ... SELECT` 结构仍为 379 条且指纹更新为 `c64476ce…`；`tools/validate.ps1` 与 `git diff --check` 均通过（208 XML、110 Criteria、291 actions、1084 文件条目、556 active references、46 dormant、118 source-only）；未进行 Civilization VI 实机验证。
+- 风险/待办：需重新加载修改后的 Mod，在完成“技艺”前后分别确认建造者为 2/3 移动力，并确认“雄伟壮丽”下仍额外增加 1；联机双方必须使用完全相同的源码包。
+- 提交：本地改动，尚未提交。
