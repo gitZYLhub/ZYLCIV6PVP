@@ -6,6 +6,7 @@
     </Properties>
     <File>Components/BBM/Data/BBS Maps/zyl_team_rich_mainland.lua</File>
     <File>Components/BBM/Data/BBS Maps/zyl_ffa_rich_mainland.lua</File>
+    <File>Components/BBM/Data/BBS Maps/zyl_rich_lakes.lua</File>
     <File>Components/BBM/Data/BBS Maps/zyl_team_horizontal_rich_mainland.lua</File>
     <File>Components/BBM/Data/BBS Maps/zyl_team_ring_mainland.lua</File>
     <File>Components/BBM/Data/BBS Maps/zyl_rich_mainland_core.lua</File>

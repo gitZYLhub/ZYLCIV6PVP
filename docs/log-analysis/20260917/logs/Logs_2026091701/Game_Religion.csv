@@ -1,0 +1,16 @@
+Game Turn, Player, Action, Belief, City
+5, 6, Found Pantheon, BELIEF_INITIATION_RITES, N/A
+5, 6, Adopt Pantheon, N/A, LOC_CITY_NAME_NIANI
+7, 3, Found Pantheon, BELIEF_DESERT_FOLKLORE, N/A
+7, 3, Adopt Pantheon, N/A, LOC_CITY_NAME_NIANI
+9, 8, Found Pantheon, BELIEF_ZYL_DRUID, N/A
+9, 8, Adopt Pantheon, N/A, LOC_CITY_HA_NOI
+9, 8, Adopt Pantheon, N/A, LOC_CITY_HUE
+9, 8, Adopt Pantheon, N/A, LOC_CITY_QUANG_TRI
+10, 9, Found Pantheon, BELIEF_INITIATION_RITES, N/A
+10, 9, Adopt Pantheon, N/A, LOC_CITY_NAME_ROME
+10, 9, Adopt Pantheon, N/A, LOC_CITY_NAME_ARRETIUM
+10, 1, Found Pantheon, BELIEF_GODDESS_OF_FESTIVALS, N/A
+10, 1, Adopt Pantheon, N/A, LOC_CITY_NAME_BABYLON_STK
+11, 2, Found Pantheon, BELIEF_RELIGIOUS_SETTLEMENTS, N/A
+11, 2, Adopt Pantheon, N/A, LOC_CITY_NAME_PATNA

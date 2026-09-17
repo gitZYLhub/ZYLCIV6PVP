@@ -1,0 +1,2305 @@
+Game Turn, Initiator, Recipient, Action, Details, Mayhem, Visibility
+40, 7, 14, Gave Influence, , 1985.0, 0
+40, 9, 4, Deal Proposed, 0 Peace for 8 turns from 9 to 4; 0 Peace for 8 turns from 4 to 9; 8 Gold for 30 turns from 9 to 4; , 1987.0, 0
+41, 7, 14, Gave Influence, , 1995.0, 0
+41, 6, 14, Gave Influence, , 1995.0, 0
+41, 7, Team 6, Individual Declaring War on Team START, Surprise, 1997.0
+41, 5, 14, At War, Surprise, 1997.0, 0
+41, 6, 14, At War, Surprise, 2001.0, 0
+41, 14, 0, Peace, , 2001.0, 0
+41, 14, 1, Peace, , 2001.0, 0
+41, 14, 2, Peace, , 2001.0, 0
+41, 14, 3, Peace, , 2001.0, 0
+41, 14, 4, Peace, , 2001.0, 0
+41, 14, 10, Peace, , 2001.0, 0
+41, 14, 13, Peace, , 2001.0, 0
+41, 14, 15, Peace, , 2001.0, 0
+41, 14, 16, Peace, , 2001.0, 0
+41, 14, 20, Peace, , 2001.0, 0
+41, 14, 21, Peace, , 2001.0, 0
+41, 7, 14, At War, Surprise, 2005.0, 0
+41, 8, 14, At War, Surprise, 2009.0, 0
+41, 14, Team 0, Individual Declaring War on Team START, Suzerain War, 2009.0
+41, 14, 0, At War, Suzerain War, 2009.0, 0
+41, 14, 1, At War, Suzerain War, 2011.0, 0
+41, 13, Team 6, Individual Declaring War on Team START, Suzerain War, 2013.0
+41, 13, 14, At War, Suzerain War, 2013.0, 0
+41, 13, Team 6, Individual Declaring War on Team END, Suzerain War, 2015.0
+41, 21, Team 6, Individual Declaring War on Team START, Suzerain War, 2015.0
+41, 21, 14, At War, Suzerain War, 2015.0, 0
+41, 21, Team 6, Individual Declaring War on Team END, Suzerain War, 2017.0
+41, 14, 2, At War, Suzerain War, 2017.0, 0
+41, 15, Team 6, Individual Declaring War on Team START, Suzerain War, 2019.0
+41, 15, 14, At War, Suzerain War, 2019.0, 0
+41, 15, Team 6, Individual Declaring War on Team END, Suzerain War, 2021.0
+41, 14, 3, At War, Suzerain War, 2021.0, 0
+41, 14, 4, At War, Suzerain War, 2023.0, 0
+41, 10, Team 6, Individual Declaring War on Team START, Suzerain War, 2025.0
+41, 10, 14, At War, Suzerain War, 2025.0, 0
+41, 10, Team 6, Individual Declaring War on Team END, Suzerain War, 2027.0
+41, 16, Team 6, Individual Declaring War on Team START, Suzerain War, 2027.0
+41, 16, 14, At War, Suzerain War, 2027.0, 0
+41, 16, Team 6, Individual Declaring War on Team END, Suzerain War, 2029.0
+41, 20, Team 6, Individual Declaring War on Team START, Suzerain War, 2029.0
+41, 20, 14, At War, Suzerain War, 2029.0, 0
+41, 20, Team 6, Individual Declaring War on Team END, Suzerain War, 2031.0
+41, 14, Team 0, Individual Declaring War on Team END, Suzerain War, 2031.0
+41, 14, Team 0, Individual Declaring War on Team START, Suzerain War, 2031.0
+41, 14, 0, At War, Suzerain War, 2031.0, 0
+41, 14, 1, At War, Suzerain War, 2033.0, 0
+41, 13, Team 6, Individual Declaring War on Team START, Suzerain War, 2035.0
+41, 13, 14, At War, Suzerain War, 2035.0, 0
+41, 13, Team 6, Individual Declaring War on Team END, Suzerain War, 2037.0
+41, 21, Team 6, Individual Declaring War on Team START, Suzerain War, 2037.0
+41, 21, 14, At War, Suzerain War, 2037.0, 0
+41, 21, Team 6, Individual Declaring War on Team END, Suzerain War, 2039.0
+41, 14, 2, At War, Suzerain War, 2039.0, 0
+41, 15, Team 6, Individual Declaring War on Team START, Suzerain War, 2041.0
+41, 15, 14, At War, Suzerain War, 2041.0, 0
+41, 15, Team 6, Individual Declaring War on Team END, Suzerain War, 2043.0
+41, 14, 3, At War, Suzerain War, 2043.0, 0
+41, 14, 4, At War, Suzerain War, 2045.0, 0
+41, 10, Team 6, Individual Declaring War on Team START, Suzerain War, 2047.0
+41, 10, 14, At War, Suzerain War, 2047.0, 0
+41, 10, Team 6, Individual Declaring War on Team END, Suzerain War, 2049.0
+41, 16, Team 6, Individual Declaring War on Team START, Suzerain War, 2049.0
+41, 16, 14, At War, Suzerain War, 2049.0, 0
+41, 16, Team 6, Individual Declaring War on Team END, Suzerain War, 2051.0
+41, 20, Team 6, Individual Declaring War on Team START, Suzerain War, 2051.0
+41, 20, 14, At War, Suzerain War, 2051.0, 0
+41, 20, Team 6, Individual Declaring War on Team END, Suzerain War, 2053.0
+41, 14, Team 0, Individual Declaring War on Team END, Suzerain War, 2053.0
+41, 14, Team 0, Individual Declaring War on Team START, Suzerain War, 2053.0
+41, 14, 0, At War, Suzerain War, 2053.0, 0
+41, 14, 1, At War, Suzerain War, 2055.0, 0
+41, 13, Team 6, Individual Declaring War on Team START, Suzerain War, 2057.0
+41, 13, 14, At War, Suzerain War, 2057.0, 0
+41, 13, Team 6, Individual Declaring War on Team END, Suzerain War, 2059.0
+41, 21, Team 6, Individual Declaring War on Team START, Suzerain War, 2059.0
+41, 21, 14, At War, Suzerain War, 2059.0, 0
+41, 21, Team 6, Individual Declaring War on Team END, Suzerain War, 2061.0
+41, 14, 2, At War, Suzerain War, 2061.0, 0
+41, 15, Team 6, Individual Declaring War on Team START, Suzerain War, 2063.0
+41, 15, 14, At War, Suzerain War, 2063.0, 0
+41, 15, Team 6, Individual Declaring War on Team END, Suzerain War, 2065.0
+41, 14, 3, At War, Suzerain War, 2065.0, 0
+41, 14, 4, At War, Suzerain War, 2067.0, 0
+41, 10, Team 6, Individual Declaring War on Team START, Suzerain War, 2069.0
+41, 10, 14, At War, Suzerain War, 2069.0, 0
+41, 10, Team 6, Individual Declaring War on Team END, Suzerain War, 2071.0
+41, 16, Team 6, Individual Declaring War on Team START, Suzerain War, 2071.0
+41, 16, 14, At War, Suzerain War, 2071.0, 0
+41, 16, Team 6, Individual Declaring War on Team END, Suzerain War, 2073.0
+41, 20, Team 6, Individual Declaring War on Team START, Suzerain War, 2073.0
+41, 20, 14, At War, Suzerain War, 2073.0, 0
+41, 20, Team 6, Individual Declaring War on Team END, Suzerain War, 2075.0
+41, 14, Team 0, Individual Declaring War on Team END, Suzerain War, 2075.0
+41, 14, Team 0, Individual Declaring War on Team START, Suzerain War, 2075.0
+41, 14, 0, At War, Suzerain War, 2075.0, 0
+41, 14, 1, At War, Suzerain War, 2077.0, 0
+41, 13, Team 6, Individual Declaring War on Team START, Suzerain War, 2079.0
+41, 13, 14, At War, Suzerain War, 2079.0, 0
+41, 13, Team 6, Individual Declaring War on Team END, Suzerain War, 2081.0
+41, 21, Team 6, Individual Declaring War on Team START, Suzerain War, 2081.0
+41, 21, 14, At War, Suzerain War, 2081.0, 0
+41, 21, Team 6, Individual Declaring War on Team END, Suzerain War, 2083.0
+41, 14, 2, At War, Suzerain War, 2083.0, 0
+41, 15, Team 6, Individual Declaring War on Team START, Suzerain War, 2085.0
+41, 15, 14, At War, Suzerain War, 2085.0, 0
+41, 15, Team 6, Individual Declaring War on Team END, Suzerain War, 2087.0
+41, 14, 3, At War, Suzerain War, 2087.0, 0
+41, 14, 4, At War, Suzerain War, 2089.0, 0
+41, 10, Team 6, Individual Declaring War on Team START, Suzerain War, 2091.0
+41, 10, 14, At War, Suzerain War, 2091.0, 0
+41, 10, Team 6, Individual Declaring War on Team END, Suzerain War, 2093.0
+41, 16, Team 6, Individual Declaring War on Team START, Suzerain War, 2093.0
+41, 16, 14, At War, Suzerain War, 2093.0, 0
+41, 16, Team 6, Individual Declaring War on Team END, Suzerain War, 2095.0
+41, 20, Team 6, Individual Declaring War on Team START, Suzerain War, 2095.0
+41, 20, 14, At War, Suzerain War, 2095.0, 0
+41, 20, Team 6, Individual Declaring War on Team END, Suzerain War, 2097.0
+41, 14, Team 0, Individual Declaring War on Team END, Suzerain War, 2097.0
+41, 14, Team 0, Individual Declaring War on Team START, Suzerain War, 2097.0
+41, 14, 0, At War, Suzerain War, 2097.0, 0
+41, 14, 1, At War, Suzerain War, 2099.0, 0
+41, 13, Team 6, Individual Declaring War on Team START, Suzerain War, 2101.0
+41, 13, 14, At War, Suzerain War, 2101.0, 0
+41, 13, Team 6, Individual Declaring War on Team END, Suzerain War, 2103.0
+41, 21, Team 6, Individual Declaring War on Team START, Suzerain War, 2103.0
+41, 21, 14, At War, Suzerain War, 2103.0, 0
+41, 21, Team 6, Individual Declaring War on Team END, Suzerain War, 2105.0
+41, 14, 2, At War, Suzerain War, 2105.0, 0
+41, 15, Team 6, Individual Declaring War on Team START, Suzerain War, 2107.0
+41, 15, 14, At War, Suzerain War, 2107.0, 0
+41, 15, Team 6, Individual Declaring War on Team END, Suzerain War, 2109.0
+41, 14, 3, At War, Suzerain War, 2109.0, 0
+41, 14, 4, At War, Suzerain War, 2111.0, 0
+41, 10, Team 6, Individual Declaring War on Team START, Suzerain War, 2113.0
+41, 10, 14, At War, Suzerain War, 2113.0, 0
+41, 10, Team 6, Individual Declaring War on Team END, Suzerain War, 2115.0
+41, 16, Team 6, Individual Declaring War on Team START, Suzerain War, 2115.0
+41, 16, 14, At War, Suzerain War, 2115.0, 0
+41, 16, Team 6, Individual Declaring War on Team END, Suzerain War, 2117.0
+41, 20, Team 6, Individual Declaring War on Team START, Suzerain War, 2117.0
+41, 20, 14, At War, Suzerain War, 2117.0, 0
+41, 20, Team 6, Individual Declaring War on Team END, Suzerain War, 2119.0
+41, 14, Team 0, Individual Declaring War on Team END, Suzerain War, 2119.0
+41, 14, Team 2, Individual Declaring War on Team START, Suzerain War, 2119.0
+41, 14, 10, At War, Suzerain War, 2119.0, 0
+41, 14, Team 2, Individual Declaring War on Team END, Suzerain War, 2121.0
+41, 14, Team 5, Individual Declaring War on Team START, Suzerain War, 2121.0
+41, 14, 13, At War, Suzerain War, 2121.0, 0
+41, 14, Team 5, Individual Declaring War on Team END, Suzerain War, 2123.0
+41, 14, Team 7, Individual Declaring War on Team START, Suzerain War, 2123.0
+41, 14, 15, At War, Suzerain War, 2123.0, 0
+41, 14, Team 7, Individual Declaring War on Team END, Suzerain War, 2125.0
+41, 14, Team 8, Individual Declaring War on Team START, Suzerain War, 2125.0
+41, 14, 16, At War, Suzerain War, 2125.0, 0
+41, 14, Team 8, Individual Declaring War on Team END, Suzerain War, 2127.0
+41, 14, Team 12, Individual Declaring War on Team START, Suzerain War, 2127.0
+41, 14, 20, At War, Suzerain War, 2127.0, 0
+41, 14, Team 12, Individual Declaring War on Team END, Suzerain War, 2129.0
+41, 14, Team 13, Individual Declaring War on Team START, Suzerain War, 2129.0
+41, 14, 21, At War, Suzerain War, 2129.0, 0
+41, 14, Team 13, Individual Declaring War on Team END, Suzerain War, 2131.0
+41, 9, 14, At War, Surprise, 2135.0, 0
+41, 14, 0, Peace, , 2135.0, 0
+41, 14, 1, Peace, , 2135.0, 0
+41, 14, 2, Peace, , 2135.0, 0
+41, 14, 3, Peace, , 2135.0, 0
+41, 14, 4, Peace, , 2135.0, 0
+41, 14, 10, Peace, , 2135.0, 0
+41, 14, 13, Peace, , 2135.0, 0
+41, 14, 15, Peace, , 2135.0, 0
+41, 14, 16, Peace, , 2135.0, 0
+41, 14, 20, Peace, , 2135.0, 0
+41, 14, 21, Peace, , 2135.0, 0
+41, 7, Team 6, Individual Declaring War on Team END, Surprise, 2139.0
+43, 9, 4, Deal Proposed, 0 Peace for 8 turns from 9 to 4; 0 Peace for 8 turns from 4 to 9; 2 Gold for 0 turns from 9 to 4; 6 Gold for 30 turns from 9 to 4; , 2158.0, 0
+43, 0, 4, Alliance Starts, LOC_ALLIANCE_MILITARY, 2165.0, 0
+43, 0, 4, Defensive Pact, , 2165.0, 0
+43, 0, 4, Allied, , 2165.0, 0
+43, 14, Team 1, Individual Declaring War on Team START, Suzerain War, 2165.0
+43, 14, 5, At War, Suzerain War, 2165.0, 0
+43, 14, 6, At War, Suzerain War, 2167.0, 0
+43, 14, 7, At War, Suzerain War, 2169.0, 0
+43, 14, 8, At War, Suzerain War, 2171.0, 0
+43, 14, 9, At War, Suzerain War, 2173.0, 0
+43, 14, Team 1, Individual Declaring War on Team END, Suzerain War, 2175.0
+43, 14, Team 1, Individual Declaring War on Team START, Suzerain War, 2175.0
+43, 14, 5, At War, Suzerain War, 2175.0, 0
+43, 14, 6, At War, Suzerain War, 2177.0, 0
+43, 14, 7, At War, Suzerain War, 2179.0, 0
+43, 14, 8, At War, Suzerain War, 2181.0, 0
+43, 14, 9, At War, Suzerain War, 2183.0, 0
+43, 14, Team 1, Individual Declaring War on Team END, Suzerain War, 2185.0
+43, 14, Team 1, Individual Declaring War on Team START, Suzerain War, 2185.0
+43, 14, 5, At War, Suzerain War, 2185.0, 0
+43, 14, 6, At War, Suzerain War, 2187.0, 0
+43, 14, 7, At War, Suzerain War, 2189.0, 0
+43, 14, 8, At War, Suzerain War, 2191.0, 0
+43, 14, 9, At War, Suzerain War, 2193.0, 0
+43, 14, Team 1, Individual Declaring War on Team END, Suzerain War, 2195.0
+43, 14, Team 1, Individual Declaring War on Team START, Suzerain War, 2195.0
+43, 14, 5, At War, Suzerain War, 2195.0, 0
+43, 14, 6, At War, Suzerain War, 2197.0, 0
+43, 14, 7, At War, Suzerain War, 2199.0, 0
+43, 14, 8, At War, Suzerain War, 2201.0, 0
+43, 14, 9, At War, Suzerain War, 2203.0, 0
+43, 14, Team 1, Individual Declaring War on Team END, Suzerain War, 2205.0
+43, 14, Team 1, Individual Declaring War on Team START, Suzerain War, 2205.0
+43, 14, 5, At War, Suzerain War, 2205.0, 0
+43, 14, 6, At War, Suzerain War, 2207.0, 0
+43, 14, 7, At War, Suzerain War, 2209.0, 0
+43, 14, 8, At War, Suzerain War, 2211.0, 0
+43, 14, 9, At War, Suzerain War, 2213.0, 0
+43, 14, Team 1, Individual Declaring War on Team END, Suzerain War, 2215.0
+43, 4, 14, Gave Influence, , 2215.0, 0
+44, 9, 7, Deal Proposed, 10 RESOURCE_HORSES for 0 turns from 7 to 9; 10 RESOURCE_IRON for 0 turns from 9 to 7; , 2220.0, 1
+44, 9, 7, Deal Closed, 10 RESOURCE_HORSES for 0 turns from 7 to 9; 10 RESOURCE_IRON for 0 turns from 9 to 7; , 2220.0, 1
+44, 7, 9, Deal Rejected, 10 RESOURCE_HORSES for 0 turns from 7 to 9; 10 RESOURCE_IRON for 0 turns from 9 to 7; , 2220.0, 1
+44, 17, Team 1, Individual Declaring War on Team START, Suzerain War, 2230.0
+44, 17, 5, Met, , 2230.0, 0
+44, 5, 17, Met, , 2230.0, 0
+44, 6, 17, Met, , 2230.0, 0
+44, 17, 6, Met, , 2230.0, 0
+44, 7, 17, Met, , 2230.0, 0
+44, 17, 7, Met, , 2230.0, 0
+44, 8, 17, Met, , 2230.0, 0
+44, 17, 8, Met, , 2230.0, 0
+44, 9, 17, Met, , 2230.0, 0
+44, 17, 9, Met, , 2230.0, 0
+44, 17, Team 1, Individual Declaring War on Team START, Suzerain War, 2230.0
+44, 17, 5, At War, Suzerain War, 2230.0, 0
+44, 17, 6, At War, Suzerain War, 2232.0, 0
+44, 17, 7, At War, Suzerain War, 2234.0, 0
+44, 17, 8, At War, Suzerain War, 2236.0, 0
+44, 17, 9, At War, Suzerain War, 2238.0, 0
+44, 17, Team 1, Individual Declaring War on Team END, Suzerain War, 2240.0
+44, 17, Team 1, Individual Declaring War on Team START, Suzerain War, 2240.0
+44, 17, 5, At War, Suzerain War, 2240.0, 0
+44, 17, 6, At War, Suzerain War, 2242.0, 0
+44, 17, 7, At War, Suzerain War, 2244.0, 0
+44, 17, 8, At War, Suzerain War, 2246.0, 0
+44, 17, 9, At War, Suzerain War, 2248.0, 0
+44, 17, Team 1, Individual Declaring War on Team END, Suzerain War, 2250.0
+44, 17, Team 1, Individual Declaring War on Team START, Suzerain War, 2250.0
+44, 17, 5, At War, Suzerain War, 2250.0, 0
+44, 17, 6, At War, Suzerain War, 2252.0, 0
+44, 17, 7, At War, Suzerain War, 2254.0, 0
+44, 17, 8, At War, Suzerain War, 2256.0, 0
+44, 17, 9, At War, Suzerain War, 2258.0, 0
+44, 17, Team 1, Individual Declaring War on Team END, Suzerain War, 2260.0
+44, 17, Team 1, Individual Declaring War on Team START, Suzerain War, 2260.0
+44, 17, 5, At War, Suzerain War, 2260.0, 0
+44, 17, 6, At War, Suzerain War, 2262.0, 0
+44, 17, 7, At War, Suzerain War, 2264.0, 0
+44, 17, 8, At War, Suzerain War, 2266.0, 0
+44, 17, 9, At War, Suzerain War, 2268.0, 0
+44, 17, Team 1, Individual Declaring War on Team END, Suzerain War, 2270.0
+44, 17, Team 1, Individual Declaring War on Team START, Suzerain War, 2270.0
+44, 17, 5, At War, Suzerain War, 2270.0, 0
+44, 17, 6, At War, Suzerain War, 2272.0, 0
+44, 17, 7, At War, Suzerain War, 2274.0, 0
+44, 17, 8, At War, Suzerain War, 2276.0, 0
+44, 17, 9, At War, Suzerain War, 2278.0, 0
+44, 17, Team 1, Individual Declaring War on Team END, Suzerain War, 2280.0
+44, 17, Team 1, Individual Declaring War on Team START, Suzerain War, 2280.0
+44, 17, 5, At War, Suzerain War, 2280.0, 0
+44, 17, 6, At War, Suzerain War, 2282.0, 0
+44, 17, 7, At War, Suzerain War, 2284.0, 0
+44, 17, 8, At War, Suzerain War, 2286.0, 0
+44, 17, 9, At War, Suzerain War, 2288.0, 0
+44, 17, Team 1, Individual Declaring War on Team END, Suzerain War, 2290.0
+44, 17, Team 1, Individual Declaring War on Team START, Suzerain War, 2290.0
+44, 17, 5, At War, Suzerain War, 2290.0, 0
+44, 17, 6, At War, Suzerain War, 2292.0, 0
+44, 17, 7, At War, Suzerain War, 2294.0, 0
+44, 17, 8, At War, Suzerain War, 2296.0, 0
+44, 17, 9, At War, Suzerain War, 2298.0, 0
+44, 17, Team 1, Individual Declaring War on Team END, Suzerain War, 2300.0
+44, 17, Team 1, Individual Declaring War on Team START, Suzerain War, 2300.0
+44, 17, 5, At War, Suzerain War, 2300.0, 0
+44, 17, 6, At War, Suzerain War, 2302.0, 0
+44, 17, 7, At War, Suzerain War, 2304.0, 0
+44, 17, 8, At War, Suzerain War, 2306.0, 0
+44, 17, 9, At War, Suzerain War, 2308.0, 0
+44, 17, Team 1, Individual Declaring War on Team END, Suzerain War, 2310.0
+44, 17, Team 1, Individual Declaring War on Team START, Suzerain War, 2310.0
+44, 17, 5, At War, Suzerain War, 2310.0, 0
+44, 17, 6, At War, Suzerain War, 2312.0, 0
+44, 17, 7, At War, Suzerain War, 2314.0, 0
+44, 17, 8, At War, Suzerain War, 2316.0, 0
+44, 17, 9, At War, Suzerain War, 2318.0, 0
+44, 17, Team 1, Individual Declaring War on Team END, Suzerain War, 2320.0
+44, 17, Team 1, Individual Declaring War on Team START, Suzerain War, 2320.0
+44, 17, 5, At War, Suzerain War, 2320.0, 0
+44, 17, 6, At War, Suzerain War, 2322.0, 0
+44, 17, 7, At War, Suzerain War, 2324.0, 0
+44, 17, 8, At War, Suzerain War, 2326.0, 0
+44, 17, 9, At War, Suzerain War, 2328.0, 0
+44, 17, Team 1, Individual Declaring War on Team END, Suzerain War, 2330.0
+44, 17, 5, At War, Suzerain War, 2330.0, 0
+44, 17, 6, At War, Suzerain War, 2332.0, 0
+44, 17, 7, At War, Suzerain War, 2334.0, 0
+44, 17, 8, At War, Suzerain War, 2336.0, 0
+44, 17, 9, At War, Suzerain War, 2338.0, 0
+44, 17, Team 1, Individual Declaring War on Team END, Suzerain War, 2340.0
+44, 17, Team 1, Individual Declaring War on Team START, Suzerain War, 2340.0
+44, 17, 5, At War, Suzerain War, 2340.0, 0
+44, 17, 6, At War, Suzerain War, 2342.0, 0
+44, 17, 7, At War, Suzerain War, 2344.0, 0
+44, 17, 8, At War, Suzerain War, 2346.0, 0
+44, 17, 9, At War, Suzerain War, 2348.0, 0
+44, 17, Team 1, Individual Declaring War on Team END, Suzerain War, 2350.0
+44, 17, Team 1, Individual Declaring War on Team START, Suzerain War, 2350.0
+44, 17, 5, At War, Suzerain War, 2350.0, 0
+44, 17, 6, At War, Suzerain War, 2352.0, 0
+44, 17, 7, At War, Suzerain War, 2354.0, 0
+44, 17, 8, At War, Suzerain War, 2356.0, 0
+44, 17, 9, At War, Suzerain War, 2358.0, 0
+44, 17, Team 1, Individual Declaring War on Team END, Suzerain War, 2360.0
+44, 17, Team 1, Individual Declaring War on Team START, Suzerain War, 2360.0
+44, 17, 5, At War, Suzerain War, 2360.0, 0
+44, 17, 6, At War, Suzerain War, 2362.0, 0
+44, 17, 7, At War, Suzerain War, 2364.0, 0
+44, 17, 8, At War, Suzerain War, 2366.0, 0
+44, 17, 9, At War, Suzerain War, 2368.0, 0
+44, 17, Team 1, Individual Declaring War on Team END, Suzerain War, 2370.0
+44, 17, Team 1, Individual Declaring War on Team START, Suzerain War, 2370.0
+44, 17, 5, At War, Suzerain War, 2370.0, 0
+44, 17, 6, At War, Suzerain War, 2372.0, 0
+44, 17, 7, At War, Suzerain War, 2374.0, 0
+44, 17, 8, At War, Suzerain War, 2376.0, 0
+44, 17, 9, At War, Suzerain War, 2378.0, 0
+44, 17, Team 1, Individual Declaring War on Team END, Suzerain War, 2380.0
+44, 1, 17, Gave Influence, , 2380.0, 0
+46, 9, 4, Deal Proposed, 0 Peace for 8 turns from 9 to 4; 0 Peace for 8 turns from 4 to 9; 1 RESOURCE_GYPSUM for 30 turns from 9 to 4; 6 Gold for 0 turns from 9 to 4; 8 Gold for 30 turns from 9 to 4; , 2405.0, 0
+46, 17, 5, Peace, , 2415.0, 0
+46, 17, 6, Peace, , 2415.0, 0
+46, 17, 7, Peace, , 2415.0, 0
+46, 17, 8, Peace, , 2415.0, 0
+46, 17, 9, Peace, , 2415.0, 0
+46, 3, 17, Gave Influence, , 2415.0, 0
+46, 21, 5, Peace, , 2415.0, 0
+46, 21, 6, Peace, , 2415.0, 0
+46, 21, 7, Peace, , 2415.0, 0
+46, 21, 8, Peace, , 2415.0, 0
+46, 21, 9, Peace, , 2415.0, 0
+46, 4, 21, Gave Influence, , 2415.0, 0
+46, 0, 14, Gave Influence, , 2415.0, 0
+46, 0, 14, Gave Influence, , 2415.0, 0
+47, 6, 17, Gave Influence, , 2415.0, 0
+47, 6, 17, Gave Influence, , 2415.0, 0
+47, 6, 17, Gave Influence, , 2415.0, 0
+47, 17, Team 0, Individual Declaring War on Team START, Suzerain War, 2415.0
+47, 17, 0, At War, Suzerain War, 2415.0, 0
+47, 17, 1, At War, Suzerain War, 2417.0, 0
+47, 13, Team 9, Individual Declaring War on Team START, Suzerain War, 2419.0
+47, 13, 17, Met, , 2419.0, 0
+47, 17, 13, Met, , 2419.0, 0
+47, 13, 17, At War, Suzerain War, 2419.0, 0
+47, 13, Team 9, Individual Declaring War on Team END, Suzerain War, 2421.0
+47, 17, 2, At War, Suzerain War, 2421.0, 0
+47, 15, Team 9, Individual Declaring War on Team START, Suzerain War, 2423.0
+47, 15, 17, Met, , 2423.0, 0
+47, 17, 15, Met, , 2423.0, 0
+47, 15, 17, At War, Suzerain War, 2423.0, 0
+47, 15, Team 9, Individual Declaring War on Team END, Suzerain War, 2425.0
+47, 17, 3, At War, Suzerain War, 2425.0, 0
+47, 17, 4, At War, Suzerain War, 2427.0, 0
+47, 10, Team 9, Individual Declaring War on Team START, Suzerain War, 2429.0
+47, 10, 17, Met, , 2429.0, 0
+47, 17, 10, Met, , 2429.0, 0
+47, 10, 17, At War, Suzerain War, 2429.0, 0
+47, 10, Team 9, Individual Declaring War on Team END, Suzerain War, 2431.0
+47, 14, Team 9, Individual Declaring War on Team START, Suzerain War, 2431.0
+47, 14, 17, Met, , 2431.0, 0
+47, 17, 14, Met, , 2431.0, 0
+47, 14, 17, At War, Suzerain War, 2431.0, 0
+47, 14, Team 9, Individual Declaring War on Team END, Suzerain War, 2433.0
+47, 16, Team 9, Individual Declaring War on Team START, Suzerain War, 2433.0
+47, 16, 17, Met, , 2433.0, 0
+47, 17, 16, Met, , 2433.0, 0
+47, 16, 17, At War, Suzerain War, 2433.0, 0
+47, 16, Team 9, Individual Declaring War on Team END, Suzerain War, 2435.0
+47, 20, Team 9, Individual Declaring War on Team START, Suzerain War, 2435.0
+47, 20, 17, Met, , 2435.0, 0
+47, 17, 20, Met, , 2435.0, 0
+47, 20, 17, At War, Suzerain War, 2435.0, 0
+47, 20, Team 9, Individual Declaring War on Team END, Suzerain War, 2437.0
+47, 17, Team 0, Individual Declaring War on Team END, Suzerain War, 2437.0
+47, 17, Team 0, Individual Declaring War on Team START, Suzerain War, 2437.0
+47, 17, 0, At War, Suzerain War, 2437.0, 0
+47, 17, 1, At War, Suzerain War, 2439.0, 0
+47, 13, Team 9, Individual Declaring War on Team START, Suzerain War, 2441.0
+47, 13, 17, At War, Suzerain War, 2441.0, 0
+47, 13, Team 9, Individual Declaring War on Team END, Suzerain War, 2443.0
+47, 17, 2, At War, Suzerain War, 2443.0, 0
+47, 15, Team 9, Individual Declaring War on Team START, Suzerain War, 2445.0
+47, 15, 17, At War, Suzerain War, 2445.0, 0
+47, 15, Team 9, Individual Declaring War on Team END, Suzerain War, 2447.0
+47, 17, 3, At War, Suzerain War, 2447.0, 0
+47, 17, 4, At War, Suzerain War, 2449.0, 0
+47, 10, Team 9, Individual Declaring War on Team START, Suzerain War, 2451.0
+47, 10, 17, At War, Suzerain War, 2451.0, 0
+47, 10, Team 9, Individual Declaring War on Team END, Suzerain War, 2453.0
+47, 14, Team 9, Individual Declaring War on Team START, Suzerain War, 2453.0
+47, 14, 17, At War, Suzerain War, 2453.0, 0
+47, 14, Team 9, Individual Declaring War on Team END, Suzerain War, 2455.0
+47, 16, Team 9, Individual Declaring War on Team START, Suzerain War, 2455.0
+47, 16, 17, At War, Suzerain War, 2455.0, 0
+47, 16, Team 9, Individual Declaring War on Team END, Suzerain War, 2457.0
+47, 20, Team 9, Individual Declaring War on Team START, Suzerain War, 2457.0
+47, 20, 17, At War, Suzerain War, 2457.0, 0
+47, 20, Team 9, Individual Declaring War on Team END, Suzerain War, 2459.0
+47, 17, Team 0, Individual Declaring War on Team END, Suzerain War, 2459.0
+47, 17, Team 0, Individual Declaring War on Team START, Suzerain War, 2459.0
+47, 17, 0, At War, Suzerain War, 2459.0, 0
+47, 17, 1, At War, Suzerain War, 2461.0, 0
+47, 13, Team 9, Individual Declaring War on Team START, Suzerain War, 2463.0
+47, 13, 17, At War, Suzerain War, 2463.0, 0
+47, 13, Team 9, Individual Declaring War on Team END, Suzerain War, 2465.0
+47, 17, 2, At War, Suzerain War, 2465.0, 0
+47, 15, Team 9, Individual Declaring War on Team START, Suzerain War, 2467.0
+47, 15, 17, At War, Suzerain War, 2467.0, 0
+47, 15, Team 9, Individual Declaring War on Team END, Suzerain War, 2469.0
+47, 17, 3, At War, Suzerain War, 2469.0, 0
+47, 17, 4, At War, Suzerain War, 2471.0, 0
+47, 10, Team 9, Individual Declaring War on Team START, Suzerain War, 2473.0
+47, 10, 17, At War, Suzerain War, 2473.0, 0
+47, 10, Team 9, Individual Declaring War on Team END, Suzerain War, 2475.0
+47, 14, Team 9, Individual Declaring War on Team START, Suzerain War, 2475.0
+47, 14, 17, At War, Suzerain War, 2475.0, 0
+47, 14, Team 9, Individual Declaring War on Team END, Suzerain War, 2477.0
+47, 16, Team 9, Individual Declaring War on Team START, Suzerain War, 2477.0
+47, 16, 17, At War, Suzerain War, 2477.0, 0
+47, 16, Team 9, Individual Declaring War on Team END, Suzerain War, 2479.0
+47, 20, Team 9, Individual Declaring War on Team START, Suzerain War, 2479.0
+47, 20, 17, At War, Suzerain War, 2479.0, 0
+47, 20, Team 9, Individual Declaring War on Team END, Suzerain War, 2481.0
+47, 17, Team 0, Individual Declaring War on Team END, Suzerain War, 2481.0
+47, 17, Team 0, Individual Declaring War on Team START, Suzerain War, 2481.0
+47, 17, 0, At War, Suzerain War, 2481.0, 0
+47, 17, 1, At War, Suzerain War, 2483.0, 0
+47, 13, Team 9, Individual Declaring War on Team START, Suzerain War, 2485.0
+47, 13, 17, At War, Suzerain War, 2485.0, 0
+47, 13, Team 9, Individual Declaring War on Team END, Suzerain War, 2487.0
+47, 17, 2, At War, Suzerain War, 2487.0, 0
+47, 15, Team 9, Individual Declaring War on Team START, Suzerain War, 2489.0
+47, 15, 17, At War, Suzerain War, 2489.0, 0
+47, 15, Team 9, Individual Declaring War on Team END, Suzerain War, 2491.0
+47, 17, 3, At War, Suzerain War, 2491.0, 0
+47, 17, 4, At War, Suzerain War, 2493.0, 0
+47, 10, Team 9, Individual Declaring War on Team START, Suzerain War, 2495.0
+47, 10, 17, At War, Suzerain War, 2495.0, 0
+47, 10, Team 9, Individual Declaring War on Team END, Suzerain War, 2497.0
+47, 14, Team 9, Individual Declaring War on Team START, Suzerain War, 2497.0
+47, 14, 17, At War, Suzerain War, 2497.0, 0
+47, 14, Team 9, Individual Declaring War on Team END, Suzerain War, 2499.0
+47, 16, Team 9, Individual Declaring War on Team START, Suzerain War, 2499.0
+47, 16, 17, At War, Suzerain War, 2499.0, 0
+47, 16, Team 9, Individual Declaring War on Team END, Suzerain War, 2501.0
+47, 20, Team 9, Individual Declaring War on Team START, Suzerain War, 2501.0
+47, 20, 17, At War, Suzerain War, 2501.0, 0
+47, 20, Team 9, Individual Declaring War on Team END, Suzerain War, 2503.0
+47, 17, Team 0, Individual Declaring War on Team END, Suzerain War, 2503.0
+47, 17, Team 0, Individual Declaring War on Team START, Suzerain War, 2503.0
+47, 17, 0, At War, Suzerain War, 2503.0, 0
+47, 17, 1, At War, Suzerain War, 2505.0, 0
+47, 13, Team 9, Individual Declaring War on Team START, Suzerain War, 2507.0
+47, 13, 17, At War, Suzerain War, 2507.0, 0
+47, 13, Team 9, Individual Declaring War on Team END, Suzerain War, 2509.0
+47, 17, 2, At War, Suzerain War, 2509.0, 0
+47, 15, Team 9, Individual Declaring War on Team START, Suzerain War, 2511.0
+47, 15, 17, At War, Suzerain War, 2511.0, 0
+47, 15, Team 9, Individual Declaring War on Team END, Suzerain War, 2513.0
+47, 17, 3, At War, Suzerain War, 2513.0, 0
+47, 17, 4, At War, Suzerain War, 2515.0, 0
+47, 10, Team 9, Individual Declaring War on Team START, Suzerain War, 2517.0
+47, 10, 17, At War, Suzerain War, 2517.0, 0
+47, 10, Team 9, Individual Declaring War on Team END, Suzerain War, 2519.0
+47, 14, Team 9, Individual Declaring War on Team START, Suzerain War, 2519.0
+47, 14, 17, At War, Suzerain War, 2519.0, 0
+47, 14, Team 9, Individual Declaring War on Team END, Suzerain War, 2521.0
+47, 16, Team 9, Individual Declaring War on Team START, Suzerain War, 2521.0
+47, 16, 17, At War, Suzerain War, 2521.0, 0
+47, 16, Team 9, Individual Declaring War on Team END, Suzerain War, 2523.0
+47, 20, Team 9, Individual Declaring War on Team START, Suzerain War, 2523.0
+47, 20, 17, At War, Suzerain War, 2523.0, 0
+47, 20, Team 9, Individual Declaring War on Team END, Suzerain War, 2525.0
+47, 17, Team 0, Individual Declaring War on Team END, Suzerain War, 2525.0
+47, 17, Team 2, Individual Declaring War on Team START, Suzerain War, 2525.0
+47, 17, 10, At War, Suzerain War, 2525.0, 0
+47, 17, Team 2, Individual Declaring War on Team END, Suzerain War, 2527.0
+47, 17, Team 5, Individual Declaring War on Team START, Suzerain War, 2527.0
+47, 17, 13, At War, Suzerain War, 2527.0, 0
+47, 17, Team 5, Individual Declaring War on Team END, Suzerain War, 2529.0
+47, 17, Team 6, Individual Declaring War on Team START, Suzerain War, 2529.0
+47, 17, 14, At War, Suzerain War, 2529.0, 0
+47, 17, Team 6, Individual Declaring War on Team END, Suzerain War, 2531.0
+47, 17, Team 7, Individual Declaring War on Team START, Suzerain War, 2531.0
+47, 17, 15, At War, Suzerain War, 2531.0, 0
+47, 17, Team 7, Individual Declaring War on Team END, Suzerain War, 2533.0
+47, 17, Team 8, Individual Declaring War on Team START, Suzerain War, 2533.0
+47, 17, 16, At War, Suzerain War, 2533.0, 0
+47, 17, Team 8, Individual Declaring War on Team END, Suzerain War, 2535.0
+47, 17, Team 12, Individual Declaring War on Team START, Suzerain War, 2535.0
+47, 17, 20, At War, Suzerain War, 2535.0, 0
+47, 17, Team 12, Individual Declaring War on Team END, Suzerain War, 2537.0
+47, 6, 17, Gave Influence, , 2537.0, 0
+47, 7, 17, Gave Influence, , 2537.0, 0
+47, 8, 17, Gave Influence, , 2538.0, 0
+47, 9, 17, Gave Influence, , 2543.0, 0
+47, 9, 17, Gave Influence, , 2543.0, 0
+47, 3, 2, Alliance Starts, LOC_ALLIANCE_MILITARY, 2563.0, 0
+47, 3, 2, Defensive Pact, , 2563.0, 0
+47, 3, 2, Allied, , 2563.0, 0
+47, 3, 1, Alliance Starts, LOC_ALLIANCE_RESEARCH, 2563.0, 0
+47, 3, 1, Defensive Pact, , 2563.0, 0
+47, 3, 1, Allied, , 2563.0, 0
+47, 2, 1, Alliance Starts, LOC_ALLIANCE_CULTURAL, 2563.0, 0
+47, 2, 1, Defensive Pact, , 2563.0, 0
+47, 2, 1, Allied, , 2563.0, 0
+48, 7, 21, Gave Influence, , 2565.0, 0
+48, 8, 21, Gave Influence, , 2567.0, 0
+48, 8, 21, Gave Influence, , 2567.0, 0
+48, 1, 12, Gave Influence, , 2577.0, 0
+48, 10, 5, Peace, , 2582.0, 0
+48, 10, 6, Peace, , 2582.0, 0
+48, 10, 7, Peace, , 2582.0, 0
+48, 10, 8, Peace, , 2582.0, 0
+48, 10, 9, Peace, , 2582.0, 0
+48, 10, 17, Peace, , 2582.0, 0
+48, 1, 10, Gave Influence, , 2582.0, 0
+48, 12, Team 1, Individual Declaring War on Team START, Suzerain War, 2582.0
+48, 12, 5, Met, , 2582.0, 0
+48, 5, 12, Met, , 2582.0, 0
+48, 6, 12, Met, , 2582.0, 0
+48, 12, 6, Met, , 2582.0, 0
+48, 7, 12, Met, , 2582.0, 0
+48, 12, 7, Met, , 2582.0, 0
+48, 8, 12, Met, , 2582.0, 0
+48, 12, 8, Met, , 2582.0, 0
+48, 9, 12, Met, , 2582.0, 0
+48, 12, 9, Met, , 2582.0, 0
+48, 12, Team 1, Individual Declaring War on Team START, Suzerain War, 2582.0
+48, 12, 5, At War, Suzerain War, 2582.0, 0
+48, 12, 6, At War, Suzerain War, 2584.0, 0
+48, 17, Team 4, Individual Declaring War on Team START, Suzerain War, 2586.0
+48, 17, 12, At War, Suzerain War, 2586.0, 0
+48, 17, Team 4, Individual Declaring War on Team END, Suzerain War, 2588.0
+48, 12, 7, At War, Suzerain War, 2588.0, 0
+48, 12, 8, At War, Suzerain War, 2590.0, 0
+48, 12, 9, At War, Suzerain War, 2592.0, 0
+48, 12, Team 1, Individual Declaring War on Team END, Suzerain War, 2594.0
+48, 12, Team 1, Individual Declaring War on Team START, Suzerain War, 2594.0
+48, 12, 5, At War, Suzerain War, 2594.0, 0
+48, 12, 6, At War, Suzerain War, 2596.0, 0
+48, 17, Team 4, Individual Declaring War on Team START, Suzerain War, 2598.0
+48, 17, 12, At War, Suzerain War, 2598.0, 0
+48, 17, Team 4, Individual Declaring War on Team END, Suzerain War, 2600.0
+48, 12, 7, At War, Suzerain War, 2600.0, 0
+48, 12, 8, At War, Suzerain War, 2602.0, 0
+48, 12, 9, At War, Suzerain War, 2604.0, 0
+48, 12, Team 1, Individual Declaring War on Team END, Suzerain War, 2606.0
+48, 12, Team 1, Individual Declaring War on Team START, Suzerain War, 2606.0
+48, 12, 5, At War, Suzerain War, 2606.0, 0
+48, 12, 6, At War, Suzerain War, 2608.0, 0
+48, 17, Team 4, Individual Declaring War on Team START, Suzerain War, 2610.0
+48, 17, 12, At War, Suzerain War, 2610.0, 0
+48, 17, Team 4, Individual Declaring War on Team END, Suzerain War, 2612.0
+48, 12, 7, At War, Suzerain War, 2612.0, 0
+48, 12, 8, At War, Suzerain War, 2614.0, 0
+48, 12, 9, At War, Suzerain War, 2616.0, 0
+48, 12, Team 1, Individual Declaring War on Team END, Suzerain War, 2618.0
+48, 12, Team 1, Individual Declaring War on Team START, Suzerain War, 2618.0
+48, 12, 5, At War, Suzerain War, 2618.0, 0
+48, 12, 6, At War, Suzerain War, 2620.0, 0
+48, 17, Team 4, Individual Declaring War on Team START, Suzerain War, 2622.0
+48, 17, 12, At War, Suzerain War, 2622.0, 0
+48, 17, Team 4, Individual Declaring War on Team END, Suzerain War, 2624.0
+48, 12, 7, At War, Suzerain War, 2624.0, 0
+48, 12, 8, At War, Suzerain War, 2626.0, 0
+48, 12, 9, At War, Suzerain War, 2628.0, 0
+48, 12, Team 1, Individual Declaring War on Team END, Suzerain War, 2630.0
+48, 12, Team 1, Individual Declaring War on Team START, Suzerain War, 2630.0
+48, 12, 5, At War, Suzerain War, 2630.0, 0
+48, 12, 6, At War, Suzerain War, 2632.0, 0
+48, 17, Team 4, Individual Declaring War on Team START, Suzerain War, 2634.0
+48, 17, 12, At War, Suzerain War, 2634.0, 0
+48, 17, Team 4, Individual Declaring War on Team END, Suzerain War, 2636.0
+48, 12, 7, At War, Suzerain War, 2636.0, 0
+48, 12, 8, At War, Suzerain War, 2638.0, 0
+48, 12, 9, At War, Suzerain War, 2640.0, 0
+48, 12, Team 1, Individual Declaring War on Team END, Suzerain War, 2642.0
+48, 12, Team 1, Individual Declaring War on Team START, Suzerain War, 2642.0
+48, 12, 5, At War, Suzerain War, 2642.0, 0
+48, 12, 6, At War, Suzerain War, 2644.0, 0
+48, 17, Team 4, Individual Declaring War on Team START, Suzerain War, 2646.0
+48, 17, 12, At War, Suzerain War, 2646.0, 0
+48, 17, Team 4, Individual Declaring War on Team END, Suzerain War, 2648.0
+48, 12, 7, At War, Suzerain War, 2648.0, 0
+48, 12, 8, At War, Suzerain War, 2650.0, 0
+48, 12, 9, At War, Suzerain War, 2652.0, 0
+48, 12, Team 1, Individual Declaring War on Team END, Suzerain War, 2654.0
+48, 12, Team 1, Individual Declaring War on Team START, Suzerain War, 2654.0
+48, 12, 5, At War, Suzerain War, 2654.0, 0
+48, 12, 6, At War, Suzerain War, 2656.0, 0
+48, 17, Team 4, Individual Declaring War on Team START, Suzerain War, 2658.0
+48, 17, 12, At War, Suzerain War, 2658.0, 0
+48, 17, Team 4, Individual Declaring War on Team END, Suzerain War, 2660.0
+48, 12, 7, At War, Suzerain War, 2660.0, 0
+48, 12, 8, At War, Suzerain War, 2662.0, 0
+48, 12, 9, At War, Suzerain War, 2664.0, 0
+48, 12, Team 1, Individual Declaring War on Team END, Suzerain War, 2666.0
+48, 12, Team 1, Individual Declaring War on Team START, Suzerain War, 2666.0
+48, 12, 5, At War, Suzerain War, 2666.0, 0
+48, 12, 6, At War, Suzerain War, 2668.0, 0
+48, 17, Team 4, Individual Declaring War on Team START, Suzerain War, 2670.0
+48, 17, 12, At War, Suzerain War, 2670.0, 0
+48, 17, Team 4, Individual Declaring War on Team END, Suzerain War, 2672.0
+48, 12, 7, At War, Suzerain War, 2672.0, 0
+48, 12, 8, At War, Suzerain War, 2674.0, 0
+48, 12, 9, At War, Suzerain War, 2676.0, 0
+48, 12, Team 1, Individual Declaring War on Team END, Suzerain War, 2678.0
+48, 12, Team 1, Individual Declaring War on Team START, Suzerain War, 2678.0
+48, 12, 5, At War, Suzerain War, 2678.0, 0
+48, 12, 6, At War, Suzerain War, 2680.0, 0
+48, 17, Team 4, Individual Declaring War on Team START, Suzerain War, 2682.0
+48, 17, 12, At War, Suzerain War, 2682.0, 0
+48, 17, Team 4, Individual Declaring War on Team END, Suzerain War, 2684.0
+48, 12, 7, At War, Suzerain War, 2684.0, 0
+48, 12, 8, At War, Suzerain War, 2686.0, 0
+48, 12, 9, At War, Suzerain War, 2688.0, 0
+48, 12, Team 1, Individual Declaring War on Team END, Suzerain War, 2690.0
+48, 12, Team 1, Individual Declaring War on Team START, Suzerain War, 2690.0
+48, 12, 5, At War, Suzerain War, 2690.0, 0
+48, 12, 6, At War, Suzerain War, 2692.0, 0
+48, 17, Team 4, Individual Declaring War on Team START, Suzerain War, 2694.0
+48, 17, 12, At War, Suzerain War, 2694.0, 0
+48, 17, Team 4, Individual Declaring War on Team END, Suzerain War, 2696.0
+48, 12, 7, At War, Suzerain War, 2696.0, 0
+48, 12, 8, At War, Suzerain War, 2698.0, 0
+48, 12, 9, At War, Suzerain War, 2700.0, 0
+48, 12, Team 1, Individual Declaring War on Team END, Suzerain War, 2702.0
+48, 12, 5, At War, Suzerain War, 2702.0, 0
+48, 12, 6, At War, Suzerain War, 2704.0, 0
+48, 17, Team 4, Individual Declaring War on Team START, Suzerain War, 2706.0
+48, 17, 12, At War, Suzerain War, 2706.0, 0
+48, 17, Team 4, Individual Declaring War on Team END, Suzerain War, 2708.0
+48, 12, 7, At War, Suzerain War, 2708.0, 0
+48, 12, 8, At War, Suzerain War, 2710.0, 0
+48, 12, 9, At War, Suzerain War, 2712.0, 0
+48, 12, Team 1, Individual Declaring War on Team END, Suzerain War, 2714.0
+48, 12, Team 1, Individual Declaring War on Team START, Suzerain War, 2714.0
+48, 12, 5, At War, Suzerain War, 2714.0, 0
+48, 12, 6, At War, Suzerain War, 2716.0, 0
+48, 17, Team 4, Individual Declaring War on Team START, Suzerain War, 2718.0
+48, 17, 12, At War, Suzerain War, 2718.0, 0
+48, 17, Team 4, Individual Declaring War on Team END, Suzerain War, 2720.0
+48, 12, 7, At War, Suzerain War, 2720.0, 0
+48, 12, 8, At War, Suzerain War, 2722.0, 0
+48, 12, 9, At War, Suzerain War, 2724.0, 0
+48, 12, Team 1, Individual Declaring War on Team END, Suzerain War, 2726.0
+48, 12, Team 1, Individual Declaring War on Team START, Suzerain War, 2726.0
+48, 12, 5, At War, Suzerain War, 2726.0, 0
+48, 12, 6, At War, Suzerain War, 2728.0, 0
+48, 17, Team 4, Individual Declaring War on Team START, Suzerain War, 2730.0
+48, 17, 12, At War, Suzerain War, 2730.0, 0
+48, 17, Team 4, Individual Declaring War on Team END, Suzerain War, 2732.0
+48, 12, 7, At War, Suzerain War, 2732.0, 0
+48, 12, 8, At War, Suzerain War, 2734.0, 0
+48, 12, 9, At War, Suzerain War, 2736.0, 0
+48, 12, Team 1, Individual Declaring War on Team END, Suzerain War, 2738.0
+48, 12, Team 1, Individual Declaring War on Team START, Suzerain War, 2738.0
+48, 12, 5, At War, Suzerain War, 2738.0, 0
+48, 12, 6, At War, Suzerain War, 2740.0, 0
+48, 17, Team 4, Individual Declaring War on Team START, Suzerain War, 2742.0
+48, 17, 12, At War, Suzerain War, 2742.0, 0
+48, 17, Team 4, Individual Declaring War on Team END, Suzerain War, 2744.0
+48, 12, 7, At War, Suzerain War, 2744.0, 0
+48, 12, 8, At War, Suzerain War, 2746.0, 0
+48, 12, 9, At War, Suzerain War, 2748.0, 0
+48, 12, Team 1, Individual Declaring War on Team END, Suzerain War, 2750.0
+48, 12, Team 1, Individual Declaring War on Team START, Suzerain War, 2750.0
+48, 12, 5, At War, Suzerain War, 2750.0, 0
+48, 12, 6, At War, Suzerain War, 2752.0, 0
+48, 17, Team 4, Individual Declaring War on Team START, Suzerain War, 2754.0
+48, 17, 12, At War, Suzerain War, 2754.0, 0
+48, 17, Team 4, Individual Declaring War on Team END, Suzerain War, 2756.0
+48, 12, 7, At War, Suzerain War, 2756.0, 0
+48, 12, 8, At War, Suzerain War, 2758.0, 0
+48, 12, 9, At War, Suzerain War, 2760.0, 0
+48, 12, Team 1, Individual Declaring War on Team END, Suzerain War, 2762.0
+48, 12, Team 9, Individual Declaring War on Team START, Suzerain War, 2762.0
+48, 12, 17, At War, Suzerain War, 2762.0, 0
+48, 12, Team 9, Individual Declaring War on Team END, Suzerain War, 2764.0
+48, 1, 12, Gave Influence, , 2764.0, 0
+48, 4, 16, Gave Influence, , 2765.0, 0
+49, 6, 10, Gave Influence, , 2771.0, 0
+49, 6, 10, Gave Influence, , 2771.0, 0
+49, 7, 8, Embassy, , 2771.0, 0
+49, 7, 9, Embassy, , 2771.0, 0
+49, 7, 5, Embassy, , 2771.0, 0
+49, 7, 6, Embassy, , 2771.0, 1
+49, 8, 10, Gave Influence, , 2772.0, 0
+49, 9, 4, Deal Proposed, 0 Peace for 8 turns from 9 to 4; 0 Peace for 8 turns from 4 to 9; 23 Gold for 30 turns from 9 to 4; , 2776.0, 0
+49, 9, 10, Gave Influence, , 2776.0, 0
+49, 2, 10, Gave Influence, , 2785.0, 0
+49, 2, 10, Gave Influence, , 2785.0, 0
+49, 2, 17, Gave Influence, , 2785.0, 0
+49, 1, 20, Gave Influence, , 2790.0, 0
+49, 1, 20, Gave Influence, , 2790.0, 0
+49, 1, 16, Gave Influence, , 2790.0, 0
+49, 1, 16, Gave Influence, , 2790.0, 0
+49, 17, 0, Peace, , 2790.0, 0
+49, 17, 1, Peace, , 2790.0, 0
+49, 17, 2, Peace, , 2790.0, 0
+49, 17, 3, Peace, , 2790.0, 0
+49, 17, 4, Peace, , 2790.0, 0
+49, 17, 12, Peace, , 2790.0, 0
+49, 17, 13, Peace, , 2790.0, 0
+49, 17, 14, Peace, , 2790.0, 0
+49, 17, 15, Peace, , 2790.0, 0
+49, 17, 16, Peace, , 2790.0, 0
+49, 17, 20, Peace, , 2790.0, 0
+49, 3, 17, Gave Influence, , 2790.0, 0
+49, 0, 21, Gave Influence, , 2794.0, 0
+50, 5, 10, Gave Influence, , 2796.0, 0
+50, 5, 10, Gave Influence, , 2796.0, 0
+50, 17, Team 0, Individual Declaring War on Team START, Suzerain War, 2800.0
+50, 17, 0, At War, Suzerain War, 2800.0, 0
+50, 17, 1, At War, Suzerain War, 2802.0, 0
+50, 12, Team 9, Individual Declaring War on Team START, Suzerain War, 2804.0
+50, 12, 17, At War, Suzerain War, 2804.0, 0
+50, 12, Team 9, Individual Declaring War on Team END, Suzerain War, 2806.0
+50, 13, Team 9, Individual Declaring War on Team START, Suzerain War, 2806.0
+50, 13, 17, At War, Suzerain War, 2806.0, 0
+50, 13, Team 9, Individual Declaring War on Team END, Suzerain War, 2808.0
+50, 17, 2, At War, Suzerain War, 2808.0, 0
+50, 15, Team 9, Individual Declaring War on Team START, Suzerain War, 2810.0
+50, 15, 17, At War, Suzerain War, 2810.0, 0
+50, 15, Team 9, Individual Declaring War on Team END, Suzerain War, 2812.0
+50, 17, 3, At War, Suzerain War, 2812.0, 0
+50, 17, 4, At War, Suzerain War, 2814.0, 0
+50, 14, Team 9, Individual Declaring War on Team START, Suzerain War, 2816.0
+50, 14, 17, At War, Suzerain War, 2816.0, 0
+50, 14, Team 9, Individual Declaring War on Team END, Suzerain War, 2818.0
+50, 16, Team 9, Individual Declaring War on Team START, Suzerain War, 2818.0
+50, 16, 17, At War, Suzerain War, 2818.0, 0
+50, 16, Team 9, Individual Declaring War on Team END, Suzerain War, 2820.0
+50, 20, Team 9, Individual Declaring War on Team START, Suzerain War, 2820.0
+50, 20, 17, At War, Suzerain War, 2820.0, 0
+50, 20, Team 9, Individual Declaring War on Team END, Suzerain War, 2822.0
+50, 17, Team 0, Individual Declaring War on Team END, Suzerain War, 2822.0
+50, 17, Team 0, Individual Declaring War on Team START, Suzerain War, 2822.0
+50, 17, 0, At War, Suzerain War, 2822.0, 0
+50, 17, 1, At War, Suzerain War, 2824.0, 0
+50, 12, Team 9, Individual Declaring War on Team START, Suzerain War, 2826.0
+50, 12, 17, At War, Suzerain War, 2826.0, 0
+50, 12, Team 9, Individual Declaring War on Team END, Suzerain War, 2828.0
+50, 13, Team 9, Individual Declaring War on Team START, Suzerain War, 2828.0
+50, 13, 17, At War, Suzerain War, 2828.0, 0
+50, 13, Team 9, Individual Declaring War on Team END, Suzerain War, 2830.0
+50, 17, 2, At War, Suzerain War, 2830.0, 0
+50, 15, Team 9, Individual Declaring War on Team START, Suzerain War, 2832.0
+50, 15, 17, At War, Suzerain War, 2832.0, 0
+50, 15, Team 9, Individual Declaring War on Team END, Suzerain War, 2834.0
+50, 17, 3, At War, Suzerain War, 2834.0, 0
+50, 17, 4, At War, Suzerain War, 2836.0, 0
+50, 14, Team 9, Individual Declaring War on Team START, Suzerain War, 2838.0
+50, 14, 17, At War, Suzerain War, 2838.0, 0
+50, 14, Team 9, Individual Declaring War on Team END, Suzerain War, 2840.0
+50, 16, Team 9, Individual Declaring War on Team START, Suzerain War, 2840.0
+50, 16, 17, At War, Suzerain War, 2840.0, 0
+50, 16, Team 9, Individual Declaring War on Team END, Suzerain War, 2842.0
+50, 20, Team 9, Individual Declaring War on Team START, Suzerain War, 2842.0
+50, 20, 17, At War, Suzerain War, 2842.0, 0
+50, 20, Team 9, Individual Declaring War on Team END, Suzerain War, 2844.0
+50, 17, Team 0, Individual Declaring War on Team END, Suzerain War, 2844.0
+50, 17, Team 0, Individual Declaring War on Team START, Suzerain War, 2844.0
+50, 17, 0, At War, Suzerain War, 2844.0, 0
+50, 17, 1, At War, Suzerain War, 2846.0, 0
+50, 12, Team 9, Individual Declaring War on Team START, Suzerain War, 2848.0
+50, 12, 17, At War, Suzerain War, 2848.0, 0
+50, 12, Team 9, Individual Declaring War on Team END, Suzerain War, 2850.0
+50, 13, Team 9, Individual Declaring War on Team START, Suzerain War, 2850.0
+50, 13, 17, At War, Suzerain War, 2850.0, 0
+50, 13, Team 9, Individual Declaring War on Team END, Suzerain War, 2852.0
+50, 17, 2, At War, Suzerain War, 2852.0, 0
+50, 15, Team 9, Individual Declaring War on Team START, Suzerain War, 2854.0
+50, 15, 17, At War, Suzerain War, 2854.0, 0
+50, 15, Team 9, Individual Declaring War on Team END, Suzerain War, 2856.0
+50, 17, 3, At War, Suzerain War, 2856.0, 0
+50, 17, 4, At War, Suzerain War, 2858.0, 0
+50, 14, Team 9, Individual Declaring War on Team START, Suzerain War, 2860.0
+50, 14, 17, At War, Suzerain War, 2860.0, 0
+50, 14, Team 9, Individual Declaring War on Team END, Suzerain War, 2862.0
+50, 16, Team 9, Individual Declaring War on Team START, Suzerain War, 2862.0
+50, 16, 17, At War, Suzerain War, 2862.0, 0
+50, 16, Team 9, Individual Declaring War on Team END, Suzerain War, 2864.0
+50, 20, Team 9, Individual Declaring War on Team START, Suzerain War, 2864.0
+50, 20, 17, At War, Suzerain War, 2864.0, 0
+50, 20, Team 9, Individual Declaring War on Team END, Suzerain War, 2866.0
+50, 17, Team 0, Individual Declaring War on Team END, Suzerain War, 2866.0
+50, 17, Team 0, Individual Declaring War on Team START, Suzerain War, 2866.0
+50, 17, 0, At War, Suzerain War, 2866.0, 0
+50, 17, 1, At War, Suzerain War, 2868.0, 0
+50, 12, Team 9, Individual Declaring War on Team START, Suzerain War, 2870.0
+50, 12, 17, At War, Suzerain War, 2870.0, 0
+50, 12, Team 9, Individual Declaring War on Team END, Suzerain War, 2872.0
+50, 13, Team 9, Individual Declaring War on Team START, Suzerain War, 2872.0
+50, 13, 17, At War, Suzerain War, 2872.0, 0
+50, 13, Team 9, Individual Declaring War on Team END, Suzerain War, 2874.0
+50, 17, 2, At War, Suzerain War, 2874.0, 0
+50, 15, Team 9, Individual Declaring War on Team START, Suzerain War, 2876.0
+50, 15, 17, At War, Suzerain War, 2876.0, 0
+50, 15, Team 9, Individual Declaring War on Team END, Suzerain War, 2878.0
+50, 17, 3, At War, Suzerain War, 2878.0, 0
+50, 17, 4, At War, Suzerain War, 2880.0, 0
+50, 14, Team 9, Individual Declaring War on Team START, Suzerain War, 2882.0
+50, 14, 17, At War, Suzerain War, 2882.0, 0
+50, 14, Team 9, Individual Declaring War on Team END, Suzerain War, 2884.0
+50, 16, Team 9, Individual Declaring War on Team START, Suzerain War, 2884.0
+50, 16, 17, At War, Suzerain War, 2884.0, 0
+50, 16, Team 9, Individual Declaring War on Team END, Suzerain War, 2886.0
+50, 20, Team 9, Individual Declaring War on Team START, Suzerain War, 2886.0
+50, 20, 17, At War, Suzerain War, 2886.0, 0
+50, 20, Team 9, Individual Declaring War on Team END, Suzerain War, 2888.0
+50, 17, Team 0, Individual Declaring War on Team END, Suzerain War, 2888.0
+50, 17, Team 0, Individual Declaring War on Team START, Suzerain War, 2888.0
+50, 17, 0, At War, Suzerain War, 2888.0, 0
+50, 17, 1, At War, Suzerain War, 2890.0, 0
+50, 12, Team 9, Individual Declaring War on Team START, Suzerain War, 2892.0
+50, 12, 17, At War, Suzerain War, 2892.0, 0
+50, 12, Team 9, Individual Declaring War on Team END, Suzerain War, 2894.0
+50, 13, Team 9, Individual Declaring War on Team START, Suzerain War, 2894.0
+50, 13, 17, At War, Suzerain War, 2894.0, 0
+50, 13, Team 9, Individual Declaring War on Team END, Suzerain War, 2896.0
+50, 17, 2, At War, Suzerain War, 2896.0, 0
+50, 15, Team 9, Individual Declaring War on Team START, Suzerain War, 2898.0
+50, 15, 17, At War, Suzerain War, 2898.0, 0
+50, 15, Team 9, Individual Declaring War on Team END, Suzerain War, 2900.0
+50, 17, 3, At War, Suzerain War, 2900.0, 0
+50, 17, 4, At War, Suzerain War, 2902.0, 0
+50, 14, Team 9, Individual Declaring War on Team START, Suzerain War, 2904.0
+50, 14, 17, At War, Suzerain War, 2904.0, 0
+50, 14, Team 9, Individual Declaring War on Team END, Suzerain War, 2906.0
+50, 16, Team 9, Individual Declaring War on Team START, Suzerain War, 2906.0
+50, 16, 17, At War, Suzerain War, 2906.0, 0
+50, 16, Team 9, Individual Declaring War on Team END, Suzerain War, 2908.0
+50, 20, Team 9, Individual Declaring War on Team START, Suzerain War, 2908.0
+50, 20, 17, At War, Suzerain War, 2908.0, 0
+50, 20, Team 9, Individual Declaring War on Team END, Suzerain War, 2910.0
+50, 17, Team 0, Individual Declaring War on Team END, Suzerain War, 2910.0
+50, 17, Team 4, Individual Declaring War on Team START, Suzerain War, 2910.0
+50, 17, 12, At War, Suzerain War, 2910.0, 0
+50, 17, Team 4, Individual Declaring War on Team END, Suzerain War, 2912.0
+50, 17, Team 5, Individual Declaring War on Team START, Suzerain War, 2912.0
+50, 17, 13, At War, Suzerain War, 2912.0, 0
+50, 17, Team 5, Individual Declaring War on Team END, Suzerain War, 2914.0
+50, 17, Team 6, Individual Declaring War on Team START, Suzerain War, 2914.0
+50, 17, 14, At War, Suzerain War, 2914.0, 0
+50, 17, Team 6, Individual Declaring War on Team END, Suzerain War, 2916.0
+50, 17, Team 7, Individual Declaring War on Team START, Suzerain War, 2916.0
+50, 17, 15, At War, Suzerain War, 2916.0, 0
+50, 17, Team 7, Individual Declaring War on Team END, Suzerain War, 2918.0
+50, 17, Team 8, Individual Declaring War on Team START, Suzerain War, 2918.0
+50, 17, 16, At War, Suzerain War, 2918.0, 0
+50, 17, Team 8, Individual Declaring War on Team END, Suzerain War, 2920.0
+50, 17, Team 12, Individual Declaring War on Team START, Suzerain War, 2920.0
+50, 17, 20, At War, Suzerain War, 2920.0, 0
+50, 17, Team 12, Individual Declaring War on Team END, Suzerain War, 2922.0
+50, 6, 17, Gave Influence, , 2922.0, 0
+50, 7, 17, Gave Influence, , 2922.0, 0
+50, 8, 17, Gave Influence, , 2932.0, 0
+50, 0, 16, Peace, , 2946.0, 0
+50, 1, 16, Peace, , 2946.0, 0
+50, 2, 16, Peace, , 2946.0, 0
+50, 3, 16, Peace, , 2946.0, 0
+50, 4, 16, Peace, , 2946.0, 0
+50, 5, 16, Peace, , 2946.0, 0
+50, 6, 16, Peace, , 2946.0, 0
+50, 7, 16, Peace, , 2946.0, 0
+50, 8, 16, Peace, , 2946.0, 0
+50, 9, 16, Peace, , 2946.0, 0
+50, 10, 16, Peace, , 2946.0, 0
+50, 11, 16, Peace, , 2946.0, 0
+50, 12, 16, Peace, , 2946.0, 0
+50, 13, 16, Peace, , 2946.0, 0
+50, 14, 16, Peace, , 2946.0, 0
+50, 15, 16, Peace, , 2946.0, 0
+50, 17, 16, Peace, , 2946.0, 0
+50, 18, 16, Peace, , 2946.0, 0
+50, 19, 16, Peace, , 2946.0, 0
+50, 20, 16, Peace, , 2946.0, 0
+50, 21, 16, Peace, , 2946.0, 0
+50, 62, 16, Peace, , 2946.0, 0
+50, 63, 16, Peace, , 2946.0, 0
+50, 8, 16, City Capture, LOC_CITY_NAME_VILNIUS, 2952.0, 0
+50, 9, 17, Gave Influence, , 2956.0, 0
+50, 2, 14, Gave Influence, , 2965.0, 0
+50, 0, 21, Gave Influence, , 2965.0, 0
+51, 5, 21, Gave Influence, , 2973.0, 0
+51, 6, 8, Embassy, , 2977.0, 0
+51, 6, 9, Embassy, , 2977.0, 0
+51, 6, 5, Embassy, , 2977.0, 0
+51, 6, 7, Embassy, , 2977.0, 0
+51, 21, Team 1, Individual Declaring War on Team START, Suzerain War, 2992.0
+51, 21, 5, At War, Suzerain War, 2992.0, 0
+51, 21, 6, At War, Suzerain War, 2994.0, 0
+51, 17, Team 13, Individual Declaring War on Team START, Suzerain War, 2996.0
+51, 17, 21, At War, Suzerain War, 2996.0, 0
+51, 17, Team 13, Individual Declaring War on Team END, Suzerain War, 2998.0
+51, 21, 7, At War, Suzerain War, 2998.0, 0
+51, 21, 8, At War, Suzerain War, 3000.0, 0
+51, 21, 9, At War, Suzerain War, 3002.0, 0
+51, 21, Team 1, Individual Declaring War on Team END, Suzerain War, 3004.0
+51, 21, Team 1, Individual Declaring War on Team START, Suzerain War, 3004.0
+51, 21, 5, At War, Suzerain War, 3004.0, 0
+51, 21, 6, At War, Suzerain War, 3006.0, 0
+51, 17, Team 13, Individual Declaring War on Team START, Suzerain War, 3008.0
+51, 17, 21, At War, Suzerain War, 3008.0, 0
+51, 17, Team 13, Individual Declaring War on Team END, Suzerain War, 3010.0
+51, 21, 7, At War, Suzerain War, 3010.0, 0
+51, 21, 8, At War, Suzerain War, 3012.0, 0
+51, 21, 9, At War, Suzerain War, 3014.0, 0
+51, 21, Team 1, Individual Declaring War on Team END, Suzerain War, 3016.0
+51, 21, Team 1, Individual Declaring War on Team START, Suzerain War, 3016.0
+51, 21, 5, At War, Suzerain War, 3016.0, 0
+51, 21, 6, At War, Suzerain War, 3018.0, 0
+51, 17, Team 13, Individual Declaring War on Team START, Suzerain War, 3020.0
+51, 17, 21, At War, Suzerain War, 3020.0, 0
+51, 17, Team 13, Individual Declaring War on Team END, Suzerain War, 3022.0
+51, 21, 7, At War, Suzerain War, 3022.0, 0
+51, 21, 8, At War, Suzerain War, 3024.0, 0
+51, 21, 9, At War, Suzerain War, 3026.0, 0
+51, 21, Team 1, Individual Declaring War on Team END, Suzerain War, 3028.0
+51, 21, Team 1, Individual Declaring War on Team START, Suzerain War, 3028.0
+51, 21, 5, At War, Suzerain War, 3028.0, 0
+51, 21, 6, At War, Suzerain War, 3030.0, 0
+51, 17, Team 13, Individual Declaring War on Team START, Suzerain War, 3032.0
+51, 17, 21, At War, Suzerain War, 3032.0, 0
+51, 17, Team 13, Individual Declaring War on Team END, Suzerain War, 3034.0
+51, 21, 7, At War, Suzerain War, 3034.0, 0
+51, 21, 8, At War, Suzerain War, 3036.0, 0
+51, 21, 9, At War, Suzerain War, 3038.0, 0
+51, 21, Team 1, Individual Declaring War on Team END, Suzerain War, 3040.0
+51, 21, Team 1, Individual Declaring War on Team START, Suzerain War, 3040.0
+51, 21, 5, At War, Suzerain War, 3040.0, 0
+51, 21, 6, At War, Suzerain War, 3042.0, 0
+51, 17, Team 13, Individual Declaring War on Team START, Suzerain War, 3044.0
+51, 17, 21, At War, Suzerain War, 3044.0, 0
+51, 17, Team 13, Individual Declaring War on Team END, Suzerain War, 3046.0
+51, 21, 7, At War, Suzerain War, 3046.0, 0
+51, 21, 8, At War, Suzerain War, 3048.0, 0
+51, 21, 9, At War, Suzerain War, 3050.0, 0
+51, 21, Team 1, Individual Declaring War on Team END, Suzerain War, 3052.0
+51, 21, Team 9, Individual Declaring War on Team START, Suzerain War, 3052.0
+51, 21, 17, At War, Suzerain War, 3052.0, 0
+51, 21, Team 9, Individual Declaring War on Team END, Suzerain War, 3054.0
+51, 0, 21, Gave Influence, , 3054.0, 0
+51, 0, 1, Alliance Starts, LOC_ALLIANCE_ECONOMIC, 3054.0, 0
+51, 0, 1, Defensive Pact, , 3054.0, 0
+51, 0, 1, Allied, , 3054.0, 0
+52, 10, Team 0, Individual Declaring War on Team START, Suzerain War, 3058.0
+52, 10, 0, At War, Suzerain War, 3058.0, 0
+52, 21, Team 2, Individual Declaring War on Team START, Suzerain War, 3060.0
+52, 21, 10, Met, , 3060.0, 0
+52, 10, 21, Met, , 3060.0, 0
+52, 21, 10, At War, Suzerain War, 3060.0, 0
+52, 21, Team 2, Individual Declaring War on Team END, Suzerain War, 3062.0
+52, 10, 1, At War, Suzerain War, 3062.0, 0
+52, 12, Team 2, Individual Declaring War on Team START, Suzerain War, 3064.0
+52, 12, 10, Met, , 3064.0, 0
+52, 10, 12, Met, , 3064.0, 0
+52, 12, 10, At War, Suzerain War, 3064.0, 0
+52, 12, Team 2, Individual Declaring War on Team END, Suzerain War, 3066.0
+52, 13, Team 2, Individual Declaring War on Team START, Suzerain War, 3066.0
+52, 13, 10, Met, , 3066.0, 0
+52, 10, 13, Met, , 3066.0, 0
+52, 13, 10, At War, Suzerain War, 3066.0, 0
+52, 13, Team 2, Individual Declaring War on Team END, Suzerain War, 3068.0
+52, 10, 2, At War, Suzerain War, 3068.0, 0
+52, 15, Team 2, Individual Declaring War on Team START, Suzerain War, 3070.0
+52, 15, 10, Met, , 3070.0, 0
+52, 10, 15, Met, , 3070.0, 0
+52, 15, 10, At War, Suzerain War, 3070.0, 0
+52, 15, Team 2, Individual Declaring War on Team END, Suzerain War, 3072.0
+52, 10, 3, At War, Suzerain War, 3072.0, 0
+52, 10, 4, At War, Suzerain War, 3074.0, 0
+52, 14, Team 2, Individual Declaring War on Team START, Suzerain War, 3076.0
+52, 14, 10, At War, Suzerain War, 3076.0, 0
+52, 14, Team 2, Individual Declaring War on Team END, Suzerain War, 3078.0
+52, 20, Team 2, Individual Declaring War on Team START, Suzerain War, 3078.0
+52, 20, 10, Met, , 3078.0, 0
+52, 10, 20, Met, , 3078.0, 0
+52, 20, 10, At War, Suzerain War, 3078.0, 0
+52, 20, Team 2, Individual Declaring War on Team END, Suzerain War, 3080.0
+52, 10, Team 0, Individual Declaring War on Team END, Suzerain War, 3080.0
+52, 10, Team 0, Individual Declaring War on Team START, Suzerain War, 3080.0
+52, 10, 0, At War, Suzerain War, 3080.0, 0
+52, 21, Team 2, Individual Declaring War on Team START, Suzerain War, 3082.0
+52, 21, 10, At War, Suzerain War, 3082.0, 0
+52, 21, Team 2, Individual Declaring War on Team END, Suzerain War, 3084.0
+52, 10, 1, At War, Suzerain War, 3084.0, 0
+52, 12, Team 2, Individual Declaring War on Team START, Suzerain War, 3086.0
+52, 12, 10, At War, Suzerain War, 3086.0, 0
+52, 12, Team 2, Individual Declaring War on Team END, Suzerain War, 3088.0
+52, 13, Team 2, Individual Declaring War on Team START, Suzerain War, 3088.0
+52, 13, 10, At War, Suzerain War, 3088.0, 0
+52, 13, Team 2, Individual Declaring War on Team END, Suzerain War, 3090.0
+52, 10, 2, At War, Suzerain War, 3090.0, 0
+52, 15, Team 2, Individual Declaring War on Team START, Suzerain War, 3092.0
+52, 15, 10, At War, Suzerain War, 3092.0, 0
+52, 15, Team 2, Individual Declaring War on Team END, Suzerain War, 3094.0
+52, 10, 3, At War, Suzerain War, 3094.0, 0
+52, 10, 4, At War, Suzerain War, 3096.0, 0
+52, 14, Team 2, Individual Declaring War on Team START, Suzerain War, 3098.0
+52, 14, 10, At War, Suzerain War, 3098.0, 0
+52, 14, Team 2, Individual Declaring War on Team END, Suzerain War, 3100.0
+52, 20, Team 2, Individual Declaring War on Team START, Suzerain War, 3100.0
+52, 20, 10, At War, Suzerain War, 3100.0, 0
+52, 20, Team 2, Individual Declaring War on Team END, Suzerain War, 3102.0
+52, 10, Team 0, Individual Declaring War on Team END, Suzerain War, 3102.0
+52, 10, Team 0, Individual Declaring War on Team START, Suzerain War, 3102.0
+52, 10, 0, At War, Suzerain War, 3102.0, 0
+52, 21, Team 2, Individual Declaring War on Team START, Suzerain War, 3104.0
+52, 21, 10, At War, Suzerain War, 3104.0, 0
+52, 21, Team 2, Individual Declaring War on Team END, Suzerain War, 3106.0
+52, 10, 1, At War, Suzerain War, 3106.0, 0
+52, 12, Team 2, Individual Declaring War on Team START, Suzerain War, 3108.0
+52, 12, 10, At War, Suzerain War, 3108.0, 0
+52, 12, Team 2, Individual Declaring War on Team END, Suzerain War, 3110.0
+52, 13, Team 2, Individual Declaring War on Team START, Suzerain War, 3110.0
+52, 13, 10, At War, Suzerain War, 3110.0, 0
+52, 13, Team 2, Individual Declaring War on Team END, Suzerain War, 3112.0
+52, 10, 2, At War, Suzerain War, 3112.0, 0
+52, 15, Team 2, Individual Declaring War on Team START, Suzerain War, 3114.0
+52, 15, 10, At War, Suzerain War, 3114.0, 0
+52, 15, Team 2, Individual Declaring War on Team END, Suzerain War, 3116.0
+52, 10, 3, At War, Suzerain War, 3116.0, 0
+52, 10, 4, At War, Suzerain War, 3118.0, 0
+52, 14, Team 2, Individual Declaring War on Team START, Suzerain War, 3120.0
+52, 14, 10, At War, Suzerain War, 3120.0, 0
+52, 14, Team 2, Individual Declaring War on Team END, Suzerain War, 3122.0
+52, 20, Team 2, Individual Declaring War on Team START, Suzerain War, 3122.0
+52, 20, 10, At War, Suzerain War, 3122.0, 0
+52, 20, Team 2, Individual Declaring War on Team END, Suzerain War, 3124.0
+52, 10, Team 0, Individual Declaring War on Team END, Suzerain War, 3124.0
+52, 10, Team 0, Individual Declaring War on Team START, Suzerain War, 3124.0
+52, 10, 0, At War, Suzerain War, 3124.0, 0
+52, 21, Team 2, Individual Declaring War on Team START, Suzerain War, 3126.0
+52, 21, 10, At War, Suzerain War, 3126.0, 0
+52, 21, Team 2, Individual Declaring War on Team END, Suzerain War, 3128.0
+52, 10, 1, At War, Suzerain War, 3128.0, 0
+52, 12, Team 2, Individual Declaring War on Team START, Suzerain War, 3130.0
+52, 12, 10, At War, Suzerain War, 3130.0, 0
+52, 12, Team 2, Individual Declaring War on Team END, Suzerain War, 3132.0
+52, 13, Team 2, Individual Declaring War on Team START, Suzerain War, 3132.0
+52, 13, 10, At War, Suzerain War, 3132.0, 0
+52, 13, Team 2, Individual Declaring War on Team END, Suzerain War, 3134.0
+52, 10, 2, At War, Suzerain War, 3134.0, 0
+52, 15, Team 2, Individual Declaring War on Team START, Suzerain War, 3136.0
+52, 15, 10, At War, Suzerain War, 3136.0, 0
+52, 15, Team 2, Individual Declaring War on Team END, Suzerain War, 3138.0
+52, 10, 3, At War, Suzerain War, 3138.0, 0
+52, 10, 4, At War, Suzerain War, 3140.0, 0
+52, 14, Team 2, Individual Declaring War on Team START, Suzerain War, 3142.0
+52, 14, 10, At War, Suzerain War, 3142.0, 0
+52, 14, Team 2, Individual Declaring War on Team END, Suzerain War, 3144.0
+52, 20, Team 2, Individual Declaring War on Team START, Suzerain War, 3144.0
+52, 20, 10, At War, Suzerain War, 3144.0, 0
+52, 20, Team 2, Individual Declaring War on Team END, Suzerain War, 3146.0
+52, 10, Team 0, Individual Declaring War on Team END, Suzerain War, 3146.0
+52, 10, Team 0, Individual Declaring War on Team START, Suzerain War, 3146.0
+52, 10, 0, At War, Suzerain War, 3146.0, 0
+52, 21, Team 2, Individual Declaring War on Team START, Suzerain War, 3148.0
+52, 21, 10, At War, Suzerain War, 3148.0, 0
+52, 21, Team 2, Individual Declaring War on Team END, Suzerain War, 3150.0
+52, 10, 1, At War, Suzerain War, 3150.0, 0
+52, 12, Team 2, Individual Declaring War on Team START, Suzerain War, 3152.0
+52, 12, 10, At War, Suzerain War, 3152.0, 0
+52, 12, Team 2, Individual Declaring War on Team END, Suzerain War, 3154.0
+52, 13, Team 2, Individual Declaring War on Team START, Suzerain War, 3154.0
+52, 13, 10, At War, Suzerain War, 3154.0, 0
+52, 13, Team 2, Individual Declaring War on Team END, Suzerain War, 3156.0
+52, 10, 2, At War, Suzerain War, 3156.0, 0
+52, 15, Team 2, Individual Declaring War on Team START, Suzerain War, 3158.0
+52, 15, 10, At War, Suzerain War, 3158.0, 0
+52, 15, Team 2, Individual Declaring War on Team END, Suzerain War, 3160.0
+52, 10, 3, At War, Suzerain War, 3160.0, 0
+52, 10, 4, At War, Suzerain War, 3162.0, 0
+52, 14, Team 2, Individual Declaring War on Team START, Suzerain War, 3164.0
+52, 14, 10, At War, Suzerain War, 3164.0, 0
+52, 14, Team 2, Individual Declaring War on Team END, Suzerain War, 3166.0
+52, 20, Team 2, Individual Declaring War on Team START, Suzerain War, 3166.0
+52, 20, 10, At War, Suzerain War, 3166.0, 0
+52, 20, Team 2, Individual Declaring War on Team END, Suzerain War, 3168.0
+52, 10, Team 0, Individual Declaring War on Team END, Suzerain War, 3168.0
+52, 10, Team 4, Individual Declaring War on Team START, Suzerain War, 3168.0
+52, 10, 12, At War, Suzerain War, 3168.0, 0
+52, 10, Team 4, Individual Declaring War on Team END, Suzerain War, 3170.0
+52, 10, Team 5, Individual Declaring War on Team START, Suzerain War, 3170.0
+52, 10, 13, At War, Suzerain War, 3170.0, 0
+52, 10, Team 5, Individual Declaring War on Team END, Suzerain War, 3172.0
+52, 10, Team 6, Individual Declaring War on Team START, Suzerain War, 3172.0
+52, 10, 14, At War, Suzerain War, 3172.0, 0
+52, 10, Team 6, Individual Declaring War on Team END, Suzerain War, 3174.0
+52, 10, Team 7, Individual Declaring War on Team START, Suzerain War, 3174.0
+52, 10, 15, At War, Suzerain War, 3174.0, 0
+52, 10, Team 7, Individual Declaring War on Team END, Suzerain War, 3176.0
+52, 10, Team 12, Individual Declaring War on Team START, Suzerain War, 3176.0
+52, 10, 20, At War, Suzerain War, 3176.0, 0
+52, 10, Team 12, Individual Declaring War on Team END, Suzerain War, 3178.0
+52, 10, Team 13, Individual Declaring War on Team START, Suzerain War, 3178.0
+52, 10, 21, At War, Suzerain War, 3178.0, 0
+52, 10, Team 13, Individual Declaring War on Team END, Suzerain War, 3180.0
+52, 5, 10, Gave Influence, , 3180.0, 0
+52, 5, 17, Gave Influence, , 3180.0, 0
+52, 6, 10, Gave Influence, , 3183.0, 0
+52, 10, 0, Peace, , 3183.0, 0
+52, 10, 1, Peace, , 3183.0, 0
+52, 10, 2, Peace, , 3183.0, 0
+52, 10, 3, Peace, , 3183.0, 0
+52, 10, 4, Peace, , 3183.0, 0
+52, 10, 12, Peace, , 3183.0, 0
+52, 10, 13, Peace, , 3183.0, 0
+52, 10, 14, Peace, , 3183.0, 0
+52, 10, 15, Peace, , 3183.0, 0
+52, 10, 20, Peace, , 3183.0, 0
+52, 10, 21, Peace, , 3183.0, 0
+52, 6, 10, Gave Influence, , 3183.0, 0
+52, 7, 10, Gave Influence, , 3183.0, 0
+52, 7, 10, Gave Influence, , 3183.0, 0
+52, 8, 7, Deal Proposed, 1 RESOURCE_SILK for 30 turns from 7 to 8; 0 GreatWork for 0 turns from 7 to 8; 0 GreatWork for 0 turns from 7 to 8; 19 Favor for 0 turns from 8 to 7; 1 Gold for 0 turns from 8 to 7; 10 Gold for 30 turns from 8 to 7; , 3183.0, 1
+52, 8, 7, Deal Closed, 1 RESOURCE_SILK for 30 turns from 7 to 8; 0 GreatWork for 0 turns from 7 to 8; 0 GreatWork for 0 turns from 7 to 8; 19 Favor for 0 turns from 8 to 7; 1 Gold for 0 turns from 8 to 7; 10 Gold for 30 turns from 8 to 7; , 3183.0, 1
+52, 7, 8, Deal Rejected, 1 RESOURCE_SILK for 30 turns from 7 to 8; 0 GreatWork for 0 turns from 7 to 8; 0 GreatWork for 0 turns from 7 to 8; 19 Favor for 0 turns from 8 to 7; 1 Gold for 0 turns from 8 to 7; 10 Gold for 30 turns from 8 to 7; , 3183.0, 2
+52, 9, 10, Gave Influence, , 3184.0, 0
+52, 9, 4, Deal Proposed, 0 Peace for 8 turns from 9 to 4; 0 Peace for 8 turns from 4 to 9; 34 Gold for 30 turns from 9 to 4; , 3184.0, 1
+52, 21, 5, Peace, , 3191.0, 0
+52, 21, 6, Peace, , 3191.0, 0
+52, 21, 7, Peace, , 3191.0, 0
+52, 21, 8, Peace, , 3191.0, 0
+52, 21, 9, Peace, , 3191.0, 0
+52, 21, 17, Peace, , 3191.0, 0
+52, 1, 21, Gave Influence, , 3191.0, 0
+52, 0, 10, Gave Influence, , 3198.0, 0
+52, 0, 10, Gave Influence, , 3198.0, 0
+53, 7, 17, Gave Influence, , 3207.0, 0
+53, 8, 10, Gave Influence, , 3207.0, 0
+53, 9, 17, Gave Influence, , 3208.0, 0
+53, 4, 14, Gave Influence, , 3216.0, 0
+54, 7, 10, Gave Influence, , 3242.0, 0
+54, 8, 17, Gave Influence, , 3242.0, 0
+54, 8, 4, Deal Proposed, 0 Peace for 8 turns from 8 to 4; 0 Peace for 8 turns from 4 to 8; 4 Gold for 30 turns from 8 to 4; , 3242.0, 0
+54, 9, 17, Gave Influence, , 3242.0, 0
+55, 10, Team 0, Individual Declaring War on Team START, Suzerain War, 3258.0
+55, 10, 0, At War, Suzerain War, 3258.0, 0
+55, 10, 1, At War, Suzerain War, 3260.0, 0
+55, 12, Team 2, Individual Declaring War on Team START, Suzerain War, 3262.0
+55, 12, 10, At War, Suzerain War, 3262.0, 0
+55, 12, Team 2, Individual Declaring War on Team END, Suzerain War, 3264.0
+55, 13, Team 2, Individual Declaring War on Team START, Suzerain War, 3264.0
+55, 13, 10, At War, Suzerain War, 3264.0, 0
+55, 13, Team 2, Individual Declaring War on Team END, Suzerain War, 3266.0
+55, 10, 2, At War, Suzerain War, 3266.0, 0
+55, 15, Team 2, Individual Declaring War on Team START, Suzerain War, 3268.0
+55, 15, 10, At War, Suzerain War, 3268.0, 0
+55, 15, Team 2, Individual Declaring War on Team END, Suzerain War, 3270.0
+55, 10, 3, At War, Suzerain War, 3270.0, 0
+55, 10, 4, At War, Suzerain War, 3272.0, 0
+55, 14, Team 2, Individual Declaring War on Team START, Suzerain War, 3274.0
+55, 14, 10, At War, Suzerain War, 3274.0, 0
+55, 14, Team 2, Individual Declaring War on Team END, Suzerain War, 3276.0
+55, 20, Team 2, Individual Declaring War on Team START, Suzerain War, 3276.0
+55, 20, 10, At War, Suzerain War, 3276.0, 0
+55, 20, Team 2, Individual Declaring War on Team END, Suzerain War, 3278.0
+55, 10, Team 0, Individual Declaring War on Team END, Suzerain War, 3278.0
+55, 10, Team 0, Individual Declaring War on Team START, Suzerain War, 3278.0
+55, 10, 0, At War, Suzerain War, 3278.0, 0
+55, 10, 1, At War, Suzerain War, 3280.0, 0
+55, 12, Team 2, Individual Declaring War on Team START, Suzerain War, 3282.0
+55, 12, 10, At War, Suzerain War, 3282.0, 0
+55, 12, Team 2, Individual Declaring War on Team END, Suzerain War, 3284.0
+55, 13, Team 2, Individual Declaring War on Team START, Suzerain War, 3284.0
+55, 13, 10, At War, Suzerain War, 3284.0, 0
+55, 13, Team 2, Individual Declaring War on Team END, Suzerain War, 3286.0
+55, 10, 2, At War, Suzerain War, 3286.0, 0
+55, 15, Team 2, Individual Declaring War on Team START, Suzerain War, 3288.0
+55, 15, 10, At War, Suzerain War, 3288.0, 0
+55, 15, Team 2, Individual Declaring War on Team END, Suzerain War, 3290.0
+55, 10, 3, At War, Suzerain War, 3290.0, 0
+55, 10, 4, At War, Suzerain War, 3292.0, 0
+55, 14, Team 2, Individual Declaring War on Team START, Suzerain War, 3294.0
+55, 14, 10, At War, Suzerain War, 3294.0, 0
+55, 14, Team 2, Individual Declaring War on Team END, Suzerain War, 3296.0
+55, 20, Team 2, Individual Declaring War on Team START, Suzerain War, 3296.0
+55, 20, 10, At War, Suzerain War, 3296.0, 0
+55, 20, Team 2, Individual Declaring War on Team END, Suzerain War, 3298.0
+55, 10, Team 0, Individual Declaring War on Team END, Suzerain War, 3298.0
+55, 10, Team 0, Individual Declaring War on Team START, Suzerain War, 3298.0
+55, 10, 0, At War, Suzerain War, 3298.0, 0
+55, 10, 1, At War, Suzerain War, 3300.0, 0
+55, 12, Team 2, Individual Declaring War on Team START, Suzerain War, 3302.0
+55, 12, 10, At War, Suzerain War, 3302.0, 0
+55, 12, Team 2, Individual Declaring War on Team END, Suzerain War, 3304.0
+55, 13, Team 2, Individual Declaring War on Team START, Suzerain War, 3304.0
+55, 13, 10, At War, Suzerain War, 3304.0, 0
+55, 13, Team 2, Individual Declaring War on Team END, Suzerain War, 3306.0
+55, 10, 2, At War, Suzerain War, 3306.0, 0
+55, 15, Team 2, Individual Declaring War on Team START, Suzerain War, 3308.0
+55, 15, 10, At War, Suzerain War, 3308.0, 0
+55, 15, Team 2, Individual Declaring War on Team END, Suzerain War, 3310.0
+55, 10, 3, At War, Suzerain War, 3310.0, 0
+55, 10, 4, At War, Suzerain War, 3312.0, 0
+55, 14, Team 2, Individual Declaring War on Team START, Suzerain War, 3314.0
+55, 14, 10, At War, Suzerain War, 3314.0, 0
+55, 14, Team 2, Individual Declaring War on Team END, Suzerain War, 3316.0
+55, 20, Team 2, Individual Declaring War on Team START, Suzerain War, 3316.0
+55, 20, 10, At War, Suzerain War, 3316.0, 0
+55, 20, Team 2, Individual Declaring War on Team END, Suzerain War, 3318.0
+55, 10, Team 0, Individual Declaring War on Team END, Suzerain War, 3318.0
+55, 10, Team 0, Individual Declaring War on Team START, Suzerain War, 3318.0
+55, 10, 0, At War, Suzerain War, 3318.0, 0
+55, 10, 1, At War, Suzerain War, 3320.0, 0
+55, 12, Team 2, Individual Declaring War on Team START, Suzerain War, 3322.0
+55, 12, 10, At War, Suzerain War, 3322.0, 0
+55, 12, Team 2, Individual Declaring War on Team END, Suzerain War, 3324.0
+55, 13, Team 2, Individual Declaring War on Team START, Suzerain War, 3324.0
+55, 13, 10, At War, Suzerain War, 3324.0, 0
+55, 13, Team 2, Individual Declaring War on Team END, Suzerain War, 3326.0
+55, 10, 2, At War, Suzerain War, 3326.0, 0
+55, 15, Team 2, Individual Declaring War on Team START, Suzerain War, 3328.0
+55, 15, 10, At War, Suzerain War, 3328.0, 0
+55, 15, Team 2, Individual Declaring War on Team END, Suzerain War, 3330.0
+55, 10, 3, At War, Suzerain War, 3330.0, 0
+55, 10, 4, At War, Suzerain War, 3332.0, 0
+55, 14, Team 2, Individual Declaring War on Team START, Suzerain War, 3334.0
+55, 14, 10, At War, Suzerain War, 3334.0, 0
+55, 14, Team 2, Individual Declaring War on Team END, Suzerain War, 3336.0
+55, 20, Team 2, Individual Declaring War on Team START, Suzerain War, 3336.0
+55, 20, 10, At War, Suzerain War, 3336.0, 0
+55, 20, Team 2, Individual Declaring War on Team END, Suzerain War, 3338.0
+55, 10, Team 0, Individual Declaring War on Team END, Suzerain War, 3338.0
+55, 10, Team 0, Individual Declaring War on Team START, Suzerain War, 3338.0
+55, 10, 0, At War, Suzerain War, 3338.0, 0
+55, 10, 1, At War, Suzerain War, 3340.0, 0
+55, 12, Team 2, Individual Declaring War on Team START, Suzerain War, 3342.0
+55, 12, 10, At War, Suzerain War, 3342.0, 0
+55, 12, Team 2, Individual Declaring War on Team END, Suzerain War, 3344.0
+55, 13, Team 2, Individual Declaring War on Team START, Suzerain War, 3344.0
+55, 13, 10, At War, Suzerain War, 3344.0, 0
+55, 13, Team 2, Individual Declaring War on Team END, Suzerain War, 3346.0
+55, 10, 2, At War, Suzerain War, 3346.0, 0
+55, 15, Team 2, Individual Declaring War on Team START, Suzerain War, 3348.0
+55, 15, 10, At War, Suzerain War, 3348.0, 0
+55, 15, Team 2, Individual Declaring War on Team END, Suzerain War, 3350.0
+55, 10, 3, At War, Suzerain War, 3350.0, 0
+55, 10, 4, At War, Suzerain War, 3352.0, 0
+55, 14, Team 2, Individual Declaring War on Team START, Suzerain War, 3354.0
+55, 14, 10, At War, Suzerain War, 3354.0, 0
+55, 14, Team 2, Individual Declaring War on Team END, Suzerain War, 3356.0
+55, 20, Team 2, Individual Declaring War on Team START, Suzerain War, 3356.0
+55, 20, 10, At War, Suzerain War, 3356.0, 0
+55, 20, Team 2, Individual Declaring War on Team END, Suzerain War, 3358.0
+55, 10, Team 0, Individual Declaring War on Team END, Suzerain War, 3358.0
+55, 10, Team 4, Individual Declaring War on Team START, Suzerain War, 3358.0
+55, 10, 12, At War, Suzerain War, 3358.0, 0
+55, 10, Team 4, Individual Declaring War on Team END, Suzerain War, 3360.0
+55, 10, Team 5, Individual Declaring War on Team START, Suzerain War, 3360.0
+55, 10, 13, At War, Suzerain War, 3360.0, 0
+55, 10, Team 5, Individual Declaring War on Team END, Suzerain War, 3362.0
+55, 10, Team 6, Individual Declaring War on Team START, Suzerain War, 3362.0
+55, 10, 14, At War, Suzerain War, 3362.0, 0
+55, 10, Team 6, Individual Declaring War on Team END, Suzerain War, 3364.0
+55, 10, Team 7, Individual Declaring War on Team START, Suzerain War, 3364.0
+55, 10, 15, At War, Suzerain War, 3364.0, 0
+55, 10, Team 7, Individual Declaring War on Team END, Suzerain War, 3366.0
+55, 10, Team 12, Individual Declaring War on Team START, Suzerain War, 3366.0
+55, 10, 20, At War, Suzerain War, 3366.0, 0
+55, 10, Team 12, Individual Declaring War on Team END, Suzerain War, 3368.0
+55, 5, 10, Gave Influence, , 3368.0, 0
+55, 9, 4, Deal Proposed, 0 Peace for 8 turns from 9 to 4; 0 Peace for 8 turns from 4 to 9; 43 Gold for 30 turns from 9 to 4; , 3371.0, 1
+55, 20, 5, Peace, , 3377.0, 0
+55, 20, 6, Peace, , 3377.0, 0
+55, 20, 7, Peace, , 3377.0, 0
+55, 20, 8, Peace, , 3377.0, 0
+55, 20, 9, Peace, , 3377.0, 0
+55, 20, 10, Peace, , 3377.0, 0
+55, 20, 17, Peace, , 3377.0, 0
+55, 0, 20, Gave Influence, , 3377.0, 0
+55, 4, 12, Gave Influence, , 3377.0, 0
+55, 0, 5, City Capture, LOC_CITY_NAME_BUENOS_AIRES, 3395.0, 0
+55, 18, Team 1, Individual Declaring War on Team START, Suzerain War, 3410.0
+55, 18, 5, At War, Suzerain War, 3410.0, 0
+55, 10, Team 10, Individual Declaring War on Team START, Suzerain War, 3412.0
+55, 10, 18, Met, , 3412.0, 0
+55, 18, 10, Met, , 3412.0, 0
+55, 10, 18, At War, Suzerain War, 3412.0, 0
+55, 10, Team 10, Individual Declaring War on Team END, Suzerain War, 3414.0
+55, 18, 6, At War, Suzerain War, 3414.0, 0
+55, 17, Team 10, Individual Declaring War on Team START, Suzerain War, 3416.0
+55, 17, 18, Met, , 3416.0, 0
+55, 18, 17, Met, , 3416.0, 0
+55, 17, 18, At War, Suzerain War, 3416.0, 0
+55, 17, Team 10, Individual Declaring War on Team END, Suzerain War, 3418.0
+55, 18, 7, At War, Suzerain War, 3418.0, 0
+55, 18, 8, At War, Suzerain War, 3420.0, 0
+55, 18, 9, At War, Suzerain War, 3422.0, 0
+55, 18, Team 1, Individual Declaring War on Team END, Suzerain War, 3424.0
+55, 18, Team 1, Individual Declaring War on Team START, Suzerain War, 3424.0
+55, 18, 5, At War, Suzerain War, 3424.0, 0
+55, 10, Team 10, Individual Declaring War on Team START, Suzerain War, 3426.0
+55, 10, 18, At War, Suzerain War, 3426.0, 0
+55, 10, Team 10, Individual Declaring War on Team END, Suzerain War, 3428.0
+55, 18, 6, At War, Suzerain War, 3428.0, 0
+55, 17, Team 10, Individual Declaring War on Team START, Suzerain War, 3430.0
+55, 17, 18, At War, Suzerain War, 3430.0, 0
+55, 17, Team 10, Individual Declaring War on Team END, Suzerain War, 3432.0
+55, 18, 7, At War, Suzerain War, 3432.0, 0
+55, 18, 8, At War, Suzerain War, 3434.0, 0
+55, 18, 9, At War, Suzerain War, 3436.0, 0
+55, 18, Team 1, Individual Declaring War on Team END, Suzerain War, 3438.0
+55, 18, Team 1, Individual Declaring War on Team START, Suzerain War, 3438.0
+55, 18, 5, At War, Suzerain War, 3438.0, 0
+55, 10, Team 10, Individual Declaring War on Team START, Suzerain War, 3440.0
+55, 10, 18, At War, Suzerain War, 3440.0, 0
+55, 10, Team 10, Individual Declaring War on Team END, Suzerain War, 3442.0
+55, 18, 6, At War, Suzerain War, 3442.0, 0
+55, 17, Team 10, Individual Declaring War on Team START, Suzerain War, 3444.0
+55, 17, 18, At War, Suzerain War, 3444.0, 0
+55, 17, Team 10, Individual Declaring War on Team END, Suzerain War, 3446.0
+55, 18, 7, At War, Suzerain War, 3446.0, 0
+55, 18, 8, At War, Suzerain War, 3448.0, 0
+55, 18, 9, At War, Suzerain War, 3450.0, 0
+55, 18, Team 1, Individual Declaring War on Team END, Suzerain War, 3452.0
+55, 18, Team 1, Individual Declaring War on Team START, Suzerain War, 3452.0
+55, 18, 5, At War, Suzerain War, 3452.0, 0
+55, 10, Team 10, Individual Declaring War on Team START, Suzerain War, 3454.0
+55, 10, 18, At War, Suzerain War, 3454.0, 0
+55, 10, Team 10, Individual Declaring War on Team END, Suzerain War, 3456.0
+55, 18, 6, At War, Suzerain War, 3456.0, 0
+55, 17, Team 10, Individual Declaring War on Team START, Suzerain War, 3458.0
+55, 17, 18, At War, Suzerain War, 3458.0, 0
+55, 17, Team 10, Individual Declaring War on Team END, Suzerain War, 3460.0
+55, 18, 7, At War, Suzerain War, 3460.0, 0
+55, 18, 8, At War, Suzerain War, 3462.0, 0
+55, 18, 9, At War, Suzerain War, 3464.0, 0
+55, 18, Team 1, Individual Declaring War on Team END, Suzerain War, 3466.0
+55, 18, Team 1, Individual Declaring War on Team START, Suzerain War, 3466.0
+55, 18, 5, At War, Suzerain War, 3466.0, 0
+55, 10, Team 10, Individual Declaring War on Team START, Suzerain War, 3468.0
+55, 10, 18, At War, Suzerain War, 3468.0, 0
+55, 10, Team 10, Individual Declaring War on Team END, Suzerain War, 3470.0
+55, 18, 6, At War, Suzerain War, 3470.0, 0
+55, 17, Team 10, Individual Declaring War on Team START, Suzerain War, 3472.0
+55, 17, 18, At War, Suzerain War, 3472.0, 0
+55, 17, Team 10, Individual Declaring War on Team END, Suzerain War, 3474.0
+55, 18, 7, At War, Suzerain War, 3474.0, 0
+55, 18, 8, At War, Suzerain War, 3476.0, 0
+55, 18, 9, At War, Suzerain War, 3478.0, 0
+55, 18, Team 1, Individual Declaring War on Team END, Suzerain War, 3480.0
+55, 18, Team 2, Individual Declaring War on Team START, Suzerain War, 3480.0
+55, 18, 10, At War, Suzerain War, 3480.0, 0
+55, 18, Team 2, Individual Declaring War on Team END, Suzerain War, 3482.0
+55, 18, Team 9, Individual Declaring War on Team START, Suzerain War, 3482.0
+55, 18, 17, At War, Suzerain War, 3482.0, 0
+55, 18, Team 9, Individual Declaring War on Team END, Suzerain War, 3484.0
+55, 0, 18, Gave Influence, , 3484.0, 0
+55, 18, 0, Peace, , 3484.0, 0
+55, 18, 1, Peace, , 3484.0, 0
+55, 12, 18, Peace, , 3484.0, 0
+55, 13, 18, Peace, , 3484.0, 0
+55, 18, 2, Peace, , 3484.0, 0
+55, 15, 18, Peace, , 3484.0, 0
+55, 18, 3, Peace, , 3484.0, 0
+55, 18, 4, Peace, , 3484.0, 0
+55, 14, 18, Peace, , 3484.0, 0
+55, 4, 2, Embassy, , 3488.0, 1
+55, 4, 1, Embassy, , 3488.0, 1
+55, 3, 4, Embassy, , 3488.0, 0
+55, 4, 0, Embassy, , 3488.0, 2
+55, 3, 0, Embassy, , 3488.0, 0
+55, 1, 0, Embassy, , 3488.0, 1
+55, 1, 2, Embassy, , 3488.0, 2
+55, 1, 4, Embassy, , 3488.0, 0
+55, 3, 2, Embassy, , 3488.0, 1
+55, 4, 3, Embassy, , 3488.0, 1
+55, 0, 2, Delegation, , 3488.0, 0
+55, 2, 3, Delegation, , 3488.0, 2
+55, 0, 4, Delegation, , 3488.0, 1
+55, 0, 3, Delegation, , 3488.0, 0
+55, 2, 4, Delegation, , 3488.0, 1
+56, 6, 20, Gave Influence, , 3491.0, 0
+56, 6, 20, Gave Influence, , 3491.0, 0
+56, 6, 20, Gave Influence, , 3491.0, 0
+56, 10, 0, Peace, , 3491.0, 0
+56, 10, 1, Peace, , 3491.0, 0
+56, 10, 2, Peace, , 3491.0, 0
+56, 10, 3, Peace, , 3491.0, 0
+56, 10, 4, Peace, , 3491.0, 0
+56, 10, 12, Peace, , 3491.0, 0
+56, 10, 13, Peace, , 3491.0, 0
+56, 10, 14, Peace, , 3491.0, 0
+56, 10, 15, Peace, , 3491.0, 0
+56, 10, 18, Peace, , 3491.0, 0
+56, 7, 10, Gave Influence, , 3491.0, 0
+56, 8, 17, Gave Influence, , 3492.0, 0
+56, 17, 0, Peace, , 3492.0, 0
+56, 17, 1, Peace, , 3492.0, 0
+56, 17, 2, Peace, , 3492.0, 0
+56, 17, 3, Peace, , 3492.0, 0
+56, 17, 4, Peace, , 3492.0, 0
+56, 17, 12, Peace, , 3492.0, 0
+56, 17, 13, Peace, , 3492.0, 0
+56, 17, 14, Peace, , 3492.0, 0
+56, 17, 15, Peace, , 3492.0, 0
+56, 17, 18, Peace, , 3492.0, 0
+56, 17, Team 0, Individual Declaring War on Team START, Suzerain War, 3492.0
+56, 17, 0, At War, Suzerain War, 3492.0, 0
+56, 18, Team 9, Individual Declaring War on Team START, Suzerain War, 3494.0
+56, 18, 17, At War, Suzerain War, 3494.0, 0
+56, 18, Team 9, Individual Declaring War on Team END, Suzerain War, 3496.0
+56, 17, 1, At War, Suzerain War, 3496.0, 0
+56, 12, Team 9, Individual Declaring War on Team START, Suzerain War, 3498.0
+56, 12, 17, At War, Suzerain War, 3498.0, 0
+56, 12, Team 9, Individual Declaring War on Team END, Suzerain War, 3500.0
+56, 13, Team 9, Individual Declaring War on Team START, Suzerain War, 3500.0
+56, 13, 17, At War, Suzerain War, 3500.0, 0
+56, 13, Team 9, Individual Declaring War on Team END, Suzerain War, 3502.0
+56, 17, 2, At War, Suzerain War, 3502.0, 0
+56, 15, Team 9, Individual Declaring War on Team START, Suzerain War, 3504.0
+56, 15, 17, At War, Suzerain War, 3504.0, 0
+56, 15, Team 9, Individual Declaring War on Team END, Suzerain War, 3506.0
+56, 17, 3, At War, Suzerain War, 3506.0, 0
+56, 17, 4, At War, Suzerain War, 3508.0, 0
+56, 14, Team 9, Individual Declaring War on Team START, Suzerain War, 3510.0
+56, 14, 17, At War, Suzerain War, 3510.0, 0
+56, 14, Team 9, Individual Declaring War on Team END, Suzerain War, 3512.0
+56, 17, Team 0, Individual Declaring War on Team END, Suzerain War, 3512.0
+56, 17, Team 0, Individual Declaring War on Team START, Suzerain War, 3512.0
+56, 17, 0, At War, Suzerain War, 3512.0, 0
+56, 18, Team 9, Individual Declaring War on Team START, Suzerain War, 3514.0
+56, 18, 17, At War, Suzerain War, 3514.0, 0
+56, 18, Team 9, Individual Declaring War on Team END, Suzerain War, 3516.0
+56, 17, 1, At War, Suzerain War, 3516.0, 0
+56, 12, Team 9, Individual Declaring War on Team START, Suzerain War, 3518.0
+56, 12, 17, At War, Suzerain War, 3518.0, 0
+56, 12, Team 9, Individual Declaring War on Team END, Suzerain War, 3520.0
+56, 13, Team 9, Individual Declaring War on Team START, Suzerain War, 3520.0
+56, 13, 17, At War, Suzerain War, 3520.0, 0
+56, 13, Team 9, Individual Declaring War on Team END, Suzerain War, 3522.0
+56, 17, 2, At War, Suzerain War, 3522.0, 0
+56, 15, Team 9, Individual Declaring War on Team START, Suzerain War, 3524.0
+56, 15, 17, At War, Suzerain War, 3524.0, 0
+56, 15, Team 9, Individual Declaring War on Team END, Suzerain War, 3526.0
+56, 17, 3, At War, Suzerain War, 3526.0, 0
+56, 17, 4, At War, Suzerain War, 3528.0, 0
+56, 14, Team 9, Individual Declaring War on Team START, Suzerain War, 3530.0
+56, 14, 17, At War, Suzerain War, 3530.0, 0
+56, 14, Team 9, Individual Declaring War on Team END, Suzerain War, 3532.0
+56, 17, Team 0, Individual Declaring War on Team END, Suzerain War, 3532.0
+56, 17, Team 0, Individual Declaring War on Team START, Suzerain War, 3532.0
+56, 17, 0, At War, Suzerain War, 3532.0, 0
+56, 18, Team 9, Individual Declaring War on Team START, Suzerain War, 3534.0
+56, 18, 17, At War, Suzerain War, 3534.0, 0
+56, 18, Team 9, Individual Declaring War on Team END, Suzerain War, 3536.0
+56, 17, 1, At War, Suzerain War, 3536.0, 0
+56, 12, Team 9, Individual Declaring War on Team START, Suzerain War, 3538.0
+56, 12, 17, At War, Suzerain War, 3538.0, 0
+56, 12, Team 9, Individual Declaring War on Team END, Suzerain War, 3540.0
+56, 13, Team 9, Individual Declaring War on Team START, Suzerain War, 3540.0
+56, 13, 17, At War, Suzerain War, 3540.0, 0
+56, 13, Team 9, Individual Declaring War on Team END, Suzerain War, 3542.0
+56, 17, 2, At War, Suzerain War, 3542.0, 0
+56, 15, Team 9, Individual Declaring War on Team START, Suzerain War, 3544.0
+56, 15, 17, At War, Suzerain War, 3544.0, 0
+56, 15, Team 9, Individual Declaring War on Team END, Suzerain War, 3546.0
+56, 17, 3, At War, Suzerain War, 3546.0, 0
+56, 17, 4, At War, Suzerain War, 3548.0, 0
+56, 14, Team 9, Individual Declaring War on Team START, Suzerain War, 3550.0
+56, 14, 17, At War, Suzerain War, 3550.0, 0
+56, 14, Team 9, Individual Declaring War on Team END, Suzerain War, 3552.0
+56, 17, Team 0, Individual Declaring War on Team END, Suzerain War, 3552.0
+56, 17, Team 0, Individual Declaring War on Team START, Suzerain War, 3552.0
+56, 17, 0, At War, Suzerain War, 3552.0, 0
+56, 18, Team 9, Individual Declaring War on Team START, Suzerain War, 3554.0
+56, 18, 17, At War, Suzerain War, 3554.0, 0
+56, 18, Team 9, Individual Declaring War on Team END, Suzerain War, 3556.0
+56, 17, 1, At War, Suzerain War, 3556.0, 0
+56, 12, Team 9, Individual Declaring War on Team START, Suzerain War, 3558.0
+56, 12, 17, At War, Suzerain War, 3558.0, 0
+56, 12, Team 9, Individual Declaring War on Team END, Suzerain War, 3560.0
+56, 13, Team 9, Individual Declaring War on Team START, Suzerain War, 3560.0
+56, 13, 17, At War, Suzerain War, 3560.0, 0
+56, 13, Team 9, Individual Declaring War on Team END, Suzerain War, 3562.0
+56, 17, 2, At War, Suzerain War, 3562.0, 0
+56, 15, Team 9, Individual Declaring War on Team START, Suzerain War, 3564.0
+56, 15, 17, At War, Suzerain War, 3564.0, 0
+56, 15, Team 9, Individual Declaring War on Team END, Suzerain War, 3566.0
+56, 17, 3, At War, Suzerain War, 3566.0, 0
+56, 17, 4, At War, Suzerain War, 3568.0, 0
+56, 14, Team 9, Individual Declaring War on Team START, Suzerain War, 3570.0
+56, 14, 17, At War, Suzerain War, 3570.0, 0
+56, 14, Team 9, Individual Declaring War on Team END, Suzerain War, 3572.0
+56, 17, Team 0, Individual Declaring War on Team END, Suzerain War, 3572.0
+56, 17, Team 0, Individual Declaring War on Team START, Suzerain War, 3572.0
+56, 17, 0, At War, Suzerain War, 3572.0, 0
+56, 18, Team 9, Individual Declaring War on Team START, Suzerain War, 3574.0
+56, 18, 17, At War, Suzerain War, 3574.0, 0
+56, 18, Team 9, Individual Declaring War on Team END, Suzerain War, 3576.0
+56, 17, 1, At War, Suzerain War, 3576.0, 0
+56, 12, Team 9, Individual Declaring War on Team START, Suzerain War, 3578.0
+56, 12, 17, At War, Suzerain War, 3578.0, 0
+56, 12, Team 9, Individual Declaring War on Team END, Suzerain War, 3580.0
+56, 13, Team 9, Individual Declaring War on Team START, Suzerain War, 3580.0
+56, 13, 17, At War, Suzerain War, 3580.0, 0
+56, 13, Team 9, Individual Declaring War on Team END, Suzerain War, 3582.0
+56, 17, 2, At War, Suzerain War, 3582.0, 0
+56, 15, Team 9, Individual Declaring War on Team START, Suzerain War, 3584.0
+56, 15, 17, At War, Suzerain War, 3584.0, 0
+56, 15, Team 9, Individual Declaring War on Team END, Suzerain War, 3586.0
+56, 17, 3, At War, Suzerain War, 3586.0, 0
+56, 17, 4, At War, Suzerain War, 3588.0, 0
+56, 14, Team 9, Individual Declaring War on Team START, Suzerain War, 3590.0
+56, 14, 17, At War, Suzerain War, 3590.0, 0
+56, 14, Team 9, Individual Declaring War on Team END, Suzerain War, 3592.0
+56, 17, Team 0, Individual Declaring War on Team END, Suzerain War, 3592.0
+56, 17, Team 4, Individual Declaring War on Team START, Suzerain War, 3592.0
+56, 17, 12, At War, Suzerain War, 3592.0, 0
+56, 17, Team 4, Individual Declaring War on Team END, Suzerain War, 3594.0
+56, 17, Team 5, Individual Declaring War on Team START, Suzerain War, 3594.0
+56, 17, 13, At War, Suzerain War, 3594.0, 0
+56, 17, Team 5, Individual Declaring War on Team END, Suzerain War, 3596.0
+56, 17, Team 6, Individual Declaring War on Team START, Suzerain War, 3596.0
+56, 17, 14, At War, Suzerain War, 3596.0, 0
+56, 17, Team 6, Individual Declaring War on Team END, Suzerain War, 3598.0
+56, 17, Team 7, Individual Declaring War on Team START, Suzerain War, 3598.0
+56, 17, 15, At War, Suzerain War, 3598.0, 0
+56, 17, Team 7, Individual Declaring War on Team END, Suzerain War, 3600.0
+56, 17, Team 10, Individual Declaring War on Team START, Suzerain War, 3600.0
+56, 17, 18, At War, Suzerain War, 3600.0, 0
+56, 17, Team 10, Individual Declaring War on Team END, Suzerain War, 3602.0
+56, 9, 17, Gave Influence, , 3602.0, 0
+56, 3, 13, Gave Influence, , 3605.0, 0
+56, 2, 0, Delegation, , 3608.0, 1
+56, 3, 1, Embassy, , 3610.0, 1
+57, 8, 4, Deal Proposed, 0 Peace for 8 turns from 8 to 4; 0 Peace for 8 turns from 4 to 8; 8 Gold for 0 turns from 8 to 4; 3 Gold for 30 turns from 8 to 4; , 3617.0, 1
+57, 2, 1, Embassy, , 3629.0, 2
+57, 2, 3, Embassy, , 3629.0, 2
+57, 2, 0, Embassy, , 3629.0, 1
+57, 2, 4, Embassy, , 3629.0, 1
+57, 15, 5, Peace, , 3629.0, 0
+57, 15, 6, Peace, , 3629.0, 0
+57, 15, 7, Peace, , 3629.0, 0
+57, 15, 8, Peace, , 3629.0, 0
+57, 15, 9, Peace, , 3629.0, 0
+57, 15, 17, Peace, , 3629.0, 0
+57, 3, 15, Gave Influence, , 3629.0, 0
+57, 2, 12, Gave Influence, , 3629.0, 0
+57, 3, 10, Gave Influence, , 3629.0, 0
+57, 3, 10, Gave Influence, , 3629.0, 0
+58, 10, Team 0, Individual Declaring War on Team START, Suzerain War, 3632.0
+58, 10, 0, At War, Suzerain War, 3632.0, 0
+58, 18, Team 2, Individual Declaring War on Team START, Suzerain War, 3634.0
+58, 18, 10, At War, Suzerain War, 3634.0, 0
+58, 18, Team 2, Individual Declaring War on Team END, Suzerain War, 3636.0
+58, 10, 1, At War, Suzerain War, 3636.0, 0
+58, 12, Team 2, Individual Declaring War on Team START, Suzerain War, 3638.0
+58, 12, 10, At War, Suzerain War, 3638.0, 0
+58, 12, Team 2, Individual Declaring War on Team END, Suzerain War, 3640.0
+58, 13, Team 2, Individual Declaring War on Team START, Suzerain War, 3640.0
+58, 13, 10, At War, Suzerain War, 3640.0, 0
+58, 13, Team 2, Individual Declaring War on Team END, Suzerain War, 3642.0
+58, 10, 2, At War, Suzerain War, 3642.0, 0
+58, 10, 3, At War, Suzerain War, 3644.0, 0
+58, 10, 4, At War, Suzerain War, 3646.0, 0
+58, 14, Team 2, Individual Declaring War on Team START, Suzerain War, 3648.0
+58, 14, 10, At War, Suzerain War, 3648.0, 0
+58, 14, Team 2, Individual Declaring War on Team END, Suzerain War, 3650.0
+58, 10, Team 0, Individual Declaring War on Team END, Suzerain War, 3650.0
+58, 10, Team 0, Individual Declaring War on Team START, Suzerain War, 3650.0
+58, 10, 0, At War, Suzerain War, 3650.0, 0
+58, 18, Team 2, Individual Declaring War on Team START, Suzerain War, 3652.0
+58, 18, 10, At War, Suzerain War, 3652.0, 0
+58, 18, Team 2, Individual Declaring War on Team END, Suzerain War, 3654.0
+58, 10, 1, At War, Suzerain War, 3654.0, 0
+58, 12, Team 2, Individual Declaring War on Team START, Suzerain War, 3656.0
+58, 12, 10, At War, Suzerain War, 3656.0, 0
+58, 12, Team 2, Individual Declaring War on Team END, Suzerain War, 3658.0
+58, 13, Team 2, Individual Declaring War on Team START, Suzerain War, 3658.0
+58, 13, 10, At War, Suzerain War, 3658.0, 0
+58, 13, Team 2, Individual Declaring War on Team END, Suzerain War, 3660.0
+58, 10, 2, At War, Suzerain War, 3660.0, 0
+58, 10, 3, At War, Suzerain War, 3662.0, 0
+58, 10, 4, At War, Suzerain War, 3664.0, 0
+58, 14, Team 2, Individual Declaring War on Team START, Suzerain War, 3666.0
+58, 14, 10, At War, Suzerain War, 3666.0, 0
+58, 14, Team 2, Individual Declaring War on Team END, Suzerain War, 3668.0
+58, 10, Team 0, Individual Declaring War on Team END, Suzerain War, 3668.0
+58, 10, Team 0, Individual Declaring War on Team START, Suzerain War, 3668.0
+58, 10, 0, At War, Suzerain War, 3668.0, 0
+58, 18, Team 2, Individual Declaring War on Team START, Suzerain War, 3670.0
+58, 18, 10, At War, Suzerain War, 3670.0, 0
+58, 18, Team 2, Individual Declaring War on Team END, Suzerain War, 3672.0
+58, 10, 1, At War, Suzerain War, 3672.0, 0
+58, 12, Team 2, Individual Declaring War on Team START, Suzerain War, 3674.0
+58, 12, 10, At War, Suzerain War, 3674.0, 0
+58, 12, Team 2, Individual Declaring War on Team END, Suzerain War, 3676.0
+58, 13, Team 2, Individual Declaring War on Team START, Suzerain War, 3676.0
+58, 13, 10, At War, Suzerain War, 3676.0, 0
+58, 13, Team 2, Individual Declaring War on Team END, Suzerain War, 3678.0
+58, 10, 2, At War, Suzerain War, 3678.0, 0
+58, 10, 3, At War, Suzerain War, 3680.0, 0
+58, 10, 4, At War, Suzerain War, 3682.0, 0
+58, 14, Team 2, Individual Declaring War on Team START, Suzerain War, 3684.0
+58, 14, 10, At War, Suzerain War, 3684.0, 0
+58, 14, Team 2, Individual Declaring War on Team END, Suzerain War, 3686.0
+58, 10, Team 0, Individual Declaring War on Team END, Suzerain War, 3686.0
+58, 10, Team 0, Individual Declaring War on Team START, Suzerain War, 3686.0
+58, 10, 0, At War, Suzerain War, 3686.0, 0
+58, 18, Team 2, Individual Declaring War on Team START, Suzerain War, 3688.0
+58, 18, 10, At War, Suzerain War, 3688.0, 0
+58, 18, Team 2, Individual Declaring War on Team END, Suzerain War, 3690.0
+58, 10, 1, At War, Suzerain War, 3690.0, 0
+58, 12, Team 2, Individual Declaring War on Team START, Suzerain War, 3692.0
+58, 12, 10, At War, Suzerain War, 3692.0, 0
+58, 12, Team 2, Individual Declaring War on Team END, Suzerain War, 3694.0
+58, 13, Team 2, Individual Declaring War on Team START, Suzerain War, 3694.0
+58, 13, 10, At War, Suzerain War, 3694.0, 0
+58, 13, Team 2, Individual Declaring War on Team END, Suzerain War, 3696.0
+58, 10, 2, At War, Suzerain War, 3696.0, 0
+58, 10, 3, At War, Suzerain War, 3698.0, 0
+58, 10, 4, At War, Suzerain War, 3700.0, 0
+58, 14, Team 2, Individual Declaring War on Team START, Suzerain War, 3702.0
+58, 14, 10, At War, Suzerain War, 3702.0, 0
+58, 14, Team 2, Individual Declaring War on Team END, Suzerain War, 3704.0
+58, 10, Team 0, Individual Declaring War on Team END, Suzerain War, 3704.0
+58, 10, Team 0, Individual Declaring War on Team START, Suzerain War, 3704.0
+58, 10, 0, At War, Suzerain War, 3704.0, 0
+58, 18, Team 2, Individual Declaring War on Team START, Suzerain War, 3706.0
+58, 18, 10, At War, Suzerain War, 3706.0, 0
+58, 18, Team 2, Individual Declaring War on Team END, Suzerain War, 3708.0
+58, 10, 1, At War, Suzerain War, 3708.0, 0
+58, 12, Team 2, Individual Declaring War on Team START, Suzerain War, 3710.0
+58, 12, 10, At War, Suzerain War, 3710.0, 0
+58, 12, Team 2, Individual Declaring War on Team END, Suzerain War, 3712.0
+58, 13, Team 2, Individual Declaring War on Team START, Suzerain War, 3712.0
+58, 13, 10, At War, Suzerain War, 3712.0, 0
+58, 13, Team 2, Individual Declaring War on Team END, Suzerain War, 3714.0
+58, 10, 2, At War, Suzerain War, 3714.0, 0
+58, 10, 3, At War, Suzerain War, 3716.0, 0
+58, 10, 4, At War, Suzerain War, 3718.0, 0
+58, 14, Team 2, Individual Declaring War on Team START, Suzerain War, 3720.0
+58, 14, 10, At War, Suzerain War, 3720.0, 0
+58, 14, Team 2, Individual Declaring War on Team END, Suzerain War, 3722.0
+58, 10, Team 0, Individual Declaring War on Team END, Suzerain War, 3722.0
+58, 10, Team 4, Individual Declaring War on Team START, Suzerain War, 3722.0
+58, 10, 12, At War, Suzerain War, 3722.0, 0
+58, 10, Team 4, Individual Declaring War on Team END, Suzerain War, 3724.0
+58, 10, Team 5, Individual Declaring War on Team START, Suzerain War, 3724.0
+58, 10, 13, At War, Suzerain War, 3724.0, 0
+58, 10, Team 5, Individual Declaring War on Team END, Suzerain War, 3726.0
+58, 10, Team 6, Individual Declaring War on Team START, Suzerain War, 3726.0
+58, 10, 14, At War, Suzerain War, 3726.0, 0
+58, 10, Team 6, Individual Declaring War on Team END, Suzerain War, 3728.0
+58, 10, Team 10, Individual Declaring War on Team START, Suzerain War, 3728.0
+58, 10, 18, At War, Suzerain War, 3728.0, 0
+58, 10, Team 10, Individual Declaring War on Team END, Suzerain War, 3730.0
+58, 5, 10, Gave Influence, , 3730.0, 0
+58, 10, 0, Peace, , 3732.0, 0
+58, 10, 1, Peace, , 3732.0, 0
+58, 10, 2, Peace, , 3732.0, 0
+58, 10, 3, Peace, , 3732.0, 0
+58, 10, 4, Peace, , 3732.0, 0
+58, 10, 12, Peace, , 3732.0, 0
+58, 10, 13, Peace, , 3732.0, 0
+58, 10, 14, Peace, , 3732.0, 0
+58, 10, 18, Peace, , 3732.0, 0
+58, 7, 10, Gave Influence, , 3732.0, 0
+58, 10, Team 0, Individual Declaring War on Team START, Suzerain War, 3732.0
+58, 10, 0, At War, Suzerain War, 3732.0, 0
+58, 18, Team 2, Individual Declaring War on Team START, Suzerain War, 3734.0
+58, 18, 10, At War, Suzerain War, 3734.0, 0
+58, 18, Team 2, Individual Declaring War on Team END, Suzerain War, 3736.0
+58, 10, 1, At War, Suzerain War, 3736.0, 0
+58, 12, Team 2, Individual Declaring War on Team START, Suzerain War, 3738.0
+58, 12, 10, At War, Suzerain War, 3738.0, 0
+58, 12, Team 2, Individual Declaring War on Team END, Suzerain War, 3740.0
+58, 13, Team 2, Individual Declaring War on Team START, Suzerain War, 3740.0
+58, 13, 10, At War, Suzerain War, 3740.0, 0
+58, 13, Team 2, Individual Declaring War on Team END, Suzerain War, 3742.0
+58, 10, 2, At War, Suzerain War, 3742.0, 0
+58, 10, 3, At War, Suzerain War, 3744.0, 0
+58, 10, 4, At War, Suzerain War, 3746.0, 0
+58, 14, Team 2, Individual Declaring War on Team START, Suzerain War, 3748.0
+58, 14, 10, At War, Suzerain War, 3748.0, 0
+58, 14, Team 2, Individual Declaring War on Team END, Suzerain War, 3750.0
+58, 10, Team 0, Individual Declaring War on Team END, Suzerain War, 3750.0
+58, 10, Team 0, Individual Declaring War on Team START, Suzerain War, 3750.0
+58, 10, 0, At War, Suzerain War, 3750.0, 0
+58, 18, Team 2, Individual Declaring War on Team START, Suzerain War, 3752.0
+58, 18, 10, At War, Suzerain War, 3752.0, 0
+58, 18, Team 2, Individual Declaring War on Team END, Suzerain War, 3754.0
+58, 10, 1, At War, Suzerain War, 3754.0, 0
+58, 12, Team 2, Individual Declaring War on Team START, Suzerain War, 3756.0
+58, 12, 10, At War, Suzerain War, 3756.0, 0
+58, 12, Team 2, Individual Declaring War on Team END, Suzerain War, 3758.0
+58, 13, Team 2, Individual Declaring War on Team START, Suzerain War, 3758.0
+58, 13, 10, At War, Suzerain War, 3758.0, 0
+58, 13, Team 2, Individual Declaring War on Team END, Suzerain War, 3760.0
+58, 10, 2, At War, Suzerain War, 3760.0, 0
+58, 10, 3, At War, Suzerain War, 3762.0, 0
+58, 10, 4, At War, Suzerain War, 3764.0, 0
+58, 14, Team 2, Individual Declaring War on Team START, Suzerain War, 3766.0
+58, 14, 10, At War, Suzerain War, 3766.0, 0
+58, 14, Team 2, Individual Declaring War on Team END, Suzerain War, 3768.0
+58, 10, Team 0, Individual Declaring War on Team END, Suzerain War, 3768.0
+58, 10, Team 0, Individual Declaring War on Team START, Suzerain War, 3768.0
+58, 10, 0, At War, Suzerain War, 3768.0, 0
+58, 18, Team 2, Individual Declaring War on Team START, Suzerain War, 3770.0
+58, 18, 10, At War, Suzerain War, 3770.0, 0
+58, 18, Team 2, Individual Declaring War on Team END, Suzerain War, 3772.0
+58, 10, 1, At War, Suzerain War, 3772.0, 0
+58, 12, Team 2, Individual Declaring War on Team START, Suzerain War, 3774.0
+58, 12, 10, At War, Suzerain War, 3774.0, 0
+58, 12, Team 2, Individual Declaring War on Team END, Suzerain War, 3776.0
+58, 13, Team 2, Individual Declaring War on Team START, Suzerain War, 3776.0
+58, 13, 10, At War, Suzerain War, 3776.0, 0
+58, 13, Team 2, Individual Declaring War on Team END, Suzerain War, 3778.0
+58, 10, 2, At War, Suzerain War, 3778.0, 0
+58, 10, 3, At War, Suzerain War, 3780.0, 0
+58, 10, 4, At War, Suzerain War, 3782.0, 0
+58, 14, Team 2, Individual Declaring War on Team START, Suzerain War, 3784.0
+58, 14, 10, At War, Suzerain War, 3784.0, 0
+58, 14, Team 2, Individual Declaring War on Team END, Suzerain War, 3786.0
+58, 10, Team 0, Individual Declaring War on Team END, Suzerain War, 3786.0
+58, 10, Team 0, Individual Declaring War on Team START, Suzerain War, 3786.0
+58, 10, 0, At War, Suzerain War, 3786.0, 0
+58, 18, Team 2, Individual Declaring War on Team START, Suzerain War, 3788.0
+58, 18, 10, At War, Suzerain War, 3788.0, 0
+58, 18, Team 2, Individual Declaring War on Team END, Suzerain War, 3790.0
+58, 10, 1, At War, Suzerain War, 3790.0, 0
+58, 12, Team 2, Individual Declaring War on Team START, Suzerain War, 3792.0
+58, 12, 10, At War, Suzerain War, 3792.0, 0
+58, 12, Team 2, Individual Declaring War on Team END, Suzerain War, 3794.0
+58, 13, Team 2, Individual Declaring War on Team START, Suzerain War, 3794.0
+58, 13, 10, At War, Suzerain War, 3794.0, 0
+58, 13, Team 2, Individual Declaring War on Team END, Suzerain War, 3796.0
+58, 10, 2, At War, Suzerain War, 3796.0, 0
+58, 10, 3, At War, Suzerain War, 3798.0, 0
+58, 10, 4, At War, Suzerain War, 3800.0, 0
+58, 14, Team 2, Individual Declaring War on Team START, Suzerain War, 3802.0
+58, 14, 10, At War, Suzerain War, 3802.0, 0
+58, 14, Team 2, Individual Declaring War on Team END, Suzerain War, 3804.0
+58, 10, Team 0, Individual Declaring War on Team END, Suzerain War, 3804.0
+58, 10, Team 0, Individual Declaring War on Team START, Suzerain War, 3804.0
+58, 10, 0, At War, Suzerain War, 3804.0, 0
+58, 18, Team 2, Individual Declaring War on Team START, Suzerain War, 3806.0
+58, 18, 10, At War, Suzerain War, 3806.0, 0
+58, 18, Team 2, Individual Declaring War on Team END, Suzerain War, 3808.0
+58, 10, 1, At War, Suzerain War, 3808.0, 0
+58, 12, Team 2, Individual Declaring War on Team START, Suzerain War, 3810.0
+58, 12, 10, At War, Suzerain War, 3810.0, 0
+58, 12, Team 2, Individual Declaring War on Team END, Suzerain War, 3812.0
+58, 13, Team 2, Individual Declaring War on Team START, Suzerain War, 3812.0
+58, 13, 10, At War, Suzerain War, 3812.0, 0
+58, 13, Team 2, Individual Declaring War on Team END, Suzerain War, 3814.0
+58, 10, 2, At War, Suzerain War, 3814.0, 0
+58, 10, 3, At War, Suzerain War, 3816.0, 0
+58, 10, 4, At War, Suzerain War, 3818.0, 0
+58, 14, Team 2, Individual Declaring War on Team START, Suzerain War, 3820.0
+58, 14, 10, At War, Suzerain War, 3820.0, 0
+58, 14, Team 2, Individual Declaring War on Team END, Suzerain War, 3822.0
+58, 10, Team 0, Individual Declaring War on Team END, Suzerain War, 3822.0
+58, 10, Team 4, Individual Declaring War on Team START, Suzerain War, 3822.0
+58, 10, 12, At War, Suzerain War, 3822.0, 0
+58, 10, Team 4, Individual Declaring War on Team END, Suzerain War, 3824.0
+58, 10, Team 5, Individual Declaring War on Team START, Suzerain War, 3824.0
+58, 10, 13, At War, Suzerain War, 3824.0, 0
+58, 10, Team 5, Individual Declaring War on Team END, Suzerain War, 3826.0
+58, 10, Team 6, Individual Declaring War on Team START, Suzerain War, 3826.0
+58, 10, 14, At War, Suzerain War, 3826.0, 0
+58, 10, Team 6, Individual Declaring War on Team END, Suzerain War, 3828.0
+58, 10, Team 10, Individual Declaring War on Team START, Suzerain War, 3828.0
+58, 10, 18, At War, Suzerain War, 3828.0, 0
+58, 10, Team 10, Individual Declaring War on Team END, Suzerain War, 3830.0
+58, 7, 10, Gave Influence, , 3830.0, 0
+58, 7, 10, Gave Influence, , 3830.0, 0
+58, 9, 4, Deal Proposed, 0 Peace for 8 turns from 9 to 4; 0 Peace for 8 turns from 4 to 9; 1 RESOURCE_P0K_PAPYRUS for 30 turns from 9 to 4; 203 Gold for 0 turns from 9 to 4; 33 Gold for 30 turns from 9 to 4; , 3831.0, 1
+58, 4, 15, Gave Influence, , 3839.0, 0
+58, 12, 5, Peace, , 3632.0, 0
+58, 12, 6, Peace, , 3632.0, 0
+58, 12, 7, Peace, , 3632.0, 0
+58, 12, 8, Peace, , 3632.0, 0
+58, 12, 9, Peace, , 3632.0, 0
+58, 12, 17, Peace, , 3632.0, 0
+58, 4, 12, Gave Influence, , 3632.0, 0
+58, 12, Team 1, Individual Declaring War on Team START, Suzerain War, 3632.0
+58, 12, 5, At War, Suzerain War, 3632.0, 0
+58, 12, 6, At War, Suzerain War, 3634.0, 0
+58, 12, 7, At War, Suzerain War, 3636.0, 0
+58, 12, 8, At War, Suzerain War, 3638.0, 0
+58, 12, 9, At War, Suzerain War, 3640.0, 0
+58, 17, Team 4, Individual Declaring War on Team START, Suzerain War, 3642.0
+58, 17, 12, At War, Suzerain War, 3642.0, 0
+58, 17, Team 4, Individual Declaring War on Team END, Suzerain War, 3644.0
+58, 12, Team 1, Individual Declaring War on Team END, Suzerain War, 3644.0
+58, 12, Team 1, Individual Declaring War on Team START, Suzerain War, 3644.0
+58, 12, 5, At War, Suzerain War, 3644.0, 0
+58, 12, 6, At War, Suzerain War, 3646.0, 0
+58, 12, 7, At War, Suzerain War, 3648.0, 0
+58, 12, 8, At War, Suzerain War, 3650.0, 0
+58, 12, 9, At War, Suzerain War, 3652.0, 0
+58, 17, Team 4, Individual Declaring War on Team START, Suzerain War, 3654.0
+58, 17, 12, At War, Suzerain War, 3654.0, 0
+58, 17, Team 4, Individual Declaring War on Team END, Suzerain War, 3656.0
+58, 12, Team 1, Individual Declaring War on Team END, Suzerain War, 3656.0
+58, 12, Team 1, Individual Declaring War on Team START, Suzerain War, 3656.0
+58, 12, 5, At War, Suzerain War, 3656.0, 0
+58, 12, 6, At War, Suzerain War, 3658.0, 0
+58, 12, 7, At War, Suzerain War, 3660.0, 0
+58, 12, 8, At War, Suzerain War, 3662.0, 0
+58, 12, 9, At War, Suzerain War, 3664.0, 0
+58, 17, Team 4, Individual Declaring War on Team START, Suzerain War, 3666.0
+58, 17, 12, At War, Suzerain War, 3666.0, 0
+58, 17, Team 4, Individual Declaring War on Team END, Suzerain War, 3668.0
+58, 12, Team 1, Individual Declaring War on Team END, Suzerain War, 3668.0
+58, 12, Team 1, Individual Declaring War on Team START, Suzerain War, 3668.0
+58, 12, 5, At War, Suzerain War, 3668.0, 0
+58, 12, 6, At War, Suzerain War, 3670.0, 0
+58, 12, 7, At War, Suzerain War, 3672.0, 0
+58, 12, 8, At War, Suzerain War, 3674.0, 0
+58, 12, 9, At War, Suzerain War, 3676.0, 0
+58, 17, Team 4, Individual Declaring War on Team START, Suzerain War, 3678.0
+58, 17, 12, At War, Suzerain War, 3678.0, 0
+58, 17, Team 4, Individual Declaring War on Team END, Suzerain War, 3680.0
+58, 12, Team 1, Individual Declaring War on Team END, Suzerain War, 3680.0
+58, 12, Team 1, Individual Declaring War on Team START, Suzerain War, 3680.0
+58, 12, 5, At War, Suzerain War, 3680.0, 0
+58, 12, 6, At War, Suzerain War, 3682.0, 0
+58, 12, 7, At War, Suzerain War, 3684.0, 0
+58, 12, 8, At War, Suzerain War, 3686.0, 0
+58, 12, 9, At War, Suzerain War, 3688.0, 0
+58, 17, Team 4, Individual Declaring War on Team START, Suzerain War, 3690.0
+58, 17, 12, At War, Suzerain War, 3690.0, 0
+58, 17, Team 4, Individual Declaring War on Team END, Suzerain War, 3692.0
+58, 12, Team 1, Individual Declaring War on Team END, Suzerain War, 3692.0
+58, 12, Team 9, Individual Declaring War on Team START, Suzerain War, 3692.0
+58, 12, 17, At War, Suzerain War, 3692.0, 0
+58, 12, Team 9, Individual Declaring War on Team END, Suzerain War, 3694.0
+58, 4, 12, Gave Influence, , 3694.0, 0
+58, 4, 12, Gave Influence, , 3694.0, 0
+58, 4, 12, Gave Influence, , 3694.0, 0
+58, 4, 14, Gave Influence, , 3694.0, 0
+58, 4, 14, Gave Influence, , 3694.0, 0
+58, 10, Team 0, Individual Declaring War on Team START, Suzerain War, 3695.0
+58, 10, 0, At War, Suzerain War, 3695.0, 0
+58, 18, Team 2, Individual Declaring War on Team START, Suzerain War, 3697.0
+58, 18, 10, At War, Suzerain War, 3697.0, 0
+58, 18, Team 2, Individual Declaring War on Team END, Suzerain War, 3699.0
+58, 10, 1, At War, Suzerain War, 3699.0, 0
+58, 13, Team 2, Individual Declaring War on Team START, Suzerain War, 3701.0
+58, 13, 10, At War, Suzerain War, 3701.0, 0
+58, 13, Team 2, Individual Declaring War on Team END, Suzerain War, 3703.0
+58, 10, 2, At War, Suzerain War, 3703.0, 0
+58, 10, 3, At War, Suzerain War, 3705.0, 0
+58, 10, 4, At War, Suzerain War, 3707.0, 0
+58, 12, Team 2, Individual Declaring War on Team START, Suzerain War, 3709.0
+58, 12, 10, At War, Suzerain War, 3709.0, 0
+58, 12, Team 2, Individual Declaring War on Team END, Suzerain War, 3711.0
+58, 14, Team 2, Individual Declaring War on Team START, Suzerain War, 3711.0
+58, 14, 10, At War, Suzerain War, 3711.0, 0
+58, 14, Team 2, Individual Declaring War on Team END, Suzerain War, 3713.0
+58, 10, Team 0, Individual Declaring War on Team END, Suzerain War, 3713.0
+58, 10, Team 0, Individual Declaring War on Team START, Suzerain War, 3713.0
+58, 10, 0, At War, Suzerain War, 3713.0, 0
+58, 18, Team 2, Individual Declaring War on Team START, Suzerain War, 3715.0
+58, 18, 10, At War, Suzerain War, 3715.0, 0
+58, 18, Team 2, Individual Declaring War on Team END, Suzerain War, 3717.0
+58, 10, 1, At War, Suzerain War, 3717.0, 0
+58, 13, Team 2, Individual Declaring War on Team START, Suzerain War, 3719.0
+58, 13, 10, At War, Suzerain War, 3719.0, 0
+58, 13, Team 2, Individual Declaring War on Team END, Suzerain War, 3721.0
+58, 10, 2, At War, Suzerain War, 3721.0, 0
+58, 10, 3, At War, Suzerain War, 3723.0, 0
+58, 10, 4, At War, Suzerain War, 3725.0, 0
+58, 12, Team 2, Individual Declaring War on Team START, Suzerain War, 3727.0
+58, 12, 10, At War, Suzerain War, 3727.0, 0
+58, 12, Team 2, Individual Declaring War on Team END, Suzerain War, 3729.0
+58, 14, Team 2, Individual Declaring War on Team START, Suzerain War, 3729.0
+58, 14, 10, At War, Suzerain War, 3729.0, 0
+58, 14, Team 2, Individual Declaring War on Team END, Suzerain War, 3731.0
+58, 10, Team 0, Individual Declaring War on Team END, Suzerain War, 3731.0
+58, 10, Team 0, Individual Declaring War on Team START, Suzerain War, 3731.0
+58, 10, 0, At War, Suzerain War, 3731.0, 0
+58, 18, Team 2, Individual Declaring War on Team START, Suzerain War, 3733.0
+58, 18, 10, At War, Suzerain War, 3733.0, 0
+58, 18, Team 2, Individual Declaring War on Team END, Suzerain War, 3735.0
+58, 10, 1, At War, Suzerain War, 3735.0, 0
+58, 13, Team 2, Individual Declaring War on Team START, Suzerain War, 3737.0
+58, 13, 10, At War, Suzerain War, 3737.0, 0
+58, 13, Team 2, Individual Declaring War on Team END, Suzerain War, 3739.0
+58, 10, 2, At War, Suzerain War, 3739.0, 0
+58, 10, 3, At War, Suzerain War, 3741.0, 0
+58, 10, 4, At War, Suzerain War, 3743.0, 0
+58, 12, Team 2, Individual Declaring War on Team START, Suzerain War, 3745.0
+58, 12, 10, At War, Suzerain War, 3745.0, 0
+58, 12, Team 2, Individual Declaring War on Team END, Suzerain War, 3747.0
+58, 14, Team 2, Individual Declaring War on Team START, Suzerain War, 3747.0
+58, 14, 10, At War, Suzerain War, 3747.0, 0
+58, 14, Team 2, Individual Declaring War on Team END, Suzerain War, 3749.0
+58, 10, Team 0, Individual Declaring War on Team END, Suzerain War, 3749.0
+58, 10, Team 0, Individual Declaring War on Team START, Suzerain War, 3749.0
+58, 10, 0, At War, Suzerain War, 3749.0, 0
+58, 18, Team 2, Individual Declaring War on Team START, Suzerain War, 3751.0
+58, 18, 10, At War, Suzerain War, 3751.0, 0
+58, 18, Team 2, Individual Declaring War on Team END, Suzerain War, 3753.0
+58, 10, 1, At War, Suzerain War, 3753.0, 0
+58, 13, Team 2, Individual Declaring War on Team START, Suzerain War, 3755.0
+58, 13, 10, At War, Suzerain War, 3755.0, 0
+58, 13, Team 2, Individual Declaring War on Team END, Suzerain War, 3757.0
+58, 10, 2, At War, Suzerain War, 3757.0, 0
+58, 10, 3, At War, Suzerain War, 3759.0, 0
+58, 10, 4, At War, Suzerain War, 3761.0, 0
+58, 12, Team 2, Individual Declaring War on Team START, Suzerain War, 3763.0
+58, 12, 10, At War, Suzerain War, 3763.0, 0
+58, 12, Team 2, Individual Declaring War on Team END, Suzerain War, 3765.0
+58, 14, Team 2, Individual Declaring War on Team START, Suzerain War, 3765.0
+58, 14, 10, At War, Suzerain War, 3765.0, 0
+58, 14, Team 2, Individual Declaring War on Team END, Suzerain War, 3767.0
+58, 10, Team 0, Individual Declaring War on Team END, Suzerain War, 3767.0
+58, 10, Team 0, Individual Declaring War on Team START, Suzerain War, 3767.0
+58, 10, 0, At War, Suzerain War, 3767.0, 0
+58, 18, Team 2, Individual Declaring War on Team START, Suzerain War, 3769.0
+58, 18, 10, At War, Suzerain War, 3769.0, 0
+58, 18, Team 2, Individual Declaring War on Team END, Suzerain War, 3771.0
+58, 10, 1, At War, Suzerain War, 3771.0, 0
+58, 13, Team 2, Individual Declaring War on Team START, Suzerain War, 3773.0
+58, 13, 10, At War, Suzerain War, 3773.0, 0
+58, 13, Team 2, Individual Declaring War on Team END, Suzerain War, 3775.0
+58, 10, 2, At War, Suzerain War, 3775.0, 0
+58, 10, 3, At War, Suzerain War, 3777.0, 0
+58, 10, 4, At War, Suzerain War, 3779.0, 0
+58, 12, Team 2, Individual Declaring War on Team START, Suzerain War, 3781.0
+58, 12, 10, At War, Suzerain War, 3781.0, 0
+58, 12, Team 2, Individual Declaring War on Team END, Suzerain War, 3783.0
+58, 14, Team 2, Individual Declaring War on Team START, Suzerain War, 3783.0
+58, 14, 10, At War, Suzerain War, 3783.0, 0
+58, 14, Team 2, Individual Declaring War on Team END, Suzerain War, 3785.0
+58, 10, Team 0, Individual Declaring War on Team END, Suzerain War, 3785.0
+58, 10, Team 4, Individual Declaring War on Team START, Suzerain War, 3785.0
+58, 10, 12, At War, Suzerain War, 3785.0, 0
+58, 10, Team 4, Individual Declaring War on Team END, Suzerain War, 3787.0
+58, 10, Team 5, Individual Declaring War on Team START, Suzerain War, 3787.0
+58, 10, 13, At War, Suzerain War, 3787.0, 0
+58, 10, Team 5, Individual Declaring War on Team END, Suzerain War, 3789.0
+58, 10, Team 6, Individual Declaring War on Team START, Suzerain War, 3789.0
+58, 10, 14, At War, Suzerain War, 3789.0, 0
+58, 10, Team 6, Individual Declaring War on Team END, Suzerain War, 3791.0
+58, 10, Team 10, Individual Declaring War on Team START, Suzerain War, 3791.0
+58, 10, 18, At War, Suzerain War, 3791.0, 0
+58, 10, Team 10, Individual Declaring War on Team END, Suzerain War, 3793.0
+58, 5, 10, Gave Influence, , 3793.0, 0
+58, 10, 0, Peace, , 3795.0, 0
+58, 10, 1, Peace, , 3795.0, 0
+58, 10, 2, Peace, , 3795.0, 0
+58, 10, 3, Peace, , 3795.0, 0
+58, 10, 4, Peace, , 3795.0, 0
+58, 10, 12, Peace, , 3795.0, 0
+58, 10, 13, Peace, , 3795.0, 0
+58, 10, 14, Peace, , 3795.0, 0
+58, 10, 18, Peace, , 3795.0, 0
+58, 7, 10, Gave Influence, , 3795.0, 0
+58, 10, Team 0, Individual Declaring War on Team START, Suzerain War, 3795.0
+58, 10, 0, At War, Suzerain War, 3795.0, 0
+58, 18, Team 2, Individual Declaring War on Team START, Suzerain War, 3797.0
+58, 18, 10, At War, Suzerain War, 3797.0, 0
+58, 18, Team 2, Individual Declaring War on Team END, Suzerain War, 3799.0
+58, 10, 1, At War, Suzerain War, 3799.0, 0
+58, 13, Team 2, Individual Declaring War on Team START, Suzerain War, 3801.0
+58, 13, 10, At War, Suzerain War, 3801.0, 0
+58, 13, Team 2, Individual Declaring War on Team END, Suzerain War, 3803.0
+58, 10, 2, At War, Suzerain War, 3803.0, 0
+58, 10, 3, At War, Suzerain War, 3805.0, 0
+58, 10, 4, At War, Suzerain War, 3807.0, 0
+58, 12, Team 2, Individual Declaring War on Team START, Suzerain War, 3809.0
+58, 12, 10, At War, Suzerain War, 3809.0, 0
+58, 12, Team 2, Individual Declaring War on Team END, Suzerain War, 3811.0
+58, 14, Team 2, Individual Declaring War on Team START, Suzerain War, 3811.0
+58, 14, 10, At War, Suzerain War, 3811.0, 0
+58, 14, Team 2, Individual Declaring War on Team END, Suzerain War, 3813.0
+58, 10, Team 0, Individual Declaring War on Team END, Suzerain War, 3813.0
+58, 10, Team 0, Individual Declaring War on Team START, Suzerain War, 3813.0
+58, 10, 0, At War, Suzerain War, 3813.0, 0
+58, 18, Team 2, Individual Declaring War on Team START, Suzerain War, 3815.0
+58, 18, 10, At War, Suzerain War, 3815.0, 0
+58, 18, Team 2, Individual Declaring War on Team END, Suzerain War, 3817.0
+58, 10, 1, At War, Suzerain War, 3817.0, 0
+58, 13, Team 2, Individual Declaring War on Team START, Suzerain War, 3819.0
+58, 13, 10, At War, Suzerain War, 3819.0, 0
+58, 13, Team 2, Individual Declaring War on Team END, Suzerain War, 3821.0
+58, 10, 2, At War, Suzerain War, 3821.0, 0
+58, 10, 3, At War, Suzerain War, 3823.0, 0
+58, 10, 4, At War, Suzerain War, 3825.0, 0
+58, 12, Team 2, Individual Declaring War on Team START, Suzerain War, 3827.0
+58, 12, 10, At War, Suzerain War, 3827.0, 0
+58, 12, Team 2, Individual Declaring War on Team END, Suzerain War, 3829.0
+58, 14, Team 2, Individual Declaring War on Team START, Suzerain War, 3829.0
+58, 14, 10, At War, Suzerain War, 3829.0, 0
+58, 14, Team 2, Individual Declaring War on Team END, Suzerain War, 3831.0
+58, 10, Team 0, Individual Declaring War on Team END, Suzerain War, 3831.0
+58, 10, Team 0, Individual Declaring War on Team START, Suzerain War, 3831.0
+58, 10, 0, At War, Suzerain War, 3831.0, 0
+58, 18, Team 2, Individual Declaring War on Team START, Suzerain War, 3833.0
+58, 18, 10, At War, Suzerain War, 3833.0, 0
+58, 18, Team 2, Individual Declaring War on Team END, Suzerain War, 3835.0
+58, 10, 1, At War, Suzerain War, 3835.0, 0
+58, 13, Team 2, Individual Declaring War on Team START, Suzerain War, 3837.0
+58, 13, 10, At War, Suzerain War, 3837.0, 0
+58, 13, Team 2, Individual Declaring War on Team END, Suzerain War, 3839.0
+58, 10, 2, At War, Suzerain War, 3839.0, 0
+58, 10, 3, At War, Suzerain War, 3841.0, 0
+58, 10, 4, At War, Suzerain War, 3843.0, 0
+58, 12, Team 2, Individual Declaring War on Team START, Suzerain War, 3845.0
+58, 12, 10, At War, Suzerain War, 3845.0, 0
+58, 12, Team 2, Individual Declaring War on Team END, Suzerain War, 3847.0
+58, 14, Team 2, Individual Declaring War on Team START, Suzerain War, 3847.0
+58, 14, 10, At War, Suzerain War, 3847.0, 0
+58, 14, Team 2, Individual Declaring War on Team END, Suzerain War, 3849.0
+58, 10, Team 0, Individual Declaring War on Team END, Suzerain War, 3849.0
+58, 10, Team 0, Individual Declaring War on Team START, Suzerain War, 3849.0
+58, 10, 0, At War, Suzerain War, 3849.0, 0
+58, 18, Team 2, Individual Declaring War on Team START, Suzerain War, 3851.0
+58, 18, 10, At War, Suzerain War, 3851.0, 0
+58, 18, Team 2, Individual Declaring War on Team END, Suzerain War, 3853.0
+58, 10, 1, At War, Suzerain War, 3853.0, 0
+58, 13, Team 2, Individual Declaring War on Team START, Suzerain War, 3855.0
+58, 13, 10, At War, Suzerain War, 3855.0, 0
+58, 13, Team 2, Individual Declaring War on Team END, Suzerain War, 3857.0
+58, 10, 2, At War, Suzerain War, 3857.0, 0
+58, 10, 3, At War, Suzerain War, 3859.0, 0
+58, 10, 4, At War, Suzerain War, 3861.0, 0
+58, 12, Team 2, Individual Declaring War on Team START, Suzerain War, 3863.0
+58, 12, 10, At War, Suzerain War, 3863.0, 0
+58, 12, Team 2, Individual Declaring War on Team END, Suzerain War, 3865.0
+58, 14, Team 2, Individual Declaring War on Team START, Suzerain War, 3865.0
+58, 14, 10, At War, Suzerain War, 3865.0, 0
+58, 14, Team 2, Individual Declaring War on Team END, Suzerain War, 3867.0
+58, 10, Team 0, Individual Declaring War on Team END, Suzerain War, 3867.0
+58, 10, Team 0, Individual Declaring War on Team START, Suzerain War, 3867.0
+58, 10, 0, At War, Suzerain War, 3867.0, 0
+58, 18, Team 2, Individual Declaring War on Team START, Suzerain War, 3869.0
+58, 18, 10, At War, Suzerain War, 3869.0, 0
+58, 18, Team 2, Individual Declaring War on Team END, Suzerain War, 3871.0
+58, 10, 1, At War, Suzerain War, 3871.0, 0
+58, 13, Team 2, Individual Declaring War on Team START, Suzerain War, 3873.0
+58, 13, 10, At War, Suzerain War, 3873.0, 0
+58, 13, Team 2, Individual Declaring War on Team END, Suzerain War, 3875.0
+58, 10, 2, At War, Suzerain War, 3875.0, 0
+58, 10, 3, At War, Suzerain War, 3877.0, 0
+58, 10, 4, At War, Suzerain War, 3879.0, 0
+58, 12, Team 2, Individual Declaring War on Team START, Suzerain War, 3881.0
+58, 12, 10, At War, Suzerain War, 3881.0, 0
+58, 12, Team 2, Individual Declaring War on Team END, Suzerain War, 3883.0
+58, 14, Team 2, Individual Declaring War on Team START, Suzerain War, 3883.0
+58, 14, 10, At War, Suzerain War, 3883.0, 0
+58, 14, Team 2, Individual Declaring War on Team END, Suzerain War, 3885.0
+58, 10, Team 0, Individual Declaring War on Team END, Suzerain War, 3885.0
+58, 10, Team 4, Individual Declaring War on Team START, Suzerain War, 3885.0
+58, 10, 12, At War, Suzerain War, 3885.0, 0
+58, 10, Team 4, Individual Declaring War on Team END, Suzerain War, 3887.0
+58, 10, Team 5, Individual Declaring War on Team START, Suzerain War, 3887.0
+58, 10, 13, At War, Suzerain War, 3887.0, 0
+58, 10, Team 5, Individual Declaring War on Team END, Suzerain War, 3889.0
+58, 10, Team 6, Individual Declaring War on Team START, Suzerain War, 3889.0
+58, 10, 14, At War, Suzerain War, 3889.0, 0
+58, 10, Team 6, Individual Declaring War on Team END, Suzerain War, 3891.0
+58, 10, Team 10, Individual Declaring War on Team START, Suzerain War, 3891.0
+58, 10, 18, At War, Suzerain War, 3891.0, 0
+58, 10, Team 10, Individual Declaring War on Team END, Suzerain War, 3893.0
+58, 7, 10, Gave Influence, , 3893.0, 0
+58, 7, 10, Gave Influence, , 3893.0, 0
+58, 9, 4, Deal Proposed, 0 Peace for 8 turns from 9 to 4; 0 Peace for 8 turns from 4 to 9; 1 RESOURCE_P0K_PAPYRUS for 30 turns from 9 to 4; 203 Gold for 0 turns from 9 to 4; 33 Gold for 30 turns from 9 to 4; , 3894.0, 1
+58, 9, 4, Deal Closed, 0 Peace for 8 turns from 9 to 4; 0 Peace for 8 turns from 4 to 9; 1 RESOURCE_P0K_PAPYRUS for 30 turns from 9 to 4; 203 Gold for 0 turns from 9 to 4; 33 Gold for 30 turns from 9 to 4; , 3894.0, 1
+58, 4, 9, Deal Rejected, 0 Peace for 8 turns from 9 to 4; 0 Peace for 8 turns from 4 to 9; 1 RESOURCE_P0K_PAPYRUS for 30 turns from 9 to 4; 203 Gold for 0 turns from 9 to 4; 33 Gold for 30 turns from 9 to 4; , 3894.0, 1
+58, 4, 15, Gave Influence, , 3899.0, 0
+59, 20, Team 1, Individual Declaring War on Team START, Suzerain War, 3908.0
+59, 20, 5, At War, Suzerain War, 3908.0, 0
+59, 20, 6, At War, Suzerain War, 3910.0, 0
+59, 20, 7, At War, Suzerain War, 3912.0, 0
+59, 10, Team 12, Individual Declaring War on Team START, Suzerain War, 3914.0
+59, 10, 20, At War, Suzerain War, 3914.0, 0
+59, 10, Team 12, Individual Declaring War on Team END, Suzerain War, 3916.0
+59, 20, 8, At War, Suzerain War, 3916.0, 0
+59, 20, 9, At War, Suzerain War, 3918.0, 0
+59, 17, Team 12, Individual Declaring War on Team START, Suzerain War, 3920.0
+59, 17, 20, At War, Suzerain War, 3920.0, 0
+59, 17, Team 12, Individual Declaring War on Team END, Suzerain War, 3922.0
+59, 20, Team 1, Individual Declaring War on Team END, Suzerain War, 3922.0
+59, 20, Team 1, Individual Declaring War on Team START, Suzerain War, 3922.0
+59, 20, 5, At War, Suzerain War, 3922.0, 0
+59, 20, 6, At War, Suzerain War, 3924.0, 0
+59, 20, 7, At War, Suzerain War, 3926.0, 0
+59, 10, Team 12, Individual Declaring War on Team START, Suzerain War, 3928.0
+59, 10, 20, At War, Suzerain War, 3928.0, 0
+59, 10, Team 12, Individual Declaring War on Team END, Suzerain War, 3930.0
+59, 20, 8, At War, Suzerain War, 3930.0, 0
+59, 20, 9, At War, Suzerain War, 3932.0, 0
+59, 17, Team 12, Individual Declaring War on Team START, Suzerain War, 3934.0
+59, 17, 20, At War, Suzerain War, 3934.0, 0
+59, 17, Team 12, Individual Declaring War on Team END, Suzerain War, 3936.0
+59, 20, Team 1, Individual Declaring War on Team END, Suzerain War, 3936.0
+59, 20, Team 1, Individual Declaring War on Team START, Suzerain War, 3936.0
+59, 20, 5, At War, Suzerain War, 3936.0, 0
+59, 20, 6, At War, Suzerain War, 3938.0, 0
+59, 20, 7, At War, Suzerain War, 3940.0, 0
+59, 10, Team 12, Individual Declaring War on Team START, Suzerain War, 3942.0
+59, 10, 20, At War, Suzerain War, 3942.0, 0
+59, 10, Team 12, Individual Declaring War on Team END, Suzerain War, 3944.0
+59, 20, 8, At War, Suzerain War, 3944.0, 0
+59, 20, 9, At War, Suzerain War, 3946.0, 0
+59, 17, Team 12, Individual Declaring War on Team START, Suzerain War, 3948.0
+59, 17, 20, At War, Suzerain War, 3948.0, 0
+59, 17, Team 12, Individual Declaring War on Team END, Suzerain War, 3950.0
+59, 20, Team 1, Individual Declaring War on Team END, Suzerain War, 3950.0
+59, 20, Team 1, Individual Declaring War on Team START, Suzerain War, 3950.0
+59, 20, 5, At War, Suzerain War, 3950.0, 0
+59, 20, 6, At War, Suzerain War, 3952.0, 0
+59, 20, 7, At War, Suzerain War, 3954.0, 0
+59, 10, Team 12, Individual Declaring War on Team START, Suzerain War, 3956.0
+59, 10, 20, At War, Suzerain War, 3956.0, 0
+59, 10, Team 12, Individual Declaring War on Team END, Suzerain War, 3958.0
+59, 20, 8, At War, Suzerain War, 3958.0, 0
+59, 20, 9, At War, Suzerain War, 3960.0, 0
+59, 17, Team 12, Individual Declaring War on Team START, Suzerain War, 3962.0
+59, 17, 20, At War, Suzerain War, 3962.0, 0
+59, 17, Team 12, Individual Declaring War on Team END, Suzerain War, 3964.0
+59, 20, Team 1, Individual Declaring War on Team END, Suzerain War, 3964.0
+59, 20, Team 1, Individual Declaring War on Team START, Suzerain War, 3964.0
+59, 20, 5, At War, Suzerain War, 3964.0, 0
+59, 20, 6, At War, Suzerain War, 3966.0, 0
+59, 20, 7, At War, Suzerain War, 3968.0, 0
+59, 10, Team 12, Individual Declaring War on Team START, Suzerain War, 3970.0
+59, 10, 20, At War, Suzerain War, 3970.0, 0
+59, 10, Team 12, Individual Declaring War on Team END, Suzerain War, 3972.0
+59, 20, 8, At War, Suzerain War, 3972.0, 0
+59, 20, 9, At War, Suzerain War, 3974.0, 0
+59, 17, Team 12, Individual Declaring War on Team START, Suzerain War, 3976.0
+59, 17, 20, At War, Suzerain War, 3976.0, 0
+59, 17, Team 12, Individual Declaring War on Team END, Suzerain War, 3978.0
+59, 20, Team 1, Individual Declaring War on Team END, Suzerain War, 3978.0
+59, 20, Team 2, Individual Declaring War on Team START, Suzerain War, 3978.0
+59, 20, 10, At War, Suzerain War, 3978.0, 0
+59, 20, Team 2, Individual Declaring War on Team END, Suzerain War, 3980.0
+59, 20, Team 9, Individual Declaring War on Team START, Suzerain War, 3980.0
+59, 20, 17, At War, Suzerain War, 3980.0, 0
+59, 20, Team 9, Individual Declaring War on Team END, Suzerain War, 3982.0
+59, 4, 20, Gave Influence, , 3982.0, 0
+59, 4, 20, Gave Influence, , 3982.0, 0
+59, 6, 2, Deal Proposed, 0 Peace for 8 turns from 6 to 2; 0 Peace for 8 turns from 2 to 6; 7 Gold for 0 turns from 6 to 2; 2 Gold for 30 turns from 6 to 2; , 3988.0, 1
+59, 8, 17, Gave Influence, , 3988.0, 0
+59, 8, 17, Gave Influence, , 3988.0, 0
+59, 8, 5, Embassy, , 3988.0, 1
+59, 8, 6, Embassy, , 3988.0, 1
+59, 8, 7, Embassy, , 3988.0, 1
+59, 8, 9, Embassy, , 3988.0, 1
+59, 9, 10, Gave Influence, , 3988.0, 0
+59, 17, 0, Peace, , 3988.0, 0
+59, 17, 1, Peace, , 3988.0, 0
+59, 17, 2, Peace, , 3988.0, 0
+59, 17, 3, Peace, , 3988.0, 0
+59, 17, 4, Peace, , 3988.0, 0
+59, 17, 12, Peace, , 3988.0, 0
+59, 17, 13, Peace, , 3988.0, 0
+59, 17, 14, Peace, , 3988.0, 0
+59, 17, 18, Peace, , 3988.0, 0
+59, 17, 20, Peace, , 3988.0, 0
+59, 17, Team 0, Individual Declaring War on Team START, Suzerain War, 3988.0
+59, 17, 0, At War, Suzerain War, 3988.0, 0
+59, 18, Team 9, Individual Declaring War on Team START, Suzerain War, 3990.0
+59, 18, 17, At War, Suzerain War, 3990.0, 0
+59, 18, Team 9, Individual Declaring War on Team END, Suzerain War, 3992.0
+59, 17, 1, At War, Suzerain War, 3992.0, 0
+59, 13, Team 9, Individual Declaring War on Team START, Suzerain War, 3994.0
+59, 13, 17, At War, Suzerain War, 3994.0, 0
+59, 13, Team 9, Individual Declaring War on Team END, Suzerain War, 3996.0
+59, 17, 2, At War, Suzerain War, 3996.0, 0
+59, 17, 3, At War, Suzerain War, 3998.0, 0
+59, 17, 4, At War, Suzerain War, 4000.0, 0
+59, 12, Team 9, Individual Declaring War on Team START, Suzerain War, 4002.0
+59, 12, 17, At War, Suzerain War, 4002.0, 0
+59, 12, Team 9, Individual Declaring War on Team END, Suzerain War, 4004.0
+59, 14, Team 9, Individual Declaring War on Team START, Suzerain War, 4004.0
+59, 14, 17, At War, Suzerain War, 4004.0, 0
+59, 14, Team 9, Individual Declaring War on Team END, Suzerain War, 4006.0
+59, 20, Team 9, Individual Declaring War on Team START, Suzerain War, 4006.0
+59, 20, 17, At War, Suzerain War, 4006.0, 0
+59, 20, Team 9, Individual Declaring War on Team END, Suzerain War, 4008.0
+59, 17, Team 0, Individual Declaring War on Team END, Suzerain War, 4008.0
+59, 17, Team 0, Individual Declaring War on Team START, Suzerain War, 4008.0
+59, 17, 0, At War, Suzerain War, 4008.0, 0
+59, 18, Team 9, Individual Declaring War on Team START, Suzerain War, 4010.0
+59, 18, 17, At War, Suzerain War, 4010.0, 0
+59, 18, Team 9, Individual Declaring War on Team END, Suzerain War, 4012.0
+59, 17, 1, At War, Suzerain War, 4012.0, 0
+59, 13, Team 9, Individual Declaring War on Team START, Suzerain War, 4014.0
+59, 13, 17, At War, Suzerain War, 4014.0, 0
+59, 13, Team 9, Individual Declaring War on Team END, Suzerain War, 4016.0
+59, 17, 2, At War, Suzerain War, 4016.0, 0
+59, 17, 3, At War, Suzerain War, 4018.0, 0
+59, 17, 4, At War, Suzerain War, 4020.0, 0
+59, 12, Team 9, Individual Declaring War on Team START, Suzerain War, 4022.0
+59, 12, 17, At War, Suzerain War, 4022.0, 0
+59, 12, Team 9, Individual Declaring War on Team END, Suzerain War, 4024.0
+59, 14, Team 9, Individual Declaring War on Team START, Suzerain War, 4024.0
+59, 14, 17, At War, Suzerain War, 4024.0, 0
+59, 14, Team 9, Individual Declaring War on Team END, Suzerain War, 4026.0
+59, 20, Team 9, Individual Declaring War on Team START, Suzerain War, 4026.0
+59, 20, 17, At War, Suzerain War, 4026.0, 0
+59, 20, Team 9, Individual Declaring War on Team END, Suzerain War, 4028.0
+59, 17, Team 0, Individual Declaring War on Team END, Suzerain War, 4028.0
+59, 17, Team 0, Individual Declaring War on Team START, Suzerain War, 4028.0
+59, 17, 0, At War, Suzerain War, 4028.0, 0
+59, 18, Team 9, Individual Declaring War on Team START, Suzerain War, 4030.0
+59, 18, 17, At War, Suzerain War, 4030.0, 0
+59, 18, Team 9, Individual Declaring War on Team END, Suzerain War, 4032.0
+59, 17, 1, At War, Suzerain War, 4032.0, 0
+59, 13, Team 9, Individual Declaring War on Team START, Suzerain War, 4034.0
+59, 13, 17, At War, Suzerain War, 4034.0, 0
+59, 13, Team 9, Individual Declaring War on Team END, Suzerain War, 4036.0
+59, 17, 2, At War, Suzerain War, 4036.0, 0
+59, 17, 3, At War, Suzerain War, 4038.0, 0
+59, 17, 4, At War, Suzerain War, 4040.0, 0
+59, 12, Team 9, Individual Declaring War on Team START, Suzerain War, 4042.0
+59, 12, 17, At War, Suzerain War, 4042.0, 0
+59, 12, Team 9, Individual Declaring War on Team END, Suzerain War, 4044.0
+59, 14, Team 9, Individual Declaring War on Team START, Suzerain War, 4044.0
+59, 14, 17, At War, Suzerain War, 4044.0, 0
+59, 14, Team 9, Individual Declaring War on Team END, Suzerain War, 4046.0
+59, 20, Team 9, Individual Declaring War on Team START, Suzerain War, 4046.0
+59, 20, 17, At War, Suzerain War, 4046.0, 0
+59, 20, Team 9, Individual Declaring War on Team END, Suzerain War, 4048.0
+59, 17, Team 0, Individual Declaring War on Team END, Suzerain War, 4048.0
+59, 17, Team 0, Individual Declaring War on Team START, Suzerain War, 4048.0
+59, 17, 0, At War, Suzerain War, 4048.0, 0
+59, 18, Team 9, Individual Declaring War on Team START, Suzerain War, 4050.0
+59, 18, 17, At War, Suzerain War, 4050.0, 0
+59, 18, Team 9, Individual Declaring War on Team END, Suzerain War, 4052.0
+59, 17, 1, At War, Suzerain War, 4052.0, 0
+59, 13, Team 9, Individual Declaring War on Team START, Suzerain War, 4054.0
+59, 13, 17, At War, Suzerain War, 4054.0, 0
+59, 13, Team 9, Individual Declaring War on Team END, Suzerain War, 4056.0
+59, 17, 2, At War, Suzerain War, 4056.0, 0
+59, 17, 3, At War, Suzerain War, 4058.0, 0
+59, 17, 4, At War, Suzerain War, 4060.0, 0
+59, 12, Team 9, Individual Declaring War on Team START, Suzerain War, 4062.0
+59, 12, 17, At War, Suzerain War, 4062.0, 0
+59, 12, Team 9, Individual Declaring War on Team END, Suzerain War, 4064.0
+59, 14, Team 9, Individual Declaring War on Team START, Suzerain War, 4064.0
+59, 14, 17, At War, Suzerain War, 4064.0, 0
+59, 14, Team 9, Individual Declaring War on Team END, Suzerain War, 4066.0
+59, 20, Team 9, Individual Declaring War on Team START, Suzerain War, 4066.0
+59, 20, 17, At War, Suzerain War, 4066.0, 0
+59, 20, Team 9, Individual Declaring War on Team END, Suzerain War, 4068.0
+59, 17, Team 0, Individual Declaring War on Team END, Suzerain War, 4068.0
+59, 17, Team 0, Individual Declaring War on Team START, Suzerain War, 4068.0
+59, 17, 0, At War, Suzerain War, 4068.0, 0
+59, 18, Team 9, Individual Declaring War on Team START, Suzerain War, 4070.0
+59, 18, 17, At War, Suzerain War, 4070.0, 0
+59, 18, Team 9, Individual Declaring War on Team END, Suzerain War, 4072.0
+59, 17, 1, At War, Suzerain War, 4072.0, 0
+59, 13, Team 9, Individual Declaring War on Team START, Suzerain War, 4074.0
+59, 13, 17, At War, Suzerain War, 4074.0, 0
+59, 13, Team 9, Individual Declaring War on Team END, Suzerain War, 4076.0
+59, 17, 2, At War, Suzerain War, 4076.0, 0
+59, 17, 3, At War, Suzerain War, 4078.0, 0
+59, 17, 4, At War, Suzerain War, 4080.0, 0
+59, 12, Team 9, Individual Declaring War on Team START, Suzerain War, 4082.0
+59, 12, 17, At War, Suzerain War, 4082.0, 0
+59, 12, Team 9, Individual Declaring War on Team END, Suzerain War, 4084.0
+59, 14, Team 9, Individual Declaring War on Team START, Suzerain War, 4084.0
+59, 14, 17, At War, Suzerain War, 4084.0, 0
+59, 14, Team 9, Individual Declaring War on Team END, Suzerain War, 4086.0
+59, 20, Team 9, Individual Declaring War on Team START, Suzerain War, 4086.0
+59, 20, 17, At War, Suzerain War, 4086.0, 0
+59, 20, Team 9, Individual Declaring War on Team END, Suzerain War, 4088.0
+59, 17, Team 0, Individual Declaring War on Team END, Suzerain War, 4088.0
+59, 17, Team 4, Individual Declaring War on Team START, Suzerain War, 4088.0
+59, 17, 12, At War, Suzerain War, 4088.0, 0
+59, 17, Team 4, Individual Declaring War on Team END, Suzerain War, 4090.0
+59, 17, Team 5, Individual Declaring War on Team START, Suzerain War, 4090.0
+59, 17, 13, At War, Suzerain War, 4090.0, 0
+59, 17, Team 5, Individual Declaring War on Team END, Suzerain War, 4092.0
+59, 17, Team 6, Individual Declaring War on Team START, Suzerain War, 4092.0
+59, 17, 14, At War, Suzerain War, 4092.0, 0
+59, 17, Team 6, Individual Declaring War on Team END, Suzerain War, 4094.0
+59, 17, Team 10, Individual Declaring War on Team START, Suzerain War, 4094.0
+59, 17, 18, At War, Suzerain War, 4094.0, 0
+59, 17, Team 10, Individual Declaring War on Team END, Suzerain War, 4096.0
+59, 17, Team 12, Individual Declaring War on Team START, Suzerain War, 4096.0
+59, 17, 20, At War, Suzerain War, 4096.0, 0
+59, 17, Team 12, Individual Declaring War on Team END, Suzerain War, 4098.0
+59, 1, 14, Gave Influence, , 4108.0, 0

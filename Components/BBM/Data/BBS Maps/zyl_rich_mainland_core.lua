@@ -10,6 +10,7 @@ include "ZYL_RVC_MapUtilities"
 include "ZYL_RVC_MountainsCliffs"
 include "ZYL_RVC_RiversLakes"
 include "ZYL_RVC_FeatureGenerator"
+include "ZYL_RVC_BBS_TerrainGenerator"
 include "ZYL_RVC_DW_TerrainGenerator"
 include "NaturalWonderGenerator"
 include "ZYL_RVC_ResourceGenerator"
@@ -26,6 +27,9 @@ local IS_TEAM = ZYL_RICH_MAINLAND_VARIANT.team == true;
 local IS_FFA = ZYL_RICH_MAINLAND_VARIANT.ffa == true;
 local IS_HORIZONTAL_MAINLAND = ZYL_RICH_MAINLAND_VARIANT.horizontalMainland == true;
 local IS_RING_MAINLAND = ZYL_RICH_MAINLAND_VARIANT.ringMainland == true;
+local IS_RICH_LAKES = ZYL_RICH_MAINLAND_VARIANT.richLakes == true;
+local USE_RING_MOUNTAIN_PROFILE = IS_RING_MAINLAND
+	or ZYL_RICH_MAINLAND_VARIANT.ringMountainProfile == true;
 -- The rebuilt Team variant uses the FFA land-generation profile while keeping
 -- team-specific east/west placement and horizontal continent bands.
 local USES_FFA_BASELINE = IS_FFA or ZYL_RICH_MAINLAND_VARIANT.ffaBaseline == true;
@@ -78,6 +82,13 @@ function GetMapInitData(MapSize)
 			height = row.GridHeight;
 			break;
 		end
+	end
+	if IS_RICH_LAKES then
+		-- Rich Lakes keeps Lakes' wraparound option.  The other Rich Mainland
+		-- variants intentionally keep their existing always-wrapped canvas.
+		local wrapValue = MapConfiguration.GetValue("BBMWraparound") or 0;
+		local wrapX = wrapValue == 0 or wrapValue == 1;
+		return {Width = width, Height = height, WrapX = wrapX,};
 	end
 	return {Width = width, Height = height, WrapX = true,};
 end
@@ -394,18 +405,26 @@ function GenerateMap()
 
 	--【海陆、地形】
 	print("划分海陆");
-	plotTypes = IS_HORIZONTAL_MAINLAND
+	plotTypes = IS_RICH_LAKES
+		and ZYL_RichLakesGeneratePlotTypes(world_age)
+		or (IS_HORIZONTAL_MAINLAND
 		and ZYL_HorizontalGeneratePlotTypes(world_age)
 		or (IS_RING_MAINLAND and ZYL_RingGeneratePlotTypes(world_age))
-		or TeamPVPGeneratePlotTypes(world_age);
-	terrainTypes = TeamPVPGenerateTerrainTypes(plotTypes, g_iW, g_iH, g_iFlags, true, temperature);
+		or TeamPVPGeneratePlotTypes(world_age));
+	if IS_RICH_LAKES then
+		-- Keep Lakes' BBS climate bands so tundra and desert placement follows
+		-- the Lakes baseline instead of Rich Mainland's custom strip climate.
+		terrainTypes = BBS_GenerateTerrainTypes(plotTypes, g_iW, g_iH, g_iFlags, false, temperature);
+	else
+		terrainTypes = TeamPVPGenerateTerrainTypes(plotTypes, g_iW, g_iH, g_iFlags, true, temperature);
+	end
 	if IS_HORIZONTAL_MAINLAND then
 		ZYL_EnforceHorizontalOceanDepth(terrainTypes);
 		ZYL_ForceWrapSeamDeepOcean(terrainTypes);
 	elseif IS_RING_MAINLAND then
 		ZYL_EnforceRingOceanDepth(terrainTypes);
 		ZYL_ForceWrapSeamDeepOcean(terrainTypes);
-	else
+	elseif not IS_RICH_LAKES then
 		ZYL_RemovePolarShallowSea(terrainTypes);
 		ZYL_EnforceCentralOceanBarrier(terrainTypes);
 	end
@@ -554,7 +573,7 @@ function GenerateMap()
 	TerrainBuilder.AnalyzeChokepoints();
 	RichNSBalance();
 	ZYL_EnforceRingMountainCap();
-	if USES_FFA_BASELINE then
+	if USES_FFA_BASELINE and not IS_RICH_LAKES then
 		ZYL_EnforceFFAMountainRatio();
 	end
 	if IS_HORIZONTAL_MAINLAND then
@@ -570,7 +589,7 @@ function GenerateMap()
 	ZYL_EnsureCoastalStartReefResource();
 	ZYL_EnsureHorizontalSideSeaResources();
 	ZYL_EnsureRingSeaResources();
-	if not IS_HORIZONTAL_MAINLAND and not IS_RING_MAINLAND then
+	if not IS_HORIZONTAL_MAINLAND and not IS_RING_MAINLAND and not IS_RICH_LAKES then
 		ZYL_RemovePolarShallowSea();
 		ZYL_EnforceCentralOceanBarrier();
 	end
@@ -656,13 +675,13 @@ function ZYLRM_LogFinalStatistics()
 end
 
 -------------------------------------------------------------------------------
--- 环形PVP大陆：山脉上限裁剪。
+-- 环形大陆风格地图：山脉上限裁剪（包括富饶千湖）。
 -- 画布扩大后 Fractal 分位阈值漂移（62→64 时山脉从 7.23% 涨到 9.68%），
 -- 此 pass 把环形地图的山脉比例压回陆地面积的 6% 以内：超过上限时优先
 -- 转掉聚集的山脉（相邻山脉多）拆散团块，让剩余山脉更分散；自然奇观与
--- 火山永不转丘陵，确保 FFA/Team 环形地图的山脉占比稳定 ≤6%。
+-- 火山永不转丘陵，确保采用该 profile 的地图山脉占比稳定 ≤6%。
 function ZYL_EnforceRingMountainCap()
-	if not IS_RING_MAINLAND then
+	if not USE_RING_MOUNTAIN_PROFILE then
 		return;
 	end
 	local landCount = 0;
@@ -684,7 +703,7 @@ function ZYL_EnforceRingMountainCap()
 	local targetCount = math.floor(landCount * 0.06);
 	local excess = mountainCount - targetCount;
 	if excess <= 0 then
-		print(string.format("%s ring mountain cap: %d/%d (%.2f%%) within 6%%",
+		print(string.format("%s ring-profile mountain cap: %d/%d (%.2f%%) within 6%%",
 			LOG_PREFIX, mountainCount, landCount,
 			landCount > 0 and mountainCount * 100 / landCount or 0));
 		return;
@@ -719,7 +738,7 @@ function ZYL_EnforceRingMountainCap()
 			converted = converted + 1;
 		end
 	end
-	print(string.format("%s ring mountain cap: %d -> %d of %d land (%.2f%%), target <= 6%%",
+	print(string.format("%s ring-profile mountain cap: %d -> %d of %d land (%.2f%%), target <= 6%%",
 		LOG_PREFIX, mountainCount, mountainCount - converted, landCount,
 		landCount > 0 and (mountainCount - converted) * 100 / landCount or 0));
 end
@@ -2411,6 +2430,86 @@ function ZYL_HorizontalGeneratePlotTypes(world_age)
 end
 
 ------------------------------------------------------------------------------
+-- Rich Lakes uses the three independent Lakes land layers verbatim.  Only
+-- the relief pass differs: it adopts Ring Mainland's sparse ridge/isolated
+-- mountain profile while leaving the Lakes land-to-water ratio untouched.
+function ZYL_RichLakesGeneratePlotTypes(world_age)
+	print("Generating Rich Lakes plot types");
+	local richLakesPlotTypes = {};
+	local layer;
+	local waterPercentModifier = 0;
+
+	for index = 1, g_iW * g_iH do
+		richLakesPlotTypes[index] = g_PLOT_TYPE_OCEAN;
+	end
+
+	local seaLevel = MapConfiguration.GetValue("sea_level");
+	if seaLevel == 1 then
+		waterPercentModifier = 4;
+	elseif seaLevel == 2 then
+		waterPercentModifier = 0;
+	elseif seaLevel == 3 then
+		waterPercentModifier = -4;
+	else
+		waterPercentModifier = TerrainBuilder.GetRandomNumber(9, "Random Sea Level - Rich Lakes") - 4;
+	end
+
+	local function AddLakesLandLayer(waterPercent, grain, fracXExp, fracYExp)
+		layer = {};
+		for index = 1, g_iW * g_iH do
+			layer[index] = g_PLOT_TYPE_OCEAN;
+		end
+
+		local fractal = Fractal.Create(g_iW, g_iH, grain, g_iFlags, fracXExp, fracYExp);
+		local waterThreshold = fractal:GetHeight(waterPercent + waterPercentModifier);
+		ShiftPlotTypes(richLakesPlotTypes);
+		for x = 0, g_iW - 1 do
+			for y = 0, g_iH - 1 do
+				local index = y * g_iW + x + 1;
+				local val = fractal:GetHeight(x, y);
+				-- Keep the original Lakes layer rule: later lake layers do
+				-- not merge into the land found by the preceding layer.
+				if val < waterThreshold and Adjacent(index) == false then
+					layer[index] = g_PLOT_TYPE_LAND;
+				end
+			end
+		end
+
+		for index = 1, g_iW * g_iH do
+			if layer[index] ~= g_PLOT_TYPE_OCEAN then
+				richLakesPlotTypes[index] = g_PLOT_TYPE_LAND;
+			end
+		end
+		islands = richLakesPlotTypes;
+	end
+
+	AddLakesLandLayer(81, 3, 6, 5);
+	AddLakesLandLayer(88, 4, 7, 6);
+	AddLakesLandLayer(95, 5, 7, 6);
+
+	-- Match Ring Mainland's mountain placement: tectonics supplies almost no
+	-- connected ridges, then isolated mountains fill to roughly six percent.
+	-- Keep Rich Mainland's extra-mountain foot-hill pressure so the hill density
+	-- remains on the Rich Mainland side of the blend; mountains_percent=100 still
+	-- prevents that pressure from turning into connected mountain chains.
+	-- The final cap is applied after start balancing as an additional guard.
+	local reliefArgs = {
+		world_age = world_age,
+		iW = g_iW,
+		iH = g_iH,
+		iFlags = g_iFlags,
+		blendRidge = 10,
+		blendFract = 1,
+		extra_mountains = math.max(0, (2 + (3 - world_age)) * 2 + 2),
+		mountains_percent = 100,
+		tectonic_islands = false,
+	};
+	local mountainRatio = math.max(10, 16 + (3 - world_age));
+	plotTypes = ApplyTectonics(reliefArgs, richLakesPlotTypes);
+	plotTypes = AddLonelyMountains(plotTypes, mountainRatio);
+	return plotTypes;
+end
+
 -- Dedicated ring canvas.  The SQL sizes reserve five tiles of sea on every
 -- side of an annulus whose outer radius is (GridWidth - 10) / 2 and whose
 -- radial thickness is 16 tiles (clamped to a 2-tile inner sea on the smallest
@@ -2936,6 +3035,72 @@ function InitFractal(args)
 	g_continentsFrac:BuildRidges(numPlates, {}, 1, 2);
 end
 
+-- Lakes' inland-water pass is kept separate from the Rich Mainland RVC
+-- version.  The latter deliberately scales lakes by richness/rainfall; this
+-- map needs the source Lakes cadence so its final land share stays comparable
+-- to Lakes at the same map size.
+function ZYL_RichLakesAddLakes(largeLakes)
+	print("Map Generation - Adding Rich Lakes lakes");
+	largeLakes = largeLakes or 0;
+
+	local numLakesAdded = 0;
+	local numLargeLakesAdded = 0;
+	local lakePlotRand = math.floor(GlobalParameters.LAKE_PLOT_RANDOM or 25 / 4);
+
+	local function AddMoreLakeLikeLakes(plot)
+		local largeLake = 0;
+		local lakePlots = {};
+		for direction = 0, DirectionTypes.NUM_DIRECTION_TYPES - 1 do
+			local adjacentPlot = Map.GetAdjacentPlot(plot:GetX(), plot:GetY(), direction);
+			if adjacentPlot ~= nil
+					and adjacentPlot:IsWater() == false
+					and TerrainBuilder.CanHaveFeature(plot, g_FEATURE_OASIS) == false
+					and adjacentPlot:IsCoastalLand() == false
+					and adjacentPlot:IsRiver() == false
+					and adjacentPlot:IsRiverAdjacent() == false
+					and AdjacentToNaturalWonder(adjacentPlot) == false
+					and AdjacentToCoast(plot) == false then
+				local randomValue = TerrainBuilder.GetRandomNumber(4 + largeLake,
+					"Rich Lakes AddMoreLake");
+				if randomValue < 2 then
+					table.insert(lakePlots, adjacentPlot);
+					largeLake = largeLake + 1;
+				end
+			end
+		end
+		for _, lakePlot in ipairs(lakePlots) do
+			TerrainBuilder.SetTerrainType(lakePlot, g_TERRAIN_TYPE_COAST);
+		end
+		return largeLake > 0;
+	end
+
+	local iW, iH = Map.GetGridSize();
+	for index = 0, (iW * iH) - 1 do
+		local plot = Map.GetPlotByIndex(index);
+		if plot ~= nil and plot:IsWater() == false
+				and plot:IsCoastalLand() == false
+				and plot:IsRiver() == false
+				and AdjacentToNaturalWonder(plot) == false then
+			local randomValue = TerrainBuilder.GetRandomNumber(lakePlotRand,
+				"Rich Lakes AddLakes");
+			if randomValue == 0 then
+				numLakesAdded = numLakesAdded + 1;
+				if largeLakes > numLargeLakesAdded then
+					if AddMoreLakeLikeLakes(plot) then
+						numLargeLakesAdded = numLargeLakesAdded + 1;
+					end
+				end
+				TerrainBuilder.SetTerrainType(plot, g_TERRAIN_TYPE_COAST);
+			end
+		end
+	end
+
+	if numLakesAdded > 0 then
+		print(tostring(numLakesAdded) .. " Rich Lakes lakes added");
+		AreaBuilder.Recalculate();
+	end
+end
+
 function AddFeatures()
 	print("增加地貌");
 	-- 获取降雨量设置
@@ -2951,20 +3116,41 @@ function AddFeatures()
 	});
 
 	local args = {};
-	args.rainfall = rainfall;
+	if IS_RICH_LAKES then
+		-- RVC's feature generator expects a 0/2/4 intermediate value, while
+		-- Lakes maps rainfall to -4/0/+4.  This remap preserves Lakes' jungle
+		-- density response for dry/normal/wet settings.
+		args.rainfall = rainfall == 1 and 0
+			or (rainfall == 2 and 2 or (rainfall == 3 and 4 or rainfall));
+	else
+		args.rainfall = rainfall;
+	end
 	
 	-- 湖泊会干扰河流，导致河流停止，如果再早一点建起来，就无法流入海洋。
 	local mapRow = ZYL_RVC_GetMapRow();
-	local lakeScale = USES_FFA_BASELINE and g_fHorizontalScale or 1;
-	local numLargeLakes = (mapRow and mapRow.Continents or 1) * lakeScale;
-	-- 705：通过降雨调整大湖。
-	numLargeLakes = math.floor(numLargeLakes + rainfall - 4 + 0.5);
-
-	AddLakes(math.max(0, numLargeLakes));
+	if IS_RICH_LAKES then
+		-- Use the same large-lake count and placement pass as Lakes so the
+		-- final inland-water share remains comparable to the source map.
+		local lakesMapRow = GameInfo.Maps[Map.GetMapSize()];
+		local numLargeLakes = math.ceil((lakesMapRow and lakesMapRow.Continents or 1) * 4);
+		ZYL_RichLakesAddLakes(numLargeLakes);
+	else
+		local lakeScale = USES_FFA_BASELINE and g_fHorizontalScale or 1;
+		local numLargeLakes = (mapRow and mapRow.Continents or 1) * lakeScale;
+		-- 705：通过降雨调整大湖。
+		numLargeLakes = math.floor(numLargeLakes + rainfall - 4 + 0.5);
+		AddLakes(math.max(0, numLargeLakes));
+	end
 
 	-- 雨林比例：竖向富饶大陆仍随富饶度 R 变化；横向/环形图固定基础值18%，
 	-- 再由 FeatureGenerator 按降雨量追加 4 × (W - 2) 个百分点。
-	if IS_HORIZONTAL_MAINLAND or IS_RING_MAINLAND then
+	if IS_RICH_LAKES then
+		-- Lakes uses the narrow equatorial rainforest band.  The base jungle
+		-- target is also Lakes' target; forest, marsh, oasis and reef targets
+		-- below remain the Rich Mainland values.
+		args.iJunglePercent = 40;
+		args.jungleLatitudeWidth = 20;
+	elseif IS_HORIZONTAL_MAINLAND or IS_RING_MAINLAND then
 		args.iJunglePercent = 18;
 	else
 		args.iJunglePercent = 18 + RichNum;
@@ -3697,12 +3883,3 @@ function AddMountain(plotTypes)
 	end
 	AreaBuilder.Recalculate();
 end
-
-
-
-
-
-
-
-
-

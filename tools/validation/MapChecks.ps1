@@ -208,6 +208,28 @@ function Get-ZylRichMainlandFfaEntryIssues {
     return @($issues)
 }
 
+function Get-ZylRichLakesEntryIssues {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string]$Source
+    )
+
+    $issues = [System.Collections.Generic.List[string]]::new()
+    foreach ($requiredToken in @(
+            'id = "RICH_LAKES"',
+            'team = false',
+            'ffa = true',
+            'richLakes = true',
+            'ringMountainProfile = true',
+            'include "zyl_rich_mainland_core"'
+        )) {
+        if (-not $Source.Contains($requiredToken)) {
+            $issues.Add("Rich Lakes entry script is missing: $requiredToken")
+        }
+    }
+    return @($issues)
+}
+
 function Get-ZylRichMainlandFfaConfigurationIssues {
     param(
         [Parameter(Mandatory = $true)]
@@ -480,7 +502,11 @@ function Get-ZylRichMainlandConfigurationIssues {
     )
 
     $issues = [System.Collections.Generic.List[string]]::new()
-    $expectedMaps = @('zyl_team_rich_mainland.lua', 'zyl_ffa_rich_mainland.lua')
+    $expectedMaps = @(
+        'zyl_team_rich_mainland.lua',
+        'zyl_ffa_rich_mainland.lua',
+        'zyl_rich_lakes.lua'
+    )
     $actualMaps = @($ConfigurationXml.SelectNodes('/GameInfo/Maps/Row') | ForEach-Object {
             $_.GetAttribute('File')
         })
@@ -500,6 +526,14 @@ function Get-ZylRichMainlandConfigurationIssues {
     if ($ffaSizes.Count -ne 11) {
         $issues.Add("FFA Rich Mainland must expose 11 sizes; found $($ffaSizes.Count).")
     }
+    $richLakesSizes = @($ConfigurationXml.SelectNodes(
+            '/GameInfo/MapSizes/Row[@Domain="zyl_rich_lakes.lua"]'
+        ))
+    if ($richLakesSizes.Count -ne 0) {
+        $issues.Add(
+            "Rich Lakes must use stock map-size dimensions; found $($richLakesSizes.Count) custom sizes."
+        )
+    }
     $teamPlayers = @($teamSizes | ForEach-Object {
             [int]$_.GetAttribute('DefaultPlayers')
         } | Sort-Object)
@@ -516,22 +550,28 @@ function Get-ZylRichMainlandConfigurationIssues {
     $uniformParameters = @($ConfigurationXml.SelectNodes(
             '/GameInfo/Parameters/Row[@ConfigurationId="ZYL_RVC_UniformDistribution"]'
         ))
-    if ($uniformParameters.Count -ne 1) {
+    if ($uniformParameters.Count -ne 2) {
         $issues.Add(
-            "FFA Rich Mainland must own exactly one uniform-distribution option; " +
+            "FFA Rich Mainland and Rich Lakes must own exactly one uniform-distribution option each; " +
             "found $($uniformParameters.Count)."
         )
     }
-    else {
-        $uniformParameter = $uniformParameters[0]
-        if ($uniformParameter.GetAttribute('Key2') -ne 'zyl_ffa_rich_mainland.lua' -or
-                $uniformParameter.GetAttribute('ParameterId') -ne 'ZYLRM_FFA_UniformDistribution' -or
+    $uniformDefaults = @{
+        'zyl_ffa_rich_mainland.lua' = 'ZYLRM_FFA_UniformDistribution'
+        'zyl_rich_lakes.lua' = 'ZYLRM_RL_UniformDistribution'
+    }
+    foreach ($uniformDefault in $uniformDefaults.GetEnumerator()) {
+        $uniformParameter = $ConfigurationXml.SelectSingleNode(
+            "/GameInfo/Parameters/Row[@Key2='$($uniformDefault.Key)' and @ConfigurationId='ZYL_RVC_UniformDistribution']"
+        )
+        if ($null -eq $uniformParameter -or
+                $uniformParameter.GetAttribute('ParameterId') -ne $uniformDefault.Value -or
                 $uniformParameter.GetAttribute('Domain') -ne 'bool' -or
                 $uniformParameter.GetAttribute('DefaultValue') -ne '1' -or
                 $uniformParameter.GetAttribute('Name') -ne 'LOC_ZYLRM_FFA_UNIFORM_DISTRIBUTION_NAME' -or
                 $uniformParameter.GetAttribute('Description') -ne 'LOC_ZYLRM_FFA_UNIFORM_DISTRIBUTION_DESCRIPTION') {
             $issues.Add(
-                'The experimental uniform-distribution option must be FFA-only, boolean, localized and enabled by default.'
+                "The uniform-distribution option for $($uniformDefault.Key) must be boolean, localized and enabled by default."
             )
         }
     }
@@ -613,6 +653,8 @@ function Get-ZylRichMainlandConfigurationIssues {
         'zyl_team_rich_mainland.lua|RouteLevel' = '1'
         'zyl_ffa_rich_mainland.lua|RouteLevel' = '1'
         'zyl_team_rich_mainland.lua|ZYL_RVC_TeamDepthOrder' = '0'
+        'zyl_rich_lakes.lua|RichNum' = '5'
+        'zyl_rich_lakes.lua|RouteLevel' = '1'
     }
     foreach ($entry in $parameterDefaults.GetEnumerator()) {
         $parts = $entry.Key.Split('|')
@@ -724,6 +766,7 @@ function Get-ZylRichMainlandContractIssues {
         'Components/BBM/Lang/ZYL_RingMainland_Text.xml',
         'Components/BBM/Data/BBS Maps/zyl_team_rich_mainland.lua',
         'Components/BBM/Data/BBS Maps/zyl_ffa_rich_mainland.lua',
+        'Components/BBM/Data/BBS Maps/zyl_rich_lakes.lua',
         'Components/BBM/Data/BBS Maps/zyl_team_horizontal_rich_mainland.lua',
         'Components/BBM/Data/BBS Maps/zyl_team_ring_mainland.lua',
         'Components/BBM/Data/BBS Maps/zyl_rich_mainland_core.lua',
@@ -769,6 +812,11 @@ function Get-ZylRichMainlandContractIssues {
             RelativePath = 'Components\BBM\Data\BBS Maps\zyl_ffa_rich_mainland.lua'
             Function = 'Get-ZylRichMainlandFfaEntryIssues'
             MissingMessage = 'FFA Rich Mainland entry script is missing.'
+        },
+        [pscustomobject]@{
+            RelativePath = 'Components\BBM\Data\BBS Maps\zyl_rich_lakes.lua'
+            Function = 'Get-ZylRichLakesEntryIssues'
+            MissingMessage = 'Rich Lakes entry script is missing.'
         },
         [pscustomobject]@{
             RelativePath = 'Components\BBM\Data\BBS Maps\zyl_team_rich_mainland.lua'
@@ -847,11 +895,13 @@ function Get-ZylRichMainlandContractIssues {
         'zyl_richmainland' = @(
             'zyl_ffa_rich_mainland.lua',
             'zyl_team_rich_mainland.lua',
+            'zyl_rich_lakes.lua',
             'zyl_team_horizontal_rich_mainland.lua',
             'zyl_team_ring_mainland.lua'
         )
         'zyl_richmainland_team' = @('zyl_team_rich_mainland.lua')
         'zyl_richmainland_ffa' = @('zyl_ffa_rich_mainland.lua')
+        'zyl_richmainland_richlakes' = @('zyl_rich_lakes.lua')
         'zyl_richmainland_horizontalteam' = @('zyl_team_horizontal_rich_mainland.lua')
         'zyl_richmainland_ringteam' = @('zyl_team_ring_mainland.lua')
     }

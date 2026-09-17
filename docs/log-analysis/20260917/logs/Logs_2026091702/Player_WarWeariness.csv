@@ -1,0 +1,508 @@
+Player,FromPlayer,Delta,New Total Weariness,Reason
+9, 4, -50, 450, At War Decay
+9, 4, 50, 500, Attacking
+9, 4, 50, 550, Attacking
+9, 4, 50, 600, Attacking
+9, 4, 50, 650, Attacking
+9, 4, 50, 700, Attacking
+4, 9, -50, 805, At War Decay
+6, 4, 50, 50, Attacking
+14, 0, -2000, 0, We Made Peace
+0, 14, -2000, 0, They Made Peace
+14, 1, -2000, 0, We Made Peace
+1, 14, -2000, 0, They Made Peace
+14, 2, -2000, 0, We Made Peace
+2, 14, -2000, 0, They Made Peace
+14, 3, -2000, 0, We Made Peace
+3, 14, -2000, 0, They Made Peace
+14, 4, -2000, 0, We Made Peace
+4, 14, -2000, 0, They Made Peace
+14, 10, -2000, 0, We Made Peace
+10, 14, -2000, 0, They Made Peace
+14, 13, -2000, 0, We Made Peace
+13, 14, -2000, 0, They Made Peace
+14, 15, -2000, 0, We Made Peace
+15, 14, -2000, 0, They Made Peace
+14, 16, -2000, 0, We Made Peace
+16, 14, -2000, 0, They Made Peace
+14, 20, -2000, 0, We Made Peace
+20, 14, -2000, 0, They Made Peace
+14, 21, -2000, 0, We Made Peace
+21, 14, -2000, 0, They Made Peace
+14, 0, -2000, 0, We Made Peace
+0, 14, -2000, 0, They Made Peace
+14, 1, -2000, 0, We Made Peace
+1, 14, -2000, 0, They Made Peace
+14, 2, -2000, 0, We Made Peace
+2, 14, -2000, 0, They Made Peace
+14, 3, -2000, 0, We Made Peace
+3, 14, -2000, 0, They Made Peace
+14, 4, -2000, 0, We Made Peace
+4, 14, -2000, 0, They Made Peace
+14, 10, -2000, 0, We Made Peace
+10, 14, -2000, 0, They Made Peace
+14, 13, -2000, 0, We Made Peace
+13, 14, -2000, 0, They Made Peace
+14, 15, -2000, 0, We Made Peace
+15, 14, -2000, 0, They Made Peace
+14, 16, -2000, 0, We Made Peace
+16, 14, -2000, 0, They Made Peace
+14, 20, -2000, 0, We Made Peace
+20, 14, -2000, 0, They Made Peace
+14, 21, -2000, 0, We Made Peace
+21, 14, -2000, 0, They Made Peace
+9, 4, -50, 650, At War Decay
+9, 4, 50, 700, Attacking
+9, 4, 50, 750, Attacking
+9, 4, 50, 800, Attacking
+9, 4, 50, 850, Attacking
+4, 9, -50, 755, At War Decay
+6, 4, -50, 0, At War Decay
+9, 4, -50, 800, At War Decay
+4, 9, -50, 705, At War Decay
+9, 4, -50, 750, At War Decay
+4, 9, -50, 655, At War Decay
+9, 4, -50, 700, At War Decay
+9, 4, 50, 750, Attacking
+4, 9, -50, 605, At War Decay
+0, 5, 50, 50, Attacking
+4, 9, 37, 642, Attacking
+4, 9, 37, 679, Attacking
+4, 9, 37, 716, Attacking
+4, 9, 37, 753, Attacking
+9, 4, -50, 700, At War Decay
+9, 4, 50, 750, Attacking
+9, 4, 125, 875, Attacking
+0, 5, -50, 0, At War Decay
+4, 9, -50, 703, At War Decay
+4, 9, 37, 740, Attacking
+4, 9, 37, 777, Attacking
+4, 9, 37, 814, Attacking
+0, 5, 50, 50, Attacking
+8, 1, 50, 50, Attacking
+9, 4, -50, 825, At War Decay
+9, 4, 50, 875, Attacking
+0, 5, -50, 0, At War Decay
+4, 9, -50, 764, At War Decay
+4, 9, 37, 801, Attacking
+4, 9, 37, 838, Attacking
+17, 5, -2000, 0, We Made Peace
+5, 17, -2000, 0, They Made Peace
+17, 6, -2000, 0, We Made Peace
+6, 17, -2000, 0, They Made Peace
+17, 7, -2000, 0, We Made Peace
+7, 17, -2000, 0, They Made Peace
+17, 8, -2000, 0, We Made Peace
+8, 17, -2000, 0, They Made Peace
+17, 9, -2000, 0, We Made Peace
+9, 17, -2000, 0, They Made Peace
+21, 5, -2000, 0, We Made Peace
+5, 21, -2000, 0, They Made Peace
+21, 6, -2000, 0, We Made Peace
+6, 21, -2000, 0, They Made Peace
+21, 7, -2000, 0, We Made Peace
+7, 21, -2000, 0, They Made Peace
+21, 8, -2000, 0, We Made Peace
+8, 21, -2000, 0, They Made Peace
+21, 9, -2000, 0, We Made Peace
+9, 21, -2000, 0, They Made Peace
+8, 1, -50, 0, At War Decay
+9, 4, -50, 825, At War Decay
+9, 4, 50, 875, Attacking
+9, 4, 50, 925, Attacking
+4, 9, -50, 788, At War Decay
+0, 5, 50, 50, Attacking
+0, 5, 50, 100, Attacking
+0, 5, 50, 150, Attacking
+4, 9, 37, 825, Attacking
+4, 9, 37, 862, Attacking
+4, 9, 37, 899, Attacking
+4, 9, 37, 936, Attacking
+4, 9, 37, 973, Attacking
+9, 4, -50, 875, At War Decay
+9, 4, 68, 943, Attacking
+9, 4, 68, 1011, Attacking
+9, 4, 68, 1079, Attacking
+9, 4, 34, 1113, Attacking
+0, 5, -50, 100, At War Decay
+4, 9, -50, 923, At War Decay
+0, 5, 68, 168, Attacking
+4, 9, 51, 974, Attacking
+0, 5, 68, 236, Attacking
+10, 5, -2000, 0, We Made Peace
+5, 10, -2000, 0, They Made Peace
+10, 6, -2000, 0, We Made Peace
+6, 10, -2000, 0, They Made Peace
+10, 7, -2000, 0, We Made Peace
+7, 10, -2000, 0, They Made Peace
+10, 8, -2000, 0, We Made Peace
+8, 10, -2000, 0, They Made Peace
+10, 9, -2000, 0, We Made Peace
+9, 10, -2000, 0, They Made Peace
+10, 17, -2000, 0, We Made Peace
+17, 10, -2000, 0, They Made Peace
+4, 9, 51, 1025, Attacking
+9, 4, -50, 1063, At War Decay
+9, 4, 68, 1131, Attacking
+9, 4, 68, 1199, Attacking
+0, 5, -50, 186, At War Decay
+4, 9, -50, 975, At War Decay
+0, 5, 68, 254, Attacking
+4, 9, 51, 1026, Attacking
+4, 9, 51, 1077, Attacking
+17, 0, -2000, 0, We Made Peace
+0, 17, -2000, 0, They Made Peace
+17, 1, -2000, 0, We Made Peace
+1, 17, -2000, 0, They Made Peace
+17, 2, -2000, 0, We Made Peace
+2, 17, -2000, 0, They Made Peace
+17, 3, -2000, 0, We Made Peace
+3, 17, -2000, 0, They Made Peace
+17, 4, -2000, 0, We Made Peace
+4, 17, -2000, 0, They Made Peace
+17, 12, -2000, 0, We Made Peace
+12, 17, -2000, 0, They Made Peace
+17, 13, -2000, 0, We Made Peace
+13, 17, -2000, 0, They Made Peace
+17, 14, -2000, 0, We Made Peace
+14, 17, -2000, 0, They Made Peace
+17, 15, -2000, 0, We Made Peace
+15, 17, -2000, 0, They Made Peace
+17, 16, -2000, 0, We Made Peace
+16, 17, -2000, 0, They Made Peace
+17, 20, -2000, 0, We Made Peace
+20, 17, -2000, 0, They Made Peace
+0, 5, 68, 322, Attacking
+0, 5, 68, 390, Attacking
+9, 4, -50, 1149, At War Decay
+0, 5, -50, 340, At War Decay
+4, 9, -50, 1027, At War Decay
+0, 5, 68, 408, Attacking
+0, 5, 68, 476, Attacking
+0, 5, 68, 544, Attacking
+4, 9, 51, 1078, Attacking
+4, 9, 51, 1129, Attacking
+4, 9, 51, 1180, Attacking
+9, 4, -50, 1099, At War Decay
+9, 4, 68, 1167, Attacking
+0, 5, -50, 494, At War Decay
+4, 9, -50, 1130, At War Decay
+0, 5, 68, 562, Attacking
+0, 5, 68, 630, Attacking
+0, 5, 68, 698, Attacking
+0, 5, 68, 766, Attacking
+0, 5, 68, 834, Attacking
+4, 9, 51, 1181, Attacking
+4, 9, 51, 1232, Attacking
+10, 0, -2000, 0, We Made Peace
+0, 10, -2000, 0, They Made Peace
+10, 1, -2000, 0, We Made Peace
+1, 10, -2000, 0, They Made Peace
+10, 2, -2000, 0, We Made Peace
+2, 10, -2000, 0, They Made Peace
+10, 3, -2000, 0, We Made Peace
+3, 10, -2000, 0, They Made Peace
+10, 4, -2000, 0, We Made Peace
+4, 10, -2000, 0, They Made Peace
+10, 12, -2000, 0, We Made Peace
+12, 10, -2000, 0, They Made Peace
+10, 13, -2000, 0, We Made Peace
+13, 10, -2000, 0, They Made Peace
+10, 14, -2000, 0, We Made Peace
+14, 10, -2000, 0, They Made Peace
+10, 15, -2000, 0, We Made Peace
+15, 10, -2000, 0, They Made Peace
+10, 20, -2000, 0, We Made Peace
+20, 10, -2000, 0, They Made Peace
+10, 21, -2000, 0, We Made Peace
+21, 10, -2000, 0, They Made Peace
+9, 4, -50, 1117, At War Decay
+9, 4, 68, 1185, Attacking
+0, 5, -50, 784, At War Decay
+4, 9, -50, 1182, At War Decay
+0, 5, 68, 852, Attacking
+0, 5, 68, 920, Attacking
+2, 5, 68, 68, Attacking
+21, 5, -2000, 0, We Made Peace
+5, 21, -2000, 0, They Made Peace
+21, 6, -2000, 0, We Made Peace
+6, 21, -2000, 0, They Made Peace
+21, 7, -2000, 0, We Made Peace
+7, 21, -2000, 0, They Made Peace
+21, 8, -2000, 0, We Made Peace
+8, 21, -2000, 0, They Made Peace
+21, 9, -2000, 0, We Made Peace
+9, 21, -2000, 0, They Made Peace
+21, 17, -2000, 0, We Made Peace
+17, 21, -2000, 0, They Made Peace
+4, 8, 51, 51, Attacking
+4, 9, 51, 1233, Attacking
+4, 9, 51, 1284, Attacking
+4, 9, 51, 1335, Attacking
+4, 9, 51, 1386, Attacking
+4, 9, 51, 1437, Attacking
+0, 5, 68, 988, Attacking
+8, 4, 68, 68, Attacking
+9, 4, -50, 1135, At War Decay
+9, 4, 68, 1203, Attacking
+9, 4, 68, 1271, Attacking
+0, 5, -50, 938, At War Decay
+2, 5, -50, 18, At War Decay
+4, 8, -50, 1, At War Decay
+4, 9, -50, 1387, At War Decay
+2, 5, 68, 86, Attacking
+4, 9, 25, 1412, Attacking
+4, 8, 51, 52, Attacking
+4, 8, 25, 77, Attacking
+4, 8, 25, 102, Attacking
+4, 9, 51, 1463, Attacking
+4, 9, 51, 1514, Attacking
+4, 9, 51, 1565, Attacking
+0, 5, 68, 1006, Attacking
+0, 5, 68, 1074, Attacking
+0, 5, 68, 1142, Attacking
+0, 5, 68, 1210, Attacking
+0, 5, 68, 1278, Attacking
+8, 4, -50, 18, At War Decay
+9, 4, -50, 1221, At War Decay
+9, 4, 68, 1289, Attacking
+0, 5, -50, 1228, At War Decay
+2, 5, -50, 36, At War Decay
+4, 8, -50, 52, At War Decay
+4, 9, -50, 1515, At War Decay
+2, 5, 68, 104, Attacking
+0, 5, 68, 1296, Attacking
+0, 5, 68, 1364, Attacking
+0, 5, 68, 1432, Attacking
+0, 5, 68, 1500, Attacking
+4, 9, 51, 1566, Attacking
+4, 9, 51, 1617, Attacking
+4, 9, 51, 1668, Attacking
+0, 5, 68, 1568, Attacking
+8, 4, -50, 0, At War Decay
+9, 4, -50, 1239, At War Decay
+9, 4, 34, 1273, Attacking
+9, 4, 68, 1341, Attacking
+0, 5, -50, 1518, At War Decay
+20, 5, -2000, 0, We Made Peace
+5, 20, -2000, 0, They Made Peace
+20, 6, -2000, 0, We Made Peace
+6, 20, -2000, 0, They Made Peace
+20, 7, -2000, 0, We Made Peace
+7, 20, -2000, 0, They Made Peace
+20, 8, -2000, 0, We Made Peace
+8, 20, -2000, 0, They Made Peace
+20, 9, -2000, 0, We Made Peace
+9, 20, -2000, 0, They Made Peace
+20, 10, -2000, 0, We Made Peace
+10, 20, -2000, 0, They Made Peace
+20, 17, -2000, 0, We Made Peace
+17, 20, -2000, 0, They Made Peace
+2, 5, -50, 54, At War Decay
+4, 8, -50, 2, At War Decay
+4, 9, -50, 1618, At War Decay
+0, 5, 68, 1586, Attacking
+0, 5, 68, 1654, Attacking
+0, 5, 68, 1722, Attacking
+0, 5, 34, 1756, Attacking
+4, 9, 51, 1669, Attacking
+18, 0, -2000, 0, We Made Peace
+0, 18, -2000, 0, They Made Peace
+18, 1, -2000, 0, We Made Peace
+1, 18, -2000, 0, They Made Peace
+12, 18, -2000, 0, We Made Peace
+18, 12, -2000, 0, They Made Peace
+13, 18, -2000, 0, We Made Peace
+18, 13, -2000, 0, They Made Peace
+18, 2, -2000, 0, We Made Peace
+2, 18, -2000, 0, They Made Peace
+15, 18, -2000, 0, We Made Peace
+18, 15, -2000, 0, They Made Peace
+18, 3, -2000, 0, We Made Peace
+3, 18, -2000, 0, They Made Peace
+18, 4, -2000, 0, We Made Peace
+4, 18, -2000, 0, They Made Peace
+14, 18, -2000, 0, We Made Peace
+18, 14, -2000, 0, They Made Peace
+4, 9, 51, 1720, Attacking
+4, 9, 51, 1771, Attacking
+10, 0, -2000, 0, We Made Peace
+0, 10, -2000, 0, They Made Peace
+10, 1, -2000, 0, We Made Peace
+1, 10, -2000, 0, They Made Peace
+10, 2, -2000, 0, We Made Peace
+2, 10, -2000, 0, They Made Peace
+10, 3, -2000, 0, We Made Peace
+3, 10, -2000, 0, They Made Peace
+10, 4, -2000, 0, We Made Peace
+4, 10, -2000, 0, They Made Peace
+10, 12, -2000, 0, We Made Peace
+12, 10, -2000, 0, They Made Peace
+10, 13, -2000, 0, We Made Peace
+13, 10, -2000, 0, They Made Peace
+10, 14, -2000, 0, We Made Peace
+14, 10, -2000, 0, They Made Peace
+10, 15, -2000, 0, We Made Peace
+15, 10, -2000, 0, They Made Peace
+10, 18, -2000, 0, We Made Peace
+18, 10, -2000, 0, They Made Peace
+9, 4, -50, 1291, At War Decay
+17, 0, -2000, 0, We Made Peace
+0, 17, -2000, 0, They Made Peace
+17, 1, -2000, 0, We Made Peace
+1, 17, -2000, 0, They Made Peace
+17, 2, -2000, 0, We Made Peace
+2, 17, -2000, 0, They Made Peace
+17, 3, -2000, 0, We Made Peace
+3, 17, -2000, 0, They Made Peace
+17, 4, -2000, 0, We Made Peace
+4, 17, -2000, 0, They Made Peace
+17, 12, -2000, 0, We Made Peace
+12, 17, -2000, 0, They Made Peace
+17, 13, -2000, 0, We Made Peace
+13, 17, -2000, 0, They Made Peace
+17, 14, -2000, 0, We Made Peace
+14, 17, -2000, 0, They Made Peace
+17, 15, -2000, 0, We Made Peace
+15, 17, -2000, 0, They Made Peace
+17, 18, -2000, 0, We Made Peace
+18, 17, -2000, 0, They Made Peace
+9, 4, 68, 1359, Attacking
+0, 5, -50, 1706, At War Decay
+2, 5, -50, 4, At War Decay
+4, 8, -50, 0, At War Decay
+4, 9, -50, 1721, At War Decay
+0, 5, 68, 1774, Attacking
+0, 5, 68, 1842, Attacking
+4, 9, 51, 1772, Attacking
+4, 9, 51, 1823, Attacking
+9, 4, -50, 1309, At War Decay
+9, 4, 34, 1343, Attacking
+9, 4, 34, 1377, Attacking
+9, 4, 68, 1445, Attacking
+0, 5, -50, 1792, At War Decay
+2, 5, -50, 0, At War Decay
+4, 9, -50, 1773, At War Decay
+4, 9, 51, 1824, Attacking
+15, 5, -2000, 0, We Made Peace
+5, 15, -2000, 0, They Made Peace
+15, 6, -2000, 0, We Made Peace
+6, 15, -2000, 0, They Made Peace
+15, 7, -2000, 0, We Made Peace
+7, 15, -2000, 0, They Made Peace
+15, 8, -2000, 0, We Made Peace
+8, 15, -2000, 0, They Made Peace
+15, 9, -2000, 0, We Made Peace
+9, 15, -2000, 0, They Made Peace
+15, 17, -2000, 0, We Made Peace
+17, 15, -2000, 0, They Made Peace
+2, 5, 68, 68, Attacking
+10, 0, -2000, 0, We Made Peace
+0, 10, -2000, 0, They Made Peace
+10, 1, -2000, 0, We Made Peace
+1, 10, -2000, 0, They Made Peace
+10, 2, -2000, 0, We Made Peace
+2, 10, -2000, 0, They Made Peace
+10, 3, -2000, 0, We Made Peace
+3, 10, -2000, 0, They Made Peace
+10, 4, -2000, 0, We Made Peace
+4, 10, -2000, 0, They Made Peace
+10, 12, -2000, 0, We Made Peace
+12, 10, -2000, 0, They Made Peace
+10, 13, -2000, 0, We Made Peace
+13, 10, -2000, 0, They Made Peace
+10, 14, -2000, 0, We Made Peace
+14, 10, -2000, 0, They Made Peace
+10, 18, -2000, 0, We Made Peace
+18, 10, -2000, 0, They Made Peace
+9, 4, -50, 1395, At War Decay
+9, 4, 68, 1463, Attacking
+9, 4, 68, 1531, Attacking
+9, 4, 68, 1599, Attacking
+9, 4, 68, 1667, Attacking
+0, 5, -50, 1742, At War Decay
+2, 5, -50, 18, At War Decay
+4, 9, -50, 1774, At War Decay
+0, 5, 68, 1810, Attacking
+0, 5, 68, 1878, Attacking
+0, 5, 68, 1946, Attacking
+4, 9, 51, 1825, Attacking
+4, 9, 51, 1876, Attacking
+4, 9, 51, 1927, Attacking
+4, 9, 25, 1952, Attacking
+2, 6, 68, 68, Attacking
+2, 5, 68, 86, Attacking
+4, 9, -50, 1774, At War Decay
+12, 5, -2000, 0, We Made Peace
+5, 12, -2000, 0, They Made Peace
+12, 6, -2000, 0, We Made Peace
+6, 12, -2000, 0, They Made Peace
+12, 7, -2000, 0, We Made Peace
+7, 12, -2000, 0, They Made Peace
+12, 8, -2000, 0, We Made Peace
+8, 12, -2000, 0, They Made Peace
+12, 9, -2000, 0, We Made Peace
+9, 12, -2000, 0, They Made Peace
+12, 17, -2000, 0, We Made Peace
+17, 12, -2000, 0, They Made Peace
+4, 9, 25, 1799, Attacking
+10, 0, -2000, 0, We Made Peace
+0, 10, -2000, 0, They Made Peace
+10, 1, -2000, 0, We Made Peace
+1, 10, -2000, 0, They Made Peace
+10, 2, -2000, 0, We Made Peace
+2, 10, -2000, 0, They Made Peace
+10, 3, -2000, 0, We Made Peace
+3, 10, -2000, 0, They Made Peace
+10, 4, -2000, 0, We Made Peace
+4, 10, -2000, 0, They Made Peace
+10, 12, -2000, 0, We Made Peace
+12, 10, -2000, 0, They Made Peace
+10, 13, -2000, 0, We Made Peace
+13, 10, -2000, 0, They Made Peace
+10, 14, -2000, 0, We Made Peace
+14, 10, -2000, 0, They Made Peace
+10, 18, -2000, 0, We Made Peace
+18, 10, -2000, 0, They Made Peace
+9, 4, -50, 1395, At War Decay
+9, 4, 68, 1463, Attacking
+9, 4, 68, 1531, Attacking
+9, 4, 68, 1599, Attacking
+0, 5, -50, 1742, At War Decay
+2, 5, -50, 18, At War Decay
+2, 6, 68, 68, Attacking
+2, 5, 68, 86, Attacking
+0, 5, 68, 1810, Attacking
+0, 5, 68, 1878, Attacking
+0, 5, 68, 1946, Attacking
+4, 9, -50, 1749, At War Decay
+4, 9, 51, 1800, Attacking
+4, 9, 51, 1851, Attacking
+9, 4, -50, 1549, At War Decay
+17, 0, -2000, 0, We Made Peace
+0, 17, -2000, 0, They Made Peace
+17, 1, -2000, 0, We Made Peace
+1, 17, -2000, 0, They Made Peace
+17, 2, -2000, 0, We Made Peace
+2, 17, -2000, 0, They Made Peace
+17, 3, -2000, 0, We Made Peace
+3, 17, -2000, 0, They Made Peace
+17, 4, -2000, 0, We Made Peace
+4, 17, -2000, 0, They Made Peace
+17, 12, -2000, 0, We Made Peace
+12, 17, -2000, 0, They Made Peace
+17, 13, -2000, 0, We Made Peace
+13, 17, -2000, 0, They Made Peace
+17, 14, -2000, 0, We Made Peace
+14, 17, -2000, 0, They Made Peace
+17, 18, -2000, 0, We Made Peace
+18, 17, -2000, 0, They Made Peace
+17, 20, -2000, 0, We Made Peace
+20, 17, -2000, 0, They Made Peace
+9, 4, 34, 1583, Attacking
+9, 4, 170, 1753, Attacking
+9, 4, 34, 1787, Attacking
+9, 4, 68, 1855, Attacking
+0, 5, -50, 1896, At War Decay
+2, 5, -50, 36, At War Decay
+2, 6, -50, 18, At War Decay

@@ -1,0 +1,652 @@
+Game Turn, From, To, Initiator, Type, SubType, Message
+39, 4, 3, 4, MAKE_DEAL, NONE, INITIAL, Processing Statement
+39, 4, 3, 4, MAKE_DEAL, NONE, INITIAL, Not for local adding to notification
+39, 4, 3, 4, MAKE_DEAL, NONE, INITIAL, Notification sent; closing session
+39, 4, 3, 4, MAKE_DEAL, NONE, 00000000, Processing Statement
+39, 4, 3, 4, MAKE_DEAL, NONE, 00000000, Not for local adding to notification
+39, 4, 3, 4, MAKE_DEAL, NONE, 00000000, Notification sent; closing session
+40, 5, 6, -1, WARNING_TOO_MANY_TROOPS_NEAR_ME, NONE, 00000000, Requesting Session (B)
+40, 5, 6, ?, MAKE_PROMISE, 9c55a0d8, ?, Processing Action From AI to AI
+40, 5, 6, -1, WARNING_TOO_MANY_TROOPS_NEAR_ME, NONE, INITIAL, Requesting session between two AIs!
+40, 9, 8, -1, DIPLOMATIC_KUDO, NONE, 00000000, Requesting Session (B)
+40, 9, 8, ?, MAKE_PROMISE, ffffffff, ?, Processing Action From AI to AI
+40, 9, 8, -1, DIPLOMATIC_KUDO, NONE, INITIAL, Requesting session between two AIs!
+40, 9, 4, -1, MAKE_DEAL, NONE, 00000000, Requesting Session (B)
+40, 9, 4, 9, MAKE_DEAL, NONE, INITIAL, Adding to pending
+40, 9, 4, 9, MAKE_DEAL, NONE, INITIAL, Processing Statement
+40, 9, 4, 9, MAKE_DEAL, NONE, INITIAL, Not for local adding to notification
+40, 9, 4, 9, MAKE_DEAL, NONE, INITIAL, Notification sent; closing session
+40, 3, 1, 3, MAKE_DEAL, NONE, INITIAL, Processing Statement
+40, 3, 1, 3, MAKE_DEAL, NONE, INITIAL, Notification sent; closing local session
+40, 3, 1, 3, MAKE_DEAL, NONE, 00000000, Processing Statement
+40, 3, 1, 3, MAKE_DEAL, NONE, 00000000, Notification sent; closing local session
+40, 3, 2, 3, MAKE_DEAL, NONE, INITIAL, Processing Statement
+40, 3, 2, 3, MAKE_DEAL, NONE, INITIAL, Not for local adding to notification
+40, 3, 2, 3, MAKE_DEAL, NONE, INITIAL, Notification sent; closing session
+40, 3, 2, 3, MAKE_DEAL, NONE, 00000000, Processing Statement
+40, 3, 2, 3, MAKE_DEAL, NONE, 00000000, Not for local adding to notification
+40, 3, 2, 3, MAKE_DEAL, NONE, 00000000, Notification sent; closing session
+40, 3, 0, 3, MAKE_DEAL, NONE, INITIAL, Processing Statement
+40, 3, 0, 3, MAKE_DEAL, NONE, INITIAL, Not for local adding to notification
+40, 3, 0, 3, MAKE_DEAL, NONE, INITIAL, Notification sent; closing session
+40, 3, 0, 3, MAKE_DEAL, NONE, 00000000, Processing Statement
+40, 3, 0, 3, MAKE_DEAL, NONE, 00000000, Not for local adding to notification
+40, 3, 0, 3, MAKE_DEAL, NONE, 00000000, Notification sent; closing session
+40, 0, 3, 3, MAKE_DEAL, HUMAN_ACCEPT_DEAL, POSITIVE, Processing Statement
+40, 0, 3, 3, MAKE_DEAL, HUMAN_ACCEPT_DEAL, POSITIVE, Not for local adding to notification
+40, 0, 3, 3, MAKE_DEAL, HUMAN_ACCEPT_DEAL, POSITIVE, Notification sent; closing session
+40, 2, 3, 3, MAKE_DEAL, HUMAN_ACCEPT_DEAL, POSITIVE, Processing Statement
+40, 2, 3, 3, MAKE_DEAL, HUMAN_ACCEPT_DEAL, POSITIVE, Not for local adding to notification
+40, 2, 3, 3, MAKE_DEAL, HUMAN_ACCEPT_DEAL, POSITIVE, Notification sent; closing session
+40, 4, 0, 4, MAKE_DEAL, NONE, INITIAL, Processing Statement
+40, 4, 0, 4, MAKE_DEAL, NONE, INITIAL, Not for local adding to notification
+40, 4, 0, 4, MAKE_DEAL, NONE, INITIAL, Notification sent; closing session
+40, 4, 0, 4, MAKE_DEAL, NONE, 00000000, Processing Statement
+40, 4, 0, 4, MAKE_DEAL, NONE, 00000000, Not for local adding to notification
+40, 4, 0, 4, MAKE_DEAL, NONE, 00000000, Notification sent; closing session
+40, 0, 4, 4, MAKE_DEAL, HUMAN_ACCEPT_DEAL, POSITIVE, Processing Statement
+40, 0, 4, 4, MAKE_DEAL, HUMAN_ACCEPT_DEAL, POSITIVE, Not for local adding to notification
+40, 0, 4, 4, MAKE_DEAL, HUMAN_ACCEPT_DEAL, POSITIVE, Notification sent; closing session
+40, 4, 9, 9, MAKE_DEAL, NONE, NEGATIVE, Processing Statement
+40, 4, 9, 9, MAKE_DEAL, NONE, NEGATIVE, Not for local adding to notification
+40, 4, 9, 9, MAKE_DEAL, NONE, NEGATIVE, Notification sent; closing session
+40, 3, 0, 3, MAKE_DEAL, NONE, INITIAL, Processing Statement
+40, 3, 0, 3, MAKE_DEAL, NONE, INITIAL, Not for local adding to notification
+40, 3, 0, 3, MAKE_DEAL, NONE, INITIAL, Notification sent; closing session
+40, 3, 1, 3, MAKE_DEAL, NONE, INITIAL, Processing Statement
+40, 3, 1, 3, MAKE_DEAL, NONE, INITIAL, Notification sent; closing local session
+40, 3, 1, 3, MAKE_DEAL, NONE, 00000000, Processing Statement
+40, 3, 1, 3, MAKE_DEAL, NONE, 00000000, Notification sent; closing local session
+40, 3, 1, 3, MAKE_DEAL, NONE, INITIAL, Processing Statement
+40, 3, 1, 3, MAKE_DEAL, NONE, INITIAL, Notification sent; closing local session
+40, 3, 4, 4, MAKE_DEAL, HUMAN_ACCEPT_DEAL, POSITIVE, Processing Statement
+40, 3, 4, 4, MAKE_DEAL, HUMAN_ACCEPT_DEAL, POSITIVE, Not for local adding to notification
+40, 3, 4, 4, MAKE_DEAL, HUMAN_ACCEPT_DEAL, POSITIVE, Notification sent; closing session
+40, 3, 2, 3, MAKE_DEAL, NONE, INITIAL, Processing Statement
+40, 3, 2, 3, MAKE_DEAL, NONE, INITIAL, Not for local adding to notification
+40, 3, 2, 3, MAKE_DEAL, NONE, INITIAL, Notification sent; closing session
+40, 0, 2, 0, MAKE_DEAL, NONE, INITIAL, Processing Statement
+40, 0, 2, 0, MAKE_DEAL, NONE, INITIAL, Not for local adding to notification
+40, 0, 2, 0, MAKE_DEAL, NONE, INITIAL, Notification sent; closing session
+40, 3, 1, 3, MAKE_DEAL, NONE, 00000000, Restoring Session
+40, 3, 1, ?, ?, ?, ?, Closing Session
+40, 0, 4, 0, MAKE_DEAL, NONE, INITIAL, Processing Statement
+40, 0, 4, 0, MAKE_DEAL, NONE, INITIAL, Not for local adding to notification
+40, 0, 4, 0, MAKE_DEAL, NONE, INITIAL, Notification sent; closing session
+41, 5, 7, -1, DIPLOMATIC_HIDDEN_AGENDA_KUDO, NONE, 00000000, Requesting Session (B)
+41, 5, 7, ?, MAKE_PROMISE, ffffffff, ?, Processing Action From AI to AI
+41, 5, 7, -1, DIPLOMATIC_HIDDEN_AGENDA_KUDO, NONE, INITIAL, Requesting session between two AIs!
+41, 7, 14, ?, SET_WAR_STATE, ffffffff, ?, Processing Action From AI to AI
+41, 7, 8, -1, WARNING_TOO_MANY_TROOPS_NEAR_ME, NONE, 00000000, Requesting Session (B)
+41, 7, 8, ?, MAKE_PROMISE, 9c55a0d8, ?, Processing Action From AI to AI
+41, 7, 8, -1, WARNING_TOO_MANY_TROOPS_NEAR_ME, NONE, INITIAL, Requesting session between two AIs!
+43, 9, 4, -1, MAKE_DEAL, NONE, 00000000, Requesting Session (B)
+43, 9, 4, 9, MAKE_DEAL, NONE, INITIAL, Adding to pending
+43, 9, 4, 9, MAKE_DEAL, NONE, INITIAL, Processing Statement
+43, 9, 4, 9, MAKE_DEAL, NONE, INITIAL, Not for local adding to notification
+43, 9, 4, 9, MAKE_DEAL, NONE, INITIAL, Notification sent; closing session
+43, 3, 4, 3, MAKE_DEAL, NONE, INITIAL, Processing Statement
+43, 3, 4, 3, MAKE_DEAL, NONE, INITIAL, Not for local adding to notification
+43, 3, 4, 3, MAKE_DEAL, NONE, INITIAL, Notification sent; closing session
+43, 3, 4, 3, MAKE_DEAL, NONE, 00000000, Processing Statement
+43, 3, 4, 3, MAKE_DEAL, NONE, 00000000, Not for local adding to notification
+43, 3, 4, 3, MAKE_DEAL, NONE, 00000000, Notification sent; closing session
+43, 3, 1, 3, MAKE_DEAL, NONE, INITIAL, Processing Statement
+43, 3, 1, 3, MAKE_DEAL, NONE, INITIAL, Notification sent; closing local session
+43, 4, 9, 9, MAKE_DEAL, NONE, NEGATIVE, Processing Statement
+43, 4, 9, 9, MAKE_DEAL, NONE, NEGATIVE, Not for local adding to notification
+43, 4, 9, 9, MAKE_DEAL, NONE, NEGATIVE, Notification sent; closing session
+43, 3, 1, 3, MAKE_DEAL, NONE, 00000000, Processing Statement
+43, 3, 1, 3, MAKE_DEAL, NONE, 00000000, Notification sent; closing local session
+43, 4, 3, 3, MAKE_DEAL, HUMAN_ACCEPT_DEAL, POSITIVE, Processing Statement
+43, 4, 3, 3, MAKE_DEAL, HUMAN_ACCEPT_DEAL, POSITIVE, Not for local adding to notification
+43, 4, 3, 3, MAKE_DEAL, HUMAN_ACCEPT_DEAL, POSITIVE, Notification sent; closing session
+43, 4, 1, 4, MAKE_DEAL, NONE, INITIAL, Processing Statement
+43, 4, 1, 4, MAKE_DEAL, NONE, INITIAL, Notification sent; closing local session
+43, 4, 1, 4, MAKE_DEAL, NONE, 00000000, Processing Statement
+43, 4, 1, 4, MAKE_DEAL, NONE, 00000000, Notification sent; closing local session
+43, 4, 0, 4, MAKE_DEAL, NONE, INITIAL, Processing Statement
+43, 4, 0, 4, MAKE_DEAL, NONE, INITIAL, Not for local adding to notification
+43, 4, 0, 4, MAKE_DEAL, NONE, INITIAL, Notification sent; closing session
+43, 4, 0, 4, MAKE_DEAL, NONE, 00000000, Processing Statement
+43, 4, 0, 4, MAKE_DEAL, NONE, 00000000, Not for local adding to notification
+43, 4, 0, 4, MAKE_DEAL, NONE, 00000000, Notification sent; closing session
+43, 0, 4, 4, MAKE_DEAL, HUMAN_ACCEPT_DEAL, POSITIVE, Processing Statement
+43, 0, 4, 4, MAKE_DEAL, HUMAN_ACCEPT_DEAL, POSITIVE, Not for local adding to notification
+43, 0, 4, 4, MAKE_DEAL, HUMAN_ACCEPT_DEAL, POSITIVE, Notification sent; closing session
+43, 3, 1, 3, MAKE_DEAL, NONE, 00000000, Restoring Session
+43, 1, 3, 3, MAKE_DEAL, HUMAN_ACCEPT_DEAL, POSITIVE, Adding to pending
+43, 1, 3, 3, MAKE_DEAL, HUMAN_ACCEPT_DEAL, POSITIVE, Broadcasting
+43, 1, 3, 3, MAKE_DEAL, HUMAN_ACCEPT_DEAL, POSITIVE, Processing Statement
+43, 1, 3, 3, MAKE_DEAL, HUMAN_ACCEPT_DEAL, POSITIVE, Processing Immediately
+43, 3, 1, ?, ?, ?, ?, Closing Session
+43, 4, 1, 4, MAKE_DEAL, NONE, 00000000, Restoring Session
+43, 2, 3, 2, MAKE_DEAL, NONE, INITIAL, Processing Statement
+43, 2, 3, 2, MAKE_DEAL, NONE, INITIAL, Not for local adding to notification
+43, 2, 3, 2, MAKE_DEAL, NONE, INITIAL, Notification sent; closing session
+43, 1, 4, 4, MAKE_DEAL, HUMAN_ACCEPT_DEAL, POSITIVE, Adding to pending
+43, 1, 4, 4, MAKE_DEAL, HUMAN_ACCEPT_DEAL, POSITIVE, Broadcasting
+43, 1, 4, 4, MAKE_DEAL, HUMAN_ACCEPT_DEAL, POSITIVE, Processing Statement
+43, 1, 4, 4, MAKE_DEAL, HUMAN_ACCEPT_DEAL, POSITIVE, Processing Immediately
+43, 4, 1, ?, ?, ?, ?, Closing Session
+44, 5, 6, -1, DIPLOMATIC_HIDDEN_AGENDA_KUDO, NONE, 00000000, Requesting Session (B)
+44, 5, 6, ?, MAKE_PROMISE, ffffffff, ?, Processing Action From AI to AI
+44, 5, 6, -1, DIPLOMATIC_HIDDEN_AGENDA_KUDO, NONE, INITIAL, Requesting session between two AIs!
+44, 5, 8, -1, DIPLOMATIC_HIDDEN_AGENDA_KUDO, NONE, 00000000, Requesting Session (B)
+44, 5, 8, ?, MAKE_PROMISE, ffffffff, ?, Processing Action From AI to AI
+44, 5, 8, -1, DIPLOMATIC_HIDDEN_AGENDA_KUDO, NONE, INITIAL, Requesting session between two AIs!
+44, 4, 2, 4, MAKE_DEAL, NONE, INITIAL, Processing Statement
+44, 4, 2, 4, MAKE_DEAL, NONE, INITIAL, Not for local adding to notification
+44, 4, 2, 4, MAKE_DEAL, NONE, INITIAL, Notification sent; closing session
+44, 4, 2, 4, MAKE_DEAL, NONE, 00000000, Processing Statement
+44, 4, 2, 4, MAKE_DEAL, NONE, 00000000, Not for local adding to notification
+44, 4, 2, 4, MAKE_DEAL, NONE, 00000000, Notification sent; closing session
+44, 2, 4, 4, MAKE_DEAL, HUMAN_ACCEPT_DEAL, POSITIVE, Processing Statement
+44, 2, 4, 4, MAKE_DEAL, HUMAN_ACCEPT_DEAL, POSITIVE, Not for local adding to notification
+44, 2, 4, 4, MAKE_DEAL, HUMAN_ACCEPT_DEAL, POSITIVE, Notification sent; closing session
+46, 8, 9, -1, WARNING_TOO_MANY_TROOPS_NEAR_ME, NONE, 00000000, Requesting Session (B)
+46, 8, 9, ?, MAKE_PROMISE, 9c55a0d8, ?, Processing Action From AI to AI
+46, 8, 9, -1, WARNING_TOO_MANY_TROOPS_NEAR_ME, NONE, INITIAL, Requesting session between two AIs!
+46, 9, 4, -1, MAKE_DEAL, NONE, 00000000, Requesting Session (B)
+46, 9, 4, 9, MAKE_DEAL, NONE, INITIAL, Adding to pending
+46, 9, 4, 9, MAKE_DEAL, NONE, INITIAL, Processing Statement
+46, 9, 4, 9, MAKE_DEAL, NONE, INITIAL, Not for local adding to notification
+46, 9, 4, 9, MAKE_DEAL, NONE, INITIAL, Notification sent; closing session
+46, 4, 9, 9, MAKE_DEAL, NONE, NEGATIVE, Processing Statement
+46, 4, 9, 9, MAKE_DEAL, NONE, NEGATIVE, Not for local adding to notification
+46, 4, 9, 9, MAKE_DEAL, NONE, NEGATIVE, Notification sent; closing session
+47, 7, 9, -1, DIPLOMATIC_HIDDEN_AGENDA_KUDO, NONE, 00000000, Requesting Session (B)
+47, 7, 9, ?, MAKE_PROMISE, ffffffff, ?, Processing Action From AI to AI
+47, 7, 9, -1, DIPLOMATIC_HIDDEN_AGENDA_KUDO, NONE, INITIAL, Requesting session between two AIs!
+47, 4, 0, 4, MAKE_DEAL, NONE, INITIAL, Processing Statement
+47, 4, 0, 4, MAKE_DEAL, NONE, INITIAL, Not for local adding to notification
+47, 4, 0, 4, MAKE_DEAL, NONE, INITIAL, Notification sent; closing session
+47, 4, 0, 4, MAKE_DEAL, NONE, 00000000, Processing Statement
+47, 4, 0, 4, MAKE_DEAL, NONE, 00000000, Not for local adding to notification
+47, 4, 0, 4, MAKE_DEAL, NONE, 00000000, Notification sent; closing session
+47, 0, 4, 4, MAKE_DEAL, HUMAN_ACCEPT_DEAL, POSITIVE, Processing Statement
+47, 0, 4, 4, MAKE_DEAL, HUMAN_ACCEPT_DEAL, POSITIVE, Not for local adding to notification
+47, 0, 4, 4, MAKE_DEAL, HUMAN_ACCEPT_DEAL, POSITIVE, Notification sent; closing session
+47, 1, 0, -1, MAKE_DEAL, NONE, INITIAL, Requesting Session (A)
+47, 1, 0, 1, MAKE_DEAL, NONE, INITIAL, Adding to pending
+47, 1, 0, 1, MAKE_DEAL, NONE, INITIAL, Broadcasting
+47, 1, 0, 1, MAKE_DEAL, NONE, INITIAL, Processing Statement
+47, 1, 0, 1, MAKE_DEAL, NONE, INITIAL, Processing Immediately
+47, 1, 2, -1, MAKE_DEAL, NONE, INITIAL, Requesting Session (A)
+47, 1, 2, 1, MAKE_DEAL, NONE, INITIAL, Adding to pending
+47, 1, 2, 1, MAKE_DEAL, NONE, INITIAL, Broadcasting
+47, 1, 2, 1, MAKE_DEAL, NONE, INITIAL, Processing Statement
+47, 1, 2, 1, MAKE_DEAL, NONE, INITIAL, Processing Immediately
+47, 1, 4, -1, MAKE_DEAL, NONE, INITIAL, Requesting Session (A)
+47, 1, 4, 1, MAKE_DEAL, NONE, INITIAL, Adding to pending
+47, 1, 4, 1, MAKE_DEAL, NONE, INITIAL, Broadcasting
+47, 1, 4, 1, MAKE_DEAL, NONE, INITIAL, Processing Statement
+47, 1, 4, 1, MAKE_DEAL, NONE, INITIAL, Processing Immediately
+47, 1, 4, 1, MAKE_DEAL, NONE, 00000000, Adding to pending
+47, 1, 4, 1, MAKE_DEAL, NONE, 00000000, Broadcasting
+47, 1, 4, 1, MAKE_DEAL, NONE, 00000000, Processing Statement
+47, 1, 4, 1, MAKE_DEAL, NONE, 00000000, Processing Immediately
+47, 4, 1, 1, MAKE_DEAL, HUMAN_ACCEPT_DEAL, POSITIVE, Processing Statement
+47, 4, 1, 1, MAKE_DEAL, HUMAN_ACCEPT_DEAL, POSITIVE, Notification sent; closing local session
+47, 4, 1, 1, MAKE_DEAL, HUMAN_ACCEPT_DEAL, POSITIVE, Restoring Session
+47, 4, 1, ?, ?, ?, ?, Closing Session
+47, 2, 3, 2, MAKE_DEAL, NONE, INITIAL, Processing Statement
+47, 2, 3, 2, MAKE_DEAL, NONE, INITIAL, Not for local adding to notification
+47, 2, 3, 2, MAKE_DEAL, NONE, INITIAL, Notification sent; closing session
+47, 2, 3, 2, MAKE_DEAL, NONE, 00000000, Processing Statement
+47, 2, 3, 2, MAKE_DEAL, NONE, 00000000, Not for local adding to notification
+47, 2, 3, 2, MAKE_DEAL, NONE, 00000000, Notification sent; closing session
+47, 1, 3, -1, MAKE_DEAL, NONE, INITIAL, Requesting Session (A)
+47, 1, 3, 1, MAKE_DEAL, NONE, INITIAL, Adding to pending
+47, 1, 3, 1, MAKE_DEAL, NONE, INITIAL, Broadcasting
+47, 1, 3, 1, MAKE_DEAL, NONE, INITIAL, Processing Statement
+47, 1, 3, 1, MAKE_DEAL, NONE, INITIAL, Processing Immediately
+47, 1, 3, 1, MAKE_DEAL, NONE, 00000000, Adding to pending
+47, 1, 3, 1, MAKE_DEAL, NONE, 00000000, Broadcasting
+47, 1, 3, 1, MAKE_DEAL, NONE, 00000000, Processing Statement
+47, 1, 3, 1, MAKE_DEAL, NONE, 00000000, Processing Immediately
+47, 3, 2, 2, MAKE_DEAL, HUMAN_ACCEPT_DEAL, POSITIVE, Processing Statement
+47, 3, 2, 2, MAKE_DEAL, HUMAN_ACCEPT_DEAL, POSITIVE, Not for local adding to notification
+47, 3, 2, 2, MAKE_DEAL, HUMAN_ACCEPT_DEAL, POSITIVE, Notification sent; closing session
+47, 3, 1, 1, MAKE_DEAL, HUMAN_ACCEPT_DEAL, POSITIVE, Processing Statement
+47, 3, 1, 1, MAKE_DEAL, HUMAN_ACCEPT_DEAL, POSITIVE, Notification sent; closing local session
+47, 1, 2, -1, MAKE_DEAL, NONE, INITIAL, Requesting Session (A)
+47, 1, 2, 1, MAKE_DEAL, NONE, INITIAL, Adding to pending
+47, 1, 2, 1, MAKE_DEAL, NONE, INITIAL, Broadcasting
+47, 1, 2, 1, MAKE_DEAL, NONE, INITIAL, Processing Statement
+47, 1, 2, 1, MAKE_DEAL, NONE, INITIAL, Processing Immediately
+47, 1, 2, 1, MAKE_DEAL, NONE, 00000000, Adding to pending
+47, 1, 2, 1, MAKE_DEAL, NONE, 00000000, Broadcasting
+47, 1, 2, 1, MAKE_DEAL, NONE, 00000000, Processing Statement
+47, 1, 2, 1, MAKE_DEAL, NONE, 00000000, Processing Immediately
+47, 2, 1, 1, MAKE_DEAL, HUMAN_ACCEPT_DEAL, POSITIVE, Processing Statement
+47, 2, 1, 1, MAKE_DEAL, HUMAN_ACCEPT_DEAL, POSITIVE, Notification sent; closing local session
+49, 7, 8, ?, SET_EMBASSY, ffffffff, ?, Processing Action From AI to AI
+49, 7, 9, ?, SET_EMBASSY, ffffffff, ?, Processing Action From AI to AI
+49, 7, 5, ?, SET_EMBASSY, ffffffff, ?, Processing Action From AI to AI
+49, 7, 6, ?, SET_EMBASSY, ffffffff, ?, Processing Action From AI to AI
+49, 9, 4, -1, MAKE_DEAL, NONE, 00000000, Requesting Session (B)
+49, 9, 4, 9, MAKE_DEAL, NONE, INITIAL, Adding to pending
+49, 9, 4, 9, MAKE_DEAL, NONE, INITIAL, Processing Statement
+49, 9, 4, 9, MAKE_DEAL, NONE, INITIAL, Not for local adding to notification
+49, 9, 4, 9, MAKE_DEAL, NONE, INITIAL, Notification sent; closing session
+49, 4, 9, 9, MAKE_DEAL, NONE, NEGATIVE, Processing Statement
+49, 4, 9, 9, MAKE_DEAL, NONE, NEGATIVE, Not for local adding to notification
+49, 4, 9, 9, MAKE_DEAL, NONE, NEGATIVE, Notification sent; closing session
+49, 4, 1, 4, MAKE_DEAL, NONE, INITIAL, Processing Statement
+49, 4, 1, 4, MAKE_DEAL, NONE, INITIAL, Notification sent; closing local session
+49, 4, 1, 4, MAKE_DEAL, NONE, 00000000, Processing Statement
+49, 4, 1, 4, MAKE_DEAL, NONE, 00000000, Notification sent; closing local session
+49, 4, 1, 4, MAKE_DEAL, NONE, 00000000, Restoring Session
+49, 1, 4, 4, MAKE_DEAL, HUMAN_ACCEPT_DEAL, POSITIVE, Adding to pending
+49, 1, 4, 4, MAKE_DEAL, HUMAN_ACCEPT_DEAL, POSITIVE, Broadcasting
+49, 1, 4, 4, MAKE_DEAL, HUMAN_ACCEPT_DEAL, POSITIVE, Processing Statement
+49, 1, 4, 4, MAKE_DEAL, HUMAN_ACCEPT_DEAL, POSITIVE, Processing Immediately
+49, 4, 1, ?, ?, ?, ?, Closing Session
+49, 1, 4, -1, MAKE_DEAL, NONE, INITIAL, Requesting Session (A)
+49, 1, 4, 1, MAKE_DEAL, NONE, INITIAL, Adding to pending
+49, 1, 4, 1, MAKE_DEAL, NONE, INITIAL, Broadcasting
+49, 1, 4, 1, MAKE_DEAL, NONE, INITIAL, Processing Statement
+49, 1, 4, 1, MAKE_DEAL, NONE, INITIAL, Processing Immediately
+49, 1, 4, 1, MAKE_DEAL, NONE, 00000000, Adding to pending
+49, 1, 4, 1, MAKE_DEAL, NONE, 00000000, Broadcasting
+49, 1, 4, 1, MAKE_DEAL, NONE, 00000000, Processing Statement
+49, 1, 4, 1, MAKE_DEAL, NONE, 00000000, Processing Immediately
+49, 4, 1, 1, MAKE_DEAL, HUMAN_ACCEPT_DEAL, POSITIVE, Processing Statement
+49, 4, 1, 1, MAKE_DEAL, HUMAN_ACCEPT_DEAL, POSITIVE, Notification sent; closing local session
+49, 4, 1, 1, MAKE_DEAL, HUMAN_ACCEPT_DEAL, POSITIVE, Restoring Session
+49, 4, 1, ?, ?, ?, ?, Closing Session
+50, 6, 7, -1, DIPLOMATIC_WARNING, NONE, 00000000, Requesting Session (B)
+50, 6, 7, ?, MAKE_PROMISE, ffffffff, ?, Processing Action From AI to AI
+50, 6, 7, -1, DIPLOMATIC_WARNING, NONE, INITIAL, Requesting session between two AIs!
+50, 7, 6, -1, DIPLOMATIC_HIDDEN_AGENDA_KUDO, NONE, 00000000, Requesting Session (B)
+50, 7, 6, ?, MAKE_PROMISE, ffffffff, ?, Processing Action From AI to AI
+50, 7, 6, -1, DIPLOMATIC_HIDDEN_AGENDA_KUDO, NONE, INITIAL, Requesting session between two AIs!
+50, 9, 8, -1, WARNING_TOO_MANY_TROOPS_NEAR_ME, NONE, 00000000, Requesting Session (B)
+50, 9, 8, ?, MAKE_PROMISE, 9c55a0d8, ?, Processing Action From AI to AI
+50, 9, 8, -1, WARNING_TOO_MANY_TROOPS_NEAR_ME, NONE, INITIAL, Requesting session between two AIs!
+50, 0, 3, 0, MAKE_DEAL, NONE, INITIAL, Processing Statement
+50, 0, 3, 0, MAKE_DEAL, NONE, INITIAL, Not for local adding to notification
+50, 0, 3, 0, MAKE_DEAL, NONE, INITIAL, Notification sent; closing session
+50, 0, 3, 0, MAKE_DEAL, NONE, 00000000, Processing Statement
+50, 0, 3, 0, MAKE_DEAL, NONE, 00000000, Not for local adding to notification
+50, 0, 3, 0, MAKE_DEAL, NONE, 00000000, Notification sent; closing session
+50, 3, 0, 0, MAKE_DEAL, HUMAN_ACCEPT_DEAL, POSITIVE, Processing Statement
+50, 3, 0, 0, MAKE_DEAL, HUMAN_ACCEPT_DEAL, POSITIVE, Not for local adding to notification
+50, 3, 0, 0, MAKE_DEAL, HUMAN_ACCEPT_DEAL, POSITIVE, Notification sent; closing session
+50, 0, 1, 0, MAKE_DEAL, NONE, INITIAL, Processing Statement
+50, 0, 1, 0, MAKE_DEAL, NONE, INITIAL, Notification sent; closing local session
+50, 0, 2, 0, MAKE_DEAL, NONE, INITIAL, Processing Statement
+50, 0, 2, 0, MAKE_DEAL, NONE, INITIAL, Not for local adding to notification
+50, 0, 2, 0, MAKE_DEAL, NONE, INITIAL, Notification sent; closing session
+50, 0, 2, 0, MAKE_DEAL, NONE, 00000000, Processing Statement
+50, 0, 2, 0, MAKE_DEAL, NONE, 00000000, Not for local adding to notification
+50, 0, 2, 0, MAKE_DEAL, NONE, 00000000, Notification sent; closing session
+50, 2, 0, 0, MAKE_DEAL, HUMAN_ACCEPT_DEAL, POSITIVE, Processing Statement
+50, 2, 0, 0, MAKE_DEAL, HUMAN_ACCEPT_DEAL, POSITIVE, Not for local adding to notification
+50, 2, 0, 0, MAKE_DEAL, HUMAN_ACCEPT_DEAL, POSITIVE, Notification sent; closing session
+50, 2, 4, 2, MAKE_DEAL, NONE, INITIAL, Processing Statement
+50, 2, 4, 2, MAKE_DEAL, NONE, INITIAL, Not for local adding to notification
+50, 2, 4, 2, MAKE_DEAL, NONE, INITIAL, Notification sent; closing session
+50, 2, 4, 2, MAKE_DEAL, NONE, 00000000, Processing Statement
+50, 2, 4, 2, MAKE_DEAL, NONE, 00000000, Not for local adding to notification
+50, 2, 4, 2, MAKE_DEAL, NONE, 00000000, Notification sent; closing session
+50, 4, 2, 2, MAKE_DEAL, HUMAN_ACCEPT_DEAL, POSITIVE, Processing Statement
+50, 4, 2, 2, MAKE_DEAL, HUMAN_ACCEPT_DEAL, POSITIVE, Not for local adding to notification
+50, 4, 2, 2, MAKE_DEAL, HUMAN_ACCEPT_DEAL, POSITIVE, Notification sent; closing session
+51, 6, 8, ?, SET_EMBASSY, ffffffff, ?, Processing Action From AI to AI
+51, 6, 9, ?, SET_EMBASSY, ffffffff, ?, Processing Action From AI to AI
+51, 6, 5, ?, SET_EMBASSY, ffffffff, ?, Processing Action From AI to AI
+51, 6, 7, ?, SET_EMBASSY, ffffffff, ?, Processing Action From AI to AI
+51, 8, 7, -1, WARNING_TOO_MANY_TROOPS_NEAR_ME, NONE, 00000000, Requesting Session (B)
+51, 8, 7, ?, MAKE_PROMISE, 9c55a0d8, ?, Processing Action From AI to AI
+51, 8, 7, -1, WARNING_TOO_MANY_TROOPS_NEAR_ME, NONE, INITIAL, Requesting session between two AIs!
+51, 3, 4, 3, MAKE_DEAL, NONE, INITIAL, Processing Statement
+51, 3, 4, 3, MAKE_DEAL, NONE, INITIAL, Not for local adding to notification
+51, 3, 4, 3, MAKE_DEAL, NONE, INITIAL, Notification sent; closing session
+51, 3, 4, 3, MAKE_DEAL, NONE, 00000000, Processing Statement
+51, 3, 4, 3, MAKE_DEAL, NONE, 00000000, Not for local adding to notification
+51, 3, 4, 3, MAKE_DEAL, NONE, 00000000, Notification sent; closing session
+51, 4, 3, 3, MAKE_DEAL, HUMAN_ACCEPT_DEAL, POSITIVE, Processing Statement
+51, 4, 3, 3, MAKE_DEAL, HUMAN_ACCEPT_DEAL, POSITIVE, Not for local adding to notification
+51, 4, 3, 3, MAKE_DEAL, HUMAN_ACCEPT_DEAL, POSITIVE, Notification sent; closing session
+51, 3, 0, 3, MAKE_DEAL, NONE, INITIAL, Processing Statement
+51, 3, 0, 3, MAKE_DEAL, NONE, INITIAL, Not for local adding to notification
+51, 3, 0, 3, MAKE_DEAL, NONE, INITIAL, Notification sent; closing session
+51, 3, 0, 3, MAKE_DEAL, NONE, 00000000, Processing Statement
+51, 3, 0, 3, MAKE_DEAL, NONE, 00000000, Not for local adding to notification
+51, 3, 0, 3, MAKE_DEAL, NONE, 00000000, Notification sent; closing session
+51, 3, 2, 3, MAKE_DEAL, NONE, INITIAL, Processing Statement
+51, 3, 2, 3, MAKE_DEAL, NONE, INITIAL, Not for local adding to notification
+51, 3, 2, 3, MAKE_DEAL, NONE, INITIAL, Notification sent; closing session
+51, 0, 3, 3, MAKE_DEAL, HUMAN_ACCEPT_DEAL, POSITIVE, Processing Statement
+51, 0, 3, 3, MAKE_DEAL, HUMAN_ACCEPT_DEAL, POSITIVE, Not for local adding to notification
+51, 0, 3, 3, MAKE_DEAL, HUMAN_ACCEPT_DEAL, POSITIVE, Notification sent; closing session
+51, 3, 2, 3, MAKE_DEAL, NONE, 00000000, Processing Statement
+51, 3, 2, 3, MAKE_DEAL, NONE, 00000000, Not for local adding to notification
+51, 3, 2, 3, MAKE_DEAL, NONE, 00000000, Notification sent; closing session
+51, 2, 3, 3, MAKE_DEAL, HUMAN_ACCEPT_DEAL, POSITIVE, Processing Statement
+51, 2, 3, 3, MAKE_DEAL, HUMAN_ACCEPT_DEAL, POSITIVE, Not for local adding to notification
+51, 2, 3, 3, MAKE_DEAL, HUMAN_ACCEPT_DEAL, POSITIVE, Notification sent; closing session
+51, 1, 0, -1, MAKE_DEAL, NONE, INITIAL, Requesting Session (A)
+51, 1, 0, 1, MAKE_DEAL, NONE, INITIAL, Adding to pending
+51, 1, 0, 1, MAKE_DEAL, NONE, INITIAL, Broadcasting
+51, 1, 0, 1, MAKE_DEAL, NONE, INITIAL, Processing Statement
+51, 1, 0, 1, MAKE_DEAL, NONE, INITIAL, Processing Immediately
+51, 1, 0, 1, MAKE_DEAL, NONE, 00000000, Adding to pending
+51, 1, 0, 1, MAKE_DEAL, NONE, 00000000, Broadcasting
+51, 1, 0, 1, MAKE_DEAL, NONE, 00000000, Processing Statement
+51, 1, 0, 1, MAKE_DEAL, NONE, 00000000, Processing Immediately
+51, 0, 1, 1, MAKE_DEAL, HUMAN_ACCEPT_DEAL, POSITIVE, Processing Statement
+51, 0, 1, 1, MAKE_DEAL, HUMAN_ACCEPT_DEAL, POSITIVE, Notification sent; closing local session
+51, 0, 3, 0, MAKE_DEAL, NONE, INITIAL, Processing Statement
+51, 0, 3, 0, MAKE_DEAL, NONE, INITIAL, Not for local adding to notification
+51, 0, 3, 0, MAKE_DEAL, NONE, INITIAL, Notification sent; closing session
+51, 0, 3, 0, MAKE_DEAL, NONE, 00000000, Processing Statement
+51, 0, 3, 0, MAKE_DEAL, NONE, 00000000, Not for local adding to notification
+51, 0, 3, 0, MAKE_DEAL, NONE, 00000000, Notification sent; closing session
+51, 3, 0, 0, MAKE_DEAL, HUMAN_ACCEPT_DEAL, POSITIVE, Processing Statement
+51, 3, 0, 0, MAKE_DEAL, HUMAN_ACCEPT_DEAL, POSITIVE, Not for local adding to notification
+51, 3, 0, 0, MAKE_DEAL, HUMAN_ACCEPT_DEAL, POSITIVE, Notification sent; closing session
+52, 7, 6, -1, WARNING_TOO_MANY_TROOPS_NEAR_ME, NONE, 00000000, Requesting Session (B)
+52, 7, 6, ?, MAKE_PROMISE, 9c55a0d8, ?, Processing Action From AI to AI
+52, 7, 6, -1, WARNING_TOO_MANY_TROOPS_NEAR_ME, NONE, INITIAL, Requesting session between two AIs!
+52, 9, 4, -1, MAKE_DEAL, NONE, 00000000, Requesting Session (B)
+52, 9, 4, 9, MAKE_DEAL, NONE, INITIAL, Adding to pending
+52, 9, 4, 9, MAKE_DEAL, NONE, INITIAL, Processing Statement
+52, 9, 4, 9, MAKE_DEAL, NONE, INITIAL, Not for local adding to notification
+52, 9, 4, 9, MAKE_DEAL, NONE, INITIAL, Notification sent; closing session
+52, 4, 9, 9, MAKE_DEAL, NONE, NEGATIVE, Processing Statement
+52, 4, 9, 9, MAKE_DEAL, NONE, NEGATIVE, Not for local adding to notification
+52, 4, 9, 9, MAKE_DEAL, NONE, NEGATIVE, Notification sent; closing session
+53, 0, 3, 0, MAKE_DEAL, NONE, INITIAL, Processing Statement
+53, 0, 3, 0, MAKE_DEAL, NONE, INITIAL, Not for local adding to notification
+53, 0, 3, 0, MAKE_DEAL, NONE, INITIAL, Notification sent; closing session
+53, 0, 3, 0, MAKE_DEAL, NONE, 00000000, Processing Statement
+53, 0, 3, 0, MAKE_DEAL, NONE, 00000000, Not for local adding to notification
+53, 0, 3, 0, MAKE_DEAL, NONE, 00000000, Notification sent; closing session
+53, 3, 0, 0, MAKE_DEAL, HUMAN_ACCEPT_DEAL, POSITIVE, Processing Statement
+53, 3, 0, 0, MAKE_DEAL, HUMAN_ACCEPT_DEAL, POSITIVE, Not for local adding to notification
+53, 3, 0, 0, MAKE_DEAL, HUMAN_ACCEPT_DEAL, POSITIVE, Notification sent; closing session
+53, 4, 2, 4, MAKE_DEAL, NONE, INITIAL, Processing Statement
+53, 4, 2, 4, MAKE_DEAL, NONE, INITIAL, Not for local adding to notification
+53, 4, 2, 4, MAKE_DEAL, NONE, INITIAL, Notification sent; closing session
+53, 4, 2, 4, MAKE_DEAL, NONE, 00000000, Processing Statement
+53, 4, 2, 4, MAKE_DEAL, NONE, 00000000, Not for local adding to notification
+53, 4, 2, 4, MAKE_DEAL, NONE, 00000000, Notification sent; closing session
+54, 8, 4, -1, MAKE_DEAL, NONE, 00000000, Requesting Session (B)
+54, 8, 4, 8, MAKE_DEAL, NONE, INITIAL, Adding to pending
+54, 8, 4, 8, MAKE_DEAL, NONE, INITIAL, Processing Statement
+54, 8, 4, 8, MAKE_DEAL, NONE, INITIAL, Not for local adding to notification
+54, 8, 4, 8, MAKE_DEAL, NONE, INITIAL, Notification sent; closing session
+54, 4, 8, 8, MAKE_DEAL, NONE, NEGATIVE, Processing Statement
+54, 4, 8, 8, MAKE_DEAL, NONE, NEGATIVE, Not for local adding to notification
+54, 4, 8, 8, MAKE_DEAL, NONE, NEGATIVE, Notification sent; closing session
+54, 4, 2, 4, MAKE_DEAL, NONE, INITIAL, Processing Statement
+54, 4, 2, 4, MAKE_DEAL, NONE, INITIAL, Not for local adding to notification
+54, 4, 2, 4, MAKE_DEAL, NONE, INITIAL, Notification sent; closing session
+54, 2, 4, 4, MAKE_DEAL, HUMAN_ACCEPT_DEAL, POSITIVE, Processing Statement
+54, 2, 4, 4, MAKE_DEAL, HUMAN_ACCEPT_DEAL, POSITIVE, Not for local adding to notification
+54, 2, 4, 4, MAKE_DEAL, HUMAN_ACCEPT_DEAL, POSITIVE, Notification sent; closing session
+55, 9, 4, -1, MAKE_DEAL, NONE, 00000000, Requesting Session (B)
+55, 9, 4, 9, MAKE_DEAL, NONE, INITIAL, Adding to pending
+55, 9, 4, 9, MAKE_DEAL, NONE, INITIAL, Processing Statement
+55, 9, 4, 9, MAKE_DEAL, NONE, INITIAL, Not for local adding to notification
+55, 9, 4, 9, MAKE_DEAL, NONE, INITIAL, Notification sent; closing session
+55, 4, 9, 9, MAKE_DEAL, NONE, NEGATIVE, Processing Statement
+55, 4, 9, 9, MAKE_DEAL, NONE, NEGATIVE, Not for local adding to notification
+55, 4, 9, 9, MAKE_DEAL, NONE, NEGATIVE, Notification sent; closing session
+55, 4, 1, 4, MAKE_DEAL, NONE, INITIAL, Processing Statement
+55, 4, 1, 4, MAKE_DEAL, NONE, INITIAL, Notification sent; closing local session
+55, 4, 1, 4, MAKE_DEAL, NONE, 00000000, Processing Statement
+55, 4, 1, 4, MAKE_DEAL, NONE, 00000000, Notification sent; closing local session
+55, 4, 1, 4, MAKE_DEAL, NONE, 00000000, Restoring Session
+55, 1, 4, 4, MAKE_DEAL, HUMAN_ACCEPT_DEAL, POSITIVE, Adding to pending
+55, 1, 4, 4, MAKE_DEAL, HUMAN_ACCEPT_DEAL, POSITIVE, Broadcasting
+55, 1, 4, 4, MAKE_DEAL, HUMAN_ACCEPT_DEAL, POSITIVE, Processing Statement
+55, 1, 4, 4, MAKE_DEAL, HUMAN_ACCEPT_DEAL, POSITIVE, Processing Immediately
+55, 4, 1, ?, ?, ?, ?, Closing Session
+55, 4, 2, 4, RESIDENT_EMBASSY, NONE, INITIAL, Processing Statement
+55, 4, 2, 4, RESIDENT_EMBASSY, NONE, INITIAL, Not for local adding to notification
+55, 4, 2, 4, RESIDENT_EMBASSY, NONE, INITIAL, Notification sent; closing session
+55, 4, 1, 4, RESIDENT_EMBASSY, NONE, INITIAL, Processing Statement
+55, 4, 1, 4, RESIDENT_EMBASSY, NONE, INITIAL, Notification sent; closing local session
+55, 2, 4, 4, RESIDENT_EMBASSY, NONE, POSITIVE, Processing Statement
+55, 2, 4, 4, RESIDENT_EMBASSY, NONE, POSITIVE, Not for local adding to notification
+55, 2, 4, 4, RESIDENT_EMBASSY, NONE, POSITIVE, Notification sent; closing session
+55, 4, 2, ?, SET_EMBASSY, ffffffff, ?, Processing Action
+55, 3, 4, 3, RESIDENT_EMBASSY, NONE, INITIAL, Processing Statement
+55, 3, 4, 3, RESIDENT_EMBASSY, NONE, INITIAL, Not for local adding to notification
+55, 3, 4, 3, RESIDENT_EMBASSY, NONE, INITIAL, Notification sent; closing session
+55, 4, 0, 4, RESIDENT_EMBASSY, NONE, INITIAL, Processing Statement
+55, 4, 0, 4, RESIDENT_EMBASSY, NONE, INITIAL, Not for local adding to notification
+55, 4, 0, 4, RESIDENT_EMBASSY, NONE, INITIAL, Notification sent; closing session
+55, 4, 1, 4, RESIDENT_EMBASSY, NONE, INITIAL, Restoring Session
+55, 3, 0, 3, RESIDENT_EMBASSY, NONE, INITIAL, Processing Statement
+55, 3, 0, 3, RESIDENT_EMBASSY, NONE, INITIAL, Not for local adding to notification
+55, 3, 0, 3, RESIDENT_EMBASSY, NONE, INITIAL, Notification sent; closing session
+55, 1, 4, 4, RESIDENT_EMBASSY, NONE, POSITIVE, Adding to pending
+55, 1, 4, 4, RESIDENT_EMBASSY, NONE, POSITIVE, Broadcasting
+55, 1, 4, 4, RESIDENT_EMBASSY, NONE, POSITIVE, Processing Statement
+55, 1, 4, 4, RESIDENT_EMBASSY, NONE, POSITIVE, Processing Immediately
+55, 4, 1, ?, SET_EMBASSY, ffffffff, ?, Sending Action
+55, 4, 1, ?, ?, ?, ?, Closing Session
+55, 4, 1, ?, SET_EMBASSY, ffffffff, ?, Processing Action
+55, 4, 3, 3, RESIDENT_EMBASSY, NONE, POSITIVE, Processing Statement
+55, 4, 3, 3, RESIDENT_EMBASSY, NONE, POSITIVE, Not for local adding to notification
+55, 4, 3, 3, RESIDENT_EMBASSY, NONE, POSITIVE, Notification sent; closing session
+55, 3, 4, ?, SET_EMBASSY, ffffffff, ?, Processing Action
+55, 3, 1, 3, RESIDENT_EMBASSY, NONE, INITIAL, Processing Statement
+55, 3, 1, 3, RESIDENT_EMBASSY, NONE, INITIAL, Notification sent; closing local session
+55, 0, 4, 4, RESIDENT_EMBASSY, NONE, POSITIVE, Processing Statement
+55, 0, 4, 4, RESIDENT_EMBASSY, NONE, POSITIVE, Not for local adding to notification
+55, 0, 4, 4, RESIDENT_EMBASSY, NONE, POSITIVE, Notification sent; closing session
+55, 4, 0, ?, SET_EMBASSY, ffffffff, ?, Processing Action
+55, 1, 2, -1, RESIDENT_EMBASSY, NONE, INITIAL, Requesting Session (A)
+55, 1, 2, 1, RESIDENT_EMBASSY, NONE, INITIAL, Adding to pending
+55, 1, 2, 1, RESIDENT_EMBASSY, NONE, INITIAL, Broadcasting
+55, 1, 2, 1, RESIDENT_EMBASSY, NONE, INITIAL, Processing Statement
+55, 1, 2, 1, RESIDENT_EMBASSY, NONE, INITIAL, Processing Immediately
+55, 1, 2, ?, ?, ?, ?, Closing Session
+55, 2, 1, 2, DIPLOMATIC_DELEGATION, NONE, INITIAL, Processing Statement
+55, 2, 1, 2, DIPLOMATIC_DELEGATION, NONE, INITIAL, Notification sent; closing local session
+55, 3, 2, 3, RESIDENT_EMBASSY, NONE, INITIAL, Processing Statement
+55, 3, 2, 3, RESIDENT_EMBASSY, NONE, INITIAL, Not for local adding to notification
+55, 3, 2, 3, RESIDENT_EMBASSY, NONE, INITIAL, Notification sent; closing session
+55, 1, 0, -1, RESIDENT_EMBASSY, NONE, INITIAL, Requesting Session (A)
+55, 1, 0, 1, RESIDENT_EMBASSY, NONE, INITIAL, Adding to pending
+55, 1, 0, 1, RESIDENT_EMBASSY, NONE, INITIAL, Broadcasting
+55, 1, 0, 1, RESIDENT_EMBASSY, NONE, INITIAL, Processing Statement
+55, 1, 0, 1, RESIDENT_EMBASSY, NONE, INITIAL, Processing Immediately
+55, 1, 0, ?, ?, ?, ?, Closing Session
+55, 0, 3, 3, RESIDENT_EMBASSY, NONE, POSITIVE, Processing Statement
+55, 0, 3, 3, RESIDENT_EMBASSY, NONE, POSITIVE, Not for local adding to notification
+55, 0, 3, 3, RESIDENT_EMBASSY, NONE, POSITIVE, Notification sent; closing session
+55, 3, 0, ?, SET_EMBASSY, ffffffff, ?, Processing Action
+55, 2, 1, 2, WARNING_DONT_SETTLE_NEAR_ME, NONE, INITIAL, Processing Statement
+55, 2, 1, 2, WARNING_DONT_SETTLE_NEAR_ME, NONE, INITIAL, Notification sent; closing local session
+55, 1, 4, -1, RESIDENT_EMBASSY, NONE, INITIAL, Requesting Session (A)
+55, 1, 4, 1, RESIDENT_EMBASSY, NONE, INITIAL, Adding to pending
+55, 1, 4, 1, RESIDENT_EMBASSY, NONE, INITIAL, Broadcasting
+55, 1, 4, 1, RESIDENT_EMBASSY, NONE, INITIAL, Processing Statement
+55, 1, 4, 1, RESIDENT_EMBASSY, NONE, INITIAL, Processing Immediately
+55, 1, 4, ?, ?, ?, ?, Closing Session
+55, 0, 1, 1, RESIDENT_EMBASSY, NONE, POSITIVE, Processing Statement
+55, 0, 1, 1, RESIDENT_EMBASSY, NONE, POSITIVE, Notification sent; closing local session
+55, 1, 0, ?, SET_EMBASSY, ffffffff, ?, Processing Action
+55, 4, 3, 4, RESIDENT_EMBASSY, NONE, INITIAL, Processing Statement
+55, 4, 3, 4, RESIDENT_EMBASSY, NONE, INITIAL, Not for local adding to notification
+55, 4, 3, 4, RESIDENT_EMBASSY, NONE, INITIAL, Notification sent; closing session
+55, 2, 1, 1, RESIDENT_EMBASSY, NONE, POSITIVE, Processing Statement
+55, 2, 1, 1, RESIDENT_EMBASSY, NONE, POSITIVE, Notification sent; closing local session
+55, 1, 2, ?, SET_EMBASSY, ffffffff, ?, Processing Action
+55, 4, 1, 1, RESIDENT_EMBASSY, NONE, POSITIVE, Processing Statement
+55, 4, 1, 1, RESIDENT_EMBASSY, NONE, POSITIVE, Notification sent; closing local session
+55, 1, 4, ?, SET_EMBASSY, ffffffff, ?, Processing Action
+55, 2, 3, 3, RESIDENT_EMBASSY, NONE, POSITIVE, Processing Statement
+55, 2, 3, 3, RESIDENT_EMBASSY, NONE, POSITIVE, Not for local adding to notification
+55, 2, 3, 3, RESIDENT_EMBASSY, NONE, POSITIVE, Notification sent; closing session
+55, 3, 2, ?, SET_EMBASSY, ffffffff, ?, Processing Action
+55, 0, 2, 0, DIPLOMATIC_DELEGATION, NONE, INITIAL, Processing Statement
+55, 0, 2, 0, DIPLOMATIC_DELEGATION, NONE, INITIAL, Not for local adding to notification
+55, 0, 2, 0, DIPLOMATIC_DELEGATION, NONE, INITIAL, Notification sent; closing session
+55, 3, 4, 4, RESIDENT_EMBASSY, NONE, POSITIVE, Processing Statement
+55, 3, 4, 4, RESIDENT_EMBASSY, NONE, POSITIVE, Not for local adding to notification
+55, 3, 4, 4, RESIDENT_EMBASSY, NONE, POSITIVE, Notification sent; closing session
+55, 4, 3, ?, SET_EMBASSY, ffffffff, ?, Processing Action
+55, 2, 0, 0, DIPLOMATIC_DELEGATION, NONE, POSITIVE, Processing Statement
+55, 2, 0, 0, DIPLOMATIC_DELEGATION, NONE, POSITIVE, Not for local adding to notification
+55, 2, 0, 0, DIPLOMATIC_DELEGATION, NONE, POSITIVE, Notification sent; closing session
+55, 0, 2, ?, SET_DELEGATION, ffffffff, ?, Processing Action
+55, 0, 1, 0, DIPLOMATIC_DELEGATION, NONE, INITIAL, Processing Statement
+55, 0, 1, 0, DIPLOMATIC_DELEGATION, NONE, INITIAL, Notification sent; closing local session
+55, 2, 3, 2, DIPLOMATIC_DELEGATION, NONE, INITIAL, Processing Statement
+55, 2, 3, 2, DIPLOMATIC_DELEGATION, NONE, INITIAL, Not for local adding to notification
+55, 2, 3, 2, DIPLOMATIC_DELEGATION, NONE, INITIAL, Notification sent; closing session
+55, 0, 4, 0, DIPLOMATIC_DELEGATION, NONE, INITIAL, Processing Statement
+55, 0, 4, 0, DIPLOMATIC_DELEGATION, NONE, INITIAL, Not for local adding to notification
+55, 0, 4, 0, DIPLOMATIC_DELEGATION, NONE, INITIAL, Notification sent; closing session
+55, 2, 0, 2, DIPLOMATIC_DELEGATION, NONE, INITIAL, Processing Statement
+55, 2, 0, 2, DIPLOMATIC_DELEGATION, NONE, INITIAL, Not for local adding to notification
+55, 2, 0, 2, DIPLOMATIC_DELEGATION, NONE, INITIAL, Notification sent; closing session
+55, 0, 3, 0, DIPLOMATIC_DELEGATION, NONE, INITIAL, Processing Statement
+55, 0, 3, 0, DIPLOMATIC_DELEGATION, NONE, INITIAL, Not for local adding to notification
+55, 0, 3, 0, DIPLOMATIC_DELEGATION, NONE, INITIAL, Notification sent; closing session
+55, 3, 2, 2, DIPLOMATIC_DELEGATION, NONE, POSITIVE, Processing Statement
+55, 3, 2, 2, DIPLOMATIC_DELEGATION, NONE, POSITIVE, Not for local adding to notification
+55, 3, 2, 2, DIPLOMATIC_DELEGATION, NONE, POSITIVE, Notification sent; closing session
+55, 2, 3, ?, SET_DELEGATION, ffffffff, ?, Processing Action
+55, 2, 4, 2, DIPLOMATIC_DELEGATION, NONE, INITIAL, Processing Statement
+55, 2, 4, 2, DIPLOMATIC_DELEGATION, NONE, INITIAL, Not for local adding to notification
+55, 2, 4, 2, DIPLOMATIC_DELEGATION, NONE, INITIAL, Notification sent; closing session
+55, 4, 0, 0, DIPLOMATIC_DELEGATION, NONE, POSITIVE, Processing Statement
+55, 4, 0, 0, DIPLOMATIC_DELEGATION, NONE, POSITIVE, Not for local adding to notification
+55, 4, 0, 0, DIPLOMATIC_DELEGATION, NONE, POSITIVE, Notification sent; closing session
+55, 0, 4, ?, SET_DELEGATION, ffffffff, ?, Processing Action
+55, 3, 0, 0, DIPLOMATIC_DELEGATION, NONE, POSITIVE, Processing Statement
+55, 3, 0, 0, DIPLOMATIC_DELEGATION, NONE, POSITIVE, Not for local adding to notification
+55, 3, 0, 0, DIPLOMATIC_DELEGATION, NONE, POSITIVE, Notification sent; closing session
+55, 0, 3, ?, SET_DELEGATION, ffffffff, ?, Processing Action
+55, 0, 2, 0, MAKE_DEAL, NONE, INITIAL, Processing Statement
+55, 0, 2, 0, MAKE_DEAL, NONE, INITIAL, Not for local adding to notification
+55, 0, 2, 0, MAKE_DEAL, NONE, INITIAL, Notification sent; closing session
+55, 4, 2, 2, DIPLOMATIC_DELEGATION, NONE, POSITIVE, Processing Statement
+55, 4, 2, 2, DIPLOMATIC_DELEGATION, NONE, POSITIVE, Not for local adding to notification
+55, 4, 2, 2, DIPLOMATIC_DELEGATION, NONE, POSITIVE, Notification sent; closing session
+55, 2, 4, ?, SET_DELEGATION, ffffffff, ?, Processing Action
+56, 0, 2, 2, DIPLOMATIC_DELEGATION, NONE, POSITIVE, Processing Statement
+56, 0, 2, 2, DIPLOMATIC_DELEGATION, NONE, POSITIVE, Not for local adding to notification
+56, 0, 2, 2, DIPLOMATIC_DELEGATION, NONE, POSITIVE, Notification sent; closing session
+56, 2, 0, ?, SET_DELEGATION, ffffffff, ?, Processing Action
+56, 0, 1, 0, MAKE_DEAL, NONE, INITIAL, Processing Statement
+56, 0, 1, 0, MAKE_DEAL, NONE, INITIAL, Notification sent; closing local session
+56, 0, 3, 0, MAKE_DEAL, NONE, INITIAL, Processing Statement
+56, 0, 3, 0, MAKE_DEAL, NONE, INITIAL, Not for local adding to notification
+56, 0, 3, 0, MAKE_DEAL, NONE, INITIAL, Notification sent; closing session
+56, 0, 3, 0, MAKE_DEAL, NONE, INITIAL, Processing Statement
+56, 0, 3, 0, MAKE_DEAL, NONE, INITIAL, Not for local adding to notification
+56, 0, 3, 0, MAKE_DEAL, NONE, INITIAL, Notification sent; closing session
+56, 0, 1, 0, MAKE_DEAL, NONE, INITIAL, Processing Statement
+56, 0, 1, 0, MAKE_DEAL, NONE, INITIAL, Notification sent; closing local session
+56, 0, 1, 0, MAKE_DEAL, NONE, 00000000, Processing Statement
+56, 0, 1, 0, MAKE_DEAL, NONE, 00000000, Notification sent; closing local session
+56, 0, 2, 0, MAKE_DEAL, NONE, INITIAL, Processing Statement
+56, 0, 2, 0, MAKE_DEAL, NONE, INITIAL, Not for local adding to notification
+56, 0, 2, 0, MAKE_DEAL, NONE, INITIAL, Notification sent; closing session
+56, 0, 2, 0, MAKE_DEAL, NONE, 00000000, Processing Statement
+56, 0, 2, 0, MAKE_DEAL, NONE, 00000000, Not for local adding to notification
+56, 0, 2, 0, MAKE_DEAL, NONE, 00000000, Notification sent; closing session
+56, 4, 1, 1, RESIDENT_EMBASSY, NONE, POSITIVE, Restoring Session
+56, 4, 1, ?, ?, ?, ?, Closing Session
+56, 2, 1, 1, RESIDENT_EMBASSY, NONE, POSITIVE, Restoring Session
+56, 2, 1, ?, ?, ?, ?, Closing Session
+56, 3, 1, 3, RESIDENT_EMBASSY, NONE, INITIAL, Restoring Session
+56, 2, 0, 0, MAKE_DEAL, HUMAN_ACCEPT_DEAL, POSITIVE, Processing Statement
+56, 2, 0, 0, MAKE_DEAL, HUMAN_ACCEPT_DEAL, POSITIVE, Not for local adding to notification
+56, 2, 0, 0, MAKE_DEAL, HUMAN_ACCEPT_DEAL, POSITIVE, Notification sent; closing session
+56, 1, 3, 3, RESIDENT_EMBASSY, NONE, POSITIVE, Adding to pending
+56, 1, 3, 3, RESIDENT_EMBASSY, NONE, POSITIVE, Broadcasting
+56, 1, 3, 3, RESIDENT_EMBASSY, NONE, POSITIVE, Processing Statement
+56, 1, 3, 3, RESIDENT_EMBASSY, NONE, POSITIVE, Processing Immediately
+56, 3, 1, ?, SET_EMBASSY, ffffffff, ?, Sending Action
+56, 3, 1, ?, ?, ?, ?, Closing Session
+56, 3, 1, ?, SET_EMBASSY, ffffffff, ?, Processing Action
+56, 0, 1, 0, MAKE_DEAL, NONE, 00000000, Restoring Session
+56, 1, 0, 0, MAKE_DEAL, HUMAN_ACCEPT_DEAL, POSITIVE, Adding to pending
+56, 1, 0, 0, MAKE_DEAL, HUMAN_ACCEPT_DEAL, POSITIVE, Broadcasting
+56, 1, 0, 0, MAKE_DEAL, HUMAN_ACCEPT_DEAL, POSITIVE, Processing Statement
+56, 1, 0, 0, MAKE_DEAL, HUMAN_ACCEPT_DEAL, POSITIVE, Processing Immediately
+56, 0, 1, ?, ?, ?, ?, Closing Session
+57, 6, 5, -1, WARNING_TOO_MANY_TROOPS_NEAR_ME, NONE, 00000000, Requesting Session (B)
+57, 6, 5, ?, MAKE_PROMISE, 9c55a0d8, ?, Processing Action From AI to AI
+57, 6, 5, -1, WARNING_TOO_MANY_TROOPS_NEAR_ME, NONE, INITIAL, Requesting session between two AIs!
+57, 6, 7, -1, DIPLOMATIC_HIDDEN_AGENDA_KUDO, NONE, 00000000, Requesting Session (B)
+57, 6, 7, ?, MAKE_PROMISE, ffffffff, ?, Processing Action From AI to AI
+57, 6, 7, -1, DIPLOMATIC_HIDDEN_AGENDA_KUDO, NONE, INITIAL, Requesting session between two AIs!
+57, 6, 8, -1, DIPLOMATIC_HIDDEN_AGENDA_KUDO, NONE, 00000000, Requesting Session (B)
+57, 6, 8, ?, MAKE_PROMISE, ffffffff, ?, Processing Action From AI to AI
+57, 6, 8, -1, DIPLOMATIC_HIDDEN_AGENDA_KUDO, NONE, INITIAL, Requesting session between two AIs!
+57, 6, 9, -1, DIPLOMATIC_HIDDEN_AGENDA_KUDO, NONE, 00000000, Requesting Session (B)
+57, 6, 9, ?, MAKE_PROMISE, ffffffff, ?, Processing Action From AI to AI
+57, 6, 9, -1, DIPLOMATIC_HIDDEN_AGENDA_KUDO, NONE, INITIAL, Requesting session between two AIs!
+57, 6, 9, -1, DIPLOMATIC_KUDO, NONE, 00000000, Requesting Session (B)
+57, 6, 9, ?, MAKE_PROMISE, ffffffff, ?, Processing Action From AI to AI
+57, 6, 9, -1, DIPLOMATIC_KUDO, NONE, INITIAL, Requesting session between two AIs!
+57, 8, 4, -1, MAKE_DEAL, NONE, 00000000, Requesting Session (B)
+57, 8, 4, 8, MAKE_DEAL, NONE, INITIAL, Adding to pending
+57, 8, 4, 8, MAKE_DEAL, NONE, INITIAL, Processing Statement
+57, 8, 4, 8, MAKE_DEAL, NONE, INITIAL, Not for local adding to notification
+57, 8, 4, 8, MAKE_DEAL, NONE, INITIAL, Notification sent; closing session
+57, 2, 1, 2, RESIDENT_EMBASSY, NONE, INITIAL, Processing Statement
+57, 2, 1, 2, RESIDENT_EMBASSY, NONE, INITIAL, Notification sent; closing local session
+57, 2, 1, 2, RESIDENT_EMBASSY, NONE, INITIAL, Restoring Session
+57, 1, 2, 2, RESIDENT_EMBASSY, NONE, POSITIVE, Adding to pending
+57, 1, 2, 2, RESIDENT_EMBASSY, NONE, POSITIVE, Broadcasting
+57, 1, 2, 2, RESIDENT_EMBASSY, NONE, POSITIVE, Processing Statement
+57, 1, 2, 2, RESIDENT_EMBASSY, NONE, POSITIVE, Processing Immediately
+57, 2, 1, ?, SET_EMBASSY, ffffffff, ?, Sending Action
+57, 2, 1, ?, ?, ?, ?, Closing Session
+57, 2, 1, ?, SET_EMBASSY, ffffffff, ?, Processing Action
+57, 2, 3, 2, RESIDENT_EMBASSY, NONE, INITIAL, Processing Statement
+57, 2, 3, 2, RESIDENT_EMBASSY, NONE, INITIAL, Not for local adding to notification
+57, 2, 3, 2, RESIDENT_EMBASSY, NONE, INITIAL, Notification sent; closing session
+57, 2, 0, 2, RESIDENT_EMBASSY, NONE, INITIAL, Processing Statement
+57, 2, 0, 2, RESIDENT_EMBASSY, NONE, INITIAL, Not for local adding to notification
+57, 2, 0, 2, RESIDENT_EMBASSY, NONE, INITIAL, Notification sent; closing session
+57, 2, 4, 2, RESIDENT_EMBASSY, NONE, INITIAL, Processing Statement
+57, 2, 4, 2, RESIDENT_EMBASSY, NONE, INITIAL, Not for local adding to notification
+57, 2, 4, 2, RESIDENT_EMBASSY, NONE, INITIAL, Notification sent; closing session
+57, 3, 2, 2, RESIDENT_EMBASSY, NONE, POSITIVE, Processing Statement
+57, 3, 2, 2, RESIDENT_EMBASSY, NONE, POSITIVE, Not for local adding to notification
+57, 3, 2, 2, RESIDENT_EMBASSY, NONE, POSITIVE, Notification sent; closing session
+57, 2, 3, ?, SET_EMBASSY, ffffffff, ?, Processing Action
+57, 0, 2, 2, RESIDENT_EMBASSY, NONE, POSITIVE, Processing Statement
+57, 0, 2, 2, RESIDENT_EMBASSY, NONE, POSITIVE, Not for local adding to notification
+57, 0, 2, 2, RESIDENT_EMBASSY, NONE, POSITIVE, Notification sent; closing session
+57, 2, 0, ?, SET_EMBASSY, ffffffff, ?, Processing Action
+57, 4, 8, 8, MAKE_DEAL, NONE, NEGATIVE, Processing Statement
+57, 4, 8, 8, MAKE_DEAL, NONE, NEGATIVE, Not for local adding to notification
+57, 4, 8, 8, MAKE_DEAL, NONE, NEGATIVE, Notification sent; closing session
+57, 4, 2, 2, RESIDENT_EMBASSY, NONE, POSITIVE, Processing Statement
+57, 4, 2, 2, RESIDENT_EMBASSY, NONE, POSITIVE, Not for local adding to notification
+57, 4, 2, 2, RESIDENT_EMBASSY, NONE, POSITIVE, Notification sent; closing session
+57, 2, 4, ?, SET_EMBASSY, ffffffff, ?, Processing Action
+58, 9, 4, -1, MAKE_DEAL, NONE, 00000000, Requesting Session (B)
+58, 9, 4, 9, MAKE_DEAL, NONE, INITIAL, Adding to pending
+58, 9, 4, 9, MAKE_DEAL, NONE, INITIAL, Processing Statement
+58, 9, 4, 9, MAKE_DEAL, NONE, INITIAL, Not for local adding to notification
+58, 9, 4, 9, MAKE_DEAL, NONE, INITIAL, Notification sent; closing session
+58, 4, 2, -1, DIPLOMATIC_KUDO, NONE, 00000000, Requesting Session (B)
+58, 4, 2, 4, DIPLOMATIC_KUDO, NONE, INITIAL, Adding to pending
+58, 4, 2, 4, DIPLOMATIC_KUDO, NONE, INITIAL, Processing Statement
+58, 4, 2, 4, DIPLOMATIC_KUDO, NONE, INITIAL, Not for local adding to notification
+58, 4, 2, 4, DIPLOMATIC_KUDO, NONE, INITIAL, Notification sent; closing session
+59, 6, 2, -1, MAKE_DEAL, NONE, 00000000, Requesting Session (B)
+59, 6, 2, 6, MAKE_DEAL, NONE, INITIAL, Adding to pending
+59, 6, 2, 6, MAKE_DEAL, NONE, INITIAL, Processing Statement
+59, 6, 2, 6, MAKE_DEAL, NONE, INITIAL, Not for local adding to notification
+59, 6, 2, 6, MAKE_DEAL, NONE, INITIAL, Notification sent; closing session
+59, 8, 5, ?, SET_EMBASSY, ffffffff, ?, Processing Action From AI to AI
+59, 8, 6, ?, SET_EMBASSY, ffffffff, ?, Processing Action From AI to AI
+59, 8, 7, ?, SET_EMBASSY, ffffffff, ?, Processing Action From AI to AI
+59, 8, 9, ?, SET_EMBASSY, ffffffff, ?, Processing Action From AI to AI

@@ -1,0 +1,48 @@
+Game Turn, Realism, Total CO2, CO2 Bldgs, CO2 Projects, CO2 Routes, CO2 Units, Deforestation, ClimateChange, Volcanoes (Total), NW Volcanoes, Volcanoes (Active), Eruptions, Floodable Rivers, Floods, NaturalWonderEruptions
+2, 2, 0, 0, 0, 0, 0, 0, 0, 5, 1, 0, 0, 24, 0, 0
+3, 2, 0, 0, 0, 0, 0, 0, 0, 5, 1, 0, 0, 26, 0, 0
+3, FLOOD, Severity = 0, 亚胡德河, Floodplain at: (22 - 61), Tiles Damaged = 0, Pop Lost = 0, Units Killed = 0, Fertility Added = 1
+4, 2, 0, 0, 0, 0, 0, 0, 0, 5, 1, 0, 0, 27, 1, 0
+5, 2, 0, 0, 0, 0, 0, 0, 0, 5, 1, 0, 0, 34, 1, 0
+5, FLOOD, Severity = 0, 阿特巴拉河, Floodplain at: (35 - 18), Tiles Damaged = 0, Pop Lost = 0, Units Killed = 0, Fertility Added = 1
+6, 2, 0, 0, 0, 0, 0, 0, 0, 5, 1, 0, 0, 41, 2, 0
+6, FLOOD, Severity = 1, 巴尔萨斯河, Floodplain at: (46 - 60), Tiles Damaged = 0, Pop Lost = 0, Units Killed = 0, Fertility Added = 2
+7, 2, 0, 0, 0, 0, 0, 0, 0, 5, 1, 0, 0, 48, 3, 0
+7, STORM, Severity = 1, 4级飓风, Center at: (57 - 4), Tiles Damaged = 0, Pop Lost = 0, Units Killed = 0, Fertility Added = 0
+8, STORM, Severity = 1, 4级飓风, Center at: (51 - 4), Tiles Damaged = 0, Pop Lost = 0, Units Killed = 0, Fertility Added = 0
+8, STORM MOVEMENT, 284,283,282,281,357,280,279,355,
+8, 2, 0, 0, 0, 0, 0, 0, 0, 5, 1, 0, 0, 55, 3, 0
+8, FLOOD, Severity = 0, 布勒河, Floodplain at: (33 - 7), Tiles Damaged = 0, Pop Lost = 0, Units Killed = 0, Fertility Added = 0
+9, ENHANCED TILES, At plot: 505, 504,
+9, STORM, Severity = 1, 4级飓风, Center at: (48 - 6), Tiles Damaged = 0, Pop Lost = 0, Units Killed = 0, Fertility Added = 1
+9, STORM MOVEMENT, 430,506,505,504,
+9, 2, 0, 0, 0, 0, 0, 0, 0, 5, 1, 0, 0, 55, 4, 0
+9, FLOOD, Severity = 0, 渔人河, Floodplain at: (62 - 44), Tiles Damaged = 1, Pop Lost = 0, Units Killed = 0, Fertility Added = 1
+2, 2, 0, 0, 0, 0, 0, 0, 0, 5, 0, 0, 0, 25, 0, 0
+2, FLOOD, Severity = 2, 阿利阿克蒙河, Floodplain at: (24 - 70), Tiles Damaged = 0, Pop Lost = 0, Units Killed = 0, Fertility Added = 0
+3, 2, 0, 0, 0, 0, 0, 0, 0, 5, 0, 0, 0, 27, 1, 0
+3, STORM, Severity = 1, 4级飓风, Center at: (84 - 69), Tiles Damaged = 0, Pop Lost = 0, Units Killed = 0, Fertility Added = 0
+4, STORM, Severity = 1, 4级飓风, Center at: (2 - 70), Tiles Damaged = 0, Pop Lost = 0, Units Killed = 0, Fertility Added = 0
+4, STORM MOVEMENT, 6157,6246,6247,6160,6248,6337,6249,6162,
+4, 2, 0, 0, 0, 0, 0, 0, 0, 5, 0, 0, 0, 33, 1, 0
+4, FLOOD, Severity = 0, 湄公河, Floodplain at: (24 - 30), Tiles Damaged = 0, Pop Lost = 0, Units Killed = 0, Fertility Added = 1
+5, STORM, Severity = 1, 4级飓风, Center at: (6 - 65), Tiles Damaged = 0, Pop Lost = 0, Units Killed = 0, Fertility Added = 0
+5, STORM MOVEMENT, 6074,5987,5899,5812,5724,5725,5726,
+5, 2, 0, 0, 0, 0, 0, 0, 0, 5, 0, 0, 0, 40, 2, 0
+5, FLOOD, Severity = 2, 红河, Floodplain at: (23 - 10), Tiles Damaged = 0, Pop Lost = 0, Units Killed = 0, Fertility Added = 2
+6, 2, 0, 0, 0, 0, 0, 0, 0, 5, 0, 0, 0, 46, 3, 0
+6, FLOOD, Severity = 0, 赞比西河, Floodplain at: (18 - 24), Tiles Damaged = 0, Pop Lost = 0, Units Killed = 0, Fertility Added = 1
+7, 2, 0, 0, 0, 0, 0, 0, 0, 5, 0, 0, 0, 50, 4, 0
+7, FLOOD, Severity = 1, 托坎廷斯河, Floodplain at: (17 - 60), Tiles Damaged = 0, Pop Lost = 0, Units Killed = 0, Fertility Added = 3
+8, 2, 0, 0, 0, 0, 0, 0, 0, 5, 0, 0, 0, 58, 5, 0
+8, STORM, Severity = 2, 5级飓风, Center at: (82 - 69), Tiles Damaged = 0, Pop Lost = 0, Units Killed = 0, Fertility Added = 0
+9, STORM, Severity = 2, 5级飓风, Center at: (0 - 72), Tiles Damaged = 0, Pop Lost = 0, Units Killed = 0, Fertility Added = 0
+9, STORM MOVEMENT, 6243,6331,6244,6332,6333,6334,6423,6336,
+9, 2, 0, 0, 0, 0, 0, 0, 0, 5, 0, 0, 0, 65, 5, 0
+9, FLOOD, Severity = 2, 乌姆福洛济河, Floodplain at: (18 - 20), Tiles Damaged = 0, Pop Lost = 0, Units Killed = 0, Fertility Added = 1
+10, STORM, Severity = 2, 5级飓风, Center at: (1 - 75), Tiles Damaged = 0, Pop Lost = 0, Units Killed = 0, Fertility Added = 0
+10, STORM MOVEMENT, 6337,6338,6426,6515,6426,6515,6514,6601,
+10, 2, 0, 0, 0, 0, 0, 0, 0, 5, 0, 0, 0, 70, 6, 0
+10, FLOOD, Severity = 0, 威悉河, Floodplain at: (18 - 41), Tiles Damaged = 0, Pop Lost = 0, Units Killed = 0, Fertility Added = 0
+11, 2, 0, 0, 0, 0, 0, 0, 0, 5, 0, 0, 0, 73, 7, 0
+11, FLOOD, Severity = 1, 密西西比河, Floodplain at: (23 - 8), Tiles Damaged = 0, Pop Lost = 0, Units Killed = 0, Fertility Added = 1

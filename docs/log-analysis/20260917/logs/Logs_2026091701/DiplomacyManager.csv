@@ -1,0 +1,321 @@
+Game Turn, From, To, Initiator, Type, SubType, Message
+4, 3, 1, 3, MAKE_DEAL, NONE, INITIAL, Processing Statement
+4, 3, 1, 3, MAKE_DEAL, NONE, INITIAL, Notification sent; closing local session
+4, 3, 1, 3, MAKE_DEAL, NONE, 00000000, Processing Statement
+4, 3, 1, 3, MAKE_DEAL, NONE, 00000000, Notification sent; closing local session
+4, 3, 1, 3, MAKE_DEAL, NONE, 00000000, Restoring Session
+4, 1, 3, 3, MAKE_DEAL, HUMAN_ACCEPT_DEAL, POSITIVE, Adding to pending
+4, 1, 3, 3, MAKE_DEAL, HUMAN_ACCEPT_DEAL, POSITIVE, Broadcasting
+4, 1, 3, 3, MAKE_DEAL, HUMAN_ACCEPT_DEAL, POSITIVE, Processing Statement
+4, 1, 3, 3, MAKE_DEAL, HUMAN_ACCEPT_DEAL, POSITIVE, Processing Immediately
+4, 3, 1, ?, ?, ?, ?, Closing Session
+6, 4, 5, -1, DIPLOMATIC_HIDDEN_AGENDA_WARNING, NONE, 00000000, Requesting Session (B)
+6, 4, 5, ?, MAKE_PROMISE, ffffffff, ?, Processing Action From AI to AI
+6, 4, 5, -1, DIPLOMATIC_HIDDEN_AGENDA_WARNING, NONE, INITIAL, Requesting session between two AIs!
+6, 5, 4, -1, DIPLOMATIC_HIDDEN_AGENDA_WARNING, NONE, 00000000, Requesting Session (B)
+6, 5, 4, ?, MAKE_PROMISE, ffffffff, ?, Processing Action From AI to AI
+6, 5, 4, -1, DIPLOMATIC_HIDDEN_AGENDA_WARNING, NONE, INITIAL, Requesting session between two AIs!
+6, 6, 4, ?, SET_DELEGATION, ffffffff, ?, Processing Action From AI to AI
+6, 6, 5, ?, SET_DELEGATION, ffffffff, ?, Processing Action From AI to AI
+6, 6, 7, ?, SET_DELEGATION, ffffffff, ?, Processing Action From AI to AI
+7, 5, 4, ?, SET_DELEGATION, ffffffff, ?, Processing Action From AI to AI
+7, 5, 6, ?, SET_DELEGATION, ffffffff, ?, Processing Action From AI to AI
+7, 5, 7, ?, SET_DELEGATION, ffffffff, ?, Processing Action From AI to AI
+8, 4, 6, -1, DIPLOMATIC_HIDDEN_AGENDA_KUDO, NONE, 00000000, Requesting Session (B)
+8, 4, 6, ?, MAKE_PROMISE, ffffffff, ?, Processing Action From AI to AI
+8, 4, 6, -1, DIPLOMATIC_HIDDEN_AGENDA_KUDO, NONE, INITIAL, Requesting session between two AIs!
+8, 5, 6, -1, DIPLOMATIC_HIDDEN_AGENDA_WARNING, NONE, 00000000, Requesting Session (B)
+8, 5, 6, ?, MAKE_PROMISE, ffffffff, ?, Processing Action From AI to AI
+8, 5, 6, -1, DIPLOMATIC_HIDDEN_AGENDA_WARNING, NONE, INITIAL, Requesting session between two AIs!
+8, 6, 5, -1, DIPLOMATIC_HIDDEN_AGENDA_WARNING, NONE, 00000000, Requesting Session (B)
+8, 6, 5, ?, MAKE_PROMISE, ffffffff, ?, Processing Action From AI to AI
+8, 6, 5, -1, DIPLOMATIC_HIDDEN_AGENDA_WARNING, NONE, INITIAL, Requesting session between two AIs!
+8, 6, 4, -1, DIPLOMATIC_HIDDEN_AGENDA_KUDO, NONE, 00000000, Requesting Session (B)
+8, 6, 4, ?, MAKE_PROMISE, ffffffff, ?, Processing Action From AI to AI
+8, 6, 4, -1, DIPLOMATIC_HIDDEN_AGENDA_KUDO, NONE, INITIAL, Requesting session between two AIs!
+9, 4, 0, -1, FIRST_MEET_NEAR_RECIPIENT, NONE, 00000000, Requesting Session (B)
+9, 4, 0, 4, FIRST_MEET_NEAR_RECIPIENT, NONE, INITIAL, Adding to pending
+9, 4, 0, -1, DIPLOMATIC_HIDDEN_AGENDA_WARNING, NONE, 00000000, Requesting Session (B)
+9, 4, 0, -1, DIPLOMATIC_HIDDEN_AGENDA_WARNING, NONE, 00000000, Already has open session!
+9, 5, 0, -1, FIRST_MEET_NO_MANS, NONE, 00000000, Requesting Session (B)
+9, 5, 0, 5, FIRST_MEET_NO_MANS, NONE, INITIAL, Adding to pending
+9, 5, 0, -1, DIPLOMATIC_HIDDEN_AGENDA_KUDO, NONE, 00000000, Requesting Session (B)
+9, 5, 0, -1, DIPLOMATIC_HIDDEN_AGENDA_KUDO, NONE, 00000000, Already has open session!
+9, 6, 0, -1, FIRST_MEET_NO_MANS, NONE, 00000000, Requesting Session (B)
+9, 6, 0, 6, FIRST_MEET_NO_MANS, NONE, INITIAL, Adding to pending
+9, 6, 0, -1, DIPLOMATIC_HIDDEN_AGENDA_WARNING, NONE, 00000000, Requesting Session (B)
+9, 6, 0, -1, DIPLOMATIC_HIDDEN_AGENDA_WARNING, NONE, 00000000, Already has open session!
+9, 7, 0, -1, FIRST_MEET_NO_MANS, NONE, 00000000, Requesting Session (B)
+9, 7, 0, 7, FIRST_MEET_NO_MANS, NONE, INITIAL, Adding to pending
+9, 4, 1, -1, FIRST_MEET_NEAR_RECIPIENT, NONE, 00000000, Requesting Session (B)
+9, 4, 1, 4, FIRST_MEET_NEAR_RECIPIENT, NONE, INITIAL, Adding to pending
+9, 4, 1, -1, DIPLOMATIC_HIDDEN_AGENDA_WARNING, NONE, 00000000, Requesting Session (B)
+9, 4, 1, -1, DIPLOMATIC_HIDDEN_AGENDA_WARNING, NONE, 00000000, Already has open session!
+9, 4, 2, -1, FIRST_MEET_NEAR_RECIPIENT, NONE, 00000000, Requesting Session (B)
+9, 4, 2, 4, FIRST_MEET_NEAR_RECIPIENT, NONE, INITIAL, Adding to pending
+9, 4, 2, -1, DIPLOMATIC_HIDDEN_AGENDA_KUDO, NONE, 00000000, Requesting Session (B)
+9, 4, 2, -1, DIPLOMATIC_HIDDEN_AGENDA_KUDO, NONE, 00000000, Already has open session!
+9, 4, 3, -1, FIRST_MEET_NEAR_RECIPIENT, NONE, 00000000, Requesting Session (B)
+9, 4, 3, 4, FIRST_MEET_NEAR_RECIPIENT, NONE, INITIAL, Adding to pending
+9, 4, 3, -1, DIPLOMATIC_HIDDEN_AGENDA_WARNING, NONE, 00000000, Requesting Session (B)
+9, 4, 3, -1, DIPLOMATIC_HIDDEN_AGENDA_WARNING, NONE, 00000000, Already has open session!
+9, 4, 0, 4, FIRST_MEET_NEAR_RECIPIENT, NONE, INITIAL, Processing Statement
+9, 4, 0, 4, FIRST_MEET_NEAR_RECIPIENT, NONE, INITIAL, Not for local adding to notification
+9, 4, 0, 4, FIRST_MEET_NEAR_RECIPIENT, NONE, INITIAL, Notification sent; closing session
+9, 4, 1, 4, FIRST_MEET_NEAR_RECIPIENT, NONE, INITIAL, Processing Statement
+9, 4, 1, 4, FIRST_MEET_NEAR_RECIPIENT, NONE, INITIAL, Notification sent; closing local session
+9, 4, 2, 4, FIRST_MEET_NEAR_RECIPIENT, NONE, INITIAL, Processing Statement
+9, 4, 2, 4, FIRST_MEET_NEAR_RECIPIENT, NONE, INITIAL, Not for local adding to notification
+9, 4, 2, 4, FIRST_MEET_NEAR_RECIPIENT, NONE, INITIAL, Notification sent; closing session
+9, 4, 3, 4, FIRST_MEET_NEAR_RECIPIENT, NONE, INITIAL, Processing Statement
+9, 4, 3, 4, FIRST_MEET_NEAR_RECIPIENT, NONE, INITIAL, Not for local adding to notification
+9, 4, 3, 4, FIRST_MEET_NEAR_RECIPIENT, NONE, INITIAL, Notification sent; closing session
+9, 5, 0, 5, FIRST_MEET_NO_MANS, NONE, INITIAL, Processing Statement
+9, 5, 0, 5, FIRST_MEET_NO_MANS, NONE, INITIAL, Not for local adding to notification
+9, 5, 0, 5, FIRST_MEET_NO_MANS, NONE, INITIAL, Notification sent; closing session
+9, 6, 0, 6, FIRST_MEET_NO_MANS, NONE, INITIAL, Processing Statement
+9, 6, 0, 6, FIRST_MEET_NO_MANS, NONE, INITIAL, Not for local adding to notification
+9, 6, 0, 6, FIRST_MEET_NO_MANS, NONE, INITIAL, Notification sent; closing session
+9, 7, 0, 7, FIRST_MEET_NO_MANS, NONE, INITIAL, Processing Statement
+9, 7, 0, 7, FIRST_MEET_NO_MANS, NONE, INITIAL, Not for local adding to notification
+9, 7, 0, 7, FIRST_MEET_NO_MANS, NONE, INITIAL, Notification sent; closing session
+9, 5, 0, -1, DIPLOMATIC_HIDDEN_AGENDA_KUDO, NONE, 00000000, Requesting Session (B)
+9, 5, 0, 5, DIPLOMATIC_HIDDEN_AGENDA_KUDO, NONE, INITIAL, Adding to pending
+9, 5, 0, 5, DIPLOMATIC_HIDDEN_AGENDA_KUDO, NONE, INITIAL, Processing Statement
+9, 5, 0, 5, DIPLOMATIC_HIDDEN_AGENDA_KUDO, NONE, INITIAL, Not for local adding to notification
+9, 5, 0, 5, DIPLOMATIC_HIDDEN_AGENDA_KUDO, NONE, INITIAL, Notification sent; closing session
+9, 6, 0, -1, DIPLOMATIC_HIDDEN_AGENDA_WARNING, NONE, 00000000, Requesting Session (B)
+9, 6, 0, 6, DIPLOMATIC_HIDDEN_AGENDA_WARNING, NONE, INITIAL, Adding to pending
+9, 6, 0, 6, DIPLOMATIC_HIDDEN_AGENDA_WARNING, NONE, INITIAL, Processing Statement
+9, 6, 0, 6, DIPLOMATIC_HIDDEN_AGENDA_WARNING, NONE, INITIAL, Not for local adding to notification
+9, 6, 0, 6, DIPLOMATIC_HIDDEN_AGENDA_WARNING, NONE, INITIAL, Notification sent; closing session
+1, 4, 2, 4, MAKE_DEAL, NONE, INITIAL, Processing Statement
+1, 4, 2, 4, MAKE_DEAL, NONE, INITIAL, Not for local adding to notification
+1, 4, 2, 4, MAKE_DEAL, NONE, INITIAL, Notification sent; closing session
+1, 4, 2, 4, MAKE_DEAL, NONE, 00000000, Processing Statement
+1, 4, 2, 4, MAKE_DEAL, NONE, 00000000, Not for local adding to notification
+1, 4, 2, 4, MAKE_DEAL, NONE, 00000000, Notification sent; closing session
+1, 2, 4, 4, MAKE_DEAL, HUMAN_ACCEPT_DEAL, POSITIVE, Processing Statement
+1, 2, 4, 4, MAKE_DEAL, HUMAN_ACCEPT_DEAL, POSITIVE, Not for local adding to notification
+1, 2, 4, 4, MAKE_DEAL, HUMAN_ACCEPT_DEAL, POSITIVE, Notification sent; closing session
+1, 4, 3, 4, MAKE_DEAL, NONE, INITIAL, Processing Statement
+1, 4, 3, 4, MAKE_DEAL, NONE, INITIAL, Not for local adding to notification
+1, 4, 3, 4, MAKE_DEAL, NONE, INITIAL, Notification sent; closing session
+1, 4, 3, 4, MAKE_DEAL, NONE, 00000000, Processing Statement
+1, 4, 3, 4, MAKE_DEAL, NONE, 00000000, Not for local adding to notification
+1, 4, 3, 4, MAKE_DEAL, NONE, 00000000, Notification sent; closing session
+1, 4, 0, 4, MAKE_DEAL, NONE, INITIAL, Processing Statement
+1, 4, 0, 4, MAKE_DEAL, NONE, INITIAL, Not for local adding to notification
+1, 4, 0, 4, MAKE_DEAL, NONE, INITIAL, Notification sent; closing session
+1, 4, 0, 4, MAKE_DEAL, NONE, 00000000, Processing Statement
+1, 4, 0, 4, MAKE_DEAL, NONE, 00000000, Not for local adding to notification
+1, 4, 0, 4, MAKE_DEAL, NONE, 00000000, Notification sent; closing session
+1, 3, 4, 4, MAKE_DEAL, HUMAN_ACCEPT_DEAL, POSITIVE, Processing Statement
+1, 3, 4, 4, MAKE_DEAL, HUMAN_ACCEPT_DEAL, POSITIVE, Not for local adding to notification
+1, 3, 4, 4, MAKE_DEAL, HUMAN_ACCEPT_DEAL, POSITIVE, Notification sent; closing session
+1, 4, 1, 4, MAKE_DEAL, NONE, INITIAL, Processing Statement
+1, 4, 1, 4, MAKE_DEAL, NONE, INITIAL, Notification sent; closing local session
+1, 4, 1, 4, MAKE_DEAL, NONE, 00000000, Processing Statement
+1, 4, 1, 4, MAKE_DEAL, NONE, 00000000, Notification sent; closing local session
+1, 0, 4, 4, MAKE_DEAL, HUMAN_ACCEPT_DEAL, POSITIVE, Processing Statement
+1, 0, 4, 4, MAKE_DEAL, HUMAN_ACCEPT_DEAL, POSITIVE, Not for local adding to notification
+1, 0, 4, 4, MAKE_DEAL, HUMAN_ACCEPT_DEAL, POSITIVE, Notification sent; closing session
+1, 4, 1, 4, MAKE_DEAL, NONE, 00000000, Restoring Session
+1, 1, 4, 4, MAKE_DEAL, HUMAN_ACCEPT_DEAL, POSITIVE, Adding to pending
+1, 1, 4, 4, MAKE_DEAL, HUMAN_ACCEPT_DEAL, POSITIVE, Broadcasting
+1, 1, 4, 4, MAKE_DEAL, HUMAN_ACCEPT_DEAL, POSITIVE, Processing Statement
+1, 1, 4, 4, MAKE_DEAL, HUMAN_ACCEPT_DEAL, POSITIVE, Processing Immediately
+1, 4, 1, ?, ?, ?, ?, Closing Session
+5, 8, 9, -1, DIPLOMATIC_HIDDEN_AGENDA_KUDO, NONE, 00000000, Requesting Session (B)
+5, 8, 9, ?, MAKE_PROMISE, ffffffff, ?, Processing Action From AI to AI
+5, 8, 9, -1, DIPLOMATIC_HIDDEN_AGENDA_KUDO, NONE, INITIAL, Requesting session between two AIs!
+5, 9, 8, -1, DIPLOMATIC_HIDDEN_AGENDA_KUDO, NONE, 00000000, Requesting Session (B)
+5, 9, 8, ?, MAKE_PROMISE, ffffffff, ?, Processing Action From AI to AI
+5, 9, 8, -1, DIPLOMATIC_HIDDEN_AGENDA_KUDO, NONE, INITIAL, Requesting session between two AIs!
+6, 7, 8, -1, DIPLOMATIC_HIDDEN_AGENDA_WARNING, NONE, 00000000, Requesting Session (B)
+6, 7, 8, ?, MAKE_PROMISE, ffffffff, ?, Processing Action From AI to AI
+6, 7, 8, -1, DIPLOMATIC_HIDDEN_AGENDA_WARNING, NONE, INITIAL, Requesting session between two AIs!
+6, 7, 9, -1, DIPLOMATIC_HIDDEN_AGENDA_WARNING, NONE, 00000000, Requesting Session (B)
+6, 7, 9, ?, MAKE_PROMISE, ffffffff, ?, Processing Action From AI to AI
+6, 7, 9, -1, DIPLOMATIC_HIDDEN_AGENDA_WARNING, NONE, INITIAL, Requesting session between two AIs!
+6, 8, 7, -1, DIPLOMATIC_HIDDEN_AGENDA_WARNING, NONE, 00000000, Requesting Session (B)
+6, 8, 7, ?, MAKE_PROMISE, ffffffff, ?, Processing Action From AI to AI
+6, 8, 7, -1, DIPLOMATIC_HIDDEN_AGENDA_WARNING, NONE, INITIAL, Requesting session between two AIs!
+6, 9, 7, -1, DIPLOMATIC_HIDDEN_AGENDA_WARNING, NONE, 00000000, Requesting Session (B)
+6, 9, 7, ?, MAKE_PROMISE, ffffffff, ?, Processing Action From AI to AI
+6, 9, 7, -1, DIPLOMATIC_HIDDEN_AGENDA_WARNING, NONE, INITIAL, Requesting session between two AIs!
+6, 8, 5, ?, SET_DELEGATION, ffffffff, ?, Processing Action From AI to AI
+6, 8, 6, ?, SET_DELEGATION, ffffffff, ?, Processing Action From AI to AI
+6, 8, 7, ?, SET_DELEGATION, ffffffff, ?, Processing Action From AI to AI
+6, 8, 9, ?, SET_DELEGATION, ffffffff, ?, Processing Action From AI to AI
+7, 5, 6, ?, SET_DELEGATION, ffffffff, ?, Processing Action From AI to AI
+7, 5, 7, ?, SET_DELEGATION, ffffffff, ?, Processing Action From AI to AI
+7, 5, 8, ?, SET_DELEGATION, ffffffff, ?, Processing Action From AI to AI
+7, 5, 9, ?, SET_DELEGATION, ffffffff, ?, Processing Action From AI to AI
+7, 6, 5, ?, SET_DELEGATION, ffffffff, ?, Processing Action From AI to AI
+7, 6, 7, ?, SET_DELEGATION, ffffffff, ?, Processing Action From AI to AI
+7, 6, 8, ?, SET_DELEGATION, ffffffff, ?, Processing Action From AI to AI
+7, 6, 9, ?, SET_DELEGATION, ffffffff, ?, Processing Action From AI to AI
+7, 6, 8, -1, DIPLOMATIC_HIDDEN_AGENDA_WARNING, NONE, 00000000, Requesting Session (B)
+7, 6, 8, ?, MAKE_PROMISE, ffffffff, ?, Processing Action From AI to AI
+7, 6, 8, -1, DIPLOMATIC_HIDDEN_AGENDA_WARNING, NONE, INITIAL, Requesting session between two AIs!
+7, 6, 9, -1, DIPLOMATIC_HIDDEN_AGENDA_WARNING, NONE, 00000000, Requesting Session (B)
+7, 6, 9, ?, MAKE_PROMISE, ffffffff, ?, Processing Action From AI to AI
+7, 6, 9, -1, DIPLOMATIC_HIDDEN_AGENDA_WARNING, NONE, INITIAL, Requesting session between two AIs!
+7, 6, 7, -1, DIPLOMATIC_HIDDEN_AGENDA_KUDO, NONE, 00000000, Requesting Session (B)
+7, 6, 7, ?, MAKE_PROMISE, ffffffff, ?, Processing Action From AI to AI
+7, 6, 7, -1, DIPLOMATIC_HIDDEN_AGENDA_KUDO, NONE, INITIAL, Requesting session between two AIs!
+7, 7, 6, -1, DIPLOMATIC_HIDDEN_AGENDA_KUDO, NONE, 00000000, Requesting Session (B)
+7, 7, 6, ?, MAKE_PROMISE, ffffffff, ?, Processing Action From AI to AI
+7, 7, 6, -1, DIPLOMATIC_HIDDEN_AGENDA_KUDO, NONE, INITIAL, Requesting session between two AIs!
+7, 8, 6, -1, DIPLOMATIC_HIDDEN_AGENDA_WARNING, NONE, 00000000, Requesting Session (B)
+7, 8, 6, ?, MAKE_PROMISE, ffffffff, ?, Processing Action From AI to AI
+7, 8, 6, -1, DIPLOMATIC_HIDDEN_AGENDA_WARNING, NONE, INITIAL, Requesting session between two AIs!
+7, 9, 6, -1, DIPLOMATIC_HIDDEN_AGENDA_WARNING, NONE, 00000000, Requesting Session (B)
+7, 9, 6, ?, MAKE_PROMISE, ffffffff, ?, Processing Action From AI to AI
+7, 9, 6, -1, DIPLOMATIC_HIDDEN_AGENDA_WARNING, NONE, INITIAL, Requesting session between two AIs!
+7, 7, 5, ?, SET_DELEGATION, ffffffff, ?, Processing Action From AI to AI
+7, 7, 6, ?, SET_DELEGATION, ffffffff, ?, Processing Action From AI to AI
+7, 7, 8, ?, SET_DELEGATION, ffffffff, ?, Processing Action From AI to AI
+7, 7, 9, ?, SET_DELEGATION, ffffffff, ?, Processing Action From AI to AI
+9, 5, 6, -1, DIPLOMATIC_HIDDEN_AGENDA_WARNING, NONE, 00000000, Requesting Session (B)
+9, 5, 6, ?, MAKE_PROMISE, ffffffff, ?, Processing Action From AI to AI
+9, 5, 6, -1, DIPLOMATIC_HIDDEN_AGENDA_WARNING, NONE, INITIAL, Requesting session between two AIs!
+9, 5, 7, -1, DIPLOMATIC_HIDDEN_AGENDA_WARNING, NONE, 00000000, Requesting Session (B)
+9, 5, 7, ?, MAKE_PROMISE, ffffffff, ?, Processing Action From AI to AI
+9, 5, 7, -1, DIPLOMATIC_HIDDEN_AGENDA_WARNING, NONE, INITIAL, Requesting session between two AIs!
+9, 5, 8, -1, DIPLOMATIC_HIDDEN_AGENDA_WARNING, NONE, 00000000, Requesting Session (B)
+9, 5, 8, ?, MAKE_PROMISE, ffffffff, ?, Processing Action From AI to AI
+9, 5, 8, -1, DIPLOMATIC_HIDDEN_AGENDA_WARNING, NONE, INITIAL, Requesting session between two AIs!
+9, 5, 9, -1, DIPLOMATIC_HIDDEN_AGENDA_WARNING, NONE, 00000000, Requesting Session (B)
+9, 5, 9, ?, MAKE_PROMISE, ffffffff, ?, Processing Action From AI to AI
+9, 5, 9, -1, DIPLOMATIC_HIDDEN_AGENDA_WARNING, NONE, INITIAL, Requesting session between two AIs!
+9, 6, 5, -1, DIPLOMATIC_HIDDEN_AGENDA_WARNING, NONE, 00000000, Requesting Session (B)
+9, 6, 5, ?, MAKE_PROMISE, ffffffff, ?, Processing Action From AI to AI
+9, 6, 5, -1, DIPLOMATIC_HIDDEN_AGENDA_WARNING, NONE, INITIAL, Requesting session between two AIs!
+9, 7, 5, -1, DIPLOMATIC_HIDDEN_AGENDA_WARNING, NONE, 00000000, Requesting Session (B)
+9, 7, 5, ?, MAKE_PROMISE, ffffffff, ?, Processing Action From AI to AI
+9, 7, 5, -1, DIPLOMATIC_HIDDEN_AGENDA_WARNING, NONE, INITIAL, Requesting session between two AIs!
+9, 8, 5, -1, DIPLOMATIC_HIDDEN_AGENDA_WARNING, NONE, 00000000, Requesting Session (B)
+9, 8, 5, ?, MAKE_PROMISE, ffffffff, ?, Processing Action From AI to AI
+9, 8, 5, -1, DIPLOMATIC_HIDDEN_AGENDA_WARNING, NONE, INITIAL, Requesting session between two AIs!
+9, 9, 5, -1, DIPLOMATIC_HIDDEN_AGENDA_WARNING, NONE, 00000000, Requesting Session (B)
+9, 9, 5, ?, MAKE_PROMISE, ffffffff, ?, Processing Action From AI to AI
+9, 9, 5, -1, DIPLOMATIC_HIDDEN_AGENDA_WARNING, NONE, INITIAL, Requesting session between two AIs!
+9, 9, 5, ?, SET_DELEGATION, ffffffff, ?, Processing Action From AI to AI
+9, 9, 6, ?, SET_DELEGATION, ffffffff, ?, Processing Action From AI to AI
+9, 9, 7, ?, SET_DELEGATION, ffffffff, ?, Processing Action From AI to AI
+9, 9, 8, ?, SET_DELEGATION, ffffffff, ?, Processing Action From AI to AI
+11, 5, 6, -1, DIPLOMATIC_WARNING, NONE, 00000000, Requesting Session (B)
+11, 5, 6, ?, MAKE_PROMISE, ffffffff, ?, Processing Action From AI to AI
+11, 5, 6, -1, DIPLOMATIC_WARNING, NONE, INITIAL, Requesting session between two AIs!
+11, 5, 7, -1, DIPLOMATIC_WARNING, NONE, 00000000, Requesting Session (B)
+11, 5, 7, ?, MAKE_PROMISE, ffffffff, ?, Processing Action From AI to AI
+11, 5, 7, -1, DIPLOMATIC_WARNING, NONE, INITIAL, Requesting session between two AIs!
+11, 5, 8, -1, DIPLOMATIC_WARNING, NONE, 00000000, Requesting Session (B)
+11, 5, 8, ?, MAKE_PROMISE, ffffffff, ?, Processing Action From AI to AI
+11, 5, 8, -1, DIPLOMATIC_WARNING, NONE, INITIAL, Requesting session between two AIs!
+11, 5, 9, -1, DIPLOMATIC_WARNING, NONE, 00000000, Requesting Session (B)
+11, 5, 9, ?, MAKE_PROMISE, ffffffff, ?, Processing Action From AI to AI
+11, 5, 9, -1, DIPLOMATIC_WARNING, NONE, INITIAL, Requesting session between two AIs!
+11, 7, 5, -1, DIPLOMATIC_KUDO, NONE, 00000000, Requesting Session (B)
+11, 7, 5, ?, MAKE_PROMISE, ffffffff, ?, Processing Action From AI to AI
+11, 7, 5, -1, DIPLOMATIC_KUDO, NONE, INITIAL, Requesting session between two AIs!
+11, 7, 6, -1, DIPLOMATIC_KUDO, NONE, 00000000, Requesting Session (B)
+11, 7, 6, ?, MAKE_PROMISE, ffffffff, ?, Processing Action From AI to AI
+11, 7, 6, -1, DIPLOMATIC_KUDO, NONE, INITIAL, Requesting session between two AIs!
+11, 7, 8, -1, DIPLOMATIC_KUDO, NONE, 00000000, Requesting Session (B)
+11, 7, 8, ?, MAKE_PROMISE, ffffffff, ?, Processing Action From AI to AI
+11, 7, 8, -1, DIPLOMATIC_KUDO, NONE, INITIAL, Requesting session between two AIs!
+11, 7, 9, -1, DIPLOMATIC_KUDO, NONE, 00000000, Requesting Session (B)
+11, 7, 9, ?, MAKE_PROMISE, ffffffff, ?, Processing Action From AI to AI
+11, 7, 9, -1, DIPLOMATIC_KUDO, NONE, INITIAL, Requesting session between two AIs!
+11, 9, 8, -1, DIPLOMATIC_KUDO, NONE, 00000000, Requesting Session (B)
+11, 9, 8, ?, MAKE_PROMISE, ffffffff, ?, Processing Action From AI to AI
+11, 9, 8, -1, DIPLOMATIC_KUDO, NONE, INITIAL, Requesting session between two AIs!
+11, 9, 4, -1, FIRST_MEET_NEAR_RECIPIENT, NONE, 00000000, Requesting Session (B)
+11, 9, 4, 9, FIRST_MEET_NEAR_RECIPIENT, NONE, INITIAL, Adding to pending
+11, 9, 4, -1, DIPLOMATIC_HIDDEN_AGENDA_WARNING, NONE, 00000000, Requesting Session (B)
+11, 9, 4, -1, DIPLOMATIC_HIDDEN_AGENDA_WARNING, NONE, 00000000, Already has open session!
+11, 5, 4, -1, FIRST_MEET_NO_MANS, NONE, 00000000, Requesting Session (B)
+11, 5, 4, 5, FIRST_MEET_NO_MANS, NONE, INITIAL, Adding to pending
+11, 5, 4, -1, DIPLOMATIC_HIDDEN_AGENDA_KUDO, NONE, 00000000, Requesting Session (B)
+11, 5, 4, -1, DIPLOMATIC_HIDDEN_AGENDA_KUDO, NONE, 00000000, Already has open session!
+11, 6, 4, -1, FIRST_MEET_NO_MANS, NONE, 00000000, Requesting Session (B)
+11, 6, 4, 6, FIRST_MEET_NO_MANS, NONE, INITIAL, Adding to pending
+11, 6, 4, -1, DIPLOMATIC_HIDDEN_AGENDA_WARNING, NONE, 00000000, Requesting Session (B)
+11, 6, 4, -1, DIPLOMATIC_HIDDEN_AGENDA_WARNING, NONE, 00000000, Already has open session!
+11, 7, 4, -1, FIRST_MEET_NO_MANS, NONE, 00000000, Requesting Session (B)
+11, 7, 4, 7, FIRST_MEET_NO_MANS, NONE, INITIAL, Adding to pending
+11, 7, 4, -1, DIPLOMATIC_HIDDEN_AGENDA_WARNING, NONE, 00000000, Requesting Session (B)
+11, 7, 4, -1, DIPLOMATIC_HIDDEN_AGENDA_WARNING, NONE, 00000000, Already has open session!
+11, 8, 4, -1, FIRST_MEET_NO_MANS, NONE, 00000000, Requesting Session (B)
+11, 8, 4, 8, FIRST_MEET_NO_MANS, NONE, INITIAL, Adding to pending
+11, 8, 4, -1, DIPLOMATIC_HIDDEN_AGENDA_WARNING, NONE, 00000000, Requesting Session (B)
+11, 8, 4, -1, DIPLOMATIC_HIDDEN_AGENDA_WARNING, NONE, 00000000, Already has open session!
+11, 9, 0, -1, FIRST_MEET_NEAR_RECIPIENT, NONE, 00000000, Requesting Session (B)
+11, 9, 0, 9, FIRST_MEET_NEAR_RECIPIENT, NONE, INITIAL, Adding to pending
+11, 9, 0, -1, DIPLOMATIC_HIDDEN_AGENDA_WARNING, NONE, 00000000, Requesting Session (B)
+11, 9, 0, -1, DIPLOMATIC_HIDDEN_AGENDA_WARNING, NONE, 00000000, Already has open session!
+11, 9, 1, -1, FIRST_MEET_NEAR_RECIPIENT, NONE, 00000000, Requesting Session (B)
+11, 9, 1, 9, FIRST_MEET_NEAR_RECIPIENT, NONE, INITIAL, Adding to pending
+11, 9, 1, -1, DIPLOMATIC_HIDDEN_AGENDA_WARNING, NONE, 00000000, Requesting Session (B)
+11, 9, 1, -1, DIPLOMATIC_HIDDEN_AGENDA_WARNING, NONE, 00000000, Already has open session!
+11, 9, 2, -1, FIRST_MEET_NEAR_RECIPIENT, NONE, 00000000, Requesting Session (B)
+11, 9, 2, 9, FIRST_MEET_NEAR_RECIPIENT, NONE, INITIAL, Adding to pending
+11, 9, 2, -1, DIPLOMATIC_HIDDEN_AGENDA_KUDO, NONE, 00000000, Requesting Session (B)
+11, 9, 2, -1, DIPLOMATIC_HIDDEN_AGENDA_KUDO, NONE, 00000000, Already has open session!
+11, 9, 3, -1, FIRST_MEET_NEAR_RECIPIENT, NONE, 00000000, Requesting Session (B)
+11, 9, 3, 9, FIRST_MEET_NEAR_RECIPIENT, NONE, INITIAL, Adding to pending
+11, 9, 3, -1, DIPLOMATIC_HIDDEN_AGENDA_KUDO, NONE, 00000000, Requesting Session (B)
+11, 9, 3, -1, DIPLOMATIC_HIDDEN_AGENDA_KUDO, NONE, 00000000, Already has open session!
+11, 5, 4, 5, FIRST_MEET_NO_MANS, NONE, INITIAL, Processing Statement
+11, 5, 4, 5, FIRST_MEET_NO_MANS, NONE, INITIAL, Not for local adding to notification
+11, 5, 4, 5, FIRST_MEET_NO_MANS, NONE, INITIAL, Notification sent; closing session
+11, 6, 4, 6, FIRST_MEET_NO_MANS, NONE, INITIAL, Processing Statement
+11, 6, 4, 6, FIRST_MEET_NO_MANS, NONE, INITIAL, Not for local adding to notification
+11, 6, 4, 6, FIRST_MEET_NO_MANS, NONE, INITIAL, Notification sent; closing session
+11, 7, 4, 7, FIRST_MEET_NO_MANS, NONE, INITIAL, Processing Statement
+11, 7, 4, 7, FIRST_MEET_NO_MANS, NONE, INITIAL, Not for local adding to notification
+11, 7, 4, 7, FIRST_MEET_NO_MANS, NONE, INITIAL, Notification sent; closing session
+11, 8, 4, 8, FIRST_MEET_NO_MANS, NONE, INITIAL, Processing Statement
+11, 8, 4, 8, FIRST_MEET_NO_MANS, NONE, INITIAL, Not for local adding to notification
+11, 8, 4, 8, FIRST_MEET_NO_MANS, NONE, INITIAL, Notification sent; closing session
+11, 9, 4, 9, FIRST_MEET_NEAR_RECIPIENT, NONE, INITIAL, Processing Statement
+11, 9, 4, 9, FIRST_MEET_NEAR_RECIPIENT, NONE, INITIAL, Not for local adding to notification
+11, 9, 4, 9, FIRST_MEET_NEAR_RECIPIENT, NONE, INITIAL, Notification sent; closing session
+11, 9, 0, 9, FIRST_MEET_NEAR_RECIPIENT, NONE, INITIAL, Processing Statement
+11, 9, 0, 9, FIRST_MEET_NEAR_RECIPIENT, NONE, INITIAL, Not for local adding to notification
+11, 9, 0, 9, FIRST_MEET_NEAR_RECIPIENT, NONE, INITIAL, Notification sent; closing session
+11, 9, 1, 9, FIRST_MEET_NEAR_RECIPIENT, NONE, INITIAL, Processing Statement
+11, 9, 1, 9, FIRST_MEET_NEAR_RECIPIENT, NONE, INITIAL, Notification sent; closing local session
+11, 9, 2, 9, FIRST_MEET_NEAR_RECIPIENT, NONE, INITIAL, Processing Statement
+11, 9, 2, 9, FIRST_MEET_NEAR_RECIPIENT, NONE, INITIAL, Not for local adding to notification
+11, 9, 2, 9, FIRST_MEET_NEAR_RECIPIENT, NONE, INITIAL, Notification sent; closing session
+11, 9, 3, 9, FIRST_MEET_NEAR_RECIPIENT, NONE, INITIAL, Processing Statement
+11, 9, 3, 9, FIRST_MEET_NEAR_RECIPIENT, NONE, INITIAL, Not for local adding to notification
+11, 9, 3, 9, FIRST_MEET_NEAR_RECIPIENT, NONE, INITIAL, Notification sent; closing session
+11, 0, 3, 0, MAKE_DEAL, NONE, INITIAL, Processing Statement
+11, 0, 3, 0, MAKE_DEAL, NONE, INITIAL, Not for local adding to notification
+11, 0, 3, 0, MAKE_DEAL, NONE, INITIAL, Notification sent; closing session
+11, 0, 3, 0, MAKE_DEAL, NONE, 00000000, Processing Statement
+11, 0, 3, 0, MAKE_DEAL, NONE, 00000000, Not for local adding to notification
+11, 0, 3, 0, MAKE_DEAL, NONE, 00000000, Notification sent; closing session
+11, 9, 1, 9, FIRST_MEET_NEAR_RECIPIENT, NONE, INITIAL, Restoring Session
+11, 3, 0, 0, MAKE_DEAL, HUMAN_ACCEPT_DEAL, POSITIVE, Processing Statement
+11, 3, 0, 0, MAKE_DEAL, HUMAN_ACCEPT_DEAL, POSITIVE, Not for local adding to notification
+11, 3, 0, 0, MAKE_DEAL, HUMAN_ACCEPT_DEAL, POSITIVE, Notification sent; closing session
+11, 1, 9, 9, FIRST_MEET_NEAR_RECIPIENT, NONE, POSITIVE, Adding to pending
+11, 1, 9, 9, FIRST_MEET_NEAR_RECIPIENT, NONE, POSITIVE, Broadcasting
+11, 1, 9, 9, FIRST_MEET_NEAR_RECIPIENT, NONE, POSITIVE, Processing Statement
+11, 1, 9, 9, FIRST_MEET_NEAR_RECIPIENT, NONE, POSITIVE, Processing Immediately
+11, 9, 1, 9, FIRST_MEET_VISIT_RECIPIENT, NONE, 00000000, Adding to pending
+11, 9, 1, 9, FIRST_MEET_VISIT_RECIPIENT, NONE, 00000000, Processing Statement
+11, 9, 1, 9, FIRST_MEET_VISIT_RECIPIENT, NONE, 00000000, Processing Immediately
+11, 1, 9, 9, FIRST_MEET_VISIT_RECIPIENT, NONE, POSITIVE, Adding to pending
+11, 1, 9, 9, FIRST_MEET_VISIT_RECIPIENT, NONE, POSITIVE, Broadcasting
+11, 1, 9, 9, FIRST_MEET_VISIT_RECIPIENT, NONE, POSITIVE, Processing Statement
+11, 1, 9, 9, FIRST_MEET_VISIT_RECIPIENT, NONE, POSITIVE, Processing Immediately
+11, 1, 9, ?, STATEMENT_RESULT, ffffffff, ?, Sending Action
+11, 9, 1, ?, ?, ?, ?, Closing Session
+11, 1, 9, ?, STATEMENT_RESULT, ffffffff, ?, Processing Action

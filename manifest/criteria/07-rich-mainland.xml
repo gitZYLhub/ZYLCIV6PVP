@@ -14,6 +14,13 @@
       <Value>zyl_ffa_rich_mainland.lua</Value>
     </ConfigurationValueMatches>
   </Criteria>
+  <Criteria id="ZYL_RichMainland_RichLakes" manifestOrder="111">
+    <ConfigurationValueMatches>
+      <Group>Map</Group>
+      <ConfigurationId>MAP_SCRIPT</ConfigurationId>
+      <Value>zyl_rich_lakes.lua</Value>
+    </ConfigurationValueMatches>
+  </Criteria>
   <Criteria id="ZYL_RichMainland" any="1" manifestOrder="108">
     <ConfigurationValueMatches>
       <Group>Map</Group>
@@ -34,6 +41,11 @@
       <Group>Map</Group>
       <ConfigurationId>MAP_SCRIPT</ConfigurationId>
       <Value>zyl_team_ring_mainland.lua</Value>
+    </ConfigurationValueMatches>
+    <ConfigurationValueMatches>
+      <Group>Map</Group>
+      <ConfigurationId>MAP_SCRIPT</ConfigurationId>
+      <Value>zyl_rich_lakes.lua</Value>
     </ConfigurationValueMatches>
   </Criteria>
   <Criteria id="ZYL_RichMainland_HorizontalTeam" manifestOrder="109">

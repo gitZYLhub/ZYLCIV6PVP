@@ -1,0 +1,66 @@
+Turn, Event, Origin City, Destination City, Attached Resource, Origin Yields
+40, Route Started, LOC_CITY_NAME_AKHETATEN, LOC_CITY_NAME_RA_KEDET,Resource -1 (x0),Origin Yields,3.00,3.00,2.00,0.00,1.00,0.00,Destination Yields,0.00,0.00,0.00,0.00,0.00,0.00
+41, Route Started, LOC_CITY_NAME_MASHKAN_SHAPIR, LOC_CITY_NAME_BABYLON_STK,Resource -1 (x0),Origin Yields,4.00,2.00,4.00,0.00,1.00,0.00,Destination Yields,0.00,0.00,0.00,0.00,0.00,0.00
+42, Route Started, LOC_CITY_NAME_FEZ, LOC_CITY_NAME_PELLA,Resource -1 (x0),Origin Yields,2.00,3.00,0.00,0.00,0.00,0.00,Destination Yields,0.00,0.00,0.00,0.00,0.00,0.00
+42, Route Started, LOC_CITY_NAME_NEKHEN, LOC_CITY_NAME_RA_KEDET,Resource -1 (x0),Origin Yields,3.00,3.00,2.00,0.00,1.00,0.00,Destination Yields,0.00,0.00,0.00,0.00,0.00,0.00
+43, Route Started, LOC_CITY_NAME_PRESLAV, LOC_CITY_NAME_HATTUSA,Resource -1 (x0),Origin Yields,0.00,0.00,3.00,1.00,0.00,0.00,Destination Yields,0.00,0.00,0.00,0.00,0.00,0.00
+44, Route Started, LOC_CITY_NAME_KANGABA, LOC_CITY_NAME_NIANI,Resource -1 (x0),Origin Yields,4.00,3.00,2.00,0.00,1.00,0.00,Destination Yields,0.00,0.00,0.00,0.00,0.00,0.00
+44, Route Started, LOC_CITY_NAME_DELHI, LOC_CITY_NAME_PATNA,Resource -1 (x0),Origin Yields,4.00,3.00,2.00,0.00,1.00,0.00,Destination Yields,0.00,0.00,0.00,0.00,0.00,0.00
+44, Route Ended (Expired), LOC_CITY_NAME_KARKAR, LOC_CITY_NAME_BABYLON_STK,Resource -1 (x0),Origin Yields,5.00,3.00,4.00,0.00,1.00,0.00,Destination Yields,0.00,0.00,0.00,0.00,0.00,0.00
+44, Route Ended (Expired), LOC_CITY_NAME_KERMA, LOC_CITY_NAME_JOHANNESBURG,Resource -1 (x0),Origin Yields,0.00,0.00,13.00,0.00,6.00,0.00,Destination Yields,0.00,0.00,0.00,0.00,0.00,0.00
+45, Route Ended (Expired), LOC_CITY_NAME_RIO_DE_JANEIRO, LOC_CITY_NAME_FORTALEZA,Resource -1 (x0),Origin Yields,2.00,1.00,1.00,0.00,0.00,0.00,Destination Yields,0.00,0.00,0.00,0.00,0.00,0.00
+45, Route Started, LOC_CITY_NAME_KARKAR, LOC_CITY_NAME_BABYLON_STK,Resource -1 (x0),Origin Yields,5.00,3.00,4.00,0.00,1.00,0.00,Destination Yields,0.00,0.00,0.00,0.00,0.00,0.00
+45, Route Started, LOC_CITY_NAME_KERMA, LOC_CITY_NAME_JOHANNESBURG,Resource -1 (x0),Origin Yields,0.00,0.00,13.00,0.00,6.00,0.00,Destination Yields,0.00,0.00,0.00,0.00,0.00,0.00
+45, Route Started, LOC_CITY_NAME_KERMA, LOC_CITY_NAME_VATICAN_CITY,Resource -1 (x0),Origin Yields,0.00,0.00,9.00,0.00,6.00,0.00,Destination Yields,0.00,0.00,0.00,0.00,0.00,0.00
+45, Route Started, LOC_CITY_NAME_MEROE, LOC_CITY_NAME_JOHANNESBURG,Resource -1 (x0),Origin Yields,0.00,0.00,12.00,0.00,5.00,0.00,Destination Yields,0.00,0.00,0.00,0.00,0.00,0.00
+45, Route Ended (Expired), LOC_CITY_NAME_WALATA, LOC_CITY_NAME_NIANI,Resource -1 (x0),Origin Yields,4.00,3.00,2.00,0.00,1.00,0.00,Destination Yields,0.00,0.00,0.00,0.00,0.00,0.00
+46, Route Started, LOC_CITY_NAME_RIO_DE_JANEIRO, LOC_CITY_NAME_CURITIBA,Resource -1 (x0),Origin Yields,3.00,1.00,2.00,0.00,0.00,0.00,Destination Yields,0.00,0.00,0.00,0.00,0.00,0.00
+46, Route Started, LOC_CITY_NAME_JOHANNESBURG, LOC_CITY_NAME_NURI,Resource -1 (x0),Origin Yields,0.00,0.00,3.00,0.00,0.00,0.00,Destination Yields,0.00,0.00,0.00,0.00,0.00,0.00
+46, Route Started, LOC_CITY_NAME_WALATA, LOC_CITY_NAME_NIANI,Resource -1 (x0),Origin Yields,4.00,3.00,2.00,0.00,1.00,0.00,Destination Yields,0.00,0.00,0.00,0.00,0.00,0.00
+46, Route Started, LOC_CITY_NAME_MUMBAI, LOC_CITY_NAME_PATNA,Resource -1 (x0),Origin Yields,4.00,3.00,2.00,0.00,1.00,0.00,Destination Yields,0.00,0.00,0.00,0.00,0.00,0.00
+46, Route Started, LOC_CITY_NAME_IWNW, LOC_CITY_NAME_RA_KEDET,Resource -1 (x0),Origin Yields,3.00,3.00,2.00,0.00,1.00,0.00,Destination Yields,0.00,0.00,0.00,0.00,0.00,0.00
+48, Route Started, LOC_CITY_NAME_KUMASI, LOC_CITY_NAME_JENNE,Resource -1 (x0),Origin Yields,0.00,0.00,3.00,0.00,0.00,0.00,Destination Yields,0.00,0.00,0.00,0.00,0.00,0.00
+48, Route Started, LOC_CITY_NAME_DURMUTI, LOC_CITY_NAME_BABYLON_STK,Resource -1 (x0),Origin Yields,5.00,3.00,4.00,0.00,1.00,0.00,Destination Yields,0.00,0.00,0.00,0.00,0.00,0.00
+48, Route Started, LOC_CITY_NAME_MALGIUM, LOC_CITY_NAME_BABYLON_STK,Resource -1 (x0),Origin Yields,5.00,3.00,4.00,0.00,1.00,0.00,Destination Yields,0.00,0.00,0.00,0.00,0.00,0.00
+48, Route Ended (Expired), LOC_CITY_NAME_TIMBUKTU, LOC_CITY_NAME_NIANI,Resource -1 (x0),Origin Yields,4.00,3.00,2.00,0.00,1.00,0.00,Destination Yields,0.00,0.00,0.00,0.00,0.00,0.00
+49, Route Started, LOC_CITY_NAME_TIMBUKTU, LOC_CITY_NAME_NIANI,Resource -1 (x0),Origin Yields,4.00,3.00,2.00,0.00,1.00,0.00,Destination Yields,0.00,0.00,0.00,0.00,0.00,0.00
+49, Route Started, LOC_CITY_NAME_SEDEINGA, LOC_CITY_NAME_JOHANNESBURG,Resource -1 (x0),Origin Yields,0.00,0.00,14.00,0.00,7.00,0.00,Destination Yields,0.00,0.00,0.00,0.00,0.00,0.00
+50, Route Started, LOC_CITY_NAME_ESHNUNNA, LOC_CITY_NAME_CHENNAI,Resource -1 (x0),Origin Yields,0.00,0.00,9.00,1.00,0.00,1.00,Destination Yields,0.00,0.00,0.00,0.00,0.00,0.00
+50, Route Started, LOC_CITY_NAME_MEROE, LOC_CITY_NAME_VATICAN_CITY,Resource -1 (x0),Origin Yields,0.00,0.00,9.00,0.00,6.00,0.00,Destination Yields,0.00,0.00,0.00,0.00,0.00,0.00
+51, Route Started, LOC_CITY_NAME_NTERET, LOC_CITY_NAME_NIANI,Resource -1 (x0),Origin Yields,4.00,3.00,2.00,0.00,1.00,0.00,Destination Yields,0.00,0.00,0.00,0.00,0.00,0.00
+51, Route Started, LOC_CITY_NAME_KAWA, LOC_CITY_NAME_VATICAN_CITY,Resource -1 (x0),Origin Yields,0.00,0.00,7.00,0.00,4.00,0.00,Destination Yields,0.00,0.00,0.00,0.00,0.00,0.00
+51, Route Started, LOC_CITY_NAME_SHEDET, LOC_CITY_NAME_RA_KEDET,Resource -1 (x0),Origin Yields,3.00,4.00,2.00,0.00,1.00,0.00,Destination Yields,0.00,0.00,0.00,0.00,0.00,0.00
+52, Route Started, LOC_CITY_NAME_JENNE, LOC_CITY_NAME_NIANI,Resource -1 (x0),Origin Yields,4.00,3.00,2.00,0.00,1.00,0.00,Destination Yields,0.00,0.00,0.00,0.00,0.00,0.00
+52, Route Started, LOC_CITY_NAME_KIRINA, LOC_CITY_NAME_NIANI,Resource -1 (x0),Origin Yields,4.00,3.00,2.00,0.00,1.00,0.00,Destination Yields,0.00,0.00,0.00,0.00,0.00,0.00
+52, Route Started, LOC_CITY_NAME_MALGIUM, LOC_CITY_NAME_CHENNAI,Resource -1 (x0),Origin Yields,2.00,2.00,10.05,1.00,0.00,1.00,Destination Yields,2.00,2.00,0.00,0.00,0.00,0.00
+52, Route Ended (Expired), LOC_CITY_NAME_AWDAGHUST, LOC_CITY_NAME_NIANI,Resource -1 (x0),Origin Yields,4.00,3.00,2.00,0.00,1.00,0.00,Destination Yields,0.00,0.00,0.00,0.00,0.00,0.00
+53, Route Ended (Expired), LOC_CITY_NAME_AACHEN, LOC_CITY_NAME_RIO_DE_JANEIRO,Resource -1 (x0),Origin Yields,0.00,0.00,7.00,0.00,0.00,1.00,Destination Yields,0.00,0.00,0.00,0.00,0.00,0.00
+53, Route Started, LOC_CITY_NAME_AWDAGHUST, LOC_CITY_NAME_NIANI,Resource -1 (x0),Origin Yields,4.00,3.00,2.00,0.00,1.00,0.00,Destination Yields,0.00,0.00,0.00,0.00,0.00,0.00
+53, Route Ended (Expired), LOC_CITY_NAME_DUR_KURIGALZU, LOC_CITY_NAME_BABYLON_STK,Resource -1 (x0),Origin Yields,5.00,3.00,6.00,0.00,1.00,1.00,Destination Yields,0.00,0.00,0.00,0.00,0.00,0.00
+54, Route Started, LOC_CITY_NAME_AACHEN, LOC_CITY_NAME_DORTMUND,Resource -1 (x0),Origin Yields,3.00,1.00,0.00,0.00,0.00,0.00,Destination Yields,0.00,0.00,0.00,0.00,0.00,0.00
+54, Route Started, LOC_CITY_NAME_DUR_KURIGALZU, LOC_CITY_NAME_CHENNAI,Resource -1 (x0),Origin Yields,2.00,2.00,13.00,1.00,0.00,2.00,Destination Yields,2.00,2.00,0.00,0.00,0.00,0.00
+54, Route Started, LOC_CITY_NAME_CALCUTTA, LOC_CITY_NAME_PATNA,Resource -1 (x0),Origin Yields,4.00,3.00,2.00,0.00,1.00,0.00,Destination Yields,0.00,0.00,0.00,0.00,0.00,0.00
+54, Route Started, LOC_CITY_NAME_MEMPHIS, LOC_CITY_NAME_RA_KEDET,Resource -1 (x0),Origin Yields,3.00,4.00,2.00,0.00,1.00,0.00,Destination Yields,0.00,0.00,0.00,0.00,0.00,0.00
+54, Route Ended (Expired), LOC_CITY_NAME_KUMBI_SALEH, LOC_CITY_NAME_NIANI,Resource -1 (x0),Origin Yields,5.00,4.00,2.00,0.00,1.00,0.00,Destination Yields,0.00,0.00,0.00,0.00,0.00,0.00
+55, Route Started, LOC_CITY_NAME_KUMBI_SALEH, LOC_CITY_NAME_NIANI,Resource -1 (x0),Origin Yields,5.00,4.00,2.00,0.00,1.00,0.00,Destination Yields,0.00,0.00,0.00,0.00,0.00,0.00
+55, Route Ended (Expired), LOC_CITY_NAME_AKHETATEN, LOC_CITY_NAME_RA_KEDET,Resource -1 (x0),Origin Yields,3.00,4.00,2.00,0.00,1.00,0.00,Destination Yields,0.00,0.00,0.00,0.00,0.00,0.00
+56, Route Ended (Expired), LOC_CITY_NAME_ALEXANDRIA_LATMUS, LOC_CITY_NAME_PELLA,Resource -1 (x0),Origin Yields,3.00,4.00,2.00,0.00,1.00,0.00,Destination Yields,0.00,0.00,0.00,0.00,0.00,0.00
+56, Route Started, LOC_CITY_NAME_MASHKAN_SHAPIR, LOC_CITY_NAME_CHENNAI,Resource -1 (x0),Origin Yields,2.00,3.00,13.00,1.00,0.00,2.00,Destination Yields,2.00,2.00,0.00,0.00,0.00,0.00
+56, Route Started, LOC_CITY_NAME_HEH, LOC_CITY_NAME_SEDEINGA,Resource -1 (x0),Origin Yields,4.00,6.00,0.00,0.00,0.00,0.00,Destination Yields,0.00,0.00,0.00,0.00,0.00,0.00
+56, Route Started, LOC_CITY_NAME_ESHNUNNA, LOC_CITY_NAME_NIANI,Resource -1 (x0),Origin Yields,2.00,2.00,12.00,0.00,1.00,2.00,Destination Yields,2.00,2.00,0.00,0.00,0.00,0.00
+56, Route Started, LOC_CITY_NAME_SENA, LOC_CITY_NAME_RA_KEDET,Resource -1 (x0),Origin Yields,3.00,4.00,2.00,0.00,1.00,0.00,Destination Yields,0.00,0.00,0.00,0.00,0.00,0.00
+56, Route Started, LOC_CITY_NAME_AKHETATEN, LOC_CITY_NAME_RA_KEDET,Resource -1 (x0),Origin Yields,3.00,4.00,2.00,0.00,1.00,0.00,Destination Yields,0.00,0.00,0.00,0.00,0.00,0.00
+56, Route Started, LOC_CITY_NAME_BORSIPPA, LOC_CITY_NAME_CHENNAI,Resource -1 (x0),Origin Yields,2.00,3.00,13.00,1.00,0.00,2.00,Destination Yields,2.00,2.00,0.00,0.00,0.00,0.00
+56, Route Ended (Expired), LOC_CITY_NAME_CHENNAI, LOC_CITY_NAME_PATNA,Resource -1 (x0),Origin Yields,4.00,4.00,2.00,0.00,1.00,0.00,Destination Yields,0.00,0.00,0.00,0.00,0.00,0.00
+57, Route Started, LOC_CITY_NAME_ALEXANDRIA_TROAS, LOC_CITY_NAME_ALEXANDRIA_LATMUS,Resource -1 (x0),Origin Yields,3.00,2.00,0.00,0.00,0.00,0.00,Destination Yields,0.00,0.00,0.00,0.00,0.00,0.00
+57, Route Started, LOC_CITY_NAME_CHENNAI, LOC_CITY_NAME_HATTUSA,Resource -1 (x0),Origin Yields,0.00,0.00,3.54,1.00,0.00,0.00,Destination Yields,0.00,0.00,0.00,0.00,0.00,0.00
+58, Route Ended (Expired), LOC_CITY_NAME_PRESLAV, LOC_CITY_NAME_HATTUSA,Resource -1 (x0),Origin Yields,0.00,0.00,4.00,1.00,0.00,0.00,Destination Yields,0.00,0.00,0.00,0.00,0.00,0.00
+58, Route Started, LOC_CITY_NAME_NIORO, LOC_CITY_NAME_NIANI,Resource -1 (x0),Origin Yields,5.00,4.00,2.00,0.00,1.00,0.00,Destination Yields,0.00,0.00,0.00,0.00,0.00,0.00
+58, Route Started, LOC_CITY_NAME_MASHKAN_SHAPIR, LOC_CITY_NAME_NEKHEN,Resource -1 (x0),Origin Yields,2.00,2.00,17.50,1.00,0.00,1.00,Destination Yields,2.00,2.00,0.00,0.00,0.00,0.00
+58, Route Ended (Expired), LOC_CITY_NAME_SWENETT, LOC_CITY_NAME_RA_KEDET,Resource -1 (x0),Origin Yields,4.00,4.00,6.00,0.00,1.00,1.00,Destination Yields,0.00,0.00,0.00,0.00,0.00,0.00
+58, Route Ended (Expired), LOC_CITY_NAME_PRESLAV, LOC_CITY_NAME_HATTUSA,Resource -1 (x0),Origin Yields,0.00,0.00,4.00,1.00,0.00,0.00,Destination Yields,0.00,0.00,0.00,0.00,0.00,0.00
+58, Route Started, LOC_CITY_NAME_NIORO, LOC_CITY_NAME_NIANI,Resource -1 (x0),Origin Yields,5.00,4.00,2.00,0.00,1.00,0.00,Destination Yields,0.00,0.00,0.00,0.00,0.00,0.00
+58, Route Ended (Expired), LOC_CITY_NAME_SWENETT, LOC_CITY_NAME_RA_KEDET,Resource -1 (x0),Origin Yields,4.00,4.00,6.00,0.00,1.00,1.00,Destination Yields,0.00,0.00,0.00,0.00,0.00,0.00
+58, Route Started, LOC_CITY_NAME_MASHKAN_SHAPIR, LOC_CITY_NAME_NEKHEN,Resource -1 (x0),Origin Yields,2.00,2.00,17.50,1.00,0.00,1.00,Destination Yields,2.00,2.00,0.00,0.00,0.00,0.00
+59, Route Started, LOC_CITY_DONG_HOI, LOC_CITY_HA_NOI,Resource -1 (x0),Origin Yields,6.00,2.00,0.00,3.00,0.00,0.00,Destination Yields,0.00,0.00,0.00,0.00,0.00,0.00
+59, Route Started, LOC_CITY_NAME_PRESLAV, LOC_CITY_NAME_HATTUSA,Resource -1 (x0),Origin Yields,0.00,0.00,4.00,1.00,0.00,0.00,Destination Yields,0.00,0.00,0.00,0.00,0.00,0.00

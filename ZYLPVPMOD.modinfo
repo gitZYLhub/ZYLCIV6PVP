@@ -684,6 +684,11 @@
 				<ConfigurationId>MAP_SCRIPT</ConfigurationId>
 				<Value>zyl_team_ring_mainland.lua</Value>
 			</ConfigurationValueMatches>
+			<ConfigurationValueMatches>
+				<Group>Map</Group>
+				<ConfigurationId>MAP_SCRIPT</ConfigurationId>
+				<Value>zyl_rich_lakes.lua</Value>
+			</ConfigurationValueMatches>
 		</Criteria>
 		<Criteria id="ZYL_RichMainland_HorizontalTeam">
 			<ConfigurationValueMatches>
@@ -697,6 +702,13 @@
 				<Group>Map</Group>
 				<ConfigurationId>MAP_SCRIPT</ConfigurationId>
 				<Value>zyl_team_ring_mainland.lua</Value>
+			</ConfigurationValueMatches>
+		</Criteria>
+		<Criteria id="ZYL_RichMainland_RichLakes">
+			<ConfigurationValueMatches>
+				<Group>Map</Group>
+				<ConfigurationId>MAP_SCRIPT</ConfigurationId>
+				<Value>zyl_rich_lakes.lua</Value>
 			</ConfigurationValueMatches>
 		</Criteria>
 	</ActionCriteria>
@@ -2610,6 +2622,7 @@
 			</Properties>
 			<File>Components/BBM/Data/BBS Maps/zyl_team_rich_mainland.lua</File>
 			<File>Components/BBM/Data/BBS Maps/zyl_ffa_rich_mainland.lua</File>
+			<File>Components/BBM/Data/BBS Maps/zyl_rich_lakes.lua</File>
 			<File>Components/BBM/Data/BBS Maps/zyl_team_horizontal_rich_mainland.lua</File>
 			<File>Components/BBM/Data/BBS Maps/zyl_team_ring_mainland.lua</File>
 			<File>Components/BBM/Data/BBS Maps/zyl_rich_mainland_core.lua</File>
@@ -4054,5 +4067,6 @@
 		<File>sql/ZYL_GreatPeople.sql</File>
 		<File>sql/ZYL_GreatPeople_NFP.sql</File>
 		<File>lang/ZYL_GreatPeople_Text.xml</File>
+		<File>Components/BBM/Data/BBS Maps/zyl_rich_lakes.lua</File>
 	</Files>
 </Mod>

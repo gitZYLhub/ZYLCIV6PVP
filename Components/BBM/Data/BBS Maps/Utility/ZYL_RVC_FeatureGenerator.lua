@@ -33,6 +33,7 @@ function DW_FeatureGenerator.Create(args)
 
 	local gridWidth, gridHeight = Map.GetGridSize();
 	local iEquator = math.ceil(gridHeight / 2) + iEquatorAdjustment;
+	local jungleLatitudeWidth = args.jungleLatitudeWidth or 35;
 	local ignoreJungleLatitude = args.ignoreJungleLatitude == true;
 	local jungleClusterFrac = nil;
 	if args.clusterJungles == true then
@@ -86,8 +87,8 @@ function DW_FeatureGenerator.Create(args)
 		jungleClusterFrac = jungleClusterFrac,
 
 		-- Rainforest on Earth mostly in Tropics, so keep in narrow band around Equator
-		iJungleBottom = iEquator - (35 * gridHeight / 180);
-		iJungleTop = iEquator + (35 * gridHeight / 180);
+		iJungleBottom = iEquator - (jungleLatitudeWidth * gridHeight / 180);
+		iJungleTop = iEquator + (jungleLatitudeWidth * gridHeight / 180);
 		iNumEquator = iEquator,
 	};
 

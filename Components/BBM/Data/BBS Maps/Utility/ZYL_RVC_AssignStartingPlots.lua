@@ -3066,7 +3066,10 @@ function BBS_AssignStartingPlots:__RateBiasPlots(biases, startPlots, major, regi
             end
 			local keepStrictTeamSide = type(ZYL_RICH_MAINLAND_VARIANT) == "table"
 				and ZYL_RICH_MAINLAND_VARIANT.team == true and self.iTeamPlacement == 1;
-			if self.iTeamPlacement == 1 then
+			-- Ring-mainland players already have a hard angular/radial sector and
+			-- team-half filter.  The legacy axis-based Team PVP score is unrelated
+			-- to those sectors and can pull adjacent seats toward the same seam.
+			if not ZYL_RVC_IsRingMainland() and self.iTeamPlacement == 1 then
 				-- East vs. West
 
 				local Lv_0_0 = 0.85;
@@ -3211,7 +3214,7 @@ function BBS_AssignStartingPlots:__RateBiasPlots(biases, startPlots, major, regi
 				end	
 				
 				-- North vs. South
-			elseif self.iTeamPlacement == 2 then
+			elseif not ZYL_RVC_IsRingMainland() and self.iTeamPlacement == 2 then
 				local Lv_0 = (gridHeight * 0.5 + 10) / gridHeight;
 				local Lv_1 = (gridHeight * 0.5 + 7) / gridHeight;
 				local Lv_2 = (gridHeight * 0.5 + 6) / gridHeight;
@@ -3348,8 +3351,8 @@ function BBS_AssignStartingPlots:__RateBiasPlots(biases, startPlots, major, regi
                             end
                         end
                     end
-				end	
-				
+				end
+
 			end
         else
             -- 城邦 低纬度关联

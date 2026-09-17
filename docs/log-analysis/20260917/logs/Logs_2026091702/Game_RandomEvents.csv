@@ -1,0 +1,239 @@
+Game Turn, Realism, Total CO2, CO2 Bldgs, CO2 Projects, CO2 Routes, CO2 Units, Deforestation, ClimateChange, Volcanoes (Total), NW Volcanoes, Volcanoes (Active), Eruptions, Floodable Rivers, Floods, NaturalWonderEruptions
+40, ENHANCED TILES, At plot: 6750, 6750,
+40, ONEOFF, Severity = 1, 林火, Center at: (62 - 76), Tiles Damaged = 0
+40, ONEOFF, Severity = 1, 林火, Center at: (61 - 76), Tiles Damaged = 0
+40, 2, 0, 0, 0, 0, 0, 0, 0, 5, 0, 2, 1, 87, 32, 0
+40, STORM, Severity = 1, 严重性暴风雪, Center at: (44 - 87), Tiles Damaged = 0, Pop Lost = 0, Units Killed = 0, Fertility Added = 0
+41, ENHANCED TILES, At plot: 7612, 7699,
+41, STORM, Severity = 1, 严重性暴风雪, Center at: (42 - 86), Tiles Damaged = 0, Pop Lost = 0, Units Killed = 0, Fertility Added = 1
+41, STORM MOVEMENT, 7612,7611,7522,7610,
+41, ONEOFF, Severity = 1, 林火, Center at: (61 - 76), Tiles Damaged = 0
+41, ENHANCED TILES, At plot: 6838, 6838,
+41, ONEOFF, Severity = 1, 林火, Center at: (62 - 77), Tiles Damaged = 0
+41, ENHANCED TILES, At plot: 6662, 6662,
+41, ONEOFF, Severity = 1, 林火, Center at: (62 - 75), Tiles Damaged = 0
+41, ENHANCED TILES, At plot: 6751, 6751,
+41, ONEOFF, Severity = 1, 林火, Center at: (63 - 76), Tiles Damaged = 0
+41, ONEOFF, Severity = 1, 林火, Center at: (62 - 76), Tiles Damaged = 0
+41, 2, 0, 0, 0, 0, 0, 0, 0, 5, 0, 2, 1, 87, 32, 0
+41, FLOOD, Severity = 1, 奥得河, Floodplain at: (8 - 43), Tiles Damaged = 0, Pop Lost = 0, Units Killed = 0, Fertility Added = 0
+42, STORM, Severity = 1, 严重性暴风雪, Center at: (38 - 87), Tiles Damaged = 0, Pop Lost = 0, Units Killed = 0, Fertility Added = 0
+42, STORM MOVEMENT, 7609,7608,7695,7694,
+42, ONEOFF, Severity = 1, 林火, Center at: (61 - 76), Tiles Damaged = 0
+42, ONEOFF, Severity = 1, 林火, Center at: (62 - 76), Tiles Damaged = 0
+42, ONEOFF, Severity = 1, 林火, Center at: (62 - 77), Tiles Damaged = 0
+42, ONEOFF, Severity = 1, 林火, Center at: (62 - 75), Tiles Damaged = 0
+42, ENHANCED TILES, At plot: 6663, 6663,
+42, ONEOFF, Severity = 1, 林火, Center at: (63 - 75), Tiles Damaged = 0
+42, ENHANCED TILES, At plot: 6752, 6752,
+42, ONEOFF, Severity = 1, 林火, Center at: (64 - 76), Tiles Damaged = 0
+42, ONEOFF, Severity = 1, 林火, Center at: (63 - 76), Tiles Damaged = 0
+42, 2, 0, 0, 0, 0, 0, 0, 0, 5, 0, 2, 1, 87, 33, 0
+42, FLOOD, Severity = 2, 亚马逊河, Floodplain at: (17 - 57), Tiles Damaged = 0, Pop Lost = 0, Units Killed = 0, Fertility Added = 0
+43, ONEOFF, Severity = 1, 林火, Center at: (61 - 76), Tiles Damaged = 0
+43, ONEOFF, Severity = 1, 林火, Center at: (62 - 76), Tiles Damaged = 0
+43, ONEOFF, Severity = 1, 林火, Center at: (62 - 77), Tiles Damaged = 0
+43, ONEOFF, Severity = 1, 林火, Center at: (62 - 75), Tiles Damaged = 0
+43, ONEOFF, Severity = 1, 林火, Center at: (63 - 76), Tiles Damaged = 0
+43, ONEOFF, Severity = 1, 林火, Center at: (63 - 75), Tiles Damaged = 0
+43, ONEOFF, Severity = 1, 林火, Center at: (64 - 76), Tiles Damaged = 0
+43, 2, 0, 0, 0, 0, 0, 0, 0, 5, 0, 2, 1, 87, 34, 0
+43, FLOOD, Severity = 1, 马更些河, Floodplain at: (6 - 50), Tiles Damaged = 0, Pop Lost = 0, Units Killed = 0, Fertility Added = 2
+44, ONEOFF, Severity = 1, 林火, Center at: (61 - 76), Tiles Damaged = 0
+44, ONEOFF, Severity = 1, 林火, Center at: (62 - 76), Tiles Damaged = 0
+44, ONEOFF, Severity = 1, 林火, Center at: (62 - 77), Tiles Damaged = 0
+44, ONEOFF, Severity = 1, 林火, Center at: (62 - 75), Tiles Damaged = 0
+44, ONEOFF, Severity = 1, 林火, Center at: (63 - 76), Tiles Damaged = 0
+44, ENHANCED TILES, At plot: 6576, 6576,
+44, ONEOFF, Severity = 1, 林火, Center at: (64 - 74), Tiles Damaged = 0
+44, ENHANCED TILES, At plot: 6575, 6575,
+44, ONEOFF, Severity = 1, 林火, Center at: (63 - 74), Tiles Damaged = 0
+44, ENHANCED TILES, At plot: 6664, 6664,
+44, ONEOFF, Severity = 1, 林火, Center at: (64 - 75), Tiles Damaged = 0
+44, ONEOFF, Severity = 1, 林火, Center at: (63 - 75), Tiles Damaged = 0
+44, ONEOFF, Severity = 1, 林火, Center at: (64 - 76), Tiles Damaged = 0
+44, 2, 0, 0, 0, 0, 0, 0, 0, 5, 0, 2, 1, 87, 35, 0
+44, FLOOD, Severity = 0, 赫特河, Floodplain at: (73 - 20), Tiles Damaged = 0, Pop Lost = 0, Units Killed = 0, Fertility Added = 1
+45, ENHANCED TILES, At plot: 6749, 6749,
+45, ONEOFF, Severity = 1, 林火, Center at: (61 - 76), Tiles Damaged = 0
+45, ONEOFF, Severity = 1, 林火, Center at: (62 - 76), Tiles Damaged = 0
+45, ONEOFF, Severity = 1, 林火, Center at: (62 - 77), Tiles Damaged = 0
+45, ONEOFF, Severity = 1, 林火, Center at: (62 - 75), Tiles Damaged = 0
+45, ONEOFF, Severity = 1, 林火, Center at: (63 - 76), Tiles Damaged = 0
+45, ONEOFF, Severity = 1, 林火, Center at: (63 - 75), Tiles Damaged = 0
+45, ONEOFF, Severity = 1, 林火, Center at: (64 - 76), Tiles Damaged = 0
+45, ONEOFF, Severity = 1, 林火, Center at: (64 - 74), Tiles Damaged = 0
+45, ONEOFF, Severity = 1, 林火, Center at: (63 - 74), Tiles Damaged = 0
+45, ONEOFF, Severity = 1, 林火, Center at: (64 - 75), Tiles Damaged = 0
+45, 2, 0, 0, 0, 0, 0, 0, 0, 5, 0, 2, 1, 87, 36, 0
+45, FLOOD, Severity = 1, 多瑙河, Floodplain at: (20 - 41), Tiles Damaged = 0, Pop Lost = 0, Units Killed = 0, Fertility Added = 0
+46, ONEOFF, Severity = 1, 林火, Center at: (61 - 76), Tiles Damaged = 0
+46, ENHANCED TILES, At plot: 6750, 6750,
+46, ONEOFF, Severity = 1, 林火, Center at: (62 - 76), Tiles Damaged = 0
+46, ONEOFF, Severity = 1, 林火, Center at: (62 - 77), Tiles Damaged = 0
+46, ONEOFF, Severity = 1, 林火, Center at: (62 - 75), Tiles Damaged = 0
+46, ONEOFF, Severity = 1, 林火, Center at: (63 - 76), Tiles Damaged = 0
+46, ONEOFF, Severity = 1, 林火, Center at: (63 - 75), Tiles Damaged = 0
+46, ONEOFF, Severity = 1, 林火, Center at: (64 - 76), Tiles Damaged = 0
+46, ONEOFF, Severity = 1, 林火, Center at: (64 - 74), Tiles Damaged = 0
+46, ONEOFF, Severity = 1, 林火, Center at: (63 - 74), Tiles Damaged = 0
+46, ENHANCED TILES, At plot: 6665, 6665,
+46, ONEOFF, Severity = 1, 林火, Center at: (65 - 75), Tiles Damaged = 0
+46, ONEOFF, Severity = 1, 林火, Center at: (64 - 75), Tiles Damaged = 0
+46, 2, 0, 0, 0, 0, 0, 0, 0, 5, 0, 2, 1, 87, 37, 0
+46, FLOOD, Severity = 0, 道加瓦河, Floodplain at: (79 - 45), Tiles Damaged = 1, Pop Lost = 0, Units Killed = 0, Fertility Added = 1
+47, ONEOFF, Severity = 1, 林火, Center at: (61 - 76), Tiles Damaged = 0
+47, ONEOFF, Severity = 1, 林火, Center at: (62 - 76), Tiles Damaged = 0
+47, ENHANCED TILES, At plot: 6838, 6838,
+47, ONEOFF, Severity = 1, 林火, Center at: (62 - 77), Tiles Damaged = 0
+47, ENHANCED TILES, At plot: 6662, 6662,
+47, ONEOFF, Severity = 1, 林火, Center at: (62 - 75), Tiles Damaged = 0
+47, ENHANCED TILES, At plot: 6751, 6751,
+47, ONEOFF, Severity = 1, 林火, Center at: (63 - 76), Tiles Damaged = 0
+47, ONEOFF, Severity = 1, 林火, Center at: (63 - 75), Tiles Damaged = 0
+47, ONEOFF, Severity = 1, 林火, Center at: (64 - 76), Tiles Damaged = 0
+47, ONEOFF, Severity = 1, 林火, Center at: (64 - 74), Tiles Damaged = 0
+47, ONEOFF, Severity = 1, 林火, Center at: (63 - 74), Tiles Damaged = 0
+47, ONEOFF, Severity = 1, 林火, Center at: (64 - 75), Tiles Damaged = 0
+47, ONEOFF, Severity = 1, 林火, Center at: (65 - 75), Tiles Damaged = 0
+47, 2, 0, 0, 0, 0, 0, 0, 0, 5, 0, 2, 1, 87, 38, 0
+47, ENHANCED TILES, At plot: 7577, 7577,
+47, STORM, Severity = 1, 严重性暴风雪, Center at: (9 - 86), Tiles Damaged = 0, Pop Lost = 0, Units Killed = 0, Fertility Added = 1
+48, ENHANCED TILES, At plot: 7576, 7488,
+48, STORM, Severity = 1, 严重性暴风雪, Center at: (6 - 87), Tiles Damaged = 0, Pop Lost = 0, Units Killed = 0, Fertility Added = 1
+48, STORM MOVEMENT, 7576,7487,7575,7662,
+48, ONEOFF, Severity = 1, 林火, Center at: (62 - 76), Tiles Damaged = 0
+48, ONEOFF, Severity = 1, 林火, Center at: (62 - 77), Tiles Damaged = 0
+48, ONEOFF, Severity = 1, 林火, Center at: (62 - 75), Tiles Damaged = 0
+48, ONEOFF, Severity = 1, 林火, Center at: (63 - 76), Tiles Damaged = 0
+48, ENHANCED TILES, At plot: 6663, 6663,
+48, ONEOFF, Severity = 1, 林火, Center at: (63 - 75), Tiles Damaged = 0
+48, ENHANCED TILES, At plot: 6752, 6752,
+48, ONEOFF, Severity = 1, 林火, Center at: (64 - 76), Tiles Damaged = 0
+48, ONEOFF, Severity = 1, 林火, Center at: (64 - 74), Tiles Damaged = 0
+48, ONEOFF, Severity = 1, 林火, Center at: (63 - 74), Tiles Damaged = 0
+48, ONEOFF, Severity = 1, 林火, Center at: (64 - 75), Tiles Damaged = 0
+48, ENHANCED TILES, At plot: 6578, 6578,
+48, ONEOFF, Severity = 1, 林火, Center at: (66 - 74), Tiles Damaged = 0
+48, ENHANCED TILES, At plot: 6666, 6666,
+48, ONEOFF, Severity = 1, 林火, Center at: (66 - 75), Tiles Damaged = 0
+48, ONEOFF, Severity = 1, 林火, Center at: (65 - 75), Tiles Damaged = 0
+48, 2, 0, 0, 0, 0, 0, 0, 0, 5, 0, 2, 1, 87, 38, 0
+48, FLOOD, Severity = 1, 威悉河, Floodplain at: (18 - 41), Tiles Damaged = 0, Pop Lost = 0, Units Killed = 0, Fertility Added = 0
+49, STORM, Severity = 1, 严重性暴风雪, Center at: (2 - 87), Tiles Damaged = 0, Pop Lost = 0, Units Killed = 0, Fertility Added = 0
+49, STORM MOVEMENT, 7661,7660,7659,7658,
+49, ONEOFF, Severity = 1, 林火, Center at: (62 - 77), Tiles Damaged = 0
+49, ONEOFF, Severity = 1, 林火, Center at: (62 - 75), Tiles Damaged = 0
+49, ONEOFF, Severity = 1, 林火, Center at: (63 - 76), Tiles Damaged = 0
+49, ONEOFF, Severity = 1, 林火, Center at: (63 - 75), Tiles Damaged = 0
+49, ONEOFF, Severity = 1, 林火, Center at: (64 - 76), Tiles Damaged = 0
+49, ONEOFF, Severity = 1, 林火, Center at: (64 - 74), Tiles Damaged = 0
+49, ONEOFF, Severity = 1, 林火, Center at: (63 - 74), Tiles Damaged = 0
+49, ONEOFF, Severity = 1, 林火, Center at: (64 - 75), Tiles Damaged = 0
+49, ONEOFF, Severity = 1, 林火, Center at: (65 - 75), Tiles Damaged = 0
+49, ONEOFF, Severity = 1, 林火, Center at: (66 - 74), Tiles Damaged = 0
+49, ONEOFF, Severity = 1, 林火, Center at: (66 - 75), Tiles Damaged = 0
+49, 2, 0, 0, 0, 0, 0, 0, 0, 5, 0, 2, 1, 87, 39, 0
+49, FLOOD, Severity = 1, 蓝江, Floodplain at: (31 - 9), Tiles Damaged = 2, Pop Lost = 0, Units Killed = 0, Fertility Added = 3
+50, ONEOFF, Severity = 1, 林火, Center at: (63 - 75), Tiles Damaged = 0
+50, ONEOFF, Severity = 1, 林火, Center at: (64 - 76), Tiles Damaged = 0
+50, ENHANCED TILES, At plot: 6576, 6576,
+50, ONEOFF, Severity = 1, 林火, Center at: (64 - 74), Tiles Damaged = 0
+50, ENHANCED TILES, At plot: 6575, 6575,
+50, ONEOFF, Severity = 1, 林火, Center at: (63 - 74), Tiles Damaged = 0
+50, ENHANCED TILES, At plot: 6664, 6664,
+50, ONEOFF, Severity = 1, 林火, Center at: (64 - 75), Tiles Damaged = 0
+50, ONEOFF, Severity = 1, 林火, Center at: (65 - 75), Tiles Damaged = 0
+50, ENHANCED TILES, At plot: 6579, 6579,
+50, ONEOFF, Severity = 1, 林火, Center at: (67 - 74), Tiles Damaged = 0
+50, ONEOFF, Severity = 1, 林火, Center at: (66 - 74), Tiles Damaged = 0
+50, ONEOFF, Severity = 1, 林火, Center at: (66 - 75), Tiles Damaged = 0
+50, 2, 0, 0, 0, 0, 0, 0, 0, 5, 0, 2, 1, 87, 40, 0
+50, FLOOD, Severity = 1, 马江, Floodplain at: (20 - 16), Tiles Damaged = 2, Pop Lost = 0, Units Killed = 0, Fertility Added = 1
+51, ONEOFF, Severity = 1, 林火, Center at: (64 - 74), Tiles Damaged = 0
+51, ONEOFF, Severity = 1, 林火, Center at: (63 - 74), Tiles Damaged = 0
+51, ONEOFF, Severity = 1, 林火, Center at: (64 - 75), Tiles Damaged = 0
+51, ONEOFF, Severity = 1, 林火, Center at: (65 - 75), Tiles Damaged = 0
+51, ONEOFF, Severity = 1, 林火, Center at: (66 - 74), Tiles Damaged = 0
+51, ONEOFF, Severity = 1, 林火, Center at: (66 - 75), Tiles Damaged = 0
+51, ONEOFF, Severity = 1, 林火, Center at: (67 - 74), Tiles Damaged = 0
+51, 2, 0, 0, 0, 0, 0, 0, 0, 5, 0, 2, 1, 87, 41, 0
+51, ENHANCED TILES, At plot: 3070, 3158,2982,3157,
+51, STORM, Severity = 2, 哈布沙尘暴, Center at: (78 - 34), Tiles Damaged = 0, Pop Lost = 0, Units Killed = 0, Fertility Added = 4
+52, ENHANCED TILES, At plot: 3069, 2980,
+52, ENHANCED TILES, At plot: 3068, 3067,
+52, ENHANCED TILES, At plot: 2979, 2891,2978,
+52, ENHANCED TILES, At plot: 2978, 3066,
+52, ENHANCED TILES, At plot: 3066, 3065,3153,
+52, STORM, Severity = 2, 哈布沙尘暴, Center at: (73 - 34), Tiles Damaged = 5, Pop Lost = 4, Units Killed = 0, Fertility Added = 7
+52, STORM MOVEMENT, 3069,2980,3068,2979,2978,3066,3153,3065,
+52, ONEOFF, Severity = 1, 林火, Center at: (64 - 74), Tiles Damaged = 0
+52, ONEOFF, Severity = 1, 林火, Center at: (63 - 74), Tiles Damaged = 0
+52, ONEOFF, Severity = 1, 林火, Center at: (64 - 75), Tiles Damaged = 0
+52, ENHANCED TILES, At plot: 6665, 6665,
+52, ONEOFF, Severity = 1, 林火, Center at: (65 - 75), Tiles Damaged = 0
+52, ONEOFF, Severity = 1, 林火, Center at: (66 - 74), Tiles Damaged = 0
+52, ONEOFF, Severity = 1, 林火, Center at: (66 - 75), Tiles Damaged = 0
+52, ONEOFF, Severity = 1, 林火, Center at: (67 - 74), Tiles Damaged = 0
+52, 2, 0, 0, 0, 0, 0, 0, 0, 5, 0, 3, 1, 87, 41, 0
+52, FLOOD, Severity = 1, 伊登河, Floodplain at: (19 - 42), Tiles Damaged = 0, Pop Lost = 0, Units Killed = 0, Fertility Added = 0
+53, ENHANCED TILES, At plot: 2976, 2889,
+53, STORM, Severity = 2, 哈布沙尘暴, Center at: (70 - 34), Tiles Damaged = 0, Pop Lost = 1, Units Killed = 0, Fertility Added = 1
+53, STORM MOVEMENT, 2976,3064,3151,3063,3062,
+53, ONEOFF, Severity = 1, 林火, Center at: (65 - 75), Tiles Damaged = 0
+53, ONEOFF, Severity = 1, 林火, Center at: (66 - 74), Tiles Damaged = 0
+53, ONEOFF, Severity = 1, 林火, Center at: (66 - 75), Tiles Damaged = 0
+53, ONEOFF, Severity = 1, 林火, Center at: (67 - 74), Tiles Damaged = 0
+53, 2, 0, 0, 0, 0, 0, 0, 0, 5, 0, 4, 1, 87, 42, 0
+53, FLOOD, Severity = 1, 巴拉那河, Floodplain at: (8 - 59), Tiles Damaged = 3, Pop Lost = 1, Units Killed = 0, Fertility Added = 1
+54, ONEOFF, Severity = 1, 林火, Center at: (65 - 75), Tiles Damaged = 0
+54, ENHANCED TILES, At plot: 6578, 6578,
+54, ONEOFF, Severity = 1, 林火, Center at: (66 - 74), Tiles Damaged = 0
+54, ENHANCED TILES, At plot: 6666, 6666,
+54, ONEOFF, Severity = 1, 林火, Center at: (66 - 75), Tiles Damaged = 0
+54, ONEOFF, Severity = 1, 林火, Center at: (67 - 74), Tiles Damaged = 0
+54, 2, 0, 0, 0, 0, 0, 0, 0, 5, 0, 4, 1, 87, 43, 0
+54, FLOOD, Severity = 0, 亚马逊河, Floodplain at: (17 - 57), Tiles Damaged = 0, Pop Lost = 0, Units Killed = 0, Fertility Added = 0
+55, ONEOFF, Severity = 1, 林火, Center at: (66 - 74), Tiles Damaged = 0
+55, ONEOFF, Severity = 1, 林火, Center at: (66 - 75), Tiles Damaged = 0
+55, ONEOFF, Severity = 1, 林火, Center at: (67 - 74), Tiles Damaged = 0
+55, 2, 0, 0, 0, 0, 0, 0, 0, 5, 0, 4, 1, 87, 44, 0
+55, ENHANCED TILES, At plot: 153, 152,
+55, STORM, Severity = 1, 严重性暴风雪, Center at: (65 - 1), Tiles Damaged = 0, Pop Lost = 0, Units Killed = 0, Fertility Added = 1
+56, ENHANCED TILES, At plot: 239, 327,
+56, STORM, Severity = 1, 严重性暴风雪, Center at: (63 - 2), Tiles Damaged = 0, Pop Lost = 0, Units Killed = 0, Fertility Added = 1
+56, STORM MOVEMENT, 241,152,151,239,
+56, ONEOFF, Severity = 1, 林火, Center at: (66 - 74), Tiles Damaged = 0
+56, ONEOFF, Severity = 1, 林火, Center at: (66 - 75), Tiles Damaged = 0
+56, ENHANCED TILES, At plot: 6579, 6579,
+56, ONEOFF, Severity = 1, 林火, Center at: (67 - 74), Tiles Damaged = 0
+56, 2, 0, 0, 0, 0, 0, 0, 0, 5, 0, 4, 1, 87, 44, 0
+56, ENHANCED TILES, At plot: 3769, 3856,
+56, STORM, Severity = 1, 梯度沙尘暴, Center at: (73 - 42), Tiles Damaged = 2, Pop Lost = 0, Units Killed = 0, Fertility Added = 1
+57, STORM, Severity = 1, 严重性暴风雪, Center at: (59 - 3), Tiles Damaged = 1, Pop Lost = 0, Units Killed = 0, Fertility Added = 0
+57, STORM MOVEMENT, 238,237,236,323,
+57, STORM, Severity = 1, 梯度沙尘暴, Center at: (70 - 40), Tiles Damaged = 1, Pop Lost = 0, Units Killed = 0, Fertility Added = 0
+57, STORM MOVEMENT, 3680,3679,3591,3590,
+57, ONEOFF, Severity = 1, 林火, Center at: (67 - 74), Tiles Damaged = 0
+57, 2, 0, 0, 0, 0, 0, 0, 0, 5, 0, 4, 1, 87, 44, 0
+57, STORM, Severity = 2, 灾难性暴风雪, Center at: (65 - 1), Tiles Damaged = 0, Pop Lost = 0, Units Killed = 0, Fertility Added = 0
+58, STORM, Severity = 1, 梯度沙尘暴, Center at: (67 - 40), Tiles Damaged = 0, Pop Lost = 0, Units Killed = 0, Fertility Added = 0
+58, STORM MOVEMENT, 3589,3500,3499,3587,
+58, ENHANCED TILES, At plot: 241, 153,
+58, STORM, Severity = 2, 灾难性暴风雪, Center at: (63 - 2), Tiles Damaged = 0, Pop Lost = 0, Units Killed = 0, Fertility Added = 1
+58, STORM MOVEMENT, 241,328,240,239,
+58, ONEOFF, Severity = 1, 林火, Center at: (67 - 74), Tiles Damaged = 0
+58, 2, 0, 0, 0, 0, 0, 0, 0, 5, 0, 3, 1, 87, 44, 0
+58, FLOOD, Severity = 1, 信浓川, Floodplain at: (59 - 8), Tiles Damaged = 3, Pop Lost = 1, Units Killed = 0, Fertility Added = 0
+58, STORM, Severity = 1, 梯度沙尘暴, Center at: (67 - 40), Tiles Damaged = 0, Pop Lost = 0, Units Killed = 0, Fertility Added = 0
+58, STORM MOVEMENT, 3589,3500,3499,3587,
+58, ENHANCED TILES, At plot: 241, 153,
+58, STORM, Severity = 2, 灾难性暴风雪, Center at: (63 - 2), Tiles Damaged = 0, Pop Lost = 0, Units Killed = 0, Fertility Added = 1
+58, STORM MOVEMENT, 241,328,240,239,
+58, ONEOFF, Severity = 1, 林火, Center at: (67 - 74), Tiles Damaged = 0
+58, 2, 0, 0, 0, 0, 0, 0, 0, 5, 0, 3, 1, 87, 44, 0
+58, FLOOD, Severity = 1, 信浓川, Floodplain at: (59 - 8), Tiles Damaged = 3, Pop Lost = 1, Units Killed = 0, Fertility Added = 0
+59, STORM, Severity = 2, 灾难性暴风雪, Center at: (60 - 1), Tiles Damaged = 0, Pop Lost = 0, Units Killed = 0, Fertility Added = 0
+59, STORM MOVEMENT, 238,149,237,148,
+59, 2, 0, 0, 0, 0, 0, 0, 0, 5, 0, 3, 1, 87, 45, 0
+59, FLOOD, Severity = 0, 特拉华河, Floodplain at: (36 - 19), Tiles Damaged = 0, Pop Lost = 0, Units Killed = 0, Fertility Added = 0

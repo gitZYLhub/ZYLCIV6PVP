@@ -4,6 +4,7 @@
   <File manifestOrder="733">Components/BBM/Lang/ZYL_RichMainland_Text.xml</File>
   <File manifestOrder="734">Components/BBM/Data/BBS Maps/zyl_team_rich_mainland.lua</File>
   <File manifestOrder="735">Components/BBM/Data/BBS Maps/zyl_ffa_rich_mainland.lua</File>
+  <File manifestOrder="1089">Components/BBM/Data/BBS Maps/zyl_rich_lakes.lua</File>
   <File manifestOrder="736">Components/BBM/Data/BBS Maps/zyl_rich_mainland_core.lua</File>
   <File manifestOrder="737">Components/BBM/Data/BBS Maps/ZYLRM/ConfigureCommon.sql</File>
   <File manifestOrder="738">Components/BBM/Data/BBS Maps/ZYLRM/ConfigureTeam.sql</File>
