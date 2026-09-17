@@ -1,0 +1,4 @@
+Turn, EventType, CityName, Owner, OwnerName, Pop, IdentityA, IdentityB, IdentityC, IdentityD, IdentityE
+50, City Captured, LOC_CITY_NAME_VILNIUS, 8, LOC_LEADER_LADY_TRIEU_NAME, 6, NULL, NULL, NULL, NULL, NULL
+55, City Captured, LOC_CITY_NAME_BUENOS_AIRES, 0, 咕咕二世, 6, NULL, NULL, NULL, NULL, NULL
+55, City Transferred, LOC_CITY_NAME_BUENOS_AIRES, 18, LOC_CIVILIZATION_BUENOS_AIRES_NAME, 6, NULL, NULL, NULL, NULL, NULL

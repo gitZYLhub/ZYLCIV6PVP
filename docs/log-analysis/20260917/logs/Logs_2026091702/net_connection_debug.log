@@ -1,0 +1,574 @@
+[2026-09-16 22:06:13]	GameListUpdate: GAMELISTUPDATE_CLEAR searchType(-1)
+[2026-09-16 22:06:15]	GameListUpdate: GAMELISTUPDATE_COMPLETE searchType(-1)
+[2026-09-16 22:06:16]	Attempt to Load a file. ServerType: 1, Location Type: 2, Device: 1, Options 00000000
+[2026-09-16 22:06:16]	Processing load, Location Type: 2, Device: 1, Options 00000000
+[2026-09-16 22:06:16]	Serialization Header Load Request. Location Type: 2, Device: 1, Options 00000000
+[2026-09-16 22:06:16]	Serialization OpenFromSource. Location Type: 2, Device: 1, Options 00000000
+[2026-09-16 22:06:16]	Attempting to host game.  ServerType: 1
+[2026-09-16 22:06:16]	Network Session Hosted.
+[2026-09-16 22:06:17]	JoinRoomComplete: Success.  Lobby (1) Reason (1)
+[2026-09-16 22:06:17]	Attempt to obtain a JoinCode but the current lobby does not support that feature.
+[2026-09-16 22:06:17]	Attempt to obtain a JoinCode but the current lobby does not support that feature.
+[2026-09-16 22:06:20]	FireWire Link Created: 21011
+[2026-09-16 22:06:21]	FireWire Link Created: 26891
+[2026-09-16 22:06:23]	FireWire Link Created: 6612
+[2026-09-16 22:06:24]	FireWire Link Created: 26218
+[2026-09-16 22:06:49]	Serialization OpenFromSource. Location Type: 2, Device: 1, Options 00000000
+[2026-09-16 22:06:49]	Serialization Request. Type: 2, Location Type: 2, Device: 4, Options 00000010
+[2026-09-16 22:06:49]	Serialization Request. IO Stream loading
+[2026-09-16 22:06:49]	Serialization OpenFromSource. Location Type: 2, Device: 4, Options 00000010
+[2026-09-16 22:06:54]	Serialization UnserializeGameState. pkStream valid=true
+[2026-09-16 22:06:54]		,LoadHeader - Complete
+[2026-09-16 22:06:54]		,AttachToSession - Complete
+[2026-09-16 22:06:56]		,LoadGameCoreState - Complete
+[2026-09-16 22:06:56]		,LoadAudioState - Complete
+[2026-09-16 22:06:56]		,LoadUIState - Complete
+[2026-09-16 22:06:56]		,LoadRecorderState - Complete
+[2026-09-16 22:06:56]	Serialization UnserializeGameState, result=0
+[2026-09-16 22:11:34]	Serialization Request. Type: 1, Location Type: 2, Device: 1, Options 00000004
+[2026-09-16 22:11:34]	Serialization, writing Game State
+[2026-09-16 22:11:34]	Serialization, waiting for request of type SAVE, reason = 1
+[2026-09-16 22:11:35]	Serialization, waiting for request of type LOAD, reason = 0
+[2026-09-16 22:16:26]	Serialization Request. Type: 1, Location Type: 2, Device: 1, Options 00000004
+[2026-09-16 22:16:26]	Serialization, writing Game State
+[2026-09-16 22:16:26]	Serialization, waiting for request of type SAVE, reason = 1
+[2026-09-16 22:16:26]	Serialization, waiting for request of type LOAD, reason = 0
+[2026-09-16 22:19:41]	Serialization Request. Type: 1, Location Type: 2, Device: 1, Options 00000004
+[2026-09-16 22:19:41]	Serialization, writing Game State
+[2026-09-16 22:19:41]	Serialization, waiting for request of type SAVE, reason = 1
+[2026-09-16 22:19:41]	Serialization, waiting for request of type LOAD, reason = 0
+[2026-09-16 22:23:06]	Serialization Request. Type: 1, Location Type: 2, Device: 1, Options 00000004
+[2026-09-16 22:23:06]	Serialization, writing Game State
+[2026-09-16 22:23:06]	Serialization, waiting for request of type SAVE, reason = 1
+[2026-09-16 22:23:07]	Serialization, waiting for request of type LOAD, reason = 0
+[2026-09-16 22:27:40]	Serialization Request. Type: 1, Location Type: 2, Device: 1, Options 00000004
+[2026-09-16 22:27:40]	Serialization, writing Game State
+[2026-09-16 22:27:40]	Serialization, waiting for request of type SAVE, reason = 1
+[2026-09-16 22:27:41]	Serialization, waiting for request of type LOAD, reason = 0
+[2026-09-16 22:32:52]	Serialization Request. Type: 1, Location Type: 2, Device: 1, Options 00000004
+[2026-09-16 22:32:52]	Serialization, writing Game State
+[2026-09-16 22:32:52]	Serialization, waiting for request of type SAVE, reason = 1
+[2026-09-16 22:32:53]	Serialization, waiting for request of type LOAD, reason = 0
+[2026-09-16 22:37:59]	Serialization Request. Type: 1, Location Type: 2, Device: 1, Options 00000004
+[2026-09-16 22:37:59]	Serialization, writing Game State
+[2026-09-16 22:37:59]	Serialization, waiting for request of type SAVE, reason = 1
+[2026-09-16 22:37:59]	Serialization, waiting for request of type LOAD, reason = 0
+[2026-09-16 22:41:41]	Serialization Request. Type: 1, Location Type: 2, Device: 1, Options 00000004
+[2026-09-16 22:41:41]	Serialization, writing Game State
+[2026-09-16 22:41:41]	Serialization, waiting for request of type SAVE, reason = 1
+[2026-09-16 22:41:41]	Serialization, waiting for request of type LOAD, reason = 0
+[2026-09-16 22:47:50]	Serialization Request. Type: 1, Location Type: 2, Device: 1, Options 00000004
+[2026-09-16 22:47:50]	Serialization, writing Game State
+[2026-09-16 22:47:50]	Serialization, waiting for request of type SAVE, reason = 1
+[2026-09-16 22:47:50]	Serialization, waiting for request of type LOAD, reason = 0
+[2026-09-16 22:55:09]	Serialization Request. Type: 1, Location Type: 2, Device: 1, Options 00000004
+[2026-09-16 22:55:09]	Serialization, writing Game State
+[2026-09-16 22:55:09]	Serialization, waiting for request of type SAVE, reason = 1
+[2026-09-16 22:55:10]	Serialization, waiting for request of type LOAD, reason = 0
+[2026-09-16 23:00:43]	Serialization Request. Type: 1, Location Type: 2, Device: 1, Options 00000004
+[2026-09-16 23:00:43]	Serialization, writing Game State
+[2026-09-16 23:00:43]	Serialization, waiting for request of type SAVE, reason = 1
+[2026-09-16 23:00:44]	Serialization, waiting for request of type LOAD, reason = 0
+[2026-09-16 23:06:22]	Serialization Request. Type: 1, Location Type: 2, Device: 1, Options 00000004
+[2026-09-16 23:06:22]	Serialization, writing Game State
+[2026-09-16 23:06:22]	Serialization, waiting for request of type SAVE, reason = 1
+[2026-09-16 23:06:23]	Serialization, waiting for request of type LOAD, reason = 0
+[2026-09-16 23:11:46]	Serialization Request. Type: 1, Location Type: 2, Device: 1, Options 00000004
+[2026-09-16 23:11:46]	Serialization, writing Game State
+[2026-09-16 23:11:46]	Serialization, waiting for request of type SAVE, reason = 1
+[2026-09-16 23:11:46]	Serialization, waiting for request of type LOAD, reason = 0
+[2026-09-16 23:16:03]	Serialization Request. Type: 1, Location Type: 2, Device: 1, Options 00000004
+[2026-09-16 23:16:03]	Serialization, writing Game State
+[2026-09-16 23:16:03]	Serialization, waiting for request of type SAVE, reason = 1
+[2026-09-16 23:16:03]	Serialization, waiting for request of type LOAD, reason = 0
+[2026-09-16 23:21:21]	Serialization Request. Type: 1, Location Type: 2, Device: 1, Options 00000004
+[2026-09-16 23:21:21]	Serialization, writing Game State
+[2026-09-16 23:21:21]	Serialization, waiting for request of type SAVE, reason = 1
+[2026-09-16 23:21:22]	Serialization, waiting for request of type LOAD, reason = 0
+[2026-09-16 23:22:20]	Serialization Request. Type: 1, Location Type: 2, Device: 1, Options 00000000
+[2026-09-16 23:22:20]	Serialization, writing Game State
+[2026-09-16 23:23:34]	Serialization Request. Type: 1, Location Type: 2, Device: 1, Options 00000000
+[2026-09-16 23:23:34]	Serialization, writing Game State
+[2026-09-16 23:23:44]	Unable to close ENet connection for connection ID (6612) because it has no ENetPeer
+[2026-09-16 23:23:44]	FireWire Link Closed: 6612
+[2026-09-16 23:24:00]	Unable to close ENet connection for connection ID (21011) because it has no ENetPeer
+[2026-09-16 23:24:00]	FireWire Link Closed: 21011
+[2026-09-16 23:24:31]	Forced ENet connection closed with connection ID (26218)
+[2026-09-16 23:24:31]	FireWire Link Closed: 26218
+[2026-09-16 23:24:31]	Forced ENet connection closed with connection ID (26891)
+[2026-09-16 23:24:31]	FireWire Link Closed: 26891
+[2026-09-16 23:24:31]	~FPendingConnQueue Flushing Pending Connections.
+[2026-09-16 23:24:31]	Flushing Pending Connections.
+[2026-09-16 23:24:39]	GameListUpdate: GAMELISTUPDATE_CLEAR searchType(-1)
+[2026-09-16 23:24:41]	GameListUpdate: GAMELISTUPDATE_COMPLETE searchType(-1)
+[2026-09-16 23:24:43]	Attempt to Load a file. ServerType: 1, Location Type: 2, Device: 1, Options 00000000
+[2026-09-16 23:24:43]	Processing load, Location Type: 2, Device: 1, Options 00000000
+[2026-09-16 23:24:43]	Serialization Header Load Request. Location Type: 2, Device: 1, Options 00000000
+[2026-09-16 23:24:43]	Serialization OpenFromSource. Location Type: 2, Device: 1, Options 00000000
+[2026-09-16 23:24:43]	Attempting to host game.  ServerType: 1
+[2026-09-16 23:24:43]	Network Session Hosted.
+[2026-09-16 23:24:44]	JoinRoomComplete: Success.  Lobby (3) Reason (1)
+[2026-09-16 23:24:44]	Attempt to obtain a JoinCode but the current lobby does not support that feature.
+[2026-09-16 23:24:44]	Attempt to obtain a JoinCode but the current lobby does not support that feature.
+[2026-09-16 23:25:15]	FireWire Link Created: 8865
+[2026-09-16 23:25:28]	Attempt to obtain a JoinCode but the current lobby does not support that feature.
+[2026-09-16 23:26:56]	FireWire Link Created: 4962
+[2026-09-16 23:27:12]	FireWire Link Created: 3670
+[2026-09-16 23:27:17]	Unable to close ENet connection for connection ID (3670) because it has no ENetPeer
+[2026-09-16 23:27:17]	FireWire Link Closed: 3670
+[2026-09-16 23:27:19]	FireWire Link Created: 10067
+[2026-09-16 23:27:22]	Unable to close ENet connection for connection ID (10067) because it has no ENetPeer
+[2026-09-16 23:27:22]	FireWire Link Closed: 10067
+[2026-09-16 23:27:25]	FireWire Link Created: 21265
+[2026-09-16 23:27:37]	FireWire Link Created: 11613
+[2026-09-16 23:28:15]	ENet Connection closed with connection ID (8865)
+[2026-09-16 23:28:15]	FireWire Link Closed: 8865
+[2026-09-16 23:28:17]	FireWire Link Created: 19582
+[2026-09-16 23:28:29]	ENet Connection closed with connection ID (19582)
+[2026-09-16 23:28:29]	FireWire Link Closed: 19582
+[2026-09-16 23:28:31]	Serialization OpenFromSource. Location Type: 2, Device: 1, Options 00000000
+[2026-09-16 23:28:31]	Serialization Request. Type: 2, Location Type: 2, Device: 4, Options 00000010
+[2026-09-16 23:28:31]	Serialization Request. IO Stream loading
+[2026-09-16 23:28:31]	Serialization OpenFromSource. Location Type: 2, Device: 4, Options 00000010
+[2026-09-16 23:28:36]	FireWire Link Created: 537
+[2026-09-16 23:28:37]	Serialization UnserializeGameState. pkStream valid=true
+[2026-09-16 23:28:37]		,LoadHeader - Complete
+[2026-09-16 23:28:37]		,AttachToSession - Complete
+[2026-09-16 23:28:39]		,LoadGameCoreState - Complete
+[2026-09-16 23:28:39]		,LoadAudioState - Complete
+[2026-09-16 23:28:39]		,LoadUIState - Complete
+[2026-09-16 23:28:39]		,LoadRecorderState - Complete
+[2026-09-16 23:28:39]	Serialization UnserializeGameState, result=0
+[2026-09-16 23:28:49]	Unable to close ENet connection for connection ID (537) because it has no ENetPeer
+[2026-09-16 23:28:49]	Unable to close ENet connection for connection ID (537) because it has no ENetPeer
+[2026-09-16 23:28:49]	FireWire Link Closed: 537
+[2026-09-16 23:29:02]	FireWire Link Created: 23214
+[2026-09-16 23:29:13]	Serialization Request. Type: 1, Location Type: 2, Device: 4, Options 00000000
+[2026-09-16 23:29:13]	Serialization, writing Game State
+[2026-09-16 23:30:23]	Forced ENet connection closed with connection ID (4962)
+[2026-09-16 23:30:23]	FireWire Link Closed: 4962
+[2026-09-16 23:30:23]	Forced ENet connection closed with connection ID (11613)
+[2026-09-16 23:30:23]	FireWire Link Closed: 11613
+[2026-09-16 23:30:23]	Forced ENet connection closed with connection ID (21265)
+[2026-09-16 23:30:23]	FireWire Link Closed: 21265
+[2026-09-16 23:30:23]	Forced ENet connection closed with connection ID (23214)
+[2026-09-16 23:30:23]	FireWire Link Closed: 23214
+[2026-09-16 23:30:23]	~FPendingConnQueue Flushing Pending Connections.
+[2026-09-16 23:30:23]	Flushing Pending Connections.
+[2026-09-16 23:30:31]	GameListUpdate: GAMELISTUPDATE_CLEAR searchType(-1)
+[2026-09-16 23:30:33]	GameListUpdate: GAMELISTUPDATE_COMPLETE searchType(-1)
+[2026-09-16 23:30:34]	Attempt to Load a file. ServerType: 1, Location Type: 2, Device: 1, Options 00000000
+[2026-09-16 23:30:34]	Processing load, Location Type: 2, Device: 1, Options 00000000
+[2026-09-16 23:30:34]	Serialization Header Load Request. Location Type: 2, Device: 1, Options 00000000
+[2026-09-16 23:30:34]	Serialization OpenFromSource. Location Type: 2, Device: 1, Options 00000000
+[2026-09-16 23:30:34]	Attempting to host game.  ServerType: 1
+[2026-09-16 23:30:34]	Network Session Hosted.
+[2026-09-16 23:30:35]	JoinRoomComplete: Success.  Lobby (5) Reason (1)
+[2026-09-16 23:30:36]	Attempt to obtain a JoinCode but the current lobby does not support that feature.
+[2026-09-16 23:30:36]	Attempt to obtain a JoinCode but the current lobby does not support that feature.
+[2026-09-16 23:30:40]	FireWire Link Created: 57
+[2026-09-16 23:30:40]	FireWire Link Created: 15114
+[2026-09-16 23:30:42]	FireWire Link Created: 25132
+[2026-09-16 23:30:51]	FireWire Link Created: 19563
+[2026-09-16 23:31:09]	Serialization OpenFromSource. Location Type: 2, Device: 1, Options 00000000
+[2026-09-16 23:31:09]	Serialization Request. Type: 2, Location Type: 2, Device: 4, Options 00000010
+[2026-09-16 23:31:09]	Serialization Request. IO Stream loading
+[2026-09-16 23:31:09]	Serialization OpenFromSource. Location Type: 2, Device: 4, Options 00000010
+[2026-09-16 23:31:15]	Serialization UnserializeGameState. pkStream valid=true
+[2026-09-16 23:31:15]		,LoadHeader - Complete
+[2026-09-16 23:31:15]		,AttachToSession - Complete
+[2026-09-16 23:31:17]		,LoadGameCoreState - Complete
+[2026-09-16 23:31:17]		,LoadAudioState - Complete
+[2026-09-16 23:31:17]		,LoadUIState - Complete
+[2026-09-16 23:31:17]		,LoadRecorderState - Complete
+[2026-09-16 23:31:17]	Serialization UnserializeGameState, result=0
+[2026-09-16 23:35:10]	Serialization Request. Type: 1, Location Type: 2, Device: 1, Options 00000004
+[2026-09-16 23:35:10]	Serialization, writing Game State
+[2026-09-16 23:35:10]	Serialization, waiting for request of type SAVE, reason = 1
+[2026-09-16 23:35:11]	Serialization, waiting for request of type LOAD, reason = 0
+[2026-09-16 23:43:36]	Serialization Request. Type: 1, Location Type: 2, Device: 1, Options 00000004
+[2026-09-16 23:43:36]	Serialization, writing Game State
+[2026-09-16 23:43:36]	Serialization, waiting for request of type SAVE, reason = 1
+[2026-09-16 23:43:36]	Serialization, waiting for request of type LOAD, reason = 0
+[2026-09-16 23:49:41]	Serialization Request. Type: 1, Location Type: 2, Device: 1, Options 00000004
+[2026-09-16 23:49:41]	Serialization, writing Game State
+[2026-09-16 23:49:41]	Serialization, waiting for request of type SAVE, reason = 1
+[2026-09-16 23:49:42]	Serialization, waiting for request of type LOAD, reason = 0
+[2026-09-16 23:54:25]	Serialization Request. Type: 1, Location Type: 2, Device: 1, Options 00000004
+[2026-09-16 23:54:25]	Serialization, writing Game State
+[2026-09-16 23:54:25]	Serialization, waiting for request of type SAVE, reason = 1
+[2026-09-16 23:54:25]	Serialization, waiting for request of type LOAD, reason = 0
+[2026-09-16 23:58:37]	Serialization Request. Type: 1, Location Type: 2, Device: 1, Options 00000000
+[2026-09-16 23:58:37]	Serialization, writing Game State
+[2026-09-16 23:59:15]	Serialization Request. Type: 1, Location Type: 2, Device: 1, Options 00000002
+[2026-09-16 23:59:15]	Serialization, writing Game State
+[2026-09-17 00:00:29]	Forced ENet connection closed with connection ID (57)
+[2026-09-17 00:00:29]	FireWire Link Closed: 57
+[2026-09-17 00:00:29]	Forced ENet connection closed with connection ID (15114)
+[2026-09-17 00:00:29]	FireWire Link Closed: 15114
+[2026-09-17 00:00:29]	Forced ENet connection closed with connection ID (19563)
+[2026-09-17 00:00:29]	FireWire Link Closed: 19563
+[2026-09-17 00:00:29]	Forced ENet connection closed with connection ID (25132)
+[2026-09-17 00:00:29]	FireWire Link Closed: 25132
+[2026-09-17 00:00:29]	~FPendingConnQueue Flushing Pending Connections.
+[2026-09-17 00:00:29]	Flushing Pending Connections.
+[2026-09-17 00:00:37]	GameListUpdate: GAMELISTUPDATE_CLEAR searchType(-1)
+[2026-09-17 00:00:39]	GameListUpdate: GAMELISTUPDATE_COMPLETE searchType(-1)
+[2026-09-17 00:02:20]	Attempt to Load a file. ServerType: 1, Location Type: 2, Device: 1, Options 00000000
+[2026-09-17 00:02:20]	Processing load, Location Type: 2, Device: 1, Options 00000000
+[2026-09-17 00:02:20]	Serialization Header Load Request. Location Type: 2, Device: 1, Options 00000000
+[2026-09-17 00:02:20]	Serialization OpenFromSource. Location Type: 2, Device: 1, Options 00000000
+[2026-09-17 00:02:20]	Attempting to host game.  ServerType: 1
+[2026-09-17 00:02:20]	Network Session Hosted.
+[2026-09-17 00:02:21]	JoinRoomComplete: Success.  Lobby (7) Reason (1)
+[2026-09-17 00:02:21]	Attempt to obtain a JoinCode but the current lobby does not support that feature.
+[2026-09-17 00:02:21]	Attempt to obtain a JoinCode but the current lobby does not support that feature.
+[2026-09-17 00:02:24]	FireWire Link Created: 3914
+[2026-09-17 00:02:24]	FireWire Link Created: 4057
+[2026-09-17 00:02:25]	FireWire Link Created: 17918
+[2026-09-17 00:02:41]	FireWire Link Created: 41
+[2026-09-17 00:02:54]	Serialization OpenFromSource. Location Type: 2, Device: 1, Options 00000000
+[2026-09-17 00:02:54]	Serialization Request. Type: 2, Location Type: 2, Device: 4, Options 00000010
+[2026-09-17 00:02:54]	Serialization Request. IO Stream loading
+[2026-09-17 00:02:54]	Serialization OpenFromSource. Location Type: 2, Device: 4, Options 00000010
+[2026-09-17 00:03:00]	Serialization UnserializeGameState. pkStream valid=true
+[2026-09-17 00:03:00]		,LoadHeader - Complete
+[2026-09-17 00:03:00]		,AttachToSession - Complete
+[2026-09-17 00:03:02]		,LoadGameCoreState - Complete
+[2026-09-17 00:03:02]		,LoadAudioState - Complete
+[2026-09-17 00:03:02]		,LoadUIState - Complete
+[2026-09-17 00:03:02]		,LoadRecorderState - Complete
+[2026-09-17 00:03:02]	Serialization UnserializeGameState, result=0
+[2026-09-17 00:03:30]	Serialization Request. Type: 1, Location Type: 2, Device: 4, Options 00000000
+[2026-09-17 00:03:30]	Serialization, writing Game State
+[2026-09-17 00:06:02]	FireWire Link Created: 2337
+[2026-09-17 00:06:09]	ENet Connection closed with connection ID (2337)
+[2026-09-17 00:06:09]	FireWire Link Closed: 2337
+[2026-09-17 00:06:10]	FireWire Link Created: 13323
+[2026-09-17 00:06:26]	ENet Connection closed with connection ID (13323)
+[2026-09-17 00:06:26]	Unable to close ENet connection for connection ID (13323) because it has no ENetPeer
+[2026-09-17 00:06:26]	FireWire Link Closed: 13323
+[2026-09-17 00:06:36]	FireWire Link Created: 9906
+[2026-09-17 00:06:38]	ENet Connection closed with connection ID (9906)
+[2026-09-17 00:06:38]	FireWire Link Closed: 9906
+[2026-09-17 00:06:45]	ENet Connection closed with connection ID (17918)
+[2026-09-17 00:06:54]	FireWire Link Created: 4200
+[2026-09-17 00:07:08]	Unable to close ENet connection for connection ID (4200) because it has no ENetPeer
+[2026-09-17 00:07:08]	FireWire Link Closed: 4200
+[2026-09-17 00:07:08]	Forced ENet connection closed with connection ID (41)
+[2026-09-17 00:07:08]	FireWire Link Closed: 41
+[2026-09-17 00:07:08]	Forced ENet connection closed with connection ID (3914)
+[2026-09-17 00:07:08]	FireWire Link Closed: 3914
+[2026-09-17 00:07:08]	Forced ENet connection closed with connection ID (4057)
+[2026-09-17 00:07:08]	FireWire Link Closed: 4057
+[2026-09-17 00:07:08]	Forced ENet connection closed with connection ID (17918)
+[2026-09-17 00:07:08]	FireWire Link Closed: 17918
+[2026-09-17 00:07:08]	~FPendingConnQueue Flushing Pending Connections.
+[2026-09-17 00:07:08]	Flushing Pending Connections.
+[2026-09-17 00:07:15]	GameListUpdate: GAMELISTUPDATE_CLEAR searchType(-1)
+[2026-09-17 00:07:17]	GameListUpdate: GAMELISTUPDATE_COMPLETE searchType(-1)
+[2026-09-17 00:07:22]	Attempt to Load a file. ServerType: 1, Location Type: 2, Device: 1, Options 00000000
+[2026-09-17 00:07:22]	Processing load, Location Type: 2, Device: 1, Options 00000000
+[2026-09-17 00:07:22]	Serialization Header Load Request. Location Type: 2, Device: 1, Options 00000000
+[2026-09-17 00:07:22]	Serialization OpenFromSource. Location Type: 2, Device: 1, Options 00000000
+[2026-09-17 00:07:22]	Attempting to host game.  ServerType: 1
+[2026-09-17 00:07:22]	Network Session Hosted.
+[2026-09-17 00:07:23]	JoinRoomComplete: Success.  Lobby (9) Reason (1)
+[2026-09-17 00:07:23]	Attempt to obtain a JoinCode but the current lobby does not support that feature.
+[2026-09-17 00:07:23]	Attempt to obtain a JoinCode but the current lobby does not support that feature.
+[2026-09-17 00:07:27]	FireWire Link Created: 27905
+[2026-09-17 00:07:28]	FireWire Link Created: 1401
+[2026-09-17 00:07:29]	FireWire Link Created: 27391
+[2026-09-17 00:07:30]	FireWire Link Created: 21597
+[2026-09-17 00:07:58]	Serialization OpenFromSource. Location Type: 2, Device: 1, Options 00000000
+[2026-09-17 00:07:58]	Serialization Request. Type: 2, Location Type: 2, Device: 4, Options 00000010
+[2026-09-17 00:07:58]	Serialization Request. IO Stream loading
+[2026-09-17 00:07:58]	Serialization OpenFromSource. Location Type: 2, Device: 4, Options 00000010
+[2026-09-17 00:08:04]	Serialization UnserializeGameState. pkStream valid=true
+[2026-09-17 00:08:04]		,LoadHeader - Complete
+[2026-09-17 00:08:04]		,AttachToSession - Complete
+[2026-09-17 00:08:06]		,LoadGameCoreState - Complete
+[2026-09-17 00:08:06]		,LoadAudioState - Complete
+[2026-09-17 00:08:06]		,LoadUIState - Complete
+[2026-09-17 00:08:06]		,LoadRecorderState - Complete
+[2026-09-17 00:08:06]	Serialization UnserializeGameState, result=0
+[2026-09-17 00:08:34]	Serialization Request. Type: 1, Location Type: 2, Device: 4, Options 00000000
+[2026-09-17 00:08:34]	Serialization, writing Game State
+[2026-09-17 00:10:46]	ENet Connection closed with connection ID (27905)
+[2026-09-17 00:11:15]	Forced ENet connection closed with connection ID (1401)
+[2026-09-17 00:11:15]	FireWire Link Closed: 1401
+[2026-09-17 00:11:15]	Forced ENet connection closed with connection ID (21597)
+[2026-09-17 00:11:15]	FireWire Link Closed: 21597
+[2026-09-17 00:11:15]	Forced ENet connection closed with connection ID (27391)
+[2026-09-17 00:11:15]	FireWire Link Closed: 27391
+[2026-09-17 00:11:15]	Forced ENet connection closed with connection ID (27905)
+[2026-09-17 00:11:15]	FireWire Link Closed: 27905
+[2026-09-17 00:11:15]	~FPendingConnQueue Flushing Pending Connections.
+[2026-09-17 00:11:15]	Flushing Pending Connections.
+[2026-09-17 00:11:22]	GameListUpdate: GAMELISTUPDATE_CLEAR searchType(-1)
+[2026-09-17 00:11:24]	GameListUpdate: GAMELISTUPDATE_COMPLETE searchType(-1)
+[2026-09-17 00:11:24]	GameListUpdate: GAMELISTUPDATE_CLEAR searchType(-1)
+[2026-09-17 00:11:26]	GameListUpdate: GAMELISTUPDATE_COMPLETE searchType(-1)
+[2026-09-17 00:11:29]	Attempt to Load a file. ServerType: 1, Location Type: 2, Device: 1, Options 00000004
+[2026-09-17 00:11:29]	Processing load, Location Type: 2, Device: 1, Options 00000004
+[2026-09-17 00:11:29]	Serialization Header Load Request. Location Type: 2, Device: 1, Options 00000004
+[2026-09-17 00:11:29]	Serialization OpenFromSource. Location Type: 2, Device: 1, Options 00000004
+[2026-09-17 00:11:29]	Attempting to host game.  ServerType: 1
+[2026-09-17 00:11:29]	Network Session Hosted.
+[2026-09-17 00:11:30]	JoinRoomComplete: Success.  Lobby (11) Reason (1)
+[2026-09-17 00:11:30]	Attempt to obtain a JoinCode but the current lobby does not support that feature.
+[2026-09-17 00:11:30]	Attempt to obtain a JoinCode but the current lobby does not support that feature.
+[2026-09-17 00:11:33]	FireWire Link Created: 14773
+[2026-09-17 00:11:35]	FireWire Link Created: 8896
+[2026-09-17 00:11:39]	FireWire Link Created: 4577
+[2026-09-17 00:11:43]	FireWire Link Created: 32378
+[2026-09-17 00:11:58]	Serialization OpenFromSource. Location Type: 2, Device: 1, Options 00000004
+[2026-09-17 00:11:58]	Serialization Request. Type: 2, Location Type: 2, Device: 4, Options 00000010
+[2026-09-17 00:11:58]	Serialization Request. IO Stream loading
+[2026-09-17 00:11:58]	Serialization OpenFromSource. Location Type: 2, Device: 4, Options 00000010
+[2026-09-17 00:12:04]	Serialization UnserializeGameState. pkStream valid=true
+[2026-09-17 00:12:04]		,LoadHeader - Complete
+[2026-09-17 00:12:04]		,AttachToSession - Complete
+[2026-09-17 00:12:06]		,LoadGameCoreState - Complete
+[2026-09-17 00:12:06]		,LoadAudioState - Complete
+[2026-09-17 00:12:06]		,LoadUIState - Complete
+[2026-09-17 00:12:06]		,LoadRecorderState - Complete
+[2026-09-17 00:12:06]	Serialization UnserializeGameState, result=0
+[2026-09-17 00:12:29]	Serialization Request. Type: 1, Location Type: 2, Device: 4, Options 00000000
+[2026-09-17 00:12:29]	Serialization, writing Game State
+[2026-09-17 00:13:55]	Serialization Request. Type: 1, Location Type: 2, Device: 1, Options 00000000
+[2026-09-17 00:13:55]	Serialization, writing Game State
+[2026-09-17 00:15:55]	FireWire Link Created: 9239
+[2026-09-17 00:16:00]	Unable to close ENet connection for connection ID (9239) because it has no ENetPeer
+[2026-09-17 00:16:00]	FireWire Link Closed: 9239
+[2026-09-17 00:16:03]	Forced ENet connection closed with connection ID (4577)
+[2026-09-17 00:16:03]	FireWire Link Closed: 4577
+[2026-09-17 00:16:03]	Forced ENet connection closed with connection ID (8896)
+[2026-09-17 00:16:03]	FireWire Link Closed: 8896
+[2026-09-17 00:16:03]	Forced ENet connection closed with connection ID (14773)
+[2026-09-17 00:16:03]	FireWire Link Closed: 14773
+[2026-09-17 00:16:03]	Forced ENet connection closed with connection ID (32378)
+[2026-09-17 00:16:03]	FireWire Link Closed: 32378
+[2026-09-17 00:16:03]	~FPendingConnQueue Flushing Pending Connections.
+[2026-09-17 00:16:03]	Flushing Pending Connections.
+[2026-09-17 00:16:10]	GameListUpdate: GAMELISTUPDATE_CLEAR searchType(-1)
+[2026-09-17 00:16:12]	GameListUpdate: GAMELISTUPDATE_COMPLETE searchType(-1)
+[2026-09-17 00:16:16]	Attempt to Load a file. ServerType: 1, Location Type: 2, Device: 1, Options 00000004
+[2026-09-17 00:16:16]	Processing load, Location Type: 2, Device: 1, Options 00000004
+[2026-09-17 00:16:16]	Serialization Header Load Request. Location Type: 2, Device: 1, Options 00000004
+[2026-09-17 00:16:16]	Serialization OpenFromSource. Location Type: 2, Device: 1, Options 00000004
+[2026-09-17 00:16:16]	Attempting to host game.  ServerType: 1
+[2026-09-17 00:16:16]	Network Session Hosted.
+[2026-09-17 00:16:17]	JoinRoomComplete: Success.  Lobby (13) Reason (1)
+[2026-09-17 00:16:17]	Attempt to obtain a JoinCode but the current lobby does not support that feature.
+[2026-09-17 00:16:18]	Attempt to obtain a JoinCode but the current lobby does not support that feature.
+[2026-09-17 00:16:20]	FireWire Link Created: 1067
+[2026-09-17 00:16:22]	FireWire Link Created: 31010
+[2026-09-17 00:16:23]	FireWire Link Created: 8451
+[2026-09-17 00:16:25]	FireWire Link Created: 2155
+[2026-09-17 00:16:40]	Unable to close ENet connection for connection ID (31010) because it has no ENetPeer
+[2026-09-17 00:16:40]	FireWire Link Closed: 31010
+[2026-09-17 00:16:43]	FireWire Link Created: 27811
+[2026-09-17 00:16:49]	Unable to close ENet connection for connection ID (27811) because it has no ENetPeer
+[2026-09-17 00:16:49]	FireWire Link Closed: 27811
+[2026-09-17 00:16:51]	FireWire Link Created: 13414
+[2026-09-17 00:17:01]	Unable to close ENet connection for connection ID (13414) because it has no ENetPeer
+[2026-09-17 00:17:01]	FireWire Link Closed: 13414
+[2026-09-17 00:17:02]	FireWire Link Created: 7348
+[2026-09-17 00:17:05]	Unable to close ENet connection for connection ID (7348) because it has no ENetPeer
+[2026-09-17 00:17:05]	FireWire Link Closed: 7348
+[2026-09-17 00:17:06]	FireWire Link Created: 26294
+[2026-09-17 00:17:16]	Forced ENet connection closed with connection ID (1067)
+[2026-09-17 00:17:16]	FireWire Link Closed: 1067
+[2026-09-17 00:17:16]	Forced ENet connection closed with connection ID (2155)
+[2026-09-17 00:17:16]	FireWire Link Closed: 2155
+[2026-09-17 00:17:16]	Forced ENet connection closed with connection ID (8451)
+[2026-09-17 00:17:16]	FireWire Link Closed: 8451
+[2026-09-17 00:17:16]	Forced ENet connection closed with connection ID (26294)
+[2026-09-17 00:17:16]	FireWire Link Closed: 26294
+[2026-09-17 00:17:16]	~FPendingConnQueue Flushing Pending Connections.
+[2026-09-17 00:17:16]	Flushing Pending Connections.
+[2026-09-17 00:17:16]	GameListUpdate: GAMELISTUPDATE_CLEAR searchType(-1)
+[2026-09-17 00:17:19]	GameListUpdate: GAMELISTUPDATE_COMPLETE searchType(-1)
+[2026-09-17 00:17:21]	Attempt to Load a file. ServerType: 1, Location Type: 2, Device: 1, Options 00000004
+[2026-09-17 00:17:21]	Processing load, Location Type: 2, Device: 1, Options 00000004
+[2026-09-17 00:17:21]	Serialization Header Load Request. Location Type: 2, Device: 1, Options 00000004
+[2026-09-17 00:17:21]	Serialization OpenFromSource. Location Type: 2, Device: 1, Options 00000004
+[2026-09-17 00:17:21]	Attempting to host game.  ServerType: 1
+[2026-09-17 00:17:21]	Network Session Hosted.
+[2026-09-17 00:17:22]	JoinRoomComplete: Success.  Lobby (15) Reason (1)
+[2026-09-17 00:17:22]	Attempt to obtain a JoinCode but the current lobby does not support that feature.
+[2026-09-17 00:17:26]	FireWire Link Created: 5448
+[2026-09-17 00:17:26]	FireWire Link Created: 31490
+[2026-09-17 00:17:31]	FireWire Link Created: 5222
+[2026-09-17 00:17:43]	FireWire Link Created: 27368
+[2026-09-17 00:17:44]	Unable to close ENet connection for connection ID (5448) because it has no ENetPeer
+[2026-09-17 00:17:44]	FireWire Link Closed: 5448
+[2026-09-17 00:17:51]	FireWire Link Created: 14752
+[2026-09-17 00:17:55]	Unable to close ENet connection for connection ID (14752) because it has no ENetPeer
+[2026-09-17 00:17:55]	FireWire Link Closed: 14752
+[2026-09-17 00:17:56]	FireWire Link Created: 16392
+[2026-09-17 00:18:05]	Unable to close ENet connection for connection ID (27368) because it has no ENetPeer
+[2026-09-17 00:18:05]	FireWire Link Closed: 27368
+[2026-09-17 00:18:08]	Unable to close ENet connection for connection ID (16392) because it has no ENetPeer
+[2026-09-17 00:18:08]	FireWire Link Closed: 16392
+[2026-09-17 00:18:09]	FireWire Link Created: 1215
+[2026-09-17 00:18:14]	FireWire Link Created: 30114
+[2026-09-17 00:18:28]	Unable to close ENet connection for connection ID (1215) because it has no ENetPeer
+[2026-09-17 00:18:28]	FireWire Link Closed: 1215
+[2026-09-17 00:18:28]	Unable to close ENet connection for connection ID (30114) because it has no ENetPeer
+[2026-09-17 00:18:28]	FireWire Link Closed: 30114
+[2026-09-17 00:18:29]	Forced ENet connection closed with connection ID (5222)
+[2026-09-17 00:18:29]	FireWire Link Closed: 5222
+[2026-09-17 00:18:29]	Forced ENet connection closed with connection ID (31490)
+[2026-09-17 00:18:29]	FireWire Link Closed: 31490
+[2026-09-17 00:18:29]	~FPendingConnQueue Flushing Pending Connections.
+[2026-09-17 00:18:29]	Flushing Pending Connections.
+[2026-09-17 00:18:29]	GameListUpdate: GAMELISTUPDATE_CLEAR searchType(-1)
+[2026-09-17 00:18:32]	GameListUpdate: GAMELISTUPDATE_COMPLETE searchType(-1)
+[2026-09-17 00:18:34]	Attempt to Load a file. ServerType: 1, Location Type: 2, Device: 1, Options 00000004
+[2026-09-17 00:18:34]	Processing load, Location Type: 2, Device: 1, Options 00000004
+[2026-09-17 00:18:34]	Serialization Header Load Request. Location Type: 2, Device: 1, Options 00000004
+[2026-09-17 00:18:34]	Serialization OpenFromSource. Location Type: 2, Device: 1, Options 00000004
+[2026-09-17 00:18:34]	Attempting to host game.  ServerType: 1
+[2026-09-17 00:18:34]	Network Session Hosted.
+[2026-09-17 00:18:35]	JoinRoomComplete: Success.  Lobby (17) Reason (1)
+[2026-09-17 00:18:35]	Attempt to obtain a JoinCode but the current lobby does not support that feature.
+[2026-09-17 00:18:38]	FireWire Link Created: 9045
+[2026-09-17 00:18:43]	FireWire Link Created: 22435
+[2026-09-17 00:18:51]	ENet Connection closed with connection ID (22435)
+[2026-09-17 00:18:51]	FireWire Link Closed: 22435
+[2026-09-17 00:20:13]	FireWire Link Created: 31679
+[2026-09-17 00:20:18]	Unable to close ENet connection for connection ID (9045) because it has no ENetPeer
+[2026-09-17 00:20:18]	FireWire Link Closed: 9045
+[2026-09-17 00:20:21]	FireWire Link Created: 26462
+[2026-09-17 00:20:25]	FireWire Link Created: 21105
+[2026-09-17 00:20:38]	FireWire Link Created: 22754
+[2026-09-17 00:21:03]	Serialization OpenFromSource. Location Type: 2, Device: 1, Options 00000004
+[2026-09-17 00:21:03]	Serialization Request. Type: 2, Location Type: 2, Device: 4, Options 00000010
+[2026-09-17 00:21:03]	Serialization Request. IO Stream loading
+[2026-09-17 00:21:03]	Serialization OpenFromSource. Location Type: 2, Device: 4, Options 00000010
+[2026-09-17 00:21:03]	Serialization Request. Type: 1, Location Type: 2, Device: 4, Options 00000000
+[2026-09-17 00:21:03]	Serialization, writing Game State
+[2026-09-17 00:21:03]	Serialization, Game State not initialized!
+[2026-09-17 00:21:09]	Serialization UnserializeGameState. pkStream valid=true
+[2026-09-17 00:21:09]		,LoadHeader - Complete
+[2026-09-17 00:21:09]		,AttachToSession - Complete
+[2026-09-17 00:21:11]		,LoadGameCoreState - Complete
+[2026-09-17 00:21:11]		,LoadAudioState - Complete
+[2026-09-17 00:21:11]		,LoadUIState - Complete
+[2026-09-17 00:21:11]		,LoadRecorderState - Complete
+[2026-09-17 00:21:11]	Serialization UnserializeGameState, result=0
+[2026-09-17 00:21:34]	Serialization Request. Type: 1, Location Type: 2, Device: 4, Options 00000000
+[2026-09-17 00:21:34]	Serialization, writing Game State
+[2026-09-17 00:24:47]	Forced ENet connection closed with connection ID (21105)
+[2026-09-17 00:24:47]	FireWire Link Closed: 21105
+[2026-09-17 00:24:47]	Forced ENet connection closed with connection ID (22754)
+[2026-09-17 00:24:47]	FireWire Link Closed: 22754
+[2026-09-17 00:24:47]	Forced ENet connection closed with connection ID (26462)
+[2026-09-17 00:24:47]	FireWire Link Closed: 26462
+[2026-09-17 00:24:47]	Forced ENet connection closed with connection ID (31679)
+[2026-09-17 00:24:47]	FireWire Link Closed: 31679
+[2026-09-17 00:24:47]	~FPendingConnQueue Flushing Pending Connections.
+[2026-09-17 00:24:47]	Flushing Pending Connections.
+[2026-09-17 00:24:55]	GameListUpdate: GAMELISTUPDATE_CLEAR searchType(-1)
+[2026-09-17 00:24:57]	GameListUpdate: GAMELISTUPDATE_COMPLETE searchType(-1)
+[2026-09-17 00:24:58]	GameListUpdate: GAMELISTUPDATE_CLEAR searchType(-1)
+[2026-09-17 00:25:00]	GameListUpdate: GAMELISTUPDATE_COMPLETE searchType(-1)
+[2026-09-17 00:25:06]	Attempt to Load a file. ServerType: 1, Location Type: 2, Device: 1, Options 00000000
+[2026-09-17 00:25:06]	Processing load, Location Type: 2, Device: 1, Options 00000000
+[2026-09-17 00:25:06]	Serialization Header Load Request. Location Type: 2, Device: 1, Options 00000000
+[2026-09-17 00:25:06]	Serialization OpenFromSource. Location Type: 2, Device: 1, Options 00000000
+[2026-09-17 00:25:06]	Attempting to host game.  ServerType: 1
+[2026-09-17 00:25:06]	Network Session Hosted.
+[2026-09-17 00:25:07]	JoinRoomComplete: Success.  Lobby (19) Reason (1)
+[2026-09-17 00:25:07]	Attempt to obtain a JoinCode but the current lobby does not support that feature.
+[2026-09-17 00:25:07]	Attempt to obtain a JoinCode but the current lobby does not support that feature.
+[2026-09-17 00:25:12]	FireWire Link Created: 169
+[2026-09-17 00:25:13]	FireWire Link Created: 30155
+[2026-09-17 00:25:30]	FireWire Link Created: 28758
+[2026-09-17 00:25:42]	Serialization OpenFromSource. Location Type: 2, Device: 1, Options 00000000
+[2026-09-17 00:25:42]	Serialization Request. Type: 2, Location Type: 2, Device: 4, Options 00000010
+[2026-09-17 00:25:42]	Serialization Request. IO Stream loading
+[2026-09-17 00:25:42]	Serialization OpenFromSource. Location Type: 2, Device: 4, Options 00000010
+[2026-09-17 00:25:42]	Serialization Request. Type: 1, Location Type: 2, Device: 4, Options 00000000
+[2026-09-17 00:25:42]	Serialization, writing Game State
+[2026-09-17 00:25:42]	Serialization, Game State not initialized!
+[2026-09-17 00:25:48]	Serialization UnserializeGameState. pkStream valid=true
+[2026-09-17 00:25:48]		,LoadHeader - Complete
+[2026-09-17 00:25:48]		,AttachToSession - Complete
+[2026-09-17 00:25:50]		,LoadGameCoreState - Complete
+[2026-09-17 00:25:50]		,LoadAudioState - Complete
+[2026-09-17 00:25:50]		,LoadUIState - Complete
+[2026-09-17 00:25:50]		,LoadRecorderState - Complete
+[2026-09-17 00:25:50]	Serialization UnserializeGameState, result=0
+[2026-09-17 00:28:17]	Forced ENet connection closed with connection ID (169)
+[2026-09-17 00:28:17]	FireWire Link Closed: 169
+[2026-09-17 00:28:17]	Forced ENet connection closed with connection ID (28758)
+[2026-09-17 00:28:17]	FireWire Link Closed: 28758
+[2026-09-17 00:28:17]	Forced ENet connection closed with connection ID (30155)
+[2026-09-17 00:28:17]	FireWire Link Closed: 30155
+[2026-09-17 00:28:17]	~FPendingConnQueue Flushing Pending Connections.
+[2026-09-17 00:28:17]	Flushing Pending Connections.
+[2026-09-17 00:28:24]	GameListUpdate: GAMELISTUPDATE_CLEAR searchType(-1)
+[2026-09-17 00:28:26]	GameListUpdate: GAMELISTUPDATE_COMPLETE searchType(-1)
+[2026-09-17 00:28:28]	Attempt to Load a file. ServerType: 1, Location Type: 2, Device: 1, Options 00000004
+[2026-09-17 00:28:28]	Processing load, Location Type: 2, Device: 1, Options 00000004
+[2026-09-17 00:28:28]	Serialization Header Load Request. Location Type: 2, Device: 1, Options 00000004
+[2026-09-17 00:28:28]	Serialization OpenFromSource. Location Type: 2, Device: 1, Options 00000004
+[2026-09-17 00:28:28]	Attempting to host game.  ServerType: 1
+[2026-09-17 00:28:28]	Network Session Hosted.
+[2026-09-17 00:28:29]	JoinRoomComplete: Success.  Lobby (21) Reason (1)
+[2026-09-17 00:28:29]	Attempt to obtain a JoinCode but the current lobby does not support that feature.
+[2026-09-17 00:28:29]	Attempt to obtain a JoinCode but the current lobby does not support that feature.
+[2026-09-17 00:28:35]	FireWire Link Created: 21330
+[2026-09-17 00:28:37]	FireWire Link Created: 22951
+[2026-09-17 00:28:39]	FireWire Link Created: 32444
+[2026-09-17 00:28:57]	Serialization OpenFromSource. Location Type: 2, Device: 1, Options 00000004
+[2026-09-17 00:28:57]	Serialization Request. Type: 2, Location Type: 2, Device: 4, Options 00000010
+[2026-09-17 00:28:57]	Serialization Request. IO Stream loading
+[2026-09-17 00:28:57]	Serialization OpenFromSource. Location Type: 2, Device: 4, Options 00000010
+[2026-09-17 00:29:03]	Serialization UnserializeGameState. pkStream valid=true
+[2026-09-17 00:29:03]		,LoadHeader - Complete
+[2026-09-17 00:29:03]		,AttachToSession - Complete
+[2026-09-17 00:29:05]		,LoadGameCoreState - Complete
+[2026-09-17 00:29:05]		,LoadAudioState - Complete
+[2026-09-17 00:29:05]		,LoadUIState - Complete
+[2026-09-17 00:29:05]		,LoadRecorderState - Complete
+[2026-09-17 00:29:05]	Serialization UnserializeGameState, result=0
+[2026-09-17 00:30:18]	Serialization Request. Type: 1, Location Type: 2, Device: 1, Options 00000004
+[2026-09-17 00:30:18]	Serialization, writing Game State
+[2026-09-17 00:30:18]	Serialization, waiting for request of type SAVE, reason = 1
+[2026-09-17 00:30:19]	Serialization, waiting for request of type LOAD, reason = 0
+[2026-09-17 00:35:15]	Serialization Request. Type: 1, Location Type: 2, Device: 1, Options 00000000
+[2026-09-17 00:35:15]	Serialization, writing Game State
+[2026-09-17 00:35:20]	Serialization Request. Type: 1, Location Type: 2, Device: 4, Options 00000000
+[2026-09-17 00:35:20]	Serialization, writing Game State
+[2026-09-17 00:35:34]	Serialization Request. Type: 1, Location Type: 2, Device: 1, Options 00000004
+[2026-09-17 00:35:34]	Serialization, writing Game State
+[2026-09-17 00:35:34]	Serialization, waiting for request of type SAVE, reason = 1
+[2026-09-17 00:35:35]	Serialization, waiting for request of type LOAD, reason = 0
+[2026-09-17 00:35:37]	Serialization Request. Type: 1, Location Type: 2, Device: 4, Options 00000000
+[2026-09-17 00:35:37]	Serialization, waiting for request of type SAVE, reason = 3
+[2026-09-17 00:35:37]	Serialization, writing Game State
+[2026-09-17 00:35:50]	Serialization Request. Type: 1, Location Type: 2, Device: 4, Options 00000000
+[2026-09-17 00:35:50]	Serialization, writing Game State
+[2026-09-17 00:36:01]	Serialization Request. Type: 1, Location Type: 2, Device: 4, Options 00000000
+[2026-09-17 00:36:01]	Serialization, writing Game State
+[2026-09-17 00:36:11]	Serialization Request. Type: 1, Location Type: 2, Device: 4, Options 00000000
+[2026-09-17 00:36:11]	Serialization, writing Game State
+[2026-09-17 00:36:14]	Serialization Request. Type: 1, Location Type: 2, Device: 4, Options 00000000
+[2026-09-17 00:36:14]	Serialization, writing Game State
+[2026-09-17 00:36:39]	Serialization Request. Type: 1, Location Type: 2, Device: 4, Options 00000000
+[2026-09-17 00:36:39]	Serialization, writing Game State
+[2026-09-17 00:37:33]	FireWire Link Created: 26087
+[2026-09-17 00:38:14]	Unable to close ENet connection for connection ID (26087) because it has no ENetPeer
+[2026-09-17 00:38:14]	FireWire Link Closed: 26087
+[2026-09-17 00:38:28]	FireWire Link Created: 11781
+[2026-09-17 00:38:34]	Unable to close ENet connection for connection ID (11781) because it has no ENetPeer
+[2026-09-17 00:38:34]	FireWire Link Closed: 11781
+[2026-09-17 00:38:48]	Unable to close ENet connection for connection ID (22951) because it has no ENetPeer
+[2026-09-17 00:38:48]	FireWire Link Closed: 22951
+[2026-09-17 00:40:24]	FireWire Link Created: 16614
+[2026-09-17 00:41:10]	Unable to close ENet connection for connection ID (16614) because it has no ENetPeer
+[2026-09-17 00:41:10]	FireWire Link Closed: 16614

@@ -1,0 +1,336 @@
+[2853458.489] [Localization]: StartupErrorMessages.xml
+[2853458.489] [Localization]: Input XML does not contain database entry tags. GameData, GameInfo or Database
+[2853460.070] [Localization]: Validating Foreign Key Constraints...
+[2853460.070] [Localization]: Passed Validation.
+[2853460.083] [Configuration]: Validating Foreign Key Constraints...
+[2853460.084] [Configuration]: Passed Validation.
+[2853460.809] [FullTextSearch]: Initializing FullTextSearch
+[2853462.407] [Gameplay]: Validating Foreign Key Constraints...
+[2853462.416] [Gameplay]: Passed Validation.
+[2853463.632] [Localization] ERROR: UNIQUE constraint failed: LocalizedText.Language, LocalizedText.Tag
+[2853463.632] [Localization]: While executing - 'insert into LocalizedText('Tag', 'Language', 'Text') values (?, ?, ?);'
+[2853463.633] [Localization]: In XMLSerializer while inserting row into table insert into LocalizedText('Tag', 'Language', 'Text') with  values (LOC_ZYLRM_PLAYER_DISTANCE_NAME, zh_Hans_CN, 玩家距离设置, ).
+[2853463.633] [Localization]: In XMLSerializer while updating table LocalizedText from file ZYL_RingMainland_Text.xml.
+[2853463.633] [Localization] ERROR: UNIQUE constraint failed: LocalizedText.Language, LocalizedText.Tag
+[2853463.791] [Configuration]: Validating Foreign Key Constraints...
+[2853463.791] [Configuration]: Passed Validation.
+[2853463.883] [Localization] ERROR: UNIQUE constraint failed: LocalizedText.Language, LocalizedText.Tag
+[2853463.883] [Localization]: While executing - 'insert into BaseGameText('Tag', 'Text') values (?, ?);'
+[2853463.883] [Localization]: In XMLSerializer while inserting row into table insert into BaseGameText('Tag', 'Text') with  values (LOC_CLICKOUT_26_CAROUSEL_TOOLTIP, Wouldja just look at it!, ).
+[2853463.883] [Localization]: In XMLSerializer while updating table BaseGameText from file CurrentClickouts/3ee61767-9597-4e4b-bfb4-98038d4edf27/Text/ClickoutText_en_US.xml.
+[2853463.883] [Localization] ERROR: UNIQUE constraint failed: LocalizedText.Language, LocalizedText.Tag
+[2853463.883] [Localization] ERROR: UNIQUE constraint failed: LocalizedText.Language, LocalizedText.Tag
+[2853463.883] [Localization]: While executing - 'insert into BaseGameText('Tag', 'Text') values (?, ?);'
+[2853463.883] [Localization]: In XMLSerializer while inserting row into table insert into BaseGameText('Tag', 'Text') with  values (LOC_CLICKOUT_26_CAROUSEL_TOOLTIP, Wouldja just look at it!, ).
+[2853463.883] [Localization]: In XMLSerializer while updating table BaseGameText from file CurrentClickouts/b31ce8ae-a961-4d6d-a0d8-9e9505c39495/Text/ClickoutText_en_US.xml.
+[2853463.883] [Localization] ERROR: UNIQUE constraint failed: LocalizedText.Language, LocalizedText.Tag
+[2853463.883] [Localization] ERROR: UNIQUE constraint failed: LocalizedText.Language, LocalizedText.Tag
+[2853463.883] [Localization]: While executing - 'insert into BaseGameText('Tag', 'Text') values (?, ?);'
+[2853463.883] [Localization]: In XMLSerializer while inserting row into table insert into BaseGameText('Tag', 'Text') with  values (LOC_CLICKOUT_26_CAROUSEL_TOOLTIP, Wouldja just look at it!, ).
+[2853463.883] [Localization]: In XMLSerializer while updating table BaseGameText from file CurrentClickouts/2c9b4ae5-2103-4eff-8989-d14aed1df23d/Text/ClickoutText_en_US.xml.
+[2853463.883] [Localization] ERROR: UNIQUE constraint failed: LocalizedText.Language, LocalizedText.Tag
+[2853465.215] [HallofFame]: Database found. Checking versions...
+[2853465.216] [HallofFame]: Database is up-to-date!
+[2853478.809] [Localization] ERROR: UNIQUE constraint failed: LocalizedText.Language, LocalizedText.Tag
+[2853478.809] [Localization]: While executing - 'insert into BaseGameText('Tag', 'Text') values (?, ?);'
+[2853478.809] [Localization]: In XMLSerializer while inserting row into table insert into BaseGameText('Tag', 'Text') with  values (LOC_CLICKOUT_26_CAROUSEL_TOOLTIP, Wouldja just look at it!, ).
+[2853478.809] [Localization]: In XMLSerializer while updating table BaseGameText from file CurrentClickouts/42ae428f-b510-4419-9ffc-eaf8bb90e6e3/Text/ClickoutText_en_US.xml.
+[2853478.809] [Localization] ERROR: UNIQUE constraint failed: LocalizedText.Language, LocalizedText.Tag
+[2853478.809] [Localization] ERROR: UNIQUE constraint failed: LocalizedText.Language, LocalizedText.Tag
+[2853478.809] [Localization]: While executing - 'insert into BaseGameText('Tag', 'Text') values (?, ?);'
+[2853478.809] [Localization]: In XMLSerializer while inserting row into table insert into BaseGameText('Tag', 'Text') with  values (LOC_CLICKOUT_26_CAROUSEL_TOOLTIP, Wouldja just look at it!, ).
+[2853478.809] [Localization]: In XMLSerializer while updating table BaseGameText from file CurrentClickouts/3ee61767-9597-4e4b-bfb4-98038d4edf27/Text/ClickoutText_en_US.xml.
+[2853478.809] [Localization] ERROR: UNIQUE constraint failed: LocalizedText.Language, LocalizedText.Tag
+[2853478.809] [Localization] ERROR: UNIQUE constraint failed: LocalizedText.Language, LocalizedText.Tag
+[2853478.809] [Localization]: While executing - 'insert into BaseGameText('Tag', 'Text') values (?, ?);'
+[2853478.809] [Localization]: In XMLSerializer while inserting row into table insert into BaseGameText('Tag', 'Text') with  values (LOC_CLICKOUT_26_CAROUSEL_TOOLTIP, Wouldja just look at it!, ).
+[2853478.809] [Localization]: In XMLSerializer while updating table BaseGameText from file CurrentClickouts/b31ce8ae-a961-4d6d-a0d8-9e9505c39495/Text/ClickoutText_en_US.xml.
+[2853478.809] [Localization] ERROR: UNIQUE constraint failed: LocalizedText.Language, LocalizedText.Tag
+[2853478.809] [Localization] ERROR: UNIQUE constraint failed: LocalizedText.Language, LocalizedText.Tag
+[2853478.809] [Localization]: While executing - 'insert into BaseGameText('Tag', 'Text') values (?, ?);'
+[2853478.809] [Localization]: In XMLSerializer while inserting row into table insert into BaseGameText('Tag', 'Text') with  values (LOC_CLICKOUT_26_CAROUSEL_TOOLTIP, Wouldja just look at it!, ).
+[2853478.809] [Localization]: In XMLSerializer while updating table BaseGameText from file CurrentClickouts/2c9b4ae5-2103-4eff-8989-d14aed1df23d/Text/ClickoutText_en_US.xml.
+[2853478.809] [Localization] ERROR: UNIQUE constraint failed: LocalizedText.Language, LocalizedText.Tag
+[2853478.809] [Localization] ERROR: UNIQUE constraint failed: LocalizedText.Language, LocalizedText.Tag
+[2853478.809] [Localization]: While executing - 'insert into BaseGameText('Tag', 'Text') values (?, ?);'
+[2853478.809] [Localization]: In XMLSerializer while inserting row into table insert into BaseGameText('Tag', 'Text') with  values (LOC_CHALLENGE_1_HALL_OF_FAME_DROPDOWN_TITLE, Age of Abundance, ).
+[2853478.809] [Localization]: In XMLSerializer while updating table BaseGameText from file HallOfFame/1_AgeOfAbundance/Text/HallOfFameText_en_US.xml.
+[2853478.809] [Localization] ERROR: UNIQUE constraint failed: LocalizedText.Language, LocalizedText.Tag
+[2853478.809] [Localization] ERROR: UNIQUE constraint failed: LocalizedText.Language, LocalizedText.Tag
+[2853478.809] [Localization]: While executing - 'insert into BaseGameText('Tag', 'Text') values (?, ?);'
+[2853478.809] [Localization]: In XMLSerializer while inserting row into table insert into BaseGameText('Tag', 'Text') with  values (LOC_CHALLENGE_2_HALL_OF_FAME_DROPDOWN_TITLE, Seven Seas, ).
+[2853478.809] [Localization]: In XMLSerializer while updating table BaseGameText from file HallOfFame/2_SevenSeas/Text/HallOfFameText_en_US.xml.
+[2853478.809] [Localization] ERROR: UNIQUE constraint failed: LocalizedText.Language, LocalizedText.Tag
+[2853478.809] [Localization] ERROR: UNIQUE constraint failed: LocalizedText.Language, LocalizedText.Tag
+[2853478.809] [Localization]: While executing - 'insert into BaseGameText('Tag', 'Text') values (?, ?);'
+[2853478.809] [Localization]: In XMLSerializer while inserting row into table insert into BaseGameText('Tag', 'Text') with  values (LOC_CHALLENGE_3_HALL_OF_FAME_DROPDOWN_TITLE, Robot Revolution, ).
+[2853478.809] [Localization]: In XMLSerializer while updating table BaseGameText from file HallOfFame/3_RobotRevolution/Text/HallOfFameText_en_US.xml.
+[2853478.809] [Localization] ERROR: UNIQUE constraint failed: LocalizedText.Language, LocalizedText.Tag
+[2853478.809] [Localization] ERROR: UNIQUE constraint failed: LocalizedText.Language, LocalizedText.Tag
+[2853478.809] [Localization]: While executing - 'insert into BaseGameText('Tag', 'Text') values (?, ?);'
+[2853478.809] [Localization]: In XMLSerializer while inserting row into table insert into BaseGameText('Tag', 'Text') with  values (LOC_CHALLENGE_4_HALL_OF_FAME_DROPDOWN_TITLE, The Head of Cyrus, ).
+[2853478.809] [Localization]: In XMLSerializer while updating table BaseGameText from file HallOfFame/4_TheHeadOfCyrus/Text/HallOfFameText_en_US.xml.
+[2853478.809] [Localization] ERROR: UNIQUE constraint failed: LocalizedText.Language, LocalizedText.Tag
+[2853478.809] [Localization] ERROR: UNIQUE constraint failed: LocalizedText.Language, LocalizedText.Tag
+[2853478.809] [Localization]: While executing - 'insert into BaseGameText('Tag', 'Text') values (?, ?);'
+[2853478.809] [Localization]: In XMLSerializer while inserting row into table insert into BaseGameText('Tag', 'Text') with  values (LOC_CHALLENGE_5_HALL_OF_FAME_DROPDOWN_TITLE, Ides of March, ).
+[2853478.809] [Localization]: In XMLSerializer while updating table BaseGameText from file HallOfFame/5_IdesOfMarch/Text/Event5_Prince_HOF_en_US.xml.
+[2853478.809] [Localization] ERROR: UNIQUE constraint failed: LocalizedText.Language, LocalizedText.Tag
+[2853478.809] [Localization] ERROR: UNIQUE constraint failed: LocalizedText.Language, LocalizedText.Tag
+[2853478.809] [Localization]: While executing - 'insert into BaseGameText('Tag', 'Text') values (?, ?);'
+[2853478.809] [Localization]: In XMLSerializer while inserting row into table insert into BaseGameText('Tag', 'Text') with  values (LOC_CHALLENGE_6_HALL_OF_FAME_DROPDOWN_TITLE, Three Stars Each, ).
+[2853478.809] [Localization]: In XMLSerializer while updating table BaseGameText from file HallOfFame/6_ThreeStarsEach/Text/HallOfFameText_en_US.xml.
+[2853478.809] [Localization] ERROR: UNIQUE constraint failed: LocalizedText.Language, LocalizedText.Tag
+[2853478.809] [Localization] ERROR: UNIQUE constraint failed: LocalizedText.Language, LocalizedText.Tag
+[2853478.809] [Localization]: While executing - 'insert into BaseGameText('Tag', 'Text') values (?, ?);'
+[2853478.809] [Localization]: In XMLSerializer while inserting row into table insert into BaseGameText('Tag', 'Text') with  values (LOC_CHALLENGE_7_HALL_OF_FAME_DROPDOWN_TITLE, Reach for the Heavens, ).
+[2853478.809] [Localization]: In XMLSerializer while updating table BaseGameText from file HallOfFame/7_ReachForTheHeavens/Text/HallOfFameText_en_US.xml.
+[2853478.809] [Localization] ERROR: UNIQUE constraint failed: LocalizedText.Language, LocalizedText.Tag
+[2853478.810] [Localization] ERROR: UNIQUE constraint failed: LocalizedText.Language, LocalizedText.Tag
+[2853478.810] [Localization]: While executing - 'insert into BaseGameText('Tag', 'Text') values (?, ?);'
+[2853478.810] [Localization]: In XMLSerializer while inserting row into table insert into BaseGameText('Tag', 'Text') with  values (LOC_CHALLENGE_8_HALL_OF_FAME_DROPDOWN_TITLE, Terra Incognita, ).
+[2853478.810] [Localization]: In XMLSerializer while updating table BaseGameText from file HallOfFame/8_TerraIncognita/Text/HallOfFameText_en_US.xml.
+[2853478.810] [Localization] ERROR: UNIQUE constraint failed: LocalizedText.Language, LocalizedText.Tag
+[2853478.810] [Localization] ERROR: UNIQUE constraint failed: LocalizedText.Language, LocalizedText.Tag
+[2853478.810] [Localization]: While executing - 'insert into BaseGameText('Tag', 'Text') values (?, ?);'
+[2853478.810] [Localization]: In XMLSerializer while inserting row into table insert into BaseGameText('Tag', 'Text') with  values (LOC_CHALLENGE_9_HALL_OF_FAME_DROPDOWN_TITLE, Live Yongle Reaction, ).
+[2853478.810] [Localization]: In XMLSerializer while updating table BaseGameText from file HallOfFame/9_LiveYongleReaction/Text/HallOfFameText_en_US.xml.
+[2853478.810] [Localization] ERROR: UNIQUE constraint failed: LocalizedText.Language, LocalizedText.Tag
+[2853478.810] [Localization] ERROR: UNIQUE constraint failed: LocalizedText.Language, LocalizedText.Tag
+[2853478.810] [Localization]: While executing - 'insert into BaseGameText('Tag', 'Text') values (?, ?);'
+[2853478.810] [Localization]: In XMLSerializer while inserting row into table insert into BaseGameText('Tag', 'Text') with  values (LOC_CHALLENGE_11_HALL_OF_FAME_DROPDOWN_TITLE, Know Your Enemy, ).
+[2853478.810] [Localization]: In XMLSerializer while updating table BaseGameText from file HallOfFame/10_TheWayOfWar/Text/HallOfFameText_en_US.xml.
+[2853478.810] [Localization] ERROR: UNIQUE constraint failed: LocalizedText.Language, LocalizedText.Tag
+[2853478.810] [Localization] ERROR: UNIQUE constraint failed: LocalizedText.Language, LocalizedText.Tag
+[2853478.810] [Localization]: While executing - 'insert into BaseGameText('Tag', 'Text') values (?, ?);'
+[2853478.810] [Localization]: In XMLSerializer while inserting row into table insert into BaseGameText('Tag', 'Text') with  values (LOC_CHALLENGE_12_HALL_OF_FAME_DROPDOWN_TITLE, Cleopatra, Lich Queen of the Nile, ).
+[2853478.810] [Localization]: In XMLSerializer while updating table BaseGameText from file HallOfFame/11_LichQueen/Text/HallOfFameText_en_US.xml.
+[2853478.810] [Localization] ERROR: UNIQUE constraint failed: LocalizedText.Language, LocalizedText.Tag
+[2853478.810] [Localization] ERROR: UNIQUE constraint failed: LocalizedText.Language, LocalizedText.Tag
+[2853478.810] [Localization]: While executing - 'insert into BaseGameText('Tag', 'Text') values (?, ?);'
+[2853478.810] [Localization]: In XMLSerializer while inserting row into table insert into BaseGameText('Tag', 'Text') with  values (LOC_CHALLENGE_13_HALL_OF_FAME_DROPDOWN_TITLE, King of the Wonder, ).
+[2853478.810] [Localization]: In XMLSerializer while updating table BaseGameText from file HallOfFame/13_KingOfTheWonder/Text/HallOfFameText_en_US.xml.
+[2853478.810] [Localization] ERROR: UNIQUE constraint failed: LocalizedText.Language, LocalizedText.Tag
+[2853478.810] [Localization] ERROR: UNIQUE constraint failed: LocalizedText.Language, LocalizedText.Tag
+[2853478.810] [Localization]: While executing - 'insert into BaseGameText('Tag', 'Text') values (?, ?);'
+[2853478.810] [Localization]: In XMLSerializer while inserting row into table insert into BaseGameText('Tag', 'Text') with  values (LOC_CHALLENGE_14_HALL_OF_FAME_DROPDOWN_TITLE, Civpocalypse, ).
+[2853478.810] [Localization]: In XMLSerializer while updating table BaseGameText from file HallOfFame/14_Civpocalypse/Text/HallOfFameText_en_US.xml.
+[2853478.810] [Localization] ERROR: UNIQUE constraint failed: LocalizedText.Language, LocalizedText.Tag
+[2853478.810] [Localization] ERROR: UNIQUE constraint failed: LocalizedText.Language, LocalizedText.Tag
+[2853478.810] [Localization]: While executing - 'insert into BaseGameText('Tag', 'Text') values (?, ?);'
+[2853478.810] [Localization]: In XMLSerializer while inserting row into table insert into BaseGameText('Tag', 'Text') with  values (LOC_CHALLENGE_15_HALL_OF_FAME_DROPDOWN_TITLE, One More Turn, ).
+[2853478.810] [Localization]: In XMLSerializer while updating table BaseGameText from file HallOfFame/15_OneMoreTurn/Text/HallOfFameText_en_US.xml.
+[2853478.810] [Localization] ERROR: UNIQUE constraint failed: LocalizedText.Language, LocalizedText.Tag
+[2853478.925] [FullTextSearch]: FTS - Creating Context
+[2853479.989] [Localization] ERROR: UNIQUE constraint failed: LocalizedText.Language, LocalizedText.Tag
+[2853479.989] [Localization]: While executing - 'insert into LocalizedText('Tag', 'Language', 'Text') values (?, ?, ?);'
+[2853479.989] [Localization]: In XMLSerializer while inserting row into table insert into LocalizedText('Tag', 'Language', 'Text') with  values (LOC_ZYLRM_PLAYER_DISTANCE_NAME, zh_Hans_CN, 玩家距离设置, ).
+[2853479.989] [Localization]: In XMLSerializer while updating table LocalizedText from file ZYL_RingMainland_Text.xml.
+[2853479.989] [Localization] ERROR: UNIQUE constraint failed: LocalizedText.Language, LocalizedText.Tag
+[2853480.001] [Configuration]: Validating Foreign Key Constraints...
+[2853480.001] [Configuration]: Passed Validation.
+[2853480.052] [Localization] ERROR: UNIQUE constraint failed: LocalizedText.Language, LocalizedText.Tag
+[2853480.052] [Localization]: While executing - 'insert into BaseGameText('Tag', 'Text') values (?, ?);'
+[2853480.052] [Localization]: In XMLSerializer while inserting row into table insert into BaseGameText('Tag', 'Text') with  values (LOC_CLICKOUT_26_CAROUSEL_TOOLTIP, Wouldja just look at it!, ).
+[2853480.052] [Localization]: In XMLSerializer while updating table BaseGameText from file CurrentClickouts/3ee61767-9597-4e4b-bfb4-98038d4edf27/Text/ClickoutText_en_US.xml.
+[2853480.052] [Localization] ERROR: UNIQUE constraint failed: LocalizedText.Language, LocalizedText.Tag
+[2853480.052] [Localization] ERROR: UNIQUE constraint failed: LocalizedText.Language, LocalizedText.Tag
+[2853480.052] [Localization]: While executing - 'insert into BaseGameText('Tag', 'Text') values (?, ?);'
+[2853480.052] [Localization]: In XMLSerializer while inserting row into table insert into BaseGameText('Tag', 'Text') with  values (LOC_CLICKOUT_26_CAROUSEL_TOOLTIP, Wouldja just look at it!, ).
+[2853480.052] [Localization]: In XMLSerializer while updating table BaseGameText from file CurrentClickouts/b31ce8ae-a961-4d6d-a0d8-9e9505c39495/Text/ClickoutText_en_US.xml.
+[2853480.052] [Localization] ERROR: UNIQUE constraint failed: LocalizedText.Language, LocalizedText.Tag
+[2853480.052] [Localization] ERROR: UNIQUE constraint failed: LocalizedText.Language, LocalizedText.Tag
+[2853480.052] [Localization]: While executing - 'insert into BaseGameText('Tag', 'Text') values (?, ?);'
+[2853480.052] [Localization]: In XMLSerializer while inserting row into table insert into BaseGameText('Tag', 'Text') with  values (LOC_CLICKOUT_26_CAROUSEL_TOOLTIP, Wouldja just look at it!, ).
+[2853480.052] [Localization]: In XMLSerializer while updating table BaseGameText from file CurrentClickouts/2c9b4ae5-2103-4eff-8989-d14aed1df23d/Text/ClickoutText_en_US.xml.
+[2853480.052] [Localization] ERROR: UNIQUE constraint failed: LocalizedText.Language, LocalizedText.Tag
+[2853582.654] [FullTextSearch]: FTS - Creating Context
+[2853735.712] [Localization] ERROR: UNIQUE constraint failed: LocalizedText.Language, LocalizedText.Tag
+[2853735.712] [Localization]: While executing - 'insert into LocalizedText('Tag', 'Language', 'Text') values (?, ?, ?);'
+[2853735.712] [Localization]: In XMLSerializer while inserting row into table insert into LocalizedText('Tag', 'Language', 'Text') with  values (LOC_ZYLRM_PLAYER_DISTANCE_NAME, zh_Hans_CN, 玩家距离设置, ).
+[2853735.712] [Localization]: In XMLSerializer while updating table LocalizedText from file ZYL_RingMainland_Text.xml.
+[2853735.712] [Localization] ERROR: UNIQUE constraint failed: LocalizedText.Language, LocalizedText.Tag
+[2853735.723] [Configuration]: Validating Foreign Key Constraints...
+[2853735.724] [Configuration]: Passed Validation.
+[2853735.775] [Localization] ERROR: UNIQUE constraint failed: LocalizedText.Language, LocalizedText.Tag
+[2853735.775] [Localization]: While executing - 'insert into BaseGameText('Tag', 'Text') values (?, ?);'
+[2853735.775] [Localization]: In XMLSerializer while inserting row into table insert into BaseGameText('Tag', 'Text') with  values (LOC_CLICKOUT_26_CAROUSEL_TOOLTIP, Wouldja just look at it!, ).
+[2853735.775] [Localization]: In XMLSerializer while updating table BaseGameText from file CurrentClickouts/3ee61767-9597-4e4b-bfb4-98038d4edf27/Text/ClickoutText_en_US.xml.
+[2853735.775] [Localization] ERROR: UNIQUE constraint failed: LocalizedText.Language, LocalizedText.Tag
+[2853735.775] [Localization] ERROR: UNIQUE constraint failed: LocalizedText.Language, LocalizedText.Tag
+[2853735.775] [Localization]: While executing - 'insert into BaseGameText('Tag', 'Text') values (?, ?);'
+[2853735.775] [Localization]: In XMLSerializer while inserting row into table insert into BaseGameText('Tag', 'Text') with  values (LOC_CLICKOUT_26_CAROUSEL_TOOLTIP, Wouldja just look at it!, ).
+[2853735.775] [Localization]: In XMLSerializer while updating table BaseGameText from file CurrentClickouts/b31ce8ae-a961-4d6d-a0d8-9e9505c39495/Text/ClickoutText_en_US.xml.
+[2853735.775] [Localization] ERROR: UNIQUE constraint failed: LocalizedText.Language, LocalizedText.Tag
+[2853735.775] [Localization] ERROR: UNIQUE constraint failed: LocalizedText.Language, LocalizedText.Tag
+[2853735.775] [Localization]: While executing - 'insert into BaseGameText('Tag', 'Text') values (?, ?);'
+[2853735.775] [Localization]: In XMLSerializer while inserting row into table insert into BaseGameText('Tag', 'Text') with  values (LOC_CLICKOUT_26_CAROUSEL_TOOLTIP, Wouldja just look at it!, ).
+[2853735.775] [Localization]: In XMLSerializer while updating table BaseGameText from file CurrentClickouts/2c9b4ae5-2103-4eff-8989-d14aed1df23d/Text/ClickoutText_en_US.xml.
+[2853735.775] [Localization] ERROR: UNIQUE constraint failed: LocalizedText.Language, LocalizedText.Tag
+[2853761.798] [Localization] ERROR: UNIQUE constraint failed: LocalizedText.Language, LocalizedText.Tag
+[2853761.798] [Localization]: While executing - 'insert into LocalizedText('Tag', 'Language', 'Text') values (?, ?, ?);'
+[2853761.798] [Localization]: In XMLSerializer while inserting row into table insert into LocalizedText('Tag', 'Language', 'Text') with  values (LOC_ZYLRM_PLAYER_DISTANCE_NAME, zh_Hans_CN, 玩家距离设置, ).
+[2853761.798] [Localization]: In XMLSerializer while updating table LocalizedText from file ZYL_RingMainland_Text.xml.
+[2853761.798] [Localization] ERROR: UNIQUE constraint failed: LocalizedText.Language, LocalizedText.Tag
+[2853761.808] [Configuration]: Validating Foreign Key Constraints...
+[2853761.808] [Configuration]: Passed Validation.
+[2853761.855] [Localization] ERROR: UNIQUE constraint failed: LocalizedText.Language, LocalizedText.Tag
+[2853761.855] [Localization]: While executing - 'insert into BaseGameText('Tag', 'Text') values (?, ?);'
+[2853761.855] [Localization]: In XMLSerializer while inserting row into table insert into BaseGameText('Tag', 'Text') with  values (LOC_CLICKOUT_26_CAROUSEL_TOOLTIP, Wouldja just look at it!, ).
+[2853761.855] [Localization]: In XMLSerializer while updating table BaseGameText from file CurrentClickouts/3ee61767-9597-4e4b-bfb4-98038d4edf27/Text/ClickoutText_en_US.xml.
+[2853761.855] [Localization] ERROR: UNIQUE constraint failed: LocalizedText.Language, LocalizedText.Tag
+[2853761.855] [Localization] ERROR: UNIQUE constraint failed: LocalizedText.Language, LocalizedText.Tag
+[2853761.855] [Localization]: While executing - 'insert into BaseGameText('Tag', 'Text') values (?, ?);'
+[2853761.855] [Localization]: In XMLSerializer while inserting row into table insert into BaseGameText('Tag', 'Text') with  values (LOC_CLICKOUT_26_CAROUSEL_TOOLTIP, Wouldja just look at it!, ).
+[2853761.855] [Localization]: In XMLSerializer while updating table BaseGameText from file CurrentClickouts/b31ce8ae-a961-4d6d-a0d8-9e9505c39495/Text/ClickoutText_en_US.xml.
+[2853761.855] [Localization] ERROR: UNIQUE constraint failed: LocalizedText.Language, LocalizedText.Tag
+[2853761.855] [Localization] ERROR: UNIQUE constraint failed: LocalizedText.Language, LocalizedText.Tag
+[2853761.855] [Localization]: While executing - 'insert into BaseGameText('Tag', 'Text') values (?, ?);'
+[2853761.855] [Localization]: In XMLSerializer while inserting row into table insert into BaseGameText('Tag', 'Text') with  values (LOC_CLICKOUT_26_CAROUSEL_TOOLTIP, Wouldja just look at it!, ).
+[2853761.855] [Localization]: In XMLSerializer while updating table BaseGameText from file CurrentClickouts/2c9b4ae5-2103-4eff-8989-d14aed1df23d/Text/ClickoutText_en_US.xml.
+[2853761.855] [Localization] ERROR: UNIQUE constraint failed: LocalizedText.Language, LocalizedText.Tag
+[2853884.333] [Localization] ERROR: UNIQUE constraint failed: LocalizedText.Language, LocalizedText.Tag
+[2853884.333] [Localization]: While executing - 'insert into LocalizedText('Tag', 'Language', 'Text') values (?, ?, ?);'
+[2853884.333] [Localization]: In XMLSerializer while inserting row into table insert into LocalizedText('Tag', 'Language', 'Text') with  values (LOC_ZYLRM_PLAYER_DISTANCE_NAME, zh_Hans_CN, 玩家距离设置, ).
+[2853884.333] [Localization]: In XMLSerializer while updating table LocalizedText from file ZYL_RingMainland_Text.xml.
+[2853884.333] [Localization] ERROR: UNIQUE constraint failed: LocalizedText.Language, LocalizedText.Tag
+[2853885.143] [Gameplay] ERROR: no such table: DifficultyTraits
+[2853886.049] [Gameplay]: Validating Foreign Key Constraints...
+[2853886.065] [Gameplay]: Passed Validation.
+[2853886.065] [Localization] ERROR: UNIQUE constraint failed: LocalizedText.Language, LocalizedText.Tag
+[2853886.065] [Localization]: While executing - 'insert into BaseGameText('Tag', 'Text') values (?, ?);'
+[2853886.065] [Localization]: In XMLSerializer while inserting row into table insert into BaseGameText('Tag', 'Text') with  values (LOC_CLICKOUT_26_CAROUSEL_TOOLTIP, Wouldja just look at it!, ).
+[2853886.065] [Localization]: In XMLSerializer while updating table BaseGameText from file CurrentClickouts/3ee61767-9597-4e4b-bfb4-98038d4edf27/Text/ClickoutText_en_US.xml.
+[2853886.065] [Localization] ERROR: UNIQUE constraint failed: LocalizedText.Language, LocalizedText.Tag
+[2853886.065] [Localization] ERROR: UNIQUE constraint failed: LocalizedText.Language, LocalizedText.Tag
+[2853886.065] [Localization]: While executing - 'insert into BaseGameText('Tag', 'Text') values (?, ?);'
+[2853886.065] [Localization]: In XMLSerializer while inserting row into table insert into BaseGameText('Tag', 'Text') with  values (LOC_CLICKOUT_26_CAROUSEL_TOOLTIP, Wouldja just look at it!, ).
+[2853886.065] [Localization]: In XMLSerializer while updating table BaseGameText from file CurrentClickouts/b31ce8ae-a961-4d6d-a0d8-9e9505c39495/Text/ClickoutText_en_US.xml.
+[2853886.065] [Localization] ERROR: UNIQUE constraint failed: LocalizedText.Language, LocalizedText.Tag
+[2853886.065] [Localization] ERROR: UNIQUE constraint failed: LocalizedText.Language, LocalizedText.Tag
+[2853886.065] [Localization]: While executing - 'insert into BaseGameText('Tag', 'Text') values (?, ?);'
+[2853886.065] [Localization]: In XMLSerializer while inserting row into table insert into BaseGameText('Tag', 'Text') with  values (LOC_CLICKOUT_26_CAROUSEL_TOOLTIP, Wouldja just look at it!, ).
+[2853886.065] [Localization]: In XMLSerializer while updating table BaseGameText from file CurrentClickouts/2c9b4ae5-2103-4eff-8989-d14aed1df23d/Text/ClickoutText_en_US.xml.
+[2853886.065] [Localization] ERROR: UNIQUE constraint failed: LocalizedText.Language, LocalizedText.Tag
+[2853903.023] [FullTextSearch]: FTS - Creating Context
+[2853903.023] [FullTextSearch]: FTS - Creating Context
+[2853903.236] [FullTextSearch]: FTS - Creating Context
+[2853903.325] [FullTextSearch]: FTS - Creating Context
+[2853903.914] [FullTextSearch]: FTS - Creating Context
+[2854404.362] [Localization] ERROR: UNIQUE constraint failed: LocalizedText.Language, LocalizedText.Tag
+[2854404.362] [Localization]: While executing - 'insert into LocalizedText('Tag', 'Language', 'Text') values (?, ?, ?);'
+[2854404.362] [Localization]: In XMLSerializer while inserting row into table insert into LocalizedText('Tag', 'Language', 'Text') with  values (LOC_ZYLRM_PLAYER_DISTANCE_NAME, zh_Hans_CN, 玩家距离设置, ).
+[2854404.362] [Localization]: In XMLSerializer while updating table LocalizedText from file ZYL_RingMainland_Text.xml.
+[2854404.362] [Localization] ERROR: UNIQUE constraint failed: LocalizedText.Language, LocalizedText.Tag
+[2854405.050] [Configuration]: Validating Foreign Key Constraints...
+[2854405.050] [Configuration]: Passed Validation.
+[2854405.104] [Localization] ERROR: UNIQUE constraint failed: LocalizedText.Language, LocalizedText.Tag
+[2854405.104] [Localization]: While executing - 'insert into BaseGameText('Tag', 'Text') values (?, ?);'
+[2854405.104] [Localization]: In XMLSerializer while inserting row into table insert into BaseGameText('Tag', 'Text') with  values (LOC_CLICKOUT_26_CAROUSEL_TOOLTIP, Wouldja just look at it!, ).
+[2854405.104] [Localization]: In XMLSerializer while updating table BaseGameText from file CurrentClickouts/3ee61767-9597-4e4b-bfb4-98038d4edf27/Text/ClickoutText_en_US.xml.
+[2854405.104] [Localization] ERROR: UNIQUE constraint failed: LocalizedText.Language, LocalizedText.Tag
+[2854405.104] [Localization] ERROR: UNIQUE constraint failed: LocalizedText.Language, LocalizedText.Tag
+[2854405.104] [Localization]: While executing - 'insert into BaseGameText('Tag', 'Text') values (?, ?);'
+[2854405.104] [Localization]: In XMLSerializer while inserting row into table insert into BaseGameText('Tag', 'Text') with  values (LOC_CLICKOUT_26_CAROUSEL_TOOLTIP, Wouldja just look at it!, ).
+[2854405.104] [Localization]: In XMLSerializer while updating table BaseGameText from file CurrentClickouts/b31ce8ae-a961-4d6d-a0d8-9e9505c39495/Text/ClickoutText_en_US.xml.
+[2854405.104] [Localization] ERROR: UNIQUE constraint failed: LocalizedText.Language, LocalizedText.Tag
+[2854405.104] [Localization] ERROR: UNIQUE constraint failed: LocalizedText.Language, LocalizedText.Tag
+[2854405.104] [Localization]: While executing - 'insert into BaseGameText('Tag', 'Text') values (?, ?);'
+[2854405.104] [Localization]: In XMLSerializer while inserting row into table insert into BaseGameText('Tag', 'Text') with  values (LOC_CLICKOUT_26_CAROUSEL_TOOLTIP, Wouldja just look at it!, ).
+[2854405.104] [Localization]: In XMLSerializer while updating table BaseGameText from file CurrentClickouts/2c9b4ae5-2103-4eff-8989-d14aed1df23d/Text/ClickoutText_en_US.xml.
+[2854405.104] [Localization] ERROR: UNIQUE constraint failed: LocalizedText.Language, LocalizedText.Tag
+[2854405.379] [FullTextSearch]: FTS - Creating Context
+[2854430.139] [Localization] ERROR: UNIQUE constraint failed: LocalizedText.Language, LocalizedText.Tag
+[2854430.139] [Localization]: While executing - 'insert into LocalizedText('Tag', 'Language', 'Text') values (?, ?, ?);'
+[2854430.139] [Localization]: In XMLSerializer while inserting row into table insert into LocalizedText('Tag', 'Language', 'Text') with  values (LOC_ZYLRM_PLAYER_DISTANCE_NAME, zh_Hans_CN, 玩家距离设置, ).
+[2854430.139] [Localization]: In XMLSerializer while updating table LocalizedText from file ZYL_RingMainland_Text.xml.
+[2854430.139] [Localization] ERROR: UNIQUE constraint failed: LocalizedText.Language, LocalizedText.Tag
+[2854430.151] [Configuration]: Validating Foreign Key Constraints...
+[2854430.151] [Configuration]: Passed Validation.
+[2854430.201] [Localization] ERROR: UNIQUE constraint failed: LocalizedText.Language, LocalizedText.Tag
+[2854430.201] [Localization]: While executing - 'insert into BaseGameText('Tag', 'Text') values (?, ?);'
+[2854430.201] [Localization]: In XMLSerializer while inserting row into table insert into BaseGameText('Tag', 'Text') with  values (LOC_CLICKOUT_26_CAROUSEL_TOOLTIP, Wouldja just look at it!, ).
+[2854430.201] [Localization]: In XMLSerializer while updating table BaseGameText from file CurrentClickouts/3ee61767-9597-4e4b-bfb4-98038d4edf27/Text/ClickoutText_en_US.xml.
+[2854430.201] [Localization] ERROR: UNIQUE constraint failed: LocalizedText.Language, LocalizedText.Tag
+[2854430.201] [Localization] ERROR: UNIQUE constraint failed: LocalizedText.Language, LocalizedText.Tag
+[2854430.201] [Localization]: While executing - 'insert into BaseGameText('Tag', 'Text') values (?, ?);'
+[2854430.201] [Localization]: In XMLSerializer while inserting row into table insert into BaseGameText('Tag', 'Text') with  values (LOC_CLICKOUT_26_CAROUSEL_TOOLTIP, Wouldja just look at it!, ).
+[2854430.201] [Localization]: In XMLSerializer while updating table BaseGameText from file CurrentClickouts/b31ce8ae-a961-4d6d-a0d8-9e9505c39495/Text/ClickoutText_en_US.xml.
+[2854430.201] [Localization] ERROR: UNIQUE constraint failed: LocalizedText.Language, LocalizedText.Tag
+[2854430.201] [Localization] ERROR: UNIQUE constraint failed: LocalizedText.Language, LocalizedText.Tag
+[2854430.201] [Localization]: While executing - 'insert into BaseGameText('Tag', 'Text') values (?, ?);'
+[2854430.201] [Localization]: In XMLSerializer while inserting row into table insert into BaseGameText('Tag', 'Text') with  values (LOC_CLICKOUT_26_CAROUSEL_TOOLTIP, Wouldja just look at it!, ).
+[2854430.201] [Localization]: In XMLSerializer while updating table BaseGameText from file CurrentClickouts/2c9b4ae5-2103-4eff-8989-d14aed1df23d/Text/ClickoutText_en_US.xml.
+[2854430.201] [Localization] ERROR: UNIQUE constraint failed: LocalizedText.Language, LocalizedText.Tag
+[2854728.995] [Localization] ERROR: UNIQUE constraint failed: LocalizedText.Language, LocalizedText.Tag
+[2854728.995] [Localization]: While executing - 'insert into LocalizedText('Tag', 'Language', 'Text') values (?, ?, ?);'
+[2854728.995] [Localization]: In XMLSerializer while inserting row into table insert into LocalizedText('Tag', 'Language', 'Text') with  values (LOC_ZYLRM_PLAYER_DISTANCE_NAME, zh_Hans_CN, 玩家距离设置, ).
+[2854728.995] [Localization]: In XMLSerializer while updating table LocalizedText from file ZYL_RingMainland_Text.xml.
+[2854728.995] [Localization] ERROR: UNIQUE constraint failed: LocalizedText.Language, LocalizedText.Tag
+[2854729.008] [Configuration]: Validating Foreign Key Constraints...
+[2854729.008] [Configuration]: Passed Validation.
+[2854729.066] [Localization] ERROR: UNIQUE constraint failed: LocalizedText.Language, LocalizedText.Tag
+[2854729.066] [Localization]: While executing - 'insert into BaseGameText('Tag', 'Text') values (?, ?);'
+[2854729.066] [Localization]: In XMLSerializer while inserting row into table insert into BaseGameText('Tag', 'Text') with  values (LOC_CLICKOUT_26_CAROUSEL_TOOLTIP, Wouldja just look at it!, ).
+[2854729.066] [Localization]: In XMLSerializer while updating table BaseGameText from file CurrentClickouts/3ee61767-9597-4e4b-bfb4-98038d4edf27/Text/ClickoutText_en_US.xml.
+[2854729.066] [Localization] ERROR: UNIQUE constraint failed: LocalizedText.Language, LocalizedText.Tag
+[2854729.066] [Localization] ERROR: UNIQUE constraint failed: LocalizedText.Language, LocalizedText.Tag
+[2854729.066] [Localization]: While executing - 'insert into BaseGameText('Tag', 'Text') values (?, ?);'
+[2854729.066] [Localization]: In XMLSerializer while inserting row into table insert into BaseGameText('Tag', 'Text') with  values (LOC_CLICKOUT_26_CAROUSEL_TOOLTIP, Wouldja just look at it!, ).
+[2854729.066] [Localization]: In XMLSerializer while updating table BaseGameText from file CurrentClickouts/b31ce8ae-a961-4d6d-a0d8-9e9505c39495/Text/ClickoutText_en_US.xml.
+[2854729.066] [Localization] ERROR: UNIQUE constraint failed: LocalizedText.Language, LocalizedText.Tag
+[2854729.066] [Localization] ERROR: UNIQUE constraint failed: LocalizedText.Language, LocalizedText.Tag
+[2854729.066] [Localization]: While executing - 'insert into BaseGameText('Tag', 'Text') values (?, ?);'
+[2854729.066] [Localization]: In XMLSerializer while inserting row into table insert into BaseGameText('Tag', 'Text') with  values (LOC_CLICKOUT_26_CAROUSEL_TOOLTIP, Wouldja just look at it!, ).
+[2854729.066] [Localization]: In XMLSerializer while updating table BaseGameText from file CurrentClickouts/2c9b4ae5-2103-4eff-8989-d14aed1df23d/Text/ClickoutText_en_US.xml.
+[2854729.066] [Localization] ERROR: UNIQUE constraint failed: LocalizedText.Language, LocalizedText.Tag
+[2854748.900] [Localization] ERROR: UNIQUE constraint failed: LocalizedText.Language, LocalizedText.Tag
+[2854748.900] [Localization]: While executing - 'insert into LocalizedText('Tag', 'Language', 'Text') values (?, ?, ?);'
+[2854748.900] [Localization]: In XMLSerializer while inserting row into table insert into LocalizedText('Tag', 'Language', 'Text') with  values (LOC_ZYLRM_PLAYER_DISTANCE_NAME, zh_Hans_CN, 玩家距离设置, ).
+[2854748.900] [Localization]: In XMLSerializer while updating table LocalizedText from file ZYL_RingMainland_Text.xml.
+[2854748.900] [Localization] ERROR: UNIQUE constraint failed: LocalizedText.Language, LocalizedText.Tag
+[2854748.913] [Configuration]: Validating Foreign Key Constraints...
+[2854748.913] [Configuration]: Passed Validation.
+[2854748.965] [Localization] ERROR: UNIQUE constraint failed: LocalizedText.Language, LocalizedText.Tag
+[2854748.965] [Localization]: While executing - 'insert into BaseGameText('Tag', 'Text') values (?, ?);'
+[2854748.965] [Localization]: In XMLSerializer while inserting row into table insert into BaseGameText('Tag', 'Text') with  values (LOC_CLICKOUT_26_CAROUSEL_TOOLTIP, Wouldja just look at it!, ).
+[2854748.965] [Localization]: In XMLSerializer while updating table BaseGameText from file CurrentClickouts/3ee61767-9597-4e4b-bfb4-98038d4edf27/Text/ClickoutText_en_US.xml.
+[2854748.965] [Localization] ERROR: UNIQUE constraint failed: LocalizedText.Language, LocalizedText.Tag
+[2854748.965] [Localization] ERROR: UNIQUE constraint failed: LocalizedText.Language, LocalizedText.Tag
+[2854748.965] [Localization]: While executing - 'insert into BaseGameText('Tag', 'Text') values (?, ?);'
+[2854748.965] [Localization]: In XMLSerializer while inserting row into table insert into BaseGameText('Tag', 'Text') with  values (LOC_CLICKOUT_26_CAROUSEL_TOOLTIP, Wouldja just look at it!, ).
+[2854748.965] [Localization]: In XMLSerializer while updating table BaseGameText from file CurrentClickouts/b31ce8ae-a961-4d6d-a0d8-9e9505c39495/Text/ClickoutText_en_US.xml.
+[2854748.965] [Localization] ERROR: UNIQUE constraint failed: LocalizedText.Language, LocalizedText.Tag
+[2854748.965] [Localization] ERROR: UNIQUE constraint failed: LocalizedText.Language, LocalizedText.Tag
+[2854748.965] [Localization]: While executing - 'insert into BaseGameText('Tag', 'Text') values (?, ?);'
+[2854748.965] [Localization]: In XMLSerializer while inserting row into table insert into BaseGameText('Tag', 'Text') with  values (LOC_CLICKOUT_26_CAROUSEL_TOOLTIP, Wouldja just look at it!, ).
+[2854748.965] [Localization]: In XMLSerializer while updating table BaseGameText from file CurrentClickouts/2c9b4ae5-2103-4eff-8989-d14aed1df23d/Text/ClickoutText_en_US.xml.
+[2854748.965] [Localization] ERROR: UNIQUE constraint failed: LocalizedText.Language, LocalizedText.Tag
+[2854921.084] [Localization] ERROR: UNIQUE constraint failed: LocalizedText.Language, LocalizedText.Tag
+[2854921.084] [Localization]: While executing - 'insert into LocalizedText('Tag', 'Language', 'Text') values (?, ?, ?);'
+[2854921.084] [Localization]: In XMLSerializer while inserting row into table insert into LocalizedText('Tag', 'Language', 'Text') with  values (LOC_ZYLRM_PLAYER_DISTANCE_NAME, zh_Hans_CN, 玩家距离设置, ).
+[2854921.084] [Localization]: In XMLSerializer while updating table LocalizedText from file ZYL_RingMainland_Text.xml.
+[2854921.084] [Localization] ERROR: UNIQUE constraint failed: LocalizedText.Language, LocalizedText.Tag
+[2854921.855] [Gameplay] ERROR: no such table: DifficultyTraits
+[2854922.722] [Gameplay]: Validating Foreign Key Constraints...
+[2854922.736] [Gameplay]: Passed Validation.
+[2854922.736] [Localization] ERROR: UNIQUE constraint failed: LocalizedText.Language, LocalizedText.Tag
+[2854922.736] [Localization]: While executing - 'insert into BaseGameText('Tag', 'Text') values (?, ?);'
+[2854922.736] [Localization]: In XMLSerializer while inserting row into table insert into BaseGameText('Tag', 'Text') with  values (LOC_CLICKOUT_26_CAROUSEL_TOOLTIP, Wouldja just look at it!, ).
+[2854922.736] [Localization]: In XMLSerializer while updating table BaseGameText from file CurrentClickouts/3ee61767-9597-4e4b-bfb4-98038d4edf27/Text/ClickoutText_en_US.xml.
+[2854922.736] [Localization] ERROR: UNIQUE constraint failed: LocalizedText.Language, LocalizedText.Tag
+[2854922.736] [Localization] ERROR: UNIQUE constraint failed: LocalizedText.Language, LocalizedText.Tag
+[2854922.736] [Localization]: While executing - 'insert into BaseGameText('Tag', 'Text') values (?, ?);'
+[2854922.736] [Localization]: In XMLSerializer while inserting row into table insert into BaseGameText('Tag', 'Text') with  values (LOC_CLICKOUT_26_CAROUSEL_TOOLTIP, Wouldja just look at it!, ).
+[2854922.736] [Localization]: In XMLSerializer while updating table BaseGameText from file CurrentClickouts/b31ce8ae-a961-4d6d-a0d8-9e9505c39495/Text/ClickoutText_en_US.xml.
+[2854922.736] [Localization] ERROR: UNIQUE constraint failed: LocalizedText.Language, LocalizedText.Tag
+[2854922.736] [Localization] ERROR: UNIQUE constraint failed: LocalizedText.Language, LocalizedText.Tag
+[2854922.736] [Localization]: While executing - 'insert into BaseGameText('Tag', 'Text') values (?, ?);'
+[2854922.736] [Localization]: In XMLSerializer while inserting row into table insert into BaseGameText('Tag', 'Text') with  values (LOC_CLICKOUT_26_CAROUSEL_TOOLTIP, Wouldja just look at it!, ).
+[2854922.736] [Localization]: In XMLSerializer while updating table BaseGameText from file CurrentClickouts/2c9b4ae5-2103-4eff-8989-d14aed1df23d/Text/ClickoutText_en_US.xml.
+[2854922.736] [Localization] ERROR: UNIQUE constraint failed: LocalizedText.Language, LocalizedText.Tag
+[2854961.605] [FullTextSearch]: FTS - Creating Context
+[2854961.606] [FullTextSearch]: FTS - Creating Context
+[2854961.779] [FullTextSearch]: FTS - Creating Context
+[2854961.858] [FullTextSearch]: FTS - Creating Context
+[2854962.353] [FullTextSearch]: FTS - Creating Context

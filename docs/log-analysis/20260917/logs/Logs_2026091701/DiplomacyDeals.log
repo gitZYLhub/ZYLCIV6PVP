@@ -1,0 +1,24 @@
+Turn 4, Enacting Deal id 1000 for player 3 and 1
+, Enacting Deal Item ID 2, from player 1, to player 3, type Gold, subType 0 (), value type YIELD_GOLD, amount 5, duration 0
+Turn 4, Removing expired Deal Items from id 1000 for player 3 and 1
+, Removing expired Deal Item ID 2, from player 1, to player 3, type Gold, subType 0 (), value type YIELD_GOLD, amount 5, duration 0
+Turn 1, Enacting Deal id 1000 for player 4 and 2
+, Enacting Deal Item ID 2, from player 2, to player 4, type Gold, subType 0 (), value type YIELD_GOLD, amount 5, duration 0
+Turn 1, Removing expired Deal Items from id 1000 for player 4 and 2
+, Removing expired Deal Item ID 2, from player 2, to player 4, type Gold, subType 0 (), value type YIELD_GOLD, amount 5, duration 0
+Turn 1, Enacting Deal id 1001 for player 4 and 3
+, Enacting Deal Item ID 2, from player 3, to player 4, type Gold, subType 0 (), value type YIELD_GOLD, amount 5, duration 0
+Turn 1, Removing expired Deal Items from id 1001 for player 4 and 3
+, Removing expired Deal Item ID 2, from player 3, to player 4, type Gold, subType 0 (), value type YIELD_GOLD, amount 5, duration 0
+Turn 1, Enacting Deal id 1002 for player 4 and 0
+, Enacting Deal Item ID 2, from player 0, to player 4, type Gold, subType 0 (), value type YIELD_GOLD, amount 5, duration 0
+Turn 1, Removing expired Deal Items from id 1002 for player 4 and 0
+, Removing expired Deal Item ID 2, from player 0, to player 4, type Gold, subType 0 (), value type YIELD_GOLD, amount 5, duration 0
+Turn 1, Enacting Deal id 1003 for player 4 and 1
+, Enacting Deal Item ID 2, from player 1, to player 4, type Gold, subType 0 (), value type YIELD_GOLD, amount 5, duration 0
+Turn 1, Removing expired Deal Items from id 1003 for player 4 and 1
+, Removing expired Deal Item ID 2, from player 1, to player 4, type Gold, subType 0 (), value type YIELD_GOLD, amount 5, duration 0
+Turn 11, Enacting Deal id 1004 for player 0 and 3
+, Enacting Deal Item ID 2, from player 3, to player 0, type Gold, subType 0 (), value type YIELD_GOLD, amount 20, duration 0
+Turn 11, Removing expired Deal Items from id 1004 for player 0 and 3
+, Removing expired Deal Item ID 2, from player 3, to player 0, type Gold, subType 0 (), value type YIELD_GOLD, amount 20, duration 0

@@ -1,0 +1,524 @@
+Game Turn, Initiator, Recipient, Action, Details, Mayhem, Visibility
+1, 63, 0, Met, ,    0.0, 0
+1, 0, 63, Met, ,    0.0, 0
+1, 63, 0, At War, Surprise,    0.0, 0
+1, 63, 1, Met, ,    0.0, 0
+1, 1, 63, Met, ,    0.0, 0
+1, 63, 1, At War, Surprise,    0.0, 0
+1, 63, 2, Met, ,    0.0, 0
+1, 2, 63, Met, ,    0.0, 0
+1, 63, 2, At War, Surprise,    0.0, 0
+1, 63, 3, Met, ,    0.0, 0
+1, 3, 63, Met, ,    0.0, 0
+1, 63, 3, At War, Surprise,    0.0, 0
+1, 63, 4, Met, ,    0.0, 0
+1, 4, 63, Met, ,    0.0, 0
+1, 63, 4, At War, Surprise,    0.0, 0
+1, 63, 5, Met, ,    0.0, 0
+1, 5, 63, Met, ,    0.0, 0
+1, 63, 5, At War, Surprise,    0.0, 0
+1, 63, 6, Met, ,    0.0, 0
+1, 6, 63, Met, ,    0.0, 0
+1, 63, 6, At War, Surprise,    0.0, 0
+1, 63, 7, Met, ,    0.0, 0
+1, 7, 63, Met, ,    0.0, 0
+1, 63, 7, At War, Surprise,    0.0, 0
+1, 63, 8, Met, ,    0.0, 0
+1, 8, 63, Met, ,    0.0, 0
+1, 63, 8, At War, Surprise,    0.0, 0
+1, 63, 9, Met, ,    0.0, 0
+1, 9, 63, Met, ,    0.0, 0
+1, 63, 9, At War, Surprise,    0.0, 0
+1, 63, 10, Met, ,    0.0, 0
+1, 10, 63, Met, ,    0.0, 0
+1, 63, 10, At War, Surprise,    0.0, 0
+1, 63, 11, Met, ,    0.0, 0
+1, 11, 63, Met, ,    0.0, 0
+1, 63, 11, At War, Surprise,    0.0, 0
+1, 63, 12, Met, ,    0.0, 0
+1, 12, 63, Met, ,    0.0, 0
+1, 63, 12, At War, Surprise,    0.0, 0
+1, 63, 13, Met, ,    0.0, 0
+1, 13, 63, Met, ,    0.0, 0
+1, 63, 13, At War, Surprise,    0.0, 0
+1, 63, 14, Met, ,    0.0, 0
+1, 14, 63, Met, ,    0.0, 0
+1, 63, 14, At War, Surprise,    0.0, 0
+1, 63, 15, Met, ,    0.0, 0
+1, 15, 63, Met, ,    0.0, 0
+1, 63, 15, At War, Surprise,    0.0, 0
+1, 63, 16, Met, ,    0.0, 0
+1, 16, 63, Met, ,    0.0, 0
+1, 63, 16, At War, Surprise,    0.0, 0
+1, 63, 17, Met, ,    0.0, 0
+1, 17, 63, Met, ,    0.0, 0
+1, 63, 17, At War, Surprise,    0.0, 0
+1, 62, 0, Met, ,    0.0, 0
+1, 0, 62, Met, ,    0.0, 0
+1, 62, 0, At War, Surprise,    0.0, 0
+1, 62, 1, Met, ,    0.0, 0
+1, 1, 62, Met, ,    0.0, 0
+1, 62, 1, At War, Surprise,    0.0, 0
+1, 62, 2, Met, ,    0.0, 0
+1, 2, 62, Met, ,    0.0, 0
+1, 62, 2, At War, Surprise,    0.0, 0
+1, 62, 3, Met, ,    0.0, 0
+1, 3, 62, Met, ,    0.0, 0
+1, 62, 3, At War, Surprise,    0.0, 0
+1, 62, 4, Met, ,    0.0, 0
+1, 4, 62, Met, ,    0.0, 0
+1, 62, 4, At War, Surprise,    0.0, 0
+1, 62, 5, Met, ,    0.0, 0
+1, 5, 62, Met, ,    0.0, 0
+1, 62, 5, At War, Surprise,    0.0, 0
+1, 62, 6, Met, ,    0.0, 0
+1, 6, 62, Met, ,    0.0, 0
+1, 62, 6, At War, Surprise,    0.0, 0
+1, 62, 7, Met, ,    0.0, 0
+1, 7, 62, Met, ,    0.0, 0
+1, 62, 7, At War, Surprise,    0.0, 0
+1, 0, 1, Declared Friends, ,    0.0, 0
+1, 0, 1, Permanently Allied, ,    0.0, 0
+1, 0, 1, Met, ,    0.0, 0
+1, 1, 0, Met, ,    0.0, 0
+1, 1, 0, Declared Friends, ,    0.0, 0
+1, 1, 0, Permanently Allied, ,    0.0, 0
+1, 0, 2, Declared Friends, ,    0.0, 0
+1, 0, 2, Permanently Allied, ,    0.0, 0
+1, 0, 2, Met, ,    0.0, 0
+1, 2, 0, Met, ,    0.0, 0
+1, 2, 0, Declared Friends, ,    0.0, 0
+1, 2, 0, Permanently Allied, ,    0.0, 0
+1, 0, 3, Declared Friends, ,    0.0, 0
+1, 0, 3, Permanently Allied, ,    0.0, 0
+1, 0, 3, Met, ,    0.0, 0
+1, 3, 0, Met, ,    0.0, 0
+1, 3, 0, Declared Friends, ,    0.0, 0
+1, 3, 0, Permanently Allied, ,    0.0, 0
+1, 1, 2, Declared Friends, ,    0.0, 0
+1, 1, 2, Permanently Allied, ,    0.0, 0
+1, 1, 2, Met, ,    0.0, 0
+1, 2, 1, Met, ,    0.0, 0
+1, 2, 1, Declared Friends, ,    0.0, 0
+1, 2, 1, Permanently Allied, ,    0.0, 0
+1, 1, 3, Declared Friends, ,    0.0, 0
+1, 1, 3, Permanently Allied, ,    0.0, 0
+1, 1, 3, Met, ,    0.0, 0
+1, 3, 1, Met, ,    0.0, 0
+1, 3, 1, Declared Friends, ,    0.0, 0
+1, 3, 1, Permanently Allied, ,    0.0, 0
+1, 2, 3, Declared Friends, ,    0.0, 0
+1, 2, 3, Permanently Allied, ,    0.0, 0
+1, 2, 3, Met, ,    0.0, 0
+1, 3, 2, Met, ,    0.0, 0
+1, 3, 2, Declared Friends, ,    0.0, 0
+1, 3, 2, Permanently Allied, ,    0.0, 0
+1, 4, 5, Declared Friends, ,    0.0, 0
+1, 4, 5, Permanently Allied, ,    0.0, 0
+1, 5, 4, Met, ,    0.0, 0
+1, 4, 5, Met, ,    0.0, 0
+1, 5, 4, Declared Friends, ,    0.0, 0
+1, 5, 4, Permanently Allied, ,    0.0, 0
+1, 4, 6, Declared Friends, ,    0.0, 0
+1, 4, 6, Permanently Allied, ,    0.0, 0
+1, 6, 4, Met, ,    0.0, 0
+1, 4, 6, Met, ,    0.0, 0
+1, 6, 4, Declared Friends, ,    0.0, 0
+1, 6, 4, Permanently Allied, ,    0.0, 0
+1, 4, 7, Declared Friends, ,    0.0, 0
+1, 4, 7, Permanently Allied, ,    0.0, 0
+1, 7, 4, Met, ,    0.0, 0
+1, 4, 7, Met, ,    0.0, 0
+1, 7, 4, Declared Friends, ,    0.0, 0
+1, 7, 4, Permanently Allied, ,    0.0, 0
+1, 5, 6, Declared Friends, ,    0.0, 0
+1, 5, 6, Permanently Allied, ,    0.0, 0
+1, 6, 5, Met, ,    0.0, 0
+1, 5, 6, Met, ,    0.0, 0
+1, 6, 5, Declared Friends, ,    0.0, 0
+1, 6, 5, Permanently Allied, ,    0.0, 0
+1, 5, 7, Declared Friends, ,    0.0, 0
+1, 5, 7, Permanently Allied, ,    0.0, 0
+1, 7, 5, Met, ,    0.0, 0
+1, 5, 7, Met, ,    0.0, 0
+1, 7, 5, Declared Friends, ,    0.0, 0
+1, 7, 5, Permanently Allied, ,    0.0, 0
+1, 6, 7, Declared Friends, ,    0.0, 0
+1, 6, 7, Permanently Allied, ,    0.0, 0
+1, 7, 6, Met, ,    0.0, 0
+1, 6, 7, Met, ,    0.0, 0
+1, 7, 6, Declared Friends, ,    0.0, 0
+1, 7, 6, Permanently Allied, ,    0.0, 0
+5, 5, 8, Met, ,    0.0, 0
+5, 8, 5, Met, ,    0.0, 0
+5, 4, 8, Met, ,    0.0, 0
+5, 8, 4, Met, ,    0.0, 0
+5, 6, 8, Met, ,    0.0, 0
+5, 8, 6, Met, ,    0.0, 0
+5, 7, 8, Met, ,    0.0, 0
+5, 8, 7, Met, ,    0.0, 0
+6, 6, 4, Delegation, ,    0.0, 0
+6, 6, 5, Delegation, ,    0.0, 0
+6, 6, 7, Delegation, ,    0.0, 0
+6, 6, 14, Met, ,    0.0, 0
+6, 14, 6, Met, ,    0.0, 0
+6, 4, 14, Met, ,    0.0, 0
+6, 14, 4, Met, ,    0.0, 0
+6, 5, 14, Met, ,    0.0, 0
+6, 14, 5, Met, ,    0.0, 0
+6, 7, 14, Met, ,    0.0, 0
+6, 14, 7, Met, ,    0.0, 0
+7, 5, 4, Delegation, ,    0.0, 0
+7, 5, 6, Delegation, ,    0.0, 0
+7, 5, 7, Delegation, ,    0.0, 0
+9, 0, 4, Met, ,    1.0, 0
+9, 4, 0, Met, ,    1.0, 0
+9, 0, 5, Met, ,    1.0, 0
+9, 5, 0, Met, ,    1.0, 0
+9, 0, 6, Met, ,    1.0, 0
+9, 6, 0, Met, ,    1.0, 0
+9, 0, 7, Met, ,    1.0, 0
+9, 7, 0, Met, ,    1.0, 0
+9, 1, 4, Met, ,    1.0, 0
+9, 4, 1, Met, ,    1.0, 0
+9, 2, 4, Met, ,    1.0, 0
+9, 4, 2, Met, ,    1.0, 0
+9, 3, 4, Met, ,    1.0, 0
+9, 4, 3, Met, ,    1.0, 0
+9, 2, 16, Met, ,    1.0, 0
+9, 16, 2, Met, ,    1.0, 0
+9, 0, 16, Met, ,    1.0, 0
+9, 16, 0, Met, ,    1.0, 0
+9, 1, 16, Met, ,    1.0, 0
+9, 16, 1, Met, ,    1.0, 0
+9, 3, 16, Met, ,    1.0, 0
+9, 16, 3, Met, ,    1.0, 0
+1, 63, 0, Met, ,    0.0, 0
+1, 0, 63, Met, ,    0.0, 0
+1, 63, 0, At War, Surprise,    0.0, 0
+1, 63, 1, Met, ,    0.0, 0
+1, 1, 63, Met, ,    0.0, 0
+1, 63, 1, At War, Surprise,    0.0, 0
+1, 63, 2, Met, ,    0.0, 0
+1, 2, 63, Met, ,    0.0, 0
+1, 63, 2, At War, Surprise,    0.0, 0
+1, 63, 3, Met, ,    0.0, 0
+1, 3, 63, Met, ,    0.0, 0
+1, 63, 3, At War, Surprise,    0.0, 0
+1, 63, 4, Met, ,    0.0, 0
+1, 4, 63, Met, ,    0.0, 0
+1, 63, 4, At War, Surprise,    0.0, 0
+1, 63, 5, Met, ,    0.0, 0
+1, 5, 63, Met, ,    0.0, 0
+1, 63, 5, At War, Surprise,    0.0, 0
+1, 63, 6, Met, ,    0.0, 0
+1, 6, 63, Met, ,    0.0, 0
+1, 63, 6, At War, Surprise,    0.0, 0
+1, 63, 7, Met, ,    0.0, 0
+1, 7, 63, Met, ,    0.0, 0
+1, 63, 7, At War, Surprise,    0.0, 0
+1, 63, 8, Met, ,    0.0, 0
+1, 8, 63, Met, ,    0.0, 0
+1, 63, 8, At War, Surprise,    0.0, 0
+1, 63, 9, Met, ,    0.0, 0
+1, 9, 63, Met, ,    0.0, 0
+1, 63, 9, At War, Surprise,    0.0, 0
+1, 63, 10, Met, ,    0.0, 0
+1, 10, 63, Met, ,    0.0, 0
+1, 63, 10, At War, Surprise,    0.0, 0
+1, 63, 11, Met, ,    0.0, 0
+1, 11, 63, Met, ,    0.0, 0
+1, 63, 11, At War, Surprise,    0.0, 0
+1, 63, 12, Met, ,    0.0, 0
+1, 12, 63, Met, ,    0.0, 0
+1, 63, 12, At War, Surprise,    0.0, 0
+1, 63, 13, Met, ,    0.0, 0
+1, 13, 63, Met, ,    0.0, 0
+1, 63, 13, At War, Surprise,    0.0, 0
+1, 63, 14, Met, ,    0.0, 0
+1, 14, 63, Met, ,    0.0, 0
+1, 63, 14, At War, Surprise,    0.0, 0
+1, 63, 15, Met, ,    0.0, 0
+1, 15, 63, Met, ,    0.0, 0
+1, 63, 15, At War, Surprise,    0.0, 0
+1, 63, 16, Met, ,    0.0, 0
+1, 16, 63, Met, ,    0.0, 0
+1, 63, 16, At War, Surprise,    0.0, 0
+1, 63, 17, Met, ,    0.0, 0
+1, 17, 63, Met, ,    0.0, 0
+1, 63, 17, At War, Surprise,    0.0, 0
+1, 63, 18, Met, ,    0.0, 0
+1, 18, 63, Met, ,    0.0, 0
+1, 63, 18, At War, Surprise,    0.0, 0
+1, 63, 19, Met, ,    0.0, 0
+1, 19, 63, Met, ,    0.0, 0
+1, 63, 19, At War, Surprise,    0.0, 0
+1, 63, 20, Met, ,    0.0, 0
+1, 20, 63, Met, ,    0.0, 0
+1, 63, 20, At War, Surprise,    0.0, 0
+1, 63, 21, Met, ,    0.0, 0
+1, 21, 63, Met, ,    0.0, 0
+1, 63, 21, At War, Surprise,    0.0, 0
+1, 62, 0, Met, ,    0.0, 0
+1, 0, 62, Met, ,    0.0, 0
+1, 62, 0, At War, Surprise,    0.0, 0
+1, 62, 1, Met, ,    0.0, 0
+1, 1, 62, Met, ,    0.0, 0
+1, 62, 1, At War, Surprise,    0.0, 0
+1, 62, 2, Met, ,    0.0, 0
+1, 2, 62, Met, ,    0.0, 0
+1, 62, 2, At War, Surprise,    0.0, 0
+1, 62, 3, Met, ,    0.0, 0
+1, 3, 62, Met, ,    0.0, 0
+1, 62, 3, At War, Surprise,    0.0, 0
+1, 62, 4, Met, ,    0.0, 0
+1, 4, 62, Met, ,    0.0, 0
+1, 62, 4, At War, Surprise,    0.0, 0
+1, 62, 5, Met, ,    0.0, 0
+1, 5, 62, Met, ,    0.0, 0
+1, 62, 5, At War, Surprise,    0.0, 0
+1, 62, 6, Met, ,    0.0, 0
+1, 6, 62, Met, ,    0.0, 0
+1, 62, 6, At War, Surprise,    0.0, 0
+1, 62, 7, Met, ,    0.0, 0
+1, 7, 62, Met, ,    0.0, 0
+1, 62, 7, At War, Surprise,    0.0, 0
+1, 62, 8, Met, ,    0.0, 0
+1, 8, 62, Met, ,    0.0, 0
+1, 62, 8, At War, Surprise,    0.0, 0
+1, 62, 9, Met, ,    0.0, 0
+1, 9, 62, Met, ,    0.0, 0
+1, 62, 9, At War, Surprise,    0.0, 0
+1, 21, 12, Met, ,    0.0, 0
+1, 12, 21, Met, ,    0.0, 0
+1, 0, 1, Declared Friends, ,    0.0, 0
+1, 0, 1, Permanently Allied, ,    0.0, 0
+1, 0, 1, Met, ,    0.0, 0
+1, 1, 0, Met, ,    0.0, 0
+1, 1, 0, Declared Friends, ,    0.0, 0
+1, 1, 0, Permanently Allied, ,    0.0, 0
+1, 0, 2, Declared Friends, ,    0.0, 0
+1, 0, 2, Permanently Allied, ,    0.0, 0
+1, 0, 2, Met, ,    0.0, 0
+1, 2, 0, Met, ,    0.0, 0
+1, 2, 0, Declared Friends, ,    0.0, 0
+1, 2, 0, Permanently Allied, ,    0.0, 0
+1, 0, 3, Declared Friends, ,    0.0, 0
+1, 0, 3, Permanently Allied, ,    0.0, 0
+1, 0, 3, Met, ,    0.0, 0
+1, 3, 0, Met, ,    0.0, 0
+1, 3, 0, Declared Friends, ,    0.0, 0
+1, 3, 0, Permanently Allied, ,    0.0, 0
+1, 0, 4, Declared Friends, ,    0.0, 0
+1, 0, 4, Permanently Allied, ,    0.0, 0
+1, 0, 4, Met, ,    0.0, 0
+1, 4, 0, Met, ,    0.0, 0
+1, 4, 0, Declared Friends, ,    0.0, 0
+1, 4, 0, Permanently Allied, ,    0.0, 0
+1, 1, 2, Declared Friends, ,    0.0, 0
+1, 1, 2, Permanently Allied, ,    0.0, 0
+1, 1, 2, Met, ,    0.0, 0
+1, 2, 1, Met, ,    0.0, 0
+1, 2, 1, Declared Friends, ,    0.0, 0
+1, 2, 1, Permanently Allied, ,    0.0, 0
+1, 1, 3, Declared Friends, ,    0.0, 0
+1, 1, 3, Permanently Allied, ,    0.0, 0
+1, 1, 3, Met, ,    0.0, 0
+1, 3, 1, Met, ,    0.0, 0
+1, 3, 1, Declared Friends, ,    0.0, 0
+1, 3, 1, Permanently Allied, ,    0.0, 0
+1, 1, 4, Declared Friends, ,    0.0, 0
+1, 1, 4, Permanently Allied, ,    0.0, 0
+1, 1, 4, Met, ,    0.0, 0
+1, 4, 1, Met, ,    0.0, 0
+1, 4, 1, Declared Friends, ,    0.0, 0
+1, 4, 1, Permanently Allied, ,    0.0, 0
+1, 2, 3, Declared Friends, ,    0.0, 0
+1, 2, 3, Permanently Allied, ,    0.0, 0
+1, 2, 3, Met, ,    0.0, 0
+1, 3, 2, Met, ,    0.0, 0
+1, 3, 2, Declared Friends, ,    0.0, 0
+1, 3, 2, Permanently Allied, ,    0.0, 0
+1, 2, 4, Declared Friends, ,    0.0, 0
+1, 2, 4, Permanently Allied, ,    0.0, 0
+1, 2, 4, Met, ,    0.0, 0
+1, 4, 2, Met, ,    0.0, 0
+1, 4, 2, Declared Friends, ,    0.0, 0
+1, 4, 2, Permanently Allied, ,    0.0, 0
+1, 3, 4, Declared Friends, ,    0.0, 0
+1, 3, 4, Permanently Allied, ,    0.0, 0
+1, 3, 4, Met, ,    0.0, 0
+1, 4, 3, Met, ,    0.0, 0
+1, 4, 3, Declared Friends, ,    0.0, 0
+1, 4, 3, Permanently Allied, ,    0.0, 0
+1, 5, 6, Declared Friends, ,    0.0, 0
+1, 5, 6, Permanently Allied, ,    0.0, 0
+1, 6, 5, Met, ,    0.0, 0
+1, 5, 6, Met, ,    0.0, 0
+1, 6, 5, Declared Friends, ,    0.0, 0
+1, 6, 5, Permanently Allied, ,    0.0, 0
+1, 5, 7, Declared Friends, ,    0.0, 0
+1, 5, 7, Permanently Allied, ,    0.0, 0
+1, 7, 5, Met, ,    0.0, 0
+1, 5, 7, Met, ,    0.0, 0
+1, 7, 5, Declared Friends, ,    0.0, 0
+1, 7, 5, Permanently Allied, ,    0.0, 0
+1, 5, 8, Declared Friends, ,    0.0, 0
+1, 5, 8, Permanently Allied, ,    0.0, 0
+1, 8, 5, Met, ,    0.0, 0
+1, 5, 8, Met, ,    0.0, 0
+1, 8, 5, Declared Friends, ,    0.0, 0
+1, 8, 5, Permanently Allied, ,    0.0, 0
+1, 5, 9, Declared Friends, ,    0.0, 0
+1, 5, 9, Permanently Allied, ,    0.0, 0
+1, 9, 5, Met, ,    0.0, 0
+1, 5, 9, Met, ,    0.0, 0
+1, 9, 5, Declared Friends, ,    0.0, 0
+1, 9, 5, Permanently Allied, ,    0.0, 0
+1, 6, 7, Declared Friends, ,    0.0, 0
+1, 6, 7, Permanently Allied, ,    0.0, 0
+1, 7, 6, Met, ,    0.0, 0
+1, 6, 7, Met, ,    0.0, 0
+1, 7, 6, Declared Friends, ,    0.0, 0
+1, 7, 6, Permanently Allied, ,    0.0, 0
+1, 6, 8, Declared Friends, ,    0.0, 0
+1, 6, 8, Permanently Allied, ,    0.0, 0
+1, 8, 6, Met, ,    0.0, 0
+1, 6, 8, Met, ,    0.0, 0
+1, 8, 6, Declared Friends, ,    0.0, 0
+1, 8, 6, Permanently Allied, ,    0.0, 0
+1, 6, 9, Declared Friends, ,    0.0, 0
+1, 6, 9, Permanently Allied, ,    0.0, 0
+1, 9, 6, Met, ,    0.0, 0
+1, 6, 9, Met, ,    0.0, 0
+1, 9, 6, Declared Friends, ,    0.0, 0
+1, 9, 6, Permanently Allied, ,    0.0, 0
+1, 7, 8, Declared Friends, ,    0.0, 0
+1, 7, 8, Permanently Allied, ,    0.0, 0
+1, 8, 7, Met, ,    0.0, 0
+1, 7, 8, Met, ,    0.0, 0
+1, 8, 7, Declared Friends, ,    0.0, 0
+1, 8, 7, Permanently Allied, ,    0.0, 0
+1, 7, 9, Declared Friends, ,    0.0, 0
+1, 7, 9, Permanently Allied, ,    0.0, 0
+1, 9, 7, Met, ,    0.0, 0
+1, 7, 9, Met, ,    0.0, 0
+1, 9, 7, Declared Friends, ,    0.0, 0
+1, 9, 7, Permanently Allied, ,    0.0, 0
+1, 8, 9, Declared Friends, ,    0.0, 0
+1, 8, 9, Permanently Allied, ,    0.0, 0
+1, 9, 8, Met, ,    0.0, 0
+1, 8, 9, Met, ,    0.0, 0
+1, 9, 8, Declared Friends, ,    0.0, 0
+1, 9, 8, Permanently Allied, ,    0.0, 0
+5, 2, 21, Met, ,    0.0, 0
+5, 21, 2, Met, ,    0.0, 0
+5, 0, 21, Met, ,    0.0, 0
+5, 21, 0, Met, ,    0.0, 0
+5, 1, 21, Met, ,    0.0, 0
+5, 21, 1, Met, ,    0.0, 0
+5, 3, 21, Met, ,    0.0, 0
+5, 21, 3, Met, ,    0.0, 0
+5, 4, 21, Met, ,    0.0, 0
+5, 21, 4, Met, ,    0.0, 0
+6, 5, 11, Met, ,    0.0, 0
+6, 11, 5, Met, ,    0.0, 0
+6, 6, 11, Met, ,    0.0, 0
+6, 11, 6, Met, ,    0.0, 0
+6, 7, 11, Met, ,    0.0, 0
+6, 11, 7, Met, ,    0.0, 0
+6, 8, 11, Met, ,    0.0, 0
+6, 11, 8, Met, ,    0.0, 0
+6, 9, 11, Met, ,    0.0, 0
+6, 11, 9, Met, ,    0.0, 0
+6, 8, 5, Delegation, ,    0.0, 0
+6, 8, 6, Delegation, ,    0.0, 0
+6, 8, 7, Delegation, ,    0.0, 0
+6, 8, 9, Delegation, ,    0.0, 0
+7, 5, 6, Delegation, ,    0.0, 0
+7, 5, 7, Delegation, ,    0.0, 0
+7, 5, 8, Delegation, ,    0.0, 0
+7, 5, 9, Delegation, ,    0.0, 0
+7, 6, 5, Delegation, ,    0.0, 0
+7, 6, 7, Delegation, ,    0.0, 0
+7, 6, 8, Delegation, ,    0.0, 0
+7, 6, 9, Delegation, ,    0.0, 0
+7, 7, 5, Delegation, ,    0.0, 0
+7, 7, 6, Delegation, ,    0.0, 0
+7, 7, 8, Delegation, ,    0.0, 0
+7, 7, 9, Delegation, ,    0.0, 0
+7, 2, 12, Met, ,    0.0, 0
+7, 12, 2, Met, ,    0.0, 0
+7, 0, 12, Met, ,    0.0, 0
+7, 12, 0, Met, ,    0.0, 0
+7, 1, 12, Met, ,    0.0, 0
+7, 12, 1, Met, ,    0.0, 0
+7, 3, 12, Met, ,    0.0, 0
+7, 12, 3, Met, ,    0.0, 0
+7, 4, 12, Met, ,    0.0, 0
+7, 12, 4, Met, ,    0.0, 0
+8, 4, 12, Gave Influence, ,    0.0, 0
+8, 0, 18, Met, ,    0.0, 0
+8, 18, 0, Met, ,    0.0, 0
+8, 1, 18, Met, ,    0.0, 0
+8, 18, 1, Met, ,    0.0, 0
+8, 2, 18, Met, ,    0.0, 0
+8, 18, 2, Met, ,    0.0, 0
+8, 3, 18, Met, ,    0.0, 0
+8, 18, 3, Met, ,    0.0, 0
+8, 4, 18, Met, ,    0.0, 0
+8, 18, 4, Met, ,    0.0, 0
+9, 9, 5, Delegation, ,    0.0, 0
+9, 9, 6, Delegation, ,    0.0, 0
+9, 9, 7, Delegation, ,    0.0, 0
+9, 9, 8, Delegation, ,    0.0, 0
+9, 4, 15, Met, ,    0.0, 0
+9, 15, 4, Met, ,    0.0, 0
+9, 0, 15, Met, ,    0.0, 0
+9, 15, 0, Met, ,    0.0, 0
+9, 1, 15, Met, ,    0.0, 0
+9, 15, 1, Met, ,    0.0, 0
+9, 2, 15, Met, ,    0.0, 0
+9, 15, 2, Met, ,    0.0, 0
+9, 3, 15, Met, ,    0.0, 0
+9, 15, 3, Met, ,    0.0, 0
+11, 5, 11, Gave Influence, ,    0.0, 0
+11, 5, 19, Met, ,    0.0, 0
+11, 19, 5, Met, ,    0.0, 0
+11, 6, 19, Met, ,    0.0, 0
+11, 19, 6, Met, ,    0.0, 0
+11, 7, 19, Met, ,    0.0, 0
+11, 19, 7, Met, ,    0.0, 0
+11, 8, 19, Met, ,    0.0, 0
+11, 19, 8, Met, ,    0.0, 0
+11, 9, 19, Met, ,    0.0, 0
+11, 19, 9, Met, ,    0.0, 0
+11, 6, 11, Gave Influence, ,    0.0, 0
+11, 4, 9, Met, ,    0.0, 0
+11, 9, 4, Met, ,    0.0, 0
+11, 4, 5, Met, ,    0.0, 0
+11, 5, 4, Met, ,    0.0, 0
+11, 4, 6, Met, ,    0.0, 0
+11, 6, 4, Met, ,    0.0, 0
+11, 4, 7, Met, ,    0.0, 0
+11, 7, 4, Met, ,    0.0, 0
+11, 4, 8, Met, ,    0.0, 0
+11, 8, 4, Met, ,    0.0, 0
+11, 0, 9, Met, ,    0.0, 0
+11, 9, 0, Met, ,    0.0, 0
+11, 1, 9, Met, ,    0.0, 0
+11, 9, 1, Met, ,    0.0, 0
+11, 2, 9, Met, ,    0.0, 0
+11, 9, 2, Met, ,    0.0, 0
+11, 3, 9, Met, ,    0.0, 0
+11, 9, 3, Met, ,    0.0, 0
+11, 2, 17, Met, ,    0.0, 0
+11, 17, 2, Met, ,    0.0, 0
+11, 0, 17, Met, ,    0.0, 0
+11, 17, 0, Met, ,    0.0, 0
+11, 1, 17, Met, ,    0.0, 0
+11, 17, 1, Met, ,    0.0, 0
+11, 3, 17, Met, ,    0.0, 0
+11, 17, 3, Met, ,    0.0, 0
+11, 4, 17, Met, ,    0.0, 0
+11, 17, 4, Met, ,    0.0, 0

@@ -1,0 +1,38 @@
+[2026-09-16 20:04:36]	LoadGameViewState::Begin()
+[2026-09-16 20:04:36]	LoadGameViewState::LoadUI()
+[2026-09-16 20:04:36]	CONFIGURE_CONTENT Begin
+[2026-09-16 20:04:42]	CONFIGURE_CONTENT took 5.3684 seconds
+[2026-09-16 20:04:42]	GAMECORE_NEW_GAME Begin
+[2026-09-16 20:04:44]		,Block on asset load took 0.0000 seconds
+[2026-09-16 20:04:57]		,InitializeNewGame took 13.2409 seconds
+[2026-09-16 20:04:57]	GAMECORE_NEW_GAME End
+[2026-09-16 20:04:57]	GAMECORE_INITIALIZATION_DONE Begin
+[2026-09-16 20:04:59]		,GameViewState::LoadUI took 0.0000 seconds
+[2026-09-16 20:04:59]		,Post-GameCore asset load took 0.2075 seconds
+[2026-09-16 20:04:59]	GAMECORE_INITIALIZATION_DONE took 1.6821 seconds
+[2026-09-16 20:04:59]	WAIT_FOR_PLAYERS Begin
+[2026-09-16 20:05:16]		,GameViewState::StartupGame took 16.8382 seconds
+[2026-09-16 20:05:16]		,StartupGame asset load took 0.0000 seconds
+[2026-09-16 20:05:16]	WAIT_FOR_PLAYERS End
+[2026-09-16 20:05:20]	PostLoadTime: 3.7633 seconds
+[2026-09-16 20:05:20]	LoadGameViewState::End()
+[2026-09-16 20:05:20]	LoadGameViewState::UnloadUI()
+[2026-09-16 20:21:53]	LoadGameViewState::Begin()
+[2026-09-16 20:21:53]	LoadGameViewState::LoadUI()
+[2026-09-16 20:21:53]	CONFIGURE_CONTENT Begin
+[2026-09-16 20:21:58]	CONFIGURE_CONTENT took 5.2840 seconds
+[2026-09-16 20:21:58]	GAMECORE_NEW_GAME Begin
+[2026-09-16 20:22:01]		,Block on asset load took 0.0000 seconds
+[2026-09-16 20:22:36]		,InitializeNewGame took 35.2095 seconds
+[2026-09-16 20:22:36]	GAMECORE_NEW_GAME End
+[2026-09-16 20:22:36]	GAMECORE_INITIALIZATION_DONE Begin
+[2026-09-16 20:22:37]		,GameViewState::LoadUI took 0.0000 seconds
+[2026-09-16 20:22:37]		,Post-GameCore asset load took 0.2017 seconds
+[2026-09-16 20:22:37]	GAMECORE_INITIALIZATION_DONE took 1.4698 seconds
+[2026-09-16 20:22:37]	WAIT_FOR_PLAYERS Begin
+[2026-09-16 20:22:57]		,GameViewState::StartupGame took 19.7603 seconds
+[2026-09-16 20:22:57]		,StartupGame asset load took 0.0000 seconds
+[2026-09-16 20:22:57]	WAIT_FOR_PLAYERS End
+[2026-09-16 20:23:02]	PostLoadTime: 5.1525 seconds
+[2026-09-16 20:23:02]	LoadGameViewState::End()
+[2026-09-16 20:23:02]	LoadGameViewState::UnloadUI()

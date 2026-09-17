@@ -1,0 +1,678 @@
+Game Turn, Player, Category, Target Type, Target Info, Unit Info, Extra
+1, 4, HL: First turn settler, , , UNIT_SETTLER (65536)
+1, 4, HL: Explore, , , UNIT_AZTEC_EAGLE_WARRIOR (131073), Move To: 48 63
+1, 4, HL: End Turn, , , UNIT_AZTEC_EAGLE_WARRIOR (131073)
+1, 5, HL: First turn settler, , , UNIT_SETTLER (65536)
+1, 6, HL: First turn settler, , , UNIT_SETTLER (65536)
+1, 7, HL: First turn settler, , , UNIT_SETTLER (65536)
+1, 8, HL: First turn settler, , , UNIT_SETTLER (65536)
+1, 8, HL: End Turn, , , UNIT_WARRIOR (131073)
+1, 8, HL: End Turn, , , UNIT_WARRIOR (196610)
+1, 9, HL: First turn settler, , , UNIT_SETTLER (65536)
+1, 9, HL: End Turn, , , UNIT_WARRIOR (131073)
+1, 9, HL: End Turn, , , UNIT_WARRIOR (196610)
+1, 10, HL: First turn settler, , , UNIT_SETTLER (65536)
+1, 10, HL: End Turn, , , UNIT_WARRIOR (131073)
+1, 10, HL: End Turn, , , UNIT_WARRIOR (196610)
+1, 11, HL: First turn settler, , , UNIT_SETTLER (65536)
+1, 11, HL: End Turn, , , UNIT_WARRIOR (131073)
+1, 11, HL: End Turn, , , UNIT_WARRIOR (196610)
+1, 12, HL: First turn settler, , , UNIT_SETTLER (65536)
+1, 12, HL: End Turn, , , UNIT_WARRIOR (131073)
+1, 12, HL: End Turn, , , UNIT_WARRIOR (196610)
+1, 13, HL: First turn settler, , , UNIT_SETTLER (65536)
+1, 13, HL: End Turn, , , UNIT_WARRIOR (131073)
+1, 13, HL: End Turn, , , UNIT_WARRIOR (196610)
+1, 14, HL: First turn settler, , , UNIT_SETTLER (65536)
+1, 14, HL: End Turn, , , UNIT_WARRIOR (131073)
+1, 14, HL: End Turn, , , UNIT_WARRIOR (196610)
+1, 15, HL: First turn settler, , , UNIT_SETTLER (65536)
+1, 15, HL: End Turn, , , UNIT_WARRIOR (131073)
+1, 15, HL: End Turn, , , UNIT_WARRIOR (196610)
+1, 16, HL: First turn settler, , , UNIT_SETTLER (65536)
+1, 16, HL: End Turn, , , UNIT_WARRIOR (131073)
+1, 16, HL: End Turn, , , UNIT_WARRIOR (196610)
+1, 17, HL: First turn settler, , , UNIT_SETTLER (65536)
+1, 17, HL: End Turn, , , UNIT_WARRIOR (131073)
+1, 17, HL: End Turn, , , UNIT_WARRIOR (196610)
+2, 5, Get Goody Hut, TARGET_GOODY_HUT, Goody Hut, UNIT_CREE_OKIHTCITAW (262147), Available Units: 1
+2, 8, Wander, , , UNIT_WARRIOR (131073), Move To: 56 37
+2, 8, Wander, , , UNIT_WARRIOR (196610), Move To: 55 36
+2, 9, Wander, , , UNIT_WARRIOR (131073), Move To: 64 3
+2, 9, Wander, , , UNIT_WARRIOR (196610), Move To: 64 2
+2, 10, Wander, , , UNIT_WARRIOR (131073), Move To: 57 63
+2, 10, Wander, , , UNIT_WARRIOR (196610), Move To: 57 66
+2, 11, Wander, , , UNIT_WARRIOR (131073), Move To: 70 13
+2, 11, Wander, , , UNIT_WARRIOR (196610), Move To: 69 11
+2, 12, Wander, , , UNIT_WARRIOR (131073), Move To: 24 24
+2, 12, Wander, , , UNIT_WARRIOR (196610), Move To: 25 23
+2, 13, Wander, , , UNIT_WARRIOR (131073), Move To: 41 49
+2, 13, Wander, , , UNIT_WARRIOR (196610), Move To: 40 51
+2, 14, Wander, , , UNIT_WARRIOR (131073), Move To: 55 26
+2, 14, Wander, , , UNIT_WARRIOR (196610), Move To: 55 28
+2, 15, Wander, , , UNIT_WARRIOR (131073), Move To: 46 34
+2, 15, Wander, , , UNIT_WARRIOR (196610), Move To: 44 34
+2, 16, Wander, , , UNIT_WARRIOR (131073), Move To: 14 16
+2, 16, Wander, , , UNIT_WARRIOR (196610), Move To: 13 16
+2, 17, Wander, , , UNIT_WARRIOR (131073), Move To: 10 57
+2, 17, Wander, , , UNIT_WARRIOR (196610), Move To: 11 56
+3, 5, Promote, , , UNIT_CREE_OKIHTCITAW (262147), 
+3, 8, Wander, , , UNIT_WARRIOR (131073), Move To: 55 38
+3, 8, Wander, , , UNIT_WARRIOR (196610), Move To: 56 37
+3, 9, Wander, , , UNIT_WARRIOR (131073), Move To: 65 4
+3, 9, Wander, , , UNIT_WARRIOR (196610), Move To: 64 1
+3, 10, Wander, , , UNIT_WARRIOR (131073), Move To: 56 64
+3, 10, Wander, , , UNIT_WARRIOR (196610), Move To: 57 65
+3, 11, Wander, , , UNIT_WARRIOR (131073), Move To: 70 14
+3, 11, Wander, , , UNIT_WARRIOR (196610), Move To: 70 13
+3, 12, Wander, , , UNIT_WARRIOR (131073), Move To: 22 25
+3, 12, Wander, , , UNIT_WARRIOR (196610), Move To: 26 24
+3, 13, Wander, , , UNIT_WARRIOR (131073), Move To: 42 48
+3, 13, Wander, , , UNIT_WARRIOR (196610), Move To: 41 52
+3, 14, Wander, , , UNIT_WARRIOR (131073), Move To: 53 26
+3, 14, Wander, , , UNIT_WARRIOR (196610), Move To: 55 27
+3, 15, Wander, , , UNIT_WARRIOR (131073), Move To: 46 33
+3, 15, Wander, , , UNIT_WARRIOR (196610), Move To: 44 33
+3, 16, Wander, , , UNIT_WARRIOR (131073), Move To: 15 14
+3, 16, Wander, , , UNIT_WARRIOR (196610), Move To: 14 16
+3, 17, Wander, , , UNIT_WARRIOR (131073), Move To: 11 58
+3, 17, Wander, , , UNIT_WARRIOR (196610), Move To: 9 55
+4, 5, Wander, , , UNIT_WARRIOR (131073), Move To: 63 46
+4, 8, Wander, , , UNIT_WARRIOR (131073), Move To: 55 39
+4, 8, Wander, , , UNIT_WARRIOR (196610), Move To: 56 36
+4, 9, Wander, , , UNIT_WARRIOR (131073), Move To: 64 5
+4, 9, Wander, , , UNIT_WARRIOR (196610), Move To: 64 2
+4, 10, Wander, , , UNIT_WARRIOR (131073), Move To: 57 62
+4, 10, Wander, , , UNIT_WARRIOR (196610), Move To: 57 66
+4, 11, Wander, , , UNIT_WARRIOR (131073), Move To: 70 15
+4, 11, Wander, , , UNIT_WARRIOR (196610), Move To: 72 14
+4, 12, Wander, , , UNIT_WARRIOR (131073), Move To: 22 26
+4, 12, Wander, , , UNIT_WARRIOR (196610), Move To: 25 25
+4, 13, Wander, , , UNIT_WARRIOR (131073), Move To: 41 47
+4, 13, Wander, , , UNIT_WARRIOR (196610), Move To: 41 51
+4, 14, Wander, , , UNIT_WARRIOR (131073), Move To: 55 26
+4, 14, Wander, , , UNIT_WARRIOR (196610), Move To: 54 27
+4, 15, Wander, , , UNIT_WARRIOR (131073), Move To: 47 35
+4, 15, Wander, , , UNIT_WARRIOR (196610), Move To: 45 34
+4, 16, Wander, , , UNIT_WARRIOR (131073), Move To: 16 14
+4, 16, Wander, , , UNIT_WARRIOR (196610), Move To: 15 16
+4, 17, Wander, , , UNIT_WARRIOR (131073), Move To: 12 58
+4, 17, Wander, , , UNIT_WARRIOR (196610), Move To: 10 57
+5, 5, Support Formation, , , UNIT_WARRIOR (131073), 60 48
+5, 5, Support Formation, , , UNIT_CREE_OKIHTCITAW (262147), 60 48
+5, 5, HL: Build Improvement, , , UNIT_BUILDER, Move -9999 -9999
+5, 8, Wander, , , UNIT_WARRIOR (131073), Move To: 57 38
+5, 8, Wander, , , UNIT_WARRIOR (196610), Move To: 57 37
+5, 9, Wander, , , UNIT_WARRIOR (131073), Move To: 65 4
+5, 9, Wander, , , UNIT_WARRIOR (196610), Move To: 64 3
+5, 10, Wander, , , UNIT_WARRIOR (131073), Move To: 56 61
+5, 10, Wander, , , UNIT_WARRIOR (196610), Move To: 57 65
+5, 11, Wander, , , UNIT_WARRIOR (131073), Move To: 71 15
+5, 11, Wander, , , UNIT_WARRIOR (196610), Move To: 70 13
+5, 12, Wander, , , UNIT_WARRIOR (131073), Move To: 23 25
+5, 12, Wander, , , UNIT_WARRIOR (196610), Move To: 26 24
+5, 13, Wander, , , UNIT_WARRIOR (131073), Move To: 41 49
+5, 13, Wander, , , UNIT_WARRIOR (196610), Move To: 40 53
+5, 14, Wander, , , UNIT_WARRIOR (131073), Move To: 55 28
+5, 14, Wander, , , UNIT_WARRIOR (196610), Move To: 54 28
+5, 15, Wander, , , UNIT_WARRIOR (131073), Move To: 47 34
+5, 15, Wander, , , UNIT_WARRIOR (196610), Move To: 43 35
+5, 16, Wander, , , UNIT_WARRIOR (131073), Move To: 15 14
+5, 16, Wander, , , UNIT_WARRIOR (196610), Move To: 14 15
+5, 17, Wander, , , UNIT_WARRIOR (131073), Move To: 12 56
+5, 17, Wander, , , UNIT_WARRIOR (196610), Move To: 9 57
+6, 4, HL: End Turn, , , UNIT_BUILDER (524290)
+6, 4, HL: End Turn, , , UNIT_SCOUT (458757)
+6, 5, Promote, , , UNIT_CREE_OKIHTCITAW (589831), 
+6, 5, Wander, , , UNIT_VAMPIRE (393220), Move To: 61 48
+6, 5, HL: Build Improvement, , , UNIT_BUILDER, Move -9999 -9999
+6, 5, HL: End Turn, , , UNIT_BUILDER (458757)
+6, 6, Wander, , , UNIT_WARRIOR (458757), Move To: 63 33
+6, 8, Wander, , , UNIT_WARRIOR (131073), Move To: 57 39
+6, 8, Wander, , , UNIT_WARRIOR (196610), Move To: 55 37
+6, 9, Wander, , , UNIT_WARRIOR (131073), Move To: 65 5
+6, 9, Wander, , , UNIT_WARRIOR (196610), Move To: 64 1
+6, 10, Wander, , , UNIT_WARRIOR (131073), Move To: 55 63
+6, 10, Wander, , , UNIT_WARRIOR (196610), Move To: 56 66
+6, 11, Wander, , , UNIT_WARRIOR (131073), Move To: 71 16
+6, 11, Wander, , , UNIT_WARRIOR (196610), Move To: 69 11
+6, 12, Wander, , , UNIT_WARRIOR (131073), Move To: 22 24
+6, 12, Wander, , , UNIT_WARRIOR (196610), Move To: 25 23
+6, 13, Wander, , , UNIT_WARRIOR (131073), Move To: 41 50
+6, 13, Wander, , , UNIT_WARRIOR (196610), Move To: 41 52
+6, 14, Wander, , , UNIT_WARRIOR (131073), Move To: 56 26
+6, 14, Wander, , , UNIT_WARRIOR (196610), Move To: 55 27
+6, 15, Wander, , , UNIT_WARRIOR (131073), Move To: 46 34
+6, 15, Wander, , , UNIT_WARRIOR (196610), Move To: 42 34
+6, 16, Wander, , , UNIT_WARRIOR (131073), Move To: 14 14
+6, 16, Wander, , , UNIT_WARRIOR (196610), Move To: 15 16
+6, 17, Wander, , , UNIT_WARRIOR (131073), Move To: 12 58
+6, 17, Wander, , , UNIT_WARRIOR (196610), Move To: 10 59
+7, 4, HL: End Turn, , , UNIT_SCOUT (458757)
+7, 5, Get Goody Hut, TARGET_GOODY_HUT, Goody Hut, UNIT_CREE_OKIHTCITAW (262147), Available Units: 1
+7, 5, Wander, , , UNIT_VAMPIRE (393220), Move To: 59 48
+7, 5, HL: Build Improvement, , , UNIT_BUILDER, Move -9999 -9999
+7, 8, Wander, , , UNIT_WARRIOR (131073), Move To: 57 38
+7, 8, Wander, , , UNIT_WARRIOR (196610), Move To: 55 35
+7, 9, Wander, , , UNIT_WARRIOR (131073), Move To: 64 5
+7, 9, Wander, , , UNIT_WARRIOR (196610), Move To: 64 2
+7, 10, Wander, , , UNIT_WARRIOR (131073), Move To: 57 63
+7, 10, Wander, , , UNIT_WARRIOR (196610), Move To: 54 65
+7, 11, Wander, , , UNIT_WARRIOR (131073), Move To: 72 16
+7, 11, Wander, , , UNIT_WARRIOR (196610), Move To: 69 12
+7, 12, Wander, , , UNIT_WARRIOR (131073), Move To: 21 23
+7, 12, Wander, , , UNIT_WARRIOR (196610), Move To: 24 23
+7, 13, Wander, , , UNIT_WARRIOR (131073), Move To: 41 51
+7, 13, Wander, , , UNIT_WARRIOR (196610), Move To: 40 51
+7, 14, Wander, , , UNIT_WARRIOR (131073), Move To: 56 27
+7, 14, Wander, , , UNIT_WARRIOR (196610), Move To: 54 28
+7, 15, Wander, , , UNIT_WARRIOR (131073), Move To: 46 35
+7, 15, Wander, , , UNIT_WARRIOR (196610), Move To: 42 35
+7, 16, Wander, , , UNIT_WARRIOR (131073), Move To: 14 13
+7, 16, Wander, , , UNIT_WARRIOR (196610), Move To: 14 16
+7, 17, Wander, , , UNIT_WARRIOR (131073), Move To: 13 56
+7, 17, Wander, , , UNIT_WARRIOR (196610), Move To: 11 59
+7, 17, HL: End Turn, , , UNIT_BUILDER (262144)
+8, 4, Wander, , , UNIT_AZTEC_EAGLE_WARRIOR (589830), Move To: 48 62
+8, 4, HL: Explore, , , UNIT_SCOUT (458757), Move To: 49 66
+8, 4, HL: End Turn, , , UNIT_SCOUT (458757)
+8, 5, Get Goody Hut, TARGET_GOODY_HUT, Goody Hut, UNIT_CREE_OKIHTCITAW (262147), Available Units: 1
+8, 5, Wander, , , UNIT_VAMPIRE (393220), Move To: 58 48
+8, 6, Wander, , , UNIT_WARRIOR (458757), Move To: 65 33
+8, 8, Wander, , , UNIT_WARRIOR (131073), Move To: 57 37
+8, 8, Wander, , , UNIT_WARRIOR (196610), Move To: 55 36
+8, 9, Wander, , , UNIT_WARRIOR (131073), Move To: 64 3
+8, 9, Wander, , , UNIT_WARRIOR (196610), Move To: 64 1
+8, 9, HL: End Turn, , , UNIT_BUILDER (262144)
+8, 10, Wander, , , UNIT_WARRIOR (131073), Move To: 57 61
+8, 10, Wander, , , UNIT_WARRIOR (196610), Move To: 53 65
+8, 11, Wander, , , UNIT_WARRIOR (131073), Move To: 71 15
+8, 11, Wander, , , UNIT_WARRIOR (196610), Move To: 69 11
+8, 12, Wander, , , UNIT_WARRIOR (131073), Move To: 22 25
+8, 12, Wander, , , UNIT_WARRIOR (196610), Move To: 26 24
+8, 13, Wander, , , UNIT_WARRIOR (131073), Move To: 41 50
+8, 13, Wander, , , UNIT_WARRIOR (196610), Move To: 41 51
+8, 14, Wander, , , UNIT_WARRIOR (131073), Move To: 54 27
+8, 14, Wander, , , UNIT_WARRIOR (196610), Move To: 55 27
+8, 15, Wander, , , UNIT_WARRIOR (131073), Move To: 47 35
+8, 15, Wander, , , UNIT_WARRIOR (196610), Move To: 44 34
+8, 16, Wander, , , UNIT_WARRIOR (131073), Move To: 15 14
+8, 16, Wander, , , UNIT_WARRIOR (196610), Move To: 13 17
+8, 17, Wander, , , UNIT_WARRIOR (131073), Move To: 12 57
+8, 17, Wander, , , UNIT_WARRIOR (196610), Move To: 10 58
+8, 17, HL: End Turn, , , UNIT_BUILDER (262144)
+9, 4, Wander, , , UNIT_AZTEC_EAGLE_WARRIOR (589830), Move To: 48 63
+9, 4, HL: Explore, , , UNIT_SCOUT (458757), Move To: 50 68
+9, 4, HL: Explore, , , UNIT_SCOUT (720904), Move To: 43 63
+9, 4, HL: Explore, , , UNIT_SCOUT (458757), Move To: 49 69
+9, 4, HL: End Turn, , , UNIT_SCOUT (458757)
+9, 4, HL: End Turn, , , UNIT_SCOUT (720904)
+9, 5, Get Goody Hut, TARGET_GOODY_HUT, Goody Hut, UNIT_CREE_OKIHTCITAW (589831), Available Units: 1
+9, 5, Wander, , , UNIT_VAMPIRE (393220), Move To: 58 49
+9, 6, HL: Explore, , , UNIT_SCOUT (393220), Move To: 63 40
+9, 6, HL: End Turn, , , UNIT_SCOUT (393220)
+9, 8, Wander, , , UNIT_WARRIOR (131073), Move To: 58 38
+9, 8, Wander, , , UNIT_WARRIOR (196610), Move To: 56 35
+9, 9, Wander, , , UNIT_WARRIOR (131073), Move To: 64 4
+9, 9, Wander, , , UNIT_WARRIOR (196610), Move To: 64 2
+9, 9, HL: End Turn, , , UNIT_BUILDER (262144)
+9, 10, Wander, , , UNIT_WARRIOR (131073), Move To: 56 62
+9, 10, Wander, , , UNIT_WARRIOR (196610), Move To: 54 66
+9, 11, Wander, , , UNIT_WARRIOR (131073), Move To: 71 16
+9, 11, Wander, , , UNIT_WARRIOR (196610), Move To: 70 11
+9, 12, Wander, , , UNIT_WARRIOR (131073), Move To: 21 25
+9, 12, Wander, , , UNIT_WARRIOR (196610), Move To: 26 23
+9, 13, Wander, , , UNIT_WARRIOR (131073), Move To: 41 52
+9, 13, Wander, , , UNIT_WARRIOR (196610), Move To: 40 50
+9, 14, Wander, , , UNIT_WARRIOR (131073), Move To: 55 25
+9, 14, Wander, , , UNIT_WARRIOR (196610), Move To: 57 26
+9, 15, Wander, , , UNIT_WARRIOR (131073), Move To: 48 34
+9, 15, Wander, , , UNIT_WARRIOR (196610), Move To: 44 33
+9, 16, Wander, , , UNIT_WARRIOR (131073), Move To: 15 12
+9, 16, Wander, , , UNIT_WARRIOR (196610), Move To: 14 17
+9, 17, Wander, , , UNIT_WARRIOR (131073), Move To: 11 56
+9, 17, Wander, , , UNIT_WARRIOR (196610), Move To: 9 57
+9, 17, HL: End Turn, , , UNIT_BUILDER (262144)
+9, 2, Wander, , , UNIT_WARRIOR (131073), Move To: 5 42
+9, 2, HL: End Turn, , , UNIT_SCOUT (196608)
+9, 2, HL: End Turn, , , UNIT_SCOUT (262146)
+9, 2, HL: End Turn, , , UNIT_SCOUT (327683)
+9, 0, Support Formation, , , UNIT_WARRIOR (131073), 29 61
+9, 0, Support Formation, , , UNIT_VAMPIRE (262146), 29 61
+9, 0, HL: Build Improvement, , , UNIT_BUILDER, Move -9999 -9999
+9, 0, HL: Build Improvement, , , UNIT_BUILDER, Move -9999 -9999
+9, 0, HL: End Turn, , , UNIT_SCOUT (196608)
+9, 0, HL: End Turn, , , UNIT_BUILDER (327683)
+9, 0, HL: End Turn, , , UNIT_SETTLER (393220)
+9, 0, HL: End Turn, , , UNIT_BUILDER (458757)
+9, 3, Support Formation, , , UNIT_VAMPIRE (196608), 30 15
+9, 3, Support Formation, , , UNIT_WARRIOR (131073), 30 15
+9, 3, HL: End Turn, , , UNIT_SCOUT (262146)
+9, 3, HL: End Turn, , , UNIT_BUILDER (327683)
+9, 3, HL: End Turn, , , UNIT_SCOUT (393220)
+9, 3, HL: End Turn, , , UNIT_SETTLER (458757)
+1, 5, HL: First turn settler, , , UNIT_SETTLER (65536)
+1, 5, HL: Explore, , , UNIT_WARRIOR (131073), Move To: 24 72
+1, 5, HL: End Turn, , , UNIT_WARRIOR (131073)
+1, 6, HL: First turn settler, , , UNIT_SETTLER (65536)
+1, 6, HL: Explore, , , UNIT_WARRIOR (131073), Move To: 11 58
+1, 6, HL: End Turn, , , UNIT_WARRIOR (131073)
+1, 7, HL: First turn settler, , , UNIT_SETTLER (65536)
+1, 7, HL: Explore, , , UNIT_WARRIOR (131073), Move To: 10 44
+1, 7, HL: Explore, , , UNIT_WARRIOR (131073), Move To: 9 44
+1, 7, HL: End Turn, , , UNIT_WARRIOR (131073)
+1, 8, HL: First turn settler, , , UNIT_SETTLER (65536)
+1, 8, HL: Explore, , , UNIT_WARRIOR (131073), Move To: 22 17
+1, 8, HL: End Turn, , , UNIT_WARRIOR (131073)
+1, 9, HL: First turn settler, , , UNIT_SETTLER (65536)
+1, 10, HL: First turn settler, , , UNIT_SETTLER (65536)
+1, 10, HL: End Turn, , , UNIT_WARRIOR (131073)
+1, 10, HL: End Turn, , , UNIT_WARRIOR (196610)
+1, 11, HL: First turn settler, , , UNIT_SETTLER (65536)
+1, 11, HL: End Turn, , , UNIT_WARRIOR (131073)
+1, 11, HL: End Turn, , , UNIT_WARRIOR (196610)
+1, 12, HL: First turn settler, , , UNIT_SETTLER (65536)
+1, 12, HL: End Turn, , , UNIT_WARRIOR (131073)
+1, 12, HL: End Turn, , , UNIT_WARRIOR (196610)
+1, 13, HL: First turn settler, , , UNIT_SETTLER (65536)
+1, 13, HL: End Turn, , , UNIT_WARRIOR (131073)
+1, 13, HL: End Turn, , , UNIT_WARRIOR (196610)
+1, 14, HL: First turn settler, , , UNIT_SETTLER (65536)
+1, 14, HL: End Turn, , , UNIT_WARRIOR (131073)
+1, 14, HL: End Turn, , , UNIT_WARRIOR (196610)
+1, 15, HL: First turn settler, , , UNIT_SETTLER (65536)
+1, 15, HL: End Turn, , , UNIT_WARRIOR (131073)
+1, 15, HL: End Turn, , , UNIT_WARRIOR (196610)
+1, 16, HL: First turn settler, , , UNIT_SETTLER (65536)
+1, 16, HL: End Turn, , , UNIT_WARRIOR (131073)
+1, 16, HL: End Turn, , , UNIT_WARRIOR (196610)
+1, 17, HL: First turn settler, , , UNIT_SETTLER (65536)
+1, 17, HL: End Turn, , , UNIT_WARRIOR (131073)
+1, 17, HL: End Turn, , , UNIT_WARRIOR (196610)
+1, 18, HL: First turn settler, , , UNIT_SETTLER (65536)
+1, 18, HL: End Turn, , , UNIT_WARRIOR (131073)
+1, 18, HL: End Turn, , , UNIT_WARRIOR (196610)
+1, 19, HL: First turn settler, , , UNIT_SETTLER (65536)
+1, 19, HL: End Turn, , , UNIT_WARRIOR (131073)
+1, 19, HL: End Turn, , , UNIT_WARRIOR (196610)
+1, 20, HL: First turn settler, , , UNIT_SETTLER (65536)
+1, 20, HL: End Turn, , , UNIT_WARRIOR (131073)
+1, 20, HL: End Turn, , , UNIT_WARRIOR (196610)
+1, 21, First Turn Settler Fallback, , , UNIT_SETTLER (65536), Move To: 66 70
+1, 21, HL: End Turn, , , UNIT_WARRIOR (131073)
+1, 21, HL: End Turn, , , UNIT_WARRIOR (196610)
+2, 10, Wander, , , UNIT_WARRIOR (131073), Move To: 69 16
+2, 10, Wander, , , UNIT_WARRIOR (196610), Move To: 70 15
+2, 11, Wander, , , UNIT_WARRIOR (131073), Move To: 20 56
+2, 11, Wander, , , UNIT_WARRIOR (196610), Move To: 22 57
+2, 12, Wander, , , UNIT_WARRIOR (131073), Move To: 66 71
+2, 12, Wander, , , UNIT_WARRIOR (196610), Move To: 64 73
+2, 13, Wander, , , UNIT_WARRIOR (131073), Move To: 58 3
+2, 13, Wander, , , UNIT_WARRIOR (196610), Move To: 58 4
+2, 14, Wander, , , UNIT_WARRIOR (131073), Move To: 2 28
+2, 14, Wander, , , UNIT_WARRIOR (196610), Move To: 2 26
+2, 15, Wander, , , UNIT_WARRIOR (131073), Move To: 61 22
+2, 15, Wander, , , UNIT_WARRIOR (196610), Move To: 60 23
+2, 16, Wander, , , UNIT_WARRIOR (131073), Move To: 8 25
+2, 16, Wander, , , UNIT_WARRIOR (196610), Move To: 10 22
+2, 17, Wander, , , UNIT_WARRIOR (131073), Move To: 57 74
+2, 17, Wander, , , UNIT_WARRIOR (196610), Move To: 59 75
+2, 18, Wander, , , UNIT_WARRIOR (131073), Move To: 33 73
+2, 18, Wander, , , UNIT_WARRIOR (196610), Move To: 35 75
+2, 19, Wander, , , UNIT_WARRIOR (131073), Move To: 13 67
+2, 19, Wander, , , UNIT_WARRIOR (196610), Move To: 16 69
+2, 20, Wander, , , UNIT_WARRIOR (131073), Move To: 65 27
+2, 20, Wander, , , UNIT_WARRIOR (196610), Move To: 69 28
+2, 21, First Turn Settler Fallback, , , UNIT_SETTLER (65536), Move To: 65 68
+2, 21, HL: End Turn, , , UNIT_WARRIOR (131073)
+2, 21, HL: End Turn, , , UNIT_WARRIOR (196610)
+3, 10, Wander, , , UNIT_WARRIOR (131073), Move To: 69 15
+3, 10, Wander, , , UNIT_WARRIOR (196610), Move To: 71 16
+3, 11, Wander, , , UNIT_WARRIOR (131073), Move To: 21 56
+3, 11, Wander, , , UNIT_WARRIOR (196610), Move To: 23 58
+3, 12, Wander, , , UNIT_WARRIOR (131073), Move To: 65 73
+3, 12, Wander, , , UNIT_WARRIOR (196610), Move To: 65 72
+3, 13, Wander, , , UNIT_WARRIOR (131073), Move To: 59 4
+3, 13, Wander, , , UNIT_WARRIOR (196610), Move To: 58 3
+3, 14, Wander, , , UNIT_WARRIOR (131073), Move To: 1 27
+3, 14, Wander, , , UNIT_WARRIOR (196610), Move To: 2 27
+3, 15, Wander, , , UNIT_WARRIOR (131073), Move To: 61 23
+3, 15, Wander, , , UNIT_WARRIOR (196610), Move To: 60 24
+3, 16, Wander, , , UNIT_WARRIOR (131073), Move To: 7 25
+3, 16, Wander, , , UNIT_WARRIOR (196610), Move To: 9 23
+3, 17, Wander, , , UNIT_WARRIOR (131073), Move To: 58 72
+3, 17, Wander, , , UNIT_WARRIOR (196610), Move To: 58 77
+3, 18, Wander, , , UNIT_WARRIOR (131073), Move To: 33 74
+3, 18, Wander, , , UNIT_WARRIOR (196610), Move To: 34 75
+3, 19, Wander, , , UNIT_WARRIOR (131073), Move To: 12 67
+3, 19, Wander, , , UNIT_WARRIOR (196610), Move To: 15 69
+3, 20, Wander, , , UNIT_WARRIOR (131073), Move To: 66 28
+3, 20, Wander, , , UNIT_WARRIOR (196610), Move To: 68 26
+3, 21, First Turn Settler Fallback, , , UNIT_SETTLER (65536), Move To: 66 67
+3, 21, HL: End Turn, , , UNIT_WARRIOR (131073)
+3, 21, HL: End Turn, , , UNIT_WARRIOR (196610)
+4, 10, Wander, , , UNIT_WARRIOR (131073), Move To: 70 14
+4, 10, Wander, , , UNIT_WARRIOR (196610), Move To: 71 14
+4, 11, Wander, , , UNIT_WARRIOR (131073), Move To: 20 55
+4, 11, Wander, , , UNIT_WARRIOR (196610), Move To: 22 56
+4, 12, Wander, , , UNIT_WARRIOR (131073), Move To: 65 74
+4, 12, Wander, , , UNIT_WARRIOR (196610), Move To: 65 73
+4, 13, Wander, , , UNIT_WARRIOR (131073), Move To: 59 3
+4, 13, Wander, , , UNIT_WARRIOR (196610), Move To: 58 2
+4, 14, Wander, , , UNIT_WARRIOR (131073), Move To: 2 26
+4, 14, Wander, , , UNIT_WARRIOR (196610), Move To: 4 28
+4, 15, Wander, , , UNIT_WARRIOR (131073), Move To: 61 25
+4, 15, Wander, , , UNIT_WARRIOR (196610), Move To: 61 24
+4, 16, Wander, , , UNIT_WARRIOR (131073), Move To: 9 24
+4, 16, Wander, , , UNIT_WARRIOR (196610), Move To: 8 23
+4, 17, Wander, , , UNIT_WARRIOR (131073), Move To: 57 72
+4, 17, Wander, , , UNIT_WARRIOR (196610), Move To: 59 79
+4, 18, Wander, , , UNIT_WARRIOR (131073), Move To: 32 74
+4, 18, Wander, , , UNIT_WARRIOR (196610), Move To: 33 74
+4, 19, Wander, , , UNIT_WARRIOR (131073), Move To: 13 67
+4, 19, Wander, , , UNIT_WARRIOR (196610), Move To: 16 68
+4, 20, Wander, , , UNIT_WARRIOR (131073), Move To: 64 29
+4, 20, Wander, , , UNIT_WARRIOR (196610), Move To: 68 24
+4, 21, HL: First turn settler, , , UNIT_SETTLER (65536)
+4, 21, HL: End Turn, , , UNIT_WARRIOR (131073)
+4, 21, HL: End Turn, , , UNIT_WARRIOR (196610)
+5, 8, HL: Build Improvement, , , UNIT_BUILDER, Move -9999 -9999
+5, 8, HL: Explore, , , UNIT_SCOUT (458757), Move To: 22 14
+5, 8, HL: End Turn, , , UNIT_BUILDER (327680)
+5, 8, HL: End Turn, , , UNIT_SCOUT (458757)
+5, 9, HL: End Turn, , , UNIT_BUILDER (393220)
+5, 10, Wander, , , UNIT_WARRIOR (131073), Move To: 69 15
+5, 10, Wander, , , UNIT_WARRIOR (196610), Move To: 70 15
+5, 11, Wander, , , UNIT_WARRIOR (131073), Move To: 19 55
+5, 11, Wander, , , UNIT_WARRIOR (196610), Move To: 21 58
+5, 12, Wander, , , UNIT_WARRIOR (131073), Move To: 64 73
+5, 12, Wander, , , UNIT_WARRIOR (196610), Move To: 66 72
+5, 12, HL: End Turn, , , UNIT_BUILDER (262144)
+5, 13, Wander, , , UNIT_WARRIOR (131073), Move To: 57 3
+5, 13, Wander, , , UNIT_WARRIOR (196610), Move To: 58 4
+5, 14, Wander, , , UNIT_WARRIOR (131073), Move To: 2 27
+5, 14, Wander, , , UNIT_WARRIOR (196610), Move To: 2 29
+5, 15, Wander, , , UNIT_WARRIOR (131073), Move To: 63 26
+5, 15, Wander, , , UNIT_WARRIOR (196610), Move To: 60 23
+5, 16, Wander, , , UNIT_WARRIOR (131073), Move To: 10 25
+5, 16, Wander, , , UNIT_WARRIOR (196610), Move To: 10 22
+5, 17, Wander, , , UNIT_WARRIOR (131073), Move To: 58 70
+5, 17, Wander, , , UNIT_WARRIOR (196610), Move To: 60 78
+5, 18, Wander, , , UNIT_WARRIOR (131073), Move To: 31 74
+5, 18, Wander, , , UNIT_WARRIOR (196610), Move To: 32 74
+5, 19, Wander, , , UNIT_WARRIOR (131073), Move To: 14 66
+5, 19, Wander, , , UNIT_WARRIOR (196610), Move To: 16 66
+5, 20, Wander, , , UNIT_WARRIOR (131073), Move To: 65 30
+5, 20, Wander, , , UNIT_WARRIOR (196610), Move To: 68 25
+5, 21, Wander, , , UNIT_WARRIOR (131073), Move To: 64 71
+5, 21, Wander, , , UNIT_WARRIOR (196610), Move To: 67 72
+6, 7, HL: Explore, , , UNIT_SCOUT (393220), Move To: 14 43
+6, 7, HL: End Turn, , , UNIT_SCOUT (393220)
+6, 8, HL: Explore, , , UNIT_SCOUT (458757), Move To: 23 12
+6, 8, HL: Explore, , , UNIT_SCOUT (589831), Move To: 19 15
+6, 8, HL: End Turn, , , UNIT_SCOUT (458757)
+6, 8, HL: End Turn, , , UNIT_SCOUT (589831)
+6, 9, HL: Explore, , , UNIT_SCOUT (458757), Move To: 38 6
+6, 9, HL: Explore, , , UNIT_SCOUT (458757), Move To: 38 5
+6, 9, HL: End Turn, , , UNIT_BUILDER (393220)
+6, 9, HL: End Turn, , , UNIT_SCOUT (458757)
+6, 10, Wander, , , UNIT_WARRIOR (131073), Move To: 68 15
+6, 10, Wander, , , UNIT_WARRIOR (196610), Move To: 72 16
+6, 11, Wander, , , UNIT_WARRIOR (131073), Move To: 21 55
+6, 11, Wander, , , UNIT_WARRIOR (196610), Move To: 19 57
+6, 12, Wander, , , UNIT_WARRIOR (131073), Move To: 65 74
+6, 12, Wander, , , UNIT_WARRIOR (196610), Move To: 66 71
+6, 13, Wander, , , UNIT_WARRIOR (131073), Move To: 57 5
+6, 13, Wander, , , UNIT_WARRIOR (196610), Move To: 58 2
+6, 14, Wander, , , UNIT_WARRIOR (131073), Move To: 1 27
+6, 14, Wander, , , UNIT_WARRIOR (196610), Move To: 2 28
+6, 15, Wander, , , UNIT_WARRIOR (131073), Move To: 64 26
+6, 15, Wander, , , UNIT_WARRIOR (196610), Move To: 59 23
+6, 15, HL: End Turn, , , UNIT_BUILDER (262144)
+6, 16, Wander, , , UNIT_WARRIOR (131073), Move To: 11 25
+6, 16, Wander, , , UNIT_WARRIOR (196610), Move To: 9 22
+6, 17, Wander, , , UNIT_WARRIOR (131073), Move To: 57 72
+6, 17, Wander, , , UNIT_WARRIOR (196610), Move To: 58 78
+6, 18, Wander, , , UNIT_WARRIOR (131073), Move To: 32 75
+6, 18, Wander, , , UNIT_WARRIOR (196610), Move To: 31 73
+6, 19, Wander, , , UNIT_WARRIOR (131073), Move To: 14 65
+6, 19, Wander, , , UNIT_WARRIOR (196610), Move To: 15 65
+6, 19, HL: End Turn, , , UNIT_BUILDER (262144)
+6, 20, Wander, , , UNIT_WARRIOR (131073), Move To: 66 28
+6, 20, Wander, , , UNIT_WARRIOR (196610), Move To: 68 24
+6, 21, Wander, , , UNIT_WARRIOR (131073), Move To: 65 72
+6, 21, Wander, , , UNIT_WARRIOR (196610), Move To: 67 73
+7, 5, HL: Explore, , , UNIT_SCOUT (524294), Move To: 20 71
+7, 5, HL: End Turn, , , UNIT_SCOUT (524294)
+7, 6, HL: Explore, , , UNIT_SCOUT (458757), Move To: 8 55
+7, 6, HL: Explore, , , UNIT_SCOUT (458757), Move To: 9 54
+7, 6, HL: End Turn, , , UNIT_SCOUT (458757)
+7, 7, HL: Build Improvement, , , UNIT_BUILDER, Move -9999 -9999
+7, 7, HL: Explore, , , UNIT_SCOUT (393220), Move To: 15 42
+7, 7, HL: Explore, , , UNIT_SCOUT (393220), Move To: 15 40
+7, 7, HL: End Turn, , , UNIT_SCOUT (393220)
+7, 8, HL: Explore, , , UNIT_SCOUT (589831), Move To: 20 13
+7, 8, HL: Explore, , , UNIT_SCOUT (589831), Move To: 20 12
+7, 8, HL: End Turn, , , UNIT_SCOUT (589831)
+7, 9, HL: Explore cur region, , , UNIT_SCOUT (458757), Move To: 40 3
+7, 9, HL: End Turn, , , UNIT_SCOUT (458757)
+7, 10, Wander, , , UNIT_WARRIOR (131073), Move To: 69 16
+7, 10, Wander, , , UNIT_WARRIOR (196610), Move To: 72 17
+7, 11, Wander, , , UNIT_WARRIOR (131073), Move To: 22 54
+7, 11, Wander, , , UNIT_WARRIOR (196610), Move To: 20 58
+7, 12, Wander, , , UNIT_WARRIOR (131073), Move To: 66 74
+7, 12, Wander, , , UNIT_WARRIOR (196610), Move To: 65 71
+7, 13, Wander, , , UNIT_WARRIOR (131073), Move To: 57 6
+7, 13, Wander, , , UNIT_WARRIOR (196610), Move To: 57 2
+7, 14, Wander, , , UNIT_WARRIOR (131073), Move To: 1 28
+7, 14, Wander, , , UNIT_WARRIOR (196610), Move To: 3 28
+7, 15, Wander, , , UNIT_WARRIOR (131073), Move To: 63 27
+7, 15, Wander, , , UNIT_WARRIOR (196610), Move To: 58 24
+7, 15, HL: End Turn, , , UNIT_BUILDER (262144)
+7, 16, Wander, , , UNIT_WARRIOR (131073), Move To: 10 27
+7, 16, Wander, , , UNIT_WARRIOR (196610), Move To: 10 21
+7, 16, HL: End Turn, , , UNIT_BUILDER (262144)
+7, 17, Wander, , , UNIT_WARRIOR (131073), Move To: 57 74
+7, 17, Wander, , , UNIT_WARRIOR (196610), Move To: 58 79
+7, 18, Wander, , , UNIT_WARRIOR (131073), Move To: 34 75
+7, 18, Wander, , , UNIT_WARRIOR (196610), Move To: 32 74
+7, 19, Wander, , , UNIT_WARRIOR (131073), Move To: 14 66
+7, 19, Wander, , , UNIT_WARRIOR (196610), Move To: 16 66
+7, 19, HL: End Turn, , , UNIT_BUILDER (262144)
+7, 20, Wander, , , UNIT_WARRIOR (131073), Move To: 65 27
+7, 20, Wander, , , UNIT_WARRIOR (196610), Move To: 67 23
+7, 21, Wander, , , UNIT_WARRIOR (131073), Move To: 64 73
+7, 21, Wander, , , UNIT_WARRIOR (196610), Move To: 68 73
+8, 5, HL: End Turn, , , UNIT_SCOUT (524294)
+8, 6, HL: Explore, , , UNIT_SCOUT (589824), Move To: 7 55
+8, 6, HL: Explore, , , UNIT_SCOUT (458757), Move To: 10 52
+8, 6, HL: End Turn, , , UNIT_SCOUT (589824)
+8, 6, HL: End Turn, , , UNIT_SCOUT (458757)
+8, 7, HL: Build Improvement, , , UNIT_BUILDER, Move -9999 -9999
+8, 7, HL: Explore, , , UNIT_SCOUT (393220), Move To: 18 40
+8, 7, HL: End Turn, , , UNIT_SCOUT (393220)
+8, 8, HL: Build Improvement, , , UNIT_BUILDER, Move -9999 -9999
+8, 8, HL: Explore, , , UNIT_SCOUT (458757), Move To: 23 10
+8, 8, HL: Explore, , , UNIT_SCOUT (458757), Move To: 22 9
+8, 8, HL: End Turn, , , UNIT_SCOUT (458757)
+8, 8, HL: End Turn, , , UNIT_SCOUT (589831)
+8, 9, HL: Explore, , , UNIT_SCOUT (458757), Move To: 39 3
+8, 9, HL: Explore, , , UNIT_SCOUT (589831), Move To: 34 13
+8, 9, HL: Explore, , , UNIT_SCOUT (458757), Move To: 40 3
+8, 9, HL: End Turn, , , UNIT_SCOUT (458757)
+8, 9, HL: End Turn, , , UNIT_SCOUT (589831)
+8, 9, HL: End Turn, , , UNIT_BUILDER (655368)
+8, 10, Wander, , , UNIT_WARRIOR (131073), Move To: 69 17
+8, 10, Wander, , , UNIT_WARRIOR (196610), Move To: 72 18
+8, 11, Wander, , , UNIT_WARRIOR (131073), Move To: 22 55
+8, 11, Wander, , , UNIT_WARRIOR (196610), Move To: 21 57
+8, 11, HL: End Turn, , , UNIT_BUILDER (262144)
+8, 12, Wander, , , UNIT_WARRIOR (131073), Move To: 67 74
+8, 12, Wander, , , UNIT_WARRIOR (196610), Move To: 66 72
+8, 13, Wander, , , UNIT_WARRIOR (131073), Move To: 57 7
+8, 13, Wander, , , UNIT_WARRIOR (196610), Move To: 58 4
+8, 14, Wander, , , UNIT_WARRIOR (131073), Move To: 1 27
+8, 14, Wander, , , UNIT_WARRIOR (196610), Move To: 2 29
+8, 15, Wander, , , UNIT_WARRIOR (131073), Move To: 64 26
+8, 15, Wander, , , UNIT_WARRIOR (196610), Move To: 58 23
+8, 15, HL: End Turn, , , UNIT_BUILDER (262144)
+8, 16, Wander, , , UNIT_WARRIOR (131073), Move To: 10 25
+8, 16, Wander, , , UNIT_WARRIOR (196610), Move To: 10 20
+8, 16, HL: End Turn, , , UNIT_BUILDER (262144)
+8, 17, Wander, , , UNIT_WARRIOR (131073), Move To: 57 75
+8, 17, Wander, , , UNIT_WARRIOR (196610), Move To: 59 78
+8, 18, Wander, , , UNIT_WARRIOR (131073), Move To: 35 75
+8, 18, Wander, , , UNIT_WARRIOR (196610), Move To: 32 72
+8, 19, Wander, , , UNIT_WARRIOR (131073), Move To: 12 67
+8, 19, Wander, , , UNIT_WARRIOR (196610), Move To: 17 65
+8, 19, HL: End Turn, , , UNIT_BUILDER (262144)
+8, 20, Wander, , , UNIT_WARRIOR (131073), Move To: 66 27
+8, 20, Wander, , , UNIT_WARRIOR (196610), Move To: 68 25
+8, 21, Wander, , , UNIT_WARRIOR (131073), Move To: 65 73
+8, 21, Wander, , , UNIT_WARRIOR (196610), Move To: 67 73
+9, 5, HL: Explore, , , UNIT_SCOUT (589826), Move To: 21 74
+9, 5, HL: End Turn, , , UNIT_SCOUT (589826)
+9, 6, HL: Explore, , , UNIT_SCOUT (589824), Move To: 6 53
+9, 6, HL: Explore, , , UNIT_SCOUT (458757), Move To: 10 50
+9, 6, HL: Explore, , , UNIT_SCOUT (589824), Move To: 6 52
+9, 6, HL: Explore, , , UNIT_SCOUT (458757), Move To: 9 49
+9, 6, HL: End Turn, , , UNIT_SCOUT (589824)
+9, 6, HL: End Turn, , , UNIT_SCOUT (458757)
+9, 7, HL: Explore, , , UNIT_SCOUT (524294), Move To: 8 38
+9, 7, HL: End Turn, , , UNIT_SCOUT (393220)
+9, 7, HL: End Turn, , , UNIT_SCOUT (524294)
+9, 8, HL: Explore, , , UNIT_SCOUT (589831), Move To: 18 12
+9, 8, HL: Explore, , , UNIT_SCOUT (720904), Move To: 19 24
+9, 8, HL: Explore, , , UNIT_SCOUT (589831), Move To: 17 13
+9, 8, HL: End Turn, , , UNIT_SCOUT (589831)
+9, 8, HL: End Turn, , , UNIT_SCOUT (720904)
+9, 9, HL: Explore cur region, , , UNIT_SCOUT (458757), Move To: 40 6
+9, 9, HL: End Turn, , , UNIT_SCOUT (458757)
+9, 9, HL: End Turn, , , UNIT_BUILDER (655368)
+9, 10, Wander, , , UNIT_WARRIOR (131073), Move To: 70 18
+9, 10, Wander, , , UNIT_WARRIOR (196610), Move To: 71 18
+9, 11, Wander, , , UNIT_WARRIOR (131073), Move To: 21 54
+9, 11, Wander, , , UNIT_WARRIOR (196610), Move To: 19 57
+9, 11, HL: End Turn, , , UNIT_BUILDER (262144)
+9, 12, Wander, , , UNIT_WARRIOR (131073), Move To: 65 75
+9, 12, Wander, , , UNIT_WARRIOR (196610), Move To: 66 73
+9, 13, Wander, , , UNIT_WARRIOR (131073), Move To: 59 6
+9, 13, Wander, , , UNIT_WARRIOR (196610), Move To: 57 5
+9, 14, Wander, , , UNIT_WARRIOR (131073), Move To: 1 28
+9, 14, Wander, , , UNIT_WARRIOR (196610), Move To: 3 28
+9, 15, Wander, , , UNIT_WARRIOR (131073), Move To: 63 27
+9, 15, Wander, , , UNIT_WARRIOR (196610), Move To: 58 22
+9, 15, HL: End Turn, , , UNIT_BUILDER (262144)
+9, 16, Wander, , , UNIT_WARRIOR (131073), Move To: 10 23
+9, 16, Wander, , , UNIT_WARRIOR (196610), Move To: 10 21
+9, 16, HL: End Turn, , , UNIT_BUILDER (262144)
+9, 17, Wander, , , UNIT_WARRIOR (131073), Move To: 58 74
+9, 17, Wander, , , UNIT_WARRIOR (196610), Move To: 58 79
+9, 18, Wander, , , UNIT_WARRIOR (131073), Move To: 34 77
+9, 18, Wander, , , UNIT_WARRIOR (196610), Move To: 33 72
+9, 19, Wander, , , UNIT_WARRIOR (131073), Move To: 12 68
+9, 19, Wander, , , UNIT_WARRIOR (196610), Move To: 18 67
+9, 19, HL: End Turn, , , UNIT_BUILDER (262144)
+9, 20, Wander, , , UNIT_WARRIOR (131073), Move To: 68 27
+9, 20, Wander, , , UNIT_WARRIOR (196610), Move To: 68 24
+9, 21, Wander, , , UNIT_WARRIOR (131073), Move To: 64 73
+9, 21, Wander, , , UNIT_WARRIOR (196610), Move To: 68 73
+10, 5, Wander, , , UNIT_VAMPIRE (655367), Move To: 26 71
+10, 5, HL: Explore, , , UNIT_SCOUT (589826), Move To: 19 73
+10, 5, HL: Explore, , , UNIT_SCOUT (589826), Move To: 18 73
+10, 5, HL: End Turn, , , UNIT_BUILDER (327680)
+10, 5, HL: End Turn, , , UNIT_SCOUT (589826)
+10, 6, HL: End Turn, , , UNIT_SCOUT (589824)
+10, 7, Wander, , , UNIT_WARRIOR (655367), Move To: 10 43
+10, 7, HL: Explore, , , UNIT_SCOUT (393220), Move To: 17 36
+10, 7, HL: Explore, , , UNIT_SCOUT (524294), Move To: 6 38
+10, 7, HL: Explore, , , UNIT_SCOUT (524294), Move To: 5 39
+10, 7, HL: End Turn, , , UNIT_SCOUT (393220)
+10, 7, HL: End Turn, , , UNIT_SCOUT (524294)
+10, 8, Promote, , , UNIT_SCOUT (458757), 
+10, 8, HL: Explore, , , UNIT_SCOUT (589831), Move To: 16 14
+10, 8, HL: Explore, , , UNIT_SCOUT (589831), Move To: 15 15
+10, 8, HL: End Turn, , , UNIT_SCOUT (589831)
+10, 9, Wander, , , UNIT_WARRIOR (720896), Move To: 36 7
+10, 9, HL: Explore, , , UNIT_SCOUT (458757), Move To: 40 5
+10, 9, HL: End Turn, , , UNIT_SCOUT (458757)
+10, 10, Wander, , , UNIT_WARRIOR (131073), Move To: 70 19
+10, 10, Wander, , , UNIT_WARRIOR (196610), Move To: 73 18
+10, 11, Wander, , , UNIT_WARRIOR (131073), Move To: 20 55
+10, 11, Wander, , , UNIT_WARRIOR (196610), Move To: 20 56
+10, 11, HL: End Turn, , , UNIT_BUILDER (262144)
+10, 12, Wander, , , UNIT_WARRIOR (131073), Move To: 64 75
+10, 12, Wander, , , UNIT_WARRIOR (196610), Move To: 66 72
+10, 13, Wander, , , UNIT_WARRIOR (131073), Move To: 60 6
+10, 13, Wander, , , UNIT_WARRIOR (196610), Move To: 59 6
+10, 14, Wander, , , UNIT_WARRIOR (131073), Move To: 1 27
+10, 14, Wander, , , UNIT_WARRIOR (196610), Move To: 4 28
+10, 15, Wander, , , UNIT_WARRIOR (131073), Move To: 62 26
+10, 15, Wander, , , UNIT_WARRIOR (196610), Move To: 58 23
+10, 15, HL: End Turn, , , UNIT_BUILDER (262144)
+10, 16, Wander, , , UNIT_WARRIOR (131073), Move To: 8 23
+10, 16, Wander, , , UNIT_WARRIOR (196610), Move To: 9 23
+10, 17, Wander, , , UNIT_WARRIOR (131073), Move To: 57 75
+10, 17, Wander, , , UNIT_WARRIOR (196610), Move To: 59 78
+10, 18, Wander, , , UNIT_WARRIOR (131073), Move To: 35 78
+10, 18, Wander, , , UNIT_WARRIOR (196610), Move To: 33 73
+10, 19, Wander, , , UNIT_WARRIOR (131073), Move To: 12 69
+10, 19, Wander, , , UNIT_WARRIOR (196610), Move To: 18 68
+10, 19, HL: End Turn, , , UNIT_BUILDER (262144)
+10, 20, Wander, , , UNIT_WARRIOR (131073), Move To: 67 27
+10, 20, Wander, , , UNIT_WARRIOR (196610), Move To: 67 25
+10, 21, Wander, , , UNIT_WARRIOR (131073), Move To: 64 72
+10, 21, Wander, , , UNIT_WARRIOR (196610), Move To: 68 72
+11, 5, Wander, , , UNIT_VAMPIRE (655367), Move To: 27 72
+11, 5, Wander, , , UNIT_WARRIOR (720904), Move To: 27 70
+11, 5, HL: Explore, , , UNIT_SCOUT (589826), Move To: 17 72
+11, 5, HL: Explore, , , UNIT_SCOUT (589826), Move To: 16 71
+11, 5, HL: End Turn, , , UNIT_BUILDER (327680)
+11, 5, HL: End Turn, , , UNIT_SCOUT (589826)
+11, 6, Wander, , , UNIT_WARRIOR (655366), Move To: 14 59
+11, 7, Wander, , , UNIT_WARRIOR (655367), Move To: 12 44
+11, 7, Wander, , , UNIT_WARRIOR (720904), Move To: 12 45
+11, 7, HL: Explore, , , UNIT_SCOUT (524294), Move To: 5 42
+11, 7, HL: End Turn, , , UNIT_SCOUT (524294)
+11, 8, Wander, , , UNIT_WARRIOR (917514), Move To: 23 14
+11, 8, Promote, , , UNIT_SCOUT (458757), 
+11, 8, HL: Explore, , , UNIT_SCOUT (458757), Move To: 27 7
+11, 8, HL: Explore, , , UNIT_SCOUT (589831), Move To: 14 18
+11, 8, HL: Explore, , , UNIT_SCOUT (720904), Move To: 17 20
+11, 8, HL: End Turn, , , UNIT_SCOUT (458757)
+11, 8, HL: End Turn, , , UNIT_BUILDER (851974)
+11, 8, HL: End Turn, , , UNIT_SCOUT (589831)
+11, 8, HL: End Turn, , , UNIT_SCOUT (720904)
+11, 9, Wander, , , UNIT_WARRIOR (720896), Move To: 36 8
+11, 9, Wander, , , UNIT_WARRIOR (786434), Move To: 36 7
+11, 9, HL: Explore, , , UNIT_SCOUT (458757), Move To: 42 5
+11, 9, HL: Explore cur region, , , UNIT_WARRIOR (851977), Move To: 40 7
+11, 9, HL: Explore, , , UNIT_SCOUT (458757), Move To: 43 5
+11, 9, HL: End Turn, , , UNIT_SCOUT (458757)
+11, 9, HL: End Turn, , , UNIT_WARRIOR (851977)
+11, 10, Wander, , , UNIT_WARRIOR (131073), Move To: 70 18
+11, 10, Wander, , , UNIT_WARRIOR (196610), Move To: 72 19
+11, 11, Wander, , , UNIT_WARRIOR (131073), Move To: 19 53
+11, 11, Wander, , , UNIT_WARRIOR (196610), Move To: 22 56
+11, 12, Wander, , , UNIT_WARRIOR (131073), Move To: 65 74
+11, 12, Wander, , , UNIT_WARRIOR (196610), Move To: 65 73
+11, 13, Wander, , , UNIT_WARRIOR (131073), Move To: 58 6
+11, 13, Wander, , , UNIT_WARRIOR (196610), Move To: 60 6
+11, 14, Wander, , , UNIT_WARRIOR (131073), Move To: 2 28
+11, 14, Wander, , , UNIT_WARRIOR (196610), Move To: 3 29
+11, 15, Wander, , , UNIT_WARRIOR (131073), Move To: 61 24
+11, 15, Wander, , , UNIT_WARRIOR (196610), Move To: 60 23
+11, 15, HL: End Turn, , , UNIT_BUILDER (262144)
+11, 16, Wander, , , UNIT_WARRIOR (131073), Move To: 8 24
+11, 16, Wander, , , UNIT_WARRIOR (196610), Move To: 10 21
+11, 17, Wander, , , UNIT_WARRIOR (131073), Move To: 58 76
+11, 17, Wander, , , UNIT_WARRIOR (196610), Move To: 59 79
+11, 18, Wander, , , UNIT_WARRIOR (131073), Move To: 34 77
+11, 18, Wander, , , UNIT_WARRIOR (196610), Move To: 34 72
+11, 19, Wander, , , UNIT_WARRIOR (131073), Move To: 12 68
+11, 19, Wander, , , UNIT_WARRIOR (196610), Move To: 17 67
+11, 19, HL: End Turn, , , UNIT_BUILDER (262144)
+11, 20, Wander, , , UNIT_WARRIOR (131073), Move To: 66 28
+11, 20, Wander, , , UNIT_WARRIOR (196610), Move To: 68 26
+11, 21, Wander, , , UNIT_WARRIOR (131073), Move To: 65 72
+11, 21, Wander, , , UNIT_WARRIOR (196610), Move To: 67 72

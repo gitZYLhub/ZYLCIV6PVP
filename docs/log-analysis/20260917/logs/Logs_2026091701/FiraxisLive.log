@@ -1,0 +1,995 @@
+Using FiraxisLive API 916463: flClient Live Build:916463
+Using ctpLogPath: C:\Users\ZYL\AppData\Local\Firaxis Games\Sid Meier's Civilization VI/Logs\
+Using ctpGameDataPath: D:\Steam\steamapps\common\Sid Meier's Civilization VI\\CTP\gamedata\
+Creating firaxis live...
+FiraxisLive created
+Setting firaxis live debug info...
+Adding firaxis live notification handlers...
+Starting firaxis live...
+[9/16/2026 11:57:35.648] FiraxisLive.cpp(284) FiraxisLive::Start - Build: flClient Live Build:916463
+[9/16/2026 11:57:35.648] FiraxisLive.cpp(292) FiraxisLive::Start - Client build version: 1023995 (0x00000000000f9ffb) "1023995"
+[9/16/2026 11:57:35.648] FiraxisLive.cpp(303) FiraxisLive::Start - Creating server connection...
+[9/16/2026 11:57:35.649] FiraxisLive.cpp(342) FiraxisLive::Start - Starting up threads...
+[9/16/2026 11:57:35.649] Win32Thread.cpp(277) Thread "FiraxisLive Thread" (ID:0x00003be8) has started.
+[9/16/2026 11:57:35.649] FiraxisLive.cpp(352) FiraxisLive::Start - Running
+[9/16/2026 11:57:35.650] CTPFiraxisLive.cpp(22) CTP version: 2.7.0
+[9/16/2026 11:57:35.653] Win32TCPSocket.cpp(157) 2084: Attempting to connect to login.firaxislive.com:443
+[9/16/2026 11:57:35.655] CTPFiraxisLive.cpp(3166) Set locale success
+FiraxisLive started
+[9/16/2026 11:57:35.905] Win32TCPSocket.cpp(167) 2084: Connected to 98.84.217.243:443 (resolved from login.firaxislive.com:443)
+[9/16/2026 11:57:36.258] ServerConnection.cpp(398) FiraxisLive::Connected
+FiraxisLiveClient StateNotify: WaitingForServerConnection
+FiraxisLiveClient StateNotify: KeyExchange
+FiraxisLiveClient StateNotify: PreRun
+FiraxisLiveClient StateNotify: FirstConnect
+SetLoginState: bFiraxisLiveState=false, bMy2KState=false, bAnonymousLogin=false, eAccountType=0, iCOPPALocked=255
+FiraxisLiveClient OnDataPushNotify: KeyName=App/FiraxisLive/MarketingMessage, NumObjects=1
+* KeyName=App/FiraxisLive/MarketingMessage/civ6-motd-2023-10-19.xml, Size=13401, CreatedDate=1697738823, LastUpdate=1697738823
+FiraxisLiveClient StateNotify: Running
+SetLoginState: bFiraxisLiveState=false, bMy2KState=false, bAnonymousLogin=false, eAccountType=0, iCOPPALocked=255
+AppFiraxisLiveClient deferring logon from app init complete
+AppFiraxisLiveClient starting logon due to ui ready
+Beginning platform logon...
+[9/16/2026 11:57:54.016] CTPFiraxisLive.cpp(2086) Starting SSO login...
+My2KLogon successful
+[9/16/2026 11:57:55.106] CTPFiraxisLive.cpp(108) SsoLoginCallback success
+[9/16/2026 11:57:55.106] CTPFiraxisLive.cpp(3064) CTP Access Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3ODk2MDI5NTksImlhdCI6MTc4OTU1OTc1OSwianRpIjoiN2ZiNDMxZmY5MTI5NDc1NjhkMjYxYzcwZGE3ZTUwM2YiLCJ0dHkiOjAsInBpZCI6ImJlNzZjMWUxZTAyMDQxNTRhZTE5MzQwNGRhODA3ZmYxIiwiZ2lkIjoiNGQ2NGNiMjg5MWQzZGY3Y2Y1NjNhM2Q2NjFlZGI0NzkiLCJsb2MiOiJ6aC1DTiIsImN0ciI6IkNOIiwibGF0IjozNC43NzMyLCJsb24iOjExMy43MjIsInJ0aSI6IjZmODEyZTA2MWE2YzRmOGJhMGRhMDRmMGRkNDI1YTdmIiwicmV4IjoxNzg5NjQ2MTU5LCJpc3MiOiI1ZTg5MzU0MzJkNzJhMWQzMDY4MWVlMjY0YWFiNmI5YiIsInN1YiI6IjEyYTQyOWI1ODE3ZTQ0NjZhZDBlNjBhZTRmNmUzMTk0IiwiYXR5IjoyLCJvdHkiOjMsImFncCI6Niwic2lkIjoiNWE3MTQ4MjI1ZmU1NDQ2NDk0ZWFmNGU1OTUxNmVjODciLCJmcGkiOiJWWDFSMGhkYkVIL2U5d0xJdGpPTlZCNFMyUmJzTzJDQVZ3VncvU2VTOU9ZPSIsImZwYSI6IjRERmNHcW5yTE5EQ2FNVTYyM1ZpUGc9PSIsImRvYiI6IjM1WVZRV1lsL2lMYlVkTVhveXh0UEE9PSIsImR0eSI6MywiYWdjIjoyLCJzYmkiOiI1MWVmZTVmNGNlMTU0YmE4OWEyNmNhZjkxODA4Nzk3OSJ9.mGVO9fSA-8DXmoBZY0GceNUvj8hq7_4nlX3lSkudl70
+[9/16/2026 11:57:55.106] CTPFiraxisLive.cpp(3080) No Parent Account ID
+[9/16/2026 11:57:55.125] ServerConnection.cpp(978) Sending queued messages
+FiraxisLiveClient UserStateNotify: LoggingIn
+FiraxisLiveClient LoginStatusNotify: [type=Login, Successful, account=Platform]: OK
+Age Status = 4
+SetLoginState: bFiraxisLiveState=false, bMy2KState=true, bAnonymousLogin=false, eAccountType=3, iCOPPALocked=0
+[9/16/2026 11:57:55.407] CTPFiraxisLive.cpp(2560) No legal manifest entries
+[9/16/2026 11:57:55.407] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 11:57:55.407] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+AppFiraxisLiveClient::DoUpdate - Kando has become connected
+[9/16/2026 11:57:55.407] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 11:57:55.428] ServerConnection.cpp(490) Received NewAccessTokenReplyMsg
+[9/16/2026 11:57:55.428] ServerConnection.cpp(591) Processing NewAccessTokenReplyMsg - AccessToken:0x42d3326a431d896524932f9a006362afdaae406c8717e8bb000001a0aa12cafe
+FiraxisLiveClient UserStateNotify: LoggedIn
+SetLoginState: bFiraxisLiveState=true, bMy2KState=true, bAnonymousLogin=false, eAccountType=3, iCOPPALocked=0
+[9/16/2026 11:57:55.442] CTPFiraxisLive.cpp(2523) Getting granted entitlements...
+[9/16/2026 11:57:56.518] CTPFiraxisLive.cpp(374) GetGrantedEntitlementsCallback success
+[9/16/2026 11:57:56.518] CTPFiraxisLive.cpp(381) GetGrantedEntitlements showing 0 of 0 total granted entitlements
+FiraxisLiveClient OnGetGrantedEntitlements: [count=0, success=Successful]
+[9/16/2026 11:58:40.450] ServerConnection.cpp(483) FiraxisLive::No activity, disconnecting
+[9/16/2026 11:58:40.500] Win32TCPSocket.cpp(653) 2084: Close
+FiraxisLiveClient StateNotify: Stopped
+SetLoginState: bFiraxisLiveState=true, bMy2KState=true, bAnonymousLogin=false, eAccountType=3, iCOPPALocked=0
+SetLoginState: bFiraxisLiveState=true, bMy2KState=true, bAnonymousLogin=false, eAccountType=3, iCOPPALocked=0
+[9/16/2026 12:04:57.864] AnalyticsManager.cpp(285) AnalyticsManager - Queued 1 data points, with a total of 2 attributes.
+[9/16/2026 12:04:57.908] Win32TCPSocket.cpp(157) 4504: Attempting to connect to login.firaxislive.com:443
+[9/16/2026 12:04:58.132] Win32TCPSocket.cpp(167) 4504: Connected to 52.21.57.61:443 (resolved from login.firaxislive.com:443)
+[9/16/2026 12:04:58.587] ServerConnection.cpp(398) FiraxisLive::Connected
+[9/16/2026 12:04:58.688] ServerConnection.cpp(978) Sending queued messages
+FiraxisLiveClient StateNotify: WaitingForServerConnection
+FiraxisLiveClient StateNotify: KeyExchange
+FiraxisLiveClient StateNotify: PreRun
+FiraxisLiveClient StateNotify: Running
+SetLoginState: bFiraxisLiveState=true, bMy2KState=true, bAnonymousLogin=false, eAccountType=3, iCOPPALocked=0
+[9/16/2026 12:04:59.543] InternalAttrib.cpp(119) Add: Invalid attribute name, ignored!
+[9/16/2026 12:05:16.617] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:05:16.617] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:05:16.617] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:05:16.617] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:05:16.617] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:05:16.617] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:05:16.617] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:05:16.617] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:05:16.617] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:05:16.617] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:05:16.617] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:05:16.617] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:05:16.617] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:05:16.617] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:05:16.617] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:05:16.617] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:05:16.617] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:05:16.617] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:05:16.617] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:05:16.617] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:05:16.617] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:05:16.617] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:05:16.617] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:05:16.617] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:05:16.617] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:05:16.617] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:05:16.617] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:05:16.617] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:05:16.617] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:05:16.617] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:05:16.617] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:05:16.617] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:05:16.617] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:05:16.649] AnalyticsManager.cpp(285) AnalyticsManager - Queued 27 data points, with a total of 106 attributes.
+[9/16/2026 12:05:16.649] ServerConnection.cpp(978) Sending queued messages
+[9/16/2026 12:05:20.500] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:05:20.500] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:05:20.500] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:05:20.500] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:05:20.501] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:05:20.501] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:05:20.501] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:05:20.501] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:05:20.501] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:05:20.501] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:05:20.501] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:05:20.501] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:05:20.501] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:05:20.501] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:05:20.501] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:05:20.501] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:05:20.501] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:05:20.501] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:05:20.501] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:05:20.501] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:05:20.501] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:05:20.501] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:05:20.501] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:05:20.501] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:05:20.501] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:05:20.502] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:05:20.502] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:05:31.691] AnalyticsManager.cpp(285) AnalyticsManager - Queued 2 data points, with a total of 44 attributes.
+[9/16/2026 12:05:31.691] ServerConnection.cpp(978) Sending queued messages
+[9/16/2026 12:06:16.720] ServerConnection.cpp(483) FiraxisLive::No activity, disconnecting
+[9/16/2026 12:06:16.770] Win32TCPSocket.cpp(653) 4504: Close
+FiraxisLiveClient StateNotify: Stopped
+SetLoginState: bFiraxisLiveState=true, bMy2KState=true, bAnonymousLogin=false, eAccountType=3, iCOPPALocked=0
+[9/16/2026 12:06:27.231] AnalyticsManager.cpp(285) AnalyticsManager - Queued 1 data points, with a total of 7 attributes.
+[9/16/2026 12:06:27.231] Win32TCPSocket.cpp(157) 7056: Attempting to connect to login.firaxislive.com:443
+[9/16/2026 12:06:27.451] Win32TCPSocket.cpp(167) 7056: Connected to 52.21.57.61:443 (resolved from login.firaxislive.com:443)
+FiraxisLiveClient StateNotify: WaitingForServerConnection
+FiraxisLiveClient StateNotify: KeyExchange
+[9/16/2026 12:06:27.804] ServerConnection.cpp(398) FiraxisLive::Connected
+FiraxisLiveClient StateNotify: PreRun
+[9/16/2026 12:06:27.906] ServerConnection.cpp(978) Sending queued messages
+FiraxisLiveClient StateNotify: Running
+SetLoginState: bFiraxisLiveState=true, bMy2KState=true, bAnonymousLogin=false, eAccountType=3, iCOPPALocked=0
+[9/16/2026 12:06:28.276] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:06:28.276] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:06:28.276] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:06:28.276] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:06:28.276] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:06:28.276] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:06:28.276] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:06:28.276] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:06:28.276] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:06:28.276] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:06:28.276] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:06:28.276] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:06:28.276] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:06:28.276] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:06:28.276] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:06:28.276] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:06:28.276] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:06:28.276] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:06:28.276] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:06:28.276] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:06:28.276] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:06:28.276] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:06:28.276] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:06:28.276] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:06:28.276] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:06:28.276] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:06:28.276] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:06:28.276] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:06:28.277] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:06:28.277] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:06:28.277] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:06:28.277] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:06:28.277] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:06:28.277] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:06:28.277] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:06:28.277] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:06:28.277] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:06:28.277] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:06:28.277] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:06:28.277] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:06:28.277] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:06:28.277] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:06:28.277] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:06:28.277] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:06:28.277] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:06:28.277] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:06:28.277] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:06:28.277] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:06:28.277] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:06:28.277] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:06:28.277] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:06:28.277] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:06:28.277] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:06:28.277] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:06:28.277] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:06:28.277] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:06:28.277] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:06:28.277] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:06:28.277] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:06:28.277] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:06:28.277] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:06:28.277] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:06:28.277] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:06:28.277] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:06:28.277] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:06:28.277] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:06:28.278] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:06:28.278] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:06:28.278] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:06:28.278] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:06:28.278] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:06:28.278] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:07:00.735] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:07:00.735] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:07:00.735] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:07:00.735] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:07:00.735] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:07:00.735] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:07:00.735] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:07:00.735] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:07:00.735] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:07:00.735] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:07:00.735] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:07:00.735] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:07:00.735] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:07:00.735] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:07:00.735] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:07:00.735] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:07:00.735] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:07:00.735] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:07:00.735] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:07:00.735] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:07:00.735] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:07:00.735] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:07:00.735] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:07:00.735] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:07:00.735] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:07:00.735] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:07:00.735] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:07:12.848] ServerConnection.cpp(483) FiraxisLive::No activity, disconnecting
+[9/16/2026 12:07:12.898] Win32TCPSocket.cpp(653) 7056: Close
+FiraxisLiveClient StateNotify: Stopped
+SetLoginState: bFiraxisLiveState=true, bMy2KState=true, bAnonymousLogin=false, eAccountType=3, iCOPPALocked=0
+[9/16/2026 12:07:40.928] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:07:40.928] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:07:40.928] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:07:40.928] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:07:40.928] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:07:40.928] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:07:40.928] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:07:40.928] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:07:40.928] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:07:40.928] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:07:40.928] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:07:40.928] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:07:40.928] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:07:40.928] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:07:40.928] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:07:40.928] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:07:40.928] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:07:40.928] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:07:40.928] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:07:40.928] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:07:40.928] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:07:40.928] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:07:40.928] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:07:40.929] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:07:40.929] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:07:40.929] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:07:40.929] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:07:51.095] Win32TCPSocket.cpp(157) 6984: Attempting to connect to login.firaxislive.com:443
+[9/16/2026 12:07:51.314] Win32TCPSocket.cpp(167) 6984: Connected to 52.21.57.61:443 (resolved from login.firaxislive.com:443)
+FiraxisLiveClient StateNotify: WaitingForServerConnection
+FiraxisLiveClient StateNotify: KeyExchange
+[9/16/2026 12:07:51.617] ServerConnection.cpp(398) FiraxisLive::Connected
+FiraxisLiveClient StateNotify: PreRun
+[9/16/2026 12:07:51.717] ServerConnection.cpp(978) Sending queued messages
+FiraxisLiveClient StateNotify: Running
+SetLoginState: bFiraxisLiveState=true, bMy2KState=true, bAnonymousLogin=false, eAccountType=3, iCOPPALocked=0
+[9/16/2026 12:07:52.071] ServerConnection.cpp(490) Received NewAccessTokenReplyMsg
+[9/16/2026 12:07:52.071] ServerConnection.cpp(591) Processing NewAccessTokenReplyMsg - AccessToken:0x1ef072f2fc2423de65f9e2e7001b3962a59a774d7829edc3000001a0aa1bf63a
+[9/16/2026 12:08:37.090] ServerConnection.cpp(483) FiraxisLive::No activity, disconnecting
+[9/16/2026 12:08:37.141] Win32TCPSocket.cpp(653) 6984: Close
+FiraxisLiveClient StateNotify: Stopped
+SetLoginState: bFiraxisLiveState=true, bMy2KState=true, bAnonymousLogin=false, eAccountType=3, iCOPPALocked=0
+[9/16/2026 12:08:58.924] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:08:58.924] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:08:58.924] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:08:58.924] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:08:58.924] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:08:58.924] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:08:58.924] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:08:58.924] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:08:58.924] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:08:58.924] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:08:58.924] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:08:58.924] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:08:58.924] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:08:58.924] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:08:58.924] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:08:58.924] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:08:58.924] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:08:58.924] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:08:58.924] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:08:58.924] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:08:58.924] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:08:58.924] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:08:58.924] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:08:58.924] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:08:58.924] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:08:58.924] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:08:58.924] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:10:00.290] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:10:00.290] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:10:00.291] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:10:00.291] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:10:00.291] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:10:00.291] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:10:00.291] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:10:00.291] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:10:00.291] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:10:00.291] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:10:00.291] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:10:00.291] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:10:00.291] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:10:00.291] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:10:00.291] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:10:00.291] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:10:00.291] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:10:00.291] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:10:00.291] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:10:00.291] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:10:00.291] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:10:00.291] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:10:00.291] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:10:00.291] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:10:00.291] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:10:00.293] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:10:00.293] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:10:44.768] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:10:44.768] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:10:44.768] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:10:44.768] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:10:44.768] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:10:44.768] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:10:44.768] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:10:44.768] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:10:44.768] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:10:44.768] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:10:44.768] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:10:44.768] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:10:44.768] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:10:44.768] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:10:44.768] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:10:44.768] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:10:44.768] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:10:44.768] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:10:44.768] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:10:44.768] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:10:44.768] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:10:44.768] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:10:44.768] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:10:44.768] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:10:44.768] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:10:44.768] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:10:44.768] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:11:28.286] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:11:28.286] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:11:28.286] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:11:28.286] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:11:28.286] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:11:28.286] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:11:28.286] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:11:28.286] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:11:28.286] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:11:28.286] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:11:28.286] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:11:28.286] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:11:28.286] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:11:28.286] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:11:28.286] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:11:28.286] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:11:28.286] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:11:28.287] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:11:28.287] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:11:28.287] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:11:28.287] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:11:28.287] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:11:28.287] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:11:28.287] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:11:28.287] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:11:28.287] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:11:28.287] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:12:15.519] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:12:15.519] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:12:15.519] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:12:15.519] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:12:15.519] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:12:15.519] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:12:15.520] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:12:15.520] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:12:15.520] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:12:15.520] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:12:15.520] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:12:15.520] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:12:15.520] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:12:15.520] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:12:15.520] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:12:15.520] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:12:15.520] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:12:15.520] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:12:15.520] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:12:15.520] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:12:15.520] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:12:15.520] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:12:15.520] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:12:15.520] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:12:15.520] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:12:15.520] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:12:15.520] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:13:15.491] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:13:15.491] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:13:15.491] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:13:15.491] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:13:15.491] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:13:15.491] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:13:15.491] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:13:15.491] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:13:15.491] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:13:15.491] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:13:15.491] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:13:15.491] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:13:15.491] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:13:15.491] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:13:15.491] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:13:15.491] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:13:15.491] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:13:15.491] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:13:15.491] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:13:15.491] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:13:15.491] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:13:15.491] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:13:15.491] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:13:15.491] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:13:15.491] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:13:15.491] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:13:15.491] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:13:15.491] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:13:15.491] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:13:15.491] CTPFiraxisLive.cpp(292) TelemetryCallback success
+SetLoginState: bFiraxisLiveState=true, bMy2KState=true, bAnonymousLogin=false, eAccountType=3, iCOPPALocked=0
+[9/16/2026 12:17:52.045] Win32TCPSocket.cpp(157) 4452: Attempting to connect to login.firaxislive.com:443
+[9/16/2026 12:17:52.273] Win32TCPSocket.cpp(167) 4452: Connected to 52.21.57.61:443 (resolved from login.firaxislive.com:443)
+FiraxisLiveClient StateNotify: WaitingForServerConnection
+FiraxisLiveClient StateNotify: KeyExchange
+[9/16/2026 12:17:52.979] ServerConnection.cpp(398) FiraxisLive::Connected
+FiraxisLiveClient StateNotify: PreRun
+[9/16/2026 12:17:53.079] ServerConnection.cpp(978) Sending queued messages
+FiraxisLiveClient StateNotify: Running
+SetLoginState: bFiraxisLiveState=true, bMy2KState=true, bAnonymousLogin=false, eAccountType=3, iCOPPALocked=0
+[9/16/2026 12:17:53.381] ServerConnection.cpp(490) Received NewAccessTokenReplyMsg
+[9/16/2026 12:17:53.381] ServerConnection.cpp(591) Processing NewAccessTokenReplyMsg - AccessToken:0xcc0a7885b512b0c47d21253900825c04a5c5d4b442a37a1b000001a0aa250f9c
+SetLoginState: bFiraxisLiveState=true, bMy2KState=true, bAnonymousLogin=false, eAccountType=3, iCOPPALocked=0
+SetLoginState: bFiraxisLiveState=true, bMy2KState=true, bAnonymousLogin=false, eAccountType=3, iCOPPALocked=0
+[9/16/2026 12:18:38.420] ServerConnection.cpp(483) FiraxisLive::No activity, disconnecting
+[9/16/2026 12:18:38.471] Win32TCPSocket.cpp(653) 4452: Close
+FiraxisLiveClient StateNotify: Stopped
+SetLoginState: bFiraxisLiveState=true, bMy2KState=true, bAnonymousLogin=false, eAccountType=3, iCOPPALocked=0
+SetLoginState: bFiraxisLiveState=true, bMy2KState=true, bAnonymousLogin=false, eAccountType=3, iCOPPALocked=0
+SetLoginState: bFiraxisLiveState=true, bMy2KState=true, bAnonymousLogin=false, eAccountType=3, iCOPPALocked=0
+[9/16/2026 12:22:36.446] AnalyticsManager.cpp(285) AnalyticsManager - Queued 1 data points, with a total of 2 attributes.
+[9/16/2026 12:22:36.493] Win32TCPSocket.cpp(157) 6504: Attempting to connect to login.firaxislive.com:443
+[9/16/2026 12:22:36.725] Win32TCPSocket.cpp(167) 6504: Connected to 52.21.57.61:443 (resolved from login.firaxislive.com:443)
+[9/16/2026 12:22:37.179] ServerConnection.cpp(398) FiraxisLive::Connected
+[9/16/2026 12:22:37.280] ServerConnection.cpp(978) Sending queued messages
+FiraxisLiveClient StateNotify: WaitingForServerConnection
+FiraxisLiveClient StateNotify: KeyExchange
+FiraxisLiveClient StateNotify: PreRun
+FiraxisLiveClient StateNotify: Running
+SetLoginState: bFiraxisLiveState=true, bMy2KState=true, bAnonymousLogin=false, eAccountType=3, iCOPPALocked=0
+[9/16/2026 12:22:37.959] InternalAttrib.cpp(119) Add: Invalid attribute name, ignored!
+[9/16/2026 12:22:58.105] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:22:58.105] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:22:58.105] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:22:58.105] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:22:58.105] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:22:58.105] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:22:58.105] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:22:58.105] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:22:58.105] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:22:58.105] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:22:58.105] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:22:58.105] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:22:58.105] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:22:58.105] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:22:58.105] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:22:58.105] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:22:58.105] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:22:58.105] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:22:58.105] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:22:58.105] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:22:58.105] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:22:58.105] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:22:58.105] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:22:58.105] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:22:58.105] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:22:58.105] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:22:58.105] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:22:58.106] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:22:58.106] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:22:58.106] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:22:58.106] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:22:58.106] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:22:58.106] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:22:58.106] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:22:58.106] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:22:58.106] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:22:58.106] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:22:58.106] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:22:58.106] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:22:58.155] AnalyticsManager.cpp(285) AnalyticsManager - Queued 27 data points, with a total of 106 attributes.
+[9/16/2026 12:22:58.155] ServerConnection.cpp(978) Sending queued messages
+[9/16/2026 12:23:03.265] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:23:03.265] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:23:03.265] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:23:03.265] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:23:03.265] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:23:03.265] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:23:03.265] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:23:03.265] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:23:03.266] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:23:03.266] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:23:03.266] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:23:03.266] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:23:03.266] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:23:03.266] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:23:03.266] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:23:03.266] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:23:03.266] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:23:03.266] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:23:03.266] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:23:03.266] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:23:03.266] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:23:03.266] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:23:03.266] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:23:03.266] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:23:03.266] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:23:03.266] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:23:03.266] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:23:03.266] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:23:03.266] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:23:03.266] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:23:03.267] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:23:03.267] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:23:03.267] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:23:13.161] AnalyticsManager.cpp(285) AnalyticsManager - Queued 2 data points, with a total of 44 attributes.
+[9/16/2026 12:23:13.161] ServerConnection.cpp(978) Sending queued messages
+[9/16/2026 12:23:58.199] ServerConnection.cpp(483) FiraxisLive::No activity, disconnecting
+[9/16/2026 12:23:58.249] Win32TCPSocket.cpp(653) 6504: Close
+FiraxisLiveClient StateNotify: Stopped
+SetLoginState: bFiraxisLiveState=true, bMy2KState=true, bAnonymousLogin=false, eAccountType=3, iCOPPALocked=0
+[9/16/2026 12:24:45.346] AnalyticsManager.cpp(285) AnalyticsManager - Queued 1 data points, with a total of 7 attributes.
+[9/16/2026 12:24:45.391] Win32TCPSocket.cpp(157) 3484: Attempting to connect to login.firaxislive.com:443
+[9/16/2026 12:24:45.620] Win32TCPSocket.cpp(167) 3484: Connected to 98.84.217.243:443 (resolved from login.firaxislive.com:443)
+FiraxisLiveClient StateNotify: WaitingForServerConnection
+FiraxisLiveClient StateNotify: KeyExchange
+[9/16/2026 12:24:46.074] ServerConnection.cpp(398) FiraxisLive::Connected
+[9/16/2026 12:24:46.175] ServerConnection.cpp(978) Sending queued messages
+FiraxisLiveClient StateNotify: PreRun
+FiraxisLiveClient StateNotify: Running
+SetLoginState: bFiraxisLiveState=true, bMy2KState=true, bAnonymousLogin=false, eAccountType=3, iCOPPALocked=0
+[9/16/2026 12:24:47.058] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:24:47.058] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:24:47.058] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:24:47.058] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:24:47.058] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:24:47.058] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:24:47.058] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:24:47.058] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:24:47.058] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:24:47.058] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:24:47.058] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:24:47.058] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:24:47.058] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:24:47.058] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:24:47.058] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:24:47.058] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:24:47.058] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:24:47.059] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:24:47.059] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:24:47.059] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:24:47.059] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:24:47.059] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:24:47.059] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:24:47.059] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:24:47.059] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:24:47.059] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:24:47.059] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:24:47.059] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:24:47.059] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:24:47.059] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:24:47.059] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:24:47.059] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:24:47.059] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:24:47.059] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:24:47.059] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:24:47.059] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:24:47.059] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:24:47.059] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:24:47.059] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:24:47.059] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:24:47.059] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:24:47.059] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:24:47.059] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:24:47.059] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:24:47.059] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:24:47.059] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:24:47.059] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:24:47.059] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:24:47.059] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:24:47.059] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:24:47.059] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:24:47.059] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:24:47.059] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:24:47.059] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:24:47.060] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:24:47.060] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:24:47.060] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:24:47.060] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:24:47.060] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:24:47.060] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:24:47.060] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:24:47.060] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:24:47.060] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:24:47.060] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:24:47.060] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:24:47.060] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:24:47.060] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:24:47.060] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:24:47.060] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:24:47.060] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:24:47.060] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:24:47.060] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:24:47.060] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:24:47.060] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:24:47.060] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:24:47.061] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:24:47.061] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:24:47.061] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:24:47.061] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:24:47.061] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:24:47.061] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:24:47.061] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:24:47.061] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:24:47.061] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:25:16.689] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:25:16.689] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:25:16.689] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:25:16.689] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:25:16.689] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:25:16.689] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:25:16.689] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:25:16.689] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:25:16.689] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:25:16.689] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:25:16.689] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:25:16.689] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:25:16.689] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:25:16.689] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:25:16.689] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:25:16.689] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:25:16.689] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:25:16.689] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:25:16.689] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:25:16.689] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:25:16.689] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:25:16.689] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:25:16.689] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:25:16.689] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:25:16.689] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:25:16.689] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:25:16.689] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:25:16.689] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:25:16.690] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:25:16.690] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:25:16.690] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:25:16.690] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:25:16.690] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:25:31.109] ServerConnection.cpp(483) FiraxisLive::No activity, disconnecting
+[9/16/2026 12:25:31.159] Win32TCPSocket.cpp(653) 3484: Close
+FiraxisLiveClient StateNotify: Stopped
+SetLoginState: bFiraxisLiveState=true, bMy2KState=true, bAnonymousLogin=false, eAccountType=3, iCOPPALocked=0
+[9/16/2026 12:26:39.430] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:26:39.430] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:26:39.430] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:26:39.430] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:26:39.430] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:26:39.430] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:26:39.430] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:26:39.430] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:26:39.430] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:26:39.430] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:26:39.430] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:26:39.430] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:26:39.430] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:26:39.430] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:26:39.430] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:26:39.430] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:26:39.430] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:26:39.430] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:26:39.430] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:26:39.430] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:26:39.430] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:26:39.430] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:26:39.430] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:26:39.430] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:26:39.430] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:26:39.430] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:26:39.430] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:26:39.430] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:26:39.430] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:26:39.430] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:26:39.430] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:26:39.430] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:26:39.430] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:27:40.294] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:27:40.294] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:27:40.294] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:27:40.294] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:27:40.294] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:27:40.294] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:27:40.294] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:27:40.294] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:27:40.294] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:27:40.294] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:27:40.295] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:27:40.295] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:27:40.295] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:27:40.295] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:27:40.295] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:27:40.295] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:27:40.295] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:27:40.295] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:27:40.295] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:27:40.295] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:27:40.295] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:27:40.295] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:27:40.295] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:27:40.295] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:27:40.295] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:27:40.295] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:27:40.295] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:27:40.295] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:27:40.295] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:27:40.296] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:27:40.296] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:27:40.296] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:27:40.296] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:27:53.053] Win32TCPSocket.cpp(157) 5612: Attempting to connect to login.firaxislive.com:443
+[9/16/2026 12:27:53.281] Win32TCPSocket.cpp(167) 5612: Connected to 52.21.57.61:443 (resolved from login.firaxislive.com:443)
+FiraxisLiveClient StateNotify: WaitingForServerConnection
+FiraxisLiveClient StateNotify: KeyExchange
+[9/16/2026 12:27:53.937] ServerConnection.cpp(398) FiraxisLive::Connected
+FiraxisLiveClient StateNotify: PreRun
+[9/16/2026 12:27:54.038] ServerConnection.cpp(978) Sending queued messages
+FiraxisLiveClient StateNotify: Running
+SetLoginState: bFiraxisLiveState=true, bMy2KState=true, bAnonymousLogin=false, eAccountType=3, iCOPPALocked=0
+[9/16/2026 12:27:54.641] ServerConnection.cpp(490) Received NewAccessTokenReplyMsg
+[9/16/2026 12:27:54.641] ServerConnection.cpp(591) Processing NewAccessTokenReplyMsg - AccessToken:0xfe22d6e4923ab152d410767e001bddb4a59a774d7829edc3000001a0aa2e4fc9
+[9/16/2026 12:28:32.587] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:28:32.587] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:28:32.587] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:28:32.587] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:28:32.587] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:28:32.587] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:28:32.587] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:28:32.587] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:28:32.587] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:28:32.587] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:28:32.588] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:28:32.588] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:28:32.588] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:28:32.588] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:28:32.588] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:28:32.588] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:28:32.588] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:28:32.588] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:28:32.588] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:28:32.588] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:28:32.588] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:28:32.588] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:28:32.588] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:28:32.588] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:28:32.588] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:28:32.588] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:28:32.588] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:28:32.588] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:28:32.588] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:28:32.588] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:28:32.588] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:28:32.588] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:28:32.588] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:28:39.654] ServerConnection.cpp(483) FiraxisLive::No activity, disconnecting
+[9/16/2026 12:28:39.704] Win32TCPSocket.cpp(653) 5612: Close
+FiraxisLiveClient StateNotify: Stopped
+SetLoginState: bFiraxisLiveState=true, bMy2KState=true, bAnonymousLogin=false, eAccountType=3, iCOPPALocked=0
+[9/16/2026 12:29:37.914] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:29:37.914] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:29:37.914] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:29:37.914] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:29:37.914] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:29:37.914] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:29:37.914] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:29:37.914] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:29:37.914] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:29:37.914] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:29:37.914] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:29:37.914] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:29:37.914] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:29:37.914] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:29:37.914] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:29:37.914] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:29:37.914] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:29:37.914] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:29:37.915] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:29:37.915] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:29:37.915] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:29:37.915] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:29:37.915] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:29:37.915] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:29:37.915] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:29:37.915] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:29:37.915] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:29:37.916] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:29:37.916] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:29:37.916] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:29:37.916] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:29:37.916] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:29:37.916] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:31:24.446] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:31:24.446] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:31:24.446] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:31:24.446] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:31:24.446] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:31:24.446] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:31:24.446] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:31:24.447] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:31:24.447] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:31:24.447] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:31:24.447] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:31:24.447] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:31:24.447] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:31:24.447] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:31:24.447] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:31:24.447] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:31:24.447] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:31:24.447] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:31:24.447] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:31:24.447] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:31:24.447] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:31:24.447] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:31:24.447] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:31:24.447] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:31:24.447] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:31:24.447] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:31:24.447] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:31:24.447] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:31:24.447] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:31:24.447] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:31:24.447] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:31:24.447] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:31:24.447] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:33:14.419] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:33:14.420] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:33:14.420] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:33:14.420] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:33:14.420] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:33:14.420] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:33:14.420] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:33:14.420] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:33:14.420] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:33:14.420] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:33:14.420] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:33:14.420] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:33:14.420] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:33:14.420] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:33:14.420] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:33:14.420] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:33:14.420] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:33:14.420] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:33:14.420] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:33:14.420] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:33:14.420] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:33:14.420] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:33:14.420] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:33:14.420] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:33:14.420] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:33:14.421] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:33:14.421] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:33:14.421] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:33:14.421] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:33:14.421] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:33:14.421] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:33:14.421] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:33:14.421] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:34:27.165] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:34:27.165] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:34:27.165] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:34:27.165] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:34:27.165] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:34:27.165] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:34:27.165] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:34:27.166] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:34:27.166] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:34:27.166] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:34:27.166] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:34:27.166] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:34:27.166] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:34:27.166] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:34:27.166] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:34:27.166] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:34:27.166] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:34:27.166] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:34:27.166] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:34:27.166] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:34:27.166] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:34:27.166] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:34:27.166] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:34:27.166] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:34:27.166] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:34:27.166] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:34:27.166] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:34:27.166] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:34:27.166] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:34:27.166] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:34:27.166] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:34:27.166] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:34:27.166] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:36:02.368] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:36:02.368] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:36:02.368] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:36:02.368] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:36:02.368] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:36:02.368] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:36:02.368] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:36:02.368] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:36:02.368] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:36:02.368] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:36:02.368] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:36:02.368] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:36:02.369] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:36:02.369] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:36:02.369] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:36:02.369] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:36:02.369] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:36:02.369] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:36:02.369] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:36:02.369] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:36:02.369] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:36:02.369] CTPFiraxisLive.cpp(2403) Queuing telemetry event...
+[9/16/2026 12:36:02.369] CTPFiraxisLive.cpp(2468) Successfully queued telemetry event
+[9/16/2026 12:36:02.369] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:36:02.369] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:36:02.369] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:36:02.369] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:36:02.369] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:36:02.369] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:36:02.369] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:36:02.369] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:36:02.369] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:36:02.369] CTPFiraxisLive.cpp(292) TelemetryCallback success
+[9/16/2026 12:37:54.053] Win32TCPSocket.cpp(157) 5696: Attempting to connect to login.firaxislive.com:443
+[9/16/2026 12:37:54.278] Win32TCPSocket.cpp(167) 5696: Connected to 52.21.57.61:443 (resolved from login.firaxislive.com:443)
+FiraxisLiveClient StateNotify: WaitingForServerConnection
+FiraxisLiveClient StateNotify: KeyExchange
+[9/16/2026 12:37:54.629] ServerConnection.cpp(398) FiraxisLive::Connected
+FiraxisLiveClient StateNotify: PreRun
+[9/16/2026 12:37:54.730] ServerConnection.cpp(978) Sending queued messages
+FiraxisLiveClient StateNotify: Running
+SetLoginState: bFiraxisLiveState=true, bMy2KState=true, bAnonymousLogin=false, eAccountType=3, iCOPPALocked=0
+[9/16/2026 12:37:55.082] ServerConnection.cpp(490) Received NewAccessTokenReplyMsg
+[9/16/2026 12:37:55.082] ServerConnection.cpp(591) Processing NewAccessTokenReplyMsg - AccessToken:0x3eb0a42626edd81f98afa07b0082e2aea5c5d4b442a37a1b000001a0aa3765ab
+[9/16/2026 12:38:40.109] ServerConnection.cpp(483) FiraxisLive::No activity, disconnecting
+[9/16/2026 12:38:40.160] Win32TCPSocket.cpp(653) 5696: Close
+FiraxisLiveClient StateNotify: Stopped
+SetLoginState: bFiraxisLiveState=true, bMy2KState=true, bAnonymousLogin=false, eAccountType=3, iCOPPALocked=0

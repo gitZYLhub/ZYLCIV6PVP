@@ -1,0 +1,252 @@
+[2026-09-16 22:06:49]	LoadGameViewState::Begin()
+[2026-09-16 22:06:49]	LoadGameViewState::LoadUI()
+[2026-09-16 22:06:49]	GAMECORE_LOAD_SAVEFILE Begin
+[2026-09-16 22:06:49]	GAMECORE_LOAD_SAVEFILE took 0.0000 seconds
+[2026-09-16 22:06:49]	GAMECORE_LOAD_SAVEFILE_PENDING Begin
+[2026-09-16 22:06:49]		,ApplyModdingState took 0.0014 seconds
+[2026-09-16 22:06:49]	CONFIGURE_CONTENT Begin
+[2026-09-16 22:06:54]	CONFIGURE_CONTENT took 5.0473 seconds
+[2026-09-16 22:06:54]	GAMECORE_UNSERIALIZE_GAMESTATE Begin
+[2026-09-16 22:06:56]		,Unserialize took 0.0000 seconds
+[2026-09-16 22:06:56]		,InitializeCache took 0.0000 seconds
+[2026-09-16 22:06:56]		,PostGameInitialization took 0.0000 seconds
+[2026-09-16 22:06:56]		,PostInitialize took 0.0000 seconds
+[2026-09-16 22:06:56]		,UpdateCache took 0.0000 seconds
+[2026-09-16 22:06:57]		,Block on asset load took 0.0000 seconds
+[2026-09-16 22:06:57]		,RestoreVisualState took 0.0000 seconds
+[2026-09-16 22:06:57]	GAMECORE_UNSERIALIZE_GAMESTATE took 2.3259 seconds
+[2026-09-16 22:06:57]	GAMECORE_INITIALIZATION_DONE Begin
+[2026-09-16 22:06:58]		,GameViewState::LoadUI took 0.0000 seconds
+[2026-09-16 22:06:58]		,Post-GameCore asset load took 0.1970 seconds
+[2026-09-16 22:06:58]	GAMECORE_INITIALIZATION_DONE took 1.7014 seconds
+[2026-09-16 22:06:58]	WAIT_FOR_PLAYERS Begin
+[2026-09-16 22:07:19]		,GameViewState::StartupGame took 20.4491 seconds
+[2026-09-16 22:07:19]		,StartupGame asset load took 0.0000 seconds
+[2026-09-16 22:07:19]	WAIT_FOR_PLAYERS End
+[2026-09-16 22:07:25]	PostLoadTime: 5.7416 seconds
+[2026-09-16 22:07:25]	LoadGameViewState::End()
+[2026-09-16 22:07:25]	LoadGameViewState::UnloadUI()
+[2026-09-16 23:28:31]	LoadGameViewState::Begin()
+[2026-09-16 23:28:31]	LoadGameViewState::LoadUI()
+[2026-09-16 23:28:31]	GAMECORE_LOAD_SAVEFILE Begin
+[2026-09-16 23:28:31]	GAMECORE_LOAD_SAVEFILE took 0.0000 seconds
+[2026-09-16 23:28:31]	GAMECORE_LOAD_SAVEFILE_PENDING Begin
+[2026-09-16 23:28:31]		,ApplyModdingState took 0.0013 seconds
+[2026-09-16 23:28:31]	CONFIGURE_CONTENT Begin
+[2026-09-16 23:28:37]	CONFIGURE_CONTENT took 5.5578 seconds
+[2026-09-16 23:28:37]	GAMECORE_UNSERIALIZE_GAMESTATE Begin
+[2026-09-16 23:28:39]		,Unserialize took 0.0000 seconds
+[2026-09-16 23:28:39]		,InitializeCache took 0.0000 seconds
+[2026-09-16 23:28:39]		,PostGameInitialization took 0.0000 seconds
+[2026-09-16 23:28:39]		,PostInitialize took 0.0000 seconds
+[2026-09-16 23:28:39]		,UpdateCache took 0.0000 seconds
+[2026-09-16 23:28:39]		,Block on asset load took 0.0000 seconds
+[2026-09-16 23:28:39]		,RestoreVisualState took 0.0000 seconds
+[2026-09-16 23:28:39]	GAMECORE_UNSERIALIZE_GAMESTATE took 2.4221 seconds
+[2026-09-16 23:28:39]	GAMECORE_INITIALIZATION_DONE Begin
+[2026-09-16 23:28:41]		,GameViewState::LoadUI took 0.0000 seconds
+[2026-09-16 23:28:41]		,Post-GameCore asset load took 0.1915 seconds
+[2026-09-16 23:28:41]	GAMECORE_INITIALIZATION_DONE took 1.7211 seconds
+[2026-09-16 23:28:41]	WAIT_FOR_PLAYERS Begin
+[2026-09-16 23:29:01]		,GameViewState::StartupGame took 19.7915 seconds
+[2026-09-16 23:29:01]		,StartupGame asset load took 0.0000 seconds
+[2026-09-16 23:29:01]	WAIT_FOR_PLAYERS End
+[2026-09-16 23:29:07]	PostLoadTime: 6.0631 seconds
+[2026-09-16 23:29:07]	LoadGameViewState::End()
+[2026-09-16 23:29:07]	LoadGameViewState::UnloadUI()
+[2026-09-16 23:31:09]	LoadGameViewState::Begin()
+[2026-09-16 23:31:09]	LoadGameViewState::LoadUI()
+[2026-09-16 23:31:09]	GAMECORE_LOAD_SAVEFILE Begin
+[2026-09-16 23:31:09]	GAMECORE_LOAD_SAVEFILE took 0.0000 seconds
+[2026-09-16 23:31:09]	GAMECORE_LOAD_SAVEFILE_PENDING Begin
+[2026-09-16 23:31:09]		,ApplyModdingState took 0.0012 seconds
+[2026-09-16 23:31:09]	CONFIGURE_CONTENT Begin
+[2026-09-16 23:31:15]	CONFIGURE_CONTENT took 5.4517 seconds
+[2026-09-16 23:31:15]	GAMECORE_UNSERIALIZE_GAMESTATE Begin
+[2026-09-16 23:31:17]		,Unserialize took 0.0000 seconds
+[2026-09-16 23:31:17]		,InitializeCache took 0.0000 seconds
+[2026-09-16 23:31:17]		,PostGameInitialization took 0.0000 seconds
+[2026-09-16 23:31:17]		,PostInitialize took 0.0000 seconds
+[2026-09-16 23:31:17]		,UpdateCache took 0.0000 seconds
+[2026-09-16 23:31:17]		,Block on asset load took 0.0000 seconds
+[2026-09-16 23:31:17]		,RestoreVisualState took 0.0000 seconds
+[2026-09-16 23:31:17]	GAMECORE_UNSERIALIZE_GAMESTATE took 2.3809 seconds
+[2026-09-16 23:31:17]	GAMECORE_INITIALIZATION_DONE Begin
+[2026-09-16 23:31:19]		,GameViewState::LoadUI took 0.0000 seconds
+[2026-09-16 23:31:19]		,Post-GameCore asset load took 0.1895 seconds
+[2026-09-16 23:31:19]	GAMECORE_INITIALIZATION_DONE took 1.6665 seconds
+[2026-09-16 23:31:19]	WAIT_FOR_PLAYERS Begin
+[2026-09-16 23:31:39]		,GameViewState::StartupGame took 19.8766 seconds
+[2026-09-16 23:31:39]		,StartupGame asset load took 0.0000 seconds
+[2026-09-16 23:31:39]	WAIT_FOR_PLAYERS End
+[2026-09-16 23:31:45]	PostLoadTime: 6.0561 seconds
+[2026-09-16 23:31:45]	LoadGameViewState::End()
+[2026-09-16 23:31:45]	LoadGameViewState::UnloadUI()
+[2026-09-17 00:02:54]	LoadGameViewState::Begin()
+[2026-09-17 00:02:54]	LoadGameViewState::LoadUI()
+[2026-09-17 00:02:54]	GAMECORE_LOAD_SAVEFILE Begin
+[2026-09-17 00:02:54]	GAMECORE_LOAD_SAVEFILE took 0.0000 seconds
+[2026-09-17 00:02:54]	GAMECORE_LOAD_SAVEFILE_PENDING Begin
+[2026-09-17 00:02:54]		,ApplyModdingState took 0.0015 seconds
+[2026-09-17 00:02:54]	CONFIGURE_CONTENT Begin
+[2026-09-17 00:03:00]	CONFIGURE_CONTENT took 5.4957 seconds
+[2026-09-17 00:03:00]	GAMECORE_UNSERIALIZE_GAMESTATE Begin
+[2026-09-17 00:03:02]		,Unserialize took 0.0000 seconds
+[2026-09-17 00:03:02]		,InitializeCache took 0.0000 seconds
+[2026-09-17 00:03:02]		,PostGameInitialization took 0.0000 seconds
+[2026-09-17 00:03:02]		,PostInitialize took 0.0000 seconds
+[2026-09-17 00:03:02]		,UpdateCache took 0.0000 seconds
+[2026-09-17 00:03:02]		,Block on asset load took 0.0000 seconds
+[2026-09-17 00:03:02]		,RestoreVisualState took 0.0000 seconds
+[2026-09-17 00:03:02]	GAMECORE_UNSERIALIZE_GAMESTATE took 2.4959 seconds
+[2026-09-17 00:03:02]	GAMECORE_INITIALIZATION_DONE Begin
+[2026-09-17 00:03:04]		,GameViewState::LoadUI took 0.0000 seconds
+[2026-09-17 00:03:04]		,Post-GameCore asset load took 0.2110 seconds
+[2026-09-17 00:03:04]	GAMECORE_INITIALIZATION_DONE took 1.7357 seconds
+[2026-09-17 00:03:04]	WAIT_FOR_PLAYERS Begin
+[2026-09-17 00:03:24]		,GameViewState::StartupGame took 19.9690 seconds
+[2026-09-17 00:03:24]		,StartupGame asset load took 0.0000 seconds
+[2026-09-17 00:03:24]	WAIT_FOR_PLAYERS End
+[2026-09-17 00:03:30]	PostLoadTime: 6.0973 seconds
+[2026-09-17 00:03:30]	LoadGameViewState::End()
+[2026-09-17 00:03:30]	LoadGameViewState::UnloadUI()
+[2026-09-17 00:07:58]	LoadGameViewState::Begin()
+[2026-09-17 00:07:58]	LoadGameViewState::LoadUI()
+[2026-09-17 00:07:58]	GAMECORE_LOAD_SAVEFILE Begin
+[2026-09-17 00:07:58]	GAMECORE_LOAD_SAVEFILE took 0.0000 seconds
+[2026-09-17 00:07:58]	GAMECORE_LOAD_SAVEFILE_PENDING Begin
+[2026-09-17 00:07:58]		,ApplyModdingState took 0.0015 seconds
+[2026-09-17 00:07:58]	CONFIGURE_CONTENT Begin
+[2026-09-17 00:08:04]	CONFIGURE_CONTENT took 5.6028 seconds
+[2026-09-17 00:08:04]	GAMECORE_UNSERIALIZE_GAMESTATE Begin
+[2026-09-17 00:08:06]		,Unserialize took 0.0000 seconds
+[2026-09-17 00:08:06]		,InitializeCache took 0.0000 seconds
+[2026-09-17 00:08:06]		,PostGameInitialization took 0.0000 seconds
+[2026-09-17 00:08:06]		,PostInitialize took 0.0000 seconds
+[2026-09-17 00:08:06]		,UpdateCache took 0.0000 seconds
+[2026-09-17 00:08:06]		,Block on asset load took 0.0000 seconds
+[2026-09-17 00:08:06]		,RestoreVisualState took 0.0000 seconds
+[2026-09-17 00:08:06]	GAMECORE_UNSERIALIZE_GAMESTATE took 2.4980 seconds
+[2026-09-17 00:08:06]	GAMECORE_INITIALIZATION_DONE Begin
+[2026-09-17 00:08:08]		,GameViewState::LoadUI took 0.0000 seconds
+[2026-09-17 00:08:08]		,Post-GameCore asset load took 0.1868 seconds
+[2026-09-17 00:08:08]	GAMECORE_INITIALIZATION_DONE took 1.7637 seconds
+[2026-09-17 00:08:08]	WAIT_FOR_PLAYERS Begin
+[2026-09-17 00:08:28]		,GameViewState::StartupGame took 19.9606 seconds
+[2026-09-17 00:08:28]		,StartupGame asset load took 0.0000 seconds
+[2026-09-17 00:08:28]	WAIT_FOR_PLAYERS End
+[2026-09-17 00:08:34]	PostLoadTime: 6.1249 seconds
+[2026-09-17 00:08:34]	LoadGameViewState::End()
+[2026-09-17 00:08:34]	LoadGameViewState::UnloadUI()
+[2026-09-17 00:11:58]	LoadGameViewState::Begin()
+[2026-09-17 00:11:58]	LoadGameViewState::LoadUI()
+[2026-09-17 00:11:58]	GAMECORE_LOAD_SAVEFILE Begin
+[2026-09-17 00:11:58]	GAMECORE_LOAD_SAVEFILE took 0.0000 seconds
+[2026-09-17 00:11:58]	GAMECORE_LOAD_SAVEFILE_PENDING Begin
+[2026-09-17 00:11:58]		,ApplyModdingState took 0.0014 seconds
+[2026-09-17 00:11:58]	CONFIGURE_CONTENT Begin
+[2026-09-17 00:12:04]	CONFIGURE_CONTENT took 5.5060 seconds
+[2026-09-17 00:12:04]	GAMECORE_UNSERIALIZE_GAMESTATE Begin
+[2026-09-17 00:12:06]		,Unserialize took 0.0000 seconds
+[2026-09-17 00:12:06]		,InitializeCache took 0.0000 seconds
+[2026-09-17 00:12:06]		,PostGameInitialization took 0.0000 seconds
+[2026-09-17 00:12:06]		,PostInitialize took 0.0000 seconds
+[2026-09-17 00:12:06]		,UpdateCache took 0.0000 seconds
+[2026-09-17 00:12:06]		,Block on asset load took 0.0000 seconds
+[2026-09-17 00:12:06]		,RestoreVisualState took 0.0000 seconds
+[2026-09-17 00:12:06]	GAMECORE_UNSERIALIZE_GAMESTATE took 2.4629 seconds
+[2026-09-17 00:12:06]	GAMECORE_INITIALIZATION_DONE Begin
+[2026-09-17 00:12:08]		,GameViewState::LoadUI took 0.0000 seconds
+[2026-09-17 00:12:08]		,Post-GameCore asset load took 0.2016 seconds
+[2026-09-17 00:12:08]	GAMECORE_INITIALIZATION_DONE took 1.7441 seconds
+[2026-09-17 00:12:08]	WAIT_FOR_PLAYERS Begin
+[2026-09-17 00:12:28]		,GameViewState::StartupGame took 19.9264 seconds
+[2026-09-17 00:12:28]		,StartupGame asset load took 0.0000 seconds
+[2026-09-17 00:12:28]	WAIT_FOR_PLAYERS End
+[2026-09-17 00:12:35]	PostLoadTime: 6.9105 seconds
+[2026-09-17 00:12:35]	LoadGameViewState::End()
+[2026-09-17 00:12:35]	LoadGameViewState::UnloadUI()
+[2026-09-17 00:21:03]	LoadGameViewState::Begin()
+[2026-09-17 00:21:03]	LoadGameViewState::LoadUI()
+[2026-09-17 00:21:03]	GAMECORE_LOAD_SAVEFILE Begin
+[2026-09-17 00:21:03]	GAMECORE_LOAD_SAVEFILE took 0.0000 seconds
+[2026-09-17 00:21:03]	GAMECORE_LOAD_SAVEFILE_PENDING Begin
+[2026-09-17 00:21:03]		,ApplyModdingState took 0.0013 seconds
+[2026-09-17 00:21:03]	CONFIGURE_CONTENT Begin
+[2026-09-17 00:21:09]	CONFIGURE_CONTENT took 5.6163 seconds
+[2026-09-17 00:21:09]	GAMECORE_UNSERIALIZE_GAMESTATE Begin
+[2026-09-17 00:21:11]		,Unserialize took 0.0000 seconds
+[2026-09-17 00:21:11]		,InitializeCache took 0.0000 seconds
+[2026-09-17 00:21:11]		,PostGameInitialization took 0.0000 seconds
+[2026-09-17 00:21:11]		,PostInitialize took 0.0000 seconds
+[2026-09-17 00:21:11]		,UpdateCache took 0.0000 seconds
+[2026-09-17 00:21:11]		,Block on asset load took 0.0000 seconds
+[2026-09-17 00:21:11]		,RestoreVisualState took 0.0000 seconds
+[2026-09-17 00:21:11]	GAMECORE_UNSERIALIZE_GAMESTATE took 2.4632 seconds
+[2026-09-17 00:21:11]	GAMECORE_INITIALIZATION_DONE Begin
+[2026-09-17 00:21:13]		,GameViewState::LoadUI took 0.0000 seconds
+[2026-09-17 00:21:13]		,Post-GameCore asset load took 0.2027 seconds
+[2026-09-17 00:21:13]	GAMECORE_INITIALIZATION_DONE took 1.7871 seconds
+[2026-09-17 00:21:13]	WAIT_FOR_PLAYERS Begin
+[2026-09-17 00:21:33]		,GameViewState::StartupGame took 19.9347 seconds
+[2026-09-17 00:21:33]		,StartupGame asset load took 0.0000 seconds
+[2026-09-17 00:21:33]	WAIT_FOR_PLAYERS End
+[2026-09-17 00:21:40]	PostLoadTime: 6.8163 seconds
+[2026-09-17 00:21:40]	LoadGameViewState::End()
+[2026-09-17 00:21:40]	LoadGameViewState::UnloadUI()
+[2026-09-17 00:25:42]	LoadGameViewState::Begin()
+[2026-09-17 00:25:42]	LoadGameViewState::LoadUI()
+[2026-09-17 00:25:42]	GAMECORE_LOAD_SAVEFILE Begin
+[2026-09-17 00:25:42]	GAMECORE_LOAD_SAVEFILE took 0.0000 seconds
+[2026-09-17 00:25:42]	GAMECORE_LOAD_SAVEFILE_PENDING Begin
+[2026-09-17 00:25:42]		,ApplyModdingState took 0.0012 seconds
+[2026-09-17 00:25:42]	CONFIGURE_CONTENT Begin
+[2026-09-17 00:25:48]	CONFIGURE_CONTENT took 5.5715 seconds
+[2026-09-17 00:25:48]	GAMECORE_UNSERIALIZE_GAMESTATE Begin
+[2026-09-17 00:25:50]		,Unserialize took 0.0000 seconds
+[2026-09-17 00:25:50]		,InitializeCache took 0.0000 seconds
+[2026-09-17 00:25:50]		,PostGameInitialization took 0.0000 seconds
+[2026-09-17 00:25:50]		,PostInitialize took 0.0000 seconds
+[2026-09-17 00:25:50]		,UpdateCache took 0.0000 seconds
+[2026-09-17 00:25:50]		,Block on asset load took 0.0000 seconds
+[2026-09-17 00:25:50]		,RestoreVisualState took 0.0000 seconds
+[2026-09-17 00:25:50]	GAMECORE_UNSERIALIZE_GAMESTATE took 2.3617 seconds
+[2026-09-17 00:25:50]	GAMECORE_INITIALIZATION_DONE Begin
+[2026-09-17 00:25:52]		,GameViewState::LoadUI took 0.0000 seconds
+[2026-09-17 00:25:52]		,Post-GameCore asset load took 0.1978 seconds
+[2026-09-17 00:25:52]	GAMECORE_INITIALIZATION_DONE took 1.7458 seconds
+[2026-09-17 00:25:52]	WAIT_FOR_PLAYERS Begin
+[2026-09-17 00:26:12]		,GameViewState::StartupGame took 19.7117 seconds
+[2026-09-17 00:26:12]		,StartupGame asset load took 0.0000 seconds
+[2026-09-17 00:26:12]	WAIT_FOR_PLAYERS End
+[2026-09-17 00:26:18]	PostLoadTime: 6.0355 seconds
+[2026-09-17 00:26:18]	LoadGameViewState::End()
+[2026-09-17 00:26:18]	LoadGameViewState::UnloadUI()
+[2026-09-17 00:28:57]	LoadGameViewState::Begin()
+[2026-09-17 00:28:57]	LoadGameViewState::LoadUI()
+[2026-09-17 00:28:57]	GAMECORE_LOAD_SAVEFILE Begin
+[2026-09-17 00:28:57]	GAMECORE_LOAD_SAVEFILE took 0.0000 seconds
+[2026-09-17 00:28:57]	GAMECORE_LOAD_SAVEFILE_PENDING Begin
+[2026-09-17 00:28:57]		,ApplyModdingState took 0.0015 seconds
+[2026-09-17 00:28:57]	CONFIGURE_CONTENT Begin
+[2026-09-17 00:29:03]	CONFIGURE_CONTENT took 5.5501 seconds
+[2026-09-17 00:29:03]	GAMECORE_UNSERIALIZE_GAMESTATE Begin
+[2026-09-17 00:29:05]		,Unserialize took 0.0000 seconds
+[2026-09-17 00:29:05]		,InitializeCache took 0.0000 seconds
+[2026-09-17 00:29:05]		,PostGameInitialization took 0.0000 seconds
+[2026-09-17 00:29:05]		,PostInitialize took 0.0000 seconds
+[2026-09-17 00:29:05]		,UpdateCache took 0.0000 seconds
+[2026-09-17 00:29:05]		,Block on asset load took 0.0000 seconds
+[2026-09-17 00:29:05]		,RestoreVisualState took 0.0000 seconds
+[2026-09-17 00:29:05]	GAMECORE_UNSERIALIZE_GAMESTATE took 2.4929 seconds
+[2026-09-17 00:29:05]	GAMECORE_INITIALIZATION_DONE Begin
+[2026-09-17 00:29:07]		,GameViewState::LoadUI took 0.0000 seconds
+[2026-09-17 00:29:07]		,Post-GameCore asset load took 0.2064 seconds
+[2026-09-17 00:29:07]	GAMECORE_INITIALIZATION_DONE took 1.7543 seconds
+[2026-09-17 00:29:07]	WAIT_FOR_PLAYERS Begin
+[2026-09-17 00:29:27]		,GameViewState::StartupGame took 19.5650 seconds
+[2026-09-17 00:29:27]		,StartupGame asset load took 0.0000 seconds
+[2026-09-17 00:29:27]	WAIT_FOR_PLAYERS End
+[2026-09-17 00:29:33]	PostLoadTime: 6.2816 seconds
+[2026-09-17 00:29:33]	LoadGameViewState::End()
+[2026-09-17 00:29:33]	LoadGameViewState::UnloadUI()

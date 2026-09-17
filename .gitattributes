@@ -19,3 +19,6 @@
 *.tga binary
 *.wav binary
 *.mp3 binary
+
+/docs/log-analysis/20260917/logs/** -text
+/docs/log-analysis/20260917/logs/Logs_2026091701/AI_ChokePoint.csv filter=lfs diff=lfs merge=lfs -text

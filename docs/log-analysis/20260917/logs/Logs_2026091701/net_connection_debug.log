@@ -1,0 +1,150 @@
+[2026-09-16 20:02:13]	GameListUpdate: GAMELISTUPDATE_CLEAR searchType(-1)
+[2026-09-16 20:02:15]	GameListUpdate: GAMELISTUPDATE_COMPLETE searchType(-1)
+[2026-09-16 20:02:36]	Attempting to host game.  ServerType: 1
+[2026-09-16 20:02:36]	Network Session Hosted.
+[2026-09-16 20:02:37]	JoinRoomComplete: Success.  Lobby (0) Reason (1)
+[2026-09-16 20:02:37]	Attempt to obtain a JoinCode but the current lobby does not support that feature.
+[2026-09-16 20:02:37]	Attempt to obtain a JoinCode but the current lobby does not support that feature.
+[2026-09-16 20:02:40]	FireWire Link Created: 5155
+[2026-09-16 20:02:40]	FireWire Link Created: 23016
+[2026-09-16 20:02:41]	FireWire Link Created: 8005
+[2026-09-16 20:03:23]	Attempt to obtain a JoinCode but the current lobby does not support that feature.
+[2026-09-16 20:03:39]	Attempt to obtain a JoinCode but the current lobby does not support that feature.
+[2026-09-16 20:04:03]	Attempt to obtain a JoinCode but the current lobby does not support that feature.
+[2026-09-16 20:04:42]	Serialization Request. Type: 1, Location Type: 2, Device: 1, Options 00000004
+[2026-09-16 20:04:42]	Serialization, writing Game Configuration
+[2026-09-16 20:05:20]	Serialization Request. Type: 1, Location Type: 2, Device: 1, Options 00000004
+[2026-09-16 20:05:20]	Serialization, writing Game State
+[2026-09-16 20:05:20]	Serialization, waiting for request of type SAVE, reason = 1
+[2026-09-16 20:05:20]	Serialization, waiting for request of type LOAD, reason = 0
+[2026-09-16 20:06:27]	Serialization Request. Type: 1, Location Type: 2, Device: 1, Options 00000004
+[2026-09-16 20:06:27]	Serialization, writing Game State
+[2026-09-16 20:06:27]	Serialization, waiting for request of type SAVE, reason = 1
+[2026-09-16 20:06:28]	Serialization, waiting for request of type LOAD, reason = 0
+[2026-09-16 20:07:00]	Serialization Request. Type: 1, Location Type: 2, Device: 1, Options 00000004
+[2026-09-16 20:07:00]	Serialization, writing Game State
+[2026-09-16 20:07:00]	Serialization, waiting for request of type SAVE, reason = 1
+[2026-09-16 20:07:00]	Serialization, waiting for request of type LOAD, reason = 0
+[2026-09-16 20:07:40]	Serialization Request. Type: 1, Location Type: 2, Device: 1, Options 00000004
+[2026-09-16 20:07:40]	Serialization, writing Game State
+[2026-09-16 20:07:40]	Serialization, waiting for request of type SAVE, reason = 1
+[2026-09-16 20:07:40]	Serialization, waiting for request of type LOAD, reason = 0
+[2026-09-16 20:08:58]	Serialization Request. Type: 1, Location Type: 2, Device: 1, Options 00000004
+[2026-09-16 20:08:58]	Serialization, writing Game State
+[2026-09-16 20:08:58]	Serialization, waiting for request of type SAVE, reason = 1
+[2026-09-16 20:08:58]	Serialization, waiting for request of type LOAD, reason = 0
+[2026-09-16 20:09:59]	Serialization Request. Type: 1, Location Type: 2, Device: 1, Options 00000004
+[2026-09-16 20:09:59]	Serialization, writing Game State
+[2026-09-16 20:09:59]	Serialization, waiting for request of type SAVE, reason = 1
+[2026-09-16 20:10:00]	Serialization, waiting for request of type LOAD, reason = 0
+[2026-09-16 20:10:44]	Serialization Request. Type: 1, Location Type: 2, Device: 1, Options 00000004
+[2026-09-16 20:10:44]	Serialization, writing Game State
+[2026-09-16 20:10:44]	Serialization, waiting for request of type SAVE, reason = 1
+[2026-09-16 20:10:44]	Serialization, waiting for request of type LOAD, reason = 0
+[2026-09-16 20:11:27]	Serialization Request. Type: 1, Location Type: 2, Device: 1, Options 00000004
+[2026-09-16 20:11:27]	Serialization, writing Game State
+[2026-09-16 20:11:27]	Serialization, waiting for request of type SAVE, reason = 1
+[2026-09-16 20:11:28]	Serialization, waiting for request of type LOAD, reason = 0
+[2026-09-16 20:12:15]	Serialization Request. Type: 1, Location Type: 2, Device: 1, Options 00000004
+[2026-09-16 20:12:15]	Serialization, writing Game State
+[2026-09-16 20:12:15]	Serialization, waiting for request of type SAVE, reason = 1
+[2026-09-16 20:12:15]	Serialization, waiting for request of type LOAD, reason = 0
+[2026-09-16 20:13:05]	Unable to close ENet connection for connection ID (8005) because it has no ENetPeer
+[2026-09-16 20:13:05]	FireWire Link Closed: 8005
+[2026-09-16 20:13:08]	Unable to close ENet connection for connection ID (23016) because it has no ENetPeer
+[2026-09-16 20:13:08]	FireWire Link Closed: 23016
+[2026-09-16 20:13:10]	Unable to close ENet connection for connection ID (5155) because it has no ENetPeer
+[2026-09-16 20:13:10]	FireWire Link Closed: 5155
+[2026-09-16 20:13:15]	~FPendingConnQueue Flushing Pending Connections.
+[2026-09-16 20:13:15]	Flushing Pending Connections.
+[2026-09-16 20:13:26]	GameListUpdate: GAMELISTUPDATE_CLEAR searchType(-1)
+[2026-09-16 20:13:28]	GameListUpdate: GAMELISTUPDATE_COMPLETE searchType(-1)
+[2026-09-16 20:13:44]	Attempting to host game.  ServerType: 1
+[2026-09-16 20:13:44]	Network Session Hosted.
+[2026-09-16 20:13:45]	JoinRoomComplete: Success.  Lobby (1) Reason (1)
+[2026-09-16 20:13:45]	Attempt to obtain a JoinCode but the current lobby does not support that feature.
+[2026-09-16 20:13:45]	Attempt to obtain a JoinCode but the current lobby does not support that feature.
+[2026-09-16 20:13:49]	FireWire Link Created: 23381
+[2026-09-16 20:13:50]	FireWire Link Created: 6242
+[2026-09-16 20:13:56]	FireWire Link Created: 20640
+[2026-09-16 20:17:04]	Attempt to obtain a JoinCode but the current lobby does not support that feature.
+[2026-09-16 20:18:13]	Unable to close ENet connection for connection ID (6242) because it has no ENetPeer
+[2026-09-16 20:18:13]	FireWire Link Closed: 6242
+[2026-09-16 20:18:16]	Serialization Request. Type: 1, Location Type: 2, Device: 1, Options 00000000
+[2026-09-16 20:18:16]	Serialization, writing Game Configuration
+[2026-09-16 20:18:17]	Attempt to obtain a JoinCode but the current lobby does not support that feature.
+[2026-09-16 20:18:25]	Forced ENet connection closed with connection ID (20640)
+[2026-09-16 20:18:25]	FireWire Link Closed: 20640
+[2026-09-16 20:18:25]	Forced ENet connection closed with connection ID (23381)
+[2026-09-16 20:18:25]	FireWire Link Closed: 23381
+[2026-09-16 20:18:25]	~FPendingConnQueue Flushing Pending Connections.
+[2026-09-16 20:18:25]	Flushing Pending Connections.
+[2026-09-16 20:18:25]	GameListUpdate: GAMELISTUPDATE_CLEAR searchType(-1)
+[2026-09-16 20:18:27]	GameListUpdate: GAMELISTUPDATE_COMPLETE searchType(-1)
+[2026-09-16 20:19:03]	Attempt to Load a file. ServerType: 1, Location Type: 2, Device: 1, Options 00000000
+[2026-09-16 20:19:03]	Serialization Request. Type: 2, Location Type: 2, Device: 1, Options 00000000
+[2026-09-16 20:19:03]	Serialization OpenFromSource. Location Type: 2, Device: 1, Options 00000000
+[2026-09-16 20:19:03]	Serialization UnserializeGameConfiguration. pkStream valid=true
+[2026-09-16 20:19:03]		,LoadHeader - Complete
+[2026-09-16 20:19:04]	Serialization UnserializeGameConfiguration, result=0
+[2026-09-16 20:19:06]	Attempting to host game.  ServerType: 1
+[2026-09-16 20:19:06]	Network Session Hosted.
+[2026-09-16 20:19:06]	JoinRoomComplete: Success.  Lobby (2) Reason (1)
+[2026-09-16 20:19:06]	Attempt to obtain a JoinCode but the current lobby does not support that feature.
+[2026-09-16 20:19:20]	FireWire Link Created: 25297
+[2026-09-16 20:19:49]	FireWire Link Created: 4850
+[2026-09-16 20:19:50]	ENet Connection closed with connection ID (4850)
+[2026-09-16 20:19:50]	FireWire Link Closed: 4850
+[2026-09-16 20:19:52]	FireWire Link Created: 25372
+[2026-09-16 20:20:00]	FireWire Link Created: 20154
+[2026-09-16 20:20:01]	ENet Connection closed with connection ID (20154)
+[2026-09-16 20:20:01]	ENet Connection closed with connection ID (20154)
+[2026-09-16 20:20:01]	FireWire Link Closed: 20154
+[2026-09-16 20:20:03]	FireWire Link Created: 21427
+[2026-09-16 20:20:32]	FireWire Link Created: 8316
+[2026-09-16 20:21:58]	Serialization Request. Type: 1, Location Type: 2, Device: 1, Options 00000004
+[2026-09-16 20:21:58]	Serialization, writing Game Configuration
+[2026-09-16 20:23:03]	Serialization Request. Type: 1, Location Type: 2, Device: 1, Options 00000004
+[2026-09-16 20:23:03]	Serialization, writing Game State
+[2026-09-16 20:23:03]	Serialization, waiting for request of type SAVE, reason = 1
+[2026-09-16 20:23:03]	Serialization, waiting for request of type LOAD, reason = 0
+[2026-09-16 20:24:46]	Serialization Request. Type: 1, Location Type: 2, Device: 1, Options 00000004
+[2026-09-16 20:24:46]	Serialization, writing Game State
+[2026-09-16 20:24:46]	Serialization, waiting for request of type SAVE, reason = 1
+[2026-09-16 20:24:46]	Serialization, waiting for request of type LOAD, reason = 0
+[2026-09-16 20:25:16]	Serialization Request. Type: 1, Location Type: 2, Device: 1, Options 00000004
+[2026-09-16 20:25:16]	Serialization, writing Game State
+[2026-09-16 20:25:16]	Serialization, waiting for request of type SAVE, reason = 1
+[2026-09-16 20:25:16]	Serialization, waiting for request of type LOAD, reason = 0
+[2026-09-16 20:26:38]	Serialization Request. Type: 1, Location Type: 2, Device: 1, Options 00000004
+[2026-09-16 20:26:38]	Serialization, writing Game State
+[2026-09-16 20:26:38]	Serialization, waiting for request of type SAVE, reason = 1
+[2026-09-16 20:26:39]	Serialization, waiting for request of type LOAD, reason = 0
+[2026-09-16 20:27:39]	Serialization Request. Type: 1, Location Type: 2, Device: 1, Options 00000004
+[2026-09-16 20:27:39]	Serialization, writing Game State
+[2026-09-16 20:27:39]	Serialization, waiting for request of type SAVE, reason = 1
+[2026-09-16 20:27:40]	Serialization, waiting for request of type LOAD, reason = 0
+[2026-09-16 20:28:32]	Serialization Request. Type: 1, Location Type: 2, Device: 1, Options 00000004
+[2026-09-16 20:28:32]	Serialization, writing Game State
+[2026-09-16 20:28:32]	Serialization, waiting for request of type SAVE, reason = 1
+[2026-09-16 20:28:32]	Serialization, waiting for request of type LOAD, reason = 0
+[2026-09-16 20:29:37]	Serialization Request. Type: 1, Location Type: 2, Device: 1, Options 00000004
+[2026-09-16 20:29:37]	Serialization, writing Game State
+[2026-09-16 20:29:37]	Serialization, waiting for request of type SAVE, reason = 1
+[2026-09-16 20:29:37]	Serialization, waiting for request of type LOAD, reason = 0
+[2026-09-16 20:31:23]	Serialization Request. Type: 1, Location Type: 2, Device: 1, Options 00000004
+[2026-09-16 20:31:23]	Serialization, writing Game State
+[2026-09-16 20:31:23]	Serialization, waiting for request of type SAVE, reason = 1
+[2026-09-16 20:31:24]	Serialization, waiting for request of type LOAD, reason = 0
+[2026-09-16 20:33:13]	Serialization Request. Type: 1, Location Type: 2, Device: 1, Options 00000004
+[2026-09-16 20:33:13]	Serialization, writing Game State
+[2026-09-16 20:33:13]	Serialization, waiting for request of type SAVE, reason = 1
+[2026-09-16 20:33:14]	Serialization, waiting for request of type LOAD, reason = 0
+[2026-09-16 20:34:26]	Serialization Request. Type: 1, Location Type: 2, Device: 1, Options 00000004
+[2026-09-16 20:34:26]	Serialization, writing Game State
+[2026-09-16 20:34:26]	Serialization, waiting for request of type SAVE, reason = 1
+[2026-09-16 20:34:26]	Serialization, waiting for request of type LOAD, reason = 0
+[2026-09-16 20:36:01]	Serialization Request. Type: 1, Location Type: 2, Device: 1, Options 00000004
+[2026-09-16 20:36:01]	Serialization, writing Game State
+[2026-09-16 20:36:01]	Serialization, waiting for request of type SAVE, reason = 1
+[2026-09-16 20:36:02]	Serialization, waiting for request of type LOAD, reason = 0

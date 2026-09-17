@@ -1,0 +1,110 @@
+Turn 40, Enacting Deal id 1026 for player 3 and 0
+, Enacting Deal Item ID 2, from player 3, to player 0, type RESOURCE_SALT, subType 0 (), value type RESOURCE_SALT, amount 1, duration 30
+, Enacting Deal Item ID 3, from player 0, to player 3, type RESOURCE_P0K_PAPYRUS, subType 0 (), value type RESOURCE_P0K_PAPYRUS, amount 1, duration 30
+Turn 40, Enacting Deal id 1027 for player 3 and 2
+, Enacting Deal Item ID 2, from player 2, to player 3, type RESOURCE_OLIVES, subType 0 (), value type RESOURCE_OLIVES, amount 1, duration 30
+, Enacting Deal Item ID 3, from player 3, to player 2, type RESOURCE_SPICES, subType 0 (), value type RESOURCE_SPICES, amount 1, duration 30
+Turn 40, Enacting Deal id 1028 for player 4 and 0
+, Enacting Deal Item ID 2, from player 0, to player 4, type RESOURCE_CVS_POMEGRANATES, subType 0 (), value type RESOURCE_CVS_POMEGRANATES, amount 1, duration 30
+Turn 40, Enacting Deal id 1029 for player 4 and 3
+, Enacting Deal Item ID 2, from player 3, to player 4, type Gold, subType 0 (), value type YIELD_GOLD, amount 9, duration 0
+Turn 40, Removing expired Deal Items from id 1029 for player 4 and 3
+, Removing expired Deal Item ID 2, from player 3, to player 4, type Gold, subType 0 (), value type YIELD_GOLD, amount 9, duration 0
+Turn 43, Enacting Deal id 1030 for player 3 and 4
+, Enacting Deal Item ID 2, from player 4, to player 3, type RESOURCE_COCOA, subType 0 (), value type RESOURCE_COCOA, amount 1, duration 30
+Turn 43, Enacting Deal id 1031 for player 4 and 0
+, Enacting Deal Item ID 2, from player 4, to player 0, type LOC_ALLIANCE_MILITARY, subType 1764885355 (DIPLOACTION_ALLIANCE), value type ALLIANCE_MILITARY, amount 0, duration 0
+, Enacting Deal Item ID 3, from player 0, to player 4, type LOC_ALLIANCE_MILITARY, subType 1764885355 (DIPLOACTION_ALLIANCE), value type ALLIANCE_MILITARY, amount 0, duration 0
+Turn 43, Removing expired Deal Items from id 1031 for player 4 and 0
+, Removing expired Deal Item ID 2, from player 4, to player 0, type LOC_ALLIANCE_MILITARY, subType 1764885355 (DIPLOACTION_ALLIANCE), value type ALLIANCE_MILITARY, amount 0, duration 0
+, Removing expired Deal Item ID 3, from player 0, to player 4, type LOC_ALLIANCE_MILITARY, subType 1764885355 (DIPLOACTION_ALLIANCE), value type ALLIANCE_MILITARY, amount 0, duration 0
+Turn 43, Enacting Deal id 1032 for player 3 and 1
+, Enacting Deal Item ID 2, from player 3, to player 1, type RESOURCE_P0K_PENGUINS, subType 0 (), value type RESOURCE_P0K_PENGUINS, amount 1, duration 30
+, Enacting Deal Item ID 3, from player 1, to player 3, type RESOURCE_SILK, subType 0 (), value type RESOURCE_SILK, amount 1, duration 30
+Turn 43, Enacting Deal id 1033 for player 4 and 1
+, Enacting Deal Item ID 2, from player 1, to player 4, type Gold, subType 0 (), value type YIELD_GOLD, amount 55, duration 0
+Turn 43, Removing expired Deal Items from id 1033 for player 4 and 1
+, Removing expired Deal Item ID 2, from player 1, to player 4, type Gold, subType 0 (), value type YIELD_GOLD, amount 55, duration 0
+Turn 44, Enacting Deal id 1034 for player 4 and 2
+, Enacting Deal Item ID 2, from player 2, to player 4, type RESOURCE_COFFEE, subType 0 (), value type RESOURCE_COFFEE, amount 1, duration 30
+Turn 47, Enacting Deal id 1035 for player 4 and 0
+, Enacting Deal Item ID 2, from player 0, to player 4, type RESOURCE_TEA, subType 0 (), value type RESOURCE_TEA, amount 1, duration 30
+, Enacting Deal Item ID 3, from player 0, to player 4, type RESOURCE_GYPSUM, subType 0 (), value type RESOURCE_GYPSUM, amount 1, duration 30
+, Enacting Deal Item ID 4, from player 0, to player 4, type RESOURCE_OLIVES, subType 0 (), value type RESOURCE_OLIVES, amount 1, duration 30
+Turn 47, Enacting Deal id 1036 for player 1 and 4
+, Enacting Deal Item ID 2, from player 1, to player 4, type RESOURCE_SALT, subType 0 (), value type RESOURCE_SALT, amount 1, duration 30
+, Enacting Deal Item ID 3, from player 4, to player 1, type RESOURCE_P0K_PAPYRUS, subType 0 (), value type RESOURCE_P0K_PAPYRUS, amount 1, duration 30
+Turn 47, Enacting Deal id 1037 for player 2 and 3
+, Enacting Deal Item ID 2, from player 2, to player 3, type LOC_ALLIANCE_MILITARY, subType 1764885355 (DIPLOACTION_ALLIANCE), value type ALLIANCE_MILITARY, amount 0, duration 0
+, Enacting Deal Item ID 3, from player 3, to player 2, type LOC_ALLIANCE_MILITARY, subType 1764885355 (DIPLOACTION_ALLIANCE), value type ALLIANCE_MILITARY, amount 0, duration 0
+Turn 47, Removing expired Deal Items from id 1037 for player 2 and 3
+, Removing expired Deal Item ID 2, from player 2, to player 3, type LOC_ALLIANCE_MILITARY, subType 1764885355 (DIPLOACTION_ALLIANCE), value type ALLIANCE_MILITARY, amount 0, duration 0
+, Removing expired Deal Item ID 3, from player 3, to player 2, type LOC_ALLIANCE_MILITARY, subType 1764885355 (DIPLOACTION_ALLIANCE), value type ALLIANCE_MILITARY, amount 0, duration 0
+Turn 47, Enacting Deal id 1038 for player 1 and 3
+, Enacting Deal Item ID 2, from player 1, to player 3, type LOC_ALLIANCE_RESEARCH, subType 1764885355 (DIPLOACTION_ALLIANCE), value type ALLIANCE_RESEARCH, amount 0, duration 0
+, Enacting Deal Item ID 3, from player 3, to player 1, type LOC_ALLIANCE_RESEARCH, subType 1764885355 (DIPLOACTION_ALLIANCE), value type ALLIANCE_RESEARCH, amount 0, duration 0
+Turn 47, Removing expired Deal Items from id 1038 for player 1 and 3
+, Removing expired Deal Item ID 2, from player 1, to player 3, type LOC_ALLIANCE_RESEARCH, subType 1764885355 (DIPLOACTION_ALLIANCE), value type ALLIANCE_RESEARCH, amount 0, duration 0
+, Removing expired Deal Item ID 3, from player 3, to player 1, type LOC_ALLIANCE_RESEARCH, subType 1764885355 (DIPLOACTION_ALLIANCE), value type ALLIANCE_RESEARCH, amount 0, duration 0
+Turn 47, Enacting Deal id 1039 for player 1 and 2
+, Enacting Deal Item ID 2, from player 1, to player 2, type LOC_ALLIANCE_CULTURAL, subType 1764885355 (DIPLOACTION_ALLIANCE), value type ALLIANCE_CULTURAL, amount 0, duration 0
+, Enacting Deal Item ID 3, from player 2, to player 1, type LOC_ALLIANCE_CULTURAL, subType 1764885355 (DIPLOACTION_ALLIANCE), value type ALLIANCE_CULTURAL, amount 0, duration 0
+Turn 47, Removing expired Deal Items from id 1039 for player 1 and 2
+, Removing expired Deal Item ID 2, from player 1, to player 2, type LOC_ALLIANCE_CULTURAL, subType 1764885355 (DIPLOACTION_ALLIANCE), value type ALLIANCE_CULTURAL, amount 0, duration 0
+, Removing expired Deal Item ID 3, from player 2, to player 1, type LOC_ALLIANCE_CULTURAL, subType 1764885355 (DIPLOACTION_ALLIANCE), value type ALLIANCE_CULTURAL, amount 0, duration 0
+Turn 49, Enacting Deal id 1040 for player 4 and 1
+, Enacting Deal Item ID 2, from player 1, to player 4, type RESOURCE_JADE, subType 0 (), value type RESOURCE_JADE, amount 1, duration 30
+Turn 49, Enacting Deal id 1041 for player 1 and 4
+, Enacting Deal Item ID 2, from player 4, to player 1, type RESOURCE_DYES, subType 0 (), value type RESOURCE_DYES, amount 1, duration 30
+, Enacting Deal Item ID 3, from player 4, to player 1, type RESOURCE_COCOA, subType 0 (), value type RESOURCE_COCOA, amount 1, duration 30
+, Enacting Deal Item ID 4, from player 4, to player 1, type RESOURCE_MERCURY, subType 0 (), value type RESOURCE_MERCURY, amount 1, duration 30
+Turn 50, Enacting Deal id 1042 for player 0 and 3
+, Enacting Deal Item ID 2, from player 3, to player 0, type Gold, subType 0 (), value type YIELD_GOLD, amount 200, duration 0
+Turn 50, Removing expired Deal Items from id 1042 for player 0 and 3
+, Removing expired Deal Item ID 2, from player 3, to player 0, type Gold, subType 0 (), value type YIELD_GOLD, amount 200, duration 0
+Turn 50, Enacting Deal id 1043 for player 0 and 2
+, Enacting Deal Item ID 2, from player 2, to player 0, type Gold, subType 0 (), value type YIELD_GOLD, amount 100, duration 0
+Turn 50, Removing expired Deal Items from id 1043 for player 0 and 2
+, Removing expired Deal Item ID 2, from player 2, to player 0, type Gold, subType 0 (), value type YIELD_GOLD, amount 100, duration 0
+Turn 50, Enacting Deal id 1044 for player 2 and 4
+, Enacting Deal Item ID 2, from player 4, to player 2, type RESOURCE_IRON, subType 0 (), value type RESOURCE_IRON, amount 32, duration 0
+Turn 50, Removing expired Deal Items from id 1044 for player 2 and 4
+, Removing expired Deal Item ID 2, from player 4, to player 2, type RESOURCE_IRON, subType 0 (), value type RESOURCE_IRON, amount 32, duration 0
+Turn 51, Enacting Deal id 1045 for player 3 and 4
+, Enacting Deal Item ID 2, from player 3, to player 4, type RESOURCE_SPICES, subType 0 (), value type RESOURCE_SPICES, amount 1, duration 30
+, Enacting Deal Item ID 3, from player 4, to player 3, type RESOURCE_SUGAR, subType 0 (), value type RESOURCE_SUGAR, amount 1, duration 30
+Turn 51, Enacting Deal id 1046 for player 3 and 0
+, Enacting Deal Item ID 2, from player 0, to player 3, type RESOURCE_CVS_POMEGRANATES, subType 0 (), value type RESOURCE_CVS_POMEGRANATES, amount 1, duration 30
+Turn 51, Enacting Deal id 1047 for player 3 and 2
+, Enacting Deal Item ID 2, from player 2, to player 3, type RESOURCE_COFFEE, subType 0 (), value type RESOURCE_COFFEE, amount 1, duration 30
+Turn 51, Enacting Deal id 1048 for player 1 and 0
+, Enacting Deal Item ID 2, from player 1, to player 0, type LOC_ALLIANCE_ECONOMIC, subType 1764885355 (DIPLOACTION_ALLIANCE), value type ALLIANCE_ECONOMIC, amount 0, duration 0
+, Enacting Deal Item ID 3, from player 0, to player 1, type LOC_ALLIANCE_ECONOMIC, subType 1764885355 (DIPLOACTION_ALLIANCE), value type ALLIANCE_ECONOMIC, amount 0, duration 0
+Turn 51, Removing expired Deal Items from id 1048 for player 1 and 0
+, Removing expired Deal Item ID 2, from player 1, to player 0, type LOC_ALLIANCE_ECONOMIC, subType 1764885355 (DIPLOACTION_ALLIANCE), value type ALLIANCE_ECONOMIC, amount 0, duration 0
+, Removing expired Deal Item ID 3, from player 0, to player 1, type LOC_ALLIANCE_ECONOMIC, subType 1764885355 (DIPLOACTION_ALLIANCE), value type ALLIANCE_ECONOMIC, amount 0, duration 0
+Turn 51, Enacting Deal id 1049 for player 0 and 3
+, Enacting Deal Item ID 2, from player 3, to player 0, type Gold, subType 0 (), value type YIELD_GOLD, amount 35, duration 0
+Turn 51, Removing expired Deal Items from id 1049 for player 0 and 3
+, Removing expired Deal Item ID 2, from player 3, to player 0, type Gold, subType 0 (), value type YIELD_GOLD, amount 35, duration 0
+Turn 53, Enacting Deal id 1050 for player 0 and 3
+, Enacting Deal Item ID 2, from player 3, to player 0, type Gold, subType 0 (), value type YIELD_GOLD, amount 100, duration 0
+Turn 53, Removing expired Deal Items from id 1050 for player 0 and 3
+, Removing expired Deal Item ID 2, from player 3, to player 0, type Gold, subType 0 (), value type YIELD_GOLD, amount 100, duration 0
+Turn 54, Enacting Deal id 1051 for player 4 and 2
+, Enacting Deal Item ID 2, from player 2, to player 4, type RESOURCE_WHALES, subType 0 (), value type RESOURCE_WHALES, amount 1, duration 30
+Turn 55, Enacting Deal id 1052 for player 4 and 1
+, Enacting Deal Item ID 2, from player 1, to player 4, type RESOURCE_TOBACCO, subType 0 (), value type RESOURCE_TOBACCO, amount 1, duration 30
+Turn 56, Enacting Deal id 1053 for player 0 and 2
+, Enacting Deal Item ID 2, from player 2, to player 0, type Gold, subType 0 (), value type YIELD_GOLD, amount 100, duration 0
+Turn 56, Removing expired Deal Items from id 1053 for player 0 and 2
+, Removing expired Deal Item ID 2, from player 2, to player 0, type Gold, subType 0 (), value type YIELD_GOLD, amount 100, duration 0
+Turn 56, Enacting Deal id 1054 for player 0 and 1
+, Enacting Deal Item ID 2, from player 1, to player 0, type Gold, subType 0 (), value type YIELD_GOLD, amount 100, duration 0
+Turn 56, Removing expired Deal Items from id 1054 for player 0 and 1
+, Removing expired Deal Item ID 2, from player 1, to player 0, type Gold, subType 0 (), value type YIELD_GOLD, amount 100, duration 0
+Turn 58, Removing expired Deal Items from id 1016 for player 1 and 4
+, Removing expired Deal Item ID 2, from player 1, to player 4, type RESOURCE_SILK, subType 0 (), value type RESOURCE_SILK, amount 1, duration 30
+, Removing expired Deal Item ID 3, from player 4, to player 1, type RESOURCE_SUGAR, subType 0 (), value type RESOURCE_SUGAR, amount 1, duration 30
+Turn 59, Removing expired Deal Items from id 1017 for player 2 and 4
+, Removing expired Deal Item ID 2, from player 4, to player 2, type RESOURCE_SUGAR, subType 0 (), value type RESOURCE_SUGAR, amount 1, duration 30

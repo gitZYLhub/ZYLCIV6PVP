@@ -1,0 +1,182 @@
+[2026-09-16 22:05:50]	Renderer::EnumDisplayAdapters(): Available device: NVIDIA GeForce RTX 4070 Ti (DeviceID = 2782 SubsysID = 16e110de Revision= a1 Caps = 10)
+[2026-09-16 22:05:50]	Renderer::EnumDisplayAdapters(): Available device: NVIDIA GeForce RTX 4070 Ti (DeviceID = 2782 SubsysID = 16e110de Revision= a1 Caps = 10)
+[2026-09-16 22:05:50]	Renderer::EnumDisplayAdapters(): Available device: Microsoft Basic Render Driver (DeviceID = 8c SubsysID = 0 Revision= 0 Caps = 10)
+[2026-09-16 22:05:50]	Renderer::CreateAdapter(): Selected DXGI adapter corresponding to device index 0.
+[2026-09-16 22:05:50]	Renderer::EnumDisplayAdapters(): Available device: NVIDIA GeForce RTX 4070 Ti (DeviceID = 2782 SubsysID = 16e110de Revision= a1 Caps = 10)
+[2026-09-16 22:05:50]	Renderer::CreateD3DDevice(): Creating D3D device.
+[2026-09-16 22:05:52]	AppHost::UpdateMonitorInfo(): Monitor information:
+	MONITORINFO.rcMonitor = (left: 0, top: 0, right: 2560, bottom: 1440)
+	MONITORINFO.rcWork = (left: 0, top: 0, right: 2560, bottom: 1392)
+	MONITORINFO.dwFlags = MONITORINFOF_PRIMARY
+[2026-09-16 22:05:52]	Renderer::Startup(): Called with
+	Device Index = 0
+	Backbuffer Format = 87
+	Resolution = (2560 x 1440)
+	RefreshRateInHz = 60
+	WindowMode = Windowed
+	VSync = 1
+	Threading Mode = 0.
+[2026-09-16 22:05:52]	Renderer::SetScreenMode(): Called with
+	Resolution = (2560 x 1440)
+	RefreshRate = (60 / 1)
+	ScreenMode = Windowed.
+[2026-09-16 22:05:52]	Renderer::CreateDefaultSwapChain(): Creating a new swap chain with Resolution = (2560 x 1440) RefreshRate = (60 / 1).
+[2026-09-16 22:05:52]	*** Renderer::SetScreenMode(): Returning success.
+[2026-09-16 22:05:52]	Selected GPU device:
+    Device: NVIDIA GeForce RTX 4070 Ti
+    DeviceID: 2782
+    SubsystemId: 16e110de
+    RevisionId: a1
+    Threadmode: 1
+    CB rebase: 1
+    Driver Version: DriverVersionNotQueriedDueToGeForceExperienceBug
+    DedicatedVidMem: 3986685952
+    DedicatedSysMem: 0
+[2026-09-16 22:05:52]	Physical system memory size: 64.00GB
+[2026-09-16 22:05:52]	Logical processor count: 12
+[2026-09-16 22:05:52]	Physical processor count: 6
+[2026-09-16 22:05:52]	IsLaptopOrTablet: 0
+[2026-09-16 22:05:52]	TBB build.
+
+[2026-09-16 22:06:04]	Growing UpdateSubresource invocations
+[2026-09-16 22:06:04]	Growing UpdateSubresource invocations
+[2026-09-16 22:06:04]	Growing UpdateSubresource invocations
+[2026-09-16 22:06:15]	Growing UpdateSubresource invocations
+[2026-09-16 22:06:17]	Growing UpdateSubresource invocations
+[2026-09-16 22:06:57]	Growing UpdateSubresource memory space on command stream
+[2026-09-16 22:06:57]	Growing UpdateSubresource memory space on command stream
+[2026-09-16 22:06:57]	Growing UpdateSubresource memory space on command stream
+[2026-09-16 22:06:57]	Growing UpdateSubresource memory space on command stream
+[2026-09-16 22:06:57]	Growing UpdateSubresource memory space on command stream
+[2026-09-16 22:07:24]	Allocated new CB rebase buffer
+[2026-09-16 22:07:24]	Allocated new CB rebase buffer
+[2026-09-16 22:07:24]	Allocated new CB rebase buffer
+[2026-09-16 22:07:24]	Allocated new CB rebase buffer
+[2026-09-16 22:07:24]	Allocated new CB rebase buffer
+[2026-09-16 22:07:24]	Allocated new CB rebase buffer
+[2026-09-16 22:07:24]	Allocated new CB rebase buffer
+[2026-09-16 22:07:24]	Allocated new CB rebase buffer
+[2026-09-16 22:07:24]	Allocated new CB rebase buffer
+[2026-09-16 22:07:24]	Allocated new CB rebase buffer
+[2026-09-16 22:07:24]	Allocated new CB rebase buffer
+[2026-09-16 22:07:24]	Allocated new CB rebase buffer
+[2026-09-16 22:07:25]	Allocated new Instance TBuffer buffer
+[2026-09-16 22:07:25]	Allocated new Instance TBuffer buffer
+[2026-09-16 22:07:25]	Allocated new Instance TBuffer buffer
+[2026-09-16 22:07:25]	Allocated new Instance TBuffer buffer
+[2026-09-16 22:07:25]	Allocated new Instance TBuffer buffer
+[2026-09-16 22:07:25]	Allocated new Instance TBuffer buffer
+[2026-09-16 22:07:25]	Allocated new Instance TBuffer buffer
+[2026-09-16 22:07:25]	Allocated new Instance TBuffer buffer
+[2026-09-16 22:07:25]	Allocated new Instance TBuffer buffer
+[2026-09-16 22:07:25]	Allocated new Instance TBuffer buffer
+[2026-09-16 22:07:25]	Allocated new Instance TBuffer buffer
+[2026-09-16 22:07:25]	Allocated new Instance TBuffer buffer
+[2026-09-16 22:07:25]	Allocated new Instance TBuffer buffer
+[2026-09-16 22:07:25]	Allocated new Instance TBuffer buffer
+[2026-09-16 22:07:25]	Allocated new Instance TBuffer buffer
+[2026-09-16 22:07:25]	Allocated new Instance TBuffer buffer
+[2026-09-16 22:07:25]	Allocated new Instance TBuffer buffer
+[2026-09-16 22:07:25]	Allocated new Instance TBuffer buffer
+[2026-09-16 22:07:25]	Allocated new Instance TBuffer buffer
+[2026-09-16 22:07:25]	Allocated new Instance TBuffer buffer
+[2026-09-16 22:07:25]	Allocated new Instance TBuffer buffer
+[2026-09-16 22:07:25]	Allocated new Stream instance buffer
+[2026-09-16 22:07:25]	Allocated new Instance TBuffer buffer
+[2026-09-16 22:07:25]	Allocated new Instance TBuffer buffer
+[2026-09-16 22:07:25]	Allocated new CB rebase buffer
+[2026-09-16 22:07:25]	Allocated new CB rebase buffer
+[2026-09-16 22:07:25]	Allocated new CB rebase buffer
+[2026-09-16 22:07:25]	Allocated new CB rebase buffer
+[2026-09-16 22:07:25]	Allocated new CB rebase buffer
+[2026-09-16 22:07:25]	Allocated new CB rebase buffer
+[2026-09-16 22:07:25]	Allocated new CB rebase buffer
+[2026-09-16 22:07:25]	Allocated new CB rebase buffer
+[2026-09-16 22:07:25]	Allocated new CB rebase buffer
+[2026-09-16 22:07:25]	Allocated new CB rebase buffer
+[2026-09-16 22:07:25]	Allocated new CB rebase buffer
+[2026-09-16 22:07:25]	Allocated new CB rebase buffer
+[2026-09-16 22:07:25]	Allocated new Stream instance buffer
+[2026-09-16 22:07:26]	Allocated new Instance TBuffer buffer
+[2026-09-16 22:07:26]	Allocated new Instance TBuffer buffer
+[2026-09-16 22:07:26]	Allocated new Instance TBuffer buffer
+[2026-09-16 22:07:26]	Allocated new Instance TBuffer buffer
+[2026-09-16 22:07:26]	Allocated new Instance TBuffer buffer
+[2026-09-16 22:07:26]	Allocated new Instance TBuffer buffer
+[2026-09-16 22:07:26]	Allocated new Instance TBuffer buffer
+[2026-09-16 22:07:26]	Allocated new Stream instance buffer
+[2026-09-16 22:07:26]	Allocated new Instance TBuffer buffer
+[2026-09-16 22:07:26]	Allocated new Instance TBuffer buffer
+[2026-09-16 22:07:26]	Allocated new Stream instance buffer
+[2026-09-16 22:07:26]	Allocated new Instance TBuffer buffer
+[2026-09-16 22:07:26]	Allocated new Instance TBuffer buffer
+[2026-09-16 22:07:26]	Allocated new Instance TBuffer buffer
+[2026-09-16 22:07:26]	Allocated new Stream instance buffer
+[2026-09-16 22:07:27]	Allocated new Instance TBuffer buffer
+[2026-09-16 22:07:27]	Allocated new CB rebase buffer
+[2026-09-16 22:07:27]	Allocated new CB rebase buffer
+[2026-09-16 22:07:27]	Allocated new CB rebase buffer
+[2026-09-16 22:07:29]	Allocated new Instance TBuffer buffer
+[2026-09-16 22:07:29]	Allocated new Stream instance buffer
+[2026-09-16 22:07:29]	Allocated new Stream instance buffer
+[2026-09-16 22:07:29]	Allocated new Instance TBuffer buffer
+[2026-09-16 22:07:29]	Allocated new Instance TBuffer buffer
+[2026-09-16 22:07:29]	Allocated new Instance TBuffer buffer
+[2026-09-16 22:09:57]	Allocated new CB rebase buffer
+[2026-09-16 22:09:57]	Allocated new CB rebase buffer
+[2026-09-16 22:11:25]	Allocated new CB rebase buffer
+[2026-09-16 22:11:25]	Allocated new CB rebase buffer
+[2026-09-16 22:11:25]	Allocated new CB rebase buffer
+[2026-09-16 22:11:32]	Allocated new CB rebase buffer
+[2026-09-16 22:13:34]	Allocated new CB rebase buffer
+[2026-09-16 22:13:46]	Allocated new CB rebase buffer
+[2026-09-16 22:14:36]	Allocated new Stream instance buffer
+[2026-09-16 22:20:30]	Allocated new Stream instance buffer
+[2026-09-16 22:21:46]	Allocated new Instance TBuffer buffer
+[2026-09-16 22:30:09]	Allocated new Instance TBuffer buffer
+[2026-09-16 22:30:09]	Allocated new Instance TBuffer buffer
+[2026-09-16 22:30:10]	Allocated new Stream instance buffer
+[2026-09-16 22:31:25]	Received Renderer::AppDeactivated
+[2026-09-16 22:31:29]	Received Renderer::AppActivated
+[2026-09-16 22:33:40]	Allocated new Instance TBuffer buffer
+[2026-09-16 22:34:52]	Allocated new Instance TBuffer buffer
+[2026-09-16 22:34:52]	Allocated new Instance TBuffer buffer
+[2026-09-16 22:38:28]	Allocated new CB rebase buffer
+[2026-09-16 22:38:28]	Allocated new CB rebase buffer
+[2026-09-16 22:38:28]	Allocated new CB rebase buffer
+[2026-09-16 22:38:28]	Allocated new CB rebase buffer
+[2026-09-16 22:39:01]	Allocated new Instance TBuffer buffer
+[2026-09-16 22:39:01]	Allocated new Instance TBuffer buffer
+[2026-09-16 22:56:12]	Allocated new CB rebase buffer
+[2026-09-16 22:57:25]	Allocated new CB rebase buffer
+[2026-09-16 23:01:04]	Allocated new Stream instance buffer
+[2026-09-16 23:03:00]	Allocated new Stream instance buffer
+[2026-09-16 23:03:20]	Allocated new CB rebase buffer
+[2026-09-16 23:09:45]	Allocated new Stream instance buffer
+[2026-09-16 23:15:06]	Allocated new Stream instance buffer
+[2026-09-16 23:16:12]	Received Renderer::AppDeactivated
+[2026-09-16 23:16:22]	Received Renderer::AppActivated
+[2026-09-16 23:18:26]	Received Renderer::AppDeactivated
+[2026-09-16 23:18:31]	Received Renderer::AppActivated
+[2026-09-16 23:19:53]	Allocated new Instance TBuffer buffer
+[2026-09-16 23:22:21]	Received Renderer::AppDeactivated
+[2026-09-16 23:22:29]	Received Renderer::AppActivated
+[2026-09-16 23:24:26]	Received Renderer::AppDeactivated
+[2026-09-16 23:24:28]	Received Renderer::AppActivated
+[2026-09-16 23:43:52]	Allocated new Stream instance buffer
+[2026-09-16 23:43:52]	Allocated new Stream instance buffer
+[2026-09-16 23:46:10]	Allocated new Stream instance buffer
+[2026-09-16 23:50:26]	Allocated new Stream instance buffer
+[2026-09-16 23:54:46]	Allocated new CB rebase buffer
+[2026-09-17 00:00:38]	Received Renderer::AppDeactivated
+[2026-09-17 00:02:14]	Received Renderer::AppActivated
+[2026-09-17 00:07:26]	Received Renderer::AppDeactivated
+[2026-09-17 00:07:29]	Received Renderer::AppActivated
+[2026-09-17 00:14:31]	Received Renderer::AppDeactivated
+[2026-09-17 00:14:37]	Received Renderer::AppActivated
+[2026-09-17 00:15:47]	Received Renderer::AppDeactivated
+[2026-09-17 00:15:50]	Received Renderer::AppActivated
+[2026-09-17 00:15:56]	Received Renderer::AppDeactivated
+[2026-09-17 00:15:57]	Received Renderer::AppActivated
+[2026-09-17 00:41:37]	Received Renderer::AppDeactivated
+[2026-09-17 00:41:39]	Received Renderer::AppActivated

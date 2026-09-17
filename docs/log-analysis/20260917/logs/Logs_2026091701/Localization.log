@@ -1,0 +1,41 @@
+[2853460.105] Status: Create StringDictionary
+[2853460.105] Status: SetCurrentLanguage(zh_Hans_CN)
+[2853460.313] Status: Done with InitializeDictionary
+[2853582.655] ERROR: Parameter must start with index or identifier. [size_0][TPTsettings][1]return { { ["ParameterId"] = "DiplomacyRibbon_PlayerInfo_PlayerName", ["Value"] = false }, { ["ParameterId"] = "DiplomacyRibbon_PlayerInfo_CiviName", ["Value"] = false }, { ["ParameterId"] = "NotificationPanel_QuickClear", ["Value"] = false }, { ["ParameterId"] = "NotificationPanel_DealRemind", ["Value"] = true }, { ["ParameterId"] = "CityStrikeButton_Back", ["Value"] = false }, { ["ParameterId"] = "ForcedEndButton_Show", ["Value"] = tr
+[2853582.659] ERROR: Parameter must start with index or identifier. [size_0][CivStats][1]return { ["Civs"] = { ["TOMYRIS"] = 1, ["MATTHIAS_CORVINUS"] = 4, ["PETER_GREAT"] = 3, ["GENGHIS_KHAN"] = 1, ["BASIL"] = 18, ["CYRUS"] = 2, ["LADY_SIX_SKY"] = 4, ["AMBIORIX"] = 2, ["SEONDEOK"] = 5, ["GITARJA"] = 11, ["YONGLE"] = 5, ["SIMON_BOLIVAR"] = 1, ["MENELIK"] = 1, ["MONTEZUMA"] = 1, ["LAURIER"] = 6, ["JOAO_III"] = 15, ["PHILIP_II"] = 1, ["MANSA_MUSA"] = 1, ["ELEANOR_FRANCE"] = 1, ["JAYAVARMAN"] = 4, ["HOJO"] = 2, ["KUPE"] = 7, ["DID
+[2853582.659] ERROR: Parameter must start with index or identifier. [size_0][Last_Civs][1]return { ["Civs"] = { "MENELIK", "KUPE", "SIMON_BOLIVAR", "TRAJAN", "BASIL" }, ["OtherSeeds"] = { -1819688687, 0, 1275740058, -1645819874, 949265855, -188681406, 1260094533, -633409024, 949265855, -264772368, -650365605, -1966601616, -64237237, 1799259759, -831924581, -238920766, -2034758207, -1333246485, 2089088817, -1067957961, -1377651689 }, ["Seed"] = -1377651689 }
+[2853582.659] ERROR: Parameter must start with index or identifier. [size_0][BlackJackGold][1]return { ["Gold"] = 8980, ["date"] = 1788679485 }
+[2853582.659] ERROR: Parameter must start with index or identifier. [size_0][TPTsettings][1]return { { ["ParameterId"] = "DiplomacyRibbon_PlayerInfo_PlayerName", ["Value"] = false }, { ["ParameterId"] = "DiplomacyRibbon_PlayerInfo_CiviName", ["Value"] = false }, { ["ParameterId"] = "NotificationPanel_QuickClear", ["Value"] = false }, { ["ParameterId"] = "NotificationPanel_DealRemind", ["Value"] = true }, { ["ParameterId"] = "CityStrikeButton_Back", ["Value"] = false }, { ["ParameterId"] = "ForcedEndButton_Show", ["Value"] = tr
+[2853582.659] ERROR: Parameter must start with index or identifier. [size_0][BlackJackGold][1]return { ["Gold"] = 8980, ["date"] = 1788679485 }
+[2853582.659] ERROR: Parameter must start with index or identifier. [size_0][Last_Civs][1]return { ["Civs"] = { "MENELIK", "KUPE", "SIMON_BOLIVAR", "TRAJAN", "BASIL" }, ["OtherSeeds"] = { -1819688687, 0, 1275740058, -1645819874, 949265855, -188681406, 1260094533, -633409024, 949265855, -264772368, -650365605, -1966601616, -64237237, 1799259759, -831924581, -238920766, -2034758207, -1333246485, 2089088817, -1067957961, -1377651689 }, ["Seed"] = -1377651689 }
+[2853582.659] ERROR: Parameter must start with index or identifier. [size_0][CivStats][1]return { ["Civs"] = { ["TOMYRIS"] = 1, ["MATTHIAS_CORVINUS"] = 4, ["PETER_GREAT"] = 3, ["GENGHIS_KHAN"] = 1, ["BASIL"] = 18, ["CYRUS"] = 2, ["LADY_SIX_SKY"] = 4, ["AMBIORIX"] = 2, ["SEONDEOK"] = 5, ["GITARJA"] = 11, ["YONGLE"] = 5, ["SIMON_BOLIVAR"] = 1, ["MENELIK"] = 1, ["MONTEZUMA"] = 1, ["LAURIER"] = 6, ["JOAO_III"] = 15, ["PHILIP_II"] = 1, ["MANSA_MUSA"] = 1, ["ELEANOR_FRANCE"] = 1, ["JAYAVARMAN"] = 4, ["HOJO"] = 2, ["KUPE"] = 7, ["DID
+[2853582.796] ERROR: Parameter must start with index or identifier. [size_0][TPTsettings][1]return { { ["ParameterId"] = "DiplomacyRibbon_PlayerInfo_PlayerName", ["Value"] = false }, { ["ParameterId"] = "DiplomacyRibbon_PlayerInfo_CiviName", ["Value"] = false }, { ["ParameterId"] = "NotificationPanel_QuickClear", ["Value"] = false }, { ["ParameterId"] = "NotificationPanel_DealRemind", ["Value"] = true }, { ["ParameterId"] = "CityStrikeButton_Back", ["Value"] = false }, { ["ParameterId"] = "ForcedEndButton_Show", ["Value"] = tr
+[2853582.796] ERROR: Parameter must start with index or identifier. [size_0][CivStats][1]return { ["Civs"] = { ["TOMYRIS"] = 1, ["MATTHIAS_CORVINUS"] = 4, ["PETER_GREAT"] = 3, ["GENGHIS_KHAN"] = 1, ["BASIL"] = 18, ["CYRUS"] = 2, ["LADY_SIX_SKY"] = 4, ["AMBIORIX"] = 2, ["SEONDEOK"] = 5, ["GITARJA"] = 11, ["YONGLE"] = 5, ["SIMON_BOLIVAR"] = 1, ["MENELIK"] = 1, ["MONTEZUMA"] = 1, ["LAURIER"] = 6, ["JOAO_III"] = 15, ["PHILIP_II"] = 1, ["MANSA_MUSA"] = 1, ["ELEANOR_FRANCE"] = 1, ["JAYAVARMAN"] = 4, ["HOJO"] = 2, ["KUPE"] = 7, ["DID
+[2853582.796] ERROR: Parameter must start with index or identifier. [size_0][Last_Civs][1]return { ["Civs"] = { "MENELIK", "KUPE", "SIMON_BOLIVAR", "TRAJAN", "BASIL" }, ["OtherSeeds"] = { -1819688687, 0, 1275740058, -1645819874, 949265855, -188681406, 1260094533, -633409024, 949265855, -264772368, -650365605, -1966601616, -64237237, 1799259759, -831924581, -238920766, -2034758207, -1333246485, 2089088817, -1067957961, -1377651689 }, ["Seed"] = -1377651689 }
+[2853582.796] ERROR: Parameter must start with index or identifier. [size_0][BlackJackGold][1]return { ["Gold"] = 8980, ["date"] = 1788679485 }
+[2853582.796] ERROR: Parameter must start with index or identifier. [size_0][TPTsettings][1]return { { ["ParameterId"] = "DiplomacyRibbon_PlayerInfo_PlayerName", ["Value"] = false }, { ["ParameterId"] = "DiplomacyRibbon_PlayerInfo_CiviName", ["Value"] = false }, { ["ParameterId"] = "NotificationPanel_QuickClear", ["Value"] = false }, { ["ParameterId"] = "NotificationPanel_DealRemind", ["Value"] = true }, { ["ParameterId"] = "CityStrikeButton_Back", ["Value"] = false }, { ["ParameterId"] = "ForcedEndButton_Show", ["Value"] = tr
+[2853582.796] ERROR: Parameter must start with index or identifier. [size_0][BlackJackGold][1]return { ["Gold"] = 8980, ["date"] = 1788679485 }
+[2853582.796] ERROR: Parameter must start with index or identifier. [size_0][Last_Civs][1]return { ["Civs"] = { "MENELIK", "KUPE", "SIMON_BOLIVAR", "TRAJAN", "BASIL" }, ["OtherSeeds"] = { -1819688687, 0, 1275740058, -1645819874, 949265855, -188681406, 1260094533, -633409024, 949265855, -264772368, -650365605, -1966601616, -64237237, 1799259759, -831924581, -238920766, -2034758207, -1333246485, 2089088817, -1067957961, -1377651689 }, ["Seed"] = -1377651689 }
+[2853582.796] ERROR: Parameter must start with index or identifier. [size_0][CivStats][1]return { ["Civs"] = { ["TOMYRIS"] = 1, ["MATTHIAS_CORVINUS"] = 4, ["PETER_GREAT"] = 3, ["GENGHIS_KHAN"] = 1, ["BASIL"] = 18, ["CYRUS"] = 2, ["LADY_SIX_SKY"] = 4, ["AMBIORIX"] = 2, ["SEONDEOK"] = 5, ["GITARJA"] = 11, ["YONGLE"] = 5, ["SIMON_BOLIVAR"] = 1, ["MENELIK"] = 1, ["MONTEZUMA"] = 1, ["LAURIER"] = 6, ["JOAO_III"] = 15, ["PHILIP_II"] = 1, ["MANSA_MUSA"] = 1, ["ELEANOR_FRANCE"] = 1, ["JAYAVARMAN"] = 4, ["HOJO"] = 2, ["KUPE"] = 7, ["DID
+[2853596.872] Status: Error while parsing bundle - 3
+[2853596.872] Status: Error while parsing bundle - 3
+[2853598.280] Status: Error while parsing bundle - 3
+[2853598.280] Status: Error while parsing bundle - 3
+[2853607.502] Status: Error while parsing bundle - 3
+[2853607.502] Status: Error while parsing bundle - 3
+[2853609.370] Status: Error while parsing bundle - 3
+[2853609.370] Status: Error while parsing bundle - 3
+[2853609.481] Status: Error while parsing bundle - 3
+[2853609.481] Status: Error while parsing bundle - 3
+[2853634.519] Status: Error while parsing bundle - 3
+[2853634.519] Status: Error while parsing bundle - 3
+[2853762.092] Warning: ICU: A resource bundle lookup returned a fallback result (not an error)
+[2853903.427] Warning: ICU: A resource bundle lookup returned a fallback result (not an error)
+[2853926.232] ERROR: Missing argument 1. (我们发现野蛮人正在接近我们的城市{1_CityName}。)
+[2853926.232] ERROR: Failed to evaluate parameter 1. 我们发现野蛮人正在接近我们的城市{1_CityName}。
+[2853926.232] ERROR: Missing argument 1. (我们发现野蛮人正在接近我们的城市{1_CityName}。)
+[2853926.232] ERROR: Failed to evaluate parameter 1. 我们发现野蛮人正在接近我们的城市{1_CityName}。
+[2854989.158] ERROR: Missing argument 1. (我们发现野蛮人正在接近我们的城市{1_CityName}。)
+[2854989.158] ERROR: Failed to evaluate parameter 1. 我们发现野蛮人正在接近我们的城市{1_CityName}。
+[2854989.158] ERROR: Missing argument 1. (我们发现野蛮人正在接近我们的城市{1_CityName}。)
+[2854989.158] ERROR: Failed to evaluate parameter 1. 我们发现野蛮人正在接近我们的城市{1_CityName}。
