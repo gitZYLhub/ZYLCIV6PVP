@@ -949,6 +949,7 @@ function BBS_AssignStartingPlots.Create(args)
         __Debug								= BBS_AssignStartingPlots.__Debug,
         __InitStartingData					= BBS_AssignStartingPlots.__InitStartingData,
         __FilterStart                       = BBS_AssignStartingPlots.__FilterStart,
+        __BuildManualMajorZones             = BBS_AssignStartingPlots.__BuildManualMajorZones,
         __SetStartBias                      = BBS_AssignStartingPlots.__SetStartBias,
 		__InitCoastalSideTargets             = BBS_AssignStartingPlots.__InitCoastalSideTargets,
 		__GetCoastalTargetSide              = BBS_AssignStartingPlots.__GetCoastalTargetSide,
@@ -1905,11 +1906,69 @@ function BBS_AssignStartingPlots:__InitStartingData()
     self.minorList = PlayerManager.GetAliveMinorIDs();
     self.iNumRegions = self.iNumMajorCivs + self.iNumMinorCivs;
 
-    StartPositioner.DivideMapIntoMajorRegions(self.iNumMajorCivs, self.uiMinMajorCivFertility, self.uiMinMinorCivFertility, self.startLargestLandmassOnly);
+    -- ZYL RVC: some seeds carve fewer major regions than requested at the
+    -- configured fertility (e.g. 12+ players on lake-heavy maps with the 150
+    -- bar), which makes GetMajorCivStartPlots return nil for the missing
+    -- regions.  Re-divide with a progressively lower fertility floor until one
+    -- region per major civ exists whenever the land can physically support it,
+    -- so 12+ player lobbies place instead of crashing.
+    -- ZYL RVC 2.0.4: root cause of the RICH_LAKES zero-region failure was the
+    -- engine's continent registry being empty (the map script's continent layer
+    -- never stuck); the map script now stamps vanilla continents before the
+    -- resource pass and this file re-stamps below as a placement safety net.
+    local fertilitySteps = {};
+    local fertilityStep = self.uiMinMajorCivFertility;
+    while fertilityStep >= 30 do
+        table.insert(fertilitySteps, fertilityStep);
+        fertilityStep = fertilityStep - 20;
+    end
+    if fertilitySteps[#fertilitySteps] ~= 5 then
+        table.insert(fertilitySteps, 5);
+    end
+    local actualMajorRegions = 0;
+    for _, majorFertility in ipairs(fertilitySteps) do
+        StartPositioner.DivideMapIntoMajorRegions(self.iNumMajorCivs, majorFertility, self.uiMinMinorCivFertility, self.startLargestLandmassOnly);
+        actualMajorRegions = StartPositioner.GetNumMajorCivStarts();
+        if actualMajorRegions >= self.iNumMajorCivs then
+            break;
+        end
+        print("ZYL RVC: only", actualMajorRegions, "major regions at fertility", majorFertility,
+            "for", self.iNumMajorCivs, "majors; relaxing fertility floor");
+    end
+    if actualMajorRegions < self.iNumMajorCivs then
+        -- The engine refused to carve regions on this map's current data (the
+        -- RICH_LAKES failure: 0 regions at every fertility).  Vanilla stamps its
+        -- continent layer right before assignment (Lakes.lua line 73), while the
+        -- custom team-stripe path (SetContinentType only) never does.  Give the
+        -- engine freshly stamped continent data once before giving up on the
+        -- engine division.  Maps whose division already works never reach this
+        -- branch, so their continent layout stays untouched.
+        print("ZYL RVC: engine carved only", actualMajorRegions, "regions; stamping vanilla continents and retrying division");
+        AreaBuilder.Recalculate();
+        TerrainBuilder.AnalyzeChokepoints();
+        TerrainBuilder.StampContinents();
+        for _, majorFertility in ipairs(fertilitySteps) do
+            StartPositioner.DivideMapIntoMajorRegions(self.iNumMajorCivs, majorFertility, self.uiMinMinorCivFertility, self.startLargestLandmassOnly);
+            actualMajorRegions = StartPositioner.GetNumMajorCivStarts();
+            if actualMajorRegions >= self.iNumMajorCivs then
+                print("ZYL RVC: post-StampContinents division delivers", actualMajorRegions, "regions at fertility", majorFertility);
+                break;
+            end
+        end
+        if actualMajorRegions < self.iNumMajorCivs then
+            print("ZYL RVC: post-StampContinents division still yields", actualMajorRegions, "regions");
+        end
+    end
     local majorStartPlots = {};
-    for i = self.iNumMajorCivs - 1, 0, - 1 do
-        local plots = StartPositioner.GetMajorCivStartPlots(i);
-		table.insert(majorStartPlots, self:__FilterStart(plots, i, true));
+    if actualMajorRegions >= self.iNumMajorCivs then
+        for i = self.iNumMajorCivs - 1, 0, - 1 do
+            local plots = StartPositioner.GetMajorCivStartPlots(i);
+            table.insert(majorStartPlots, self:__FilterStart(plots, i, true));
+        end
+    else
+        print("ZYL RVC WARNING: engine carved only", actualMajorRegions, "major regions for",
+            self.iNumMajorCivs, "majors; switching to manual zone division");
+        majorStartPlots = self:__BuildManualMajorZones(self.iNumMajorCivs);
     end
 
     self.playerStarts = {};
@@ -1933,8 +1992,13 @@ function BBS_AssignStartingPlots:__InitStartingData()
 		self:__PlaceMinorCivsVanilla();
 	else
 		StartPositioner.DivideMapIntoMinorRegions(self.iNumMinorCivs);
+		local iMinorRegionCount = StartPositioner.GetNumMinorCivStarts();
+		if iMinorRegionCount < self.iNumMinorCivs then
+			print("ZYL RVC WARNING: only", iMinorRegionCount, "minor regions for", self.iNumMinorCivs,
+				"city-states; unplaced city-states use the relaxed fallback");
+		end
 		local minorStartPlots = {};
-		for i = self.iNumMinorCivs - 1, 0, - 1 do
+		for i = math.max(0, math.min(self.iNumMinorCivs, iMinorRegionCount) - 1), 0, - 1 do
 			local plots = StartPositioner.GetMinorCivStartPlots(i);
 			table.insert(minorStartPlots, self:__FilterStart(plots, i, false));
 		end
@@ -2208,9 +2272,76 @@ function BBS_AssignStartingPlots:__PlaceMissingMinorCivsRelaxed()
 	Game:SetProperty("ZYLRM_MINOR_RELAXED_COUNT", relaxedCount);
 end
 ------------------------------------------------------------------------------
+-- ZYL RVC: the engine occasionally refuses to carve ANY major region from a
+-- lake-heavy 12+ player map (DivideMapIntoMajorRegions returns 0 at every
+-- fertility floor).  Instead of leaving majors unplaced and crashing later,
+-- build one candidate set per major from settleable land plots.  Row-major
+-- bands give every civ a full-width latitude stripe, matching the team
+-- continent layout; the sets then flow through the ordinary bias/team-side/
+-- distance placement machinery unchanged.
+function BBS_AssignStartingPlots:__BuildManualMajorZones(numZones)
+    local _, iH = Map.GetGridSize();
+    local minY = math.floor(iH * (self.uiStartMinY or 0) / 100);
+    local maxY = iH - math.floor(iH * (self.uiStartMaxY or 0) / 100) - 1;
+    local candidates = {};
+    for index = 0, Map.GetPlotCount() - 1 do
+        local plot = Map.GetPlotByIndex(index);
+        if plot ~= nil then
+            local y = plot:GetY();
+            if y >= minY and y <= maxY
+                    and not plot:IsWater() and not plot:IsImpassable()
+                    and self:__GetValidAdjacent(plot, true) then
+                table.insert(candidates, plot);
+            end
+        end
+    end
+    if #candidates == 0 then
+        print("ZYL RVC WARNING: manual zone fallback found no candidate plots for", numZones, "majors");
+        local zones = {};
+        for zone = 1, numZones do zones[zone] = {}; end
+        return zones;
+    end
+    table.sort(candidates, function(a, b)
+        if a:GetY() == b:GetY() then return a:GetX() < b:GetX(); end
+        return a:GetY() < b:GetY();
+    end);
+    local zones = {};
+    local base = math.floor(#candidates / numZones);
+    local extra = #candidates % numZones;
+    local cursor = 1;
+    for zone = 1, numZones do
+        local zonePlots = {};
+        local zoneSize = base + (zone <= extra and 1 or 0);
+        for k = 1, zoneSize do
+            if cursor <= #candidates then
+                table.insert(zonePlots, candidates[cursor]);
+                cursor = cursor + 1;
+            end
+        end
+        if #zonePlots == 0 then
+            -- Never hand the placement machinery an empty zone: borrow the tail
+            -- of the previously filled zone so every major gets candidates.
+            for k = math.max(cursor - 1, 1), math.max(cursor - zoneSize, 1), - 1 do
+                table.insert(zonePlots, candidates[k]);
+            end
+        end
+        zones[zone] = zonePlots;
+    end
+    print("ZYL RVC: manual major zones built:", numZones, "zones from", #candidates,
+        "candidate plots (y band", minY, "-", maxY, ")");
+    return zones;
+end
+-------------------------------------------------------------------------------
 function BBS_AssignStartingPlots:__FilterStart(plots, index, major)
     local sortedPlots = {};
     local atLeastOneValidPlot = false;
+    -- A missing StartPositioner region returns nil (fewer regions carved than
+    -- civs on cramped/lake-heavy maps).  Vanilla guards this; never let a
+    -- missing region hard-crash map generation.
+    if plots == nil then
+        print("ZYL RVC WARNING: region", index, "has no plots; treating as empty (major =", tostring(major), ")");
+        plots = {};
+    end
     for i, row in ipairs(plots) do
         local plot = Map.GetPlotByIndex(row);
         if (plot:IsImpassable() == false and plot:IsWater() == false and self:__GetValidAdjacent(plot, major)) or b_debug_region == true then

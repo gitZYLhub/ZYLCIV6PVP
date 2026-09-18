@@ -162,7 +162,6 @@ function DoRiver(startPlot, thisFlowDirection, originalFlowDirection, riverID)
 				TerrainBuilder.SetTerrainType(riverPlot, g_TERRAIN_TYPE_COAST);
 				TerrainBuilder.SetFeatureType(riverPlot, -1);
 				ResourceBuilder.SetResourceType(riverPlot, -1);
-				AreaBuilder.Recalculate();
 			end
 			return;
 		end
@@ -180,7 +179,6 @@ function DoRiver(startPlot, thisFlowDirection, originalFlowDirection, riverID)
 				TerrainBuilder.SetTerrainType(adjacentPlot, g_TERRAIN_TYPE_COAST);
 				TerrainBuilder.SetFeatureType(adjacentPlot, -1);
 				ResourceBuilder.SetResourceType(adjacentPlot, -1);
-				AreaBuilder.Recalculate();
 			end
 			return;
 		end
@@ -202,7 +200,6 @@ function DoRiver(startPlot, thisFlowDirection, originalFlowDirection, riverID)
 				TerrainBuilder.SetTerrainType(adjacentPlot, g_TERRAIN_TYPE_COAST);
 				TerrainBuilder.SetFeatureType(adjacentPlot, -1);
 				ResourceBuilder.SetResourceType(adjacentPlot, -1);
-				AreaBuilder.Recalculate();
 			end
 			return;
 		end
@@ -212,7 +209,6 @@ function DoRiver(startPlot, thisFlowDirection, originalFlowDirection, riverID)
 				TerrainBuilder.SetTerrainType(adjacentPlot2, g_TERRAIN_TYPE_COAST);
 				TerrainBuilder.SetFeatureType(adjacentPlot2, -1);
 				ResourceBuilder.SetResourceType(adjacentPlot2, -1);
-				AreaBuilder.Recalculate();
 			end
 			return;
 		end
@@ -234,7 +230,6 @@ function DoRiver(startPlot, thisFlowDirection, originalFlowDirection, riverID)
 				TerrainBuilder.SetTerrainType(adjacentPlot, g_TERRAIN_TYPE_COAST);
 				TerrainBuilder.SetFeatureType(adjacentPlot, -1);
 				ResourceBuilder.SetResourceType(adjacentPlot, -1);
-				AreaBuilder.Recalculate();
 			end
 			return;
 		end
@@ -244,7 +239,6 @@ function DoRiver(startPlot, thisFlowDirection, originalFlowDirection, riverID)
 				TerrainBuilder.SetTerrainType(adjacentPlot2, g_TERRAIN_TYPE_COAST);
 				TerrainBuilder.SetFeatureType(adjacentPlot2, -1);
 				ResourceBuilder.SetResourceType(adjacentPlot2, -1);
-				AreaBuilder.Recalculate();
 			end
 			return;
 		end
@@ -263,7 +257,6 @@ function DoRiver(startPlot, thisFlowDirection, originalFlowDirection, riverID)
 				TerrainBuilder.SetTerrainType(adjacentPlot, g_TERRAIN_TYPE_COAST);
 				TerrainBuilder.SetFeatureType(adjacentPlot, -1);
 				ResourceBuilder.SetResourceType(adjacentPlot, -1);
-				AreaBuilder.Recalculate();
 			end
 			return;
 		end
@@ -281,7 +274,6 @@ function DoRiver(startPlot, thisFlowDirection, originalFlowDirection, riverID)
 				TerrainBuilder.SetTerrainType(riverPlot, g_TERRAIN_TYPE_COAST);
 				TerrainBuilder.SetFeatureType(riverPlot, -1);
 				ResourceBuilder.SetResourceType(riverPlot, -1);
-				AreaBuilder.Recalculate();
 			end
 			return;
 		end
@@ -470,6 +462,12 @@ function AddRivers(args)
 			end
 		end
 	end
+
+	-- The river-mouth/self-crossing conversions above used to rebuild all map
+	-- areas inline once per river end (hundreds of times at the forced maximum
+	-- river density), which dominated generation time.  One rebuild here after
+	-- all passes covers every conversion instead.
+	AreaBuilder.Recalculate();
 end
 
 function AddLakes(largeLakes)

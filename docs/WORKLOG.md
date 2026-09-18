@@ -2,6 +2,21 @@
 
 本日志记录重构过程、设计决定、验证证据和未解决风险。玩家可见更新另见根目录 `CHANGELOG.md`。
 
+### 2026-09-18 / RICH_LAKES 十二人开局修复全记录（大陆注册表、河流显示、加载黑洞）
+
+- 目标：修复 12 人富饶千湖开局失败（引擎划出 0 个大区），并按要求查清根因而非只做兜底；顺带处理过程中暴露的陆地奢侈缺失、河流不显示、加载过慢。
+- 日志来源：`logs/Logs2026091705`、`Logs2026091706`、`Logs2026091801`、`Logs2026091803`、`Logs2026091804`、`Logs2026091806`、`Logs2026091807`。
+- 历史排查结论：RICH_LAKES 变体此前从未成功过——1705/1706 的 12 人（106×66）与 6 人（74×46）全部失败，日志证据为 `大陆边界单元格数量 0` 与 `only 0 major regions`；失败与人数、地图尺寸、wrapX（环形同为 true 且正常）均无关。
+- 排除的假设：肥沃度阈值（150→30→5 全 0）、湖泊机制（与原版 Lakes 逐行一致）、plot type 索引错位（环形与 BBS 地图共有同类 1/0 混用仍正常，证明一格偏移不是 0 区的原因）。
+- 根因（1804 诊断数据定案）：地图本身正常（6258 个陆地格、最大陆地块 5840、肥沃度遍布全图），但**引擎的大陆注册表为空**——`DivideMapIntoMajorRegions` 盖章前对 12/10/6/4/2 人全部 0 区，`TerrainBuilder.StampContinents()` 之后立即划出 16 区；同一空注册表使 `Map.GetContinentsInUse()` 在资源阶段返回空表，资源生成器按大陆枚举的陆地奢侈循环从未执行（水域奢侈走另一条路径所以正常）。变体层原因：RICH_LAKES 为 `team=false, ffa=true`，生成期 FFA 分支的盖章未产生可用的注册表数据，而环形图靠 `SetContinentType` 条纹注册成功。C++ 内部机理未完全定性，修复为行为级。
+- 河流显示问题（1806 报告）：Civ6 河流为"边"数据，河道可沿某格边界流过而边记录在邻格（`IsRiver()` 假、`IsRiverAdjacent()` 真）；`ZYL_RichLakesAddLakes` 外层循环漏了 `IsRiverAdjacent()` 检查，把河岸格转成湖后河道贴水不渲染。同文件正规 `AddLakes` 两个检查都有，仅此变体版遗漏。
+- 加载黑洞：`ZYL_RVC_RiversLakes.lua` 的 `DoRiver` 在每个河流终点/自交点内联调用 `AreaBuilder.Recalculate()`（共 8 处），且 `plotsPerRiverEdge` 硬编码为 1（最大河流密度），每次生成触发数百次全图区域重建；原版 `DoRiver` 无此行为。该问题影响所有 Rich Mainland 变体。
+- 过程波折（如实记录）：1801 诊断块使用 `plot:GetPlotType()`——该 API 未暴露给 Civ6 Lua（原版 FeatureGenerator 的调用位于永不执行的死代码分支），include 静默失败导致整局崩溃；1803 诊断代码 `plot:IsLake and plot:IsLake()` 为非法 Lua 语法（冒号调用不能作值引用），再次导致模块加载失败。两次失误的共性是构建校验不含 Lua 语法检查，故新增 `tools/luasyntax/check-lua-syntax.js`（基于 luaparse 的真解析器；扫描全 mod 178 个文件，已改文件全部通过，另 94 个报错文件均为 Civ6 类型注解方言误报）。诊断块曾以 pcall 包装，根因定案后整体移除。
+- 净修改：`zyl_rich_mainland_core.lua`——资源生成器之前当 `#Map.GetContinentsInUse() == 0` 时执行 `StampContinents + Recalculate`（有大陆数据的图自动跳过），湖泊外层循环补 `IsRiverAdjacent() == false`；`ZYL_RVC_AssignStartingPlots.lua`——肥沃度阶梯 150→30→5、划分失败时先重盖大陆再重试、仍不足时 `__BuildManualMajorZones` 手动分区兜底、`__FilterStart` 对缺失区域的 nil 保护（诊断/探针已按设计移除）；`ZYL_RVC_Balance.lua`——CPL 距离检查对无出生点主要文明的 nil 保护（1706 崩溃点）；`ZYL_RVC_RiversLakes.lua`——`DoRiver` 8 处内联 Recalculate 移除，`AddRivers` 末尾统一重建一次；`tools/luasyntax/`——新增 Lua 语法检查工具。
+- 验证（1807 实机两局）：12 人 RICH_LAKES（种子 -397665038）与 12 人 RING_TEAM 对照（种子 -2066218946）均零 Runtime/Syntax 错误；湖泊 21 个（河岸排除后，符合原版标准）；陆地奢侈覆盖 6 个大陆；划分在肥沃度 150 第一步原生成功、无降级无兜底；放置仅 1 次尝试即通过；主要文明缺失 0、城邦缺失 0；环形对照全程无任何 ZYL 警告。发布包三平台重建：universal `a7047415…`、windows `2058621b…`、macos `7adcdbb9…`。
+- 风险/待办：未做双客户端联机验收；湖泊数量因河岸排除较旧版减少（原版标准行为，如需恢复密度需另行设计）；加载改善幅度需玩家实际体感确认；`tools/luasyntax` 依赖 Node.js。
+- 提交：本次 2.0.5 发布提交。
+
 ### 2026-09-15 / 地脉与冻土、马里沙漠化规则收口
 
 - 目标：从平衡角度禁止冻土和沙漠地脉，并明确地形改造处理已有地脉时的最终行为。

@@ -15,7 +15,7 @@
 | Better Deal Window | 12 | `D:\Civilization\Civ6mods\BBGZYL\referencemods\Better Deal Window` | `Components\BetterDealWindow`；XP2 交易界面、奢侈品来源/交易历史、公司模式产品图标；入口叠加 MPH 交易限制 |
 | Detailed Map Tacks | 1 | `D:\Civilization\Civ6mods\BBGZYL\referencemods\DetailedMapTacks` | `Components\DetailedMapTacks`；产出/相邻计算器、可放置检查、自动删除和地图钉 UI；跳过重复 `dmt_config.xml` |
 
-生成的统一 Mod ID 为 `4dd01931-9d44-4a8a-8e74-712cba0f0072`，ModInfo 版本为 `204`，用户可见版本为 `2.0.4`。
+生成的统一 Mod ID 为 `4dd01931-9d44-4a8a-8e74-712cba0f0072`，ModInfo 版本为 `205`，用户可见版本为 `2.0.5`。
 
 `ZYLPVPMOD.modinfo` 及仓库内嵌组件是唯一构建输入。`tools/assemble_modinfo.ps1` 不接受外部 ModInfo 参数，也不读取 Steam Workshop 订阅目录；表中的本机来源仅记录组件出处，不参与组装。任何上游更新都必须先人工导入仓库并完成审查。
 

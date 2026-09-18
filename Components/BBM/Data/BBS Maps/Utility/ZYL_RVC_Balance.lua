@@ -848,12 +848,22 @@ function ZYL_RVC_Balance(args)
             for i = 1, major_count do
                 if (PlayerConfigurations[major_table[i]]:GetLeaderTypeName() ~= "LEADER_SPECTATOR" and PlayerConfigurations[major_table[i]]:GetHandicapTypeID() ~= 2021024770 and (not IsSeaStartCiv(PlayerConfigurations[major_table[i]]:GetLeaderTypeName()))) then
                     local pStartPlot_i = Players[major_table[i]]:GetStartingPlot()
+                    if pStartPlot_i == nil then
+                        -- A major can end up without a start when every attempt
+                        -- fails; report it and skip the distance checks instead
+                        -- of crashing map generation on a nil plot index.
+                        print("ZYL RVC WARNING: major player", major_table[i], "has no starting plot; skipping CPL distance checks");
+                    end
+                    if pStartPlot_i ~= nil then
                     for j = 1, major_count do
                         if (PlayerConfigurations[major_table[j]]:GetLeaderTypeName() ~= "LEADER_SPECTATOR" and PlayerConfigurations[major_table[j]]:GetHandicapTypeID() ~= 2021024770 and (not IsSeaStartCiv(PlayerConfigurations[major_table[i]]:GetLeaderTypeName())) and major_table[i] ~= major_table[j]) then
                             local pStartPlot_j = Players[major_table[j]]:GetStartingPlot()
-                            local distance = Map.GetPlotDistance(pStartPlot_i:GetIndex(), pStartPlot_j:GetIndex())
+                            local distance = nil;
+                            if pStartPlot_j ~= nil then
+                                distance = Map.GetPlotDistance(pStartPlot_i:GetIndex(), pStartPlot_j:GetIndex())
+                            end
                             __Debug("I:", i, "J:", j, "Distance:", distance)
-                            if (distance < 9) then
+                            if (distance ~= nil and distance < 9) then
                                 print("Init: Minimum CPL distance rule breached");
                                 if (Game:GetProperty("BBS_MINOR_FAILING_TOTAL") == nil) then
                                     Game:SetProperty("BBS_MINOR_FAILING_TOTAL", 0)
@@ -881,6 +891,7 @@ function ZYL_RVC_Balance(args)
 							end
 						end
 					end
+                    end -- pStartPlot_i ~= nil
                 else
                     if (PlayerConfigurations[major_table[i]]:GetLeaderTypeName() == "LEADER_SPECTATOR" or PlayerConfigurations[major_table[i]]:GetHandicapTypeID() == 2021024770) then
                         print("Init: Spectator Player Id:", major_table[i]);

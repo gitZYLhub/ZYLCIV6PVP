@@ -379,8 +379,10 @@ function Get-ZylRichMainlandAddedVariantIssues {
                 'LOC_ZYLRM_HORIZONTAL_MAP_NAME',
                 'LOC_ZYLRM_HORIZONTAL_MAP_DESCRIPTION',
                 'shortened mainland',
-                'two-tile shelves',
-                'LOC_ZYLRM_PLAYER_DISTANCE_NAME'
+                'two-tile shelves'
+                # LOC_ZYLRM_PLAYER_DISTANCE_* is intentionally defined once, in
+                # ZYL_RingMainland_Text.xml, and shared by both team maps.  The
+                # Ring variant below keeps that token in its own TextTokens.
             )
         },
         [pscustomobject]@{

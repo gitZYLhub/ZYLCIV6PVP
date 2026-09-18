@@ -17,3 +17,7 @@ artifacts/
 build/
 dist/
 ZYLPVPMOD_Workshop/
+
+# Lua syntax checker local dependencies
+tools/luasyntax/.npm-cache/
+tools/luasyntax/node_modules/

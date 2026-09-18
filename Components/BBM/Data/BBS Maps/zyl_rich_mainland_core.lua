@@ -529,6 +529,18 @@ function GenerateMap()
 
 	-- This map intentionally omits the standalone offshore ice islands.
 
+	-- The engine's continent registry feeds Map.GetContinentsInUse() (which the
+	-- resource generator iterates for land luxuries) and the start positioner's
+	-- region carving.  On RICH_LAKES that registry is empty by this point even
+	-- though the land itself is fine, which produced zero land luxuries and
+	-- zero start regions.  Stamp vanilla continents right before resources
+	-- whenever nothing is registered; maps whose continent layer is alive
+	-- (team stripes, FFA) skip this entirely.
+	if #Map.GetContinentsInUse() == 0 then
+		print(LOG_PREFIX .. ": no continents registered before resources; stamping vanilla continents");
+		TerrainBuilder.StampContinents();
+		AreaBuilder.Recalculate();
+	end
 
 	resourcesConfig = MapConfiguration.GetValue("resources");
 	local startConfig = MapConfiguration.GetValue("start");-- Get the start config
@@ -3080,6 +3092,7 @@ function ZYL_RichLakesAddLakes(largeLakes)
 		if plot ~= nil and plot:IsWater() == false
 				and plot:IsCoastalLand() == false
 				and plot:IsRiver() == false
+				and plot:IsRiverAdjacent() == false
 				and AdjacentToNaturalWonder(plot) == false then
 			local randomValue = TerrainBuilder.GetRandomNumber(lakePlotRand,
 				"Rich Lakes AddLakes");
